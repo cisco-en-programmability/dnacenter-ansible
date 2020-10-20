@@ -1,0 +1,589 @@
+{
+  "name": "network_device",
+  "family": "devices",
+  "operations": {
+      "post": ["add_device"],
+      "put": ["sync_devices"],
+      "delete": ["delete_device_by_id"],
+      "get": [
+        "get_device_list",
+        "get_device_by_id",
+        "get_device_summary",
+        "get_network_device_by_pagination_range",
+        "get_device_count",
+        "get_network_device_by_ip",
+        "get_device_by_serial_number"
+      ]
+  },
+  "parameters": {
+    "add_device": [
+      {
+        "name": "cliTransport",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "computeDevice",
+        "type": "boolean"
+      },
+      {
+        "name": "enablePassword",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "extendedDiscoveryInfo",
+        "type": "string"
+      },
+      {
+        "name": "httpPassword",
+        "type": "string"
+      },
+      {
+        "name": "httpPort",
+        "type": "string"
+      },
+      {
+        "name": "httpSecure",
+        "type": "boolean"
+      },
+      {
+        "name": "httpUserName",
+        "type": "string"
+      },
+      {
+        "name": "ipAddress",
+        "required": true,
+        "type": "array"
+      },
+      {
+        "name": "merakiOrgId",
+        "type": "array"
+      },
+      {
+        "name": "netconfPort",
+        "type": "string"
+      },
+      {
+        "name": "password",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "serialNumber",
+        "type": "string"
+      },
+      {
+        "name": "snmpAuthPassphrase",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "snmpAuthProtocol",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "snmpMode",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "snmpPrivPassphrase",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "snmpPrivProtocol",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "snmpROCommunity",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "snmpRWCommunity",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "snmpRetry",
+        "required": true,
+        "type": "number"
+      },
+      {
+        "name": "snmpTimeout",
+        "required": true,
+        "type": "number"
+      },
+      {
+        "name": "snmpUserName",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "snmpVersion",
+        "type": "string"
+      },
+      {
+        "enum": [
+          "COMPUTE_DEVICE",
+          "MERAKI_DASHBOARD",
+          "NETWORK_DEVICE",
+          "NODATACHANGE"
+        ],
+        "name": "type",
+        "type": "string"
+      },
+      {
+        "name": "updateMgmtIPaddressList",
+        "type": "array"
+      },
+      {
+        "name": "userName",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "headers",
+        "type": "object"
+      },
+      {
+        "name": "payload",
+        "type": "object"
+      }
+    ],
+    "delete_device_by_id": [
+      {
+        "name": "id",
+        "required": true,
+        "sdk_name": "id",
+        "type": "string"
+      },
+      {
+        "name": "isForceDelete",
+        "required": false,
+        "sdk_name": "is_force_delete",
+        "type": "boolean"
+      },
+      {
+        "name": "headers",
+        "type": "object"
+      }
+    ],
+    "get_device_by_id": [
+      {
+        "name": "id",
+        "required": true,
+        "sdk_name": "id",
+        "type": "string"
+      },
+      {
+        "name": "headers",
+        "type": "object"
+      }
+    ],
+    "get_device_by_serial_number": [
+      {
+        "name": "serial_number",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "headers",
+        "type": "object"
+      }
+    ],
+    "get_device_count": [
+      {
+        "name": "headers",
+        "type": "object"
+      },
+      {
+        "name": "count",
+        "type": "boolean",
+        "required": true
+      }
+    ],
+    "get_device_list": [
+      {
+        "name": "associatedWlcIp",
+        "required": false,
+        "sdk_name": "associated_wlc_ip",
+        "type": "array"
+      },
+      {
+        "name": "collectionInterval",
+        "required": false,
+        "sdk_name": "collection_interval",
+        "type": "array"
+      },
+      {
+        "name": "collectionStatus",
+        "required": false,
+        "sdk_name": "collection_status",
+        "type": "array"
+      },
+      {
+        "name": "errorCode",
+        "required": false,
+        "sdk_name": "error_code",
+        "type": "array"
+      },
+      {
+        "name": "errorDescription",
+        "required": false,
+        "sdk_name": "error_description",
+        "type": "array"
+      },
+      {
+        "name": "family",
+        "required": false,
+        "sdk_name": "family",
+        "type": "array"
+      },
+      {
+        "name": "hostname",
+        "required": false,
+        "sdk_name": "hostname",
+        "type": "array"
+      },
+      {
+        "name": "id",
+        "required": false,
+        "sdk_name": "id",
+        "type": "string"
+      },
+      {
+        "name": "license.name",
+        "required": false,
+        "sdk_name": "license_name",
+        "type": "array"
+      },
+      {
+        "name": "license.status",
+        "required": false,
+        "sdk_name": "license_status",
+        "type": "array"
+      },
+      {
+        "name": "license.type",
+        "required": false,
+        "sdk_name": "license_type",
+        "type": "array"
+      },
+      {
+        "name": "location",
+        "required": false,
+        "sdk_name": "location",
+        "type": "array"
+      },
+      {
+        "name": "locationName",
+        "required": false,
+        "sdk_name": "location_name",
+        "type": "array"
+      },
+      {
+        "name": "macAddress",
+        "required": false,
+        "sdk_name": "mac_address",
+        "type": "array"
+      },
+      {
+        "name": "managementIpAddress",
+        "required": false,
+        "sdk_name": "management_ip_address",
+        "type": "array"
+      },
+      {
+        "name": "module+equpimenttype",
+        "required": false,
+        "sdk_name": "module_equpimenttype",
+        "type": "array"
+      },
+      {
+        "name": "module+name",
+        "required": false,
+        "sdk_name": "module_name",
+        "type": "array"
+      },
+      {
+        "name": "module+operationstatecode",
+        "required": false,
+        "sdk_name": "module_operationstatecode",
+        "type": "array"
+      },
+      {
+        "name": "module+partnumber",
+        "required": false,
+        "sdk_name": "module_partnumber",
+        "type": "array"
+      },
+      {
+        "name": "module+servicestate",
+        "required": false,
+        "sdk_name": "module_servicestate",
+        "type": "array"
+      },
+      {
+        "name": "module+vendorequipmenttype",
+        "required": false,
+        "sdk_name": "module_vendorequipmenttype",
+        "type": "array"
+      },
+      {
+        "name": "notSyncedForMinutes",
+        "required": false,
+        "sdk_name": "not_synced_for_minutes",
+        "type": "array"
+      },
+      {
+        "name": "platformId",
+        "required": false,
+        "sdk_name": "platform_id",
+        "type": "array"
+      },
+      {
+        "name": "reachabilityStatus",
+        "required": false,
+        "sdk_name": "reachability_status",
+        "type": "array"
+      },
+      {
+        "name": "role",
+        "required": false,
+        "sdk_name": "role",
+        "type": "array"
+      },
+      {
+        "name": "serialNumber",
+        "required": false,
+        "sdk_name": "serial_number",
+        "type": "array"
+      },
+      {
+        "name": "series",
+        "required": false,
+        "sdk_name": "series",
+        "type": "array"
+      },
+      {
+        "name": "softwareType",
+        "required": false,
+        "sdk_name": "software_type",
+        "type": "array"
+      },
+      {
+        "name": "softwareVersion",
+        "required": false,
+        "sdk_name": "software_version",
+        "type": "array"
+      },
+      {
+        "name": "type",
+        "required": false,
+        "sdk_name": "type",
+        "type": "array"
+      },
+      {
+        "name": "upTime",
+        "required": false,
+        "sdk_name": "up_time",
+        "type": "array"
+      },
+      {
+        "name": "headers",
+        "type": "object"
+      }
+    ],
+    "get_device_summary": [
+      {
+        "name": "id",
+        "required": true,
+        "sdk_name": "id",
+        "type": "string"
+      },
+      {
+        "name": "headers",
+        "type": "object"
+      },
+      {
+        "name": "summary",
+        "type": "boolean",
+        "required": true
+      }
+    ],
+    "get_network_device_by_ip": [
+      {
+        "name": "ip_address",
+        "required": true,
+        "sdk_name": "ip_address",
+        "type": "string"
+      },
+      {
+        "name": "headers",
+        "type": "object"
+      }
+    ],
+    "get_network_device_by_pagination_range": [
+      {
+        "name": "records_to_return",
+        "required": true,
+        "sdk_name": "records_to_return",
+        "type": "integer"
+      },
+      {
+        "name": "start_index",
+        "required": true,
+        "sdk_name": "start_index",
+        "type": "integer"
+      },
+      {
+        "name": "headers",
+        "type": "object"
+      }
+    ],
+    "sync_devices": [
+      {
+        "name": "cliTransport",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "computeDevice",
+        "type": "boolean"
+      },
+      {
+        "name": "enablePassword",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "extendedDiscoveryInfo",
+        "type": "string"
+      },
+      {
+        "name": "httpPassword",
+        "type": "string"
+      },
+      {
+        "name": "httpPort",
+        "type": "string"
+      },
+      {
+        "name": "httpSecure",
+        "type": "boolean"
+      },
+      {
+        "name": "httpUserName",
+        "type": "string"
+      },
+      {
+        "name": "ipAddress",
+        "required": true,
+        "type": "array"
+      },
+      {
+        "name": "merakiOrgId",
+        "type": "array"
+      },
+      {
+        "name": "netconfPort",
+        "type": "string"
+      },
+      {
+        "name": "password",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "serialNumber",
+        "type": "string"
+      },
+      {
+        "name": "snmpAuthPassphrase",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "snmpAuthProtocol",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "snmpMode",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "snmpPrivPassphrase",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "snmpPrivProtocol",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "snmpROCommunity",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "snmpRWCommunity",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "snmpRetry",
+        "required": true,
+        "type": "number"
+      },
+      {
+        "name": "snmpTimeout",
+        "required": true,
+        "type": "number"
+      },
+      {
+        "name": "snmpUserName",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "snmpVersion",
+        "type": "string"
+      },
+      {
+        "enum": [
+          "COMPUTE_DEVICE",
+          "MERAKI_DASHBOARD",
+          "NETWORK_DEVICE",
+          "NODATACHANGE"
+        ],
+        "name": "type",
+        "type": "string"
+      },
+      {
+        "name": "updateMgmtIPaddressList",
+        "type": "array"
+      },
+      {
+        "name": "userName",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "headers",
+        "type": "object"
+      },
+      {
+        "name": "payload",
+        "type": "object"
+      }
+    ]
+  }
+}
