@@ -25,47 +25,45 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefin
 
 
 def main():
-    argument_spec = dnac_argument_spec()
+
     moddef = ModuleDefinition("network_device")
+
+    argument_spec = dnac_argument_spec()
     argument_spec.update(moddef.get_argument_spec_dict())
+
+    required_if = moddef.get_required_if_list()
     
     module = AnsibleModule(
         argument_spec=argument_spec,
-        supports_check_mode=False
+        supports_check_mode=False,
+        required_if=required_if
     )
-
-
-    result = dict(
-        changed=False,
-        original_message='',
-        message='')
-
 
     dnac = DNACModule(module)
 
-    state = module.params["state"]
+    state = module.params.get("state")
     family = moddef.family
 
-    
 
 
-    if state == "absent":
-        function, message = moddef.get_function("delete", module.params)
-        res = dnac.exec(function, family) if function else None
-    elif state == "query":
-        function, message = moddef.get_function("get", module.params)
-        res = dnac.exec(function, family) if function else None
-        if res:
-            result.update(res)
-            module.exit_json(**result)
+
+    if state == "query":
+        function, status = moddef.get_function("get", module.params)
+        if function:
+            dnac.exec(function, family)
         else:
-            module.fail_json(msg=message) # Make this message more specific
+            dnac.fail_json(msg=status.get("msg"))
+
+    elif state == "absent":
+        function, status = moddef.get_function("delete", module.params)
+
     elif state == "present":
         # check whether the object exists or not
         # and decide between put and post
-        function = moddef.get_function("post", module.params)["function"]
-        res = dnac.exec(function, family) if function else None
-    
+        function, status = moddef.get_function("post", module.params)
+
+    dnac.exit_json()
+
 
 if __name__ == "__main__":
     main()

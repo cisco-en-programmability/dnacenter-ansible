@@ -111,10 +111,10 @@ class ModuleDefinition(object):
     def __init__(self, module_name):
         with open("./module_definitions/{}.json".format(module_name)) as json_file:
             data = json.load(json_file)
-            self.name = data["name"]
-            self.family = data["family"]
-            _params = data["parameters"]
-            _operations = data["operations"]
+            self.name = data.get("name")
+            self.family = data.get("family")
+            _params = data.get("parameters")
+            _operations = data.get("operations")
             json_file.close()
 
         self.methods = ["post", "put", "delete", "get"]
@@ -123,7 +123,7 @@ class ModuleDefinition(object):
         for method, func_list in _operations.items():
             func_obj_list = []
             for func_name in func_list:
-                function = Function(func_name, _params[func_name])
+                function = Function(func_name, _params.get(func_name))
                 func_obj_list.append(function)
             self.operations[method] = func_obj_list
         
@@ -182,21 +182,24 @@ class ModuleDefinition(object):
 
         return param_dict
 
+    def get_required_if_list(self):
+        return []
+
 
     # Retrieves the function that exactly matches the given method and module parameters.
     def get_function(self, method, module_params):
         module_params = self._strip_common_params(module_params)
         module_params = self._strip_unused_params(module_params)
         if method in self.methods:
-            ops = self.operations[method]
+            ops = self.operations.get(method)
         else:
             message = msg(ERR_WRONG_METHOD, method) # Wrong method '{}'
-            return None, message
+            return None, {msg: message}
 
         if len(ops) == 0:
-            message = msg(ERR_STATE_NOT_SUPPORTED, self.state[method]) # State '{}' not supported by this module
-            return None, message
-        
+            message = msg(ERR_STATE_NOT_SUPPORTED, self.state.get(method)) # State '{}' not supported by this module
+            return None, {msg: message}
+    
         valid_ops = []
         for function in ops:
             if function.has_required_params(module_params) and function.needs_passed_params(module_params):
@@ -204,15 +207,15 @@ class ModuleDefinition(object):
 
         if len(valid_ops) == 0:
             message = msg(ERR_NO_MATCHING_OPERATION) # "There are no matching operations for the given arguments"
-            return None, message
+            return None, {msg: message}
         
         elif len(valid_ops) == 1:
             function = valid_ops[0] 
-            return function, "Success"
+            return function, {msg: ""}
 
         else:
             message = msg(ERR_UNKNOWN) # Unknown error. More than one operation matched the given arguments.
-            return None, message
+            return None, {msg: message}
             
         
 
@@ -232,20 +235,34 @@ class DNACModule(object):
         self.response = None
         self.result = dict(changed=False)
         self.error = dict(code=None, text=None)
-        self.dnac = api.DNACenterAPI(username=self.params['username'],
-                        password=self.params['password'],
-                        base_url="https://{}:{}".format(self.params['host'], self.params['port']),
-                        version=self.params['version'],
-                        verify=self.params['verify'])
+        self.dnac = api.DNACenterAPI(username=self.params.get('username'),
+                        password=self.params.get('password'),
+                        base_url="https://{}:{}".format(self.params.get('host'), self.params.get('port')),
+                        version=self.params.get('version'),
+                        verify=self.params.get('verify'))
         
 
        
         
     def exec(self, function, family):
-        params = { param.name : self.params[param.name] for param in function.get_required_params(object=True)}
+        params = { param.name : self.params.get(param.name) for param in function.get_required_params(object=True)}
         family = getattr(self.dnac, family)
         func = getattr(family, function.name)
-        return func(**params)
+        result = func(**params)
+        if result:  # TO DO: Check inside of result
+            self.result.update(result)
+        else:
+            self.fail_json(msg="Error invoking SDK function")
+
+
+    def fail_json(self, msg, **kwargs):
+        self.result.update(**kwargs)
+        self.module.fail_json(msg=msg, **self.result)
+
+    def exit_json(self, **kwargs):
+        self.result.update(**kwargs)
+        self.module.exit_json(**self.result)
+
 
 
         
