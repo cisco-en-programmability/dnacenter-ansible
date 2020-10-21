@@ -245,10 +245,10 @@ class DNACModule(object):
        
         
     def exec(self, function, family):
-        params = { param.name : self.params.get(param.name) for param in function.get_required_params(object=True)}
+        #params = { param.name : self.params.get(param.name) for param in function.get_required_params(object=True)}
         family = getattr(self.dnac, family)
         func = getattr(family, function.name)
-        result = func(**params)
+        result = func(**self.params)
         if result:  # TO DO: Check inside of result
             self.result.update(result)
         else:
