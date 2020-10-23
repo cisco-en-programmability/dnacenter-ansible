@@ -21,12 +21,13 @@ RETURN = r'''
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac_modules.network_device import module_definition
 
 
 
 def main():
 
-    moddef = ModuleDefinition("network_device")
+    moddef = ModuleDefinition(module_definition)
 
     argument_spec = dnac_argument_spec()
     argument_spec.update(moddef.get_argument_spec_dict())
@@ -39,28 +40,20 @@ def main():
         required_if=required_if
     )
 
-    dnac = DNACModule(module)
+    dnac = DNACModule(module, moddef)
 
     state = module.params.get("state")
-    family = moddef.family
-
-
-
 
     if state == "query":
-        function, status = moddef.get_function("get", module.params)
-        if function:
-            dnac.exec(function, family)
-        else:
-            dnac.fail_json(msg=status.get("msg"))
-
+        dnac.exec("get")
+        
     elif state == "absent":
-        function, status = moddef.get_function("delete", module.params)
+        dnac.exec("delete")
 
     elif state == "present":
         # check whether the object exists or not
         # and decide between put and post
-        function, status = moddef.get_function("post", module.params)
+        dnac.exec("post")
 
     dnac.exit_json()
 

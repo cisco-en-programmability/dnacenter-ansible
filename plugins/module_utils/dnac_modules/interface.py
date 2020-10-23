@@ -1,4 +1,4 @@
-{
+module_definition = {
   "name": "interface",
   "family": "devices",
   "operations": {
@@ -19,66 +19,66 @@
     "get_all_interfaces": [
         {
           "name": "limit",
-          "required": false,
+          "required": False,
           "type": "number"
         },
         {
           "name": "offset",
-          "required": false,
+          "required": False,
           "type": "number"
         }
     ],
     "get_interface_by_id": [
         {
           "name": "id",
-          "required": true,
+          "required": True,
           "type": "string"
         }
     ],
     "get_device_interface_count": [
         {
           "name": "count",
-          "required": true,
+          "required": True,
           "type": "boolean"
         }
     ],
     "get_interface_by_ip": [
         {
           "name": "ipAddress",
-          "required": true,
+          "required": True,
           "type": "string"
         }
     ],
     "get_isis_interfaces": [
         {
           "name": "isis",
-          "required": true,
+          "required": True,
           "type": "boolean"
         }
     ],
     "get_interface_info_by_id": [
         {
           "name": "deviceId",
-          "required": true,
+          "required": True,
           "type": "string"
         }
     ],
     "get_device_interfaces_by_specified_range" : [
         {
           "name": "deviceId",
-          "required": true,
+          "required": True,
           "sdk_name": "device_id",
           "type": "string"
         },
         {
           "name": "recordsToReturn",
-          "required": true,
+          "required": True,
           "sdk_name": "records_to_return",
           "type": "integer"
         },
         {
           "name": "startIndex",
-          "required": true,
+          "required": True,
           "sdk_name": "start_index",
           "type": "integer"
         }
@@ -86,31 +86,31 @@
     "get_device_interface_count_by_id": [
         {
           "name": "deviceId",
-          "required": true,
+          "required": True,
           "type": "string"
         },
         {
             "name": "count",
-            "required": true,
+            "required": True,
             "type": "boolean"
         }
     ],
     "get_interface_details": [
         {
           "name": "deviceId",
-          "required": true,
+          "required": True,
           "type": "string"
         },
         {
           "name": "name",
-          "required": true,
+          "required": True,
           "type": "string"
         }
     ],
     "get_ospf_interfaces": [
         {
             "name": "ospf",
-            "required": true,
+            "required": True,
             "type": "boolean"
         }
     ]

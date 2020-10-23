@@ -1,4 +1,4 @@
-{
+module_definition = {
   "name": "network_device",
   "family": "devices",
   "operations": {
@@ -19,7 +19,7 @@
     "add_device": [
       {
         "name": "cliTransport",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
@@ -28,7 +28,7 @@
       },
       {
         "name": "enablePassword",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
@@ -37,11 +37,13 @@
       },
       {
         "name": "httpPassword",
-        "type": "string"
+        "type": "string",
+        "required": True
       },
       {
         "name": "httpPort",
-        "type": "string"
+        "type": "string",
+        "required": False
       },
       {
         "name": "httpSecure",
@@ -49,11 +51,12 @@
       },
       {
         "name": "httpUserName",
-        "type": "string"
+        "type": "string",
+        "required": True
       },
       {
         "name": "ipAddress",
-        "required": true,
+        "required": True,
         "type": "array"
       },
       {
@@ -66,7 +69,7 @@
       },
       {
         "name": "password",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
@@ -75,57 +78,58 @@
       },
       {
         "name": "snmpAuthPassphrase",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
         "name": "snmpAuthProtocol",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
         "name": "snmpMode",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
         "name": "snmpPrivPassphrase",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
         "name": "snmpPrivProtocol",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
         "name": "snmpROCommunity",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
         "name": "snmpRWCommunity",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
         "name": "snmpRetry",
-        "required": true,
+        "required": True,
         "type": "number"
       },
       {
         "name": "snmpTimeout",
-        "required": true,
+        "required": True,
         "type": "number"
       },
       {
         "name": "snmpUserName",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
         "name": "snmpVersion",
-        "type": "string"
+        "type": "string",
+        "required": True
       },
       {
         "enum": [
@@ -143,7 +147,7 @@
       },
       {
         "name": "userName",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
@@ -158,13 +162,13 @@
     "delete_device_by_id": [
       {
         "name": "id",
-        "required": true,
+        "required": True,
         "sdk_name": "id",
         "type": "string"
       },
       {
         "name": "isForceDelete",
-        "required": false,
+        "required": False,
         "sdk_name": "is_force_delete",
         "type": "boolean"
       },
@@ -176,7 +180,7 @@
     "get_device_by_id": [
       {
         "name": "id",
-        "required": true,
+        "required": True,
         "sdk_name": "id",
         "type": "string"
       },
@@ -188,7 +192,7 @@
     "get_device_by_serial_number": [
       {
         "name": "serial_number",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
@@ -204,193 +208,193 @@
       {
         "name": "count",
         "type": "boolean",
-        "required": true
+        "required": True
       }
     ],
     "get_device_list": [
       {
         "name": "associatedWlcIp",
-        "required": false,
+        "required": False,
         "sdk_name": "associated_wlc_ip",
         "type": "array"
       },
       {
         "name": "collectionInterval",
-        "required": false,
+        "required": False,
         "sdk_name": "collection_interval",
         "type": "array"
       },
       {
         "name": "collectionStatus",
-        "required": false,
+        "required": False,
         "sdk_name": "collection_status",
         "type": "array"
       },
       {
         "name": "errorCode",
-        "required": false,
+        "required": False,
         "sdk_name": "error_code",
         "type": "array"
       },
       {
         "name": "errorDescription",
-        "required": false,
+        "required": False,
         "sdk_name": "error_description",
         "type": "array"
       },
       {
         "name": "family",
-        "required": false,
+        "required": False,
         "sdk_name": "family",
         "type": "array"
       },
       {
         "name": "hostname",
-        "required": false,
+        "required": False,
         "sdk_name": "hostname",
         "type": "array"
       },
       {
         "name": "id",
-        "required": false,
+        "required": False,
         "sdk_name": "id",
         "type": "string"
       },
       {
         "name": "license.name",
-        "required": false,
+        "required": False,
         "sdk_name": "license_name",
         "type": "array"
       },
       {
         "name": "license.status",
-        "required": false,
+        "required": False,
         "sdk_name": "license_status",
         "type": "array"
       },
       {
         "name": "license.type",
-        "required": false,
+        "required": False,
         "sdk_name": "license_type",
         "type": "array"
       },
       {
         "name": "location",
-        "required": false,
+        "required": False,
         "sdk_name": "location",
         "type": "array"
       },
       {
         "name": "locationName",
-        "required": false,
+        "required": False,
         "sdk_name": "location_name",
         "type": "array"
       },
       {
         "name": "macAddress",
-        "required": false,
+        "required": False,
         "sdk_name": "mac_address",
         "type": "array"
       },
       {
         "name": "managementIpAddress",
-        "required": false,
+        "required": False,
         "sdk_name": "management_ip_address",
         "type": "array"
       },
       {
         "name": "module+equpimenttype",
-        "required": false,
+        "required": False,
         "sdk_name": "module_equpimenttype",
         "type": "array"
       },
       {
         "name": "module+name",
-        "required": false,
+        "required": False,
         "sdk_name": "module_name",
         "type": "array"
       },
       {
         "name": "module+operationstatecode",
-        "required": false,
+        "required": False,
         "sdk_name": "module_operationstatecode",
         "type": "array"
       },
       {
         "name": "module+partnumber",
-        "required": false,
+        "required": False,
         "sdk_name": "module_partnumber",
         "type": "array"
       },
       {
         "name": "module+servicestate",
-        "required": false,
+        "required": False,
         "sdk_name": "module_servicestate",
         "type": "array"
       },
       {
         "name": "module+vendorequipmenttype",
-        "required": false,
+        "required": False,
         "sdk_name": "module_vendorequipmenttype",
         "type": "array"
       },
       {
         "name": "notSyncedForMinutes",
-        "required": false,
+        "required": False,
         "sdk_name": "not_synced_for_minutes",
         "type": "array"
       },
       {
         "name": "platformId",
-        "required": false,
+        "required": False,
         "sdk_name": "platform_id",
         "type": "array"
       },
       {
         "name": "reachabilityStatus",
-        "required": false,
+        "required": False,
         "sdk_name": "reachability_status",
         "type": "array"
       },
       {
         "name": "role",
-        "required": false,
+        "required": False,
         "sdk_name": "role",
         "type": "array"
       },
       {
         "name": "serialNumber",
-        "required": false,
+        "required": False,
         "sdk_name": "serial_number",
         "type": "array"
       },
       {
         "name": "series",
-        "required": false,
+        "required": False,
         "sdk_name": "series",
         "type": "array"
       },
       {
         "name": "softwareType",
-        "required": false,
+        "required": False,
         "sdk_name": "software_type",
         "type": "array"
       },
       {
         "name": "softwareVersion",
-        "required": false,
+        "required": False,
         "sdk_name": "software_version",
         "type": "array"
       },
       {
         "name": "type",
-        "required": false,
+        "required": False,
         "sdk_name": "type",
         "type": "array"
       },
       {
         "name": "upTime",
-        "required": false,
+        "required": False,
         "sdk_name": "up_time",
         "type": "array"
       },
@@ -402,7 +406,7 @@
     "get_device_summary": [
       {
         "name": "id",
-        "required": true,
+        "required": True,
         "sdk_name": "id",
         "type": "string"
       },
@@ -413,13 +417,13 @@
       {
         "name": "summary",
         "type": "boolean",
-        "required": true
+        "required": True
       }
     ],
     "get_network_device_by_ip": [
       {
         "name": "ip_address",
-        "required": true,
+        "required": True,
         "sdk_name": "ip_address",
         "type": "string"
       },
@@ -431,13 +435,13 @@
     "get_network_device_by_pagination_range": [
       {
         "name": "records_to_return",
-        "required": true,
+        "required": True,
         "sdk_name": "records_to_return",
         "type": "integer"
       },
       {
         "name": "start_index",
-        "required": true,
+        "required": True,
         "sdk_name": "start_index",
         "type": "integer"
       },
@@ -449,7 +453,7 @@
     "sync_devices": [
       {
         "name": "cliTransport",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
@@ -458,7 +462,7 @@
       },
       {
         "name": "enablePassword",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
@@ -483,7 +487,7 @@
       },
       {
         "name": "ipAddress",
-        "required": true,
+        "required": True,
         "type": "array"
       },
       {
@@ -496,7 +500,7 @@
       },
       {
         "name": "password",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
@@ -505,52 +509,52 @@
       },
       {
         "name": "snmpAuthPassphrase",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
         "name": "snmpAuthProtocol",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
         "name": "snmpMode",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
         "name": "snmpPrivPassphrase",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
         "name": "snmpPrivProtocol",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
         "name": "snmpROCommunity",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
         "name": "snmpRWCommunity",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
         "name": "snmpRetry",
-        "required": true,
+        "required": True,
         "type": "number"
       },
       {
         "name": "snmpTimeout",
-        "required": true,
+        "required": True,
         "type": "number"
       },
       {
         "name": "snmpUserName",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {
@@ -573,7 +577,7 @@
       },
       {
         "name": "userName",
-        "required": true,
+        "required": True,
         "type": "string"
       },
       {

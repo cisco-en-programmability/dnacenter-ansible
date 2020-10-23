@@ -1,10 +1,7 @@
 #!/usr/bin/env python
 
 import json
-
-# The following import uses a local code for testing purposes
 from dnacentersdk import api
-
 
 ERR_WRONG_METHOD = "Wrong method '{}'"
 ERR_STATE_NOT_SUPPORTED = "State '{}' not supported by this module"
@@ -16,12 +13,12 @@ def msg(message, arg=""):
 
 def dnac_argument_spec():
     return dict(
-        host=dict(type='str', required=True, aliases=['hostname']),
-        port=dict(type='int', required=False, default=443),
-        username=dict(type='str', default='admin', aliases=['user']),
-        password=dict(type='str', no_log=True),
-        verify=dict(type='bool', default=True),
-        version=dict(type='str', default="2.1.1"),
+        dnac_host=dict(type='str', required=True),
+        dnac_port=dict(type='int', required=False, default=443),
+        dnac_username=dict(type='str', default='admin', aliases=['user']),
+        dnac_password=dict(type='str', no_log=True),
+        dnac_verify=dict(type='bool', default=True),
+        dnac_version=dict(type='str', default="2.1.1"),
         state=dict(type='str', default='present', choices=['absent', 'present', 'query']),
         #use_proxy=dict(type='bool', default=True),
         #use_ssl=dict(type='bool', default=True),
@@ -40,6 +37,8 @@ class Parameter(object):
         elif self.type == "boolean":
             return "bool"
         elif self.type == "integer":
+            return "int"
+        elif self.type == "number":
             return "int"
         elif self.type == "array":
             return "list"
@@ -108,14 +107,11 @@ class Function(object):
 
 class ModuleDefinition(object):
 
-    def __init__(self, module_name):
-        with open("./module_definitions/{}.json".format(module_name)) as json_file:
-            data = json.load(json_file)
-            self.name = data.get("name")
-            self.family = data.get("family")
-            _params = data.get("parameters")
-            _operations = data.get("operations")
-            json_file.close()
+    def __init__(self, module_definition):
+        self.name = module_definition.get("name")
+        self.family = module_definition.get("family")
+        _params = module_definition.get("parameters")
+        _operations = module_definition.get("operations")
 
         self.methods = ["post", "put", "delete", "get"]
 
@@ -129,14 +125,8 @@ class ModuleDefinition(object):
         
         self.state = dict(zip(self.methods, ["present", "present", "absent", "query"]))
 
-        self.common_params = ["username",
-                              "password",
-                              "host",
-                              "port",
-                              "version",
-                              "verify",
-                              "state"
-                              ]
+        
+        self.common_params = dnac_argument_spec().keys()
         
     # Strips the common module parameters from the passed parameters
     def _strip_common_params(self, module_params):
@@ -145,6 +135,11 @@ class ModuleDefinition(object):
     # Strips all unused parameters (those that were not explicitly passed by the user)
     def _strip_unused_params(self, module_params):
         return { k: v for k, v in module_params.items() if v }
+    
+    # Strips off the passed params that are not required.
+    def _strip_unrequired_params(self, module_params):
+        return { k: v for k, v in module_params.items() if k in self._get_required_params() }
+
 
     # Retrieves all the functions supported by this module
     def get_functions(self):
@@ -154,6 +149,14 @@ class ModuleDefinition(object):
                 functions.append(function)
         return functions
 
+    # Retrieves a list with the parameters that are required
+    # by at least one of the functions supported by this module
+    def _get_required_params(self):
+        required_params = []
+        for function in self.get_functions():
+            for param in function.get_required_params():
+                required_params.append(param)
+        return required_params
 
     # Retrieves a list with the parameters that are required
     # by all the functions supported by this module
@@ -190,32 +193,50 @@ class ModuleDefinition(object):
     def get_function(self, method, module_params):
         module_params = self._strip_common_params(module_params)
         module_params = self._strip_unused_params(module_params)
+        
         if method in self.methods:
             ops = self.operations.get(method)
         else:
             message = msg(ERR_WRONG_METHOD, method) # Wrong method '{}'
-            return None, {msg: message}
+            return None, {"msg": message}
 
         if len(ops) == 0:
             message = msg(ERR_STATE_NOT_SUPPORTED, self.state.get(method)) # State '{}' not supported by this module
-            return None, {msg: message}
+            return None, {"msg": message}
     
+        
         valid_ops = []
+
+        # for function in ops:
+        #     if function.has_required_params(module_params) and function.needs_passed_params(module_params):
+        #         valid_ops.append(function)
+
+        # out = ""
+        # for param in self._strip_unrequired_params(module_params):
+        #     out = out + " {} ".format(param)
+        # raise Exception(out)
+
+
         for function in ops:
-            if function.has_required_params(module_params) and function.needs_passed_params(module_params):
+            if function.has_required_params(module_params) and function.needs_passed_params(self._strip_unrequired_params(module_params)):
                 valid_ops.append(function)
+
+        
+
+
+
 
         if len(valid_ops) == 0:
             message = msg(ERR_NO_MATCHING_OPERATION) # "There are no matching operations for the given arguments"
-            return None, {msg: message}
+            return None, {"msg": message}
         
         elif len(valid_ops) == 1:
             function = valid_ops[0] 
-            return function, {msg: ""}
+            return function, {"msg": "Success"}
 
         else:
             message = msg(ERR_UNKNOWN) # Unknown error. More than one operation matched the given arguments.
-            return None, {msg: message}
+            return None, {"msg": message}
             
         
 
@@ -229,26 +250,31 @@ class ModuleDefinition(object):
 
 class DNACModule(object):
 
-    def __init__(self, module):
+    def __init__(self, module, moddef):
         self.module = module
         self.params = module.params
         self.response = None
         self.result = dict(changed=False)
         self.error = dict(code=None, text=None)
-        self.dnac = api.DNACenterAPI(username=self.params.get('username'),
-                        password=self.params.get('password'),
-                        base_url="https://{}:{}".format(self.params.get('host'), self.params.get('port')),
-                        version=self.params.get('version'),
-                        verify=self.params.get('verify'))
+        self.dnac = api.DNACenterAPI(username=self.params.get('dnac_username'),
+                        password=self.params.get('dnac_password'),
+                        base_url="https://{}:{}".format(self.params.get('dnac_host'), self.params.get('dnac_port')),
+                        version=self.params.get('dnac_version'),
+                        verify=self.params.get('dnac_verify'))
+        self.moddef = moddef
+        self.family = moddef.family
         
 
        
-        
-    def exec(self, function, family):
-        #params = { param.name : self.params.get(param.name) for param in function.get_required_params(object=True)}
-        family = getattr(self.dnac, family)
+    def exec(self, method):
+        function, status = self.moddef.get_function(method, self.params)
+        if not function:
+            self.fail_json(msg=status.get("msg"))
+        family = getattr(self.dnac, self.family)
         func = getattr(family, function.name)
+
         result = func(**self.params)
+
         if result:  # TO DO: Check inside of result
             self.result.update(result)
         else:
@@ -256,6 +282,10 @@ class DNACModule(object):
 
 
     def fail_json(self, msg, **kwargs):
+        # Return error information, if we have it
+        if self.error.get('code') is not None and self.error.get('text') is not None:
+            self.result['error'] = self.error
+
         self.result.update(**kwargs)
         self.module.fail_json(msg=msg, **self.result)
 
