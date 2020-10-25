@@ -77,10 +77,11 @@ class Parameter(object):
 
 class Function(object):
 
-    def __init__(self, name, params, family):
+    def __init__(self, name, params, family, method):
         self.name = name
         self.params = []
         self.family = family
+        self.method = method
         for param in params:
             new_param = Parameter(param)
             self.params.append(new_param)
@@ -105,6 +106,7 @@ class Function(object):
     def needs_passed_params(self, module_params):
         return set(module_params.keys()).issubset(self.get_required_params())
 
+    # Executes the function with the passed parameters
     def exec(self, dnac, params):
         family = getattr(dnac, self.family) 
         func = getattr(family, self.name)
@@ -127,7 +129,12 @@ class ModuleDefinition(object):
         for method, func_list in _operations.items():
             func_obj_list = []
             for func_name in func_list:
-                function = Function(func_name, _params.get(func_name), self.family)
+                function = Function(
+                            name=func_name, 
+                            params=_params.get(func_name),
+                            family=self.family, 
+                            method=method
+                            )
                 func_obj_list.append(function)
             self.operations[method] = func_obj_list
         
@@ -262,7 +269,7 @@ class DNACModule(object):
             self.fail_json(msg=status.get("msg"))
         result = function.exec(self.dnac, self.params)
 
-        if "response" in result.keys():
+        if "response" in result.keys(): # TO DO: Make this error checking more robust. Different SDK calls return different structures. Not all of them have a "response" attribute when successful
             self.result.update(result)
         else:
             self.fail_json("Error invoking DNAC API", **result)
