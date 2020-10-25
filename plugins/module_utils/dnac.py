@@ -44,6 +44,8 @@ class Parameter(object):
             return "list"
         elif self.type == "any":
             return "raw"
+        elif self.type == "object":
+            return "dict"
 
     def is_required(self):
         _required = False
@@ -119,7 +121,7 @@ class ModuleDefinition(object):
         for method, func_list in _operations.items():
             func_obj_list = []
             for func_name in func_list:
-                function = Function(func_name, _params.get(func_name))
+                function = Function(func_name, _params.get(func_name)) # TO DO: Add family to Function constructor
                 func_obj_list.append(function)
             self.operations[method] = func_obj_list
         
@@ -204,27 +206,11 @@ class ModuleDefinition(object):
             message = msg(ERR_STATE_NOT_SUPPORTED, self.state.get(method)) # State '{}' not supported by this module
             return None, {"msg": message}
     
-        
         valid_ops = []
-
-        # for function in ops:
-        #     if function.has_required_params(module_params) and function.needs_passed_params(module_params):
-        #         valid_ops.append(function)
-
-        # out = ""
-        # for param in self._strip_unrequired_params(module_params):
-        #     out = out + " {} ".format(param)
-        # raise Exception(out)
-
-
+    
         for function in ops:
             if function.has_required_params(module_params) and function.needs_passed_params(self._strip_unrequired_params(module_params)):
                 valid_ops.append(function)
-
-        
-
-
-
 
         if len(valid_ops) == 0:
             message = msg(ERR_NO_MATCHING_OPERATION) # "There are no matching operations for the given arguments"
@@ -270,16 +256,14 @@ class DNACModule(object):
         function, status = self.moddef.get_function(method, self.params)
         if not function:
             self.fail_json(msg=status.get("msg"))
-        family = getattr(self.dnac, self.family)
-        func = getattr(family, function.name)
+        family = getattr(self.dnac, self.family) # TO DO: No longer necessary 
+        func = getattr(family, function.name) # TO DO: Replace this with a call to function.execute(self.params)
 
-        result = func(**self.params)
-
-        if result:  # TO DO: Check inside of result
+        result = func(**self.params) # TO DO: Move this call to the Function class and execute differently based on the method (GET, DELETE, POST, PUT)
+        if "response" in result.keys():
             self.result.update(result)
         else:
-            self.fail_json(msg="Error invoking SDK function")
-
+            self.fail_json("Error invoking DNAC API", **result)
 
     def fail_json(self, msg, **kwargs):
         # Return error information, if we have it
@@ -293,9 +277,6 @@ class DNACModule(object):
         self.result.update(**kwargs)
         self.module.exit_json(**self.result)
 
-
-
-        
 
 
 
