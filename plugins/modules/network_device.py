@@ -21,7 +21,7 @@ RETURN = r'''
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac_modules.network_device import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device import module_definition
 
 
 
