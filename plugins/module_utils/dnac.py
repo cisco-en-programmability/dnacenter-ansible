@@ -77,9 +77,10 @@ class Parameter(object):
 
 class Function(object):
 
-    def __init__(self, name, params):
+    def __init__(self, name, params, family):
         self.name = name
         self.params = []
+        self.family = family
         for param in params:
             new_param = Parameter(param)
             self.params.append(new_param)
@@ -104,6 +105,11 @@ class Function(object):
     def needs_passed_params(self, module_params):
         return set(module_params.keys()).issubset(self.get_required_params())
 
+    def exec(self, dnac, params):
+        family = getattr(dnac, self.family) 
+        func = getattr(family, self.name)
+        result = func(**params) #TO DO: execute differently based on the method (POST, GET, etc)
+        return result
 
 
 
@@ -121,7 +127,7 @@ class ModuleDefinition(object):
         for method, func_list in _operations.items():
             func_obj_list = []
             for func_name in func_list:
-                function = Function(func_name, _params.get(func_name)) # TO DO: Add family to Function constructor
+                function = Function(func_name, _params.get(func_name), self.family)
                 func_obj_list.append(function)
             self.operations[method] = func_obj_list
         
@@ -247,19 +253,15 @@ class DNACModule(object):
                         base_url="https://{}:{}".format(self.params.get('dnac_host'), self.params.get('dnac_port')),
                         version=self.params.get('dnac_version'),
                         verify=self.params.get('dnac_verify'))
-        self.moddef = moddef
-        self.family = moddef.family
-        
+        self.moddef = moddef        
 
        
     def exec(self, method):
         function, status = self.moddef.get_function(method, self.params)
         if not function:
             self.fail_json(msg=status.get("msg"))
-        family = getattr(self.dnac, self.family) # TO DO: No longer necessary 
-        func = getattr(family, function.name) # TO DO: Replace this with a call to function.execute(self.params)
+        result = function.exec(self.dnac, self.params)
 
-        result = func(**self.params) # TO DO: Move this call to the Function class and execute differently based on the method (GET, DELETE, POST, PUT)
         if "response" in result.keys():
             self.result.update(result)
         else:
