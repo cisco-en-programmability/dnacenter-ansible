@@ -149,14 +149,6 @@ module_definition = {
         "name": "userName",
         "required": True,
         "type": "string"
-      },
-      {
-        "name": "headers",
-        "type": "object"
-      },
-      {
-        "name": "payload",
-        "type": "object"
       }
     ],
     "delete_device_by_id": [
@@ -171,10 +163,6 @@ module_definition = {
         "required": False,
         "sdk_name": "is_force_delete",
         "type": "boolean"
-      },
-      {
-        "name": "headers",
-        "type": "object"
       }
     ],
     "get_device_by_id": [
@@ -183,10 +171,6 @@ module_definition = {
         "required": True,
         "sdk_name": "id",
         "type": "string"
-      },
-      {
-        "name": "headers",
-        "type": "object"
       }
     ],
     "get_device_by_serial_number": [
@@ -194,17 +178,9 @@ module_definition = {
         "name": "serial_number",
         "required": True,
         "type": "string"
-      },
-      {
-        "name": "headers",
-        "type": "object"
       }
     ],
     "get_device_count": [
-      {
-        "name": "headers",
-        "type": "object"
-      },
       {
         "name": "count",
         "type": "boolean",
@@ -397,10 +373,6 @@ module_definition = {
         "required": False,
         "sdk_name": "up_time",
         "type": "array"
-      },
-      {
-        "name": "headers",
-        "type": "object"
       }
     ],
     "get_device_summary": [
@@ -409,10 +381,6 @@ module_definition = {
         "required": True,
         "sdk_name": "id",
         "type": "string"
-      },
-      {
-        "name": "headers",
-        "type": "object"
       },
       {
         "name": "summary",
@@ -426,10 +394,6 @@ module_definition = {
         "required": True,
         "sdk_name": "ip_address",
         "type": "string"
-      },
-      {
-        "name": "headers",
-        "type": "object"
       }
     ],
     "get_network_device_by_pagination_range": [
@@ -444,10 +408,6 @@ module_definition = {
         "required": True,
         "sdk_name": "start_index",
         "type": "integer"
-      },
-      {
-        "name": "headers",
-        "type": "object"
       }
     ],
     "sync_devices": [
@@ -579,14 +539,6 @@ module_definition = {
         "name": "userName",
         "required": True,
         "type": "string"
-      },
-      {
-        "name": "headers",
-        "type": "object"
-      },
-      {
-        "name": "payload",
-        "type": "object"
       }
     ]
   }

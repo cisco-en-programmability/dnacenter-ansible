@@ -16,10 +16,6 @@ module_definition = {
       "name": "task_id",
       "required": True,
       "type": "TaskId"
-    },
-    {
-      "name": "headers",
-      "type": "object"
     }
   ],
   "get_task_by_operationid": [
@@ -40,10 +36,6 @@ module_definition = {
       "required": True,
       "sdk_name": "operation_id",
       "type": "string"
-    },
-    {
-      "name": "headers",
-      "type": "object"
     }
   ],
   "get_task_count": [
@@ -111,11 +103,7 @@ module_definition = {
         "name": "count",
         "type": "boolean",
         "required": True
-      },
-    {
-      "name": "headers",
-      "type": "object"
-    }
+      }
   ],
   "get_tasks": [
     {
@@ -201,10 +189,6 @@ module_definition = {
       "required": False,
       "sdk_name": "username",
       "type": "string"
-    },
-    {
-      "name": "headers",
-      "type": "object"
     }
   ],
   "get_task_tree": [
@@ -217,11 +201,7 @@ module_definition = {
         "name": "tree",
         "type": "boolean",
         "required": True
-      },
-    {
-      "name": "headers",
-      "type": "object"
-    }
+      }
   ]
 }
 }
