@@ -105,7 +105,7 @@ class Parameter(object):
 
 class Function(object):
 
-    def __init__(self, name, params, family, method):
+    def __init__(self, name, params, response_schema, family, method):
         self.name = name
         self.params = []
         self.family = family
@@ -113,6 +113,7 @@ class Function(object):
         for param in params:
             new_param = Parameter(param)
             self.params.append(new_param)
+        self.response_schema = response_schema
 
     def get_required_params(self, object=False):
         required_params = []
@@ -140,23 +141,49 @@ class Function(object):
             result = result and param.has_valid_schema(module_params.get(param.name), missing_params)
         return result
 
+    def _has_valid_response_schema(self, response):
+        return set(response.keys()).issubset(self.response_schema)
+
     # Executes the function with the passed parameters
     def exec(self, dnac, module_params):
         family = getattr(dnac, self.family) 
         func = getattr(family, self.name)
 
-        if self.method in ("get", "delete"):
-            result = func(**module_params)
-        elif self.method in ("post", "put"):
-            missing_params = {}
-            if self._has_valid_schema(module_params, missing_params):
-                result = func(**module_params)
+        missing_params = {}
+        if self._has_valid_schema(module_params, missing_params):
+            response = func(**module_params)
+            if self._has_valid_response_schema(response):
+                result = Result(response)
             else:
-                result = {"error": "Provided arguments do not comply with the function schema",
-                          "sdk_function": "{}.{}".format(self.family, self.name),
-                          "missing_params": missing_params}
+                result = Result(success=False, 
+                                error="Unexpected response from DNAC",
+                                response=response
+                                )
+        else:
+            result = Result(success=False, 
+                            error="Provided arguments do not comply with the function schema",
+                            response = {
+                                "sdk_function": "{}.{}".format(self.family, self.name),
+                                "missing_params": missing_params
+                            })
+                
         return result
-        # TO DO: Considerar validar el schema de la respuesta de la función
+
+
+class Result(object):
+    def __init__(self, response, success=True, error=""):
+        self.response = response
+        self.success = success
+        self.error = error
+
+    def get_response(self):
+        return self.response
+
+    def get_error(self):
+        return self.error
+    
+    def is_successful(self):
+        return self.success
 
 
 class ModuleDefinition(object):
@@ -166,6 +193,7 @@ class ModuleDefinition(object):
         self.family = module_definition.get("family")
         _params = module_definition.get("parameters")
         _operations = module_definition.get("operations")
+        _response_schema = module_definition.get("response")
         self.methods = ["post", "put", "delete", "get"]
         self.operations = dict.fromkeys(self.methods, [])
 
@@ -175,6 +203,7 @@ class ModuleDefinition(object):
                 function = Function(
                             name=func_name, 
                             params=_params.get(func_name),
+                            response_schema=_response_schema.get(func_name),
                             family=self.family, 
                             method=method
                             )
@@ -310,10 +339,15 @@ class DNACModule(object):
             self.fail_json(msg=status.get("msg"))
         result = function.exec(self.dnac, self.params)
 
-        if "response" in result.keys(): # TO DO: Make this error checking more robust. Different SDK calls return different structures. Not all of them have a "response" attribute when successful
-            self.result.update(result)
+        if result.is_successful():
+            self.result.update(result.get_response())
         else:
-            self.fail_json("Error invoking DNAC API", **result)
+            self.fail_json(result.get_error(), **result.get_response())
+
+        # if "response" in result.keys(): # TO DO: Make this error checking more robust. Different SDK calls return different structures. Not all of them have a "response" attribute when successful
+        #     self.result.update(result)
+        # else:
+        #     self.fail_json("Error invoking DNAC API", **result)
 
     def fail_json(self, msg, **kwargs):
         # Return error information, if we have it

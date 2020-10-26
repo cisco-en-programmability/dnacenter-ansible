@@ -541,5 +541,47 @@ module_definition = {
         "type": "string"
       }
     ]
+  },
+  "response": {
+    "add_device": [
+        "response",
+        "version"
+    ],
+    "delete_device_by_id": [
+        "response",
+        "version"
+    ],
+    "get_device_by_id": [
+        "response",
+        "version"
+    ],
+    "get_device_by_serial_number": [
+        "response",
+        "version"
+    ],
+    "get_device_count": [
+        "response",
+        "version"
+    ],
+    "get_device_list": [
+        "response",
+        "version"
+    ],
+    "get_device_summary": [
+        "response",
+        "version"
+    ],
+    "get_network_device_by_ip": [
+        "response",
+        "version"
+    ],
+    "get_network_device_by_pagination_range": [
+        "response",
+        "version"
+    ],
+    "sync_devices": [
+        "response",
+        "version"
+    ]
   }
 }
