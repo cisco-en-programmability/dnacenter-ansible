@@ -1,2 +1,3 @@
 cisco-dnac-*.tar.gz
 tmp/*
+__pycache__/

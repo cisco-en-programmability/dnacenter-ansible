@@ -25,19 +25,158 @@ module_definition = {
     {
       "name": "site",
       "type": "object",
-      "required": True
+      "required": True,
+      "schema": [
+        {
+          "type": "object",
+          "schema": [
+            {
+              "type": "string",
+              "enum": [],
+              "sensitive": False,
+              "default": "",
+              "constraints": [],
+              "required": True,
+              "name": "name",
+              "displayText": "Name"
+            },
+            {
+              "type": "string",
+              "enum": [],
+              "sensitive": False,
+              "default": "",
+              "constraints": [],
+              "required": True,
+              "name": "parentName",
+              "displayText": "Parent Name"
+            }
+          ],
+          "name": "area",
+          "displayText": "Area"
+        },
+        {
+          "type": "object",
+          "schema": [
+            {
+              "type": "string",
+              "enum": [],
+              "sensitive": False,
+              "default": "",
+              "constraints": [],
+              "required": True,
+              "name": "name",
+              "displayText": "Name"
+            },
+            {
+              "type": "string",
+              "enum": [],
+              "sensitive": False,
+              "default": "",
+              "constraints": [],
+              "required": False,
+              "name": "address",
+              "displayText": "Address"
+            },
+            {
+              "type": "string",
+              "enum": [],
+              "sensitive": False,
+              "default": "",
+              "constraints": [],
+              "required": True,
+              "name": "parentName",
+              "displayText": "Parent Name"
+            },
+            {
+              "type": "number",
+              "constraints": [],
+              "required": True,
+              "name": "latitude",
+              "displayText": "Latitude"
+            },
+            {
+              "type": "number",
+              "constraints": [],
+              "required": True,
+              "name": "longitude",
+              "displayText": "Longitude"
+            }
+          ],
+          "name": "building",
+          "displayText": "Building"
+        },
+        {
+          "type": "object",
+          "schema": [
+            {
+              "type": "string",
+              "enum": [],
+              "sensitive": False,
+              "default": "",
+              "constraints": [],
+              "required": True,
+              "name": "name",
+              "displayText": "Name"
+            },
+            {
+              "type": "string",
+              "enum": [],
+              "sensitive": False,
+              "default": "",
+              "constraints": [],
+              "required": True,
+              "name": "parentName",
+              "displayText": "Parent Name"
+            },
+            {
+              "type": "string",
+              "enum": [
+                "Cubes And Walled Offices",
+                "Drywall Office Only",
+                "Indoor High Ceiling",
+                "Outdoor Open Space"
+              ],
+              "sensitive": False,
+              "default": "",
+              "constraints": [],
+              "required": True,
+              "name": "rfModel",
+              "displayText": "Rf Model"
+            },
+            {
+              "type": "number",
+              "constraints": [],
+              "required": True,
+              "name": "width",
+              "displayText": "Width"
+            },
+            {
+              "type": "number",
+              "constraints": [],
+              "required": True,
+              "name": "length",
+              "displayText": "Length"
+            },
+            {
+              "type": "number",
+              "constraints": [],
+              "required": True,
+              "name": "height",
+              "displayText": "Height"
+            }
+          ],
+          "required": False,
+          "name": "floor",
+          "displayText": "Floor"
+        }
+      ]
     }
   ],
   "delete_site": [
     {
-      "name": "siteId",
+      "name": "site_id",
       "required": True,
-      "sdk_name": "site_id",
       "type": "string"
-    },
-    {
-      "name": "headers",
-      "type": "object"
     }
   ],
   "get_site": [
@@ -70,10 +209,6 @@ module_definition = {
       "required": False,
       "sdk_name": "type",
       "type": "string"
-    },
-    {
-      "name": "headers",
-      "type": "object"
     }
   ],
   "get_site_count": [
@@ -87,23 +222,162 @@ module_definition = {
         "name": "count",
         "type": "boolean",
         "required": True
-      },
-    {
-      "name": "headers",
-      "type": "object"
-    }
+      }
   ],
   "update_site": [
     {
       "name": "siteId",
       "required": True,
-      "sdk_name": "site_id",
       "type": "string"
     },
     {
       "name": "site",
       "required": True,
-      "type": "object"
+      "type": "object",
+      "schema": [
+        {
+          "type": "object",
+          "schema": [
+            {
+              "type": "string",
+              "enum": [],
+              "sensitive": False,
+              "default": "",
+              "constraints": [],
+              "required": True,
+              "name": "name",
+              "displayText": "Name"
+            },
+            {
+              "type": "string",
+              "enum": [],
+              "sensitive": False,
+              "default": "",
+              "constraints": [],
+              "required": True,
+              "name": "parentName",
+              "displayText": "Parent Name"
+            }
+          ],
+          "name": "area",
+          "displayText": "Area"
+        },
+        {
+          "type": "object",
+          "schema": [
+            {
+              "type": "string",
+              "enum": [],
+              "sensitive": False,
+              "default": "",
+              "constraints": [],
+              "required": True,
+              "name": "name",
+              "displayText": "Name"
+            },
+            {
+              "type": "string",
+              "enum": [],
+              "sensitive": False,
+              "default": "",
+              "constraints": [],
+              "required": False,
+              "name": "address",
+              "displayText": "Address"
+            },
+            {
+              "type": "string",
+              "enum": [],
+              "sensitive": False,
+              "default": "",
+              "constraints": [],
+              "required": True,
+              "name": "parentName",
+              "displayText": "Parent Name"
+            },
+            {
+              "type": "number",
+              "constraints": [],
+              "required": True,
+              "name": "latitude",
+              "displayText": "Latitude"
+            },
+            {
+              "type": "number",
+              "constraints": [],
+              "required": True,
+              "name": "longitude",
+              "displayText": "Longitude"
+            }
+          ],
+          "name": "building",
+          "displayText": "Building"
+        },
+        {
+          "type": "object",
+          "schema": [
+            {
+              "type": "string",
+              "enum": [],
+              "sensitive": False,
+              "default": "",
+              "constraints": [],
+              "required": True,
+              "name": "name",
+              "displayText": "Name"
+            },
+            {
+              "type": "string",
+              "enum": [],
+              "sensitive": False,
+              "default": "",
+              "constraints": [],
+              "required": True,
+              "name": "parentName",
+              "displayText": "Parent Name"
+            },
+            {
+              "type": "string",
+              "enum": [
+                "Cubes And Walled Offices",
+                "Drywall Office Only",
+                "Indoor High Ceiling",
+                "Outdoor Open Space"
+              ],
+              "sensitive": False,
+              "default": "",
+              "constraints": [],
+              "required": True,
+              "name": "rfModel",
+              "displayText": "Rf Model"
+            },
+            {
+              "type": "number",
+              "constraints": [],
+              "required": True,
+              "name": "width",
+              "displayText": "Width"
+            },
+            {
+              "type": "number",
+              "constraints": [],
+              "required": True,
+              "name": "length",
+              "displayText": "Length"
+            },
+            {
+              "type": "number",
+              "constraints": [],
+              "required": True,
+              "name": "height",
+              "displayText": "Height"
+            }
+          ],
+          "required": False,
+          "name": "floor",
+          "displayText": "Floor"
+        }
+      ]
     },
     {
       "enum": [
@@ -114,14 +388,6 @@ module_definition = {
       "name": "type",
       "required": True,
       "type": "string"
-    },
-    {
-      "name": "headers",
-      "type": "object"
-    },
-    {
-      "name": "payload",
-      "type": "object"
     }
   ]
 }

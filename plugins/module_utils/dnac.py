@@ -3,10 +3,12 @@
 import json
 from dnacentersdk import api
 
+
 ERR_WRONG_METHOD = "Wrong method '{}'"
 ERR_STATE_NOT_SUPPORTED = "State '{}' not supported by this module"
 ERR_UNKNOWN = "Unknown error. More than one operation matched the given arguments"
 ERR_NO_MATCHING_OPERATION = "There are no matching operations for the given arguments"
+
 
 def msg(message, arg=""):
     return message.format(arg)
@@ -30,6 +32,12 @@ class Parameter(object):
 
     def __init__(self, param):
         self.__dict__ = param
+        if self._is_object():
+            _schema = self.schema
+            self.schema = []
+            for param in _schema:
+                new_param = Parameter(param)
+                self.schema.append(new_param)
 
     def _get_type(self):
         if self.type == "string":
@@ -74,6 +82,26 @@ class Parameter(object):
         outer_dict[self.name] = inner_dict
         return outer_dict
 
+    def _is_object(self):
+        return self.type == "object"
+
+    def has_valid_schema(self, module_params, missing_params={}):
+        if self._is_object():
+            result = True
+            for param in self.schema:
+                if param.name in module_params.keys():
+                    result = result and param.has_valid_schema(module_params.get(param.name), missing_params)
+                else:
+                    if param.is_required():
+                        result = False
+                        if self.name not in missing_params.keys():
+                            missing_params.update({self.name: []})
+                        missing_params[self.name].append(param.name)
+            return result
+        else:
+            return True
+
+
 
 class Function(object):
 
@@ -106,13 +134,29 @@ class Function(object):
     def needs_passed_params(self, module_params):
         return set(module_params.keys()).issubset(self.get_required_params())
 
-    # Executes the function with the passed parameters
-    def exec(self, dnac, params):
-        family = getattr(dnac, self.family) 
-        func = getattr(family, self.name)
-        result = func(**params) #TO DO: execute differently based on the method (POST, GET, etc)
+    def _has_valid_schema(self, module_params, missing_params={}):
+        result = True
+        for param in self.params:
+            result = result and param.has_valid_schema(module_params.get(param.name), missing_params)
         return result
 
+    # Executes the function with the passed parameters
+    def exec(self, dnac, module_params):
+        family = getattr(dnac, self.family) 
+        func = getattr(family, self.name)
+
+        if self.method in ("get", "delete"):
+            result = func(**module_params)
+        elif self.method in ("post", "put"):
+            missing_params = {}
+            if self._has_valid_schema(module_params, missing_params):
+                result = func(**module_params)
+            else:
+                result = {"error": "Provided arguments do not comply with the function schema",
+                          "sdk_function": "{}.{}".format(self.family, self.name),
+                          "missing_params": missing_params}
+        return result
+        # TO DO: Considerar validar el schema de la respuesta de la función
 
 
 class ModuleDefinition(object):
@@ -122,10 +166,9 @@ class ModuleDefinition(object):
         self.family = module_definition.get("family")
         _params = module_definition.get("parameters")
         _operations = module_definition.get("operations")
-
         self.methods = ["post", "put", "delete", "get"]
-
         self.operations = dict.fromkeys(self.methods, [])
+
         for method, func_list in _operations.items():
             func_obj_list = []
             for func_name in func_list:
@@ -139,8 +182,6 @@ class ModuleDefinition(object):
             self.operations[method] = func_obj_list
         
         self.state = dict(zip(self.methods, ["present", "present", "absent", "query"]))
-
-        
         self.common_params = dnac_argument_spec().keys()
         
     # Strips the common module parameters from the passed parameters
