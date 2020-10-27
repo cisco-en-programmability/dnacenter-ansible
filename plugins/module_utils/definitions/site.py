@@ -390,5 +390,28 @@ module_definition = {
       "type": "string"
     }
   ]
-}
+},
+  "response": {
+    "create_site": [
+        "executionId",
+        "executionStatusUrl",
+        "message"
+        ],
+    "delete_site": [
+        "status",
+        "message"
+        ],
+    "get_site": [
+        "response"
+        ],
+    "get_site_count": [
+        "response",
+        "version"
+    ],
+    "update_site": [
+        "result",
+        "response",
+        "status"
+        ]
+  }
 }
