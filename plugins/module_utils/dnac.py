@@ -145,8 +145,8 @@ class Function(object):
         return set(response.keys()).issubset(self.response_schema)
 
     # Executes the function with the passed parameters
-    def exec(self, dnac, module_params):
-        family = getattr(dnac, self.family) 
+    def exec(self, dnac_api, module_params):
+        family = getattr(dnac_api, self.family) 
         func = getattr(family, self.name)
 
         missing_params = {}
@@ -168,6 +168,9 @@ class Function(object):
                             })
                 
         return result
+
+
+    
 
 
 class Result(object):
@@ -234,6 +237,13 @@ class ModuleDefinition(object):
                 functions.append(function)
         return functions
 
+    # Retrieves a specific function by name
+    def get_function(self, function_name):
+        for function in self.get_functions():
+            if function.name == function_name:
+                return function
+        return None
+
     # Retrieves a list with the parameters that are required
     # by at least one of the functions supported by this module
     def _get_required_params(self):
@@ -275,7 +285,7 @@ class ModuleDefinition(object):
 
 
     # Retrieves the function that exactly matches the given method and module parameters.
-    def get_function(self, method, module_params):
+    def choose_function(self, method, module_params):
         module_params = self._strip_common_params(module_params)
         module_params = self._strip_unused_params(module_params)
         
@@ -317,6 +327,40 @@ class ModuleDefinition(object):
         # raise Exception(out)
 
 
+class ObjectExistenceCriteria(object):
+
+    def __init__(self, dnac, get_function, get_params, list_field):
+        self.dnac = dnac
+        self.get_function = get_function
+        self.get_params = get_params
+        self.list_field = list_field
+        self.OBJECT_EXISTS = "Object already exists"
+
+
+    def object_exists(self):
+        function = self.dnac.moddef.get_function(self.get_function)
+        if function:
+            if function.method != "get":
+                self.dnac.fail_json(msg="Function is not a 'get' function. Could not determine if object exists.")
+            else:
+                family = getattr(self.dnac.api, function.family) 
+                func = getattr(family, function.name)
+                response = func(**self.get_params)
+                for obj in response.get(self.list_field):
+                    if self._object_is_equal(obj, self.dnac.params):
+                        self.dnac.existing_object = obj
+                        return True
+                return False
+        else:
+            self.dnac.fail_json(msg="Incorrect 'get' function.")
+
+    
+    def _object_is_equal(self, existing_object, candidate_params):
+        pass
+
+    
+
+
 class DNACModule(object):
 
     def __init__(self, module, moddef):
@@ -325,29 +369,27 @@ class DNACModule(object):
         self.response = None
         self.result = dict(changed=False)
         self.error = dict(code=None, text=None)
-        self.dnac = api.DNACenterAPI(username=self.params.get('dnac_username'),
+        self.api = api.DNACenterAPI(username=self.params.get('dnac_username'),
                         password=self.params.get('dnac_password'),
                         base_url="https://{}:{}".format(self.params.get('dnac_host'), self.params.get('dnac_port')),
                         version=self.params.get('dnac_version'),
                         verify=self.params.get('dnac_verify'))
-        self.moddef = moddef        
+        self.moddef = moddef
+        self.existing_object = None     
 
        
     def exec(self, method):
-        function, status = self.moddef.get_function(method, self.params)
+        function, status = self.moddef.choose_function(method, self.params)
         if not function:
             self.fail_json(msg=status.get("msg"))
-        result = function.exec(self.dnac, self.params)
+        result = function.exec(self.api, self.params)
 
         if result.is_successful():
             self.result.update(result.get_response())
         else:
             self.fail_json(result.get_error(), **result.get_response())
 
-        # if "response" in result.keys(): # TO DO: Make this error checking more robust. Different SDK calls return different structures. Not all of them have a "response" attribute when successful
-        #     self.result.update(result)
-        # else:
-        #     self.fail_json("Error invoking DNAC API", **result)
+
 
     def fail_json(self, msg, **kwargs):
         # Return error information, if we have it
