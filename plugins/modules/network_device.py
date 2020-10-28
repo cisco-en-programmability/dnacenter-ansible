@@ -47,13 +47,14 @@ def main():
     if state == "query":
         dnac.exec("get")
         
-    elif state == "absent":
+    elif state == "absent" or state == "delete":
         dnac.exec("delete")
 
-    elif state == "present":
-        # check whether the object exists or not
-        # and decide between put and post
+    elif state == "present" or state == "create":
         dnac.exec("post")
+
+    elif state == "update":
+        dnac.exec("put")
 
     dnac.exit_json()
 

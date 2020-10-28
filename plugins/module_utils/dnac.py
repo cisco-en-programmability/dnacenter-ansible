@@ -21,7 +21,7 @@ def dnac_argument_spec():
         dnac_password=dict(type='str', no_log=True),
         dnac_verify=dict(type='bool', default=True),
         dnac_version=dict(type='str', default="2.1.1"),
-        state=dict(type='str', default='present', choices=['absent', 'present', 'query']),
+        state=dict(type='str', default='present', choices=['absent', 'delete', 'present', 'create', 'update', 'query']),
         #use_proxy=dict(type='bool', default=True),
         #use_ssl=dict(type='bool', default=True),
         #validate_certs=dict(type='bool', default=True),
@@ -379,7 +379,7 @@ class DNACModule(object):
                         version=self.params.get('dnac_version'),
                         verify=self.params.get('dnac_verify'))
         self.moddef = moddef
-        self.existing_object = None     
+        self.existing_object = {}   
 
        
     def exec(self, method):

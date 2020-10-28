@@ -37,13 +37,11 @@ module_definition = {
       },
       {
         "name": "httpPassword",
-        "type": "string",
-        "required": True
+        "type": "string"
       },
       {
         "name": "httpPort",
-        "type": "string",
-        "required": False
+        "type": "string"
       },
       {
         "name": "httpSecure",
@@ -51,8 +49,7 @@ module_definition = {
       },
       {
         "name": "httpUserName",
-        "type": "string",
-        "required": True
+        "type": "string"
       },
       {
         "name": "ipAddress",
@@ -128,8 +125,7 @@ module_definition = {
       },
       {
         "name": "snmpVersion",
-        "type": "string",
-        "required": True
+        "type": "string"
       },
       {
         "enum": [
