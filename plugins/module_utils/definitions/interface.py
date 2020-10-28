@@ -44,7 +44,7 @@ module_definition = {
     ],
     "get_interface_by_ip": [
         {
-          "name": "ipAddress",
+          "name": "ip_address",
           "required": True,
           "type": "string"
         }
@@ -58,26 +58,26 @@ module_definition = {
     ],
     "get_interface_info_by_id": [
         {
-          "name": "deviceId",
+          "name": "device_id",
           "required": True,
           "type": "string"
         }
     ],
     "get_device_interfaces_by_specified_range" : [
         {
-          "name": "deviceId",
+          "name": "device_id",
           "required": True,
           "sdk_name": "device_id",
           "type": "string"
         },
         {
-          "name": "recordsToReturn",
+          "name": "records_to_return",
           "required": True,
           "sdk_name": "records_to_return",
           "type": "integer"
         },
         {
-          "name": "startIndex",
+          "name": "start_index",
           "required": True,
           "sdk_name": "start_index",
           "type": "integer"
@@ -85,7 +85,7 @@ module_definition = {
     ],
     "get_device_interface_count_by_id": [
         {
-          "name": "deviceId",
+          "name": "device_id",
           "required": True,
           "type": "string"
         },
@@ -97,7 +97,7 @@ module_definition = {
     ],
     "get_interface_details": [
         {
-          "name": "deviceId",
+          "name": "device_id",
           "required": True,
           "type": "string"
         },
@@ -114,5 +114,47 @@ module_definition = {
             "type": "boolean"
         }
     ]
-  } 
+  },
+  "response": {
+    "get_all_interfaces": [
+        "response",
+        "version"
+    ],
+    "get_interface_by_id": [
+        "response",
+        "version"
+    ],
+    "get_device_interface_count": [
+        "response",
+        "version"
+    ],
+    "get_interface_by_ip": [
+        "response",
+        "version"
+    ],
+    "get_isis_interfaces": [
+        "response",
+        "version"
+    ],
+    "get_interface_info_by_id": [
+        "response",
+        "version"
+    ],
+    "get_device_interfaces_by_specified_range": [
+        "response",
+        "version"
+    ],
+    "get_device_interface_count_by_id": [
+        "response",
+        "version"
+    ],
+    "get_interface_details": [
+        "response",
+        "version"
+    ],
+    "get_ospf_interfaces": [
+        "response",
+        "version"
+    ]
+  }
 }
