@@ -217,12 +217,13 @@ class TagExistenceCriteria(ObjectExistenceCriteria):
             get_params = {},
             list_field = "response"
         )
-        self.OBJECT_EXISTS = "Tag already exists"
+        self.WARN_OBJECT_EXISTS = "Tag already existed and was updated."
+        self.ERR_MISSING_PARAM = "Missing 'name' parameter"
 
     def _object_is_equal(self, existing_object, candidate_params):
         if "name" in candidate_params.keys():
             return existing_object["name"] == candidate_params["name"]
         else:
-            self.dnac.fail_json(msg="Missing 'name' parameter")
+            self.dnac.fail_json(msg=self.ERR_MISSING_PARAM)
             
         

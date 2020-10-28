@@ -114,6 +114,7 @@ class Function(object):
             new_param = Parameter(param)
             self.params.append(new_param)
         self.response_schema = response_schema
+        self.existing_object = {}
 
     def get_required_params(self, object=False):
         required_params = []
@@ -148,7 +149,9 @@ class Function(object):
     def exec(self, dnac_api, module_params):
         family = getattr(dnac_api, self.family) 
         func = getattr(family, self.name)
-
+        if self.method == "put":
+            self.existing_object.update(module_params)
+            module_params = self.existing_object
         missing_params = {}
         if self._has_valid_schema(module_params, missing_params):
             response = func(**module_params)
@@ -221,7 +224,7 @@ class ModuleDefinition(object):
         return { k: v for k, v in module_params.items() if k not in self.common_params }
 
     # Strips all unused parameters (those that were not explicitly passed by the user)
-    def _strip_unused_params(self, module_params):
+    def strip_unused_params(self, module_params):
         return { k: v for k, v in module_params.items() if v }
     
     # Strips off the passed params that are not required.
@@ -287,7 +290,7 @@ class ModuleDefinition(object):
     # Retrieves the function that exactly matches the given method and module parameters.
     def choose_function(self, method, module_params):
         module_params = self._strip_common_params(module_params)
-        module_params = self._strip_unused_params(module_params)
+        module_params = self.strip_unused_params(module_params)
         
         if method in self.methods:
             ops = self.operations.get(method)
@@ -334,14 +337,15 @@ class ObjectExistenceCriteria(object):
         self.get_function = get_function
         self.get_params = get_params
         self.list_field = list_field
-        self.OBJECT_EXISTS = "Object already exists"
-
-
+        self.WARN_OBJECT_EXISTS = "Object already exists"
+        self.ERR_INVALID_GET_FUNC = "Function is not a 'get' function. Could not determine if object exists."
+        self.ERR_NO_GET_FUNCTION = "This module doesn't support the requested 'get' function"
+        
     def object_exists(self):
         function = self.dnac.moddef.get_function(self.get_function)
         if function:
             if function.method != "get":
-                self.dnac.fail_json(msg="Function is not a 'get' function. Could not determine if object exists.")
+                self.dnac.fail_json(msg=self.ERR_INVALID_GET_FUNC)
             else:
                 family = getattr(self.dnac.api, function.family) 
                 func = getattr(family, function.name)
@@ -352,7 +356,7 @@ class ObjectExistenceCriteria(object):
                         return True
                 return False
         else:
-            self.dnac.fail_json(msg="Incorrect 'get' function.")
+            self.dnac.fail_json(msg=self.ERR_NO_GET_FUNCTION)
 
     
     def _object_is_equal(self, existing_object, candidate_params):
@@ -382,7 +386,9 @@ class DNACModule(object):
         function, status = self.moddef.choose_function(method, self.params)
         if not function:
             self.fail_json(msg=status.get("msg"))
-        result = function.exec(self.api, self.params)
+        if function.method == "put":
+            function.existing_object = self.existing_object
+        result = function.exec(self.api, self.moddef.strip_unused_params(self.params))
 
         if result.is_successful():
             self.result.update(result.get_response())

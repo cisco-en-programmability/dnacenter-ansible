@@ -24,9 +24,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefin
 from ansible_collections.cisco.dnac.plugins.module_utils.definitions.tag import module_definition, TagExistenceCriteria
 
 
-
-
-
 def main():
 
     moddef = ModuleDefinition(module_definition)
@@ -58,7 +55,9 @@ def main():
         ec = TagExistenceCriteria(dnac)
 
         if ec.object_exists():
-            dnac.result.update({"error": ec.OBJECT_EXISTS})
+            dnac.result.update({"warning": ec.WARN_OBJECT_EXISTS})
+            dnac.exec("put")
+            
         else:
             dnac.exec("post")
 
