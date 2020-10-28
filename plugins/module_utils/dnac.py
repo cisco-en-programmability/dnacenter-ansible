@@ -32,7 +32,7 @@ class Parameter(object):
 
     def __init__(self, param):
         self.__dict__ = param
-        if self._is_object():
+        if self._is_object() or self._is_object_array():
             _schema = self.schema
             self.schema = []
             for param in _schema:
@@ -84,6 +84,9 @@ class Parameter(object):
 
     def _is_object(self):
         return self.type == "object"
+
+    def _is_object_array(self):
+        return self.type == "array" and self.array_type == "object"
 
     def has_valid_schema(self, module_params, missing_params={}):
         if self._is_object():
@@ -143,7 +146,7 @@ class Function(object):
         return result
 
     def _has_valid_response_schema(self, response):
-        return set(response.keys()).issubset(self.response_schema)
+        return set(response.keys()).issubset(self.response_schema.get("properties"))
 
     # Executes the function with the passed parameters
     def exec(self, dnac_api, module_params):
@@ -159,9 +162,10 @@ class Function(object):
                 result = Result(response)
             else:
                 result = Result(success=False, 
-                                error="Unexpected response from DNAC",
+                                error="The response received from DNAC doesn't match the response schema for this function.",
                                 response=response
                                 )
+                
         else:
             result = Result(success=False, 
                             error="Provided arguments do not comply with the function schema",
@@ -183,7 +187,7 @@ class Result(object):
         self.error = error
 
     def get_response(self):
-        return self.response
+        return {"dnac_response": self.response}
 
     def get_error(self):
         return self.error
@@ -199,7 +203,7 @@ class ModuleDefinition(object):
         self.family = module_definition.get("family")
         _params = module_definition.get("parameters")
         _operations = module_definition.get("operations")
-        _response_schema = module_definition.get("response")
+        _response_schema = module_definition.get("responses")
         self.methods = ["post", "put", "delete", "get"]
         self.operations = dict.fromkeys(self.methods, [])
 

@@ -1,54 +1,110 @@
-module_definition = {
-  "name": "sda_auth_profile",
-  "family": "sda",
-  "operations": {
-      "post": ["add_default_authentication_profile"],
-      "put": ["update_default_authentication_profile"],
-      "delete": ["delete_default_authentication_profile"],
-      "get": ["get_default_authentication_profile"]
-  },
-  "parameters": {
-  "add_default_authentication_profile": [
-    {
-      "name": "headers",
-      "type": "object"
+import json
+
+module_definition = json.loads('''{
+    "family": "sda",
+    "name": "sda_auth_profile",
+    "operations": {
+        "delete": [
+            "delete_default_authentication_profile"
+        ],
+        "get": [
+            "get_default_authentication_profile"
+        ],
+        "post": [
+            "add_default_authentication_profile"
+        ],
+        "put": [
+            "update_default_authentication_profile"
+        ]
     },
-    {
-      "name": "payload",
-      "type": "array"
-    }
-  ],
-  "delete_default_authentication_profile": [
-    {
-      "required": True,
-      "name": "site_name_hierarchy",
-      "type": "string"
+    "parameters": {
+        "add_default_authentication_profile": [
+            {
+                "array_type": "object",
+                "name": "payload",
+                "required": true,
+                "schema": [
+                    {
+                        "name": "siteNameHierarchy",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "authenticateTemplateName",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "type": "array"
+            }
+        ],
+        "delete_default_authentication_profile": [
+            {
+                "name": "site_name_hierarchy",
+                "required": true,
+                "type": "string"
+            }
+        ],
+        "get_default_authentication_profile": [
+            {
+                "name": "site_name_hierarchy",
+                "required": true,
+                "type": "string"
+            }
+        ],
+        "update_default_authentication_profile": [
+            {
+                "array_type": "object",
+                "name": "payload",
+                "required": true,
+                "schema": [
+                    {
+                        "name": "siteNameHierarchy",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "authenticateTemplateName",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "type": "array"
+            }
+        ]
     },
-    {
-      "name": "headers",
-      "type": "object"
+    "responses": {
+        "add_default_authentication_profile": {
+            "properties": [
+                "status",
+                "description",
+                "executionStatusUrl"
+            ],
+            "type": "object"
+        },
+        "delete_default_authentication_profile": {
+            "properties": [
+                "status",
+                "description",
+                "executionStatusUrl"
+            ],
+            "type": "object"
+        },
+        "get_default_authentication_profile": {
+            "properties": [
+                "siteNameHierarchy",
+                "authenticateTemplateName",
+                "authenticateTemplateId"
+            ],
+            "type": "object"
+        },
+        "update_default_authentication_profile": {
+            "properties": [
+                "status",
+                "description",
+                "executionStatusUrl"
+            ],
+            "type": "object"
+        }
     }
-  ],
-  "get_default_authentication_profile": [
-    {
-      "required": True,
-      "name": "site_name_hierarchy",
-      "type": "string"
-    },
-    {
-      "name": "headers",
-      "type": "object"
-    }
-  ],
-  "update_default_authentication_profile": [
-    {
-      "name": "headers",
-      "type": "object"
-    },
-    {
-      "name": "payload",
-      "type": "array"
-    }
-  ]
-}
-}
+}''')

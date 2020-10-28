@@ -51,8 +51,9 @@ def main():
         dnac.exec("delete")
 
     elif state == "present":
-        # check whether the object exists or not
-        # and decide between put and post
+        # TO DO: Code the logic necessary for determining if an object exists
+        # Right now it's not possible as the DNAC instance is returning errors
+        # for the /business/sda/authentication-profile endpoint
         dnac.exec("post")
 
     dnac.exit_json()
