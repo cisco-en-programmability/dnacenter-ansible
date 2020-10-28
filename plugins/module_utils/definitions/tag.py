@@ -1,5 +1,3 @@
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ObjectExistenceCriteria
-
 module_definition = {
   "family": "tag",
   "name": "tag",
@@ -208,6 +206,8 @@ module_definition = {
     ],
   }
 }
+
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ObjectExistenceCriteria
 
 class TagExistenceCriteria(ObjectExistenceCriteria):
     def __init__(self, dnac):

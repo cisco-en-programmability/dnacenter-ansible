@@ -21,7 +21,7 @@ RETURN = r'''
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.site import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.site import module_definition, SiteExistenceCriteria
 
 
 
@@ -44,6 +44,7 @@ def main():
 
     state = module.params.get("state")
 
+
     if state == "query":
         dnac.exec("get")
         
@@ -51,9 +52,15 @@ def main():
         dnac.exec("delete")
 
     elif state == "present":
-        # check whether the object exists or not
-        # and decide between put and post
-        dnac.exec("post")
+        
+        ec = SiteExistenceCriteria(dnac)
+
+        if ec.object_exists():
+            dnac.exec("put")
+            dnac.result.update({"warning": ec.WARN_OBJECT_EXISTS})
+            
+        else:
+            dnac.exec("post")
 
     dnac.exit_json()
 

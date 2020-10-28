@@ -287,6 +287,13 @@ class ModuleDefinition(object):
         return []
 
 
+    def get_put_function(self):
+        if "put" in self.operations.keys():
+            return self.operations["put"][0], {"msg": "Success"}
+        else:
+            return None, {"msg": "This module doesn't have a 'put' function"}
+
+
     # Retrieves the function that exactly matches the given method and module parameters.
     def choose_function(self, method, module_params):
         module_params = self._strip_common_params(module_params)
@@ -352,7 +359,7 @@ class ObjectExistenceCriteria(object):
                 response = func(**self.get_params)
                 for obj in response.get(self.list_field):
                     if self._object_is_equal(obj, self.dnac.params):
-                        self.dnac.existing_object = obj
+                        self.dnac.existing_object = self._transform_params(obj)
                         return True
                 return False
         else:
@@ -360,6 +367,9 @@ class ObjectExistenceCriteria(object):
 
     
     def _object_is_equal(self, existing_object, candidate_params):
+        pass
+
+    def _transform_params(self, existing_object):
         pass
 
     
@@ -383,11 +393,13 @@ class DNACModule(object):
 
        
     def exec(self, method):
-        function, status = self.moddef.choose_function(method, self.params)
+        if method == "put":
+            function, status = self.moddef.get_put_function()
+            function.existing_object = self.existing_object
+        else:
+            function, status = self.moddef.choose_function(method, self.params)
         if not function:
             self.fail_json(msg=status.get("msg"))
-        if function.method == "put":
-            function.existing_object = self.existing_object
         result = function.exec(self.api, self.moddef.strip_unused_params(self.params))
 
         if result.is_successful():
