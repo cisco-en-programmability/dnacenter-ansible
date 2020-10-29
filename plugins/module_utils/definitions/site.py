@@ -1,421 +1,320 @@
-module_definition = {
-  "name": "site",
-  "family": "sites",
-  "operations": {
-      "post": ["create_site"],
-      "put": ["update_site"],
-      "delete": ["delete_site"],
-      "get": [
-        "get_site",
-        "get_site_count"
+import json
+
+module_definition = json.loads('''{
+    "family": "sites",
+    "name": "site",
+    "operations": {
+        "delete": [
+            "delete_site"
+        ],
+        "get": [
+            "get_site",
+            "get_site_count"
+        ],
+        "post": [
+            "create_site"
+        ],
+        "put": [
+            "update_site"
         ]
-  },
-  "parameters": {
-  "create_site": [
-    {
-      "enum": [
-        "area",
-        "building",
-        "floor"
-      ],
-      "name": "type",
-      "required": True,
-      "type": "string"
     },
-    {
-      "name": "site",
-      "type": "object",
-      "required": True,
-      "schema": [
-        {
-          "type": "object",
-          "schema": [
+    "parameters": {
+        "create_site": [
             {
-              "type": "string",
-              "enum": [],
-              "sensitive": False,
-              "default": "",
-              "constraints": [],
-              "required": True,
-              "name": "name",
-              "displayText": "Name"
+                "name": "site",
+                "required": true,
+                "schema": [
+                    {
+                        "name": "area",
+                        "required": false,
+                        "schema": [
+                            {
+                                "name": "name",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "name": "parentName",
+                                "required": false,
+                                "type": "string"
+                            }
+                        ],
+                        "type": "object"
+                    },
+                    {
+                        "name": "building",
+                        "required": false,
+                        "schema": [
+                            {
+                                "name": "name",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "name": "address",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "name": "parentName",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "name": "latitude",
+                                "required": false,
+                                "type": "number"
+                            },
+                            {
+                                "name": "longitude",
+                                "required": false,
+                                "type": "number"
+                            }
+                        ],
+                        "type": "object"
+                    },
+                    {
+                        "name": "floor",
+                        "required": false,
+                        "schema": [
+                            {
+                                "name": "name",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "name": "parentName",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "name": "rfModel",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "name": "width",
+                                "required": false,
+                                "type": "number"
+                            },
+                            {
+                                "name": "length",
+                                "required": false,
+                                "type": "number"
+                            },
+                            {
+                                "name": "height",
+                                "required": false,
+                                "type": "number"
+                            }
+                        ],
+                        "type": "object"
+                    }
+                ],
+                "type": "object"
             },
             {
-              "type": "string",
-              "enum": [],
-              "sensitive": False,
-              "default": "",
-              "constraints": [],
-              "required": True,
-              "name": "parentName",
-              "displayText": "Parent Name"
+                "enum": [
+                    "area",
+                    "building",
+                    "floor"
+                ],
+                "name": "type",
+                "required": true,
+                "type": "string"
             }
-          ],
-          "name": "area",
-          "displayText": "Area"
-        },
-        {
-          "type": "object",
-          "schema": [
-            {
-              "type": "string",
-              "enum": [],
-              "sensitive": False,
-              "default": "",
-              "constraints": [],
-              "required": True,
-              "name": "name",
-              "displayText": "Name"
-            },
-            {
-              "type": "string",
-              "enum": [],
-              "sensitive": False,
-              "default": "",
-              "constraints": [],
-              "required": False,
-              "name": "address",
-              "displayText": "Address"
-            },
-            {
-              "type": "string",
-              "enum": [],
-              "sensitive": False,
-              "default": "",
-              "constraints": [],
-              "required": True,
-              "name": "parentName",
-              "displayText": "Parent Name"
-            },
-            {
-              "type": "number",
-              "constraints": [],
-              "required": True,
-              "name": "latitude",
-              "displayText": "Latitude"
-            },
-            {
-              "type": "number",
-              "constraints": [],
-              "required": True,
-              "name": "longitude",
-              "displayText": "Longitude"
-            }
-          ],
-          "name": "building",
-          "displayText": "Building"
-        },
-        {
-          "type": "object",
-          "schema": [
-            {
-              "type": "string",
-              "enum": [],
-              "sensitive": False,
-              "default": "",
-              "constraints": [],
-              "required": True,
-              "name": "name",
-              "displayText": "Name"
-            },
-            {
-              "type": "string",
-              "enum": [],
-              "sensitive": False,
-              "default": "",
-              "constraints": [],
-              "required": True,
-              "name": "parentName",
-              "displayText": "Parent Name"
-            },
-            {
-              "type": "string",
-              "enum": [
-                "Cubes And Walled Offices",
-                "Drywall Office Only",
-                "Indoor High Ceiling",
-                "Outdoor Open Space"
-              ],
-              "sensitive": False,
-              "default": "",
-              "constraints": [],
-              "required": True,
-              "name": "rfModel",
-              "displayText": "Rf Model"
-            },
-            {
-              "type": "number",
-              "constraints": [],
-              "required": True,
-              "name": "width",
-              "displayText": "Width"
-            },
-            {
-              "type": "number",
-              "constraints": [],
-              "required": True,
-              "name": "length",
-              "displayText": "Length"
-            },
-            {
-              "type": "number",
-              "constraints": [],
-              "required": True,
-              "name": "height",
-              "displayText": "Height"
-            }
-          ],
-          "required": False,
-          "name": "floor",
-          "displayText": "Floor"
-        }
-      ]
-    }
-  ],
-  "delete_site": [
-    {
-      "name": "site_id",
-      "required": True,
-      "type": "string"
-    }
-  ],
-  "get_site": [
-    {
-      "name": "limit",
-      "required": False,
-      "sdk_name": "limit",
-      "type": "string"
-    },
-    {
-      "name": "name",
-      "required": False,
-      "sdk_name": "name",
-      "type": "string"
-    },
-    {
-      "name": "offset",
-      "required": False,
-      "sdk_name": "offset",
-      "type": "string"
-    },
-    {
-      "name": "siteId",
-      "required": False,
-      "sdk_name": "site_id",
-      "type": "string"
-    },
-    {
-      "name": "type",
-      "required": False,
-      "sdk_name": "type",
-      "type": "string"
-    }
-  ],
-  "get_site_count": [
-    {
-      "name": "siteId",
-      "required": False,
-      "sdk_name": "site_id",
-      "type": "string"
-    },
-    {
-        "name": "count",
-        "type": "boolean",
-        "required": True
-      }
-  ],
-  "update_site": [
-    {
-      "name": "site_id",
-      "required": True,
-      "type": "string"
-    },
-    {
-      "name": "site",
-      "required": True,
-      "type": "object",
-      "schema": [
-        {
-          "type": "object",
-          "schema": [
-            {
-              "type": "string",
-              "enum": [],
-              "sensitive": False,
-              "default": "",
-              "constraints": [],
-              "required": True,
-              "name": "name",
-              "displayText": "Name"
-            },
-            {
-              "type": "string",
-              "enum": [],
-              "sensitive": False,
-              "default": "",
-              "constraints": [],
-              "required": True,
-              "name": "parentName",
-              "displayText": "Parent Name"
-            }
-          ],
-          "name": "area",
-          "displayText": "Area"
-        },
-        {
-          "type": "object",
-          "schema": [
-            {
-              "type": "string",
-              "enum": [],
-              "sensitive": False,
-              "default": "",
-              "constraints": [],
-              "required": True,
-              "name": "name",
-              "displayText": "Name"
-            },
-            {
-              "type": "string",
-              "enum": [],
-              "sensitive": False,
-              "default": "",
-              "constraints": [],
-              "required": False,
-              "name": "address",
-              "displayText": "Address"
-            },
-            {
-              "type": "string",
-              "enum": [],
-              "sensitive": False,
-              "default": "",
-              "constraints": [],
-              "required": True,
-              "name": "parentName",
-              "displayText": "Parent Name"
-            },
-            {
-              "type": "number",
-              "constraints": [],
-              "required": True,
-              "name": "latitude",
-              "displayText": "Latitude"
-            },
-            {
-              "type": "number",
-              "constraints": [],
-              "required": True,
-              "name": "longitude",
-              "displayText": "Longitude"
-            }
-          ],
-          "name": "building",
-          "displayText": "Building"
-        },
-        {
-          "type": "object",
-          "schema": [
-            {
-              "type": "string",
-              "enum": [],
-              "sensitive": False,
-              "default": "",
-              "constraints": [],
-              "required": True,
-              "name": "name",
-              "displayText": "Name"
-            },
-            {
-              "type": "string",
-              "enum": [],
-              "sensitive": False,
-              "default": "",
-              "constraints": [],
-              "required": True,
-              "name": "parentName",
-              "displayText": "Parent Name"
-            },
-            {
-              "type": "string",
-              "enum": [
-                "Cubes And Walled Offices",
-                "Drywall Office Only",
-                "Indoor High Ceiling",
-                "Outdoor Open Space"
-              ],
-              "sensitive": False,
-              "default": "",
-              "constraints": [],
-              "required": True,
-              "name": "rfModel",
-              "displayText": "Rf Model"
-            },
-            {
-              "type": "number",
-              "constraints": [],
-              "required": True,
-              "name": "width",
-              "displayText": "Width"
-            },
-            {
-              "type": "number",
-              "constraints": [],
-              "required": True,
-              "name": "length",
-              "displayText": "Length"
-            },
-            {
-              "type": "number",
-              "constraints": [],
-              "required": True,
-              "name": "height",
-              "displayText": "Height"
-            }
-          ],
-          "required": False,
-          "name": "floor",
-          "displayText": "Floor"
-        }
-      ]
-    },
-    {
-      "enum": [
-        "area",
-        "building",
-        "floor"
-      ],
-      "name": "type",
-      "required": True,
-      "type": "string"
-    }
-  ]
-},
-  "response": {
-    "create_site": [
-        "executionId",
-        "executionStatusUrl",
-        "message"
         ],
-    "delete_site": [
-        "status",
-        "message"
+        "delete_site": [
+            {
+                "name": "site_id",
+                "required": true,
+                "type": "string"
+            }
         ],
-    "get_site": [
-        "response"
+        "get_site": [
+            {
+                "name": "limit",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "name",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "offset",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "site_id",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "type",
+                "required": false,
+                "type": "string"
+            }
         ],
-    "get_site_count": [
-        "response",
-        "version"
-    ],
-    ##### The schema for 'update_site' is incorrect in the specification
-    "update_site": [
-        "executionId",
-        "executionStatusUrl",
-        "message"
+        "get_site_count": [
+            {
+                "name": "site_id",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "count",
+                "required": true,
+                "type": "boolean"
+            }
+        ],
+        "update_site": [
+            {
+                "name": "site_id",
+                "required": true,
+                "type": "string"
+            },
+            {
+                "name": "site",
+                "required": true,
+                "schema": [
+                    {
+                        "name": "area",
+                        "required": false,
+                        "schema": [
+                            {
+                                "name": "name",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "name": "parentName",
+                                "required": false,
+                                "type": "string"
+                            }
+                        ],
+                        "type": "object"
+                    },
+                    {
+                        "name": "building",
+                        "required": false,
+                        "schema": [
+                            {
+                                "name": "name",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "name": "address",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "name": "parentName",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "name": "latitude",
+                                "required": false,
+                                "type": "number"
+                            },
+                            {
+                                "name": "longitude",
+                                "required": false,
+                                "type": "number"
+                            }
+                        ],
+                        "type": "object"
+                    },
+                    {
+                        "name": "floor",
+                        "required": false,
+                        "schema": [
+                            {
+                                "name": "name",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "name": "rfModel",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "name": "width",
+                                "required": false,
+                                "type": "number"
+                            },
+                            {
+                                "name": "length",
+                                "required": false,
+                                "type": "number"
+                            },
+                            {
+                                "name": "height",
+                                "required": false,
+                                "type": "number"
+                            }
+                        ],
+                        "type": "object"
+                    }
+                ],
+                "type": "object"
+            },
+            {
+                "enum": [
+                    "area",
+                    "building",
+                    "floor"
+                ],
+                "name": "type",
+                "required": true,
+                "type": "string"
+            }
         ]
-  }
-}
+    },
+    "responses": {
+        "create_site": {
+            "properties": [
+                "executionId",
+                "executionStatusUrl",
+                "message"
+            ],
+            "type": "object"
+        },
+        "delete_site": {
+            "properties": [
+                "status",
+                "message"
+            ],
+            "type": "object"
+        },
+        "get_site": {
+            "properties": [
+                "response"
+            ],
+            "type": "object"
+        },
+        "get_site_count": {
+            "properties": [
+                "response",
+                "version"
+            ],
+            "type": "object"
+        },
+        "update_site": {
+            "properties": [
+                "result",
+                "response",
+                "status"
+            ],
+            "type": "object"
+        }
+    }
+}''')
 
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ObjectExistenceCriteria
 

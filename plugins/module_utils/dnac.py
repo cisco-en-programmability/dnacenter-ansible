@@ -86,7 +86,10 @@ class Parameter(object):
         return self.type == "object"
 
     def _is_object_array(self):
-        return self.type == "array" and self.array_type == "object"
+        if "array_type" in self.__dict__.keys():
+            return self.type == "array" and self.array_type == "object"
+        else:
+            return False
 
     def has_valid_schema(self, module_params, missing_params={}):
         if self._is_object():

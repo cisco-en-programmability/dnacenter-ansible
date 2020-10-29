@@ -1,229 +1,219 @@
-module_definition = {
-  "name": "task",
-  "family": "task",
-  "operations": {
-      "get": [
-        "get_task_by_id",
-        "get_task_by_operationid",
-        "get_task_count",
-        "get_tasks",
-        "get_task_tree"
+import json
+
+module_definition = json.loads('''{
+    "family": "task",
+    "name": "task",
+    "operations": {
+        "get": [
+            "get_tasks",
+            "get_task_by_id",
+            "get_task_count",
+            "get_task_by_operationid",
+            "get_task_tree"
         ]
-  },
-  "parameters": {
-      "get_task_by_id": [
-        {
-          "name": "task_id",
-          "required": True,
-          "type": "TaskId"
+    },
+    "parameters": {
+        "get_task_by_id": [
+            {
+                "name": "task_id",
+                "required": true,
+                "type": "string"
+            }
+        ],
+        "get_task_by_operationid": [
+            {
+                "name": "limit",
+                "required": true,
+                "type": "integer"
+            },
+            {
+                "name": "offset",
+                "required": true,
+                "type": "integer"
+            },
+            {
+                "name": "operation_id",
+                "required": true,
+                "type": "string"
+            }
+        ],
+        "get_task_count": [
+            {
+                "name": "data",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "end_time",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "error_code",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "failure_reason",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "is_error",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "parent_id",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "progress",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "service_type",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "start_time",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "username",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "count",
+                "required": true,
+                "type": "boolean"
+            }
+        ],
+        "get_task_tree": [
+            {
+                "name": "task_id",
+                "required": true,
+                "type": "string"
+            },
+            {
+                "name": "tree",
+                "required": true,
+                "type": "boolean"
+            }
+        ],
+        "get_tasks": [
+            {
+                "name": "data",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "end_time",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "error_code",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "failure_reason",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "is_error",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "limit",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "offset",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "order",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "parent_id",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "progress",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "service_type",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "sort_by",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "start_time",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "username",
+                "required": false,
+                "type": "string"
+            }
+        ]
+    },
+    "responses": {
+        "get_task_by_id": {
+            "properties": [
+                "response",
+                "version"
+            ],
+            "type": "object"
+        },
+        "get_task_by_operationid": {
+            "properties": [
+                "response",
+                "version"
+            ],
+            "type": "object"
+        },
+        "get_task_count": {
+            "properties": [
+                "response",
+                "version"
+            ],
+            "type": "object"
+        },
+        "get_task_tree": {
+            "properties": [
+                "response",
+                "version"
+            ],
+            "type": "object"
+        },
+        "get_tasks": {
+            "properties": [
+                "response",
+                "version"
+            ],
+            "type": "object"
         }
-      ],
-      "get_task_by_operationid": [
-        {
-          "name": "limit",
-          "required": True,
-          "sdk_name": "limit",
-          "type": "integer"
-        },
-        {
-          "name": "offset",
-          "required": True,
-          "sdk_name": "offset",
-          "type": "integer"
-        },
-        {
-          "name": "operationId",
-          "required": True,
-          "sdk_name": "operation_id",
-          "type": "string"
-        }
-      ],
-      "get_task_count": [
-        {
-          "name": "data",
-          "required": False,
-          "sdk_name": "data",
-          "type": "string"
-        },
-        {
-          "name": "endTime",
-          "required": False,
-          "sdk_name": "end_time",
-          "type": "string"
-        },
-        {
-          "name": "errorCode",
-          "required": False,
-          "sdk_name": "error_code",
-          "type": "string"
-        },
-        {
-          "name": "failureReason",
-          "required": False,
-          "sdk_name": "failure_reason",
-          "type": "string"
-        },
-        {
-          "name": "isError",
-          "required": False,
-          "sdk_name": "is_error",
-          "type": "string"
-        },
-        {
-          "name": "parentId",
-          "required": False,
-          "sdk_name": "parent_id",
-          "type": "string"
-        },
-        {
-          "name": "progress",
-          "required": False,
-          "sdk_name": "progress",
-          "type": "string"
-        },
-        {
-          "name": "serviceType",
-          "required": False,
-          "sdk_name": "service_type",
-          "type": "string"
-        },
-        {
-          "name": "startTime",
-          "required": False,
-          "sdk_name": "start_time",
-          "type": "string"
-        },
-        {
-          "name": "username",
-          "required": False,
-          "sdk_name": "username",
-          "type": "string"
-        },
-          {
-            "name": "count",
-            "type": "boolean",
-            "required": True
-          }
-      ],
-      "get_tasks": [
-        {
-          "name": "data",
-          "required": False,
-          "sdk_name": "data",
-          "type": "string"
-        },
-        {
-          "name": "endTime",
-          "required": False,
-          "sdk_name": "end_time",
-          "type": "string"
-        },
-        {
-          "name": "errorCode",
-          "required": False,
-          "sdk_name": "error_code",
-          "type": "string"
-        },
-        {
-          "name": "failureReason",
-          "required": False,
-          "sdk_name": "failure_reason",
-          "type": "string"
-        },
-        {
-          "name": "isError",
-          "required": False,
-          "sdk_name": "is_error",
-          "type": "string"
-        },
-        {
-          "name": "limit",
-          "required": False,
-          "sdk_name": "limit",
-          "type": "string"
-        },
-        {
-          "name": "offset",
-          "required": False,
-          "sdk_name": "offset",
-          "type": "string"
-        },
-        {
-          "name": "order",
-          "required": False,
-          "sdk_name": "order",
-          "type": "string"
-        },
-        {
-          "name": "parentId",
-          "required": False,
-          "sdk_name": "parent_id",
-          "type": "string"
-        },
-        {
-          "name": "progress",
-          "required": False,
-          "sdk_name": "progress",
-          "type": "string"
-        },
-        {
-          "name": "serviceType",
-          "required": False,
-          "sdk_name": "service_type",
-          "type": "string"
-        },
-        {
-          "name": "sortBy",
-          "required": False,
-          "sdk_name": "sort_by",
-          "type": "string"
-        },
-        {
-          "name": "startTime",
-          "required": False,
-          "sdk_name": "start_time",
-          "type": "string"
-        },
-        {
-          "name": "username",
-          "required": False,
-          "sdk_name": "username",
-          "type": "string"
-        }
-      ],
-      "get_task_tree": [
-        {
-          "name": "task_id",
-          "required": True,
-          "type": "string"
-        },
-          {
-            "name": "tree",
-            "type": "boolean",
-            "required": True
-          }
-      ]
-  },
-  "response": {
-    "get_task_by_id":[
-        "response",
-        "version"
-    ],
-    "get_task_by_operationid":[
-        "response",
-        "version"
-    ],
-    "get_task_count":[
-        "response",
-        "version"
-    ],
-    "get_tasks":[
-        "response",
-        "version"
-    ],
-    "get_task_tree":[
-        "response",
-        "version"
-    ]
-  }
-}
+    }
+}''')
