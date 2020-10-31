@@ -55,8 +55,9 @@ def main():
         ec = TagExistenceCriteria(dnac)
 
         if ec.object_exists():
-            dnac.result.update({"warning": ec.WARN_OBJECT_EXISTS})
             dnac.exec("put")
+            dnac.result.update({"warning": ec.WARN_OBJECT_EXISTS})
+            
             
         else:
             dnac.exec("post")

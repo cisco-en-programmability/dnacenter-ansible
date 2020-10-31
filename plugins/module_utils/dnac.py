@@ -91,7 +91,9 @@ class Parameter(object):
         else:
             return False
 
-    def has_valid_schema(self, module_params, missing_params={}):
+    # TO DO: Add logic to validate parameters of type 'array of objects'
+    # Right now if a parameter is an array of objects, we're not validating its schema
+    def has_valid_schema(self, module_params, missing_params={}): 
         if self._is_object():
             result = True
             for param in self.schema:
@@ -142,14 +144,23 @@ class Function(object):
     def needs_passed_params(self, module_params):
         return set(module_params.keys()).issubset(self.get_required_params())
 
-    def _has_valid_schema(self, module_params, missing_params={}):
+    def _has_valid_request_schema(self, module_params, missing_params={}):
         result = True
         for param in self.params:
             result = result and param.has_valid_schema(module_params.get(param.name), missing_params)
         return result
 
     def _has_valid_response_schema(self, response):
-        return set(response.keys()).issubset(self.response_schema.get("properties"))
+        if self.response_schema.get("type") == "array":
+            if isinstance(response, list):
+                return True
+            elif isinstance(response, dict):
+                return "response" in response.keys()
+        elif self.response_schema.get("type") == "object":
+            if isinstance(response, dict):
+                return set(response.keys()).issubset(self.response_schema.get("properties"))                
+        else:
+            return False
 
     # Executes the function with the passed parameters
     def exec(self, dnac_api, module_params):
@@ -159,7 +170,7 @@ class Function(object):
             self.existing_object.update(module_params)
             module_params = self.existing_object
         missing_params = {}
-        if self._has_valid_schema(module_params, missing_params):
+        if self._has_valid_request_schema(module_params, missing_params):
             response = func(**module_params)
             if self._has_valid_response_schema(response):
                 result = Result(response)
@@ -208,7 +219,8 @@ class ModuleDefinition(object):
         _operations = module_definition.get("operations")
         _response_schema = module_definition.get("responses")
         self.methods = ["post", "put", "delete", "get"]
-        self.operations = dict.fromkeys(self.methods, [])
+        #self.operations = dict.fromkeys(self.methods, [])
+        self.operations = dict()
 
         for method, func_list in _operations.items():
             func_obj_list = []
@@ -377,7 +389,7 @@ class ObjectExistenceCriteria(object):
         pass
 
     def _transform_params(self, existing_object):
-        pass
+        return existing_object
 
     
 
@@ -402,11 +414,14 @@ class DNACModule(object):
     def exec(self, method):
         if method == "put":
             function, status = self.moddef.get_put_function()
+            if not function:
+                self.fail_json(msg=status.get("msg"))
             function.existing_object = self.existing_object
         else:
             function, status = self.moddef.choose_function(method, self.params)
-        if not function:
-            self.fail_json(msg=status.get("msg"))
+            if not function:
+                self.fail_json(msg=status.get("msg"))
+
         result = function.exec(self.api, self.moddef.strip_unused_params(self.params))
 
         if result.is_successful():
