@@ -47,10 +47,10 @@ def main():
     if state == "query":
         dnac.exec("get")
         
-    elif state == "absent" or state == "delete":
+    elif state == "absent":
         dnac.exec("delete")
 
-    elif state == "present" or state == "create":
+    elif state == "present":
         
         ec = ApplicationSetExistenceCriteria(dnac)
 
