@@ -47,10 +47,10 @@ def main():
     if state == "query":
         dnac.exec("get")
         
-    elif state == "absent" or state == "delete":
+    elif state == "delete":
         dnac.exec("delete")
 
-    elif state == "present" or state == "create":
+    elif state == "create":
         dnac.exec("post")
 
     elif state == "update":
