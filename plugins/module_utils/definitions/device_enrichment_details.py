@@ -12,9 +12,9 @@ module_definition = json.loads('''{
         "get_device_enrichment_details": [
             {
                 "name": "headers",
-                "type": "object",
                 "required": true,
-                "schema": []
+                "schema": [],
+                "type": "object"
             }
         ]
     },

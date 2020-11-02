@@ -60,12 +60,17 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
+                "array_type": "string",
                 "name": "ipAddress",
                 "required": true,
+                "schema": [],
                 "type": "array"
             },
             {
+                "array_type": "string",
                 "name": "merakiOrgId",
+                "required": false,
+                "schema": [],
                 "type": "array"
             },
             {
@@ -146,7 +151,21 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
+                "array_type": "object",
                 "name": "updateMgmtIPaddressList",
+                "required": false,
+                "schema": [
+                    {
+                        "name": "existMgmtIpAddress",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "newMgmtIpAddress",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
                 "type": "array"
             },
             {
@@ -412,12 +431,17 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
+                "array_type": "string",
                 "name": "ipAddress",
                 "required": true,
+                "schema": [],
                 "type": "array"
             },
             {
+                "array_type": "string",
                 "name": "merakiOrgId",
+                "required": false,
+                "schema": [],
                 "type": "array"
             },
             {
@@ -498,7 +522,21 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
+                "array_type": "object",
                 "name": "updateMgmtIPaddressList",
+                "required": false,
+                "schema": [
+                    {
+                        "name": "existMgmtIpAddress",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "newMgmtIpAddress",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
                 "type": "array"
             },
             {

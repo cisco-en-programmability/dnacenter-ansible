@@ -93,25 +93,3 @@ module_definition = json.loads('''{
         }
     }
 }''')
-
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ObjectExistenceCriteria
-
-class ApplicationSetExistenceCriteria(ObjectExistenceCriteria):
-    def __init__(self, dnac):
-        super(ApplicationSetExistenceCriteria, self).__init__(
-            dnac = dnac,
-            get_function = "get_application_sets",
-            get_params = {},
-            list_field = "response"
-        )
-        self.ERR_OBJECT_EXISTS = "Application already exists."
-        self.ERR_MISSING_PARAM = "Missing 'name' parameter"
-
-    # Modify the logic to determine if the object exists based on the specific
-    # criteria used by each module
-    def _object_is_equal(self, existing_object, candidate_params):
-        for param in candidate_params["payload"]:
-            if "name" in param.keys():
-                return existing_object["name"] == candidate_params["payload"][0]["name"]
-            else:
-                self.dnac.fail_json(msg=self.ERR_MISSING_PARAM)
