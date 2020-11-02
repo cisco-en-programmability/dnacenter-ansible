@@ -35,6 +35,8 @@
       #     - "<string>"
       #
       state: query
+      count: true
+      event_ids: abc123
     register: result
 
   - name: Show task id

@@ -1,3 +1,5 @@
 cisco-dnac-*.tar.gz
 tmp/*
 __pycache__/
+docs/examples/*.json
+
