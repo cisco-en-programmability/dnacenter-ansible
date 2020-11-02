@@ -1,0 +1,54 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Create network device
+    cisco.dnac.network_device:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      
+      state: update
+      cliTransport: ssh
+      enablePassword: test
+      ipAddress: 1.1.1.21
+      password: test
+      snmpAuthPassphrase: test
+      snmpAuthProtocol: test
+      snmpMode: test
+      snmpPrivPassphrase: test
+      snmpPrivProtocol: test
+      snmpROCommunity: test
+      snmpRWCommunity: test
+      snmpRetry: 2
+      snmpVersion: v2
+      snmpTimeout: 5
+      snmpUserName: test
+      userName: test
+ 
+    register: result
+
+  - name: Show task id
+    debug:
+      msg: "{{ result }}"
+
+
+  - name: Get task tree
+    cisco.dnac.task:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: query
+      task_id: "{{ result.dnac_response.response.taskId }}"
+      tree: True
+    register: result
+
+  - name: Show retrieved task
+    debug:
+      msg: "{{ result.dnac_response.response }}"

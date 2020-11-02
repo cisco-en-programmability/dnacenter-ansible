@@ -1,0 +1,21 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get data
+    cisco.dnac.network_device_module:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: query
+      #device_id: a9b86e42-6573-4f5d-a0bf-a743e290f46a
+      id: 2cca6af2-a95e-4a8a-b2e1-e715ce546520  # This is the module id
+      #count: true
+    register: result
+
+  - name: Show data
+    debug:
+      msg: "{{ result }}"

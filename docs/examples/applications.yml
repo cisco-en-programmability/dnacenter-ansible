@@ -1,0 +1,70 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get all tasks
+    cisco.dnac.applications:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: query
+      #count: True
+      #
+      #state: delete
+      #id: 548b7d1e-0b83-4576-a3bf-6d1c57f51257
+      #
+      # state: create
+      # payload:
+      #   - name: string
+      #   - networkApplications:
+      #     - appProtocol: string
+      #       applicationSubType: string
+      #       applicationType: string
+      #       categoryId: string
+      #       displayName: string
+      #       engineId: string
+      #       helpString: string
+      #       longDescription: string
+      #       name: string
+      #       popularity: string
+      #       rank: string
+      #       trafficClass: string
+      #       serverName: string
+      #       url: string
+      #       dscp: string
+      #       ignoreConflict: string
+      #     networkIdentity:
+      #     - displayName: string
+      #       lowerPort: string
+      #       ports: string
+      #       protocol: string
+      #       upperPort: string
+      #     applicationSet:
+      #       idRef: string
+    register: result
+
+  - name: Show retrieved tasks
+    debug:
+      msg: "{{ result }}"
+
+  - name: Get task tree
+    cisco.dnac.task:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: query
+      task_id: "{{ result.dnac_response.response.taskId }}"
+      tree: True
+    register: result
+
+  - name: Show retrieved task
+    debug:
+      msg: "{{ result.dnac_response.response }}"
+

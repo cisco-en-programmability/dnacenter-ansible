@@ -1,0 +1,69 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Create/Update/Query Tag
+    cisco.dnac.tag:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      # state: present
+      # description: Another new tag description
+      # name: Tag005
+      # dynamic_rules:
+      # - memberType: SomeType1
+      #   rules:
+      #     values:
+      #     - value1
+      #     - value2
+      #     items:
+      #     - item1
+      #     - item2
+      #     operation: SomeOperation1
+      #     name: OperationName1
+      #     value: OpertionValue1
+      # - memberType: SomeType2
+      #   rules:
+      #     values:
+      #     - value1
+      #     - value2
+      #     items:
+      #     - item1
+      #     - item2
+      #     operation: SomeOperation2
+      #     name: OperationName2
+      #     value: OpertionValue2
+      #
+      state: query
+      #id: 24d06573-9823-4019-8bee-06c74110fdf4
+      #count: True
+      #
+      # state: absent
+      # id: 24d06573-9823-4019-8bee-06c74110fdf4
+    register: result
+
+  - name: Show retrieved tasks
+    debug:
+      msg: "{{ result }}"
+
+  - name: Get task tree
+    cisco.dnac.task:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: query
+      task_id: "{{ result.response.taskId }}"
+      tree: True
+    register: task_tree_result
+
+  - name: Show retrieved task
+    debug:
+      msg: "{{ task_tree_result.response }}"
+

@@ -1,0 +1,25 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get data
+    cisco.dnac.topology:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: query
+      #vlan: true
+      #site: true
+      #layer2: true
+      #vlan_id: 1
+      #physical: true
+      layer3: true
+      topology_type: static # Options are ospf/isis/eigrp/static
+    register: result
+
+  - name: Show data
+    debug:
+      msg: "{{ result }}"

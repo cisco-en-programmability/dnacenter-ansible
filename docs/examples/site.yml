@@ -1,0 +1,35 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Create area/building/floor
+    cisco.dnac.site:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: present
+      type: building
+      site:
+        building:
+          name: Medellin
+          parentName: Global/Colombia
+          latitude: 15
+          longitude: 15 
+          # rfModel: Indoor High Ceiling
+          # width: 100
+          # length: 100
+          # height: 100
+      #
+      # state: absent
+      # site_id: 09bf34d0-68db-4e19-aa45-6b877166cd8a
+      #
+      # state: query
+      #count: true
+    register: result
+
+  - name: Show retrieved output
+    debug:
+      msg: "{{ result }}"
