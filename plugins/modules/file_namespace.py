@@ -1,4 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright: (c) 2020, first last <email>
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
     'metadata_version': '0.0.1',
@@ -6,23 +10,135 @@ ANSIBLE_METADATA = {
     'supported_by': 'community'
 }
 
-DOCUMENTATION = r'''s
+DOCUMENTATION = r'''
 ---
+module: file_namespace
+short_description: Manage FileNamespace objects of File
+description:
+- Returns list of available namespaces.
+- Returns list of files under a specific namespace.
+version_added: '1.0'
+author: first last (@GitHubID)
+options:
+    name_space:
+        description:
+        - A listing of fileId's.
+        type: str
+        required: True
+
+requirements:
+- dnacentersdk
+seealso:
+# Reference by module name
+- module: cisco.dnac.plugins.module_utils.definitions.file_namespace
+# Reference by Internet resource
+- name: FileNamespace reference
+  description: Complete reference of the FileNamespace object model.
+  link: https://developer.cisco.com/docs/dna-center/api/1-3-3-x
+# Reference by Internet resource
+- name: FileNamespace reference
+  description: SDK reference.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
 '''
 
 EXAMPLES = r'''
----
 '''
 
 RETURN = r'''
----
-#
+data_0:
+    description: Returns list of available namespaces.
+    returned: success,changed,always
+    type: dict
+    contains:
+        response:
+            description: Response, property of the response body (list of strings).
+            returned: success,changed,always
+            type: list
+        version:
+            description: Version, property of the response body.
+            returned: success,changed,always
+            type: str
+            sample: 'sample_string'
+
+data_1:
+    description: Returns list of files under a specific namespace.
+    returned: success,changed,always
+    type: dict
+    contains:
+        response:
+            description: Response, property of the response body (list of objects).
+            returned: success,changed,always
+            type: list
+            contains:
+                attributeInfo:
+                    description: It is the file namespace's attributeInfo.
+                    returned: success,changed,always
+                    type: dict
+                downloadPath:
+                    description: It is the file namespace's downloadPath.
+                    returned: success,changed,always
+                    type: str
+                    sample: 'sample_string'
+                encrypted:
+                    description: It is the file namespace's encrypted.
+                    returned: success,changed,always
+                    type: bool
+                    sample: false
+                fileFormat:
+                    description: It is the file namespace's fileFormat.
+                    returned: success,changed,always
+                    type: str
+                    sample: 'sample_string'
+                fileSize:
+                    description: It is the file namespace's fileSize.
+                    returned: success,changed,always
+                    type: str
+                    sample: 'sample_string'
+                id:
+                    description: It is the file namespace's id.
+                    returned: success,changed,always
+                    type: str
+                    sample: 'sample_string'
+                md5Checksum:
+                    description: It is the file namespace's md5Checksum.
+                    returned: success,changed,always
+                    type: str
+                    sample: 'sample_string'
+                name:
+                    description: It is the file namespace's name.
+                    returned: success,changed,always
+                    type: str
+                    sample: 'sample_string'
+                nameSpace:
+                    description: It is the file namespace's nameSpace.
+                    returned: success,changed,always
+                    type: str
+                    sample: 'sample_string'
+                sftpServerList:
+                    description: It is the file namespace's sftpServerList.
+                    returned: success,changed,always
+                    type: list
+                sha1Checksum:
+                    description: It is the file namespace's sha1Checksum.
+                    returned: success,changed,always
+                    type: str
+                    sample: 'sample_string'
+                taskId:
+                    description: It is the file namespace's taskId.
+                    returned: success,changed,always
+                    type: dict
+
+        version:
+            description: Version, property of the response body.
+            returned: success,changed,always
+            type: str
+            sample: 'sample_string'
+
 '''
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
 from ansible_collections.cisco.dnac.plugins.module_utils.definitions.file_namespace import module_definition
-
 
 
 def main():
@@ -52,4 +168,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
