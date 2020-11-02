@@ -1,7 +1,7 @@
 - hosts: localhost
   gather_facts: no
   tasks:
-  - name: Create network device
+  - name: Create/query/update/delete network device
     cisco.dnac.network_device:
       dnac_host: 192.168.196.2
       dnac_port: 443
@@ -9,8 +9,8 @@
       dnac_password: Altus123
       dnac_version: 2.1.1
       dnac_verify: False
-      
-      state: update
+
+      state: create
       cliTransport: ssh
       enablePassword: test
       ipAddress: 1.1.1.21
@@ -27,6 +27,36 @@
       snmpTimeout: 5
       snmpUserName: test
       userName: test
+      #
+      # state: update
+      # cliTransport: ssh
+      # enablePassword: test
+      # ipAddress: 1.1.1.21
+      # password: test
+      # snmpAuthPassphrase: test
+      # snmpAuthProtocol: test
+      # snmpMode: test
+      # snmpPrivPassphrase: test
+      # snmpPrivProtocol: test
+      # snmpROCommunity: test
+      # snmpRWCommunity: test
+      # snmpRetry: 2
+      # snmpVersion: v2
+      # snmpTimeout: 5
+      # snmpUserName: test
+      # userName: test
+      #
+      # state: query
+      # count: True
+      # id: 84305942-0f78-4db8-b379-32d298d3077a
+      # summary: True
+      # ip_address: 1.1.1.14
+      # serial_number: FLM2213W05R
+      # records_to_return: 2
+      # start_index: 3
+      #
+      # state: delete
+      # id: 84305942-0f78-4db8-b379-32d298d3077a
  
     register: result
 
