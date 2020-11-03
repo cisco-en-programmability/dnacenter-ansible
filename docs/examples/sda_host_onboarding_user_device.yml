@@ -1,0 +1,30 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete host onboarding user device
+    cisco.dnac.sda_host_onboarding_user_device:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: query
+      device_ip: 1.1.1.17
+      interface_name: MyInterface
+      #
+      # state: create
+      # payload:
+      # - deviceManagementIpAddress: 1.1.1.17
+      #   siteNameHierarchy: Global/Brasil
+      #   interfaceName: MyInterfaceName
+      #   dataIpAddressPoolName: MyDataPool
+      #   voiceIpAddressPoolName: MyVoicePool
+      #   authenticateTemplateName: MyTemplate
+
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"
