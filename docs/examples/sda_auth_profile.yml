@@ -13,7 +13,7 @@
       state: query
       site_name_hierarchy: Global
       #
-      # state: present
+      # state: create
       # payload:
       # - siteNameHierarchy: Global/Brasil
       #   authenticateTemplateName: EASY CONNECT

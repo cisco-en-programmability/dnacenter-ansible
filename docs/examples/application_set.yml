@@ -13,13 +13,13 @@
       # state: query
       # count: True
       #
-      # state: absent
+      # state: delete
       # id: 45798514-9e74-4c5c-bbce-3689028d7b10
       #
-      state: present
+      state: create
       payload:
         - name: AppSet1
-        # - name: AppSet2
+        - name: AppSet2
     register: result
 
   - name: Show retrieved tasks
