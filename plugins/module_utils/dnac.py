@@ -248,7 +248,7 @@ class ModuleDefinition(object):
 
     # Strips all unused parameters (those that were not explicitly passed by the user)
     def strip_unused_params(self, module_params):
-        return { k: v for k, v in module_params.items() if v }
+        return { k: v for k, v in module_params.items() if v != None }
 
     # Retrieves all the functions supported by this module
     def get_functions(self):
@@ -426,6 +426,9 @@ class DNACModule(object):
             self.result.update(result.get_response())
         else:
             self.fail_json(result.get_error(), **result.get_response())
+
+    def disable_validation(self):
+        self.params["active_validation"] = False
 
 
 

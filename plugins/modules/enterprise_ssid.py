@@ -270,6 +270,7 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()
