@@ -134,15 +134,19 @@ class Function(object):
                     required_params.append(param.name)
         return required_params
 
+    def _strip_optional_params(self, module_params):
+        return { k: v for k, v in module_params.items() if k in self.get_required_params() }
+
     # Returns true if all the params required by this function are 
     # present in the module_params passed to the Ansible module
     def has_required_params(self, module_params):
         return set(self.get_required_params()).issubset(module_params.keys())
 
     # Returns true if all the module_params passed to the Ansible module
-    # are present in the list of required params for this function
+    # are required by this function
     def needs_passed_params(self, module_params):
-        return set(module_params.keys()).issubset(self.get_required_params())
+        required_module_params = self._strip_optional_params(module_params)
+        return set(required_module_params.keys()).issubset(self.get_required_params())
 
     def _has_valid_request_schema(self, module_params, missing_params={}):
         result = True
@@ -245,11 +249,6 @@ class ModuleDefinition(object):
     # Strips all unused parameters (those that were not explicitly passed by the user)
     def strip_unused_params(self, module_params):
         return { k: v for k, v in module_params.items() if v }
-    
-    # Strips off the passed params that are not required.
-    def _strip_unrequired_params(self, module_params):
-        return { k: v for k, v in module_params.items() if k in self._get_required_params() }
-
 
     # Retrieves all the functions supported by this module
     def get_functions(self):
@@ -331,7 +330,7 @@ class ModuleDefinition(object):
         valid_ops = []
     
         for function in ops:
-            if function.has_required_params(module_params) and function.needs_passed_params(self._strip_unrequired_params(module_params)):
+            if function.has_required_params(module_params) and function.needs_passed_params(module_params):
                 valid_ops.append(function)
 
         if len(valid_ops) == 0:
@@ -421,7 +420,6 @@ class DNACModule(object):
             function, status = self.moddef.choose_function(method, self.params)
             if not function:
                 self.fail_json(msg=status.get("msg"))
-
         result = function.exec(self.api, self.moddef.strip_unused_params(self.params))
 
         if result.is_successful():
