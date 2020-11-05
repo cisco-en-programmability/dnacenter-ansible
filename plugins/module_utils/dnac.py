@@ -179,15 +179,18 @@ class Function(object):
         if self._has_valid_request_schema(module_params, missing_params):
             response = func(**module_params)
             if self._has_valid_response_schema(response):
-                result = Result(response)
+                result = Result(response=response, 
+                                function_name=self.name)
             else:
                 result = Result(success=False, 
+                                function_name=self.name,
                                 error="The response received from DNAC doesn't match the response schema for this function.",
                                 response=response
                                 )
                 
         else:
             result = Result(success=False, 
+                            function_name=self.name,
                             error="Provided arguments do not comply with the function schema",
                             response = {
                                 "sdk_function": "{}.{}".format(self.family, self.name),
@@ -201,13 +204,14 @@ class Function(object):
 
 
 class Result(object):
-    def __init__(self, response, success=True, error=""):
+    def __init__(self, response, function_name, success=True, error=""):
         self.response = response
         self.success = success
         self.error = error
+        self.function_name = function_name
 
     def get_response(self):
-        return {"dnac_response": self.response}
+        return {"dnac_response": self.response, "sdk_function": self.function_name}
 
     def get_error(self):
         return self.error
