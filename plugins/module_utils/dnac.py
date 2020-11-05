@@ -95,6 +95,12 @@ class Parameter(object):
     # Right now if a parameter is an array of objects, we're not validating its schema
     def has_valid_schema(self, module_params, missing_params={}): 
         if self._is_object():
+            if not module_params:
+                if self.is_required():
+                    missing_params.update({"root": [self.name]})
+                    return False
+                else:
+                    return True
             result = True
             for param in self.schema:
                 if param.name in module_params.keys():
@@ -134,9 +140,6 @@ class Function(object):
                     required_params.append(param.name)
         return required_params
 
-    def _strip_optional_params(self, module_params):
-        return { k: v for k, v in module_params.items() if k in self.get_required_params() }
-
     # Returns true if all the params required by this function are 
     # present in the module_params passed to the Ansible module
     def has_required_params(self, module_params):
@@ -145,8 +148,7 @@ class Function(object):
     # Returns true if all the module_params passed to the Ansible module
     # are required by this function
     def needs_passed_params(self, module_params):
-        required_module_params = self._strip_optional_params(module_params)
-        return set(required_module_params.keys()).issubset(self.get_required_params())
+        return set(module_params.keys()).issubset(self.get_required_params())
 
     def _has_valid_request_schema(self, module_params, missing_params={}):
         result = True
@@ -250,6 +252,11 @@ class ModuleDefinition(object):
     def strip_unused_params(self, module_params):
         return { k: v for k, v in module_params.items() if v != None }
 
+    # Strips off the passed params that are optional for the functions a given method
+    def _strip_optional_params(self, module_params, method):
+        return { k: v for k, v in module_params.items() if k in self._get_required_params(method) }
+
+
     # Retrieves all the functions supported by this module
     def get_functions(self):
         functions = []
@@ -266,12 +273,13 @@ class ModuleDefinition(object):
         return None
 
     # Retrieves a list with the parameters that are required
-    # by at least one of the functions supported by this module
-    def _get_required_params(self):
+    # by at least one of the functions of a given method
+    def _get_required_params(self, method):
         required_params = []
-        for function in self.get_functions():
-            for param in function.get_required_params():
-                required_params.append(param)
+        if method in self.operations.keys():
+            for function in self.operations[method]:
+                for param in function.get_required_params():
+                    required_params.append(param)
         return required_params
 
     # Retrieves a list with the parameters that are required
@@ -328,10 +336,12 @@ class ModuleDefinition(object):
             return None, {"msg": message}
     
         valid_ops = []
-    
+
+        non_optional_params = self._strip_optional_params(module_params, method)
         for function in ops:
-            if function.has_required_params(module_params) and function.needs_passed_params(module_params):
+            if function.has_required_params(module_params) and function.needs_passed_params(non_optional_params):
                 valid_ops.append(function)
+
 
         if len(valid_ops) == 0:
             message = msg(ERR_NO_MATCHING_OPERATION) # "There are no matching operations for the given arguments"
