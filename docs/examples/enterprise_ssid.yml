@@ -1,0 +1,31 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete enterprise ssid
+    cisco.dnac.enterprise_ssid:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      # state: query
+      # ssid_name: MySSID
+      # 
+      state: create
+      name: MySSID
+      securityLevel: wpa2_enterprise
+      passphrase: SomePassphrase
+      enableFastLane: True
+      enableMACFiltering: True
+      trafficType: data
+      radioPolicy: 5ghz only
+      enableBroadcastSSID: True
+      fastTransition: Adaptive
+
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"

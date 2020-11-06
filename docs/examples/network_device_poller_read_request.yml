@@ -1,0 +1,28 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete network device poller read request
+    cisco.dnac.network_device_poller_read_request:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: create
+      commands:
+      - command1
+      - command2
+      description: SomeDescription
+      deviceUuids:
+      - uuid1
+      - uuid2
+      name: SomeName
+      timeout: 10
+
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"     

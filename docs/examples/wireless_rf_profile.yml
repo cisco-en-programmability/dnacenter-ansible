@@ -1,0 +1,41 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete wireless rf profile
+    cisco.dnac.wireless_rf_profile:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      # state: query
+      # rf_profile_name: MyProfile
+      #
+      state: create
+      name: SomeName
+      defaultRfProfile: true
+      enableRadioTypeA: true
+      enableRadioTypeB: true
+      channelWidth: MyWidth
+      enableCustom: true
+      enableBrownField: true
+      radioTypeAProperties:
+        parentProfile: SomeProfile
+        radioChannels: SomeChannels
+        dataRates: SomeRate
+        mandatoryDataRates: SomeOtherRate
+        powerThresholdV1: 1
+        rxSopThreshold: SomeThreshold
+        minPowerLevel: 2
+        maxPowerLevel: 3
+      
+      # state: delete
+      # id:
+
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"

@@ -1,0 +1,24 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete discovery network device
+    cisco.dnac.discovery_network_device:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: query
+      id: 15
+      summary: true
+      #count:  true
+      # records_to_return: 2
+      # start_index: 1
+
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"     

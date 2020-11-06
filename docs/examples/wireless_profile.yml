@@ -1,0 +1,31 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete wireless profile
+    cisco.dnac.wireless_profile:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: query
+      profile_name: MyProfileName
+      #
+      # state: create
+      # profileDetails:
+      #   name: MyProfile
+      #
+      # state: delete
+      # wireless_profile_name:
+      # 
+      # state: update
+      # profileDetails:
+      #   name: MyProfile
+      # 
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"

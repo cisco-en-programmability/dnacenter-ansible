@@ -1,0 +1,47 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete wireless provision
+    cisco.dnac.wireless_provision:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: create
+      payload:
+      - deviceName: MyDeviceName
+        site: MySite
+        managedAPLocations:
+        - SomeLocation
+        - SomeOtherLocation
+        dynamicInterfaces:
+        - interfaceIPAddress: 1.1.1.17
+          interfaceNetmaskInCIDR: 26
+          interfaceGateway: 1.1.1.1
+          lagOrPortNumber: 10
+          vlanId: 5
+          interfaceName: MyInterface
+      #
+      # state: update
+      # payload:
+      # - deviceName: MyDeviceName
+      #   site: MySite
+      #   managedAPLocations:
+      #   - SomeLocation
+      #   - SomeOtherLocation
+      #   dynamicInterfaces:
+      #   - interfaceIPAddress: 1.1.1.17
+      #     interfaceNetmaskInCIDR: 26
+      #     interfaceGateway: 1.1.1.1
+      #     lagOrPortNumber: 10
+      #     vlanId: 5
+      #     interfaceName: MyInterface
+      
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"
