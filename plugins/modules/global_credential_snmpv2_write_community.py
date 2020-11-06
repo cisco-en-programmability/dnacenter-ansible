@@ -12,7 +12,7 @@ ANSIBLE_METADATA = {
 
 DOCUMENTATION = r'''
 ---
-module: global_credential_snmpv2-write-community
+module: global_credential_snmpv2_write_community
 short_description: Manage GlobalCredentialSnmpv2WriteCommunity objects of Discovery
 description:
 - Adds global SNMP write community.
@@ -22,41 +22,45 @@ author: first last (@GitHubID)
 options:
     payload:
         description:
-        - A JSON serializable Python object to send in the body of the Request.
+        - An object to send in the Request body.
         type: list
         required: True
         elements: dict
         suboptions:
             comments:
                 description:
-                - It is the global credential snmpv2-write-community's comments.
+                - It is the global credential snmpv2 write community's comments.
                 type: str
             credentialType:
                 description:
-                - It is the global credential snmpv2-write-community's credentialType.
+                - It is the global credential snmpv2 write community's credentialType.
                 type: str
             description:
                 description:
-                - It is the global credential snmpv2-write-community's description.
+                - It is the global credential snmpv2 write community's description.
                 type: str
             id:
                 description:
-                - It is the global credential snmpv2-write-community's id.
+                - It is the global credential snmpv2 write community's id.
                 type: str
             instanceTenantId:
                 description:
-                - It is the global credential snmpv2-write-community's instanceTenantId.
+                - It is the global credential snmpv2 write community's instanceTenantId.
                 type: str
             instanceUuid:
                 description:
-                - It is the global credential snmpv2-write-community's instanceUuid.
+                - It is the global credential snmpv2 write community's instanceUuid.
                 type: str
             writeCommunity:
                 description:
-                - It is the global credential snmpv2-write-community's writeCommunity.
+                - It is the global credential snmpv2 write community's writeCommunity.
                 type: str
                 required: True
 
+    active_validation:
+        description:
+        - Enables the json schema validation of the request object.
+        type: bool
     comments:
         description:
         - SNMPv2WriteCommunityDTO's comments.
@@ -87,12 +91,16 @@ options:
         - SNMPv2WriteCommunityDTO's writeCommunity.
         type: str
         required: True
+    active_validation:
+        description:
+        - Enables the json schema validation of the request object.
+        type: bool
 
 requirements:
 - dnacentersdk
 seealso:
 # Reference by module name
-- module: cisco.dnac.plugins.module_utils.definitions.global_credential_snmpv2-write-community
+- module: cisco.dnac.plugins.module_utils.definitions.global_credential_snmpv2_write_community
 # Reference by Internet resource
 - name: GlobalCredentialSnmpv2WriteCommunity reference
   description: Complete reference of the GlobalCredentialSnmpv2WriteCommunity object model.
@@ -118,11 +126,11 @@ data_0:
             type: dict
             contains:
                 taskId:
-                    description: It is the global credential snmpv2-write-community's taskId.
+                    description: It is the global credential snmpv2 write community's taskId.
                     returned: success,changed,always
                     type: dict
                 url:
-                    description: It is the global credential snmpv2-write-community's url.
+                    description: It is the global credential snmpv2 write community's url.
                     returned: success,changed,always
                     type: str
                     sample: 'sample_string'
@@ -144,11 +152,11 @@ data_1:
             type: dict
             contains:
                 taskId:
-                    description: It is the global credential snmpv2-write-community's taskId.
+                    description: It is the global credential snmpv2 write community's taskId.
                     returned: success,changed,always
                     type: dict
                 url:
-                    description: It is the global credential snmpv2-write-community's url.
+                    description: It is the global credential snmpv2 write community's url.
                     returned: success,changed,always
                     type: str
                     sample: 'sample_string'
@@ -163,7 +171,7 @@ data_1:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.global_credential_snmpv2-write-community import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.global_credential_snmpv2_write_community import module_definition
 
 
 def main():

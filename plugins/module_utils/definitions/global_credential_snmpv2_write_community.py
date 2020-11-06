@@ -2,7 +2,7 @@ import json
 
 module_definition = json.loads('''{
     "family": "discovery",
-    "name": "global_credential_snmpv2-write-community",
+    "name": "global_credential_snmpv2_write_community",
     "operations": {
         "post": [
             "create_snmp_write_community"
@@ -55,6 +55,11 @@ module_definition = json.loads('''{
                     }
                 ],
                 "type": "array"
+            },
+            {
+                "name": "active_validation",
+                "required": false,
+                "type": "boolean"
             }
         ],
         "update_snmp_write_community": [
@@ -90,6 +95,11 @@ module_definition = json.loads('''{
                 "name": "writeCommunity",
                 "required": true,
                 "type": "string"
+            },
+            {
+                "name": "active_validation",
+                "required": false,
+                "type": "boolean"
             }
         ]
     },
