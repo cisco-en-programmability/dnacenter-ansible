@@ -170,14 +170,17 @@ class Function(object):
         return result
 
     def _has_valid_response_schema(self, response):
-        if self.response_schema.get("type") == "array":
-            if isinstance(response, list):
-                return True
-            elif isinstance(response, dict):
-                return "response" in response.keys()
-        elif self.response_schema.get("type") == "object":
-            if isinstance(response, dict):
-                return set(response.keys()).issubset(self.response_schema.get("properties"))                
+        if self.response_schema:
+            if self.response_schema.get("type") == "array":
+                if isinstance(response, list):
+                    return True
+                elif isinstance(response, dict):
+                    return "response" in response.keys()
+            elif self.response_schema.get("type") == "object":
+                if isinstance(response, dict):
+                    return set(response.keys()).issubset(self.response_schema.get("properties"))                
+            else:
+                return False
         else:
             return False
 
