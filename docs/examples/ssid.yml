@@ -29,7 +29,7 @@
         enableMACFiltering: False
         fastTransition: Adaptive
         webAuthURL: https://mywebauthurl.com
-      ssidType: enterprise
+      ssidType: Enterprise
       enableFabric: True
       flexConnect:
         enableFlexConnect: True
