@@ -60,12 +60,18 @@ class Parameter(object):
         if "required" in self.__dict__.keys():
             _required = self.required
         return _required
+    
+    def is_artificial(self):
+        _artificial = False
+        if "artificial" in self.__dict__.keys():
+            _artificial = self.artificial
+        return _artificial
 
     def _is_enum(self):
         return "enum" in self.__dict__.keys()
 
     def _get_choices(self):
-        return list(map(str.lower, self.enum))
+        return self.enum
 
     def _has_default(self):
         return "default" in self.__dict__.keys()
@@ -140,6 +146,13 @@ class Function(object):
                     required_params.append(param.name)
         return required_params
 
+    def _strip_artificial_params(self, module_params):
+        non_artificial_params = []
+        for param in self.params:
+            if not param.is_artificial():
+                non_artificial_params.append(param.name)
+        return { k: v for k, v in module_params.items() if k in non_artificial_params }
+
     # Returns true if all the params required by this function are 
     # present in the module_params passed to the Ansible module
     def has_required_params(self, module_params):
@@ -168,6 +181,7 @@ class Function(object):
         else:
             return False
 
+
     # Executes the function with the passed parameters
     def exec(self, dnac_api, module_params):
         family = getattr(dnac_api, self.family) 
@@ -177,6 +191,7 @@ class Function(object):
             module_params = self.existing_object
         missing_params = {}
         if self._has_valid_request_schema(module_params, missing_params):
+            module_params = self._strip_artificial_params(module_params)
             response = func(**module_params)
             if self._has_valid_response_schema(response):
                 result = Result(response=response, 

@@ -51,7 +51,8 @@ module_definition = json.loads('''{
             {
                 "name": "count",
                 "required": true,
-                "type": "boolean"
+                "type": "boolean",
+                "artificial": true
             }
         ],
         "get_tag_members_by_id": [
