@@ -249,7 +249,7 @@ class ModuleDefinition(object):
         self.common_params = dnac_argument_spec().keys()
         
     # Strips the common module parameters from the passed parameters
-    def _strip_common_params(self, module_params):
+    def strip_common_params(self, module_params):
         return { k: v for k, v in module_params.items() if k not in self.common_params }
 
     # Strips all unused parameters (those that were not explicitly passed by the user)
@@ -326,8 +326,6 @@ class ModuleDefinition(object):
 
     # Retrieves the function that exactly matches the given method and module parameters.
     def choose_function(self, method, module_params):
-        module_params = self._strip_common_params(module_params)
-        module_params = self.strip_unused_params(module_params)
         
         if method in self.methods:
             ops = self.operations.get(method)
@@ -358,16 +356,7 @@ class ModuleDefinition(object):
         else:
             message = msg(ERR_UNKNOWN) # Unknown error. More than one operation matched the given arguments.
             return None, {"msg": message}
-            
         
-
-# Troubleshooting code
-
-        # out = ""
-        # for name, value in module_params.items():
-        #     out = out + " {} ".format(value)
-        # raise Exception(out)
-
 
 class ObjectExistenceCriteria(object):
 
@@ -421,6 +410,8 @@ class DNACModule(object):
                         version=self.params.get('dnac_version'),
                         verify=self.params.get('dnac_verify'))
         self.moddef = moddef
+        self.params = self.moddef.strip_common_params(self.params)
+        self.params = self.moddef.strip_unused_params(self.params)
         self.existing_object = {}   
 
        
@@ -434,12 +425,12 @@ class DNACModule(object):
             function, status = self.moddef.choose_function(method, self.params)
             if not function:
                 self.fail_json(msg=status.get("msg"))
-        result = function.exec(self.api, self.moddef.strip_unused_params(self.params))
+        result = function.exec(self.api, self.params)
 
         if result.is_successful():
             self.result.update(result.get_response())
         else:
-            self.fail_json(result.get_error(), **result.get_response())
+            self.fail_json(result.get_error(), **result.get_response()) #TO DO: If the module fails don't return a dictionary with "dnac_response"
 
     def disable_validation(self):
         self.params["active_validation"] = False
