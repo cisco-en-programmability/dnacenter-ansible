@@ -20,6 +20,7 @@ description:
 - Removes Tag member from the tag specified by id.
 - Returns the number of members in a given tag.
 - Updates tag membership. As part of the request payload through this API, only the specified members are added / retained to the given input tags. Possible values of memberType attribute in the request payload can be queried by using the /tag/member/type API.
+- Returns list of supported resource types.
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
@@ -48,44 +49,17 @@ options:
         description:
         - Used for pagination. It indicates the starting row number out of available member records.
         type: str
-    id:
-        description:
-        - Tag ID.
-        type: str
-        required: True
-    id:
-        description:
-        - Tag ID.
-        type: str
-        required: True
     member_id:
         description:
         - TagMember id to be removed from tag.
         type: str
         required: True
-    id:
-        description:
-        - Tag ID.
-        type: str
-        required: True
-    level:
-        description:
-        - Level query parameter.
-        type: str
-    member_association_type:
-        description:
-        - MemberAssociationType query parameter.
-        type: str
-    member_type:
-        description:
-        - MemberType query parameter.
-        type: str
     count:
         description:
         - If true gets the number of objects.
         type: bool
         required: True
-    member_to_tags:
+    memberToTags:
         description:
         - TagMemberDTO's memberToTags.
         type: dict
@@ -95,7 +69,7 @@ options:
                 - It is the tag member's key.
                 type: list
 
-    member_type:
+    memberType:
         description:
         - TagMemberDTO's memberType.
         type: str
@@ -235,6 +209,21 @@ data_4:
                     sample: 'sample_string'
 
 
+data_5:
+    description: Returns list of supported resource types.
+    returned: success,changed,always
+    type: dict
+    contains:
+        version:
+            description: Version, property of the response body.
+            returned: success,changed,always
+            type: str
+            sample: 'sample_string'
+        response:
+            description: Response, property of the response body (list of strings).
+            returned: success,changed,always
+            type: list
+
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -268,9 +257,11 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

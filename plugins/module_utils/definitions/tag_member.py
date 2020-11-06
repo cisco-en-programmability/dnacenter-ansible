@@ -9,7 +9,8 @@ module_definition = json.loads('''{
         ],
         "get": [
             "get_tag_members_by_id",
-            "get_tag_member_count"
+            "get_tag_member_count",
+            "get_tag_resource_types"
         ],
         "post": [
             "add_members_to_the_tag"
@@ -85,6 +86,7 @@ module_definition = json.loads('''{
                 "type": "string"
             }
         ],
+        "get_tag_resource_types": [],
         "remove_tag_member": [
             {
                 "name": "id",
@@ -134,6 +136,13 @@ module_definition = json.loads('''{
             "type": "object"
         },
         "get_tag_members_by_id": {
+            "properties": [
+                "version",
+                "response"
+            ],
+            "type": "object"
+        },
+        "get_tag_resource_types": {
             "properties": [
                 "version",
                 "response"
