@@ -20,6 +20,7 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
+                "artificial": true,
                 "name": "layer3",
                 "required": true,
                 "type": "boolean"
@@ -32,6 +33,7 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
+                "artificial": true,
                 "name": "physical",
                 "required": true,
                 "type": "boolean"
@@ -39,6 +41,7 @@ module_definition = json.loads('''{
         ],
         "get_site_topology": [
             {
+                "artificial": true,
                 "name": "site",
                 "required": true,
                 "type": "boolean"
@@ -51,6 +54,7 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
+                "artificial": true,
                 "name": "layer2",
                 "required": true,
                 "type": "boolean"
@@ -58,6 +62,7 @@ module_definition = json.loads('''{
         ],
         "get_vlan_details": [
             {
+                "artificial": true,
                 "name": "vlan",
                 "required": true,
                 "type": "boolean"

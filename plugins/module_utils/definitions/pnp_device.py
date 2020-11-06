@@ -1441,6 +1441,7 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
+                "artificial": true,
                 "name": "count",
                 "required": true,
                 "type": "boolean"

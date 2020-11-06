@@ -165,6 +165,7 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
+                "artificial": true,
                 "name": "count",
                 "required": true,
                 "type": "boolean"
@@ -352,5 +353,3 @@ class SiteExistenceCriteria(ObjectExistenceCriteria):
         existing_object["site_id"] = existing_object.get("id")
         del existing_object["id"]
         return existing_object
-            
-        

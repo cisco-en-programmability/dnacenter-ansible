@@ -55,11 +55,6 @@ module_definition = json.loads('''{
                     }
                 ],
                 "type": "array"
-            },
-            {
-                "name": "active_validation",
-                "required": false,
-                "type": "boolean"
             }
         ],
         "update_snmp_read_community": [
@@ -95,11 +90,6 @@ module_definition = json.loads('''{
                 "name": "readCommunity",
                 "required": true,
                 "type": "string"
-            },
-            {
-                "name": "active_validation",
-                "required": false,
-                "type": "boolean"
             }
         ]
     },

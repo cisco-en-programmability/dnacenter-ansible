@@ -32,6 +32,7 @@ module_definition = json.loads('''{
         ],
         "get_device_interface_count": [
             {
+                "artificial": true,
                 "name": "count",
                 "required": true,
                 "type": "boolean"
@@ -44,6 +45,7 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
+                "artificial": true,
                 "name": "count",
                 "required": true,
                 "type": "boolean"
@@ -101,6 +103,7 @@ module_definition = json.loads('''{
         ],
         "get_isis_interfaces": [
             {
+                "artificial": true,
                 "name": "isis",
                 "required": true,
                 "type": "boolean"
@@ -108,6 +111,7 @@ module_definition = json.loads('''{
         ],
         "get_ospf_interfaces": [
             {
+                "artificial": true,
                 "name": "ospf",
                 "required": true,
                 "type": "boolean"

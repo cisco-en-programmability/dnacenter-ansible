@@ -26,7 +26,52 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
+                "array_type": "object",
                 "name": "dynamicRules",
+                "required": false,
+                "schema": [
+                    {
+                        "name": "memberType",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "rules",
+                        "required": false,
+                        "schema": [
+                            {
+                                "array_type": "string",
+                                "name": "values",
+                                "required": false,
+                                "schema": [],
+                                "type": "array"
+                            },
+                            {
+                                "array_type": "any",
+                                "name": "items",
+                                "required": false,
+                                "schema": [],
+                                "type": "array"
+                            },
+                            {
+                                "name": "operation",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "name": "name",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "name": "value",
+                                "required": false,
+                                "type": "string"
+                            }
+                        ],
+                        "type": "object"
+                    }
+                ],
                 "type": "array"
             },
             {
@@ -149,6 +194,7 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
+                "artificial": true,
                 "name": "count",
                 "required": true,
                 "type": "boolean"
@@ -160,7 +206,52 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
+                "array_type": "object",
                 "name": "dynamicRules",
+                "required": false,
+                "schema": [
+                    {
+                        "name": "memberType",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "rules",
+                        "required": false,
+                        "schema": [
+                            {
+                                "array_type": "string",
+                                "name": "values",
+                                "required": false,
+                                "schema": [],
+                                "type": "array"
+                            },
+                            {
+                                "array_type": "any",
+                                "name": "items",
+                                "required": false,
+                                "schema": [],
+                                "type": "array"
+                            },
+                            {
+                                "name": "operation",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "name": "name",
+                                "required": false,
+                                "type": "string"
+                            },
+                            {
+                                "name": "value",
+                                "required": false,
+                                "type": "string"
+                            }
+                        ],
+                        "type": "object"
+                    }
+                ],
                 "type": "array"
             },
             {
@@ -245,5 +336,3 @@ class TagExistenceCriteria(ObjectExistenceCriteria):
             return existing_object["name"] == candidate_params["name"]
         else:
             self.dnac.fail_json(msg=self.ERR_MISSING_PARAM)
-            
-        

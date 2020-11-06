@@ -57,6 +57,7 @@ module_definition = json.loads('''{
         ],
         "get_application_sets_count": [
             {
+                "artificial": true,
                 "name": "count",
                 "required": true,
                 "type": "boolean"

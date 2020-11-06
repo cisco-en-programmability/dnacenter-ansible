@@ -49,10 +49,10 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
+                "artificial": true,
                 "name": "count",
                 "required": true,
-                "type": "boolean",
-                "artificial": true
+                "type": "boolean"
             }
         ],
         "get_tag_members_by_id": [

@@ -44,6 +44,7 @@ module_definition = json.loads('''{
         ],
         "get_count_of_all_discovery_jobs": [
             {
+                "artificial": true,
                 "name": "count",
                 "required": true,
                 "type": "boolean"

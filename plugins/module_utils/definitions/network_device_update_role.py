@@ -26,6 +26,7 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
+                "artificial": true,
                 "name": "summary",
                 "required": true,
                 "type": "boolean"

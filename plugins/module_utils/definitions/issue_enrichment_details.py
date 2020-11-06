@@ -11,6 +11,7 @@ module_definition = json.loads('''{
     "parameters": {
         "get_issue_enrichment_details": [
             {
+                "artificial": true,
                 "name": "headers",
                 "required": true,
                 "schema": [],

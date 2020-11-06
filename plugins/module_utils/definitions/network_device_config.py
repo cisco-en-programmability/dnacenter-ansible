@@ -12,6 +12,7 @@ module_definition = json.loads('''{
     "parameters": {
         "get_device_config_count": [
             {
+                "artificial": true,
                 "name": "count",
                 "required": true,
                 "type": "boolean"

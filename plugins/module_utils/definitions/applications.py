@@ -356,6 +356,7 @@ module_definition = json.loads('''{
         ],
         "get_applications_count": [
             {
+                "artificial": true,
                 "name": "count",
                 "required": true,
                 "type": "boolean"
