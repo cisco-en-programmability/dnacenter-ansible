@@ -72,7 +72,7 @@ options:
         description:
         - TagDTO's description.
         type: str
-    dynamic_rules:
+    dynamicRules:
         description:
         - TagDTO's dynamicRules (list of objects).
         type: list
@@ -87,134 +87,47 @@ options:
                 - It is the Tag's rules.
                 type: dict
                 suboptions:
-                    values:
-                        description:
-                        - It is the Tag's values.
-                        type: list
                     items:
                         description:
                         - It is the Tag's items.
                         type: list
-                    operation:
-                        description:
-                        - It is the Tag's operation.
-                        type: str
                     name:
                         description:
                         - It is the Tag's name.
+                        type: str
+                    operation:
+                        description:
+                        - It is the Tag's operation.
                         type: str
                     value:
                         description:
                         - It is the Tag's value.
                         type: str
+                    values:
+                        description:
+                        - It is the Tag's values.
+                        type: list
 
 
     id:
         description:
         - TagDTO's id.
         type: str
-    instance_tenant_id:
+    instanceTenantId:
         description:
         - TagDTO's instanceTenantId.
         type: str
-    name:
-        description:
-        - TagDTO's name.
-        type: str
-    system_tag:
+    systemTag:
         description:
         - TagDTO's systemTag.
         type: bool
-    description:
-        description:
-        - TagDTO's description.
-        type: str
-    dynamic_rules:
-        description:
-        - TagDTO's dynamicRules (list of objects).
-        type: list
-        elements: dict
-        suboptions:
-            memberType:
-                description:
-                - It is the Tag's memberType.
-                type: str
-            rules:
-                description:
-                - It is the Tag's rules.
-                type: dict
-                suboptions:
-                    values:
-                        description:
-                        - It is the Tag's values.
-                        type: list
-                    items:
-                        description:
-                        - It is the Tag's items.
-                        type: list
-                    operation:
-                        description:
-                        - It is the Tag's operation.
-                        type: str
-                    name:
-                        description:
-                        - It is the Tag's name.
-                        type: str
-                    value:
-                        description:
-                        - It is the Tag's value.
-                        type: str
-
-
-    id:
-        description:
-        - TagDTO's id.
-        type: str
-    instance_tenant_id:
-        description:
-        - TagDTO's instanceTenantId.
-        type: str
-    name:
-        description:
-        - TagDTO's name.
-        type: str
-    system_tag:
-        description:
-        - TagDTO's systemTag.
-        type: bool
-    id:
-        description:
-        - Tag ID.
-        type: str
-        required: True
-    id:
-        description:
-        - Tag ID.
-        type: str
-        required: True
     attribute_name:
         description:
         - AttributeName query parameter.
         type: str
-    level:
-        description:
-        - Level query parameter.
-        type: str
-    name:
-        description:
-        - Name query parameter.
-        type: str
     name_space:
         description:
         - NameSpace query parameter.
-        type: str
-    size:
-        description:
-        - Size in kilobytes(KB).
-        type: str
-    system_tag:
-        description:
-        - SystemTag query parameter.
         type: str
     count:
         description:
@@ -535,10 +448,12 @@ def main():
         ec = TagExistenceCriteria(dnac)
 
         if ec.object_exists():
+            dnac.disable_validation()
             dnac.exec("put")
             dnac.result.update({"warning": ec.WARN_OBJECT_EXISTS})
 
         else:
+            dnac.disable_validation()
             dnac.exec("post")
 
     dnac.exit_json()

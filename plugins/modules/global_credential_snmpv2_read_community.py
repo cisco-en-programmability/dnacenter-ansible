@@ -57,19 +57,15 @@ options:
                 type: str
                 required: True
 
-    active_validation:
-        description:
-        - Enables the json schema validation of the request object.
-        type: bool
     comments:
         description:
         - SNMPv2ReadCommunityDTO's comments.
         type: str
-    credential_type:
+    credentialType:
         description:
         - SNMPv2ReadCommunityDTO's credentialType.
+        - Available values are 'GLOBAL' and 'APP'.
         type: str
-        choices: ['GLOBAL', 'APP']
     description:
         description:
         - SNMPv2ReadCommunityDTO's description.
@@ -78,23 +74,19 @@ options:
         description:
         - SNMPv2ReadCommunityDTO's id.
         type: str
-    instance_tenant_id:
+    instanceTenantId:
         description:
         - SNMPv2ReadCommunityDTO's instanceTenantId.
         type: str
-    instance_uuid:
+    instanceUuid:
         description:
         - SNMPv2ReadCommunityDTO's instanceUuid.
         type: str
-    read_community:
+    readCommunity:
         description:
         - SNMPv2ReadCommunityDTO's readCommunity.
         type: str
         required: True
-    active_validation:
-        description:
-        - Enables the json schema validation of the request object.
-        type: bool
 
 requirements:
 - dnacentersdk
@@ -194,9 +186,11 @@ def main():
     state = module.params.get("state")
 
     if state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

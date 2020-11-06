@@ -26,40 +26,20 @@ options:
         description:
         - SiteNameHierarchy query parameter.
         type: str
-    site_name_hierarchy:
-        description:
-        - SiteNameHierarchy query parameter.
-        type: str
     payload:
         description:
-        - A JSON serializable Python object to send in the body of the Request.
+        - An object to send in the Request body.
         type: list
         required: True
         elements: dict
         suboptions:
-            siteNameHierarchy:
-                description:
-                - It is the sda auth profile's siteNameHierarchy.
-                type: str
             authenticateTemplateName:
                 description:
                 - It is the sda auth profile's authenticateTemplateName.
                 type: str
-
-    payload:
-        description:
-        - A JSON serializable Python object to send in the body of the Request.
-        type: list
-        required: True
-        elements: dict
-        suboptions:
             siteNameHierarchy:
                 description:
                 - It is the sda auth profile's siteNameHierarchy.
-                type: str
-            authenticateTemplateName:
-                description:
-                - It is the sda auth profile's authenticateTemplateName.
                 type: str
 
 
@@ -199,9 +179,11 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

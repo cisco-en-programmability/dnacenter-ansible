@@ -22,7 +22,7 @@ author: first last (@GitHubID)
 options:
     payload:
         description:
-        - A JSON serializable Python object to send in the body of the Request.
+        - An object to send in the Request body.
         type: list
         required: True
         elements: dict
@@ -61,11 +61,11 @@ options:
         description:
         - NetconfCredentialDTO's comments.
         type: str
-    credential_type:
+    credentialType:
         description:
         - NetconfCredentialDTO's credentialType.
+        - Available values are 'GLOBAL' and 'APP'.
         type: str
-        choices: ['GLOBAL', 'APP']
     description:
         description:
         - NetconfCredentialDTO's description.
@@ -74,15 +74,15 @@ options:
         description:
         - NetconfCredentialDTO's id.
         type: str
-    instance_tenant_id:
+    instanceTenantId:
         description:
         - NetconfCredentialDTO's instanceTenantId.
         type: str
-    instance_uuid:
+    instanceUuid:
         description:
         - NetconfCredentialDTO's instanceUuid.
         type: str
-    netconf_port:
+    netconfPort:
         description:
         - NetconfCredentialDTO's netconfPort.
         type: str
@@ -186,9 +186,11 @@ def main():
     state = module.params.get("state")
 
     if state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

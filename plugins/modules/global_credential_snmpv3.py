@@ -22,7 +22,7 @@ author: first last (@GitHubID)
 options:
     payload:
         description:
-        - A JSON serializable Python object to send in the body of the Request.
+        - An object to send in the Request body.
         type: list
         required: True
         elements: dict
@@ -78,24 +78,24 @@ options:
                 type: str
                 required: True
 
-    auth_password:
+    authPassword:
         description:
         - SNMPv3CredentialDTO's authPassword.
         type: str
-    auth_type:
+    authType:
         description:
         - SNMPv3CredentialDTO's authType.
+        - Available values are 'SHA' and 'MD5'.
         type: str
-        choices: ['SHA', 'MD5']
     comments:
         description:
         - SNMPv3CredentialDTO's comments.
         type: str
-    credential_type:
+    credentialType:
         description:
         - SNMPv3CredentialDTO's credentialType.
+        - Available values are 'GLOBAL' and 'APP'.
         type: str
-        choices: ['GLOBAL', 'APP']
     description:
         description:
         - SNMPv3CredentialDTO's description.
@@ -104,29 +104,29 @@ options:
         description:
         - SNMPv3CredentialDTO's id.
         type: str
-    instance_tenant_id:
+    instanceTenantId:
         description:
         - SNMPv3CredentialDTO's instanceTenantId.
         type: str
-    instance_uuid:
+    instanceUuid:
         description:
         - SNMPv3CredentialDTO's instanceUuid.
         type: str
-    privacy_password:
+    privacyPassword:
         description:
         - SNMPv3CredentialDTO's privacyPassword.
         type: str
-    privacy_type:
+    privacyType:
         description:
         - SNMPv3CredentialDTO's privacyType.
+        - Available values are 'DES' and 'AES128'.
         type: str
-        choices: ['DES', 'AES128']
-    snmp_mode:
+    snmpMode:
         description:
         - SNMPv3CredentialDTO's snmpMode.
+        - Available values are 'AUTHPRIV', 'AUTHNOPRIV' and 'NOAUTHNOPRIV'.
         type: str
         required: True
-        choices: ['AUTHPRIV', 'AUTHNOPRIV', 'NOAUTHNOPRIV']
     username:
         description:
         - SNMPv3CredentialDTO's username.
@@ -231,9 +231,11 @@ def main():
     state = module.params.get("state")
 
     if state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

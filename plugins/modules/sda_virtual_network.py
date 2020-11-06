@@ -29,17 +29,9 @@ options:
         description:
         - VirtualNetworkName query parameter.
         type: str
-    site_name_hierarchy:
-        description:
-        - SiteNameHierarchy query parameter.
-        type: str
-    virtual_network_name:
-        description:
-        - VirtualNetworkName query parameter.
-        type: str
     payload:
         description:
-        - A JSON serializable Python object to send in the body of the Request.
+        - An object to send in the Request body.
         type: list
         required: True
         elements: dict
@@ -211,6 +203,7 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()

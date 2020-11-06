@@ -26,7 +26,7 @@ options:
         description:
         - ProfileName query parameter.
         type: str
-    profile_details:
+    profileDetails:
         description:
         - Profile Details, property of the request body.
         type: dict
@@ -46,14 +46,6 @@ options:
                 type: list
                 elements: dict
                 suboptions:
-                    name:
-                        description:
-                        - It is the wireless profile's name.
-                        type: str
-                    type:
-                        description:
-                        - It is the wireless profile's type.
-                        type: str
                     enableFabric:
                         description:
                         - It is the wireless profile's enableFabric.
@@ -76,28 +68,6 @@ options:
                         description:
                         - It is the wireless profile's interfaceName.
                         type: str
-
-
-    profile_details:
-        description:
-        - Profile Details, property of the request body.
-        type: dict
-        required: True
-        suboptions:
-            name:
-                description:
-                - It is the wireless profile's name.
-                type: str
-            sites:
-                description:
-                - It is the wireless profile's sites.
-                type: list
-            ssidDetails:
-                description:
-                - It is the wireless profile's ssidDetails.
-                type: list
-                elements: dict
-                suboptions:
                     name:
                         description:
                         - It is the wireless profile's name.
@@ -105,28 +75,6 @@ options:
                     type:
                         description:
                         - It is the wireless profile's type.
-                        type: str
-                    enableFabric:
-                        description:
-                        - It is the wireless profile's enableFabric.
-                        type: bool
-                    flexConnect:
-                        description:
-                        - It is the wireless profile's flexConnect.
-                        type: dict
-                        suboptions:
-                            enableFlexConnect:
-                                description:
-                                - It is the wireless profile's enableFlexConnect.
-                                type: bool
-                            localToVlan:
-                                description:
-                                - It is the wireless profile's localToVlan.
-                                type: int
-
-                    interfaceName:
-                        description:
-                        - It is the wireless profile's interfaceName.
                         type: str
 
 
@@ -315,9 +263,11 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

@@ -42,14 +42,25 @@ options:
                 type: list
                 elements: dict
                 suboptions:
-                    ipPoolName:
+                    IpAddressSpace:
                         description:
-                        - It is the global pool's ipPoolName.
+                        - It is the global pool's IpAddressSpace.
                         type: str
-                        required: True
-                    type:
+                    dhcpServerIps:
                         description:
-                        - It is the global pool's type.
+                        - It is the global pool's dhcpServerIps.
+                        type: list
+                    dnsServerIps:
+                        description:
+                        - It is the global pool's dnsServerIps.
+                        type: list
+                    gateway:
+                        description:
+                        - It is the global pool's gateway.
+                        type: str
+                    id:
+                        description:
+                        - It is the global pool's id.
                         type: str
                         required: True
                     ipPoolCidr:
@@ -57,55 +68,14 @@ options:
                         - It is the global pool's ipPoolCidr.
                         type: str
                         required: True
-                    gateway:
-                        description:
-                        - It is the global pool's gateway.
-                        type: str
-                    dhcpServerIps:
-                        description:
-                        - It is the global pool's dhcpServerIps.
-                        type: list
-                    dnsServerIps:
-                        description:
-                        - It is the global pool's dnsServerIps.
-                        type: list
-                    IpAddressSpace:
-                        description:
-                        - It is the global pool's IpAddressSpace.
-                        type: str
-
-
-    settings:
-        description:
-        - Settings, property of the request body.
-        type: dict
-        required: True
-        suboptions:
-            ippool:
-                description:
-                - It is the global pool's ippool.
-                type: list
-                elements: dict
-                suboptions:
                     ipPoolName:
                         description:
                         - It is the global pool's ipPoolName.
+                        - Required for state create.
                         type: str
-                    gateway:
+                    type:
                         description:
-                        - It is the global pool's gateway.
-                        type: str
-                    dhcpServerIps:
-                        description:
-                        - It is the global pool's dhcpServerIps.
-                        type: list
-                    dnsServerIps:
-                        description:
-                        - It is the global pool's dnsServerIps.
-                        type: list
-                    id:
-                        description:
-                        - It is the global pool's id.
+                        - It is the global pool's type.
                         type: str
                         required: True
 
@@ -355,9 +325,11 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

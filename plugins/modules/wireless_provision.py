@@ -22,7 +22,7 @@ author: first last (@GitHubID)
 options:
     payload:
         description:
-        - A JSON serializable Python object to send in the body of the Request.
+        - An object to send in the Request body.
         type: list
         required: True
         elements: dict
@@ -32,94 +32,46 @@ options:
                 - It is the wireless provision's deviceName.
                 type: str
                 required: True
+            dynamicInterfaces:
+                description:
+                - It is the wireless provision's dynamicInterfaces.
+                type: list
+                elements: dict
+                suboptions:
+                    interfaceGateway:
+                        description:
+                        - It is the wireless provision's interfaceGateway.
+                        type: str
+                    interfaceIPAddress:
+                        description:
+                        - It is the wireless provision's interfaceIPAddress.
+                        type: str
+                    interfaceName:
+                        description:
+                        - It is the wireless provision's interfaceName.
+                        type: str
+                    interfaceNetmaskInCIDR:
+                        description:
+                        - It is the wireless provision's interfaceNetmaskInCIDR.
+                        type: int
+                    lagOrPortNumber:
+                        description:
+                        - It is the wireless provision's lagOrPortNumber.
+                        type: int
+                    vlanId:
+                        description:
+                        - It is the wireless provision's vlanId.
+                        type: int
+
+            managedAPLocations:
+                description:
+                - It is the wireless provision's managedAPLocations.
+                type: list
             site:
                 description:
                 - It is the wireless provision's site.
                 type: str
                 required: True
-            managedAPLocations:
-                description:
-                - It is the wireless provision's managedAPLocations.
-                type: list
-            dynamicInterfaces:
-                description:
-                - It is the wireless provision's dynamicInterfaces.
-                type: list
-                elements: dict
-                suboptions:
-                    interfaceIPAddress:
-                        description:
-                        - It is the wireless provision's interfaceIPAddress.
-                        type: str
-                    interfaceNetmaskInCIDR:
-                        description:
-                        - It is the wireless provision's interfaceNetmaskInCIDR.
-                        type: int
-                    interfaceGateway:
-                        description:
-                        - It is the wireless provision's interfaceGateway.
-                        type: str
-                    lagOrPortNumber:
-                        description:
-                        - It is the wireless provision's lagOrPortNumber.
-                        type: int
-                    vlanId:
-                        description:
-                        - It is the wireless provision's vlanId.
-                        type: int
-                    interfaceName:
-                        description:
-                        - It is the wireless provision's interfaceName.
-                        type: str
-
-
-    payload:
-        description:
-        - A JSON serializable Python object to send in the body of the Request.
-        type: list
-        required: True
-        elements: dict
-        suboptions:
-            deviceName:
-                description:
-                - It is the wireless provision's deviceName.
-                type: str
-                required: True
-            managedAPLocations:
-                description:
-                - It is the wireless provision's managedAPLocations.
-                type: list
-            dynamicInterfaces:
-                description:
-                - It is the wireless provision's dynamicInterfaces.
-                type: list
-                elements: dict
-                suboptions:
-                    interfaceIPAddress:
-                        description:
-                        - It is the wireless provision's interfaceIPAddress.
-                        type: str
-                    interfaceNetmaskInCIDR:
-                        description:
-                        - It is the wireless provision's interfaceNetmaskInCIDR.
-                        type: int
-                    interfaceGateway:
-                        description:
-                        - It is the wireless provision's interfaceGateway.
-                        type: str
-                    lagOrPortNumber:
-                        description:
-                        - It is the wireless provision's lagOrPortNumber.
-                        type: int
-                    vlanId:
-                        description:
-                        - It is the wireless provision's vlanId.
-                        type: int
-                    interfaceName:
-                        description:
-                        - It is the wireless provision's interfaceName.
-                        type: str
-
 
 
 requirements:
@@ -228,9 +180,11 @@ def main():
     state = module.params.get("state")
 
     if state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

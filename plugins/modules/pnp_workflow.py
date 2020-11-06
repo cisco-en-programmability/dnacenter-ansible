@@ -52,19 +52,19 @@ options:
         description:
         - Workflow's _id.
         type: str
-    add_to_inventory:
+    addToInventory:
         description:
         - Workflow's addToInventory.
         type: bool
-    added_on:
+    addedOn:
         description:
         - Workflow's addedOn.
         type: int
-    config_id:
+    configId:
         description:
         - Workflow's configId.
         type: str
-    curr_task_idx:
+    currTaskIdx:
         description:
         - Workflow's currTaskIdx.
         type: int
@@ -72,32 +72,27 @@ options:
         description:
         - Workflow's description.
         type: str
-    end_time:
+    endTime:
         description:
         - Workflow's endTime.
         type: int
-    exec_time:
+    execTime:
         description:
         - Workflow's execTime.
         type: int
-    image_id:
+    imageId:
         description:
         - Workflow's imageId.
         type: str
-    instance_type:
+    instanceType:
         description:
         - Workflow's instanceType.
         type: str
-        choices: ['SystemWorkflow', 'UserWorkflow', 'SystemResetWorkflow']
-    lastupdate_on:
+    lastupdateOn:
         description:
         - Workflow's lastupdateOn.
         type: int
-    name:
-        description:
-        - Workflow's name.
-        type: str
-    start_time:
+    startTime:
         description:
         - Workflow's startTime.
         type: int
@@ -175,15 +170,11 @@ options:
                         type: int
 
 
-    tenant_id:
+    tenantId:
         description:
         - Workflow's tenantId.
         type: str
-    type:
-        description:
-        - Workflow's type.
-        type: str
-    use_state:
+    useState:
         description:
         - Workflow's useState.
         type: str
@@ -196,163 +187,6 @@ options:
         - Id path parameter.
         type: str
         required: True
-    id:
-        description:
-        - Id path parameter.
-        type: str
-        required: True
-    id:
-        description:
-        - Id path parameter.
-        type: str
-        required: True
-    _id:
-        description:
-        - Workflow's _id.
-        type: str
-    add_to_inventory:
-        description:
-        - Workflow's addToInventory.
-        type: bool
-    added_on:
-        description:
-        - Workflow's addedOn.
-        type: int
-    config_id:
-        description:
-        - Workflow's configId.
-        type: str
-    curr_task_idx:
-        description:
-        - Workflow's currTaskIdx.
-        type: int
-    description:
-        description:
-        - Workflow's description.
-        type: str
-    end_time:
-        description:
-        - Workflow's endTime.
-        type: int
-    exec_time:
-        description:
-        - Workflow's execTime.
-        type: int
-    image_id:
-        description:
-        - Workflow's imageId.
-        type: str
-    instance_type:
-        description:
-        - Workflow's instanceType.
-        type: str
-        choices: ['SystemWorkflow', 'UserWorkflow', 'SystemResetWorkflow']
-    lastupdate_on:
-        description:
-        - Workflow's lastupdateOn.
-        type: int
-    name:
-        description:
-        - Workflow's name.
-        type: str
-    start_time:
-        description:
-        - Workflow's startTime.
-        type: int
-    state:
-        description:
-        - Workflow's state.
-        type: str
-    tasks:
-        description:
-        - Workflow's tasks (list of objects).
-        type: list
-        elements: dict
-        suboptions:
-            currWorkItemIdx:
-                description:
-                - It is the pnp workflow's currWorkItemIdx.
-                type: int
-            endTime:
-                description:
-                - It is the pnp workflow's endTime.
-                type: int
-            name:
-                description:
-                - It is the pnp workflow's name.
-                type: str
-            startTime:
-                description:
-                - It is the pnp workflow's startTime.
-                type: int
-            state:
-                description:
-                - It is the pnp workflow's state.
-                type: str
-            taskSeqNo:
-                description:
-                - It is the pnp workflow's taskSeqNo.
-                type: int
-            timeTaken:
-                description:
-                - It is the pnp workflow's timeTaken.
-                type: int
-            type:
-                description:
-                - It is the pnp workflow's type.
-                type: str
-            workItemList:
-                description:
-                - It is the pnp workflow's workItemList.
-                type: list
-                elements: dict
-                suboptions:
-                    command:
-                        description:
-                        - It is the pnp workflow's command.
-                        type: str
-                    endTime:
-                        description:
-                        - It is the pnp workflow's endTime.
-                        type: int
-                    outputStr:
-                        description:
-                        - It is the pnp workflow's outputStr.
-                        type: str
-                    startTime:
-                        description:
-                        - It is the pnp workflow's startTime.
-                        type: int
-                    state:
-                        description:
-                        - It is the pnp workflow's state.
-                        type: str
-                    timeTaken:
-                        description:
-                        - It is the pnp workflow's timeTaken.
-                        type: int
-
-
-    tenant_id:
-        description:
-        - Workflow's tenantId.
-        type: str
-    type:
-        description:
-        - Workflow's type.
-        type: str
-    use_state:
-        description:
-        - Workflow's useState.
-        type: str
-    version:
-        description:
-        - Workflow's version.
-        type: int
-    name:
-        description:
-        - Workflow Name.
-        type: str
     count:
         description:
         - If true gets the number of objects.
@@ -1313,9 +1147,11 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

@@ -20,12 +20,12 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    enable_fabric:
+    enableFabric:
         description:
         - EnableFabric, property of the request body.
         type: bool
         required: True
-    flex_connect:
+    flexConnect:
         description:
         - Flex Connect - Applicable for non fabric profile, property of the request body.
         type: dict
@@ -39,12 +39,12 @@ options:
                 - It is the Ssid's localToVlan.
                 type: int
 
-    managed_aplocations:
+    managedAPLocations:
         description:
         - Managed AP Locations (Enter entire Site(s) hierarchy), property of the request body (list of strings).
         type: list
         required: True
-    ssid_details:
+    ssidDetails:
         description:
         - SsidDetails, property of the request body.
         type: dict
@@ -91,12 +91,12 @@ options:
                 - It is the Ssid's webAuthURL.
                 type: str
 
-    ssid_type:
+    ssidType:
         description:
         - SSID Type, property of the request body.
+        - Available values are 'Guest' and 'Enterprise'.
         type: str
         required: True
-        choices: ['Guest', 'Enterprise']
     managed_aplocations:
         description:
         - ManagedAPLocations path parameter.
@@ -199,6 +199,7 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()

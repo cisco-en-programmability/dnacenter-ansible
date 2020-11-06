@@ -41,113 +41,11 @@ options:
         type: str
     payload:
         description:
-        - A JSON serializable Python object to send in the body of the Request.
+        - An object to send in the Request body.
         type: list
         required: True
         elements: dict
         suboptions:
-            name:
-                description:
-                - It is the Applications's name.
-                type: str
-            networkApplications:
-                description:
-                - It is the Applications's networkApplications.
-                type: list
-                elements: dict
-                suboptions:
-                    appProtocol:
-                        description:
-                        - It is the Applications's appProtocol.
-                        type: str
-                    applicationSubType:
-                        description:
-                        - It is the Applications's applicationSubType.
-                        type: str
-                    applicationType:
-                        description:
-                        - It is the Applications's applicationType.
-                        type: str
-                    categoryId:
-                        description:
-                        - It is the Applications's categoryId.
-                        type: str
-                    displayName:
-                        description:
-                        - It is the Applications's displayName.
-                        type: str
-                    engineId:
-                        description:
-                        - It is the Applications's engineId.
-                        type: str
-                    helpString:
-                        description:
-                        - It is the Applications's helpString.
-                        type: str
-                    longDescription:
-                        description:
-                        - It is the Applications's longDescription.
-                        type: str
-                    name:
-                        description:
-                        - It is the Applications's name.
-                        type: str
-                    popularity:
-                        description:
-                        - It is the Applications's popularity.
-                        type: str
-                    rank:
-                        description:
-                        - It is the Applications's rank.
-                        type: str
-                    trafficClass:
-                        description:
-                        - It is the Applications's trafficClass.
-                        type: str
-                    serverName:
-                        description:
-                        - It is the Applications's serverName.
-                        type: str
-                    url:
-                        description:
-                        - It is the Applications's url.
-                        type: str
-                    dscp:
-                        description:
-                        - It is the Applications's dscp.
-                        type: str
-                    ignoreConflict:
-                        description:
-                        - It is the Applications's ignoreConflict.
-                        type: str
-
-            networkIdentity:
-                description:
-                - It is the Applications's networkIdentity.
-                type: list
-                elements: dict
-                suboptions:
-                    displayName:
-                        description:
-                        - It is the Applications's displayName.
-                        type: str
-                    lowerPort:
-                        description:
-                        - It is the Applications's lowerPort.
-                        type: str
-                    ports:
-                        description:
-                        - It is the Applications's ports.
-                        type: str
-                    protocol:
-                        description:
-                        - It is the Applications's protocol.
-                        type: str
-                    upperPort:
-                        description:
-                        - It is the Applications's upperPort.
-                        type: str
-
             applicationSet:
                 description:
                 - It is the Applications's applicationSet.
@@ -158,14 +56,6 @@ options:
                         - It is the Applications's idRef.
                         type: str
 
-
-    payload:
-        description:
-        - A JSON serializable Python object to send in the body of the Request.
-        type: list
-        required: True
-        elements: dict
-        suboptions:
             id:
                 description:
                 - It is the Applications's id.
@@ -180,10 +70,6 @@ options:
                 type: list
                 elements: dict
                 suboptions:
-                    id:
-                        description:
-                        - It is the Applications's id.
-                        type: str
                     appProtocol:
                         description:
                         - It is the Applications's appProtocol.
@@ -204,6 +90,10 @@ options:
                         description:
                         - It is the Applications's displayName.
                         type: str
+                    dscp:
+                        description:
+                        - It is the Applications's dscp.
+                        type: str
                     engineId:
                         description:
                         - It is the Applications's engineId.
@@ -211,6 +101,14 @@ options:
                     helpString:
                         description:
                         - It is the Applications's helpString.
+                        type: str
+                    id:
+                        description:
+                        - It is the Applications's id.
+                        type: str
+                    ignoreConflict:
+                        description:
+                        - It is the Applications's ignoreConflict.
                         type: str
                     longDescription:
                         description:
@@ -228,25 +126,17 @@ options:
                         description:
                         - It is the Applications's rank.
                         type: str
-                    trafficClass:
-                        description:
-                        - It is the Applications's trafficClass.
-                        type: str
                     serverName:
                         description:
                         - It is the Applications's serverName.
                         type: str
+                    trafficClass:
+                        description:
+                        - It is the Applications's trafficClass.
+                        type: str
                     url:
                         description:
                         - It is the Applications's url.
-                        type: str
-                    dscp:
-                        description:
-                        - It is the Applications's dscp.
-                        type: str
-                    ignoreConflict:
-                        description:
-                        - It is the Applications's ignoreConflict.
                         type: str
 
             networkIdentity:
@@ -255,13 +145,13 @@ options:
                 type: list
                 elements: dict
                 suboptions:
-                    id:
-                        description:
-                        - It is the Applications's id.
-                        type: str
                     displayName:
                         description:
                         - It is the Applications's displayName.
+                        type: str
+                    id:
+                        description:
+                        - It is the Applications's id.
                         type: str
                     lowerPort:
                         description:
@@ -278,16 +168,6 @@ options:
                     upperPort:
                         description:
                         - It is the Applications's upperPort.
-                        type: str
-
-            applicationSet:
-                description:
-                - It is the Applications's applicationSet.
-                type: dict
-                suboptions:
-                    idRef:
-                        description:
-                        - It is the Applications's idRef.
                         type: str
 
 
@@ -601,9 +481,11 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

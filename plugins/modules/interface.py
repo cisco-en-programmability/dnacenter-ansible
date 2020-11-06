@@ -56,11 +56,6 @@ options:
         - Device ID.
         type: str
         required: True
-    device_id:
-        description:
-        - Device ID.
-        type: str
-        required: True
     records_to_return:
         description:
         - Number of records to return.
@@ -70,21 +65,6 @@ options:
         description:
         - Start index.
         type: int
-        required: True
-    device_id:
-        description:
-        - Device ID.
-        type: str
-        required: True
-    count:
-        description:
-        - If true gets the number of objects.
-        type: bool
-        required: True
-    device_id:
-        description:
-        - Device ID.
-        type: str
         required: True
     name:
         description:

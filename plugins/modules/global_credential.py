@@ -39,12 +39,7 @@ options:
         - ID of global-credential.
         type: str
         required: True
-    global_credential_id:
-        description:
-        - Global credential Uuid.
-        type: str
-        required: True
-    site_uuids:
+    siteUuids:
         description:
         - SitesInfoDTO's siteUuids (list of strings).
         type: list
@@ -221,6 +216,7 @@ def main():
         dnac.exec("delete")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

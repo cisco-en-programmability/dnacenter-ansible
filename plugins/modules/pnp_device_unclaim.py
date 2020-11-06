@@ -19,7 +19,7 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    device_id_list:
+    deviceIdList:
         description:
         - UnclaimRequest's deviceIdList (list of strings).
         type: list
@@ -94,6 +94,7 @@ def main():
     state = module.params.get("state")
 
     if state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()

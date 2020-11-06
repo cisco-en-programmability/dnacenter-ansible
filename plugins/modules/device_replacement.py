@@ -68,7 +68,7 @@ options:
         type: str
     payload:
         description:
-        - A JSON serializable Python object to send in the body of the Request.
+        - An object to send in the Request body.
         type: list
         required: True
         elements: dict
@@ -132,76 +132,6 @@ options:
                 - It is the device replacement's workflowId.
                 type: str
 
-    payload:
-        description:
-        - A JSON serializable Python object to send in the body of the Request.
-        type: list
-        required: True
-        elements: dict
-        suboptions:
-            creationTime:
-                description:
-                - It is the device replacement's creationTime.
-                type: int
-            family:
-                description:
-                - It is the device replacement's family.
-                type: str
-            faultyDeviceId:
-                description:
-                - It is the device replacement's faultyDeviceId.
-                type: str
-                required: True
-            faultyDeviceName:
-                description:
-                - It is the device replacement's faultyDeviceName.
-                type: str
-            faultyDevicePlatform:
-                description:
-                - It is the device replacement's faultyDevicePlatform.
-                type: str
-            faultyDeviceSerialNumber:
-                description:
-                - It is the device replacement's faultyDeviceSerialNumber.
-                type: str
-            id:
-                description:
-                - It is the device replacement's id.
-                type: str
-            neighbourDeviceId:
-                description:
-                - It is the device replacement's neighbourDeviceId.
-                type: str
-            networkReadinessTaskId:
-                description:
-                - It is the device replacement's networkReadinessTaskId.
-                type: str
-            replacementDevicePlatform:
-                description:
-                - It is the device replacement's replacementDevicePlatform.
-                type: str
-            replacementDeviceSerialNumber:
-                description:
-                - It is the device replacement's replacementDeviceSerialNumber.
-                type: str
-            replacementStatus:
-                description:
-                - It is the device replacement's replacementStatus.
-                type: str
-                required: True
-            replacementTime:
-                description:
-                - It is the device replacement's replacementTime.
-                type: int
-            workflowId:
-                description:
-                - It is the device replacement's workflowId.
-                type: str
-
-    replacement_status:
-        description:
-        - Device Replacement status list[READY-FOR-REPLACEMENT, REPLACEMENT-IN-PROGRESS, REPLACEMENT-SCHEDULED, REPLACED, ERROR].
-        type: str
     count:
         description:
         - If true gets the number of objects.
@@ -412,9 +342,11 @@ def main():
         dnac.exec("get")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

@@ -44,14 +44,6 @@ options:
         description:
         - The registered Tags should be provided.
         type: str
-    event_id:
-        description:
-        - The registered EventId should be provided.
-        type: str
-    tags:
-        description:
-        - The registered Tags should be provided.
-        type: str
     count:
         description:
         - If true gets the number of objects.

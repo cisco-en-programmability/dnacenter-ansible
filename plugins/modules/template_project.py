@@ -26,7 +26,7 @@ options:
         description:
         - Name of project to be searched.
         type: str
-    create_time:
+    createTime:
         description:
         - ProjectDTO's createTime.
         type: int
@@ -38,42 +38,10 @@ options:
         description:
         - ProjectDTO's id.
         type: str
-    last_update_time:
+    lastUpdateTime:
         description:
         - ProjectDTO's lastUpdateTime.
         type: int
-    name:
-        description:
-        - ProjectDTO's name.
-        type: str
-    tags:
-        description:
-        - ProjectDTO's tags (list of strings).
-        type: list
-    templates:
-        description:
-        - ProjectDTO's templates.
-        type: dict
-    create_time:
-        description:
-        - ProjectDTO's createTime.
-        type: int
-    description:
-        description:
-        - ProjectDTO's description.
-        type: str
-    id:
-        description:
-        - ProjectDTO's id.
-        type: str
-    last_update_time:
-        description:
-        - ProjectDTO's lastUpdateTime.
-        type: int
-    name:
-        description:
-        - ProjectDTO's name.
-        type: str
     tags:
         description:
         - ProjectDTO's tags (list of strings).
@@ -256,9 +224,11 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

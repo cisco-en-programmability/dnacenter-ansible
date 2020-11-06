@@ -314,7 +314,7 @@ options:
 
 
 
-    site_profile:
+    siteProfile:
         description:
         - Site Profile, property of the request body (list of objects).
         type: list
@@ -741,6 +741,7 @@ def main():
         dnac.exec("get")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()

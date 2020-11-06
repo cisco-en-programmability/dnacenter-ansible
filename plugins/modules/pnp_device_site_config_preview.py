@@ -19,19 +19,19 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    device_id:
+    deviceId:
         description:
         - SiteProvisionRequest's deviceId.
         type: str
-    site_id:
+    siteId:
         description:
         - SiteProvisionRequest's siteId.
         type: str
     type:
         description:
         - SiteProvisionRequest's type.
+        - Available values are 'Default', 'AccessPoint', 'StackSwitch', 'Sensor' and 'MobilityExpress'.
         type: str
-        choices: ['Default', 'AccessPoint', 'StackSwitch', 'Sensor', 'MobilityExpress']
 
 requirements:
 - dnacentersdk
@@ -146,6 +146,7 @@ def main():
     state = module.params.get("state")
 
     if state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()

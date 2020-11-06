@@ -29,15 +29,87 @@ options:
         required: True
         elements: dict
         suboptions:
+            currentDeviceTag:
+                description:
+                - It is the nfv profile's currentDeviceTag.
+                type: str
+                required: True
+            customNetworks:
+                description:
+                - It is the nfv profile's customNetworks.
+                type: list
+                elements: dict
+                suboptions:
+                    connectionType:
+                        description:
+                        - It is the nfv profile's connectionType.
+                        type: str
+                        required: True
+                    networkName:
+                        description:
+                        - It is the nfv profile's networkName.
+                        type: str
+                        required: True
+                    servicesToConnect:
+                        description:
+                        - It is the nfv profile's servicesToConnect.
+                        type: list
+                        required: True
+                        elements: dict
+                        suboptions:
+                            serviceName:
+                                description:
+                                - It is the nfv profile's serviceName.
+                                type: str
+                                required: True
+
+                    vlanId:
+                        description:
+                        - It is the nfv profile's vlanId.
+                        type: int
+                        required: True
+                    vlanMode:
+                        description:
+                        - It is the nfv profile's vlanMode.
+                        type: str
+                        required: True
+
+            customTemplate:
+                description:
+                - It is the nfv profile's customTemplate.
+                type: list
+                elements: dict
+                suboptions:
+                    deviceType:
+                        description:
+                        - It is the nfv profile's deviceType.
+                        type: str
+                        required: True
+                    template:
+                        description:
+                        - It is the nfv profile's template.
+                        type: str
+                        required: True
+                    templateType:
+                        description:
+                        - It is the nfv profile's templateType.
+                        type: str
+                        required: True
+
+            deviceTag:
+                description:
+                - It is the nfv profile's deviceTag.
+                type: str
+                required: True
             deviceType:
                 description:
                 - It is the nfv profile's deviceType.
                 type: str
                 required: True
-            deviceTag:
+            directInternetAccessForFirewall:
                 description:
-                - It is the nfv profile's deviceTag.
-                type: str
+                - It is the nfv profile's directInternetAccessForFirewall.
+                type: bool
                 required: True
             serviceProviderProfile:
                 description:
@@ -67,11 +139,6 @@ options:
                         type: bool
                         required: True
 
-            directInternetAccessForFirewall:
-                description:
-                - It is the nfv profile's directInternetAccessForFirewall.
-                type: bool
-                required: True
             services:
                 description:
                 - It is the nfv profile's services.
@@ -79,9 +146,13 @@ options:
                 required: True
                 elements: dict
                 suboptions:
-                    serviceType:
+                    firewallMode:
                         description:
-                        - It is the nfv profile's serviceType.
+                        - It is the nfv profile's firewallMode.
+                        type: str
+                    imageName:
+                        description:
+                        - It is the nfv profile's imageName.
                         type: str
                         required: True
                     profileType:
@@ -94,9 +165,9 @@ options:
                         - It is the nfv profile's serviceName.
                         type: str
                         required: True
-                    imageName:
+                    serviceType:
                         description:
-                        - It is the nfv profile's imageName.
+                        - It is the nfv profile's serviceType.
                         type: str
                         required: True
                     vNicMapping:
@@ -106,60 +177,16 @@ options:
                         required: True
                         elements: dict
                         suboptions:
+                            assignIpAddressToNetwork:
+                                description:
+                                - It is the nfv profile's assignIpAddressToNetwork.
+                                type: str
                             networkType:
                                 description:
                                 - It is the nfv profile's networkType.
                                 type: str
                                 required: True
-                            assignIpAddressToNetwork:
-                                description:
-                                - It is the nfv profile's assignIpAddressToNetwork.
-                                type: str
 
-                    firewallMode:
-                        description:
-                        - It is the nfv profile's firewallMode.
-                        type: str
-
-            customNetworks:
-                description:
-                - It is the nfv profile's customNetworks.
-                type: list
-                elements: dict
-                suboptions:
-                    networkName:
-                        description:
-                        - It is the nfv profile's networkName.
-                        type: str
-                        required: True
-                    servicesToConnect:
-                        description:
-                        - It is the nfv profile's servicesToConnect.
-                        type: list
-                        required: True
-                        elements: dict
-                        suboptions:
-                            serviceName:
-                                description:
-                                - It is the nfv profile's serviceName.
-                                type: str
-                                required: True
-
-                    connectionType:
-                        description:
-                        - It is the nfv profile's connectionType.
-                        type: str
-                        required: True
-                    vlanMode:
-                        description:
-                        - It is the nfv profile's vlanMode.
-                        type: str
-                        required: True
-                    vlanId:
-                        description:
-                        - It is the nfv profile's vlanId.
-                        type: int
-                        required: True
 
             vlanForL2:
                 description:
@@ -167,9 +194,9 @@ options:
                 type: list
                 elements: dict
                 suboptions:
-                    vlanType:
+                    vlanDescription:
                         description:
-                        - It is the nfv profile's vlanType.
+                        - It is the nfv profile's vlanDescription.
                         type: str
                         required: True
                     vlanId:
@@ -177,36 +204,14 @@ options:
                         - It is the nfv profile's vlanId.
                         type: int
                         required: True
-                    vlanDescription:
+                    vlanType:
                         description:
-                        - It is the nfv profile's vlanDescription.
-                        type: str
-                        required: True
-
-            customTemplate:
-                description:
-                - It is the nfv profile's customTemplate.
-                type: list
-                elements: dict
-                suboptions:
-                    deviceType:
-                        description:
-                        - It is the nfv profile's deviceType.
-                        type: str
-                        required: True
-                    template:
-                        description:
-                        - It is the nfv profile's template.
-                        type: str
-                        required: True
-                    templateType:
-                        description:
-                        - It is the nfv profile's templateType.
+                        - It is the nfv profile's vlanType.
                         type: str
                         required: True
 
 
-    profile_name:
+    profileName:
         description:
         - Site Profile Name, property of the request body.
         type: str
@@ -227,179 +232,6 @@ options:
     offset:
         description:
         - Offset/starting row.
-        type: str
-    id:
-        description:
-        - Id of nfv network profile to delete. .
-        type: str
-        required: True
-    name:
-        description:
-        - Nameof nfv network profile to delete. .
-        type: str
-    id:
-        description:
-        - Id of the NFV profile to be updated.
-        type: str
-        required: True
-    device:
-        description:
-        - Device, property of the request body (list of objects).
-        type: list
-        required: True
-        elements: dict
-        suboptions:
-            deviceTag:
-                description:
-                - It is the nfv profile's deviceTag.
-                type: str
-                required: True
-            directInternetAccessForFirewall:
-                description:
-                - It is the nfv profile's directInternetAccessForFirewall.
-                type: bool
-                required: True
-            services:
-                description:
-                - It is the nfv profile's services.
-                type: list
-                elements: dict
-                suboptions:
-                    serviceType:
-                        description:
-                        - It is the nfv profile's serviceType.
-                        type: str
-                        required: True
-                    profileType:
-                        description:
-                        - It is the nfv profile's profileType.
-                        type: str
-                        required: True
-                    serviceName:
-                        description:
-                        - It is the nfv profile's serviceName.
-                        type: str
-                        required: True
-                    imageName:
-                        description:
-                        - It is the nfv profile's imageName.
-                        type: str
-                        required: True
-                    vNicMapping:
-                        description:
-                        - It is the nfv profile's vNicMapping.
-                        type: list
-                        required: True
-                        elements: dict
-                        suboptions:
-                            networkType:
-                                description:
-                                - It is the nfv profile's networkType.
-                                type: str
-                                required: True
-                            assignIpAddressToNetwork:
-                                description:
-                                - It is the nfv profile's assignIpAddressToNetwork.
-                                type: str
-
-                    firewallMode:
-                        description:
-                        - It is the nfv profile's firewallMode.
-                        type: str
-
-            customNetworks:
-                description:
-                - It is the nfv profile's customNetworks.
-                type: list
-                elements: dict
-                suboptions:
-                    networkName:
-                        description:
-                        - It is the nfv profile's networkName.
-                        type: str
-                        required: True
-                    servicesToConnect:
-                        description:
-                        - It is the nfv profile's servicesToConnect.
-                        type: list
-                        required: True
-                        elements: dict
-                        suboptions:
-                            serviceName:
-                                description:
-                                - It is the nfv profile's serviceName.
-                                type: str
-                                required: True
-
-                    connectionType:
-                        description:
-                        - It is the nfv profile's connectionType.
-                        type: str
-                        required: True
-                    vlanMode:
-                        description:
-                        - It is the nfv profile's vlanMode.
-                        type: str
-                        required: True
-                    vlanId:
-                        description:
-                        - It is the nfv profile's vlanId.
-                        type: int
-                        required: True
-
-            vlanForL2:
-                description:
-                - It is the nfv profile's vlanForL2.
-                type: list
-                elements: dict
-                suboptions:
-                    vlanType:
-                        description:
-                        - It is the nfv profile's vlanType.
-                        type: str
-                        required: True
-                    vlanId:
-                        description:
-                        - It is the nfv profile's vlanId.
-                        type: int
-                        required: True
-                    vlanDescription:
-                        description:
-                        - It is the nfv profile's vlanDescription.
-                        type: str
-                        required: True
-
-            customTemplate:
-                description:
-                - It is the nfv profile's customTemplate.
-                type: list
-                elements: dict
-                suboptions:
-                    deviceType:
-                        description:
-                        - It is the nfv profile's deviceType.
-                        type: str
-                        required: True
-                    template:
-                        description:
-                        - It is the nfv profile's template.
-                        type: str
-                        required: True
-                    templateType:
-                        description:
-                        - It is the nfv profile's templateType.
-                        type: str
-                        required: True
-
-            currentDeviceTag:
-                description:
-                - It is the nfv profile's currentDeviceTag.
-                type: str
-                required: True
-
-    name:
-        description:
-        - Name of the profile to be updated.
         type: str
 
 requirements:
@@ -712,9 +544,11 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

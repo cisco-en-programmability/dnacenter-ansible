@@ -25,13 +25,13 @@ options:
     domain:
         description:
         - Smart Account Domain.
+        - Required for state query.
         type: str
-        required: True
-    auto_sync_period:
+    autoSyncPeriod:
         description:
         - SAVAMapping's autoSyncPeriod.
         type: int
-    cco_user:
+    ccoUser:
         description:
         - SAVAMapping's ccoUser.
         type: str
@@ -39,7 +39,7 @@ options:
         description:
         - SAVAMapping's expiry.
         type: int
-    last_sync:
+    lastSync:
         description:
         - SAVAMapping's lastSync.
         type: int
@@ -82,12 +82,12 @@ options:
                 - It is the pnp settings virtual account's proxy.
                 type: bool
 
-    smart_account_id:
+    smartAccountId:
         description:
         - SAVAMapping's smartAccountId.
         type: str
         required: True
-    sync_result:
+    syncResult:
         description:
         - SAVAMapping's syncResult.
         type: dict
@@ -112,21 +112,20 @@ options:
                 - It is the pnp settings virtual account's syncMsg.
                 type: str
 
-    sync_result_str:
+    syncResultStr:
         description:
         - SAVAMapping's syncResultStr.
         type: str
-    sync_start_time:
+    syncStartTime:
         description:
         - SAVAMapping's syncStartTime.
         type: int
-    sync_status:
+    syncStatus:
         description:
         - SAVAMapping's syncStatus.
         type: str
         required: True
-        choices: ['NOT_SYNCED', 'SYNCING', 'SUCCESS', 'FAILURE']
-    tenant_id:
+    tenantId:
         description:
         - SAVAMapping's tenantId.
         type: str
@@ -134,127 +133,11 @@ options:
         description:
         - SAVAMapping's token.
         type: str
-    virtual_account_id:
+    virtualAccountId:
         description:
         - SAVAMapping's virtualAccountId.
         type: str
         required: True
-    auto_sync_period:
-        description:
-        - SAVAMapping's autoSyncPeriod.
-        type: int
-    cco_user:
-        description:
-        - SAVAMapping's ccoUser.
-        type: str
-    expiry:
-        description:
-        - SAVAMapping's expiry.
-        type: int
-    last_sync:
-        description:
-        - SAVAMapping's lastSync.
-        type: int
-    profile:
-        description:
-        - SAVAMapping's profile.
-        type: dict
-        required: True
-        suboptions:
-            addressFqdn:
-                description:
-                - It is the pnp settings virtual account's addressFqdn.
-                type: str
-            addressIpV4:
-                description:
-                - It is the pnp settings virtual account's addressIpV4.
-                type: str
-            cert:
-                description:
-                - It is the pnp settings virtual account's cert.
-                type: str
-            makeDefault:
-                description:
-                - It is the pnp settings virtual account's makeDefault.
-                type: bool
-            name:
-                description:
-                - It is the pnp settings virtual account's name.
-                type: str
-            port:
-                description:
-                - It is the pnp settings virtual account's port.
-                type: int
-            profileId:
-                description:
-                - It is the pnp settings virtual account's profileId.
-                type: str
-            proxy:
-                description:
-                - It is the pnp settings virtual account's proxy.
-                type: bool
-
-    smart_account_id:
-        description:
-        - SAVAMapping's smartAccountId.
-        type: str
-        required: True
-    sync_result:
-        description:
-        - SAVAMapping's syncResult.
-        type: dict
-        suboptions:
-            syncList:
-                description:
-                - It is the pnp settings virtual account's syncList.
-                type: list
-                elements: dict
-                suboptions:
-                    deviceSnList:
-                        description:
-                        - It is the pnp settings virtual account's deviceSnList.
-                        type: list
-                    syncType:
-                        description:
-                        - It is the pnp settings virtual account's syncType.
-                        type: str
-
-            syncMsg:
-                description:
-                - It is the pnp settings virtual account's syncMsg.
-                type: str
-
-    sync_result_str:
-        description:
-        - SAVAMapping's syncResultStr.
-        type: str
-    sync_start_time:
-        description:
-        - SAVAMapping's syncStartTime.
-        type: int
-    sync_status:
-        description:
-        - SAVAMapping's syncStatus.
-        type: str
-        required: True
-        choices: ['NOT_SYNCED', 'SYNCING', 'SUCCESS', 'FAILURE']
-    tenant_id:
-        description:
-        - SAVAMapping's tenantId.
-        type: str
-    token:
-        description:
-        - SAVAMapping's token.
-        type: str
-    virtual_account_id:
-        description:
-        - SAVAMapping's virtualAccountId.
-        type: str
-        required: True
-    domain:
-        description:
-        - Smart Account Domain.
-        type: str
     name:
         description:
         - Virtual Account Name.
@@ -718,9 +601,11 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

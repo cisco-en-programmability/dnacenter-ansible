@@ -38,10 +38,12 @@ options:
     site_id:
         description:
         - Site id to which Site details to retrieve.
+        - Required for state absent.
         type: str
     type:
         description:
         - Type (ex: area, building, floor).
+        - Required for state present.
         type: str
     site:
         description:
@@ -68,17 +70,9 @@ options:
                 - It is the Site's building.
                 type: dict
                 suboptions:
-                    name:
-                        description:
-                        - It is the Site's name.
-                        type: str
                     address:
                         description:
                         - It is the Site's address.
-                        type: str
-                    parentName:
-                        description:
-                        - It is the Site's parentName.
                         type: str
                     latitude:
                         description:
@@ -88,12 +82,28 @@ options:
                         description:
                         - It is the Site's longitude.
                         type: int
+                    name:
+                        description:
+                        - It is the Site's name.
+                        type: str
+                    parentName:
+                        description:
+                        - It is the Site's parentName.
+                        type: str
 
             floor:
                 description:
                 - It is the Site's floor.
                 type: dict
                 suboptions:
+                    height:
+                        description:
+                        - It is the Site's height.
+                        type: int
+                    length:
+                        description:
+                        - It is the Site's length.
+                        type: int
                     name:
                         description:
                         - It is the Site's name.
@@ -110,115 +120,8 @@ options:
                         description:
                         - It is the Site's width.
                         type: int
-                    length:
-                        description:
-                        - It is the Site's length.
-                        type: int
-                    height:
-                        description:
-                        - It is the Site's height.
-                        type: int
 
 
-    type:
-        description:
-        - Type, property of the request body.
-        type: str
-        required: True
-        choices: ['area', 'building', 'floor']
-    site_id:
-        description:
-        - Site id to which Site details to be deleted.
-        type: str
-        required: True
-    site_id:
-        description:
-        - Site id to which Site details to be updated.
-        type: str
-        required: True
-    site:
-        description:
-        - Site, property of the request body.
-        type: dict
-        required: True
-        suboptions:
-            area:
-                description:
-                - It is the Site's area.
-                type: dict
-                suboptions:
-                    name:
-                        description:
-                        - It is the Site's name.
-                        type: str
-                    parentName:
-                        description:
-                        - It is the Site's parentName.
-                        type: str
-
-            building:
-                description:
-                - It is the Site's building.
-                type: dict
-                suboptions:
-                    name:
-                        description:
-                        - It is the Site's name.
-                        type: str
-                    address:
-                        description:
-                        - It is the Site's address.
-                        type: str
-                    parentName:
-                        description:
-                        - It is the Site's parentName.
-                        type: str
-                    latitude:
-                        description:
-                        - It is the Site's latitude.
-                        type: int
-                    longitude:
-                        description:
-                        - It is the Site's longitude.
-                        type: int
-
-            floor:
-                description:
-                - It is the Site's floor.
-                type: dict
-                suboptions:
-                    name:
-                        description:
-                        - It is the Site's name.
-                        type: str
-                    rfModel:
-                        description:
-                        - It is the Site's rfModel.
-                        type: str
-                    width:
-                        description:
-                        - It is the Site's width.
-                        type: int
-                    length:
-                        description:
-                        - It is the Site's length.
-                        type: int
-                    height:
-                        description:
-                        - It is the Site's height.
-                        type: int
-
-
-    type:
-        description:
-        - Type, property of the request body.
-        type: str
-        required: True
-        choices: ['area', 'building', 'floor']
-    site_id:
-        description:
-        - Site id to retrieve Site count.
-        type: str
     count:
         description:
         - If true gets the number of objects.
@@ -455,10 +358,12 @@ def main():
         ec = SiteExistenceCriteria(dnac)
 
         if ec.object_exists():
+            dnac.disable_validation()
             dnac.exec("put")
             dnac.result.update({"warning": ec.WARN_OBJECT_EXISTS})
 
         else:
+            dnac.disable_validation()
             dnac.exec("post")
 
     dnac.exit_json()

@@ -24,24 +24,25 @@ options:
     ssid_name:
         description:
         - Enter the enterprise SSID name that needs to be retrieved. If not entered, all the enterprise SSIDs will be retrieved.
+        - Required for state delete.
         type: str
-    enable_broadcast_ssi_d:
+    enableBroadcastSSID:
         description:
         - EnableBroadcastSSID, property of the request body.
         type: bool
-    enable_fast_lane:
+    enableFastLane:
         description:
         - EnableFastLane, property of the request body.
         type: bool
-    enable_mac_filtering:
+    enableMACFiltering:
         description:
         - EnableMACFiltering, property of the request body.
         type: bool
-    fast_transition:
+    fastTransition:
         description:
         - Fast Transition, property of the request body.
+        - Available values are 'Adaptive', 'Enable' and 'Disable'.
         type: str
-        choices: ['Adaptive', 'Enable', 'Disable']
     name:
         description:
         - Enter SSID Name, property of the request body. Constraints: maxLength set to 32.
@@ -51,27 +52,22 @@ options:
         description:
         - Pass Phrase (Only applicable for SSID with PERSONAL security level), property of the request body. Constraints: maxLength set to 63 and minLength set to 8.
         type: str
-    radio_policy:
+    radioPolicy:
         description:
         - Radio Policy, property of the request body.
+        - Available values are 'Dual band operation (2.4GHz and 5GHz)', 'Dual band operation with band select', '5GHz only' and '2.4GHz only'.
         type: str
-        choices: ['Dual band operation (2.4GHz and 5GHz)', 'Dual band operation with band select', '5GHz only', '2.4GHz only']
-    security_level:
+    securityLevel:
         description:
         - Security Level, property of the request body.
+        - Available values are 'WPA2_ENTERPRISE', 'WPA2_PERSONAL' and 'OPEN'.
         type: str
         required: True
-        choices: ['WPA2_ENTERPRISE', 'WPA2_PERSONAL', 'OPEN']
-    traffic_type:
+    trafficType:
         description:
         - Traffic Type, property of the request body.
+        - Available values are 'voicedata' and 'data'.
         type: str
-        choices: ['voicedata', 'data']
-    ssid_name:
-        description:
-        - Enter the SSID name to be deleted.
-        type: str
-        required: True
 
 requirements:
 - dnacentersdk

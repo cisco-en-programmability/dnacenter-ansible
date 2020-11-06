@@ -26,8 +26,8 @@ options:
     project_id:
         description:
         - ProjectId path parameter.
+        - Required for state create.
         type: str
-        required: True
     author:
         description:
         - TemplateDTO's author.
@@ -36,7 +36,7 @@ options:
         description:
         - TemplateDTO's composite.
         type: bool
-    containing_templates:
+    containingTemplates:
         description:
         - TemplateDTO's containingTemplates (list of objects).
         type: list
@@ -59,7 +59,7 @@ options:
                 - It is the Template's version.
                 type: str
 
-    create_time:
+    createTime:
         description:
         - TemplateDTO's createTime.
         type: int
@@ -67,7 +67,7 @@ options:
         description:
         - TemplateDTO's description.
         type: str
-    device_types:
+    deviceTypes:
         description:
         - TemplateDTO's deviceTypes (list of objects).
         type: list
@@ -86,16 +86,15 @@ options:
                 - It is the Template's productType.
                 type: str
 
-    failure_policy:
+    failurePolicy:
         description:
         - TemplateDTO's failurePolicy.
         type: str
-        choices: ['ABORT_ON_ERROR', 'CONTINUE_ON_ERROR', 'ROLLBACK_ON_ERROR', 'ROLLBACK_TARGET_ON_ERROR', 'ABORT_TARGET_ON_ERROR']
     id:
         description:
         - TemplateDTO's id.
         type: str
-    last_update_time:
+    lastUpdateTime:
         description:
         - TemplateDTO's lastUpdateTime.
         type: int
@@ -103,23 +102,23 @@ options:
         description:
         - TemplateDTO's name.
         type: str
-    parent_template_id:
+    parentTemplateId:
         description:
         - TemplateDTO's parentTemplateId.
         type: str
-    project_id:
+    projectId:
         description:
         - TemplateDTO's projectId.
         type: str
-    project_name:
+    projectName:
         description:
         - TemplateDTO's projectName.
         type: str
-    rollback_template_content:
+    rollbackTemplateContent:
         description:
         - TemplateDTO's rollbackTemplateContent.
         type: str
-    rollback_template_params:
+    rollbackTemplateParams:
         description:
         - TemplateDTO's rollbackTemplateParams (list of objects).
         type: list
@@ -223,15 +222,15 @@ options:
                         type: dict
 
 
-    software_type:
+    softwareType:
         description:
         - TemplateDTO's softwareType.
         type: str
-    software_variant:
+    softwareVariant:
         description:
         - TemplateDTO's softwareVariant.
         type: str
-    software_version:
+    softwareVersion:
         description:
         - TemplateDTO's softwareVersion.
         type: str
@@ -239,11 +238,11 @@ options:
         description:
         - TemplateDTO's tags (list of strings).
         type: list
-    template_content:
+    templateContent:
         description:
         - TemplateDTO's TemplateContent.
         type: str
-    template_params:
+    templateParams:
         description:
         - TemplateDTO's TemplateParams (list of objects).
         type: list
@@ -367,10 +366,6 @@ options:
         description:
         - ProductType query parameter.
         type: str
-    project_id:
-        description:
-        - ProjectId query parameter.
-        type: str
     software_type:
         description:
         - SoftwareType query parameter.
@@ -378,329 +373,6 @@ options:
     software_version:
         description:
         - SoftwareVersion query parameter.
-        type: str
-    author:
-        description:
-        - TemplateDTO's author.
-        type: str
-    composite:
-        description:
-        - TemplateDTO's composite.
-        type: bool
-    containing_templates:
-        description:
-        - TemplateDTO's containingTemplates (list of objects).
-        type: list
-        elements: dict
-        suboptions:
-            composite:
-                description:
-                - It is the Template's composite.
-                type: bool
-            id:
-                description:
-                - It is the Template's id.
-                type: str
-            name:
-                description:
-                - It is the Template's name.
-                type: str
-            version:
-                description:
-                - It is the Template's version.
-                type: str
-
-    create_time:
-        description:
-        - TemplateDTO's createTime.
-        type: int
-    description:
-        description:
-        - TemplateDTO's description.
-        type: str
-    device_types:
-        description:
-        - TemplateDTO's deviceTypes (list of objects).
-        type: list
-        elements: dict
-        suboptions:
-            productFamily:
-                description:
-                - It is the Template's productFamily.
-                type: str
-            productSeries:
-                description:
-                - It is the Template's productSeries.
-                type: str
-            productType:
-                description:
-                - It is the Template's productType.
-                type: str
-
-    failure_policy:
-        description:
-        - TemplateDTO's failurePolicy.
-        type: str
-        choices: ['ABORT_ON_ERROR', 'CONTINUE_ON_ERROR', 'ROLLBACK_ON_ERROR', 'ROLLBACK_TARGET_ON_ERROR', 'ABORT_TARGET_ON_ERROR']
-    id:
-        description:
-        - TemplateDTO's id.
-        type: str
-    last_update_time:
-        description:
-        - TemplateDTO's lastUpdateTime.
-        type: int
-    name:
-        description:
-        - TemplateDTO's name.
-        type: str
-    parent_template_id:
-        description:
-        - TemplateDTO's parentTemplateId.
-        type: str
-    project_id:
-        description:
-        - TemplateDTO's projectId.
-        type: str
-    project_name:
-        description:
-        - TemplateDTO's projectName.
-        type: str
-    rollback_template_content:
-        description:
-        - TemplateDTO's rollbackTemplateContent.
-        type: str
-    rollback_template_params:
-        description:
-        - TemplateDTO's rollbackTemplateParams (list of objects).
-        type: list
-        elements: dict
-        suboptions:
-            binding:
-                description:
-                - It is the Template's binding.
-                type: str
-            dataType:
-                description:
-                - It is the Template's dataType.
-                type: str
-            defaultValue:
-                description:
-                - It is the Template's defaultValue.
-                type: str
-            description:
-                description:
-                - It is the Template's description.
-                type: str
-            displayName:
-                description:
-                - It is the Template's displayName.
-                type: str
-            group:
-                description:
-                - It is the Template's group.
-                type: str
-            id:
-                description:
-                - It is the Template's id.
-                type: str
-            instructionText:
-                description:
-                - It is the Template's instructionText.
-                type: str
-            key:
-                description:
-                - It is the Template's key.
-                type: str
-            notParam:
-                description:
-                - It is the Template's notParam.
-                type: bool
-            order:
-                description:
-                - It is the Template's order.
-                type: int
-            paramArray:
-                description:
-                - It is the Template's paramArray.
-                type: bool
-            parameterName:
-                description:
-                - It is the Template's parameterName.
-                type: str
-            provider:
-                description:
-                - It is the Template's provider.
-                type: str
-            range:
-                description:
-                - It is the Template's range.
-                type: list
-                elements: dict
-                suboptions:
-                    id:
-                        description:
-                        - It is the Template's id.
-                        type: str
-                    maxValue:
-                        description:
-                        - It is the Template's maxValue.
-                        type: int
-                    minValue:
-                        description:
-                        - It is the Template's minValue.
-                        type: int
-
-            required:
-                description:
-                - It is the Template's required.
-                type: bool
-            selection:
-                description:
-                - It is the Template's selection.
-                type: dict
-                suboptions:
-                    id:
-                        description:
-                        - It is the Template's id.
-                        type: str
-                    selectionType:
-                        description:
-                        - It is the Template's selectionType.
-                        type: str
-                    selectionValues:
-                        description:
-                        - It is the Template's selectionValues.
-                        type: dict
-
-
-    software_type:
-        description:
-        - TemplateDTO's softwareType.
-        type: str
-    software_variant:
-        description:
-        - TemplateDTO's softwareVariant.
-        type: str
-    software_version:
-        description:
-        - TemplateDTO's softwareVersion.
-        type: str
-    tags:
-        description:
-        - TemplateDTO's tags (list of strings).
-        type: list
-    template_content:
-        description:
-        - TemplateDTO's TemplateContent.
-        type: str
-    template_params:
-        description:
-        - TemplateDTO's TemplateParams (list of objects).
-        type: list
-        elements: dict
-        suboptions:
-            binding:
-                description:
-                - It is the Template's binding.
-                type: str
-            dataType:
-                description:
-                - It is the Template's dataType.
-                type: str
-            defaultValue:
-                description:
-                - It is the Template's defaultValue.
-                type: str
-            description:
-                description:
-                - It is the Template's description.
-                type: str
-            displayName:
-                description:
-                - It is the Template's displayName.
-                type: str
-            group:
-                description:
-                - It is the Template's group.
-                type: str
-            id:
-                description:
-                - It is the Template's id.
-                type: str
-            instructionText:
-                description:
-                - It is the Template's instructionText.
-                type: str
-            key:
-                description:
-                - It is the Template's key.
-                type: str
-            notParam:
-                description:
-                - It is the Template's notParam.
-                type: bool
-            order:
-                description:
-                - It is the Template's order.
-                type: int
-            paramArray:
-                description:
-                - It is the Template's paramArray.
-                type: bool
-            parameterName:
-                description:
-                - It is the Template's parameterName.
-                type: str
-            provider:
-                description:
-                - It is the Template's provider.
-                type: str
-            range:
-                description:
-                - It is the Template's range.
-                type: list
-                elements: dict
-                suboptions:
-                    id:
-                        description:
-                        - It is the Template's id.
-                        type: str
-                    maxValue:
-                        description:
-                        - It is the Template's maxValue.
-                        type: int
-                    minValue:
-                        description:
-                        - It is the Template's minValue.
-                        type: int
-
-            required:
-                description:
-                - It is the Template's required.
-                type: bool
-            selection:
-                description:
-                - It is the Template's selection.
-                type: dict
-                suboptions:
-                    id:
-                        description:
-                        - It is the Template's id.
-                        type: str
-                    selectionType:
-                        description:
-                        - It is the Template's selectionType.
-                        type: str
-                    selectionValues:
-                        description:
-                        - It is the Template's selectionValues.
-                        type: dict
-
-
-    version:
-        description:
-        - TemplateDTO's version.
         type: str
     template_id:
         description:
@@ -711,11 +383,6 @@ options:
         description:
         - LatestVersion query parameter.
         type: bool
-    template_id:
-        description:
-        - TemplateId path parameter.
-        type: str
-        required: True
 
 requirements:
 - dnacentersdk
@@ -1239,9 +906,11 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

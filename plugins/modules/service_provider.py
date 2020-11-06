@@ -34,52 +34,26 @@ options:
                 type: list
                 elements: dict
                 suboptions:
-                    profileName:
-                        description:
-                        - It is the service provider's profileName.
-                        type: str
-                        required: True
                     model:
                         description:
                         - It is the service provider's model.
-                        type: str
-                        required: True
-                    wanProvider:
-                        description:
-                        - It is the service provider's wanProvider.
-                        type: str
-                        required: True
-
-
-    settings:
-        description:
-        - Settings, property of the request body.
-        type: dict
-        required: True
-        suboptions:
-            qos:
-                description:
-                - It is the service provider's qos.
-                type: list
-                elements: dict
-                suboptions:
-                    profileName:
-                        description:
-                        - It is the service provider's profileName.
-                        type: str
-                    model:
-                        description:
-                        - It is the service provider's model.
-                        type: str
-                    wanProvider:
-                        description:
-                        - It is the service provider's wanProvider.
+                        - Required for state create.
                         type: str
                     oldProfileName:
                         description:
                         - It is the service provider's oldProfileName.
                         type: str
                         required: True
+                    profileName:
+                        description:
+                        - It is the service provider's profileName.
+                        - Required for state create.
+                        type: str
+                    wanProvider:
+                        description:
+                        - It is the service provider's wanProvider.
+                        - Required for state create.
+                        type: str
 
 
     sp_profile_name:
@@ -286,9 +260,11 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

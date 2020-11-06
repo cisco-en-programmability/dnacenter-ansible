@@ -24,7 +24,7 @@ options:
         description:
         - TemplateVersionRequestDTO's comments.
         type: str
-    template_id:
+    templateId:
         description:
         - TemplateVersionRequestDTO's templateId.
         type: str
@@ -162,6 +162,7 @@ def main():
         dnac.exec("get")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()

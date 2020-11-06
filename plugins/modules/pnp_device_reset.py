@@ -19,7 +19,7 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    device_reset_list:
+    deviceResetList:
         description:
         - ResetRequest's deviceResetList (list of objects).
         type: list
@@ -68,11 +68,11 @@ options:
                 - It is the pnp device reset's topOfStackSerialNumber.
                 type: str
 
-    project_id:
+    projectId:
         description:
         - ResetRequest's projectId.
         type: str
-    workflow_id:
+    workflowId:
         description:
         - ResetRequest's workflowId.
         type: str
@@ -147,6 +147,7 @@ def main():
     state = module.params.get("state")
 
     if state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()

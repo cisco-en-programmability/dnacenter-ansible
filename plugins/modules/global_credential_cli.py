@@ -22,7 +22,7 @@ author: first last (@GitHubID)
 options:
     payload:
         description:
-        - A JSON serializable Python object to send in the body of the Request.
+        - An object to send in the Request body.
         type: list
         required: True
         elements: dict
@@ -71,16 +71,16 @@ options:
         description:
         - CLICredentialDTO's comments.
         type: str
-    credential_type:
+    credentialType:
         description:
         - CLICredentialDTO's credentialType.
+        - Available values are 'GLOBAL' and 'APP'.
         type: str
-        choices: ['GLOBAL', 'APP']
     description:
         description:
         - CLICredentialDTO's description.
         type: str
-    enable_password:
+    enablePassword:
         description:
         - CLICredentialDTO's enablePassword.
         type: str
@@ -89,11 +89,11 @@ options:
         description:
         - CLICredentialDTO's id.
         type: str
-    instance_tenant_id:
+    instanceTenantId:
         description:
         - CLICredentialDTO's instanceTenantId.
         type: str
-    instance_uuid:
+    instanceUuid:
         description:
         - CLICredentialDTO's instanceUuid.
         type: str
@@ -206,9 +206,11 @@ def main():
     state = module.params.get("state")
 
     if state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

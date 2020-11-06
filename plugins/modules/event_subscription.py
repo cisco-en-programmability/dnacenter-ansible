@@ -49,26 +49,29 @@ options:
         type: str
     payload:
         description:
-        - A JSON serializable Python object to send in the body of the Request.
+        - An object to send in the Request body.
         type: list
         required: True
         elements: dict
         suboptions:
-            subscriptionId:
-                description:
-                - It is the event subscription's subscriptionId.
-                type: str
-            version:
-                description:
-                - It is the event subscription's version.
-                type: str
-            name:
-                description:
-                - It is the event subscription's name.
-                type: str
             description:
                 description:
                 - It is the event subscription's description.
+                type: str
+            filter:
+                description:
+                - It is the event subscription's filter.
+                type: dict
+                required: True
+                suboptions:
+                    eventIds:
+                        description:
+                        - It is the event subscription's eventIds.
+                        type: list
+
+            name:
+                description:
+                - It is the event subscription's name.
                 type: str
             subscriptionEndpoints:
                 description:
@@ -85,6 +88,14 @@ options:
                         - It is the event subscription's subscriptionDetails.
                         type: dict
                         suboptions:
+                            connectorType:
+                                description:
+                                - It is the event subscription's connectorType.
+                                type: str
+                            method:
+                                description:
+                                - It is the event subscription's method.
+                                type: str
                             name:
                                 description:
                                 - It is the event subscription's name.
@@ -93,35 +104,8 @@ options:
                                 description:
                                 - It is the event subscription's url.
                                 type: str
-                            method:
-                                description:
-                                - It is the event subscription's method.
-                                type: str
-                            connectorType:
-                                description:
-                                - It is the event subscription's connectorType.
-                                type: str
 
 
-            filter:
-                description:
-                - It is the event subscription's filter.
-                type: dict
-                required: True
-                suboptions:
-                    eventIds:
-                        description:
-                        - It is the event subscription's eventIds.
-                        type: list
-
-
-    payload:
-        description:
-        - A JSON serializable Python object to send in the body of the Request.
-        type: list
-        required: True
-        elements: dict
-        suboptions:
             subscriptionId:
                 description:
                 - It is the event subscription's subscriptionId.
@@ -130,63 +114,7 @@ options:
                 description:
                 - It is the event subscription's version.
                 type: str
-            name:
-                description:
-                - It is the event subscription's name.
-                type: str
-            description:
-                description:
-                - It is the event subscription's description.
-                type: str
-            subscriptionEndpoints:
-                description:
-                - It is the event subscription's subscriptionEndpoints.
-                type: list
-                elements: dict
-                suboptions:
-                    instanceId:
-                        description:
-                        - It is the event subscription's instanceId.
-                        type: str
-                    subscriptionDetails:
-                        description:
-                        - It is the event subscription's subscriptionDetails.
-                        type: dict
-                        suboptions:
-                            name:
-                                description:
-                                - It is the event subscription's name.
-                                type: str
-                            url:
-                                description:
-                                - It is the event subscription's url.
-                                type: str
-                            method:
-                                description:
-                                - It is the event subscription's method.
-                                type: str
-                            connectorType:
-                                description:
-                                - It is the event subscription's connectorType.
-                                type: str
 
-
-            filter:
-                description:
-                - It is the event subscription's filter.
-                type: dict
-                required: True
-                suboptions:
-                    eventIds:
-                        description:
-                        - It is the event subscription's eventIds.
-                        type: list
-
-
-    event_ids:
-        description:
-        - List of subscriptions related to the respective eventIds.
-        type: str
     count:
         description:
         - If true gets the number of objects.
@@ -363,9 +291,11 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

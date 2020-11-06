@@ -37,22 +37,10 @@ options:
         description:
         - Offset query parameter.
         type: int
-    ip_address:
-        description:
-        - IpAddress query parameter.
-        type: str
-    limit:
-        description:
-        - Limit query parameter.
-        type: int
     name:
         description:
         - Name query parameter.
         type: str
-    offset:
-        description:
-        - Offset query parameter.
-        type: int
 
 requirements:
 - dnacentersdk

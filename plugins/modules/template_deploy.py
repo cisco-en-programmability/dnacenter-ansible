@@ -20,23 +20,23 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    force_push_template:
+    forcePushTemplate:
         description:
         - TemplateDeploymentInfo's forcePushTemplate.
         type: bool
-    is_composite:
+    isComposite:
         description:
         - TemplateDeploymentInfo's isComposite.
         type: bool
-    main_template_id:
+    mainTemplateId:
         description:
         - TemplateDeploymentInfo's mainTemplateId.
         type: str
-    member_template_deployment_info:
+    memberTemplateDeploymentInfo:
         description:
         - TemplateDeploymentInfo's memberTemplateDeploymentInfo (list of any objects).
         type: list
-    target_info:
+    targetInfo:
         description:
         - TemplateDeploymentInfo's targetInfo (list of objects).
         type: list
@@ -59,7 +59,7 @@ options:
                 - It is the template deploy's type.
                 type: str
 
-    template_id:
+    templateId:
         description:
         - TemplateDeploymentInfo's templateId.
         type: str
@@ -302,6 +302,7 @@ def main():
         dnac.exec("get")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()

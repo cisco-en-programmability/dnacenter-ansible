@@ -23,7 +23,7 @@ options:
         description:
         - TemplatePreviewRequestDTO's params.
         type: dict
-    template_id:
+    templateId:
         description:
         - TemplatePreviewRequestDTO's templateId.
         type: str
@@ -94,6 +94,7 @@ def main():
     state = module.params.get("state")
 
     if state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

@@ -82,16 +82,16 @@ options:
         description:
         - Task ID.
         type: str
-    control_path:
+    controlPath:
         description:
         - FlowAnalysisRequest's controlPath.
         type: bool
-    dest_ip:
+    destIP:
         description:
         - FlowAnalysisRequest's destIP.
         type: str
         required: True
-    dest_port:
+    destPort:
         description:
         - FlowAnalysisRequest's destPort.
         type: str
@@ -99,28 +99,19 @@ options:
         description:
         - FlowAnalysisRequest's inclusions (list of strings).
         type: list
-    periodic_refresh:
+    periodicRefresh:
         description:
         - FlowAnalysisRequest's periodicRefresh.
         type: bool
-    protocol:
-        description:
-        - FlowAnalysisRequest's protocol.
-        type: str
-    source_ip:
+    sourceIP:
         description:
         - FlowAnalysisRequest's sourceIP.
         type: str
         required: True
-    source_port:
+    sourcePort:
         description:
         - FlowAnalysisRequest's sourcePort.
         type: str
-    flow_analysis_id:
-        description:
-        - Flow analysis request id.
-        type: str
-        required: True
     flow_analysis_id:
         description:
         - Flow analysis request id.
@@ -3560,6 +3551,7 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()

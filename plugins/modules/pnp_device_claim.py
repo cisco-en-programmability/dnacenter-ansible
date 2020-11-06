@@ -19,15 +19,15 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    config_file_url:
+    configFileUrl:
         description:
         - ClaimDeviceRequest's configFileUrl.
         type: str
-    config_id:
+    configId:
         description:
         - ClaimDeviceRequest's configId.
         type: str
-    device_claim_list:
+    deviceClaimList:
         description:
         - ClaimDeviceRequest's deviceClaimList (list of objects).
         type: list
@@ -76,27 +76,27 @@ options:
                 - It is the pnp device claim's topOfStackSerialNumber.
                 type: str
 
-    file_service_id:
+    fileServiceId:
         description:
         - ClaimDeviceRequest's fileServiceId.
         type: str
-    image_id:
+    imageId:
         description:
         - ClaimDeviceRequest's imageId.
         type: str
-    image_url:
+    imageUrl:
         description:
         - ClaimDeviceRequest's imageUrl.
         type: str
-    populate_inventory:
+    populateInventory:
         description:
         - ClaimDeviceRequest's populateInventory.
         type: bool
-    project_id:
+    projectId:
         description:
         - ClaimDeviceRequest's projectId.
         type: str
-    workflow_id:
+    workflowId:
         description:
         - ClaimDeviceRequest's workflowId.
         type: str
@@ -171,6 +171,7 @@ def main():
     state = module.params.get("state")
 
     if state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()

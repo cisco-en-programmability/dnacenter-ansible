@@ -28,7 +28,7 @@ options:
         description:
         - CommandRunnerDTO's description.
         type: str
-    device_uuids:
+    deviceUuids:
         description:
         - CommandRunnerDTO's deviceUuids (list of strings).
         type: list
@@ -114,6 +114,7 @@ def main():
     state = module.params.get("state")
 
     if state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()

@@ -72,42 +72,6 @@ options:
         description:
         - Type .
         type: str
-    category:
-        description:
-        - Category .
-        type: str
-    domain:
-        description:
-        - Domain .
-        type: str
-    end_time:
-        description:
-        - EndTime .
-        type: str
-    event_ids:
-        description:
-        - The registered EventIds should be provided.
-        type: str
-    severity:
-        description:
-        - Severity .
-        type: str
-    source:
-        description:
-        - Source .
-        type: str
-    start_time:
-        description:
-        - StartTime .
-        type: str
-    sub_domain:
-        description:
-        - SubDomain .
-        type: str
-    type:
-        description:
-        - Type .
-        type: str
     count:
         description:
         - If true gets the number of objects.

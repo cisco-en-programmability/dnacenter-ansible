@@ -22,7 +22,7 @@ author: first last (@GitHubID)
 options:
     payload:
         description:
-        - A JSON serializable Python object to send in the body of the Request.
+        - An object to send in the Request body.
         type: list
         required: True
         elements: dict
@@ -75,11 +75,11 @@ options:
         description:
         - HTTPWriteCredentialDTO's comments.
         type: str
-    credential_type:
+    credentialType:
         description:
         - HTTPWriteCredentialDTO's credentialType.
+        - Available values are 'GLOBAL' and 'APP'.
         type: str
-        choices: ['GLOBAL', 'APP']
     description:
         description:
         - HTTPWriteCredentialDTO's description.
@@ -88,11 +88,11 @@ options:
         description:
         - HTTPWriteCredentialDTO's id.
         type: str
-    instance_tenant_id:
+    instanceTenantId:
         description:
         - HTTPWriteCredentialDTO's instanceTenantId.
         type: str
-    instance_uuid:
+    instanceUuid:
         description:
         - HTTPWriteCredentialDTO's instanceUuid.
         type: str
@@ -214,9 +214,11 @@ def main():
     state = module.params.get("state")
 
     if state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

@@ -19,11 +19,11 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    auto_sync_period:
+    autoSyncPeriod:
         description:
         - SAVAMapping's autoSyncPeriod.
         type: int
-    cco_user:
+    ccoUser:
         description:
         - SAVAMapping's ccoUser.
         type: str
@@ -31,7 +31,7 @@ options:
         description:
         - SAVAMapping's expiry.
         type: int
-    last_sync:
+    lastSync:
         description:
         - SAVAMapping's lastSync.
         type: int
@@ -74,12 +74,12 @@ options:
                 - It is the pnp device virtual account sync's proxy.
                 type: bool
 
-    smart_account_id:
+    smartAccountId:
         description:
         - SAVAMapping's smartAccountId.
         type: str
         required: True
-    sync_result:
+    syncResult:
         description:
         - SAVAMapping's syncResult.
         type: dict
@@ -104,21 +104,21 @@ options:
                 - It is the pnp device virtual account sync's syncMsg.
                 type: str
 
-    sync_result_str:
+    syncResultStr:
         description:
         - SAVAMapping's syncResultStr.
         type: str
-    sync_start_time:
+    syncStartTime:
         description:
         - SAVAMapping's syncStartTime.
         type: int
-    sync_status:
+    syncStatus:
         description:
         - SAVAMapping's syncStatus.
+        - Available values are 'NOT_SYNCED', 'SYNCING', 'SUCCESS' and 'FAILURE'.
         type: str
         required: True
-        choices: ['NOT_SYNCED', 'SYNCING', 'SUCCESS', 'FAILURE']
-    tenant_id:
+    tenantId:
         description:
         - SAVAMapping's tenantId.
         type: str
@@ -126,7 +126,7 @@ options:
         description:
         - SAVAMapping's token.
         type: str
-    virtual_account_id:
+    virtualAccountId:
         description:
         - SAVAMapping's virtualAccountId.
         type: str
@@ -311,6 +311,7 @@ def main():
     state = module.params.get("state")
 
     if state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()

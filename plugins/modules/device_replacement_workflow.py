@@ -19,12 +19,12 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    faulty_device_serial_number:
+    faultyDeviceSerialNumber:
         description:
         - DeviceReplacementWorkflowDTO's faultyDeviceSerialNumber.
         type: str
         required: True
-    replacement_device_serial_number:
+    replacementDeviceSerialNumber:
         description:
         - DeviceReplacementWorkflowDTO's replacementDeviceSerialNumber.
         type: str
@@ -102,6 +102,7 @@ def main():
     state = module.params.get("state")
 
     if state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()

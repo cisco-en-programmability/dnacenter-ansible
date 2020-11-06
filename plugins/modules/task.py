@@ -84,69 +84,14 @@ options:
         - UUID of the Task.
         type: str
         required: True
-    data:
-        description:
-        - Fetch Tasks that contains this data.
-        type: str
-    end_time:
-        description:
-        - This is the epoch end time upto which audit records need to be fetched.
-        type: str
-    error_code:
-        description:
-        - Fetch Tasks that have this error code.
-        type: str
-    failure_reason:
-        description:
-        - Fetch Tasks that contains this failure reason.
-        type: str
-    is_error:
-        description:
-        - Fetch Tasks ended as success or failure. Valid values: true, false.
-        type: str
-    parent_id:
-        description:
-        - Fetch Tasks that have this parent Id.
-        type: str
-    progress:
-        description:
-        - Fetch Tasks that contains this progress.
-        type: str
-    service_type:
-        description:
-        - Fetch Tasks with this service type.
-        type: str
-    start_time:
-        description:
-        - This is the epoch start time from which Tasks need to be fetched.
-        type: str
-    username:
-        description:
-        - Fetch Tasks with this username.
-        type: str
     count:
         description:
         - If true gets the number of objects.
         type: bool
         required: True
-    limit:
-        description:
-        - The maximum value of {limit} supported is 500. Base 1 indexing for {limit}, minimum value is 1.
-        type: int
-        required: True
-    offset:
-        description:
-        - Index, minimum value is 0.
-        type: int
-        required: True
     operation_id:
         description:
         - OperationId path parameter.
-        type: str
-        required: True
-    task_id:
-        description:
-        - UUID of the Task.
         type: str
         required: True
     tree:

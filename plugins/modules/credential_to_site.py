@@ -24,27 +24,27 @@ options:
         - Site id to assign credential.
         type: str
         required: True
-    cli_id:
+    cliId:
         description:
         - Cli Id, property of the request body.
         type: str
-    http_read:
+    httpRead:
         description:
         - Http Read, property of the request body.
         type: str
-    http_write:
+    httpWrite:
         description:
         - Http Write, property of the request body.
         type: str
-    snmp_v2_read_id:
+    snmpV2ReadId:
         description:
         - Snmp V2 Read Id, property of the request body.
         type: str
-    snmp_v2_write_id:
+    snmpV2WriteId:
         description:
         - Snmp V2 Write Id, property of the request body.
         type: str
-    snmp_v3_id:
+    snmpV3Id:
         description:
         - Snmp V3 Id, property of the request body.
         type: str
@@ -116,6 +116,7 @@ def main():
     state = module.params.get("state")
 
     if state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()

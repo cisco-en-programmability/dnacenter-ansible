@@ -26,24 +26,24 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    cdp_level:
+    cdpLevel:
         description:
         - InventoryRequest's cdpLevel.
         type: int
-    discovery_type:
+    discoveryType:
         description:
         - InventoryRequest's DiscoveryType.
+        - Required for state create.
         type: str
-        required: True
-    enable_password_list:
+    enablePasswordList:
         description:
         - InventoryRequest's enablePasswordList (list of strings).
         type: list
-    global_credential_id_list:
+    globalCredentialIdList:
         description:
         - InventoryRequest's globalCredentialIdList (list of strings).
         type: list
-    http_read_credential:
+    httpReadCredential:
         description:
         - InventoryRequest's httpReadCredential.
         type: dict
@@ -89,7 +89,7 @@ options:
                 - It is the Discovery's username.
                 type: str
 
-    http_write_credential:
+    httpWriteCredential:
         description:
         - InventoryRequest's httpWriteCredential.
         type: dict
@@ -135,49 +135,49 @@ options:
                 - It is the Discovery's username.
                 type: str
 
-    ip_address_list:
+    ipAddressList:
         description:
         - InventoryRequest's ipAddressList.
+        - Required for state create.
         type: str
-        required: True
-    ip_filter_list:
+    ipFilterList:
         description:
         - InventoryRequest's ipFilterList (list of strings).
         type: list
-    lldp_level:
+    lldpLevel:
         description:
         - InventoryRequest's lldpLevel.
         type: int
     name:
         description:
         - InventoryRequest's name.
+        - Required for state create.
         type: str
-        required: True
-    netconf_port:
+    netconfPort:
         description:
         - InventoryRequest's netconfPort.
         type: str
-    no_add_new_device:
+    noAddNewDevice:
         description:
         - InventoryRequest's noAddNewDevice.
         type: bool
-    parent_discovery_id:
+    parentDiscoveryId:
         description:
         - InventoryRequest's parentDiscoveryId.
         type: str
-    password_list:
+    passwordList:
         description:
         - InventoryRequest's passwordList (list of strings).
         type: list
-    preferred_mgmt_ipmethod:
+    preferredMgmtIPMethod:
         description:
         - InventoryRequest's preferredMgmtIPMethod.
         type: str
-    protocol_order:
+    protocolOrder:
         description:
         - InventoryRequest's protocolOrder.
         type: str
-    re_discovery:
+    reDiscovery:
         description:
         - InventoryRequest's reDiscovery.
         type: bool
@@ -185,47 +185,47 @@ options:
         description:
         - InventoryRequest's retry.
         type: int
-    snmp_auth_passphrase:
+    snmpAuthPassphrase:
         description:
         - InventoryRequest's snmpAuthPassphrase.
         type: str
-    snmp_auth_protocol:
+    snmpAuthProtocol:
         description:
         - InventoryRequest's snmpAuthProtocol.
         type: str
-    snmp_mode:
+    snmpMode:
         description:
         - InventoryRequest's snmpMode.
         type: str
-    snmp_priv_passphrase:
+    snmpPrivPassphrase:
         description:
         - InventoryRequest's snmpPrivPassphrase.
         type: str
-    snmp_priv_protocol:
+    snmpPrivProtocol:
         description:
         - InventoryRequest's snmpPrivProtocol.
         type: str
-    snmp_rocommunity:
+    snmpROCommunity:
         description:
         - InventoryRequest's snmpROCommunity.
         type: str
-    snmp_rocommunity_desc:
+    snmpROCommunityDesc:
         description:
         - InventoryRequest's snmpROCommunityDesc.
         type: str
-    snmp_rwcommunity:
+    snmpRWCommunity:
         description:
         - InventoryRequest's snmpRWCommunity.
         type: str
-    snmp_rwcommunity_desc:
+    snmpRWCommunityDesc:
         description:
         - InventoryRequest's snmpRWCommunityDesc.
         type: str
-    snmp_user_name:
+    snmpUserName:
         description:
         - InventoryRequest's snmpUserName.
         type: str
-    snmp_version:
+    snmpVersion:
         description:
         - InventoryRequest's snmpVersion.
         type: str
@@ -234,258 +234,72 @@ options:
         description:
         - InventoryRequest's timeout.
         type: int
-    update_mgmt_ip:
+    updateMgmtIp:
         description:
         - InventoryRequest's updateMgmtIp.
         type: bool
-    user_name_list:
+    userNameList:
         description:
         - InventoryRequest's userNameList (list of strings).
         type: list
-    attribute_info:
+    attributeInfo:
         description:
         - DiscoveryNIO's attributeInfo.
         type: dict
-    cdp_level:
-        description:
-        - DiscoveryNIO's cdpLevel.
-        type: int
-    device_ids:
+    deviceIds:
         description:
         - DiscoveryNIO's deviceIds.
         type: str
-    discovery_condition:
+    discoveryCondition:
         description:
         - DiscoveryNIO's DiscoveryCondition.
         type: str
-    discovery_status:
+    discoveryStatus:
         description:
         - DiscoveryNIO's DiscoveryStatus.
         type: str
         required: True
-    discovery_type:
-        description:
-        - DiscoveryNIO's DiscoveryType.
-        type: str
-    enable_password_list:
-        description:
-        - DiscoveryNIO's enablePasswordList.
-        type: str
-    global_credential_id_list:
-        description:
-        - DiscoveryNIO's globalCredentialIdList (list of strings).
-        type: list
-    http_read_credential:
-        description:
-        - DiscoveryNIO's httpReadCredential.
-        type: dict
-        suboptions:
-            comments:
-                description:
-                - It is the Discovery's comments.
-                type: str
-            credentialType:
-                description:
-                - It is the Discovery's credentialType.
-                type: str
-            description:
-                description:
-                - It is the Discovery's description.
-                type: str
-            id:
-                description:
-                - It is the Discovery's id.
-                type: str
-            instanceTenantId:
-                description:
-                - It is the Discovery's instanceTenantId.
-                type: str
-            instanceUuid:
-                description:
-                - It is the Discovery's instanceUuid.
-                type: str
-            password:
-                description:
-                - It is the Discovery's password.
-                type: str
-            port:
-                description:
-                - It is the Discovery's port.
-                type: int
-            secure:
-                description:
-                - It is the Discovery's secure.
-                type: bool
-            username:
-                description:
-                - It is the Discovery's username.
-                type: str
-
-    http_write_credential:
-        description:
-        - DiscoveryNIO's httpWriteCredential.
-        type: dict
-        suboptions:
-            comments:
-                description:
-                - It is the Discovery's comments.
-                type: str
-            credentialType:
-                description:
-                - It is the Discovery's credentialType.
-                type: str
-            description:
-                description:
-                - It is the Discovery's description.
-                type: str
-            id:
-                description:
-                - It is the Discovery's id.
-                type: str
-            instanceTenantId:
-                description:
-                - It is the Discovery's instanceTenantId.
-                type: str
-            instanceUuid:
-                description:
-                - It is the Discovery's instanceUuid.
-                type: str
-            password:
-                description:
-                - It is the Discovery's password.
-                type: str
-            port:
-                description:
-                - It is the Discovery's port.
-                type: int
-            secure:
-                description:
-                - It is the Discovery's secure.
-                type: bool
-            username:
-                description:
-                - It is the Discovery's username.
-                type: str
-
     id:
         description:
         - DiscoveryNIO's id.
         type: str
         required: True
-    ip_address_list:
-        description:
-        - DiscoveryNIO's ipAddressList.
-        type: str
-    ip_filter_list:
-        description:
-        - DiscoveryNIO's ipFilterList.
-        type: str
-    is_auto_cdp:
+    isAutoCdp:
         description:
         - DiscoveryNIO's isAutoCdp.
         type: bool
-    lldp_level:
-        description:
-        - DiscoveryNIO's lldpLevel.
-        type: int
-    name:
-        description:
-        - DiscoveryNIO's name.
-        type: str
-    netconf_port:
-        description:
-        - DiscoveryNIO's netconfPort.
-        type: str
-    num_devices:
+    numDevices:
         description:
         - DiscoveryNIO's numDevices.
         type: int
-    parent_discovery_id:
-        description:
-        - DiscoveryNIO's parentDiscoveryId.
-        type: str
-    password_list:
-        description:
-        - DiscoveryNIO's passwordList.
-        type: str
-    preferred_mgmt_ipmethod:
-        description:
-        - DiscoveryNIO's preferredMgmtIPMethod.
-        type: str
-    protocol_order:
-        description:
-        - DiscoveryNIO's protocolOrder.
-        type: str
-    retry_count:
+    retryCount:
         description:
         - DiscoveryNIO's retryCount.
         type: int
-    snmp_auth_passphrase:
-        description:
-        - DiscoveryNIO's snmpAuthPassphrase.
-        type: str
-    snmp_auth_protocol:
-        description:
-        - DiscoveryNIO's snmpAuthProtocol.
-        type: str
-    snmp_mode:
-        description:
-        - DiscoveryNIO's snmpMode.
-        type: str
-    snmp_priv_passphrase:
-        description:
-        - DiscoveryNIO's snmpPrivPassphrase.
-        type: str
-    snmp_priv_protocol:
-        description:
-        - DiscoveryNIO's snmpPrivProtocol.
-        type: str
-    snmp_ro_community:
+    snmpRoCommunity:
         description:
         - DiscoveryNIO's snmpRoCommunity.
         type: str
-    snmp_ro_community_desc:
+    snmpRoCommunityDesc:
         description:
         - DiscoveryNIO's snmpRoCommunityDesc.
         type: str
-    snmp_rw_community:
+    snmpRwCommunity:
         description:
         - DiscoveryNIO's snmpRwCommunity.
         type: str
-    snmp_rw_community_desc:
+    snmpRwCommunityDesc:
         description:
         - DiscoveryNIO's snmpRwCommunityDesc.
         type: str
-    snmp_user_name:
-        description:
-        - DiscoveryNIO's snmpUserName.
-        type: str
-    time_out:
+    timeOut:
         description:
         - DiscoveryNIO's timeOut.
         type: int
-    update_mgmt_ip:
-        description:
-        - DiscoveryNIO's updateMgmtIp.
-        type: bool
-    user_name_list:
-        description:
-        - DiscoveryNIO's userNameList.
-        type: str
     count:
         description:
         - If true gets the number of objects.
         type: bool
-        required: True
-    id:
-        description:
-        - Discovery ID.
-        type: str
-        required: True
-    id:
-        description:
-        - Discovery ID.
-        type: str
         required: True
     records_to_delete:
         description:
@@ -500,11 +314,6 @@ options:
     records_to_return:
         description:
         - Number of records to return.
-        type: int
-        required: True
-    start_index:
-        description:
-        - Start index.
         type: int
         required: True
 
@@ -1300,9 +1109,11 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

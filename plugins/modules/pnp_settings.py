@@ -24,7 +24,7 @@ options:
         description:
         - Settings's _id.
         type: str
-    aaa_credentials:
+    aaaCredentials:
         description:
         - Settings's aaaCredentials.
         type: dict
@@ -38,11 +38,11 @@ options:
                 - It is the pnp settings's username.
                 type: str
 
-    accept_eula:
+    acceptEula:
         description:
         - Settings's acceptEula.
         type: bool
-    default_profile:
+    defaultProfile:
         description:
         - Settings's defaultProfile.
         type: dict
@@ -68,7 +68,7 @@ options:
                 - It is the pnp settings's proxy.
                 type: bool
 
-    sava_mapping_list:
+    savaMappingList:
         description:
         - Settings's savaMappingList (list of objects).
         type: list
@@ -186,7 +186,7 @@ options:
                 type: str
                 required: True
 
-    task_time_outs:
+    taskTimeOuts:
         description:
         - Settings's taskTimeOuts.
         type: dict
@@ -204,7 +204,7 @@ options:
                 - It is the pnp settings's imageDownloadTimeOut.
                 type: int
 
-    tenant_id:
+    tenantId:
         description:
         - Settings's tenantId.
         type: str
@@ -722,6 +722,7 @@ def main():
         dnac.exec("get")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

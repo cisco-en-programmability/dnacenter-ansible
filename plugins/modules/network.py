@@ -24,18 +24,40 @@ options:
     site_id:
         description:
         - Site id to get the Network settings associated with the site.
+        - Required for state create.
         type: str
-    site_id:
-        description:
-        - Site id to which site details to associate with the Network settings.
-        type: str
-        required: True
     settings:
         description:
         - Settings, property of the request body.
         type: dict
         required: True
         suboptions:
+            clientAndEndpoint_aaa:
+                description:
+                - It is the Network's clientAndEndpoint_aaa.
+                type: dict
+                suboptions:
+                    ipAddress:
+                        description:
+                        - It is the Network's ipAddress.
+                        type: str
+                    network:
+                        description:
+                        - It is the Network's Network.
+                        type: str
+                    protocol:
+                        description:
+                        - It is the Network's protocol.
+                        type: str
+                    servers:
+                        description:
+                        - It is the Network's servers.
+                        type: str
+                    sharedSecret:
+                        description:
+                        - It is the Network's sharedSecret.
+                        type: str
+
             dhcpServer:
                 description:
                 - It is the Network's dhcpServer.
@@ -58,32 +80,18 @@ options:
                         - It is the Network's secondaryIpAddress.
                         type: str
 
-            syslogServer:
+            messageOfTheday:
                 description:
-                - It is the Network's syslogServer.
+                - It is the Network's messageOfTheday.
                 type: dict
                 suboptions:
-                    ipAddresses:
+                    bannerMessage:
                         description:
-                        - It is the Network's ipAddresses.
-                        type: list
-                    configureDnacIP:
+                        - It is the Network's bannerMessage.
+                        type: str
+                    retainExistingBanner:
                         description:
-                        - It is the Network's configureDnacIP.
-                        type: bool
-
-            snmpServer:
-                description:
-                - It is the Network's snmpServer.
-                type: dict
-                suboptions:
-                    ipAddresses:
-                        description:
-                        - It is the Network's ipAddresses.
-                        type: list
-                    configureDnacIP:
-                        description:
-                        - It is the Network's configureDnacIP.
+                        - It is the Network's retainExistingBanner.
                         type: bool
 
             netflowcollector:
@@ -100,37 +108,11 @@ options:
                         - It is the Network's port.
                         type: int
 
-            ntpServer:
-                description:
-                - It is the Network's ntpServer.
-                type: list
-            timezone:
-                description:
-                - It is the Network's timezone.
-                type: str
-            messageOfTheday:
-                description:
-                - It is the Network's messageOfTheday.
-                type: dict
-                suboptions:
-                    bannerMessage:
-                        description:
-                        - It is the Network's bannerMessage.
-                        type: str
-                    retainExistingBanner:
-                        description:
-                        - It is the Network's retainExistingBanner.
-                        type: bool
-
             network_aaa:
                 description:
                 - It is the Network's Network_aaa.
                 type: dict
                 suboptions:
-                    servers:
-                        description:
-                        - It is the Network's servers.
-                        type: str
                     ipAddress:
                         description:
                         - It is the Network's ipAddress.
@@ -143,187 +125,51 @@ options:
                         description:
                         - It is the Network's protocol.
                         type: str
-                    sharedSecret:
-                        description:
-                        - It is the Network's sharedSecret.
-                        type: str
-
-            clientAndEndpoint_aaa:
-                description:
-                - It is the Network's clientAndEndpoint_aaa.
-                type: dict
-                suboptions:
                     servers:
                         description:
                         - It is the Network's servers.
                         type: str
-                    ipAddress:
-                        description:
-                        - It is the Network's ipAddress.
-                        type: str
-                    network:
-                        description:
-                        - It is the Network's Network.
-                        type: str
-                    protocol:
-                        description:
-                        - It is the Network's protocol.
-                        type: str
                     sharedSecret:
                         description:
                         - It is the Network's sharedSecret.
                         type: str
 
-
-    site_id:
-        description:
-        - Site id to update the Network settings which is associated with the site.
-        type: str
-        required: True
-    settings:
-        description:
-        - Settings, property of the request body.
-        type: dict
-        required: True
-        suboptions:
-            dhcpServer:
+            ntpServer:
                 description:
-                - It is the Network's dhcpServer.
+                - It is the Network's ntpServer.
                 type: list
-            dnsServer:
+            snmpServer:
                 description:
-                - It is the Network's dnsServer.
+                - It is the Network's snmpServer.
                 type: dict
                 suboptions:
-                    domainName:
+                    configureDnacIP:
                         description:
-                        - It is the Network's domainName.
-                        type: str
-                    primaryIpAddress:
+                        - It is the Network's configureDnacIP.
+                        type: bool
+                    ipAddresses:
                         description:
-                        - It is the Network's primaryIpAddress.
-                        type: str
-                    secondaryIpAddress:
-                        description:
-                        - It is the Network's secondaryIpAddress.
-                        type: str
+                        - It is the Network's ipAddresses.
+                        type: list
 
             syslogServer:
                 description:
                 - It is the Network's syslogServer.
                 type: dict
                 suboptions:
-                    ipAddresses:
-                        description:
-                        - It is the Network's ipAddresses.
-                        type: list
                     configureDnacIP:
                         description:
                         - It is the Network's configureDnacIP.
                         type: bool
-
-            snmpServer:
-                description:
-                - It is the Network's snmpServer.
-                type: dict
-                suboptions:
                     ipAddresses:
                         description:
                         - It is the Network's ipAddresses.
                         type: list
-                    configureDnacIP:
-                        description:
-                        - It is the Network's configureDnacIP.
-                        type: bool
 
-            netflowcollector:
-                description:
-                - It is the Network's netflowcollector.
-                type: dict
-                suboptions:
-                    ipAddress:
-                        description:
-                        - It is the Network's ipAddress.
-                        type: str
-                    port:
-                        description:
-                        - It is the Network's port.
-                        type: int
-
-            ntpServer:
-                description:
-                - It is the Network's ntpServer.
-                type: list
             timezone:
                 description:
                 - It is the Network's timezone.
                 type: str
-            messageOfTheday:
-                description:
-                - It is the Network's messageOfTheday.
-                type: dict
-                suboptions:
-                    bannerMessage:
-                        description:
-                        - It is the Network's bannerMessage.
-                        type: str
-                    retainExistingBanner:
-                        description:
-                        - It is the Network's retainExistingBanner.
-                        type: bool
-
-            network_aaa:
-                description:
-                - It is the Network's Network_aaa.
-                type: dict
-                suboptions:
-                    servers:
-                        description:
-                        - It is the Network's servers.
-                        type: str
-                    ipAddress:
-                        description:
-                        - It is the Network's ipAddress.
-                        type: str
-                    network:
-                        description:
-                        - It is the Network's Network.
-                        type: str
-                    protocol:
-                        description:
-                        - It is the Network's protocol.
-                        type: str
-                    sharedSecret:
-                        description:
-                        - It is the Network's sharedSecret.
-                        type: str
-
-            clientAndEndpoint_aaa:
-                description:
-                - It is the Network's clientAndEndpoint_aaa.
-                type: dict
-                suboptions:
-                    servers:
-                        description:
-                        - It is the Network's servers.
-                        type: str
-                    ipAddress:
-                        description:
-                        - It is the Network's ipAddress.
-                        type: str
-                    network:
-                        description:
-                        - It is the Network's Network.
-                        type: str
-                    protocol:
-                        description:
-                        - It is the Network's protocol.
-                        type: str
-                    sharedSecret:
-                        description:
-                        - It is the Network's sharedSecret.
-                        type: str
-
 
 
 requirements:
@@ -494,9 +340,11 @@ def main():
         dnac.exec("get")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

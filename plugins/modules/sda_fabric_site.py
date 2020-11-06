@@ -25,13 +25,9 @@ options:
         description:
         - Site Name Hierarchy.
         type: str
-    site_name_hierarchy:
-        description:
-        - Site Name Hierarchy.
-        type: str
     payload:
         description:
-        - A JSON serializable Python object to send in the body of the Request.
+        - An object to send in the Request body.
         type: list
         required: True
         elements: dict
@@ -161,6 +157,7 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()

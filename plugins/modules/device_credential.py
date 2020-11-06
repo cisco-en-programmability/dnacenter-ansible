@@ -35,311 +35,39 @@ options:
             cliCredential:
                 description:
                 - It is the device credential's cliCredential.
-                type: list
-                elements: dict
-                suboptions:
-                    description:
-                        description:
-                        - It is the device credential's description.
-                        type: str
-                        required: True
-                    username:
-                        description:
-                        - It is the device credential's username.
-                        type: str
-                        required: True
-                    password:
-                        description:
-                        - It is the device credential's password.
-                        type: str
-                        required: True
-                    enablePassword:
-                        description:
-                        - It is the device credential's enablePassword.
-                        type: str
-
-            snmpV2cRead:
-                description:
-                - It is the device credential's snmpV2cRead.
-                type: list
-                elements: dict
-                suboptions:
-                    description:
-                        description:
-                        - It is the device credential's description.
-                        type: str
-                    readCommunity:
-                        description:
-                        - It is the device credential's readCommunity.
-                        type: str
-                        required: True
-
-            snmpV2cWrite:
-                description:
-                - It is the device credential's snmpV2cWrite.
-                type: list
-                elements: dict
-                suboptions:
-                    description:
-                        description:
-                        - It is the device credential's description.
-                        type: str
-                    writeCommunity:
-                        description:
-                        - It is the device credential's writeCommunity.
-                        type: str
-                        required: True
-
-            snmpV3:
-                description:
-                - It is the device credential's snmpV3.
-                type: list
-                elements: dict
-                suboptions:
-                    description:
-                        description:
-                        - It is the device credential's description.
-                        type: str
-                        required: True
-                    username:
-                        description:
-                        - It is the device credential's username.
-                        type: str
-                        required: True
-                    privacyType:
-                        description:
-                        - It is the device credential's privacyType.
-                        type: str
-                        required: True
-                    privacyPassword:
-                        description:
-                        - It is the device credential's privacyPassword.
-                        type: str
-                        required: True
-                    authType:
-                        description:
-                        - It is the device credential's authType.
-                        type: str
-                        required: True
-                    authPassword:
-                        description:
-                        - It is the device credential's authPassword.
-                        type: str
-                    snmpMode:
-                        description:
-                        - It is the device credential's snmpMode.
-                        type: str
-                        required: True
-
+                - Type list for state create.
+                - Type dict for state update.
+                type: raw
             httpsRead:
                 description:
                 - It is the device credential's httpsRead.
-                type: list
-                elements: dict
-                suboptions:
-                    name:
-                        description:
-                        - It is the device credential's name.
-                        type: str
-                    username:
-                        description:
-                        - It is the device credential's username.
-                        type: str
-                        required: True
-                    password:
-                        description:
-                        - It is the device credential's password.
-                        type: str
-                        required: True
-                    port:
-                        description:
-                        - It is the device credential's port.
-                        type: int
-
+                - Type list for state create.
+                - Type dict for state update.
+                type: raw
             httpsWrite:
                 description:
                 - It is the device credential's httpsWrite.
-                type: list
-                elements: dict
-                suboptions:
-                    name:
-                        description:
-                        - It is the device credential's name.
-                        type: str
-                    username:
-                        description:
-                        - It is the device credential's username.
-                        type: str
-                        required: True
-                    password:
-                        description:
-                        - It is the device credential's password.
-                        type: str
-                        required: True
-                    port:
-                        description:
-                        - It is the device credential's port.
-                        type: int
-
-
-    settings:
-        description:
-        - Settings, property of the request body.
-        type: dict
-        required: True
-        suboptions:
-            cliCredential:
-                description:
-                - It is the device credential's cliCredential.
-                type: dict
-                suboptions:
-                    description:
-                        description:
-                        - It is the device credential's description.
-                        type: str
-                    username:
-                        description:
-                        - It is the device credential's username.
-                        type: str
-                    password:
-                        description:
-                        - It is the device credential's password.
-                        type: str
-                    enablePassword:
-                        description:
-                        - It is the device credential's enablePassword.
-                        type: str
-                    id:
-                        description:
-                        - It is the device credential's id.
-                        type: str
-
+                - Type list for state create.
+                - Type dict for state update.
+                type: raw
             snmpV2cRead:
                 description:
                 - It is the device credential's snmpV2cRead.
-                type: dict
-                suboptions:
-                    description:
-                        description:
-                        - It is the device credential's description.
-                        type: str
-                    readCommunity:
-                        description:
-                        - It is the device credential's readCommunity.
-                        type: str
-                    id:
-                        description:
-                        - It is the device credential's id.
-                        type: str
-
+                - Type list for state create.
+                - Type dict for state update.
+                type: raw
             snmpV2cWrite:
                 description:
                 - It is the device credential's snmpV2cWrite.
-                type: dict
-                suboptions:
-                    description:
-                        description:
-                        - It is the device credential's description.
-                        type: str
-                    writeCommunity:
-                        description:
-                        - It is the device credential's writeCommunity.
-                        type: str
-                    id:
-                        description:
-                        - It is the device credential's id.
-                        type: str
-
+                - Type list for state create.
+                - Type dict for state update.
+                type: raw
             snmpV3:
                 description:
                 - It is the device credential's snmpV3.
-                type: dict
-                suboptions:
-                    authPassword:
-                        description:
-                        - It is the device credential's authPassword.
-                        type: str
-                    authType:
-                        description:
-                        - It is the device credential's authType.
-                        type: str
-                    snmpMode:
-                        description:
-                        - It is the device credential's snmpMode.
-                        type: str
-                    privacyPassword:
-                        description:
-                        - It is the device credential's privacyPassword.
-                        type: str
-                    privacyType:
-                        description:
-                        - It is the device credential's privacyType.
-                        type: str
-                    username:
-                        description:
-                        - It is the device credential's username.
-                        type: str
-                    description:
-                        description:
-                        - It is the device credential's description.
-                        type: str
-                    id:
-                        description:
-                        - It is the device credential's id.
-                        type: str
-
-            httpsRead:
-                description:
-                - It is the device credential's httpsRead.
-                type: dict
-                suboptions:
-                    name:
-                        description:
-                        - It is the device credential's name.
-                        type: str
-                    username:
-                        description:
-                        - It is the device credential's username.
-                        type: str
-                    password:
-                        description:
-                        - It is the device credential's password.
-                        type: str
-                    port:
-                        description:
-                        - It is the device credential's port.
-                        type: str
-                    id:
-                        description:
-                        - It is the device credential's id.
-                        type: str
-
-            httpsWrite:
-                description:
-                - It is the device credential's httpsWrite.
-                type: dict
-                suboptions:
-                    name:
-                        description:
-                        - It is the device credential's name.
-                        type: str
-                    username:
-                        description:
-                        - It is the device credential's username.
-                        type: str
-                    password:
-                        description:
-                        - It is the device credential's password.
-                        type: str
-                    port:
-                        description:
-                        - It is the device credential's port.
-                        type: str
-                    id:
-                        description:
-                        - It is the device credential's id.
-                        type: str
-
+                - Type list for state create.
+                - Type dict for state update.
+                type: raw
 
     id:
         description:
@@ -779,9 +507,11 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

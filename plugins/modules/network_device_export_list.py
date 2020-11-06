@@ -19,7 +19,7 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    device_uuids:
+    deviceUuids:
         description:
         - ExportDeviceDTO's deviceUuids (list of strings).
         type: list
@@ -28,11 +28,11 @@ options:
         description:
         - ExportDeviceDTO's id.
         type: str
-    operation_enum:
+    operationEnum:
         description:
         - ExportDeviceDTO's operationEnum.
+        - Available values are 'CREDENTIALDETAILS' and 'DEVICEDETAILS'.
         type: str
-        choices: ['CREDENTIALDETAILS', 'DEVICEDETAILS']
     parameters:
         description:
         - ExportDeviceDTO's parameters (list of strings).
@@ -114,6 +114,7 @@ def main():
     state = module.params.get("state")
 
     if state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()

@@ -25,7 +25,7 @@ options:
         type: bool
     payload:
         description:
-        - A JSON serializable Python object to send in the body of the Request.
+        - An object to send in the Request body.
         type: list
         required: True
 
@@ -101,6 +101,7 @@ def main():
     state = module.params.get("state")
 
     if state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

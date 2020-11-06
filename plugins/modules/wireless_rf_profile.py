@@ -24,33 +24,34 @@ options:
     rf_profile_name:
         description:
         - Rf-profile-name query parameter.
+        - Required for state delete.
         type: str
-    channel_width:
+    channelWidth:
         description:
         - Channel Width, property of the request body.
         type: str
         required: True
-    default_rf_profile:
+    defaultRfProfile:
         description:
         - DefaultRfProfile, property of the request body.
         type: bool
         required: True
-    enable_brown_field:
+    enableBrownField:
         description:
         - EnableBrownField, property of the request body.
         type: bool
         required: True
-    enable_custom:
+    enableCustom:
         description:
         - EnableCustom, property of the request body.
         type: bool
         required: True
-    enable_radio_type_a:
+    enableRadioTypeA:
         description:
         - EnableRadioTypeA, property of the request body.
         type: bool
         required: True
-    enable_radio_type_b:
+    enableRadioTypeB:
         description:
         - EnableRadioTypeB, property of the request body.
         type: bool
@@ -60,7 +61,7 @@ options:
         - Name, property of the request body.
         type: str
         required: True
-    radio_type_a_properties:
+    radioTypeAProperties:
         description:
         - Radio Type AProperties, property of the request body.
         type: dict
@@ -98,7 +99,7 @@ options:
                 - It is the wireless rf profile's maxPowerLevel.
                 type: int
 
-    radio_type_b_properties:
+    radioTypeBProperties:
         description:
         - Radio Type BProperties, property of the request body.
         type: dict
@@ -136,11 +137,6 @@ options:
                 - It is the wireless rf profile's maxPowerLevel.
                 type: int
 
-    rf_profile_name:
-        description:
-        - Rf-profile-name path parameter.
-        type: str
-        required: True
 
 requirements:
 - dnacentersdk
@@ -363,6 +359,7 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     dnac.exit_json()

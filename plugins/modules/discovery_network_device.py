@@ -31,11 +31,6 @@ options:
         description:
         - TaskId query parameter.
         type: str
-    id:
-        description:
-        - Discovery ID.
-        type: str
-        required: True
     records_to_return:
         description:
         - Number of records to return.
@@ -46,28 +41,10 @@ options:
         - Start index.
         type: int
         required: True
-    task_id:
-        description:
-        - TaskId query parameter.
-        type: str
-    id:
-        description:
-        - Discovery ID.
-        type: str
-        required: True
-    task_id:
-        description:
-        - TaskId query parameter.
-        type: str
     count:
         description:
         - If true gets the number of objects.
         type: bool
-        required: True
-    id:
-        description:
-        - Discovery ID.
-        type: str
         required: True
     cli_status:
         description:
@@ -100,10 +77,6 @@ options:
     sort_order:
         description:
         - SortOrder query parameter.
-        type: str
-    task_id:
-        description:
-        - TaskId query parameter.
         type: str
     summary:
         description:

@@ -29,7 +29,7 @@ options:
         - NetworkDeviceBriefNIO's role.
         type: str
         required: True
-    role_source:
+    roleSource:
         description:
         - NetworkDeviceBriefNIO's roleSource.
         type: str
@@ -112,6 +112,7 @@ def main():
     state = module.params.get("state")
 
     if state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()

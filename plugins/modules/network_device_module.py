@@ -54,26 +54,6 @@ options:
         - Id path parameter.
         type: str
         required: True
-    device_id:
-        description:
-        - DeviceId query parameter.
-        type: str
-    name_list:
-        description:
-        - NameList query parameter.
-        type: str
-    operational_state_code_list:
-        description:
-        - OperationalStateCodeList query parameter.
-        type: str
-    part_number_list:
-        description:
-        - PartNumberList query parameter.
-        type: str
-    vendor_equipment_type_list:
-        description:
-        - VendorEquipmentTypeList query parameter.
-        type: str
     count:
         description:
         - If true gets the number of objects.

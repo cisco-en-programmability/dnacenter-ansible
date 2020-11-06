@@ -59,6 +59,7 @@ options:
     id:
         description:
         - Accepts comma separated id's and return list of network-devices for the given id's. If invalid or not-found id's are provided, null entry will be returned in the list.
+        - Required for state delete.
         type: str
     license_name:
         description:
@@ -131,6 +132,7 @@ options:
     serial_number:
         description:
         - SerialNumber query parameter.
+        - Required for state query.
         type: str
     series:
         description:
@@ -152,50 +154,50 @@ options:
         description:
         - UpTime query parameter.
         type: str
-    cli_transport:
+    cliTransport:
         description:
         - InventoryDeviceInfo's cliTransport.
         type: str
         required: True
-    compute_device:
+    computeDevice:
         description:
         - InventoryDeviceInfo's computeDevice.
         type: bool
-    enable_password:
+    enablePassword:
         description:
         - InventoryDeviceInfo's enablePassword.
         type: str
         required: True
-    extended_discovery_info:
+    extendedDiscoveryInfo:
         description:
         - InventoryDeviceInfo's extendedDiscoveryInfo.
         type: str
-    http_password:
+    httpPassword:
         description:
         - InventoryDeviceInfo's httpPassword.
         type: str
-    http_port:
+    httpPort:
         description:
         - InventoryDeviceInfo's httpPort.
         type: str
-    http_secure:
+    httpSecure:
         description:
         - InventoryDeviceInfo's httpSecure.
         type: bool
-    http_user_name:
+    httpUserName:
         description:
         - InventoryDeviceInfo's httpUserName.
         type: str
-    ip_address:
+    ipAddress:
         description:
         - InventoryDeviceInfo's ipAddress (list of strings).
         type: list
         required: True
-    meraki_org_id:
+    merakiOrgId:
         description:
         - InventoryDeviceInfo's merakiOrgId (list of strings).
         type: list
-    netconf_port:
+    netconfPort:
         description:
         - InventoryDeviceInfo's netconfPort.
         type: str
@@ -204,70 +206,65 @@ options:
         - InventoryDeviceInfo's password.
         type: str
         required: True
-    serial_number:
+    serialNumber:
         description:
         - InventoryDeviceInfo's serialNumber.
         type: str
-    snmp_auth_passphrase:
+    snmpAuthPassphrase:
         description:
         - InventoryDeviceInfo's snmpAuthPassphrase.
         type: str
         required: True
-    snmp_auth_protocol:
+    snmpAuthProtocol:
         description:
         - InventoryDeviceInfo's snmpAuthProtocol.
         type: str
         required: True
-    snmp_mode:
+    snmpMode:
         description:
         - InventoryDeviceInfo's snmpMode.
         type: str
         required: True
-    snmp_priv_passphrase:
+    snmpPrivPassphrase:
         description:
         - InventoryDeviceInfo's snmpPrivPassphrase.
         type: str
         required: True
-    snmp_priv_protocol:
+    snmpPrivProtocol:
         description:
         - InventoryDeviceInfo's snmpPrivProtocol.
         type: str
         required: True
-    snmp_rocommunity:
+    snmpROCommunity:
         description:
         - InventoryDeviceInfo's snmpROCommunity.
         type: str
         required: True
-    snmp_rwcommunity:
+    snmpRWCommunity:
         description:
         - InventoryDeviceInfo's snmpRWCommunity.
         type: str
         required: True
-    snmp_retry:
+    snmpRetry:
         description:
         - InventoryDeviceInfo's snmpRetry.
         type: int
         required: True
-    snmp_timeout:
+    snmpTimeout:
         description:
         - InventoryDeviceInfo's snmpTimeout.
         type: int
         required: True
-    snmp_user_name:
+    snmpUserName:
         description:
         - InventoryDeviceInfo's snmpUserName.
         type: str
         required: True
-    snmp_version:
+    snmpVersion:
         description:
         - InventoryDeviceInfo's snmpVersion.
         type: str
-    type:
-        description:
-        - InventoryDeviceInfo's type.
-        type: str
-        choices: ['COMPUTE_DEVICE', 'MERAKI_DASHBOARD', 'NETWORK_DEVICE', 'NODATACHANGE']
-    update_mgmt_i_paddress_list:
+    updateMgmtIPaddressList:
         description:
         - InventoryDeviceInfo's updateMgmtIPaddressList (list of objects).
         type: list
@@ -282,165 +279,15 @@ options:
                 - It is the network device's newMgmtIpAddress.
                 type: str
 
-    user_name:
+    userName:
         description:
         - InventoryDeviceInfo's userName.
-        type: str
-        required: True
-    cli_transport:
-        description:
-        - InventoryDeviceInfo's cliTransport.
-        type: str
-        required: True
-    compute_device:
-        description:
-        - InventoryDeviceInfo's computeDevice.
-        type: bool
-    enable_password:
-        description:
-        - InventoryDeviceInfo's enablePassword.
-        type: str
-        required: True
-    extended_discovery_info:
-        description:
-        - InventoryDeviceInfo's extendedDiscoveryInfo.
-        type: str
-    http_password:
-        description:
-        - InventoryDeviceInfo's httpPassword.
-        type: str
-    http_port:
-        description:
-        - InventoryDeviceInfo's httpPort.
-        type: str
-    http_secure:
-        description:
-        - InventoryDeviceInfo's httpSecure.
-        type: bool
-    http_user_name:
-        description:
-        - InventoryDeviceInfo's httpUserName.
-        type: str
-    ip_address:
-        description:
-        - InventoryDeviceInfo's ipAddress (list of strings).
-        type: list
-        required: True
-    meraki_org_id:
-        description:
-        - InventoryDeviceInfo's merakiOrgId (list of strings).
-        type: list
-    netconf_port:
-        description:
-        - InventoryDeviceInfo's netconfPort.
-        type: str
-    password:
-        description:
-        - InventoryDeviceInfo's password.
-        type: str
-        required: True
-    serial_number:
-        description:
-        - InventoryDeviceInfo's serialNumber.
-        type: str
-    snmp_auth_passphrase:
-        description:
-        - InventoryDeviceInfo's snmpAuthPassphrase.
-        type: str
-        required: True
-    snmp_auth_protocol:
-        description:
-        - InventoryDeviceInfo's snmpAuthProtocol.
-        type: str
-        required: True
-    snmp_mode:
-        description:
-        - InventoryDeviceInfo's snmpMode.
-        type: str
-        required: True
-    snmp_priv_passphrase:
-        description:
-        - InventoryDeviceInfo's snmpPrivPassphrase.
-        type: str
-        required: True
-    snmp_priv_protocol:
-        description:
-        - InventoryDeviceInfo's snmpPrivProtocol.
-        type: str
-        required: True
-    snmp_rocommunity:
-        description:
-        - InventoryDeviceInfo's snmpROCommunity.
-        type: str
-        required: True
-    snmp_rwcommunity:
-        description:
-        - InventoryDeviceInfo's snmpRWCommunity.
-        type: str
-        required: True
-    snmp_retry:
-        description:
-        - InventoryDeviceInfo's snmpRetry.
-        type: int
-        required: True
-    snmp_timeout:
-        description:
-        - InventoryDeviceInfo's snmpTimeout.
-        type: int
-        required: True
-    snmp_user_name:
-        description:
-        - InventoryDeviceInfo's snmpUserName.
-        type: str
-        required: True
-    snmp_version:
-        description:
-        - InventoryDeviceInfo's snmpVersion.
-        type: str
-    type:
-        description:
-        - InventoryDeviceInfo's type.
-        type: str
-        choices: ['COMPUTE_DEVICE', 'MERAKI_DASHBOARD', 'NETWORK_DEVICE', 'NODATACHANGE']
-    update_mgmt_i_paddress_list:
-        description:
-        - InventoryDeviceInfo's updateMgmtIPaddressList (list of objects).
-        type: list
-        elements: dict
-        suboptions:
-            existMgmtIpAddress:
-                description:
-                - It is the network device's existMgmtIpAddress.
-                type: str
-            newMgmtIpAddress:
-                description:
-                - It is the network device's newMgmtIpAddress.
-                type: str
-
-    user_name:
-        description:
-        - InventoryDeviceInfo's userName.
-        type: str
-        required: True
-    id:
-        description:
-        - Device ID.
         type: str
         required: True
     is_force_delete:
         description:
         - IsForceDelete query parameter.
         type: bool
-    id:
-        description:
-        - Device ID.
-        type: str
-        required: True
-    id:
-        description:
-        - Device ID.
-        type: str
-        required: True
     summary:
         description:
         - If true gets the summary.
@@ -464,11 +311,6 @@ options:
     ip_address:
         description:
         - Device IP address.
-        type: str
-        required: True
-    serial_number:
-        description:
-        - Device serial number.
         type: str
         required: True
 
@@ -1710,9 +1552,11 @@ def main():
         dnac.exec("delete")
 
     elif state == "create":
+        dnac.disable_validation()
         dnac.exec("post")
 
     elif state == "update":
+        dnac.disable_validation()
         dnac.exec("put")
 
     dnac.exit_json()
