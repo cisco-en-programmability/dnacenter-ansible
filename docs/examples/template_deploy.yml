@@ -1,0 +1,38 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete template deploy
+    cisco.dnac.template_deploy:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      # state: query
+      # deployment_id: 0ad357f1-c71f-4638-8e63-3df1778f021e
+      #
+      state: create
+      forcePushTemplate: False
+      isComposite: False
+      mainTemplateId: SomeValue
+      memberTemplateDeploymentInfo:
+      - SomeValue
+      - SomeValue
+      targetInfo:
+      - hostName: SomeValue
+        id: SomeValue
+        params:
+        type: MANAGED_DEVICE_IP
+      - hostName: SomeValue
+        id: SomeValue
+        params:
+        type: PRE_PROVISIONED_SERIAL
+      templateId: SomeValue
+      
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"     

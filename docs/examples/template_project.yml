@@ -1,0 +1,46 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete template project
+    cisco.dnac.template_project:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: query
+      name: Onboarding Configuration
+      #
+      # state: create
+      # createTime: 1000
+      # description: SomeDescription
+      # id: SomeId
+      # lastUpdateTime: 500
+      # name: SomeNAme
+      # tags:
+      # - SomeTag
+      # - SomeOtherTag
+      # templates: SomeTemplate
+
+      #
+      # state: delete
+      # project_id: 
+      # 
+      # state: update
+      # createTime: 1000
+      # description: SomeDescription
+      # id: SomeId
+      # lastUpdateTime: 500
+      # name: SomeNAme
+      # tags:
+      # - SomeTag
+      # - SomeOtherTag
+      # templates: SomeTemplate
+      # 
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"     
