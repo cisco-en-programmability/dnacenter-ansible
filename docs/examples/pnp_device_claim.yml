@@ -1,0 +1,63 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete pnp device claim
+    cisco.dnac.pnp_device_claim:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: create
+      configFileUrl: SomeValue
+      configId: SomeValue
+      deviceClaimList:
+      - configList:
+        - configId: SomeValue
+          configParameters:
+          - key: SomeValue
+            value: SomeValue
+          - key: SomeValue
+            value: SomeValue
+        - configId: SomeValue
+          configParameters:
+          - key: SomeValue
+            value: SomeValue
+          - key: SomeValue
+            value: SomeValue
+        deviceId: SomeValue
+        licenseLevel: SomeValue
+        licenseType: SomeValue
+        topOfStackSerialNumber: SomeValue
+      - configList:
+        - configId: SomeValue
+          configParameters:
+          - key: SomeValue
+            value: SomeValue
+          - key: SomeValue
+            value: SomeValue
+        - configId: SomeValue
+          configParameters:
+          - key: SomeValue
+            value: SomeValue
+          - key: SomeValue
+            value: SomeValue
+        deviceId: SomeValue
+        licenseLevel: SomeValue
+        licenseType: SomeValue
+        topOfStackSerialNumber: SomeValue
+      fileServiceId: SomeValue
+      imageId: SomeValue
+      imageUrl: SomeValue
+      populateInventory: False
+      projectId: SomeValue
+      workflowId: SomeValue
+
+
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"     

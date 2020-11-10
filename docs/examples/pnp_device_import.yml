@@ -1,0 +1,464 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete pnp device import
+    cisco.dnac.pnp_device_import:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: create
+      payload:
+      - _id: SomeValue
+        deviceInfo:
+          source: SomeValue
+          serialNumber: SomeValue
+          stack: False
+          mode: SomeValue
+          state: SomeValue
+          location:
+            siteId: SomeValue
+            address: SomeValue
+            latitude: SomeValue
+            longitude: SomeValue
+            altitude: SomeValue
+          description: SomeValue
+          onbState: SomeValue
+          authenticatedMicNumber: SomeValue
+          authenticatedSudiSerialNo: SomeValue
+          capabilitiesSupported:
+          - SomeValue
+          - SomeValue
+          featuresSupported:
+          - SomeValue
+          - SomeValue
+          cmState: SomeValue
+          firstContact: 1
+          lastContact: 1
+          macAddress: SomeValue
+          pid: SomeValue
+          deviceSudiSerialNos:
+          - SomeValue
+          - SomeValue
+          lastUpdateOn: 1
+          workflowId: SomeValue
+          workflowName: SomeValue
+          projectId: SomeValue
+          projectName: SomeValue
+          deviceType: SomeValue
+          agentType: SomeValue
+          imageVersion: SomeValue
+          fileSystemList:
+          - type: SomeValue
+            writeable: False
+            freespace: 1
+            name: SomeValue
+            readable: False
+            size: 1
+          - type: SomeValue
+            writeable: False
+            freespace: 1
+            name: SomeValue
+            readable: False
+            size: 1
+          pnpProfileList:
+          - profileName: SomeValue
+            discoveryCreated: False
+            createdBy: SomeValue
+            primaryEndpoint:
+              port: 1
+              protocol: SomeValue
+              ipv4Address:
+              ipv6Address:
+              fqdn: SomeValue
+              certificate: SomeValue
+            secondaryEndpoint:
+              port: 1
+              protocol: SomeValue
+              ipv4Address:
+              ipv6Address:
+              fqdn: SomeValue
+              certificate: SomeValue
+          - profileName: SomeValue
+            discoveryCreated: False
+            createdBy: SomeValue
+            primaryEndpoint:
+              port: 1
+              protocol: SomeValue
+              ipv4Address:
+              ipv6Address:
+              fqdn: SomeValue
+              certificate: SomeValue
+            secondaryEndpoint:
+              port: 1
+              protocol: SomeValue
+              ipv4Address:
+              ipv6Address:
+              fqdn: SomeValue
+              certificate: SomeValue
+          imageFile: SomeValue
+          httpHeaders:
+          - key: SomeValue
+            value: SomeValue
+          - key: SomeValue
+            value: SomeValue
+          neighborLinks:
+          - localInterfaceName: SomeValue
+            localShortInterfaceName: SomeValue
+            localMacAddress: SomeValue
+            remoteInterfaceName: SomeValue
+            remoteShortInterfaceName: SomeValue
+            remoteMacAddress: SomeValue
+            remoteDeviceName: SomeValue
+            remotePlatform: SomeValue
+            remoteVersion: SomeValue
+          - localInterfaceName: SomeValue
+            localShortInterfaceName: SomeValue
+            localMacAddress: SomeValue
+            remoteInterfaceName: SomeValue
+            remoteShortInterfaceName: SomeValue
+            remoteMacAddress: SomeValue
+            remoteDeviceName: SomeValue
+            remotePlatform: SomeValue
+            remoteVersion: SomeValue
+          lastSyncTime: 1
+          ipInterfaces:
+          - status: SomeValue
+            macAddress: SomeValue
+            ipv4Address:
+            name: SomeValue
+          - status: SomeValue
+            macAddress: SomeValue
+            ipv4Address:
+            name: SomeValue
+          hostname: SomeValue
+          authStatus: SomeValue
+          stackInfo:
+            supportsStackWorkflows: False
+            isFullRing: False
+            stackMemberList:
+            - serialNumber: SomeValue
+              state: SomeValue
+              role: SomeValue
+              macAddress: SomeValue
+              pid: SomeValue
+              licenseLevel: SomeValue
+              licenseType: SomeValue
+              sudiSerialNumber: SomeValue
+              hardwareVersion: SomeValue
+              stackNumber: 1
+              softwareVersion: SomeValue
+              priority: 1
+            - serialNumber: SomeValue
+              state: SomeValue
+              role: SomeValue
+              macAddress: SomeValue
+              pid: SomeValue
+              licenseLevel: SomeValue
+              licenseType: SomeValue
+              sudiSerialNumber: SomeValue
+              hardwareVersion: SomeValue
+              stackNumber: 1
+              softwareVersion: SomeValue
+              priority: 1
+            stackRingProtocol: SomeValue
+            validLicenseLevels:
+            - SomeValue
+            - SomeValue
+            totalMemberCount: 1
+          reloadRequested: False
+          addedOn: 1
+          siteId: SomeValue
+          aaaCredentials:
+            password: SomeValue
+            username: SomeValue
+          userMicNumbers:
+          - SomeValue
+          - SomeValue
+          userSudiSerialNos:
+          - SomeValue
+          - SomeValue
+          addnMacAddrs:
+          - SomeValue
+          - SomeValue
+          preWorkflowCliOuputs:
+          - cli: SomeValue
+            cliOutput: SomeValue
+          - cli: SomeValue
+            cliOutput: SomeValue
+          tags:
+          sudiRequired: False
+          smartAccountId: SomeValue
+          virtualAccountId: SomeValue
+          populateInventory: False
+          siteName: SomeValue
+          name: SomeValue
+        systemResetWorkflow:
+          _id: SomeValue
+          state: SomeValue
+          type: SomeValue
+          description: SomeValue
+          lastupdateOn: 1
+          imageId: SomeValue
+          currTaskIdx: 1
+          addedOn: 1
+          tasks:
+          - state: SomeValue
+            type: SomeValue
+            currWorkItemIdx: 1
+            taskSeqNo: 1
+            endTime: 1
+            startTime: 1
+            workItemList:
+            - state: SomeValue
+              command: SomeValue
+              outputStr: SomeValue
+              endTime: 1
+              startTime: 1
+              timeTaken: 1
+            - state: SomeValue
+              command: SomeValue
+              outputStr: SomeValue
+              endTime: 1
+              startTime: 1
+              timeTaken: 1
+            timeTaken: 1
+            name: SomeValue
+          - state: SomeValue
+            type: SomeValue
+            currWorkItemIdx: 1
+            taskSeqNo: 1
+            endTime: 1
+            startTime: 1
+            workItemList:
+            - state: SomeValue
+              command: SomeValue
+              outputStr: SomeValue
+              endTime: 1
+              startTime: 1
+              timeTaken: 1
+            - state: SomeValue
+              command: SomeValue
+              outputStr: SomeValue
+              endTime: 1
+              startTime: 1
+              timeTaken: 1
+            timeTaken: 1
+            name: SomeValue
+          addToInventory: False
+          instanceType: SomeValue
+          endTime: 1
+          execTime: 1
+          startTime: 1
+          useState: SomeValue
+          configId: SomeValue
+          name: SomeValue
+          version: 1
+          tenantId: SomeValue
+        systemWorkflow:
+          _id: SomeValue
+          state: SomeValue
+          type: SomeValue
+          description: SomeValue
+          lastupdateOn: 1
+          imageId: SomeValue
+          currTaskIdx: 1
+          addedOn: 1
+          tasks:
+          - state: SomeValue
+            type: SomeValue
+            currWorkItemIdx: 1
+            taskSeqNo: 1
+            endTime: 1
+            startTime: 1
+            workItemList:
+            - state: SomeValue
+              command: SomeValue
+              outputStr: SomeValue
+              endTime: 1
+              startTime: 1
+              timeTaken: 1
+            - state: SomeValue
+              command: SomeValue
+              outputStr: SomeValue
+              endTime: 1
+              startTime: 1
+              timeTaken: 1
+            timeTaken: 1
+            name: SomeValue
+          - state: SomeValue
+            type: SomeValue
+            currWorkItemIdx: 1
+            taskSeqNo: 1
+            endTime: 1
+            startTime: 1
+            workItemList:
+            - state: SomeValue
+              command: SomeValue
+              outputStr: SomeValue
+              endTime: 1
+              startTime: 1
+              timeTaken: 1
+            - state: SomeValue
+              command: SomeValue
+              outputStr: SomeValue
+              endTime: 1
+              startTime: 1
+              timeTaken: 1
+            timeTaken: 1
+            name: SomeValue
+          addToInventory: False
+          instanceType: SomeValue
+          endTime: 1
+          execTime: 1
+          startTime: 1
+          useState: SomeValue
+          configId: SomeValue
+          name: SomeValue
+          version: 1
+          tenantId: SomeValue
+        workflow:
+          _id: SomeValue
+          state: SomeValue
+          type: SomeValue
+          description: SomeValue
+          lastupdateOn: 1
+          imageId: SomeValue
+          currTaskIdx: 1
+          addedOn: 1
+          tasks:
+          - state: SomeValue
+            type: SomeValue
+            currWorkItemIdx: 1
+            taskSeqNo: 1
+            endTime: 1
+            startTime: 1
+            workItemList:
+            - state: SomeValue
+              command: SomeValue
+              outputStr: SomeValue
+              endTime: 1
+              startTime: 1
+              timeTaken: 1
+            - state: SomeValue
+              command: SomeValue
+              outputStr: SomeValue
+              endTime: 1
+              startTime: 1
+              timeTaken: 1
+            timeTaken: 1
+            name: SomeValue
+          - state: SomeValue
+            type: SomeValue
+            currWorkItemIdx: 1
+            taskSeqNo: 1
+            endTime: 1
+            startTime: 1
+            workItemList:
+            - state: SomeValue
+              command: SomeValue
+              outputStr: SomeValue
+              endTime: 1
+              startTime: 1
+              timeTaken: 1
+            - state: SomeValue
+              command: SomeValue
+              outputStr: SomeValue
+              endTime: 1
+              startTime: 1
+              timeTaken: 1
+            timeTaken: 1
+            name: SomeValue
+          addToInventory: False
+          instanceType: SomeValue
+          endTime: 1
+          execTime: 1
+          startTime: 1
+          useState: SomeValue
+          configId: SomeValue
+          name: SomeValue
+          version: 1
+          tenantId: SomeValue
+        runSummaryList:
+        - details: SomeValue
+          historyTaskInfo:
+            type: SomeValue
+            workItemList:
+            - state: SomeValue
+              command: SomeValue
+              outputStr: SomeValue
+              endTime: 1
+              startTime: 1
+              timeTaken: 1
+            - state: SomeValue
+              command: SomeValue
+              outputStr: SomeValue
+              endTime: 1
+              startTime: 1
+              timeTaken: 1
+            timeTaken: 1
+            addnDetails:
+            - key: SomeValue
+              value: SomeValue
+            - key: SomeValue
+              value: SomeValue
+            name: SomeValue
+          errorFlag: False
+          timestamp: 1
+        - details: SomeValue
+          historyTaskInfo:
+            type: SomeValue
+            workItemList:
+            - state: SomeValue
+              command: SomeValue
+              outputStr: SomeValue
+              endTime: 1
+              startTime: 1
+              timeTaken: 1
+            - state: SomeValue
+              command: SomeValue
+              outputStr: SomeValue
+              endTime: 1
+              startTime: 1
+              timeTaken: 1
+            timeTaken: 1
+            addnDetails:
+            - key: SomeValue
+              value: SomeValue
+            - key: SomeValue
+              value: SomeValue
+            name: SomeValue
+          errorFlag: False
+          timestamp: 1
+        workflowParameters:
+          topOfStackSerialNumber: SomeValue
+          licenseLevel: SomeValue
+          licenseType: SomeValue
+          configList:
+          - configParameters:
+            - key: SomeValue
+              value: SomeValue
+            - key: SomeValue
+              value: SomeValue
+            configId: SomeValue
+          - configParameters:
+            - key: SomeValue
+              value: SomeValue
+            - key: SomeValue
+              value: SomeValue
+            configId: SomeValue
+        dayZeroConfig:
+          config: SomeValue
+        dayZeroConfigPreview:
+        version: 1
+        tenantId: SomeValue
+
+     
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"     
