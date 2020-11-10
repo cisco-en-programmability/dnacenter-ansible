@@ -1,0 +1,105 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete pnp settings
+    cisco.dnac.pnp_settings:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      #state: query
+      #
+      state: update
+      _id: SomeValue  # string
+      aaaCredentials:
+        password: SomeValue  # string
+        username: SomeValue  # string
+      acceptEula: False  # boolean
+      defaultProfile:
+        cert: SomeValue  # string
+        fqdnAddresses:
+        - SomeValue  # string
+        - SomeValue  # string
+        ipAddresses:
+        - SomeValue  # string
+        - SomeValue  # string
+        port: 1  # integer
+        proxy: False  # boolean
+      savaMappingList:
+      - autoSyncPeriod: 1  # integer
+        ccoUser: SomeValue  # string
+        expiry: 1  # integer
+        lastSync: 1  # integer
+        profile:
+          addressFqdn: SomeValue  # string
+          addressIpV4: SomeValue  # string
+          cert: SomeValue  # string
+          makeDefault: False  # boolean
+          name: SomeValue  # string
+          port: 1  # integer
+          profileId: SomeValue  # string
+          proxy: False  # boolean
+        smartAccountId: SomeValue  # string
+        syncResult:
+          syncList:
+          - deviceSnList:
+            - SomeValue  # string
+            - SomeValue  # string
+            syncType: SomeValue  # string
+          - deviceSnList:
+            - SomeValue  # string
+            - SomeValue  # string
+            syncType: SomeValue  # string
+          syncMsg: SomeValue  # string
+        syncResultStr: SomeValue  # string
+        syncStartTime: 1  # integer
+        syncStatus: SomeValue  # string
+        tenantId: SomeValue  # string
+        token: SomeValue  # string
+        virtualAccountId: SomeValue  # string
+      - autoSyncPeriod: 1  # integer
+        ccoUser: SomeValue  # string
+        expiry: 1  # integer
+        lastSync: 1  # integer
+        profile:
+          addressFqdn: SomeValue  # string
+          addressIpV4: SomeValue  # string
+          cert: SomeValue  # string
+          makeDefault: False  # boolean
+          name: SomeValue  # string
+          port: 1  # integer
+          profileId: SomeValue  # string
+          proxy: False  # boolean
+        smartAccountId: SomeValue  # string
+        syncResult:
+          syncList:
+          - deviceSnList:
+            - SomeValue  # string
+            - SomeValue  # string
+            syncType: SomeValue  # string
+          - deviceSnList:
+            - SomeValue  # string
+            - SomeValue  # string
+            syncType: SomeValue  # string
+          syncMsg: SomeValue  # string
+        syncResultStr: SomeValue  # string
+        syncStartTime: 1  # integer
+        syncStatus: SomeValue  # string
+        tenantId: SomeValue  # string
+        token: SomeValue  # string
+        virtualAccountId: SomeValue  # string
+      taskTimeOuts:
+        configTimeOut: 1  # integer
+        generalTimeOut: 1  # integer
+        imageDownloadTimeOut: 1  # integer
+      tenantId: SomeValue  # string
+      version: 1  # integer
+
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"     

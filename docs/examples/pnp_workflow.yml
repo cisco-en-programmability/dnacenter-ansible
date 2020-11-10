@@ -1,0 +1,150 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete pnp workflow
+    cisco.dnac.pnp_workflow:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: query
+      count: true
+      #id: SomeValue  # string
+      #
+      # state: create
+      # _id: SomeValue  # string
+      # addToInventory: False  # boolean
+      # addedOn: 1  # integer
+      # configId: SomeValue  # string
+      # currTaskIdx: 1  # integer
+      # description: SomeValue  # string
+      # endTime: 1  # integer
+      # execTime: 1  # integer
+      # imageId: SomeValue  # string
+      # instanceType: SomeValue  # string
+      # lastupdateOn: 1  # integer
+      # name: SomeValue  # string
+      # startTime: 1  # integer
+      # state: SomeValue  # string
+      # tasks:
+      # - currWorkItemIdx: 1  # integer
+      #   endTime: 1  # integer
+      #   name: SomeValue  # string
+      #   startTime: 1  # integer
+      #   state: SomeValue  # string
+      #   taskSeqNo: 1  # integer
+      #   timeTaken: 1  # integer
+      #   type: SomeValue  # string
+      #   workItemList:
+      #   - command: SomeValue  # string
+      #     endTime: 1  # integer
+      #     outputStr: SomeValue  # string
+      #     startTime: 1  # integer
+      #     state: SomeValue  # string
+      #     timeTaken: 1  # integer
+      #   - command: SomeValue  # string
+      #     endTime: 1  # integer
+      #     outputStr: SomeValue  # string
+      #     startTime: 1  # integer
+      #     state: SomeValue  # string
+      #     timeTaken: 1  # integer
+      # - currWorkItemIdx: 1  # integer
+      #   endTime: 1  # integer
+      #   name: SomeValue  # string
+      #   startTime: 1  # integer
+      #   state: SomeValue  # string
+      #   taskSeqNo: 1  # integer
+      #   timeTaken: 1  # integer
+      #   type: SomeValue  # string
+      #   workItemList:
+      #   - command: SomeValue  # string
+      #     endTime: 1  # integer
+      #     outputStr: SomeValue  # string
+      #     startTime: 1  # integer
+      #     state: SomeValue  # string
+      #     timeTaken: 1  # integer
+      #   - command: SomeValue  # string
+      #     endTime: 1  # integer
+      #     outputStr: SomeValue  # string
+      #     startTime: 1  # integer
+      #     state: SomeValue  # string
+      #     timeTaken: 1  # integer
+      # tenantId: SomeValue  # string
+      # type: SomeValue  # string
+      # useState: SomeValue  # string
+      # version: 1  # integer
+      #
+      # state: delete
+      # id: SomeValue  # string
+      # 
+      # state: update
+      # _id: SomeValue  # string
+      # addToInventory: False  # boolean
+      # addedOn: 1  # integer
+      # configId: SomeValue  # string
+      # currTaskIdx: 1  # integer
+      # description: SomeValue  # string
+      # endTime: 1  # integer
+      # execTime: 1  # integer
+      # imageId: SomeValue  # string
+      # instanceType: SomeValue  # string
+      # lastupdateOn: 1  # integer
+      # name: SomeValue  # string
+      # startTime: 1  # integer
+      # state: SomeValue  # string
+      # tasks:
+      # - currWorkItemIdx: 1  # integer
+      #   endTime: 1  # integer
+      #   name: SomeValue  # string
+      #   startTime: 1  # integer
+      #   state: SomeValue  # string
+      #   taskSeqNo: 1  # integer
+      #   timeTaken: 1  # integer
+      #   type: SomeValue  # string
+      #   workItemList:
+      #   - command: SomeValue  # string
+      #     endTime: 1  # integer
+      #     outputStr: SomeValue  # string
+      #     startTime: 1  # integer
+      #     state: SomeValue  # string
+      #     timeTaken: 1  # integer
+      #   - command: SomeValue  # string
+      #     endTime: 1  # integer
+      #     outputStr: SomeValue  # string
+      #     startTime: 1  # integer
+      #     state: SomeValue  # string
+      #     timeTaken: 1  # integer
+      # - currWorkItemIdx: 1  # integer
+      #   endTime: 1  # integer
+      #   name: SomeValue  # string
+      #   startTime: 1  # integer
+      #   state: SomeValue  # string
+      #   taskSeqNo: 1  # integer
+      #   timeTaken: 1  # integer
+      #   type: SomeValue  # string
+      #   workItemList:
+      #   - command: SomeValue  # string
+      #     endTime: 1  # integer
+      #     outputStr: SomeValue  # string
+      #     startTime: 1  # integer
+      #     state: SomeValue  # string
+      #     timeTaken: 1  # integer
+      #   - command: SomeValue  # string
+      #     endTime: 1  # integer
+      #     outputStr: SomeValue  # string
+      #     startTime: 1  # integer
+      #     state: SomeValue  # string
+      #     timeTaken: 1  # integer
+      # tenantId: SomeValue  # string
+      # type: SomeValue  # string
+      # useState: SomeValue  # string
+      # version: 1  # integer
+      # 
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"     
