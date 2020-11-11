@@ -130,7 +130,12 @@ class Function(object):
             new_param = Parameter(param)
             self.params.append(new_param)
         self.response_schema = response_schema
-        #self.existing_object = {}
+    
+    def _get_param_by_name(self, param_name):
+        for param in self.params:
+            if param.name == param_name:
+                return param
+        return None
 
     def get_required_params(self, object=False):
         required_params = []
@@ -143,11 +148,13 @@ class Function(object):
         return required_params
 
     def strip_artificial_params(self, module_params):
-        non_artificial_params = []
-        for param in self.params:
-            if not param.is_artificial():
-                non_artificial_params.append(param.name)
-        return { k: v for k, v in module_params.items() if k in non_artificial_params }
+        for param_name in list(module_params):
+            param = self._get_param_by_name(param_name)
+            if param:
+                if param.is_artificial():
+                    module_params.pop(param_name)
+        return module_params
+
 
     # Returns true if all the params required by this function are 
     # present in the module_params passed to the Ansible module
@@ -363,6 +370,12 @@ class DNACModule(object):
         self.params = self.moddef.strip_unused_params(self.params)
         self.existing_object = {}
 
+        if self.params.get('filename') and self.params.get('filepath'): 
+            filename = self.params.pop('filename')
+            filepath = self.params.pop('filepath')
+            self.params.setdefault('multipart_fields', {'file': (filename, open(filepath, 'rb'))}) 
+            self.params.setdefault('multipart_monitor_callback', None)
+
 
     def get_func(self, function):
         try:
@@ -403,15 +416,17 @@ class DNACModule(object):
         func = self.get_func(function)
         missing_params = dict()
         if function.has_valid_request_schema(self.params, missing_params):
-
-            response = func(**self.params)
+            try:
+                response = func(**self.params)
+            except Exception as e:
+                self.fail_json(msg="An error occured when executing operation. " + str(e))
 
             if function.has_valid_response_schema(response) or not self.validate_response_schema:
                 self.result.update(dict(dnac_response=response))
             else:
                 if self.module._verbosity >= 3:
                     self.result.update(dict(dnac_response=response))
-                self.fail_json(msg="The response received from DNAC doesn't match the response schema for this function.")
+                self.fail_json(msg="The response received from DNAC doesn't match the response schema for this function. Consider setting the 'validate_response_schema' argument to False.")
         else:
             self.result.update(dict(missing_params=missing_params))
             self.fail_json(msg="Provided arguments do not comply with the function schema") 
