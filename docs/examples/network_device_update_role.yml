@@ -1,0 +1,23 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete network device update role
+    cisco.dnac.network_device_update_role:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: update
+      id: SomeValue  # string
+      role: SomeValue  # string
+      roleSource: SomeValue  # string
+      summary: False  # boolean
+      # 
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"     
