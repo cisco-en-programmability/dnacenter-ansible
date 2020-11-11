@@ -2,13 +2,28 @@ import json
 
 module_definition = json.loads('''{
     "family": "device_onboarding_pnp",
-    "name": "pnp_device_virtual_account_sync",
+    "name": "virtual_account_sync",
     "operations": {
+        "get": [
+            "get_sync_result_for_virtual_account"
+        ],
         "post": [
             "sync_virtual_account_devices"
         ]
     },
     "parameters": {
+        "get_sync_result_for_virtual_account": [
+            {
+                "name": "domain",
+                "required": true,
+                "type": "string"
+            },
+            {
+                "name": "name",
+                "required": true,
+                "type": "string"
+            }
+        ],
         "sync_virtual_account_devices": [
             {
                 "name": "autoSyncPeriod",
@@ -145,6 +160,24 @@ module_definition = json.loads('''{
         ]
     },
     "responses": {
+        "get_sync_result_for_virtual_account": {
+            "properties": [
+                "virtualAccountId",
+                "autoSyncPeriod",
+                "syncResultStr",
+                "profile",
+                "ccoUser",
+                "syncResult",
+                "token",
+                "syncStartTime",
+                "lastSync",
+                "tenantId",
+                "smartAccountId",
+                "expiry",
+                "syncStatus"
+            ],
+            "type": "object"
+        },
         "sync_virtual_account_devices": {
             "properties": [
                 "virtualAccountId",
