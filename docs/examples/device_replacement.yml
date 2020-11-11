@@ -1,0 +1,54 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/update device replacement
+    cisco.dnac.device_replacement:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: query
+      #count: True
+      #
+      # state: create
+      # payload:
+      # - creationTime: 1  # integer
+      #   family: SomeValue  # string
+      #   faultyDeviceId: SomeValue  # string
+      #   faultyDeviceName: SomeValue  # string
+      #   faultyDevicePlatform: SomeValue  # string
+      #   faultyDeviceSerialNumber: SomeValue  # string
+      #   id: SomeValue  # string
+      #   neighbourDeviceId: SomeValue  # string
+      #   networkReadinessTaskId: SomeValue  # string
+      #   replacementDevicePlatform: SomeValue  # string
+      #   replacementDeviceSerialNumber: SomeValue  # string
+      #   replacementStatus: SomeValue  # string
+      #   replacementTime: 1  # integer
+      #   workflowId: SomeValue  # string
+      #
+      # state: update
+      # payload:
+      # - creationTime: 1  # integer
+      #   family: SomeValue  # string
+      #   faultyDeviceId: SomeValue  # string
+      #   faultyDeviceName: SomeValue  # string
+      #   faultyDevicePlatform: SomeValue  # string
+      #   faultyDeviceSerialNumber: SomeValue  # string
+      #   id: SomeValue  # string
+      #   neighbourDeviceId: SomeValue  # string
+      #   networkReadinessTaskId: SomeValue  # string
+      #   replacementDevicePlatform: SomeValue  # string
+      #   replacementDeviceSerialNumber: SomeValue  # string
+      #   replacementStatus: SomeValue  # string
+      #   replacementTime: 1  # integer
+      #   workflowId: SomeValue  # string
+      # 
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"     

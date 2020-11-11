@@ -1,0 +1,46 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete service provider
+    cisco.dnac.service_provider:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      validate_response_schema: False
+      #
+      state: query
+      #
+      # state: create
+      # settings:
+      #   qos:
+      #   - profileName: SomeValue  # SomeValue  # string
+      #     model: SomeValue  # SomeValue  # string
+      #     wanProvider: SomeValue  # SomeValue  # string
+      #   - profileName: SomeValue  # SomeValue  # string
+      #     model: SomeValue  # SomeValue  # string
+      #     wanProvider: SomeValue  # SomeValue  # string
+      # payload:
+      #
+      # state: delete
+      # sp_profile_name: SomeValue # string
+      # 
+      # state: update
+      # settings:
+      #   qos:
+      #   - profileName: "<SomeValue  # string>"
+      #     model: "<SomeValue  # string>"
+      #     wanProvider: "<SomeValue  # string>"
+      #     oldProfileName: "<SomeValue  # string>"
+      #   - profileName: "<SomeValue  # string>"
+      #     model: "<SomeValue  # string>"
+      #     wanProvider: "<SomeValue  # string>"
+      #     oldProfileName: "<SomeValue  # string>"
+      # 
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"     

@@ -1,0 +1,106 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete network
+    cisco.dnac.network:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: query
+      # id: 
+      #
+      # state: create
+      # site_id: SomeValue # string
+      # settings:
+      #   dhcpServer:
+      #   - SomeValue  # string
+      #   - SomeValue  # string
+      #   dnsServer:
+      #     domainName: SomeValue  # string
+      #     primaryIpAddress: SomeValue  # string
+      #     secondaryIpAddress: SomeValue  # string
+      #   syslogServer:
+      #     ipAddresses:
+      #     - SomeValue  # string
+      #     - SomeValue  # string
+      #     configureDnacIP: False  # boolean
+      #   snmpServer:
+      #     ipAddresses:
+      #     - SomeValue  # string
+      #     - SomeValue  # string
+      #     configureDnacIP: False  # boolean
+      #   netflowcollector:
+      #     ipAddress: SomeValue  # string
+      #     port: 1  # number
+      #   ntpServer:
+      #   - SomeValue  # string
+      #   - SomeValue  # string
+      #   timezone: SomeValue  # string
+      #   messageOfTheday:
+      #     bannerMessage: SomeValue  # string
+      #     retainExistingBanner: False  # boolean
+      #   network_aaa:
+      #     servers: SomeValue  # string
+      #     ipAddress: SomeValue  # string
+      #     network: SomeValue  # string
+      #     protocol: SomeValue  # string
+      #     sharedSecret: SomeValue  # string
+      #   clientAndEndpoint_aaa:
+      #     servers: SomeValue  # string
+      #     ipAddress: SomeValue  # string
+      #     network: SomeValue  # string
+      #     protocol: SomeValue  # string
+      #     sharedSecret: SomeValue  # string
+      #
+      # state: update
+      # site_id: SomeValue # string
+      # settings:
+      #   dhcpServer:
+      #   - SomeValue  # string
+      #   - SomeValue  # string
+      #   dnsServer:
+      #     domainName: SomeValue  # string
+      #     primaryIpAddress: SomeValue  # string
+      #     secondaryIpAddress: SomeValue  # string
+      #   syslogServer:
+      #     ipAddresses:
+      #     - SomeValue  # string
+      #     - SomeValue  # string
+      #     configureDnacIP: False  # boolean
+      #   snmpServer:
+      #     ipAddresses:
+      #     - SomeValue  # string
+      #     - SomeValue  # string
+      #     configureDnacIP: False  # boolean
+      #   netflowcollector:
+      #     ipAddress: SomeValue  # string
+      #     port: 1  # number
+      #   ntpServer:
+      #   - SomeValue  # string
+      #   - SomeValue  # string
+      #   timezone: SomeValue  # string
+      #   messageOfTheday:
+      #     bannerMessage: SomeValue  # string
+      #     retainExistingBanner: False  # boolean
+      #   network_aaa:
+      #     servers: SomeValue  # string
+      #     ipAddress: SomeValue  # string
+      #     network: SomeValue  # string
+      #     protocol: SomeValue  # string
+      #     sharedSecret: SomeValue  # string
+      #   clientAndEndpoint_aaa:
+      #     servers: SomeValue  # string
+      #     ipAddress: SomeValue  # string
+      #     network: SomeValue  # string
+      #     protocol: SomeValue  # string
+      #     sharedSecret: SomeValue  # string
+      # 
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"     

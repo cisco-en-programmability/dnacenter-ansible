@@ -1,0 +1,628 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete nfv provision
+    cisco.dnac.nfv_provision:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      validate_response_schema: False
+      # #
+      # state: query
+      # device_ip: SomeValue  # string
+      #
+      state: create
+      siteProfile:
+      - siteProfileName: SomeValue  # string
+        device:
+        - deviceType: SomeValue  # string
+          tagName: SomeValue  # string
+          serviceProviders:
+          - serviceProvider: SomeValue  # string
+            linkType: SomeValue  # string
+            connect: False  # boolean
+            defaultGateway: False  # boolean
+          - serviceProvider: SomeValue  # string
+            linkType: SomeValue  # string
+            connect: False  # boolean
+            defaultGateway: False  # boolean
+          dia: False  # boolean
+          services:
+          - type: SomeValue  # string
+            profile: SomeValue  # string
+            mode: SomeValue  # string
+            name: SomeValue  # string
+            imageName: SomeValue  # string
+            topology:
+              type: SomeValue  # string
+              name: SomeValue  # string
+              assignIp: SomeValue  # string
+          - type: SomeValue  # string
+            profile: SomeValue  # string
+            mode: SomeValue  # string
+            name: SomeValue  # string
+            imageName: SomeValue  # string
+            topology:
+              type: SomeValue  # string
+              name: SomeValue  # string
+              assignIp: SomeValue  # string
+          customServices:
+          - name: SomeValue  # string
+            applicationType: SomeValue  # string
+            profile: SomeValue  # string
+            topology:
+              type: SomeValue  # string
+              name: SomeValue  # string
+              assignIp: SomeValue  # string
+            imageName: SomeValue  # string
+          - name: SomeValue  # string
+            applicationType: SomeValue  # string
+            profile: SomeValue  # string
+            topology:
+              type: SomeValue  # string
+              name: SomeValue  # string
+              assignIp: SomeValue  # string
+            imageName: SomeValue  # string
+          customNetworks:
+          - name: SomeValue  # string
+            servicesToConnect:
+            - service: SomeValue  # string
+            - service: SomeValue  # string
+            connectionType: SomeValue  # string
+            networkMode: SomeValue  # string
+            vlan: SomeValue  # string
+          - name: SomeValue  # string
+            servicesToConnect:
+            - service: SomeValue  # string
+            - service: SomeValue  # string
+            connectionType: SomeValue  # string
+            networkMode: SomeValue  # string
+            vlan: SomeValue  # string
+          vlan:
+          - type: SomeValue  # string
+            id: SomeValue  # string
+          - type: SomeValue  # string
+            id: SomeValue  # string
+          customTemplate:
+          - deviceType: SomeValue  # string
+            template: SomeValue  # string
+          - deviceType: SomeValue  # string
+            template: SomeValue  # string
+        - deviceType: SomeValue  # string
+          tagName: SomeValue  # string
+          serviceProviders:
+          - serviceProvider: SomeValue  # string
+            linkType: SomeValue  # string
+            connect: False  # boolean
+            defaultGateway: False  # boolean
+          - serviceProvider: SomeValue  # string
+            linkType: SomeValue  # string
+            connect: False  # boolean
+            defaultGateway: False  # boolean
+          dia: False  # boolean
+          services:
+          - type: SomeValue  # string
+            profile: SomeValue  # string
+            mode: SomeValue  # string
+            name: SomeValue  # string
+            imageName: SomeValue  # string
+            topology:
+              type: SomeValue  # string
+              name: SomeValue  # string
+              assignIp: SomeValue  # string
+          - type: SomeValue  # string
+            profile: SomeValue  # string
+            mode: SomeValue  # string
+            name: SomeValue  # string
+            imageName: SomeValue  # string
+            topology:
+              type: SomeValue  # string
+              name: SomeValue  # string
+              assignIp: SomeValue  # string
+          customServices:
+          - name: SomeValue  # string
+            applicationType: SomeValue  # string
+            profile: SomeValue  # string
+            topology:
+              type: SomeValue  # string
+              name: SomeValue  # string
+              assignIp: SomeValue  # string
+            imageName: SomeValue  # string
+          - name: SomeValue  # string
+            applicationType: SomeValue  # string
+            profile: SomeValue  # string
+            topology:
+              type: SomeValue  # string
+              name: SomeValue  # string
+              assignIp: SomeValue  # string
+            imageName: SomeValue  # string
+          customNetworks:
+          - name: SomeValue  # string
+            servicesToConnect:
+            - service: SomeValue  # string
+            - service: SomeValue  # string
+            connectionType: SomeValue  # string
+            networkMode: SomeValue  # string
+            vlan: SomeValue  # string
+          - name: SomeValue  # string
+            servicesToConnect:
+            - service: SomeValue  # string
+            - service: SomeValue  # string
+            connectionType: SomeValue  # string
+            networkMode: SomeValue  # string
+            vlan: SomeValue  # string
+          vlan:
+          - type: SomeValue  # string
+            id: SomeValue  # string
+          - type: SomeValue  # string
+            id: SomeValue  # string
+          customTemplate:
+          - deviceType: SomeValue  # string
+            template: SomeValue  # string
+          - deviceType: SomeValue  # string
+            template: SomeValue  # string
+      - siteProfileName: SomeValue  # string
+        device:
+        - deviceType: SomeValue  # string
+          tagName: SomeValue  # string
+          serviceProviders:
+          - serviceProvider: SomeValue  # string
+            linkType: SomeValue  # string
+            connect: False  # boolean
+            defaultGateway: False  # boolean
+          - serviceProvider: SomeValue  # string
+            linkType: SomeValue  # string
+            connect: False  # boolean
+            defaultGateway: False  # boolean
+          dia: False  # boolean
+          services:
+          - type: SomeValue  # string
+            profile: SomeValue  # string
+            mode: SomeValue  # string
+            name: SomeValue  # string
+            imageName: SomeValue  # string
+            topology:
+              type: SomeValue  # string
+              name: SomeValue  # string
+              assignIp: SomeValue  # string
+          - type: SomeValue  # string
+            profile: SomeValue  # string
+            mode: SomeValue  # string
+            name: SomeValue  # string
+            imageName: SomeValue  # string
+            topology:
+              type: SomeValue  # string
+              name: SomeValue  # string
+              assignIp: SomeValue  # string
+          customServices:
+          - name: SomeValue  # string
+            applicationType: SomeValue  # string
+            profile: SomeValue  # string
+            topology:
+              type: SomeValue  # string
+              name: SomeValue  # string
+              assignIp: SomeValue  # string
+            imageName: SomeValue  # string
+          - name: SomeValue  # string
+            applicationType: SomeValue  # string
+            profile: SomeValue  # string
+            topology:
+              type: SomeValue  # string
+              name: SomeValue  # string
+              assignIp: SomeValue  # string
+            imageName: SomeValue  # string
+          customNetworks:
+          - name: SomeValue  # string
+            servicesToConnect:
+            - service: SomeValue  # string
+            - service: SomeValue  # string
+            connectionType: SomeValue  # string
+            networkMode: SomeValue  # string
+            vlan: SomeValue  # string
+          - name: SomeValue  # string
+            servicesToConnect:
+            - service: SomeValue  # string
+            - service: SomeValue  # string
+            connectionType: SomeValue  # string
+            networkMode: SomeValue  # string
+            vlan: SomeValue  # string
+          vlan:
+          - type: SomeValue  # string
+            id: SomeValue  # string
+          - type: SomeValue  # string
+            id: SomeValue  # string
+          customTemplate:
+          - deviceType: SomeValue  # string
+            template: SomeValue  # string
+          - deviceType: SomeValue  # string
+            template: SomeValue  # string
+        - deviceType: SomeValue  # string
+          tagName: SomeValue  # string
+          serviceProviders:
+          - serviceProvider: SomeValue  # string
+            linkType: SomeValue  # string
+            connect: False  # boolean
+            defaultGateway: False  # boolean
+          - serviceProvider: SomeValue  # string
+            linkType: SomeValue  # string
+            connect: False  # boolean
+            defaultGateway: False  # boolean
+          dia: False  # boolean
+          services:
+          - type: SomeValue  # string
+            profile: SomeValue  # string
+            mode: SomeValue  # string
+            name: SomeValue  # string
+            imageName: SomeValue  # string
+            topology:
+              type: SomeValue  # string
+              name: SomeValue  # string
+              assignIp: SomeValue  # string
+          - type: SomeValue  # string
+            profile: SomeValue  # string
+            mode: SomeValue  # string
+            name: SomeValue  # string
+            imageName: SomeValue  # string
+            topology:
+              type: SomeValue  # string
+              name: SomeValue  # string
+              assignIp: SomeValue  # string
+          customServices:
+          - name: SomeValue  # string
+            applicationType: SomeValue  # string
+            profile: SomeValue  # string
+            topology:
+              type: SomeValue  # string
+              name: SomeValue  # string
+              assignIp: SomeValue  # string
+            imageName: SomeValue  # string
+          - name: SomeValue  # string
+            applicationType: SomeValue  # string
+            profile: SomeValue  # string
+            topology:
+              type: SomeValue  # string
+              name: SomeValue  # string
+              assignIp: SomeValue  # string
+            imageName: SomeValue  # string
+          customNetworks:
+          - name: SomeValue  # string
+            servicesToConnect:
+            - service: SomeValue  # string
+            - service: SomeValue  # string
+            connectionType: SomeValue  # string
+            networkMode: SomeValue  # string
+            vlan: SomeValue  # string
+          - name: SomeValue  # string
+            servicesToConnect:
+            - service: SomeValue  # string
+            - service: SomeValue  # string
+            connectionType: SomeValue  # string
+            networkMode: SomeValue  # string
+            vlan: SomeValue  # string
+          vlan:
+          - type: SomeValue  # string
+            id: SomeValue  # string
+          - type: SomeValue  # string
+            id: SomeValue  # string
+          customTemplate:
+          - deviceType: SomeValue  # string
+            template: SomeValue  # string
+          - deviceType: SomeValue  # string
+            template: SomeValue  # string
+      provisioning:
+      - site:
+          siteProfileName: SomeValue  # string
+          area:
+            name: SomeValue  # string
+            parentName: SomeValue  # string
+          building:
+            name: SomeValue  # string
+            address: SomeValue  # string
+            latitude: 1  # number
+            longitude: 1  # number
+            parentName: SomeValue  # string
+          floor:
+            name: SomeValue  # string
+            parentName: SomeValue  # string
+            rfModel: SomeValue  # string
+            width: 1  # number
+            length: 1  # number
+            height: 1  # number
+        device:
+        - ip: SomeValue  # string
+          deviceSerialNumber: SomeValue  # string
+          tagName: SomeValue  # string
+          serviceProviders:
+          - serviceProvider: SomeValue  # string
+            wanInterface:
+              ipAddress: SomeValue  # string
+              interfaceName: SomeValue  # string
+              subnetmask: SomeValue  # string
+              bandwidth: SomeValue  # string
+              gateway: SomeValue  # string
+          - serviceProvider: SomeValue  # string
+            wanInterface:
+              ipAddress: SomeValue  # string
+              interfaceName: SomeValue  # string
+              subnetmask: SomeValue  # string
+              bandwidth: SomeValue  # string
+              gateway: SomeValue  # string
+          services:
+          - type: SomeValue  # string
+            mode: SomeValue  # string
+            systemIp: SomeValue  # string
+            centralManagerIP: SomeValue  # string
+            centralRegistrationKey: SomeValue  # string
+            commonKey: SomeValue  # string
+            adminPasswordHash: SomeValue  # string
+            disk: SomeValue  # string
+          - type: SomeValue  # string
+            mode: SomeValue  # string
+            systemIp: SomeValue  # string
+            centralManagerIP: SomeValue  # string
+            centralRegistrationKey: SomeValue  # string
+            commonKey: SomeValue  # string
+            adminPasswordHash: SomeValue  # string
+            disk: SomeValue  # string
+          vlan:
+          - type: SomeValue  # string
+            id: SomeValue  # string
+            interfaces: SomeValue  # string
+            network: SomeValue  # string
+          - type: SomeValue  # string
+            id: SomeValue  # string
+            interfaces: SomeValue  # string
+            network: SomeValue  # string
+          subPools:
+          - type: SomeValue  # string
+            name: SomeValue  # string
+            ipSubnet: SomeValue  # string
+            gateway: SomeValue  # string
+            parentPoolName: SomeValue  # string
+          - type: SomeValue  # string
+            name: SomeValue  # string
+            ipSubnet: SomeValue  # string
+            gateway: SomeValue  # string
+            parentPoolName: SomeValue  # string
+          customNetworks:
+          - name: SomeValue  # string
+            port: SomeValue  # string
+            ipAddressPool: SomeValue  # string
+          - name: SomeValue  # string
+            port: SomeValue  # string
+            ipAddressPool: SomeValue  # string
+          templateParam:
+            nfvis:
+              var1: SomeValue  # string
+            asav:
+              var1: SomeValue  # string
+        - ip: SomeValue  # string
+          deviceSerialNumber: SomeValue  # string
+          tagName: SomeValue  # string
+          serviceProviders:
+          - serviceProvider: SomeValue  # string
+            wanInterface:
+              ipAddress: SomeValue  # string
+              interfaceName: SomeValue  # string
+              subnetmask: SomeValue  # string
+              bandwidth: SomeValue  # string
+              gateway: SomeValue  # string
+          - serviceProvider: SomeValue  # string
+            wanInterface:
+              ipAddress: SomeValue  # string
+              interfaceName: SomeValue  # string
+              subnetmask: SomeValue  # string
+              bandwidth: SomeValue  # string
+              gateway: SomeValue  # string
+          services:
+          - type: SomeValue  # string
+            mode: SomeValue  # string
+            systemIp: SomeValue  # string
+            centralManagerIP: SomeValue  # string
+            centralRegistrationKey: SomeValue  # string
+            commonKey: SomeValue  # string
+            adminPasswordHash: SomeValue  # string
+            disk: SomeValue  # string
+          - type: SomeValue  # string
+            mode: SomeValue  # string
+            systemIp: SomeValue  # string
+            centralManagerIP: SomeValue  # string
+            centralRegistrationKey: SomeValue  # string
+            commonKey: SomeValue  # string
+            adminPasswordHash: SomeValue  # string
+            disk: SomeValue  # string
+          vlan:
+          - type: SomeValue  # string
+            id: SomeValue  # string
+            interfaces: SomeValue  # string
+            network: SomeValue  # string
+          - type: SomeValue  # string
+            id: SomeValue  # string
+            interfaces: SomeValue  # string
+            network: SomeValue  # string
+          subPools:
+          - type: SomeValue  # string
+            name: SomeValue  # string
+            ipSubnet: SomeValue  # string
+            gateway: SomeValue  # string
+            parentPoolName: SomeValue  # string
+          - type: SomeValue  # string
+            name: SomeValue  # string
+            ipSubnet: SomeValue  # string
+            gateway: SomeValue  # string
+            parentPoolName: SomeValue  # string
+          customNetworks:
+          - name: SomeValue  # string
+            port: SomeValue  # string
+            ipAddressPool: SomeValue  # string
+          - name: SomeValue  # string
+            port: SomeValue  # string
+            ipAddressPool: SomeValue  # string
+          templateParam:
+            nfvis:
+              var1: SomeValue  # string
+            asav:
+              var1: SomeValue  # string
+      - site:
+          siteProfileName: SomeValue  # string
+          area:
+            name: SomeValue  # string
+            parentName: SomeValue  # string
+          building:
+            name: SomeValue  # string
+            address: SomeValue  # string
+            latitude: 1  # number
+            longitude: 1  # number
+            parentName: SomeValue  # string
+          floor:
+            name: SomeValue  # string
+            parentName: SomeValue  # string
+            rfModel: SomeValue  # string
+            width: 1  # number
+            length: 1  # number
+            height: 1  # number
+        device:
+        - ip: SomeValue  # string
+          deviceSerialNumber: SomeValue  # string
+          tagName: SomeValue  # string
+          serviceProviders:
+          - serviceProvider: SomeValue  # string
+            wanInterface:
+              ipAddress: SomeValue  # string
+              interfaceName: SomeValue  # string
+              subnetmask: SomeValue  # string
+              bandwidth: SomeValue  # string
+              gateway: SomeValue  # string
+          - serviceProvider: SomeValue  # string
+            wanInterface:
+              ipAddress: SomeValue  # string
+              interfaceName: SomeValue  # string
+              subnetmask: SomeValue  # string
+              bandwidth: SomeValue  # string
+              gateway: SomeValue  # string
+          services:
+          - type: SomeValue  # string
+            mode: SomeValue  # string
+            systemIp: SomeValue  # string
+            centralManagerIP: SomeValue  # string
+            centralRegistrationKey: SomeValue  # string
+            commonKey: SomeValue  # string
+            adminPasswordHash: SomeValue  # string
+            disk: SomeValue  # string
+          - type: SomeValue  # string
+            mode: SomeValue  # string
+            systemIp: SomeValue  # string
+            centralManagerIP: SomeValue  # string
+            centralRegistrationKey: SomeValue  # string
+            commonKey: SomeValue  # string
+            adminPasswordHash: SomeValue  # string
+            disk: SomeValue  # string
+          vlan:
+          - type: SomeValue  # string
+            id: SomeValue  # string
+            interfaces: SomeValue  # string
+            network: SomeValue  # string
+          - type: SomeValue  # string
+            id: SomeValue  # string
+            interfaces: SomeValue  # string
+            network: SomeValue  # string
+          subPools:
+          - type: SomeValue  # string
+            name: SomeValue  # string
+            ipSubnet: SomeValue  # string
+            gateway: SomeValue  # string
+            parentPoolName: SomeValue  # string
+          - type: SomeValue  # string
+            name: SomeValue  # string
+            ipSubnet: SomeValue  # string
+            gateway: SomeValue  # string
+            parentPoolName: SomeValue  # string
+          customNetworks:
+          - name: SomeValue  # string
+            port: SomeValue  # string
+            ipAddressPool: SomeValue  # string
+          - name: SomeValue  # string
+            port: SomeValue  # string
+            ipAddressPool: SomeValue  # string
+          templateParam:
+            nfvis:
+              var1: SomeValue  # string
+            asav:
+              var1: SomeValue  # string
+        - ip: SomeValue  # string
+          deviceSerialNumber: SomeValue  # string
+          tagName: SomeValue  # string
+          serviceProviders:
+          - serviceProvider: SomeValue  # string
+            wanInterface:
+              ipAddress: SomeValue  # string
+              interfaceName: SomeValue  # string
+              subnetmask: SomeValue  # string
+              bandwidth: SomeValue  # string
+              gateway: SomeValue  # string
+          - serviceProvider: SomeValue  # string
+            wanInterface:
+              ipAddress: SomeValue  # string
+              interfaceName: SomeValue  # string
+              subnetmask: SomeValue  # string
+              bandwidth: SomeValue  # string
+              gateway: SomeValue  # string
+          services:
+          - type: SomeValue  # string
+            mode: SomeValue  # string
+            systemIp: SomeValue  # string
+            centralManagerIP: SomeValue  # string
+            centralRegistrationKey: SomeValue  # string
+            commonKey: SomeValue  # string
+            adminPasswordHash: SomeValue  # string
+            disk: SomeValue  # string
+          - type: SomeValue  # string
+            mode: SomeValue  # string
+            systemIp: SomeValue  # string
+            centralManagerIP: SomeValue  # string
+            centralRegistrationKey: SomeValue  # string
+            commonKey: SomeValue  # string
+            adminPasswordHash: SomeValue  # string
+            disk: SomeValue  # string
+          vlan:
+          - type: SomeValue  # string
+            id: SomeValue  # string
+            interfaces: SomeValue  # string
+            network: SomeValue  # string
+          - type: SomeValue  # string
+            id: SomeValue  # string
+            interfaces: SomeValue  # string
+            network: SomeValue  # string
+          subPools:
+          - type: SomeValue  # string
+            name: SomeValue  # string
+            ipSubnet: SomeValue  # string
+            gateway: SomeValue  # string
+            parentPoolName: SomeValue  # string
+          - type: SomeValue  # string
+            name: SomeValue  # string
+            ipSubnet: SomeValue  # string
+            gateway: SomeValue  # string
+            parentPoolName: SomeValue  # string
+          customNetworks:
+          - name: SomeValue  # string
+            port: SomeValue  # string
+            ipAddressPool: SomeValue  # string
+          - name: SomeValue  # string
+            port: SomeValue  # string
+            ipAddressPool: SomeValue  # string
+          templateParam:
+            nfvis:
+              var1: SomeValue  # string
+            asav:
+              var1: SomeValue  # string
+
+      # 
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"     

@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete nfv provision detail
+    cisco.dnac.nfv_provision_detail:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: create
+      device_ip: SomeValue  # string
+      # 
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"     
