@@ -1,0 +1,33 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete import image url
+    cisco.dnac.import_image_url:
+      dnac_host: 192.168.196.2
+      dnac_port: 443
+      dnac_username: altus
+      dnac_password: Altus123
+      dnac_version: 2.1.1
+      dnac_verify: False
+      #
+      state: create
+      schedule_at: SomeValue  # string
+      schedule_desc: SomeValue  # string
+      schedule_origin: SomeValue  # string
+      payload:
+      - applicationType: SomeValue  # string
+        imageFamily: SomeValue  # string
+        sourceURL: SomeValue  # string
+        thirdParty: False  # boolean
+        vendor: SomeValue  # string
+      - applicationType: SomeValue  # string
+        imageFamily: SomeValue  # string
+        sourceURL: SomeValue  # string
+        thirdParty: False  # boolean
+        vendor: SomeValue  # string
+
+    register: result
+
+  - name: Show retrieved object
+    debug:
+      msg: "{{ result }}"     
