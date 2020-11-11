@@ -2,12 +2,13 @@ import json
 
 module_definition = json.loads('''{
     "family": "device_onboarding_pnp",
-    "name": "pnp_settings_virtual_account",
+    "name": "smart_virtual_account",
     "operations": {
         "delete": [
             "deregister_virtual_account"
         ],
         "get": [
+            "get_smart_account_list",
             "get_virtual_account_list"
         ],
         "post": [
@@ -164,6 +165,7 @@ module_definition = json.loads('''{
                 "type": "string"
             }
         ],
+        "get_smart_account_list": [],
         "get_virtual_account_list": [
             {
                 "name": "domain",
@@ -342,6 +344,11 @@ module_definition = json.loads('''{
                 "syncStatus"
             ],
             "type": "object"
+        },
+        "get_smart_account_list": {
+            "array_type": "string",
+            "properties": [],
+            "type": "array"
         },
         "get_virtual_account_list": {
             "array_type": "string",
