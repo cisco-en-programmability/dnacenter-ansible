@@ -5,27 +5,31 @@ from ansible_collections.cisco.dnac.plugins.module_utils.exceptions import (
     InvalidFunction,
     StateNotSupported,
     NoMatchingOperation,
-    MultipleOperations
+    MultipleOperations,
 )
+
 
 def dnac_argument_spec():
     return dict(
-        dnac_host=dict(type='str', required=True),
-        dnac_port=dict(type='int', required=False, default=443),
-        dnac_username=dict(type='str', default='admin', aliases=['user']),
-        dnac_password=dict(type='str', no_log=True),
-        dnac_verify=dict(type='bool', default=True),
-        dnac_version=dict(type='str', default="2.1.1"),
-        state=dict(type='str', default='present', choices=['absent', 'delete', 'present', 'create', 'update', 'query']),
-        validate_response_schema=dict(type='bool', default=True)
-        #use_proxy=dict(type='bool', default=True),
-        #use_ssl=dict(type='bool', default=True),
-        #validate_certs=dict(type='bool', default=True),
+        dnac_host=dict(type="str", required=True),
+        dnac_port=dict(type="int", required=False, default=443),
+        dnac_username=dict(type="str", default="admin", aliases=["user"]),
+        dnac_password=dict(type="str", no_log=True),
+        dnac_verify=dict(type="bool", default=True),
+        dnac_version=dict(type="str", default="2.1.1"),
+        state=dict(
+            type="str",
+            default="present",
+            choices=["absent", "delete", "present", "create", "update", "query"],
+        ),
+        validate_response_schema=dict(type="bool", default=True)
+        # use_proxy=dict(type='bool', default=True),
+        # use_ssl=dict(type='bool', default=True),
+        # validate_certs=dict(type='bool', default=True),
     )
 
 
 class Parameter(object):
-
     def __init__(self, param):
         self.__dict__ = param
         if self._is_object() or self._is_object_array():
@@ -56,7 +60,7 @@ class Parameter(object):
         if "required" in self.__dict__.keys():
             _required = self.required
         return _required
-    
+
     def is_artificial(self):
         _artificial = False
         if "artificial" in self.__dict__.keys():
@@ -95,7 +99,7 @@ class Parameter(object):
 
     # TO DO: Add logic to validate parameters of type 'array of objects'
     # Right now if a parameter is an array of objects, we're not validating its schema
-    def has_valid_schema(self, module_params, missing_params={}): 
+    def has_valid_schema(self, module_params, missing_params={}):
         if self._is_object():
             if not module_params:
                 if self.is_required():
@@ -106,7 +110,9 @@ class Parameter(object):
             result = True
             for param in self.schema:
                 if param.name in module_params.keys():
-                    result = result and param.has_valid_schema(module_params.get(param.name), missing_params)
+                    result = result and param.has_valid_schema(
+                        module_params.get(param.name), missing_params
+                    )
                 else:
                     if param.is_required():
                         result = False
@@ -118,9 +124,7 @@ class Parameter(object):
             return True
 
 
-
 class Function(object):
-
     def __init__(self, name, params, response_schema, family, method):
         self.name = name
         self.params = []
@@ -130,7 +134,7 @@ class Function(object):
             new_param = Parameter(param)
             self.params.append(new_param)
         self.response_schema = response_schema
-    
+
     def _get_param_by_name(self, param_name):
         for param in self.params:
             if param.name == param_name:
@@ -155,8 +159,7 @@ class Function(object):
                     module_params.pop(param_name)
         return module_params
 
-
-    # Returns true if all the params required by this function are 
+    # Returns true if all the params required by this function are
     # present in the module_params passed to the Ansible module
     def has_required_params(self, module_params):
         return set(self.get_required_params()).issubset(module_params.keys())
@@ -169,7 +172,9 @@ class Function(object):
     def has_valid_request_schema(self, module_params, missing_params={}):
         result = True
         for param in self.params:
-            result = result and param.has_valid_schema(module_params.get(param.name), missing_params)
+            result = result and param.has_valid_schema(
+                module_params.get(param.name), missing_params
+            )
         return result
 
     def has_valid_response_schema(self, response):
@@ -181,7 +186,9 @@ class Function(object):
                     return "response" in response.keys()
             elif self.response_schema.get("type") == "object":
                 if isinstance(response, dict):
-                    return set(response.keys()).issubset(self.response_schema.get("properties"))                
+                    return set(response.keys()).issubset(
+                        self.response_schema.get("properties")
+                    )
             else:
                 return False
         else:
@@ -189,7 +196,6 @@ class Function(object):
 
 
 class ModuleDefinition(object):
-
     def __init__(self, module_definition):
         self.name = module_definition.get("name")
         self.family = module_definition.get("family")
@@ -197,37 +203,40 @@ class ModuleDefinition(object):
         _operations = module_definition.get("operations")
         _response_schema = module_definition.get("responses")
         self.methods = ["post", "put", "delete", "get"]
-        #self.operations = dict.fromkeys(self.methods, [])
+        # self.operations = dict.fromkeys(self.methods, [])
         self.operations = dict()
 
         for method, func_list in _operations.items():
             func_obj_list = []
             for func_name in func_list:
                 function = Function(
-                            name=func_name, 
-                            params=_params.get(func_name),
-                            response_schema=_response_schema.get(func_name),
-                            family=self.family, 
-                            method=method
-                            )
+                    name=func_name,
+                    params=_params.get(func_name),
+                    response_schema=_response_schema.get(func_name),
+                    family=self.family,
+                    method=method,
+                )
                 func_obj_list.append(function)
             self.operations[method] = func_obj_list
-        
+
         self.state = dict(zip(self.methods, ["present", "present", "absent", "query"]))
         self.common_params = dnac_argument_spec().keys()
-        
+
     # Strips the common module parameters from the passed parameters
     def strip_common_params(self, module_params):
-        return { k: v for k, v in module_params.items() if k not in self.common_params }
+        return {k: v for k, v in module_params.items() if k not in self.common_params}
 
     # Strips all unused parameters (those that were not explicitly passed by the user)
     def strip_unused_params(self, module_params):
-        return { k: v for k, v in module_params.items() if v != None }
+        return {k: v for k, v in module_params.items() if v != None}
 
     # Strips off the passed params that are optional for the functions a given method
     def _strip_optional_params(self, module_params, method):
-        return { k: v for k, v in module_params.items() if k in self._get_required_params(method) }
-
+        return {
+            k: v
+            for k, v in module_params.items()
+            if k in self._get_required_params(method)
+        }
 
     # Retrieves all the functions supported by this module
     def get_functions(self):
@@ -261,19 +270,21 @@ class ModuleDefinition(object):
         common_required_params = functions[0].get_required_params()
         for i in range(1, len(functions)):
             # Gets the intersection of two lists
-            common_required_params = \
-                    [item for item in common_required_params if item in functions[i].get_required_params()]
+            common_required_params = [
+                item
+                for item in common_required_params
+                if item in functions[i].get_required_params()
+            ]
         return common_required_params
-
 
     # Retrieves a dictionary with all the parameters supported by this module
     # This dictionary is later used to instantiate the AnsibleModule class
     def get_argument_spec_dict(self):
         param_dict = dict()
         for function in self.get_functions():
-            for param in function.params:    
+            for param in function.params:
                 param_dict.update(param.get_dict())
-        
+
         # If a parameter is required by all functions in a module
         # then it's a required parameter of the module
         for param, attr in param_dict.items():
@@ -283,7 +294,6 @@ class ModuleDefinition(object):
 
     def get_required_if_list(self):
         return []
-
 
     def get_put_function(self):
         if "put" in self.operations.keys():
@@ -297,7 +307,6 @@ class ModuleDefinition(object):
         else:
             raise InvalidFunction()
 
-
     # Retrieves the function that exactly matches the given method and module parameters.
     def choose_function(self, method, module_params):
         ops = self.operations.get(method)
@@ -306,27 +315,32 @@ class ModuleDefinition(object):
         valid_ops = []
         non_optional_params = self._strip_optional_params(module_params, method)
         for function in ops:
-            if function.has_required_params(module_params) and function.needs_passed_params(non_optional_params):
+            if function.has_required_params(
+                module_params
+            ) and function.needs_passed_params(non_optional_params):
                 valid_ops.append(function)
         if len(valid_ops) == 0:
-            raise NoMatchingOperation()    
+            raise NoMatchingOperation()
         elif len(valid_ops) == 1:
-            return valid_ops[0] 
+            return valid_ops[0]
         else:
             raise MultipleOperations()
-        
+
 
 class ObjectExistenceCriteria(object):
-
     def __init__(self, dnac, get_function, get_params, list_field):
         self.dnac = dnac
         self.get_function = get_function
         self.get_params = get_params
         self.list_field = list_field
         self.WARN_OBJECT_EXISTS = "Object already exists"
-        self.ERR_INVALID_GET_FUNC = "Function is not a 'get' function. Could not determine if object exists."
-        self.ERR_NO_GET_FUNCTION = "This module doesn't support the requested 'get' function"
-        
+        self.ERR_INVALID_GET_FUNC = (
+            "Function is not a 'get' function. Could not determine if object exists."
+        )
+        self.ERR_NO_GET_FUNCTION = (
+            "This module doesn't support the requested 'get' function"
+        )
+
     def object_exists(self):
         function = self.dnac.moddef.get_function_by_name(self.get_function)
         if function:
@@ -349,42 +363,43 @@ class ObjectExistenceCriteria(object):
     def _transform_params(self, existing_object):
         return existing_object
 
-    
-
 
 class DNACModule(object):
-
     def __init__(self, module, moddef):
         self.module = module
         self.params = module.params
         self.response = None
         self.result = dict(changed=False)
-        self.validate_response_schema = self.params.get('validate_response_schema')
-        self.api = api.DNACenterAPI(username=self.params.get('dnac_username'),
-                        password=self.params.get('dnac_password'),
-                        base_url="https://{}:{}".format(self.params.get('dnac_host'), self.params.get('dnac_port')),
-                        version=self.params.get('dnac_version'),
-                        verify=self.params.get('dnac_verify'))
+        self.validate_response_schema = self.params.get("validate_response_schema")
+        self.api = api.DNACenterAPI(
+            username=self.params.get("dnac_username"),
+            password=self.params.get("dnac_password"),
+            base_url="https://{}:{}".format(
+                self.params.get("dnac_host"), self.params.get("dnac_port")
+            ),
+            version=self.params.get("dnac_version"),
+            verify=self.params.get("dnac_verify"),
+        )
         self.moddef = moddef
         self.params = self.moddef.strip_common_params(self.params)
         self.params = self.moddef.strip_unused_params(self.params)
         self.existing_object = {}
 
-        if self.params.get('filename') and self.params.get('filepath'): 
-            filename = self.params.pop('filename')
-            filepath = self.params.pop('filepath')
-            self.params.setdefault('multipart_fields', {'file': (filename, open(filepath, 'rb'))}) 
-            self.params.setdefault('multipart_monitor_callback', None)
-
+        if self.params.get("filename") and self.params.get("filepath"):
+            filename = self.params.pop("filename")
+            filepath = self.params.pop("filepath")
+            self.params.setdefault(
+                "multipart_fields", {"file": (filename, open(filepath, "rb"))}
+            )
+            self.params.setdefault("multipart_monitor_callback", None)
 
     def get_func(self, function):
         try:
-            family = getattr(self.api, function.family) 
+            family = getattr(self.api, function.family)
             func = getattr(family, function.name)
         except Exception as e:
             self.fail_json(msg=e)
         return func
-
 
     def exec(self, method):
         if method == "put":
@@ -401,17 +416,27 @@ class DNACModule(object):
                 self.fail_json(msg="This module doesn't have a 'post' function")
         elif method in ("get", "delete"):
             try:
-                function = self.moddef.choose_function(method, self.params)                
+                function = self.moddef.choose_function(method, self.params)
             except StateNotSupported:
-                self.fail_json(msg="State '{}' not supported by this module".format(self.moddef.state.get(method)))
+                self.fail_json(
+                    msg="State '{}' not supported by this module".format(
+                        self.moddef.state.get(method)
+                    )
+                )
             except NoMatchingOperation:
-                self.fail_json(msg="There are no matching operations for the given arguments")
+                self.fail_json(
+                    msg="There are no matching operations for the given arguments"
+                )
             except MultipleOperations:
-                self.fail_json(msg="More than one operation matched the given arguments.")
+                self.fail_json(
+                    msg="More than one operation matched the given arguments."
+                )
         else:
             self.fail_json(msg="Wrong method '{}'".format(method))
 
-        self.result.update(dict(sdk_function="{}.{}".format(function.family, function.name)))
+        self.result.update(
+            dict(sdk_function="{}.{}".format(function.family, function.name))
+        )
         self.params = function.strip_artificial_params(self.params)
         func = self.get_func(function)
         missing_params = dict()
@@ -419,22 +444,29 @@ class DNACModule(object):
             try:
                 response = func(**self.params)
             except Exception as e:
-                self.fail_json(msg="An error occured when executing operation. " + str(e))
+                self.fail_json(
+                    msg="An error occured when executing operation. " + str(e)
+                )
 
-            if function.has_valid_response_schema(response) or not self.validate_response_schema:
+            if (
+                function.has_valid_response_schema(response)
+                or not self.validate_response_schema
+            ):
                 self.result.update(dict(dnac_response=response))
             else:
                 if self.module._verbosity >= 3:
                     self.result.update(dict(dnac_response=response))
-                self.fail_json(msg="The response received from DNAC doesn't match the response schema for this function. Consider setting the 'validate_response_schema' argument to False.")
+                self.fail_json(
+                    msg="The response received from DNAC doesn't match the response schema for this function. Consider setting the 'validate_response_schema' argument to False."
+                )
         else:
             self.result.update(dict(missing_params=missing_params))
-            self.fail_json(msg="Provided arguments do not comply with the function schema") 
-                
+            self.fail_json(
+                msg="Provided arguments do not comply with the function schema"
+            )
 
     def disable_validation(self):
         self.params["active_validation"] = False
-
 
     def fail_json(self, msg, **kwargs):
         self.result.update(**kwargs)
@@ -445,11 +477,9 @@ class DNACModule(object):
         self.module.exit_json(**self.result)
 
 
-
-
 def main():
     pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

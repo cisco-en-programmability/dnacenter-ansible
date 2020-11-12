@@ -1,6 +1,7 @@
 import json
 
-module_definition = json.loads('''{
+module_definition = json.loads(
+    """{
     "family": "devices",
     "name": "network_device_functional_capability",
     "operations": {
@@ -46,4 +47,5 @@ module_definition = json.loads('''{
             "type": "object"
         }
     }
-}''')
+}"""
+)

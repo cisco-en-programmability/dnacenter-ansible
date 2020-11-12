@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: event_subscription
 short_description: Manage EventSubscription objects of EventManagement
@@ -134,12 +134,12 @@ seealso:
 - name: EventSubscription reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Delete EventSubscriptions.
     returned: success,changed,always
@@ -149,7 +149,7 @@ data_0:
             description: Status Uri, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<statusuri>'
 
 data_1:
     description: Gets the list of Subscriptions's based on provided offset and limit.
@@ -160,17 +160,17 @@ data_1:
             description: It is the event subscription's version.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
         name:
             description: It is the event subscription's name.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<name>'
         description:
             description: It is the event subscription's description.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<description>'
         subscriptionEndpoints:
             description: It is the event subscription's subscriptionEndpoints.
             returned: success,changed,always
@@ -180,12 +180,12 @@ data_1:
                     description: It is the event subscription's instanceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceid>'
                 id:
                     description: It is the event subscription's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 subscriptionDetails:
                     description: It is the event subscription's subscriptionDetails.
                     returned: success,changed,always
@@ -195,22 +195,22 @@ data_1:
                             description: It is the event subscription's name.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<name>'
                         url:
                             description: It is the event subscription's url.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<url>'
                         method:
                             description: It is the event subscription's method.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<method>'
                         connectorType:
                             description: It is the event subscription's connectorType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<connectortype>'
 
 
         filter:
@@ -234,7 +234,7 @@ data_2:
             description: Status Uri, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<statusuri>'
 
 data_3:
     description: Update SubscriptionEndpoint to list of registered events.
@@ -245,7 +245,7 @@ data_3:
             description: Status Uri, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<statusuri>'
 
 data_4:
     description: Returns the Count of EventSubscriptions.
@@ -258,11 +258,17 @@ data_4:
             type: int
             sample: 0
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.event_subscription import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.event_subscription import (
+    module_definition,
+)
 
 
 def main():
@@ -273,11 +279,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

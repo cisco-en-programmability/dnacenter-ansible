@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: integration_event
 short_description: Manage IntegrationEvent objects of Itsm
@@ -43,12 +43,12 @@ seealso:
 - name: IntegrationEvent reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Used to retrieve the list of integration events that failed to create tickets in ITSM.
     returned: success,changed,always
@@ -58,47 +58,47 @@ data_0:
             description: It is the integration event's instanceId.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<instanceid>'
         eventId:
             description: It is the integration event's eventId.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<eventid>'
         name:
             description: It is the integration event's name.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<name>'
         type:
             description: It is the integration event's type.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<type>'
         category:
             description: It is the integration event's category.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<category>'
         domain:
             description: It is the integration event's domain.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<domain>'
         subDomain:
             description: It is the integration event's subDomain.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<subdomain>'
         severity:
             description: It is the integration event's severity.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<severity>'
         source:
             description: It is the integration event's source.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<source>'
         timestamp:
             description: It is the integration event's timestamp.
             returned: success,changed,always
@@ -113,17 +113,17 @@ data_0:
                     description: It is the integration event's eventStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<eventstatus>'
                 errorCode:
                     description: It is the integration event's errorCode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errorcode>'
                 errorDescription:
                     description: It is the integration event's errorDescription.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errordescription>'
                 responseReceivedFromITSMSystem:
                     description: It is the integration event's responseReceivedFromITSMSystem.
                     returned: success,changed,always
@@ -133,7 +133,7 @@ data_0:
             description: It is the integration event's description.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<description>'
 
 
 data_1:
@@ -145,23 +145,29 @@ data_1:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.integration_event import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.integration_event import (
+    module_definition,
+)
 
 
 def main():
@@ -172,11 +178,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

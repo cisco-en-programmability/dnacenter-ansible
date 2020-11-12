@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: device_credential
 short_description: Manage DeviceCredential objects of NetworkSettings
@@ -88,12 +88,12 @@ seealso:
 - name: DeviceCredential reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: API to get device credential details.
     returned: success,changed,always
@@ -108,62 +108,62 @@ data_0:
                     description: It is the device credential's username.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: 'devnetuser'
                 authPassword:
                     description: It is the device credential's authPassword.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<authpassword>'
                 authType:
                     description: It is the device credential's authType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<authtype>'
                 privacyPassword:
                     description: It is the device credential's privacyPassword.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<privacypassword>'
                 privacyType:
                     description: It is the device credential's privacyType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<privacytype>'
                 snmpMode:
                     description: It is the device credential's snmpMode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpmode>'
                 comments:
                     description: It is the device credential's comments.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<comments>'
                 description:
                     description: It is the device credential's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 credentialType:
                     description: It is the device credential's credentialType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<credentialtype>'
                 instanceUuid:
                     description: It is the device credential's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 instanceTenantId:
                     description: It is the device credential's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 id:
                     description: It is the device credential's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
 
         http_read:
             description: Http Read, property of the response body (list of objects).
@@ -174,52 +174,52 @@ data_0:
                     description: It is the device credential's secure.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<secure>'
                 username:
                     description: It is the device credential's username.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: 'devnetuser'
                 password:
                     description: It is the device credential's password.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '*******'
                 port:
                     description: It is the device credential's port.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<port>'
                 comments:
                     description: It is the device credential's comments.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<comments>'
                 description:
                     description: It is the device credential's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 credentialType:
                     description: It is the device credential's credentialType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<credentialtype>'
                 instanceUuid:
                     description: It is the device credential's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 instanceTenantId:
                     description: It is the device credential's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 id:
                     description: It is the device credential's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
 
         http_write:
             description: Http Write, property of the response body (list of objects).
@@ -230,52 +230,52 @@ data_0:
                     description: It is the device credential's secure.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<secure>'
                 username:
                     description: It is the device credential's username.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: 'devnetuser'
                 password:
                     description: It is the device credential's password.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '*******'
                 port:
                     description: It is the device credential's port.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<port>'
                 comments:
                     description: It is the device credential's comments.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<comments>'
                 description:
                     description: It is the device credential's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 credentialType:
                     description: It is the device credential's credentialType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<credentialtype>'
                 instanceUuid:
                     description: It is the device credential's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 instanceTenantId:
                     description: It is the device credential's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 id:
                     description: It is the device credential's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
 
         snmp_v2_write:
             description: Snmp V2 Write, property of the response body (list of objects).
@@ -286,37 +286,37 @@ data_0:
                     description: It is the device credential's writeCommunity.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<writecommunity>'
                 comments:
                     description: It is the device credential's comments.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<comments>'
                 description:
                     description: It is the device credential's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 credentialType:
                     description: It is the device credential's credentialType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<credentialtype>'
                 instanceUuid:
                     description: It is the device credential's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 instanceTenantId:
                     description: It is the device credential's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 id:
                     description: It is the device credential's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
 
         snmp_v2_read:
             description: Snmp V2 Read, property of the response body (list of objects).
@@ -327,37 +327,37 @@ data_0:
                     description: It is the device credential's readCommunity.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<readcommunity>'
                 comments:
                     description: It is the device credential's comments.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<comments>'
                 description:
                     description: It is the device credential's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 credentialType:
                     description: It is the device credential's credentialType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<credentialtype>'
                 instanceUuid:
                     description: It is the device credential's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 instanceTenantId:
                     description: It is the device credential's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 id:
                     description: It is the device credential's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
 
         cli:
             description: Cli, property of the response body (list of objects).
@@ -368,47 +368,47 @@ data_0:
                     description: It is the device credential's username.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: 'devnetuser'
                 enablePassword:
                     description: It is the device credential's enablePassword.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<enablepassword>'
                 password:
                     description: It is the device credential's password.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '*******'
                 comments:
                     description: It is the device credential's comments.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<comments>'
                 description:
                     description: It is the device credential's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 credentialType:
                     description: It is the device credential's credentialType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<credentialtype>'
                 instanceUuid:
                     description: It is the device credential's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 instanceTenantId:
                     description: It is the device credential's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 id:
                     description: It is the device credential's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
 
 
 data_1:
@@ -420,17 +420,17 @@ data_1:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
 data_2:
     description: API to update device credentials.
@@ -441,17 +441,17 @@ data_2:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
 data_3:
     description: Delete device credential.
@@ -462,23 +462,29 @@ data_3:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.device_credential import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.device_credential import (
+    module_definition,
+)
 
 
 def main():
@@ -489,11 +495,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: tag
 short_description: Manage Tag objects of Tag
@@ -148,12 +148,12 @@ seealso:
 - name: Tag reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Returns the Tags for given filter criteria.
     returned: success,changed,always
@@ -163,7 +163,7 @@ data_0:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
         response:
             description: Response, property of the response body (list of objects).
             returned: success,changed,always
@@ -178,7 +178,7 @@ data_0:
                     description: It is the Tag's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 dynamicRules:
                     description: It is the Tag's dynamicRules.
                     returned: success,changed,always
@@ -188,7 +188,7 @@ data_0:
                             description: It is the Tag's memberType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<membertype>'
                         rules:
                             description: It is the Tag's rules.
                             returned: success,changed,always
@@ -206,34 +206,34 @@ data_0:
                                     description: It is the Tag's operation.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<operation>'
                                 name:
                                     description: It is the Tag's name.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<name>'
                                 value:
                                     description: It is the Tag's value.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<value>'
 
 
                 name:
                     description: It is the Tag's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
                 id:
                     description: It is the Tag's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 instanceTenantId:
                     description: It is the Tag's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
 
 
 data_1:
@@ -245,7 +245,7 @@ data_1:
             description: TagDTO's version.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
         response:
             description: TagDTO's response.
             returned: success,changed,always
@@ -259,7 +259,7 @@ data_1:
                     description: It is the Tag's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
 
 data_2:
@@ -271,7 +271,7 @@ data_2:
             description: TagDTO's version.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
         response:
             description: TagDTO's response.
             returned: success,changed,always
@@ -285,7 +285,7 @@ data_2:
                     description: It is the Tag's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
 
 data_3:
@@ -297,7 +297,7 @@ data_3:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
         response:
             description: Response, property of the response body.
             returned: success,changed,always
@@ -311,7 +311,7 @@ data_3:
                     description: It is the Tag's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
 
 data_4:
@@ -323,7 +323,7 @@ data_4:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
         response:
             description: Response, property of the response body.
             returned: success,changed,always
@@ -338,7 +338,7 @@ data_4:
                     description: It is the Tag's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 dynamicRules:
                     description: It is the Tag's dynamicRules.
                     returned: success,changed,always
@@ -348,7 +348,7 @@ data_4:
                             description: It is the Tag's memberType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<membertype>'
                         rules:
                             description: It is the Tag's rules.
                             returned: success,changed,always
@@ -366,34 +366,34 @@ data_4:
                                     description: It is the Tag's operation.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<operation>'
                                 name:
                                     description: It is the Tag's name.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<name>'
                                 value:
                                     description: It is the Tag's value.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<value>'
 
 
                 name:
                     description: It is the Tag's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
                 id:
                     description: It is the Tag's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 instanceTenantId:
                     description: It is the Tag's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
 
 
 data_5:
@@ -405,18 +405,25 @@ data_5:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
         response:
             description: Response, property of the response body.
             returned: success,changed,always
             type: int
             sample: 0
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.tag import module_definition, TagExistenceCriteria
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.tag import (
+    module_definition,
+    TagExistenceCriteria,
+)
 
 
 def main():
@@ -427,11 +434,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

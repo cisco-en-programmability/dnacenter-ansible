@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: device_replacement
 short_description: Manage DeviceReplacement objects of DeviceReplacement
@@ -151,12 +151,12 @@ seealso:
 - name: DeviceReplacement reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Get list of replacement devices with replacement details and it can filter replacement devices based on Faulty Device Name,Faulty Device Platform, Replacement Device Platform, Faulty Device Serial Number,Replacement Device Serial Number, Device Replacement status, Product Family.
     returned: success,changed,always
@@ -176,57 +176,57 @@ data_0:
                     description: It is the device replacement's family.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<family>'
                 faultyDeviceId:
                     description: It is the device replacement's faultyDeviceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<faultydeviceid>'
                 faultyDeviceName:
                     description: It is the device replacement's faultyDeviceName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<faultydevicename>'
                 faultyDevicePlatform:
                     description: It is the device replacement's faultyDevicePlatform.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<faultydeviceplatform>'
                 faultyDeviceSerialNumber:
                     description: It is the device replacement's faultyDeviceSerialNumber.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<faultydeviceserialnumber>'
                 id:
                     description: It is the device replacement's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 neighbourDeviceId:
                     description: It is the device replacement's neighbourDeviceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<neighbourdeviceid>'
                 networkReadinessTaskId:
                     description: It is the device replacement's networkReadinessTaskId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<networkreadinesstaskid>'
                 replacementDevicePlatform:
                     description: It is the device replacement's replacementDevicePlatform.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<replacementdeviceplatform>'
                 replacementDeviceSerialNumber:
                     description: It is the device replacement's replacementDeviceSerialNumber.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<replacementdeviceserialnumber>'
                 replacementStatus:
                     description: It is the device replacement's replacementStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<replacementstatus>'
                 replacementTime:
                     description: It is the device replacement's replacementTime.
                     returned: success,changed,always
@@ -236,13 +236,13 @@ data_0:
                     description: It is the device replacement's workflowId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<workflowid>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_1:
     description: Marks device for replacement.
@@ -262,13 +262,13 @@ data_1:
                     description: It is the device replacement's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: DeviceReplacementDataDTO's version.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_2:
     description: UnMarks device for replacement.
@@ -288,13 +288,13 @@ data_2:
                     description: It is the device replacement's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: DeviceReplacementDataDTO's version.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_3:
     description: Get replacement devices count.
@@ -310,13 +310,19 @@ data_3:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.device_replacement import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.device_replacement import (
+    module_definition,
+)
 
 
 def main():
@@ -327,11 +333,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: network_device_config
 short_description: Manage NetworkDeviceConfig objects of Devices
@@ -39,12 +39,12 @@ seealso:
 - name: NetworkDeviceConfig reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Returns the config for all devices.
     returned: success,changed,always
@@ -63,58 +63,58 @@ data_0:
                     description: It is the network device config's cdpNeighbors.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<cdpneighbors>'
                 healthMonitor:
                     description: It is the network device config's healthMonitor.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<healthmonitor>'
                 id:
                     description: It is the network device config's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 intfDescription:
                     description: It is the network device config's intfDescription.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<intfdescription>'
                 inventory:
                     description: It is the network device config's inventory.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<inventory>'
                 ipIntfBrief:
                     description: It is the network device config's ipIntfBrief.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipintfbrief>'
                 macAddressTable:
                     description: It is the network device config's macAddressTable.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<macaddresstable>'
                 runningConfig:
                     description: It is the network device config's runningConfig.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<runningconfig>'
                 snmp:
                     description: It is the network device config's snmp.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmp>'
                 version:
                     description: It is the network device config's version.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '1.0'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_1:
     description: Returns the count of device configs.
@@ -130,13 +130,19 @@ data_1:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_config import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_config import (
+    module_definition,
+)
 
 
 def main():
@@ -147,11 +153,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

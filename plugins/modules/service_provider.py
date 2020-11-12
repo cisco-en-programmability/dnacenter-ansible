@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: service_provider
 short_description: Manage ServiceProvider objects of NetworkSettings
@@ -75,12 +75,12 @@ seealso:
 - name: ServiceProvider reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: API to get service provider details (QoS).
     returned: success,changed,always
@@ -95,32 +95,32 @@ data_0:
                     description: It is the service provider's instanceType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetype>'
                 instanceUuid:
                     description: It is the service provider's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 namespace:
                     description: It is the service provider's namespace.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<namespace>'
                 type:
                     description: It is the service provider's type.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<type>'
                 key:
                     description: It is the service provider's key.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<key>'
                 version:
                     description: It is the service provider's version.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '1.0'
                 value:
                     description: It is the service provider's value.
                     returned: success,changed,always
@@ -130,39 +130,39 @@ data_0:
                             description: It is the service provider's wanProvider.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<wanprovider>'
                         spProfileName:
                             description: It is the service provider's spProfileName.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<spprofilename>'
                         slaProfileName:
                             description: It is the service provider's slaProfileName.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<slaprofilename>'
 
                 groupUuid:
                     description: It is the service provider's groupUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<groupuuid>'
                 inheritedGroupUuid:
                     description: It is the service provider's inheritedGroupUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<inheritedgroupuuid>'
                 inheritedGroupName:
                     description: It is the service provider's inheritedGroupName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<inheritedgroupname>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_1:
     description: API to create service provider profile(QOS).
@@ -173,17 +173,17 @@ data_1:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
 data_2:
     description: API to update SP profile.
@@ -194,17 +194,17 @@ data_2:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
 data_3:
     description: API to delete Service Provider profile (QoS).
@@ -215,23 +215,29 @@ data_3:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.service_provider import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.service_provider import (
+    module_definition,
+)
 
 
 def main():
@@ -242,11 +248,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

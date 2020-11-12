@@ -1,6 +1,7 @@
 import json
 
-module_definition = json.loads('''{
+module_definition = json.loads(
+    """{
     "family": "file",
     "name": "file",
     "operations": {
@@ -30,4 +31,5 @@ module_definition = json.loads('''{
     "responses": {
         "download_a_file_by_fileid": null
     }
-}''')
+}"""
+)

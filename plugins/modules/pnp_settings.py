@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: pnp_settings
 short_description: Manage PnpSettings objects of DeviceOnboardingPnp
@@ -226,12 +226,12 @@ seealso:
 - name: PnpSettings reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Returns global PnP settings of the user.
     returned: success,changed,always
@@ -246,7 +246,7 @@ data_0:
                     description: It is the pnp settings's syncStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<syncstatus>'
                 syncStartTime:
                     description: It is the pnp settings's syncStartTime.
                     returned: success,changed,always
@@ -266,7 +266,7 @@ data_0:
                                     description: It is the pnp settings's syncType.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<synctype>'
                                 deviceSnList:
                                     description: It is the pnp settings's deviceSnList.
                                     returned: success,changed,always
@@ -276,7 +276,7 @@ data_0:
                             description: It is the pnp settings's syncMsg.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<syncmsg>'
 
                 lastSync:
                     description: It is the pnp settings's lastSync.
@@ -287,7 +287,7 @@ data_0:
                     description: It is the pnp settings's tenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<tenantid>'
                 profile:
                     description: It is the pnp settings's profile.
                     returned: success,changed,always
@@ -302,17 +302,17 @@ data_0:
                             description: It is the pnp settings's addressIpV4.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<addressipv4>'
                         addressFqdn:
                             description: It is the pnp settings's addressFqdn.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<addressfqdn>'
                         profileId:
                             description: It is the pnp settings's profileId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<profileid>'
                         proxy:
                             description: It is the pnp settings's proxy.
                             returned: success,changed,always
@@ -327,18 +327,18 @@ data_0:
                             description: It is the pnp settings's cert.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<cert>'
                         name:
                             description: It is the pnp settings's name.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<name>'
 
                 token:
                     description: It is the pnp settings's token.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<token>'
                 expiry:
                     description: It is the pnp settings's expiry.
                     returned: success,changed,always
@@ -348,17 +348,17 @@ data_0:
                     description: It is the pnp settings's ccoUser.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ccouser>'
                 smartAccountId:
                     description: It is the pnp settings's smartAccountId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<smartaccountid>'
                 virtualAccountId:
                     description: It is the pnp settings's virtualAccountId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<virtualaccountid>'
                 autoSyncPeriod:
                     description: It is the pnp settings's autoSyncPeriod.
                     returned: success,changed,always
@@ -368,7 +368,7 @@ data_0:
                     description: It is the pnp settings's syncResultStr.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<syncresultstr>'
 
         taskTimeOuts:
             description: Task Time Outs, property of the response body.
@@ -395,7 +395,7 @@ data_0:
             description: Tenant Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<tenantid>'
         aaaCredentials:
             description: Aaa Credentials, property of the response body.
             returned: success,changed,always
@@ -405,12 +405,12 @@ data_0:
                     description: It is the pnp settings's password.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '*******'
                 username:
                     description: It is the pnp settings's username.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: 'devnetuser'
 
         defaultProfile:
             description: Default Profile, property of the response body.
@@ -430,7 +430,7 @@ data_0:
                     description: It is the pnp settings's cert.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<cert>'
                 ipAddresses:
                     description: It is the pnp settings's ipAddresses.
                     returned: success,changed,always
@@ -450,12 +450,12 @@ data_0:
             description: Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '478012'
         _id:
             description: Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<_id>'
         version:
             description: Version, property of the response body.
             returned: success,changed,always
@@ -476,7 +476,7 @@ data_1:
                     description: It is the pnp settings's syncStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<syncstatus>'
                 syncStartTime:
                     description: It is the pnp settings's syncStartTime.
                     returned: success,changed,always
@@ -496,7 +496,7 @@ data_1:
                                     description: It is the pnp settings's syncType.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<synctype>'
                                 deviceSnList:
                                     description: It is the pnp settings's deviceSnList.
                                     returned: success,changed,always
@@ -506,7 +506,7 @@ data_1:
                             description: It is the pnp settings's syncMsg.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<syncmsg>'
 
                 lastSync:
                     description: It is the pnp settings's lastSync.
@@ -517,7 +517,7 @@ data_1:
                     description: It is the pnp settings's tenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<tenantid>'
                 profile:
                     description: It is the pnp settings's profile.
                     returned: success,changed,always
@@ -532,17 +532,17 @@ data_1:
                             description: It is the pnp settings's addressIpV4.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<addressipv4>'
                         addressFqdn:
                             description: It is the pnp settings's addressFqdn.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<addressfqdn>'
                         profileId:
                             description: It is the pnp settings's profileId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<profileid>'
                         proxy:
                             description: It is the pnp settings's proxy.
                             returned: success,changed,always
@@ -557,18 +557,18 @@ data_1:
                             description: It is the pnp settings's cert.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<cert>'
                         name:
                             description: It is the pnp settings's name.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<name>'
 
                 token:
                     description: It is the pnp settings's token.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<token>'
                 expiry:
                     description: It is the pnp settings's expiry.
                     returned: success,changed,always
@@ -578,17 +578,17 @@ data_1:
                     description: It is the pnp settings's ccoUser.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ccouser>'
                 smartAccountId:
                     description: It is the pnp settings's smartAccountId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<smartaccountid>'
                 virtualAccountId:
                     description: It is the pnp settings's virtualAccountId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<virtualaccountid>'
                 autoSyncPeriod:
                     description: It is the pnp settings's autoSyncPeriod.
                     returned: success,changed,always
@@ -598,7 +598,7 @@ data_1:
                     description: It is the pnp settings's syncResultStr.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<syncresultstr>'
 
         taskTimeOuts:
             description: Settings's Task Time Outs.
@@ -625,7 +625,7 @@ data_1:
             description: Settings's Tenant Id.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<tenantid>'
         aaaCredentials:
             description: Settings's Aaa Credentials.
             returned: success,changed,always
@@ -635,12 +635,12 @@ data_1:
                     description: It is the pnp settings's password.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '*******'
                 username:
                     description: It is the pnp settings's username.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: 'devnetuser'
 
         defaultProfile:
             description: Settings's Default Profile.
@@ -660,7 +660,7 @@ data_1:
                     description: It is the pnp settings's cert.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<cert>'
                 ipAddresses:
                     description: It is the pnp settings's ipAddresses.
                     returned: success,changed,always
@@ -680,23 +680,29 @@ data_1:
             description: Settings's Id.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '478012'
         _id:
             description: Settings's Id.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<_id>'
         version:
             description: Settings's version.
             returned: success,changed,always
             type: int
             sample: 0
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.pnp_settings import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.pnp_settings import (
+    module_definition,
+)
 
 
 def main():
@@ -707,11 +713,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

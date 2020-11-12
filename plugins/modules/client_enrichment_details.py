@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: client_enrichment_details
 short_description: Manage ClientEnrichmentDetails objects of Clients
@@ -38,12 +38,12 @@ seealso:
 - name: ClientEnrichmentDetails reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Enriches a given network End User context (a network user-id or end user’s device Mac Address) with details about the user, the devices that the user is connected to and the assurance issues that the user is impacted by.
     returned: success,changed,always
@@ -58,22 +58,22 @@ data_0:
                     description: It is the client enrichment details's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 connectionStatus:
                     description: It is the client enrichment details's connectionStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<connectionstatus>'
                 hostType:
                     description: It is the client enrichment details's hostType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<hosttype>'
                 userId:
                     description: It is the client enrichment details's userId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<userid>'
                 hostName:
                     description: It is the client enrichment details's hostName.
                     returned: success,changed,always
@@ -104,12 +104,12 @@ data_0:
                             description: It is the client enrichment details's healthType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<healthtype>'
                         reason:
                             description: It is the client enrichment details's reason.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<reason>'
                         score:
                             description: It is the client enrichment details's score.
                             returned: success,changed,always
@@ -120,12 +120,12 @@ data_0:
                     description: It is the client enrichment details's hostMac.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<hostmac>'
                 hostIpV4:
                     description: It is the client enrichment details's hostIpV4.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<hostipv4>'
                 hostIpV6:
                     description: It is the client enrichment details's hostIpV6.
                     returned: success,changed,always
@@ -138,7 +138,7 @@ data_0:
                     description: It is the client enrichment details's vlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<vlanid>'
                 ssid:
                     description: It is the client enrichment details's ssid.
                     returned: success,changed,always
@@ -151,7 +151,7 @@ data_0:
                     description: It is the client enrichment details's clientConnection.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<clientconnection>'
                 connectedDevice:
                     description: It is the client enrichment details's connectedDevice.
                     returned: success,changed,always
@@ -192,12 +192,12 @@ data_0:
                             description: It is the client enrichment details's family.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<family>'
                         type:
                             description: It is the client enrichment details's type.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<type>'
                         location:
                             description: It is the client enrichment details's location.
                             returned: success,changed,always
@@ -206,27 +206,27 @@ data_0:
                             description: It is the client enrichment details's errorCode.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<errorcode>'
                         macAddress:
                             description: It is the client enrichment details's macAddress.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<macaddress>'
                         role:
                             description: It is the client enrichment details's role.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<role>'
                         apManagerInterfaceIp:
                             description: It is the client enrichment details's apManagerInterfaceIp.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<apmanagerinterfaceip>'
                         associatedWlcIp:
                             description: It is the client enrichment details's associatedWlcIp.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<associatedwlcip>'
                         bootDateTime:
                             description: It is the client enrichment details's bootDateTime.
                             returned: success,changed,always
@@ -235,7 +235,7 @@ data_0:
                             description: It is the client enrichment details's collectionStatus.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<collectionstatus>'
                         interfaceCount:
                             description: It is the client enrichment details's interfaceCount.
                             returned: success,changed,always
@@ -252,42 +252,42 @@ data_0:
                             description: It is the client enrichment details's managementIpAddress.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<managementipaddress>'
                         memorySize:
                             description: It is the client enrichment details's memorySize.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<memorysize>'
                         platformId:
                             description: It is the client enrichment details's platformId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<platformid>'
                         reachabilityFailureReason:
                             description: It is the client enrichment details's reachabilityFailureReason.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<reachabilityfailurereason>'
                         reachabilityStatus:
                             description: It is the client enrichment details's reachabilityStatus.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<reachabilitystatus>'
                         snmpContact:
                             description: It is the client enrichment details's snmpContact.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<snmpcontact>'
                         snmpLocation:
                             description: It is the client enrichment details's snmpLocation.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<snmplocation>'
                         tunnelUdpPort:
                             description: It is the client enrichment details's tunnelUdpPort.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<tunneludpport>'
                         waasDeviceMode:
                             description: It is the client enrichment details's waasDeviceMode.
                             returned: success,changed,always
@@ -296,42 +296,42 @@ data_0:
                             description: It is the client enrichment details's series.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<series>'
                         inventoryStatusDetail:
                             description: It is the client enrichment details's inventoryStatusDetail.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<inventorystatusdetail>'
                         collectionInterval:
                             description: It is the client enrichment details's collectionInterval.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<collectioninterval>'
                         serialNumber:
                             description: It is the client enrichment details's serialNumber.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<serialnumber>'
                         softwareVersion:
                             description: It is the client enrichment details's softwareVersion.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<softwareversion>'
                         roleSource:
                             description: It is the client enrichment details's roleSource.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<rolesource>'
                         hostname:
                             description: It is the client enrichment details's hostname.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<hostname>'
                         upTime:
                             description: It is the client enrichment details's upTime.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<uptime>'
                         lastUpdateTime:
                             description: It is the client enrichment details's lastUpdateTime.
                             returned: success,changed,always
@@ -349,22 +349,22 @@ data_0:
                             description: It is the client enrichment details's tagCount.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<tagcount>'
                         lastUpdated:
                             description: It is the client enrichment details's lastUpdated.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<lastupdated>'
                         instanceUuid:
                             description: It is the client enrichment details's instanceUuid.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<instanceuuid>'
                         id:
                             description: It is the client enrichment details's id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '478012'
                         neighborTopology:
                             description: It is the client enrichment details's neighborTopology.
                             returned: success,changed,always
@@ -379,22 +379,22 @@ data_0:
                                             description: It is the client enrichment details's role.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<role>'
                                         name:
                                             description: It is the client enrichment details's name.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<name>'
                                         id:
                                             description: It is the client enrichment details's id.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '478012'
                                         description:
                                             description: It is the client enrichment details's description.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<description>'
                                         deviceType:
                                             description: It is the client enrichment details's deviceType.
                                             returned: success,changed,always
@@ -459,12 +459,12 @@ data_0:
                                             description: It is the client enrichment details's source.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<source>'
                                         linkStatus:
                                             description: It is the client enrichment details's linkStatus.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<linkstatus>'
                                         label:
                                             description: It is the client enrichment details's label.
                                             returned: success,changed,always
@@ -473,7 +473,7 @@ data_0:
                                             description: It is the client enrichment details's target.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<target>'
                                         id:
                                             description: It is the client enrichment details's id.
                                             returned: success,changed,always
@@ -488,7 +488,7 @@ data_0:
                             description: It is the client enrichment details's cisco360view.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<cisco360view>'
 
 
         issueDetails:
@@ -505,52 +505,52 @@ data_0:
                             description: It is the client enrichment details's issueId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issueid>'
                         issueSource:
                             description: It is the client enrichment details's issueSource.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issuesource>'
                         issueCategory:
                             description: It is the client enrichment details's issueCategory.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issuecategory>'
                         issueName:
                             description: It is the client enrichment details's issueName.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issuename>'
                         issueDescription:
                             description: It is the client enrichment details's issueDescription.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issuedescription>'
                         issueEntity:
                             description: It is the client enrichment details's issueEntity.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issueentity>'
                         issueEntityValue:
                             description: It is the client enrichment details's issueEntityValue.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issueentityvalue>'
                         issueSeverity:
                             description: It is the client enrichment details's issueSeverity.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issueseverity>'
                         issuePriority:
                             description: It is the client enrichment details's issuePriority.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issuepriority>'
                         issueSummary:
                             description: It is the client enrichment details's issueSummary.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issuesummary>'
                         issueTimestamp:
                             description: It is the client enrichment details's issueTimestamp.
                             returned: success,changed,always
@@ -565,7 +565,7 @@ data_0:
                                     description: It is the client enrichment details's message.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<message>'
                                 steps:
                                     description: It is the client enrichment details's steps.
                                     returned: success,changed,always
@@ -580,32 +580,32 @@ data_0:
                                     description: It is the client enrichment details's hostType.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<hosttype>'
                                 hostName:
                                     description: It is the client enrichment details's hostName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<hostname>'
                                 hostOs:
                                     description: It is the client enrichment details's hostOs.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<hostos>'
                                 ssid:
                                     description: It is the client enrichment details's ssid.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<ssid>'
                                 connectedInterface:
                                     description: It is the client enrichment details's connectedInterface.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<connectedinterface>'
                                 macAddress:
                                     description: It is the client enrichment details's macAddress.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<macaddress>'
                                 failedAttempts:
                                     description: It is the client enrichment details's failedAttempts.
                                     returned: success,changed,always
@@ -620,22 +620,22 @@ data_0:
                                             description: It is the client enrichment details's siteId.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<siteid>'
                                         siteType:
                                             description: It is the client enrichment details's siteType.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<sitetype>'
                                         area:
                                             description: It is the client enrichment details's area.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<area>'
                                         building:
                                             description: It is the client enrichment details's building.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<building>'
                                         floor:
                                             description: It is the client enrichment details's floor.
                                             returned: success,changed,always
@@ -655,11 +655,17 @@ data_0:
 
 
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.client_enrichment_details import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.client_enrichment_details import (
+    module_definition,
+)
 
 
 def main():
@@ -670,11 +676,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

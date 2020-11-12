@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: wireless_ap_provision
 short_description: Manage WirelessApProvision objects of Wireless
@@ -53,12 +53,12 @@ seealso:
 - name: WirelessApProvision reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Access Point Provision and ReProvision.
     returned: success,changed,always
@@ -68,12 +68,12 @@ data_0:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionUrl:
             description: Execution Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionurl>'
         provisionTasks:
             description: Provision Tasks, property of the response body.
             returned: success,changed,always
@@ -88,12 +88,12 @@ data_0:
                             description: It is the wireless ap provision's taskId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: 'aeed229047801200e0ef563dbb9a71c2'
                         taskUrl:
                             description: It is the wireless ap provision's taskUrl.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<taskurl>'
 
                 failure:
                     description: It is the wireless ap provision's failure.
@@ -104,25 +104,31 @@ data_0:
                             description: It is the wireless ap provision's taskId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: 'aeed229047801200e0ef563dbb9a71c2'
                         taskUrl:
                             description: It is the wireless ap provision's taskUrl.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<taskurl>'
                         failureReason:
                             description: It is the wireless ap provision's failureReason.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<failurereason>'
 
 
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.wireless_ap_provision import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.wireless_ap_provision import (
+    module_definition,
+)
 
 
 def main():
@@ -133,11 +139,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

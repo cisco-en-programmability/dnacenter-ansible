@@ -1,6 +1,7 @@
 import json
 
-module_definition = json.loads('''{
+module_definition = json.loads(
+    """{
     "family": "device_onboarding_pnp",
     "name": "virtual_account_sync",
     "operations": {
@@ -197,4 +198,5 @@ module_definition = json.loads('''{
             "type": "object"
         }
     }
-}''')
+}"""
+)

@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: pnp_workflow
 short_description: Manage PnpWorkflow objects of DeviceOnboardingPnp
@@ -206,12 +206,12 @@ seealso:
 - name: PnpWorkflow reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Returns the list of workflows based on filter criteria. If a limit is not specified, it will default to return 50 workflows. Pagination and sorting are also supported by this endpoint.
     returned: success,changed,always
@@ -221,22 +221,22 @@ data_0:
             description: It is the pnp workflow's _id.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<_id>'
         state:
             description: It is the pnp workflow's state.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<state>'
         type:
             description: It is the pnp workflow's type.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<type>'
         description:
             description: It is the pnp workflow's description.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<description>'
         lastupdateOn:
             description: It is the pnp workflow's lastupdateOn.
             returned: success,changed,always
@@ -246,7 +246,7 @@ data_0:
             description: It is the pnp workflow's imageId.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<imageid>'
         currTaskIdx:
             description: It is the pnp workflow's currTaskIdx.
             returned: success,changed,always
@@ -266,12 +266,12 @@ data_0:
                     description: It is the pnp workflow's state.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<state>'
                 type:
                     description: It is the pnp workflow's type.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<type>'
                 currWorkItemIdx:
                     description: It is the pnp workflow's currWorkItemIdx.
                     returned: success,changed,always
@@ -301,17 +301,17 @@ data_0:
                             description: It is the pnp workflow's state.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<state>'
                         command:
                             description: It is the pnp workflow's command.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<command>'
                         outputStr:
                             description: It is the pnp workflow's outputStr.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<outputstr>'
                         endTime:
                             description: It is the pnp workflow's endTime.
                             returned: success,changed,always
@@ -337,7 +337,7 @@ data_0:
                     description: It is the pnp workflow's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
 
         addToInventory:
             description: It is the pnp workflow's addToInventory.
@@ -348,7 +348,7 @@ data_0:
             description: It is the pnp workflow's instanceType.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<instancetype>'
         endTime:
             description: It is the pnp workflow's endTime.
             returned: success,changed,always
@@ -368,17 +368,17 @@ data_0:
             description: It is the pnp workflow's useState.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<usestate>'
         configId:
             description: It is the pnp workflow's configId.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<configid>'
         name:
             description: It is the pnp workflow's name.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<name>'
         version:
             description: It is the pnp workflow's version.
             returned: success,changed,always
@@ -388,7 +388,7 @@ data_0:
             description: It is the pnp workflow's tenantId.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<tenantid>'
 
 
 data_1:
@@ -400,22 +400,22 @@ data_1:
             description: Workflow's Id.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<_id>'
         state:
             description: Workflow's State.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<state>'
         type:
             description: Workflow's Type.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<type>'
         description:
             description: Workflow's Description.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<description>'
         lastupdateOn:
             description: Workflow's lastupdateOn.
             returned: success,changed,always
@@ -425,7 +425,7 @@ data_1:
             description: Workflow's Image Id.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<imageid>'
         currTaskIdx:
             description: Workflow's currTaskIdx.
             returned: success,changed,always
@@ -445,12 +445,12 @@ data_1:
                     description: It is the pnp workflow's state.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<state>'
                 type:
                     description: It is the pnp workflow's type.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<type>'
                 currWorkItemIdx:
                     description: It is the pnp workflow's currWorkItemIdx.
                     returned: success,changed,always
@@ -480,17 +480,17 @@ data_1:
                             description: It is the pnp workflow's state.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<state>'
                         command:
                             description: It is the pnp workflow's command.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<command>'
                         outputStr:
                             description: It is the pnp workflow's outputStr.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<outputstr>'
                         endTime:
                             description: It is the pnp workflow's endTime.
                             returned: success,changed,always
@@ -516,7 +516,7 @@ data_1:
                     description: It is the pnp workflow's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
 
         addToInventory:
             description: Workflow's addToInventory.
@@ -527,7 +527,7 @@ data_1:
             description: Workflow's Instance Type.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<instancetype>'
         endTime:
             description: Workflow's endTime.
             returned: success,changed,always
@@ -547,17 +547,17 @@ data_1:
             description: Workflow's Use State.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<usestate>'
         configId:
             description: Workflow's Config Id.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<configid>'
         name:
             description: Workflow's Name.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<name>'
         version:
             description: Workflow's version.
             returned: success,changed,always
@@ -567,7 +567,7 @@ data_1:
             description: Workflow's Tenant Id.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<tenantid>'
 
 data_2:
     description: Returns a workflow specified by id.
@@ -578,22 +578,22 @@ data_2:
             description: Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<_id>'
         state:
             description: State, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<state>'
         type:
             description: Type, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<type>'
         description:
             description: Description, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<description>'
         lastupdateOn:
             description: LastupdateOn, property of the response body.
             returned: success,changed,always
@@ -603,7 +603,7 @@ data_2:
             description: Image Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<imageid>'
         currTaskIdx:
             description: CurrTaskIdx, property of the response body.
             returned: success,changed,always
@@ -623,12 +623,12 @@ data_2:
                     description: It is the pnp workflow's state.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<state>'
                 type:
                     description: It is the pnp workflow's type.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<type>'
                 currWorkItemIdx:
                     description: It is the pnp workflow's currWorkItemIdx.
                     returned: success,changed,always
@@ -658,17 +658,17 @@ data_2:
                             description: It is the pnp workflow's state.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<state>'
                         command:
                             description: It is the pnp workflow's command.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<command>'
                         outputStr:
                             description: It is the pnp workflow's outputStr.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<outputstr>'
                         endTime:
                             description: It is the pnp workflow's endTime.
                             returned: success,changed,always
@@ -694,7 +694,7 @@ data_2:
                     description: It is the pnp workflow's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
 
         addToInventory:
             description: AddToInventory, property of the response body.
@@ -705,7 +705,7 @@ data_2:
             description: Instance Type, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<instancetype>'
         endTime:
             description: EndTime, property of the response body.
             returned: success,changed,always
@@ -725,17 +725,17 @@ data_2:
             description: Use State, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<usestate>'
         configId:
             description: Config Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<configid>'
         name:
             description: Name, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<name>'
         version:
             description: Version, property of the response body.
             returned: success,changed,always
@@ -745,7 +745,7 @@ data_2:
             description: Tenant Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<tenantid>'
 
 data_3:
     description: Deletes a workflow specified by id.
@@ -756,22 +756,22 @@ data_3:
             description: Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<_id>'
         state:
             description: State, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<state>'
         type:
             description: Type, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<type>'
         description:
             description: Description, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<description>'
         lastupdateOn:
             description: LastupdateOn, property of the response body.
             returned: success,changed,always
@@ -781,7 +781,7 @@ data_3:
             description: Image Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<imageid>'
         currTaskIdx:
             description: CurrTaskIdx, property of the response body.
             returned: success,changed,always
@@ -801,12 +801,12 @@ data_3:
                     description: It is the pnp workflow's state.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<state>'
                 type:
                     description: It is the pnp workflow's type.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<type>'
                 currWorkItemIdx:
                     description: It is the pnp workflow's currWorkItemIdx.
                     returned: success,changed,always
@@ -836,17 +836,17 @@ data_3:
                             description: It is the pnp workflow's state.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<state>'
                         command:
                             description: It is the pnp workflow's command.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<command>'
                         outputStr:
                             description: It is the pnp workflow's outputStr.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<outputstr>'
                         endTime:
                             description: It is the pnp workflow's endTime.
                             returned: success,changed,always
@@ -872,7 +872,7 @@ data_3:
                     description: It is the pnp workflow's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
 
         addToInventory:
             description: AddToInventory, property of the response body.
@@ -883,7 +883,7 @@ data_3:
             description: Instance Type, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<instancetype>'
         endTime:
             description: EndTime, property of the response body.
             returned: success,changed,always
@@ -903,17 +903,17 @@ data_3:
             description: Use State, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<usestate>'
         configId:
             description: Config Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<configid>'
         name:
             description: Name, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<name>'
         version:
             description: Version, property of the response body.
             returned: success,changed,always
@@ -923,7 +923,7 @@ data_3:
             description: Tenant Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<tenantid>'
 
 data_4:
     description: Updates an existing workflow.
@@ -934,22 +934,22 @@ data_4:
             description: Workflow's Id.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<_id>'
         state:
             description: Workflow's State.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<state>'
         type:
             description: Workflow's Type.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<type>'
         description:
             description: Workflow's Description.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<description>'
         lastupdateOn:
             description: Workflow's lastupdateOn.
             returned: success,changed,always
@@ -959,7 +959,7 @@ data_4:
             description: Workflow's Image Id.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<imageid>'
         currTaskIdx:
             description: Workflow's currTaskIdx.
             returned: success,changed,always
@@ -979,12 +979,12 @@ data_4:
                     description: It is the pnp workflow's state.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<state>'
                 type:
                     description: It is the pnp workflow's type.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<type>'
                 currWorkItemIdx:
                     description: It is the pnp workflow's currWorkItemIdx.
                     returned: success,changed,always
@@ -1014,17 +1014,17 @@ data_4:
                             description: It is the pnp workflow's state.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<state>'
                         command:
                             description: It is the pnp workflow's command.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<command>'
                         outputStr:
                             description: It is the pnp workflow's outputStr.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<outputstr>'
                         endTime:
                             description: It is the pnp workflow's endTime.
                             returned: success,changed,always
@@ -1050,7 +1050,7 @@ data_4:
                     description: It is the pnp workflow's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
 
         addToInventory:
             description: Workflow's addToInventory.
@@ -1061,7 +1061,7 @@ data_4:
             description: Workflow's Instance Type.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<instancetype>'
         endTime:
             description: Workflow's endTime.
             returned: success,changed,always
@@ -1081,17 +1081,17 @@ data_4:
             description: Workflow's Use State.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<usestate>'
         configId:
             description: Workflow's Config Id.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<configid>'
         name:
             description: Workflow's Name.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<name>'
         version:
             description: Workflow's version.
             returned: success,changed,always
@@ -1101,7 +1101,7 @@ data_4:
             description: Workflow's Tenant Id.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<tenantid>'
 
 data_5:
     description: Returns the workflow count.
@@ -1114,11 +1114,17 @@ data_5:
             type: int
             sample: 0
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.pnp_workflow import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.pnp_workflow import (
+    module_definition,
+)
 
 
 def main():
@@ -1129,11 +1135,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

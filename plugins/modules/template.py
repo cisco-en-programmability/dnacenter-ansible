@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: template
 short_description: Manage Template objects of ConfigurationTemplates
@@ -397,12 +397,12 @@ seealso:
 - name: Template reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Creates a new Template.
     returned: success,changed,always
@@ -421,13 +421,13 @@ data_0:
                     description: It is the Template's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: TemplateDTO's version.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_1:
     description: List the Templates available.
@@ -453,13 +453,13 @@ data_2:
                     description: It is the Template's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: TemplateDTO's version.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_3:
     description: Returns details of the specified Template.
@@ -470,7 +470,7 @@ data_3:
             description: Author, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<author>'
         composite:
             description: Composite, property of the response body.
             returned: success,changed,always
@@ -490,17 +490,17 @@ data_3:
                     description: It is the Template's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 name:
                     description: It is the Template's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
                 version:
                     description: It is the Template's version.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '1.0'
 
         createTime:
             description: CreateTime, property of the response body.
@@ -511,7 +511,7 @@ data_3:
             description: Description, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<description>'
         deviceTypes:
             description: DeviceTypes, property of the response body (list of objects).
             returned: success,changed,always
@@ -521,28 +521,28 @@ data_3:
                     description: It is the Template's productFamily.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<productfamily>'
                 productSeries:
                     description: It is the Template's productSeries.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<productseries>'
                 productType:
                     description: It is the Template's productType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<producttype>'
 
         failurePolicy:
             description: FailurePolicy, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<failurepolicy>'
         id:
             description: Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '478012'
         lastUpdateTime:
             description: LastUpdateTime, property of the response body.
             returned: success,changed,always
@@ -552,27 +552,27 @@ data_3:
             description: Name, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<name>'
         parentTemplateId:
             description: ParentTemplateId, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<parenttemplateid>'
         projectId:
             description: ProjectId, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<projectid>'
         projectName:
             description: ProjectName, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<projectname>'
         rollbackTemplateContent:
             description: RollbackTemplateContent, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<rollbacktemplatecontent>'
         rollbackTemplateParams:
             description: RollbackTemplateParams, property of the response body (list of objects).
             returned: success,changed,always
@@ -582,47 +582,47 @@ data_3:
                     description: It is the Template's binding.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<binding>'
                 dataType:
                     description: It is the Template's dataType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<datatype>'
                 defaultValue:
                     description: It is the Template's defaultValue.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<defaultvalue>'
                 description:
                     description: It is the Template's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 displayName:
                     description: It is the Template's displayName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<displayname>'
                 group:
                     description: It is the Template's group.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<group>'
                 id:
                     description: It is the Template's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 instructionText:
                     description: It is the Template's instructionText.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instructiontext>'
                 key:
                     description: It is the Template's key.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<key>'
                 notParam:
                     description: It is the Template's notParam.
                     returned: success,changed,always
@@ -642,12 +642,12 @@ data_3:
                     description: It is the Template's parameterName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<parametername>'
                 provider:
                     description: It is the Template's provider.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<provider>'
                 range:
                     description: It is the Template's range.
                     returned: success,changed,always
@@ -657,7 +657,7 @@ data_3:
                             description: It is the Template's id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '478012'
                         maxValue:
                             description: It is the Template's maxValue.
                             returned: success,changed,always
@@ -683,12 +683,12 @@ data_3:
                             description: It is the Template's id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '478012'
                         selectionType:
                             description: It is the Template's selectionType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<selectiontype>'
                         selectionValues:
                             description: It is the Template's selectionValues.
                             returned: success,changed,always
@@ -699,17 +699,17 @@ data_3:
             description: SoftwareType, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<softwaretype>'
         softwareVariant:
             description: SoftwareVariant, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<softwarevariant>'
         softwareVersion:
             description: SoftwareVersion, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<softwareversion>'
         tags:
             description: Tags, property of the response body (list of strings).
             returned: success,changed,always
@@ -718,7 +718,7 @@ data_3:
             description: TemplateContent, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<templatecontent>'
         templateParams:
             description: TemplateParams, property of the response body (list of objects).
             returned: success,changed,always
@@ -728,47 +728,47 @@ data_3:
                     description: It is the Template's binding.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<binding>'
                 dataType:
                     description: It is the Template's dataType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<datatype>'
                 defaultValue:
                     description: It is the Template's defaultValue.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<defaultvalue>'
                 description:
                     description: It is the Template's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 displayName:
                     description: It is the Template's displayName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<displayname>'
                 group:
                     description: It is the Template's group.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<group>'
                 id:
                     description: It is the Template's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 instructionText:
                     description: It is the Template's instructionText.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instructiontext>'
                 key:
                     description: It is the Template's key.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<key>'
                 notParam:
                     description: It is the Template's notParam.
                     returned: success,changed,always
@@ -788,12 +788,12 @@ data_3:
                     description: It is the Template's parameterName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<parametername>'
                 provider:
                     description: It is the Template's provider.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<provider>'
                 range:
                     description: It is the Template's range.
                     returned: success,changed,always
@@ -803,7 +803,7 @@ data_3:
                             description: It is the Template's id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '478012'
                         maxValue:
                             description: It is the Template's maxValue.
                             returned: success,changed,always
@@ -829,12 +829,12 @@ data_3:
                             description: It is the Template's id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '478012'
                         selectionType:
                             description: It is the Template's selectionType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<selectiontype>'
                         selectionValues:
                             description: It is the Template's selectionValues.
                             returned: success,changed,always
@@ -845,7 +845,7 @@ data_3:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_4:
     description: Deletes an existing Template.
@@ -865,19 +865,25 @@ data_4:
                     description: It is the Template's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.template import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.template import (
+    module_definition,
+)
 
 
 def main():
@@ -888,11 +894,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

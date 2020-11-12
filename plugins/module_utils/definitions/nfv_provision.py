@@ -1,6 +1,7 @@
 import json
 
-module_definition = json.loads('''{
+module_definition = json.loads(
+    """{
     "family": "site_design",
     "name": "nfv_provision",
     "operations": {
@@ -621,4 +622,5 @@ module_definition = json.loads('''{
             "type": "object"
         }
     }
-}''')
+}"""
+)

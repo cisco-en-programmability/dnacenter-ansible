@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: device_detail
 short_description: Manage DeviceDetail objects of Devices
@@ -45,12 +45,12 @@ seealso:
 - name: DeviceDetail reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Returns detailed Network Device information retrieved by Mac Address, Device Name or UUID for any given point of time.
     returned: success,changed,always
@@ -65,107 +65,107 @@ data_0:
                     description: It is the device detail's HALastResetReason.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<halastresetreason>'
                 managementIpAddr:
                     description: It is the device detail's managementIpAddr.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<managementipaddr>'
                 HAPrimaryPowerStatus:
                     description: It is the device detail's HAPrimaryPowerStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<haprimarypowerstatus>'
                 redundancyMode:
                     description: It is the device detail's redundancyMode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<redundancymode>'
                 communicationState:
                     description: It is the device detail's communicationState.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<communicationstate>'
                 nwDeviceName:
                     description: It is the device detail's nwDeviceName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<nwdevicename>'
                 redundancyUnit:
                     description: It is the device detail's redundancyUnit.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<redundancyunit>'
                 platformId:
                     description: It is the device detail's platformId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<platformid>'
                 redundancyPeerState:
                     description: It is the device detail's redundancyPeerState.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<redundancypeerstate>'
                 nwDeviceId:
                     description: It is the device detail's nwDeviceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<nwdeviceid>'
                 redundancyState:
                     description: It is the device detail's redundancyState.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<redundancystate>'
                 nwDeviceRole:
                     description: It is the device detail's nwDeviceRole.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<nwdevicerole>'
                 nwDeviceFamily:
                     description: It is the device detail's nwDeviceFamily.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<nwdevicefamily>'
                 macAddress:
                     description: It is the device detail's macAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<macaddress>'
                 collectionStatus:
                     description: It is the device detail's collectionStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<collectionstatus>'
                 deviceSeries:
                     description: It is the device detail's deviceSeries.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<deviceseries>'
                 osType:
                     description: It is the device detail's osType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ostype>'
                 clientCount:
                     description: It is the device detail's clientCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<clientcount>'
                 HASecondaryPowerStatus:
                     description: It is the device detail's HASecondaryPowerStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<hasecondarypowerstatus>'
                 softwareVersion:
                     description: It is the device detail's softwareVersion.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<softwareversion>'
                 nwDeviceType:
                     description: It is the device detail's nwDeviceType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<nwdevicetype>'
                 overallHealth:
                     description: It is the device detail's overallHealth.
                     returned: success,changed,always
@@ -225,69 +225,75 @@ data_0:
                     description: It is the device detail's memory.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<memory>'
                 cpu:
                     description: It is the device detail's cpu.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<cpu>'
                 noise:
                     description: It is the device detail's noise.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<noise>'
                 utilization:
                     description: It is the device detail's utilization.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<utilization>'
                 airQuality:
                     description: It is the device detail's airQuality.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<airquality>'
                 interference:
                     description: It is the device detail's interference.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<interference>'
                 wqe:
                     description: It is the device detail's wqe.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<wqe>'
                 freeMbuf:
                     description: It is the device detail's freeMbuf.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<freembuf>'
                 packetPool:
                     description: It is the device detail's packetPool.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<packetpool>'
                 freeTimer:
                     description: It is the device detail's freeTimer.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<freetimer>'
                 location:
                     description: It is the device detail's location.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<location>'
                 timestamp:
                     description: It is the device detail's timestamp.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<timestamp>'
 
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.device_detail import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.device_detail import (
+    module_definition,
+)
 
 
 def main():
@@ -298,11 +304,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

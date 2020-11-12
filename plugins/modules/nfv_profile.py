@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: nfv_profile
 short_description: Manage NfvProfile objects of SiteDesign
@@ -247,12 +247,12 @@ seealso:
 - name: NfvProfile reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: API to create network profile for different NFV topologies.
     returned: success,changed,always
@@ -262,17 +262,17 @@ data_0:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
 data_1:
     description: API to get NFV network profile.
@@ -288,12 +288,12 @@ data_1:
                     description: It is the nfv profile's profileName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<profilename>'
                 id:
                     description: It is the nfv profile's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 device:
                     description: It is the nfv profile's device.
                     returned: success,changed,always
@@ -303,12 +303,12 @@ data_1:
                             description: It is the nfv profile's deviceType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<devicetype>'
                         deviceTag:
                             description: It is the nfv profile's deviceTag.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<devicetag>'
                         serviceProviderProfile:
                             description: It is the nfv profile's serviceProviderProfile.
                             returned: success,changed,always
@@ -318,7 +318,7 @@ data_1:
                                     description: It is the nfv profile's linkType.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<linktype>'
                                 connect:
                                     description: It is the nfv profile's connect.
                                     returned: success,changed,always
@@ -333,7 +333,7 @@ data_1:
                                     description: It is the nfv profile's serviceProvider.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<serviceprovider>'
 
                         directInternetAccessForFirewall:
                             description: It is the nfv profile's directInternetAccessForFirewall.
@@ -349,22 +349,22 @@ data_1:
                                     description: It is the nfv profile's serviceType.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<servicetype>'
                                 profileType:
                                     description: It is the nfv profile's profileType.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<profiletype>'
                                 serviceName:
                                     description: It is the nfv profile's serviceName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<servicename>'
                                 imageName:
                                     description: It is the nfv profile's imageName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<imagename>'
                                 vNicMapping:
                                     description: It is the nfv profile's vNicMapping.
                                     returned: success,changed,always
@@ -374,7 +374,7 @@ data_1:
                                             description: It is the nfv profile's networkType.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<networktype>'
                                         assignIpAddressToNetwork:
                                             description: It is the nfv profile's assignIpAddressToNetwork.
                                             returned: success,changed,always
@@ -385,7 +385,7 @@ data_1:
                                     description: It is the nfv profile's firewallMode.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<firewallmode>'
 
                         customNetworks:
                             description: It is the nfv profile's customNetworks.
@@ -396,7 +396,7 @@ data_1:
                                     description: It is the nfv profile's networkName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<networkname>'
                                 servicesToConnect:
                                     description: It is the nfv profile's servicesToConnect.
                                     returned: success,changed,always
@@ -406,23 +406,23 @@ data_1:
                                             description: It is the nfv profile's serviceName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<servicename>'
 
                                 connectionType:
                                     description: It is the nfv profile's connectionType.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<connectiontype>'
                                 vlanMode:
                                     description: It is the nfv profile's vlanMode.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<vlanmode>'
                                 vlanId:
                                     description: It is the nfv profile's vlanId.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<vlanid>'
 
                         vlanForL2:
                             description: It is the nfv profile's vlanForL2.
@@ -433,17 +433,17 @@ data_1:
                                     description: It is the nfv profile's vlanType.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<vlantype>'
                                 vlanId:
                                     description: It is the nfv profile's vlanId.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<vlanid>'
                                 vlanDescription:
                                     description: It is the nfv profile's vlanDescription.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<vlandescription>'
 
                         customTemplate:
                             description: It is the nfv profile's customTemplate.
@@ -454,17 +454,17 @@ data_1:
                                     description: It is the nfv profile's deviceType.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<devicetype>'
                                 template:
                                     description: It is the nfv profile's template.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<template>'
                                 templateType:
                                     description: It is the nfv profile's templateType.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<templatetype>'
 
 
 
@@ -478,17 +478,17 @@ data_2:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
 data_3:
     description: API to update a NFV Network profile.
@@ -499,23 +499,29 @@ data_3:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.nfv_profile import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.nfv_profile import (
+    module_definition,
+)
 
 
 def main():
@@ -526,11 +532,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

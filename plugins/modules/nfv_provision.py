@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: nfv_provision
 short_description: Manage NfvProvision objects of SiteDesign
@@ -565,12 +565,12 @@ seealso:
 - name: NfvProvision reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Design and Provision single/multi NFV device with given site/area/building/floor .
     returned: success,changed,always
@@ -580,17 +580,17 @@ data_0:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
 data_1:
     description: Returns provisioning device information for the specified IP address.
@@ -606,27 +606,27 @@ data_1:
                     description: It is the nfv provision's startTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<starttime>'
                 endTime:
                     description: It is the nfv provision's endTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<endtime>'
                 duration:
                     description: It is the nfv provision's duration.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<duration>'
                 statusMessage:
                     description: It is the nfv provision's statusMessage.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<statusmessage>'
                 status:
                     description: It is the nfv provision's status.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<status>'
                 taskNodes:
                     description: It is the nfv provision's taskNodes.
                     returned: success,changed,always
@@ -636,47 +636,47 @@ data_1:
                             description: It is the nfv provision's startTime.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<starttime>'
                         endTime:
                             description: It is the nfv provision's endTime.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<endtime>'
                         duration:
                             description: It is the nfv provision's duration.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<duration>'
                         status:
                             description: It is the nfv provision's status.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<status>'
                         nextTask:
                             description: It is the nfv provision's nextTask.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<nexttask>'
                         name:
                             description: It is the nfv provision's name.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<name>'
                         target:
                             description: It is the nfv provision's target.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<target>'
                         statusMessage:
                             description: It is the nfv provision's statusMessage.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<statusmessage>'
                         payload:
                             description: It is the nfv provision's payload.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<payload>'
                         provisionedNames:
                             description: It is the nfv provision's provisionedNames.
                             returned: success,changed,always
@@ -697,25 +697,31 @@ data_1:
                             description: It is the nfv provision's stepRan.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<stepran>'
 
                 topology:
                     description: It is the nfv provision's topology.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<topology>'
                 beginStep:
                     description: It is the nfv provision's beginStep.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<beginstep>'
 
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.nfv_provision import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.nfv_provision import (
+    module_definition,
+)
 
 
 def main():
@@ -726,11 +732,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

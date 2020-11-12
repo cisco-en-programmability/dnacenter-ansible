@@ -1,6 +1,7 @@
 import json
 
-module_definition = json.loads('''{
+module_definition = json.loads(
+    """{
     "family": "tag",
     "name": "tag",
     "operations": {
@@ -26,52 +27,7 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
-                "array_type": "object",
                 "name": "dynamicRules",
-                "required": false,
-                "schema": [
-                    {
-                        "name": "memberType",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "rules",
-                        "required": false,
-                        "schema": [
-                            {
-                                "array_type": "string",
-                                "name": "values",
-                                "required": false,
-                                "schema": [],
-                                "type": "array"
-                            },
-                            {
-                                "array_type": "any",
-                                "name": "items",
-                                "required": false,
-                                "schema": [],
-                                "type": "array"
-                            },
-                            {
-                                "name": "operation",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "name": "name",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "name": "value",
-                                "required": false,
-                                "type": "string"
-                            }
-                        ],
-                        "type": "object"
-                    }
-                ],
                 "type": "array"
             },
             {
@@ -194,7 +150,6 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
-                "artificial": true,
                 "name": "count",
                 "required": true,
                 "type": "boolean"
@@ -206,52 +161,7 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
-                "array_type": "object",
                 "name": "dynamicRules",
-                "required": false,
-                "schema": [
-                    {
-                        "name": "memberType",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "rules",
-                        "required": false,
-                        "schema": [
-                            {
-                                "array_type": "string",
-                                "name": "values",
-                                "required": false,
-                                "schema": [],
-                                "type": "array"
-                            },
-                            {
-                                "array_type": "any",
-                                "name": "items",
-                                "required": false,
-                                "schema": [],
-                                "type": "array"
-                            },
-                            {
-                                "name": "operation",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "name": "name",
-                                "required": false,
-                                "type": "string"
-                            },
-                            {
-                                "name": "value",
-                                "required": false,
-                                "type": "string"
-                            }
-                        ],
-                        "type": "object"
-                    }
-                ],
                 "type": "array"
             },
             {
@@ -316,17 +226,18 @@ module_definition = json.loads('''{
             "type": "object"
         }
     }
-}''')
+}"""
+)
 
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ObjectExistenceCriteria
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ObjectExistenceCriteria,
+)
+
 
 class TagExistenceCriteria(ObjectExistenceCriteria):
     def __init__(self, dnac):
         super(TagExistenceCriteria, self).__init__(
-            dnac = dnac,
-            get_function = "get_tag",
-            get_params = {},
-            list_field = "response"
+            dnac=dnac, get_function="get_tag", get_params={}, list_field="response"
         )
         self.WARN_OBJECT_EXISTS = "Tag already exists and was updated."
         self.ERR_MISSING_PARAM = "Missing 'name' parameter"

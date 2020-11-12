@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: import_image
 short_description: Manage ImportImage objects of SoftwareImageManagementSwim
@@ -105,12 +105,12 @@ seealso:
 - name: ImportImage reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Returns software image list based on a filter criteria. For example: "filterbyName = cat3k%".
     returned: success,changed,always
@@ -130,7 +130,7 @@ data_0:
                             description: It is the import image's mdfId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<mdfid>'
                         productId:
                             description: It is the import image's productId.
                             returned: success,changed,always
@@ -139,18 +139,18 @@ data_0:
                             description: It is the import image's productName.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<productname>'
 
                 applicationType:
                     description: It is the import image's applicationType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<applicationtype>'
                 createdTime:
                     description: It is the import image's createdTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<createdtime>'
                 extendedAttributes:
                     description: It is the import image's extendedAttributes.
                     returned: success,changed,always
@@ -159,32 +159,32 @@ data_0:
                     description: It is the import image's family.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<family>'
                 feature:
                     description: It is the import image's feature.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<feature>'
                 fileServiceId:
                     description: It is the import image's fileServiceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<fileserviceid>'
                 fileSize:
                     description: It is the import image's fileSize.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<filesize>'
                 imageIntegrityStatus:
                     description: It is the import image's imageIntegrityStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<imageintegritystatus>'
                 imageName:
                     description: It is the import image's imageName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<imagename>'
                 imageSeries:
                     description: It is the import image's imageSeries.
                     returned: success,changed,always
@@ -193,22 +193,22 @@ data_0:
                     description: It is the import image's imageSource.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<imagesource>'
                 imageType:
                     description: It is the import image's imageType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<imagetype>'
                 imageUuid:
                     description: It is the import image's imageUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<imageuuid>'
                 importSourceType:
                     description: It is the import image's importSourceType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<importsourcetype>'
                 isTaggedGolden:
                     description: It is the import image's isTaggedGolden.
                     returned: success,changed,always
@@ -218,12 +218,12 @@ data_0:
                     description: It is the import image's md5Checksum.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<md5checksum>'
                 name:
                     description: It is the import image's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
                 profileInfo:
                     description: It is the import image's profileInfo.
                     returned: success,changed,always
@@ -233,7 +233,7 @@ data_0:
                             description: It is the import image's description.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<description>'
                         extendedAttributes:
                             description: It is the import image's extendedAttributes.
                             returned: success,changed,always
@@ -247,12 +247,12 @@ data_0:
                             description: It is the import image's productType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<producttype>'
                         profileName:
                             description: It is the import image's profileName.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<profilename>'
                         shares:
                             description: It is the import image's shares.
                             returned: success,changed,always
@@ -268,29 +268,35 @@ data_0:
                     description: It is the import image's shaCheckSum.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<shachecksum>'
                 vendor:
                     description: It is the import image's vendor.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<vendor>'
                 version:
                     description: It is the import image's version.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '1.0'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.import_image import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.import_image import (
+    module_definition,
+)
 
 
 def main():
@@ -301,11 +307,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

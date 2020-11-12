@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: file_namespace
 short_description: Manage FileNamespace objects of File
@@ -39,12 +39,12 @@ seealso:
 - name: FileNamespace reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Returns list of available namespaces.
     returned: success,changed,always
@@ -58,7 +58,7 @@ data_0:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_1:
     description: Returns list of files under a specific namespace.
@@ -78,7 +78,7 @@ data_1:
                     description: It is the file namespace's downloadPath.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<downloadpath>'
                 encrypted:
                     description: It is the file namespace's encrypted.
                     returned: success,changed,always
@@ -88,32 +88,32 @@ data_1:
                     description: It is the file namespace's fileFormat.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<fileformat>'
                 fileSize:
                     description: It is the file namespace's fileSize.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<filesize>'
                 id:
                     description: It is the file namespace's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 md5Checksum:
                     description: It is the file namespace's md5Checksum.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<md5checksum>'
                 name:
                     description: It is the file namespace's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
                 nameSpace:
                     description: It is the file namespace's nameSpace.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<namespace>'
                 sftpServerList:
                     description: It is the file namespace's sftpServerList.
                     returned: success,changed,always
@@ -122,7 +122,7 @@ data_1:
                     description: It is the file namespace's sha1Checksum.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<sha1checksum>'
                 taskId:
                     description: It is the file namespace's taskId.
                     returned: success,changed,always
@@ -132,13 +132,19 @@ data_1:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.file_namespace import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.file_namespace import (
+    module_definition,
+)
 
 
 def main():
@@ -149,11 +155,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

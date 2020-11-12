@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: client_detail
 short_description: Manage ClientDetail objects of Clients
@@ -41,12 +41,12 @@ seealso:
 - name: ClientDetail reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Returns detailed Client information retrieved by Mac Address for any given point of time.
     returned: success,changed,always
@@ -61,17 +61,17 @@ data_0:
                     description: It is the client detail's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 connectionStatus:
                     description: It is the client detail's connectionStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<connectionstatus>'
                 hostType:
                     description: It is the client detail's hostType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<hosttype>'
                 userId:
                     description: It is the client detail's userId.
                     returned: success,changed,always
@@ -80,7 +80,7 @@ data_0:
                     description: It is the client detail's hostName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<hostname>'
                 hostOs:
                     description: It is the client detail's hostOs.
                     returned: success,changed,always
@@ -93,7 +93,7 @@ data_0:
                     description: It is the client detail's subType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<subtype>'
                 lastUpdated:
                     description: It is the client detail's lastUpdated.
                     returned: success,changed,always
@@ -108,12 +108,12 @@ data_0:
                             description: It is the client detail's healthType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<healthtype>'
                         reason:
                             description: It is the client detail's reason.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<reason>'
                         score:
                             description: It is the client detail's score.
                             returned: success,changed,always
@@ -124,12 +124,12 @@ data_0:
                     description: It is the client detail's hostMac.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<hostmac>'
                 hostIpV4:
                     description: It is the client detail's hostIpV4.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<hostipv4>'
                 hostIpV6:
                     description: It is the client detail's hostIpV6.
                     returned: success,changed,always
@@ -138,32 +138,32 @@ data_0:
                     description: It is the client detail's authType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<authtype>'
                 vlanId:
                     description: It is the client detail's vlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<vlanid>'
                 vnid:
                     description: It is the client detail's vnid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<vnid>'
                 ssid:
                     description: It is the client detail's ssid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ssid>'
                 frequency:
                     description: It is the client detail's frequency.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<frequency>'
                 channel:
                     description: It is the client detail's channel.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<channel>'
                 apGroup:
                     description: It is the client detail's apGroup.
                     returned: success,changed,always
@@ -176,7 +176,7 @@ data_0:
                     description: It is the client detail's clientConnection.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<clientconnection>'
                 connectedDevice:
                     description: It is the client detail's connectedDevice.
                     returned: success,changed,always
@@ -190,7 +190,7 @@ data_0:
                     description: It is the client detail's rssi.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<rssi>'
                 avgRssi:
                     description: It is the client detail's avgRssi.
                     returned: success,changed,always
@@ -199,7 +199,7 @@ data_0:
                     description: It is the client detail's snr.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snr>'
                 avgSnr:
                     description: It is the client detail's avgSnr.
                     returned: success,changed,always
@@ -208,17 +208,17 @@ data_0:
                     description: It is the client detail's dataRate.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<datarate>'
                 txBytes:
                     description: It is the client detail's txBytes.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<txbytes>'
                 rxBytes:
                     description: It is the client detail's rxBytes.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<rxbytes>'
                 dnsSuccess:
                     description: It is the client detail's dnsSuccess.
                     returned: success,changed,always
@@ -268,7 +268,7 @@ data_0:
                             description: It is the client detail's aaaServerIp.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<aaaserverip>'
                         dhcpServerIp:
                             description: It is the client detail's dhcpServerIp.
                             returned: success,changed,always
@@ -306,7 +306,7 @@ data_0:
                     description: It is the client detail's clientType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<clienttype>'
                 onboardingTime:
                     description: It is the client detail's onboardingTime.
                     returned: success,changed,always
@@ -330,52 +330,52 @@ data_0:
                     description: It is the client detail's hostType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<hosttype>'
                 nwDeviceName:
                     description: It is the client detail's nwDeviceName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<nwdevicename>'
                 nwDeviceMac:
                     description: It is the client detail's nwDeviceMac.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<nwdevicemac>'
                 protocol:
                     description: It is the client detail's protocol.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<protocol>'
                 band:
                     description: It is the client detail's band.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<band>'
                 spatialStream:
                     description: It is the client detail's spatialStream.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<spatialstream>'
                 channel:
                     description: It is the client detail's channel.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<channel>'
                 channelWidth:
                     description: It is the client detail's channelWidth.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<channelwidth>'
                 wmm:
                     description: It is the client detail's wmm.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<wmm>'
                 uapsd:
                     description: It is the client detail's uapsd.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<uapsd>'
                 timestamp:
                     description: It is the client detail's timestamp.
                     returned: success,changed,always
@@ -396,27 +396,27 @@ data_0:
                             description: It is the client detail's role.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<role>'
                         name:
                             description: It is the client detail's name.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<name>'
                         id:
                             description: It is the client detail's id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '478012'
                         description:
                             description: It is the client detail's description.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<description>'
                         deviceType:
                             description: It is the client detail's deviceType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<devicetype>'
                         platformId:
                             description: It is the client detail's platformId.
                             returned: success,changed,always
@@ -429,7 +429,7 @@ data_0:
                             description: It is the client detail's ip.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '1.1.1.17'
                         softwareVersion:
                             description: It is the client detail's softwareVersion.
                             returned: success,changed,always
@@ -442,7 +442,7 @@ data_0:
                             description: It is the client detail's nodeType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<nodetype>'
                         radioFrequency:
                             description: It is the client detail's radioFrequency.
                             returned: success,changed,always
@@ -483,12 +483,12 @@ data_0:
                             description: It is the client detail's source.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<source>'
                         linkStatus:
                             description: It is the client detail's linkStatus.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<linkstatus>'
                         label:
                             description: It is the client detail's label.
                             returned: success,changed,always
@@ -497,7 +497,7 @@ data_0:
                             description: It is the client detail's target.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<target>'
                         id:
                             description: It is the client detail's id.
                             returned: success,changed,always
@@ -509,11 +509,17 @@ data_0:
 
 
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.client_detail import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.client_detail import (
+    module_definition,
+)
 
 
 def main():
@@ -524,11 +530,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

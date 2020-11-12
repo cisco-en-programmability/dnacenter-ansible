@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: template_deploy
 short_description: Manage TemplateDeploy objects of ConfigurationTemplates
@@ -82,12 +82,12 @@ seealso:
 - name: TemplateDeploy reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Deploys a template.
     returned: success,changed,always
@@ -97,12 +97,12 @@ data_0:
             description: TemplateDeploymentInfo's deploymentId.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<deploymentid>'
         deploymentName:
             description: TemplateDeploymentInfo's deploymentName.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<deploymentname>'
         devices:
             description: TemplateDeploymentInfo's devices (list of objects).
             returned: success,changed,always
@@ -112,73 +112,73 @@ data_0:
                     description: It is the template deploy's deviceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<deviceid>'
                 duration:
                     description: It is the template deploy's duration.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<duration>'
                 endTime:
                     description: It is the template deploy's endTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<endtime>'
                 ipAddress:
                     description: It is the template deploy's ipAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipaddress>'
                 name:
                     description: It is the template deploy's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
                 startTime:
                     description: It is the template deploy's startTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<starttime>'
                 status:
                     description: It is the template deploy's status.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<status>'
 
         duration:
             description: TemplateDeploymentInfo's duration.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<duration>'
         endTime:
             description: TemplateDeploymentInfo's endTime.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<endtime>'
         projectName:
             description: TemplateDeploymentInfo's projectName.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<projectname>'
         startTime:
             description: TemplateDeploymentInfo's startTime.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<starttime>'
         status:
             description: TemplateDeploymentInfo's status.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<status>'
         templateName:
             description: TemplateDeploymentInfo's templateName.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<templatename>'
         templateVersion:
             description: TemplateDeploymentInfo's templateVersion.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<templateversion>'
 
 data_1:
     description: Returns the status of a deployed template.
@@ -189,12 +189,12 @@ data_1:
             description: DeploymentId, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<deploymentid>'
         deploymentName:
             description: DeploymentName, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<deploymentname>'
         devices:
             description: Devices, property of the response body (list of objects).
             returned: success,changed,always
@@ -204,79 +204,85 @@ data_1:
                     description: It is the template deploy's deviceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<deviceid>'
                 duration:
                     description: It is the template deploy's duration.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<duration>'
                 endTime:
                     description: It is the template deploy's endTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<endtime>'
                 ipAddress:
                     description: It is the template deploy's ipAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipaddress>'
                 name:
                     description: It is the template deploy's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
                 startTime:
                     description: It is the template deploy's startTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<starttime>'
                 status:
                     description: It is the template deploy's status.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<status>'
 
         duration:
             description: Duration, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<duration>'
         endTime:
             description: EndTime, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<endtime>'
         projectName:
             description: ProjectName, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<projectname>'
         startTime:
             description: StartTime, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<starttime>'
         status:
             description: Status, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<status>'
         templateName:
             description: TemplateName, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<templatename>'
         templateVersion:
             description: TemplateVersion, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<templateversion>'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.template_deploy import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.template_deploy import (
+    module_definition,
+)
 
 
 def main():
@@ -287,11 +293,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

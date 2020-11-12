@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: task
 short_description: Manage Task objects of Task
@@ -113,12 +113,12 @@ seealso:
 - name: Task reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Returns Task(s) based on filter criteria.
     returned: success,changed,always
@@ -133,42 +133,42 @@ data_0:
                     description: It is the Task's additionalStatusURL.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<additionalstatusurl>'
                 data:
                     description: It is the Task's data.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<data>'
                 endTime:
                     description: It is the Task's endTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<endtime>'
                 errorCode:
                     description: It is the Task's errorCode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errorcode>'
                 errorKey:
                     description: It is the Task's errorKey.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errorkey>'
                 failureReason:
                     description: It is the Task's failureReason.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<failurereason>'
                 id:
                     description: It is the Task's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 instanceTenantId:
                     description: It is the Task's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 isError:
                     description: It is the Task's isError.
                     returned: success,changed,always
@@ -178,7 +178,7 @@ data_0:
                     description: It is the Task's lastUpdate.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdate>'
                 operationIdList:
                     description: It is the Task's operationIdList.
                     returned: success,changed,always
@@ -187,32 +187,32 @@ data_0:
                     description: It is the Task's parentId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<parentid>'
                 progress:
                     description: It is the Task's progress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<progress>'
                 rootId:
                     description: It is the Task's rootId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<rootid>'
                 serviceType:
                     description: It is the Task's serviceType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<servicetype>'
                 startTime:
                     description: It is the Task's startTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<starttime>'
                 username:
                     description: It is the Task's username.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: 'devnetuser'
                 version:
                     description: It is the Task's version.
                     returned: success,changed,always
@@ -223,7 +223,7 @@ data_0:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_1:
     description: Returns a Task by specified id.
@@ -239,42 +239,42 @@ data_1:
                     description: It is the Task's additionalStatusURL.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<additionalstatusurl>'
                 data:
                     description: It is the Task's data.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<data>'
                 endTime:
                     description: It is the Task's endTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<endtime>'
                 errorCode:
                     description: It is the Task's errorCode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errorcode>'
                 errorKey:
                     description: It is the Task's errorKey.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errorkey>'
                 failureReason:
                     description: It is the Task's failureReason.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<failurereason>'
                 id:
                     description: It is the Task's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 instanceTenantId:
                     description: It is the Task's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 isError:
                     description: It is the Task's isError.
                     returned: success,changed,always
@@ -284,7 +284,7 @@ data_1:
                     description: It is the Task's lastUpdate.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdate>'
                 operationIdList:
                     description: It is the Task's operationIdList.
                     returned: success,changed,always
@@ -293,32 +293,32 @@ data_1:
                     description: It is the Task's parentId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<parentid>'
                 progress:
                     description: It is the Task's progress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<progress>'
                 rootId:
                     description: It is the Task's rootId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<rootid>'
                 serviceType:
                     description: It is the Task's serviceType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<servicetype>'
                 startTime:
                     description: It is the Task's startTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<starttime>'
                 username:
                     description: It is the Task's username.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: 'devnetuser'
                 version:
                     description: It is the Task's version.
                     returned: success,changed,always
@@ -329,7 +329,7 @@ data_1:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_2:
     description: Returns Task count.
@@ -345,7 +345,7 @@ data_2:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_3:
     description: Returns root Tasks associated with an Operationid.
@@ -361,42 +361,42 @@ data_3:
                     description: It is the Task's additionalStatusURL.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<additionalstatusurl>'
                 data:
                     description: It is the Task's data.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<data>'
                 endTime:
                     description: It is the Task's endTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<endtime>'
                 errorCode:
                     description: It is the Task's errorCode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errorcode>'
                 errorKey:
                     description: It is the Task's errorKey.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errorkey>'
                 failureReason:
                     description: It is the Task's failureReason.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<failurereason>'
                 id:
                     description: It is the Task's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 instanceTenantId:
                     description: It is the Task's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 isError:
                     description: It is the Task's isError.
                     returned: success,changed,always
@@ -406,7 +406,7 @@ data_3:
                     description: It is the Task's lastUpdate.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdate>'
                 operationIdList:
                     description: It is the Task's operationIdList.
                     returned: success,changed,always
@@ -415,32 +415,32 @@ data_3:
                     description: It is the Task's parentId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<parentid>'
                 progress:
                     description: It is the Task's progress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<progress>'
                 rootId:
                     description: It is the Task's rootId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<rootid>'
                 serviceType:
                     description: It is the Task's serviceType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<servicetype>'
                 startTime:
                     description: It is the Task's startTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<starttime>'
                 username:
                     description: It is the Task's username.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: 'devnetuser'
                 version:
                     description: It is the Task's version.
                     returned: success,changed,always
@@ -451,7 +451,7 @@ data_3:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_4:
     description: Returns a Task with its children Tasks by based on their id.
@@ -467,42 +467,42 @@ data_4:
                     description: It is the Task's additionalStatusURL.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<additionalstatusurl>'
                 data:
                     description: It is the Task's data.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<data>'
                 endTime:
                     description: It is the Task's endTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<endtime>'
                 errorCode:
                     description: It is the Task's errorCode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errorcode>'
                 errorKey:
                     description: It is the Task's errorKey.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errorkey>'
                 failureReason:
                     description: It is the Task's failureReason.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<failurereason>'
                 id:
                     description: It is the Task's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 instanceTenantId:
                     description: It is the Task's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 isError:
                     description: It is the Task's isError.
                     returned: success,changed,always
@@ -512,7 +512,7 @@ data_4:
                     description: It is the Task's lastUpdate.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdate>'
                 operationIdList:
                     description: It is the Task's operationIdList.
                     returned: success,changed,always
@@ -521,32 +521,32 @@ data_4:
                     description: It is the Task's parentId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<parentid>'
                 progress:
                     description: It is the Task's progress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<progress>'
                 rootId:
                     description: It is the Task's rootId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<rootid>'
                 serviceType:
                     description: It is the Task's serviceType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<servicetype>'
                 startTime:
                     description: It is the Task's startTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<starttime>'
                 username:
                     description: It is the Task's username.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: 'devnetuser'
                 version:
                     description: It is the Task's version.
                     returned: success,changed,always
@@ -557,13 +557,19 @@ data_4:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.task import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.task import (
+    module_definition,
+)
 
 
 def main():
@@ -574,11 +580,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

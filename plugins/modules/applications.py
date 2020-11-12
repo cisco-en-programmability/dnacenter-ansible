@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: applications
 short_description: Manage Applications objects of ApplicationPolicy
@@ -190,12 +190,12 @@ seealso:
 - name: Applications reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Get Applications by offset/limit or by name.
     returned: success,changed,always
@@ -205,12 +205,12 @@ data_0:
             description: It is the Applications's id.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '478012'
         name:
             description: It is the Applications's name.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<name>'
         networkApplications:
             description: It is the Applications's networkApplications.
             returned: success,changed,always
@@ -220,87 +220,87 @@ data_0:
                     description: It is the Applications's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 appProtocol:
                     description: It is the Applications's appProtocol.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<appprotocol>'
                 applicationSubType:
                     description: It is the Applications's applicationSubType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<applicationsubtype>'
                 applicationType:
                     description: It is the Applications's applicationType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<applicationtype>'
                 categoryId:
                     description: It is the Applications's categoryId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<categoryid>'
                 displayName:
                     description: It is the Applications's displayName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<displayname>'
                 engineId:
                     description: It is the Applications's engineId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<engineid>'
                 helpString:
                     description: It is the Applications's helpString.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<helpstring>'
                 longDescription:
                     description: It is the Applications's longDescription.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<longdescription>'
                 name:
                     description: It is the Applications's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
                 popularity:
                     description: It is the Applications's popularity.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<popularity>'
                 rank:
                     description: It is the Applications's rank.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<rank>'
                 trafficClass:
                     description: It is the Applications's trafficClass.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<trafficclass>'
                 serverName:
                     description: It is the Applications's serverName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<servername>'
                 url:
                     description: It is the Applications's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
                 dscp:
                     description: It is the Applications's dscp.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<dscp>'
                 ignoreConflict:
                     description: It is the Applications's ignoreConflict.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ignoreconflict>'
 
         networkIdentity:
             description: It is the Applications's networkIdentity.
@@ -311,32 +311,32 @@ data_0:
                     description: It is the Applications's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 displayName:
                     description: It is the Applications's displayName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<displayname>'
                 lowerPort:
                     description: It is the Applications's lowerPort.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lowerport>'
                 ports:
                     description: It is the Applications's ports.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ports>'
                 protocol:
                     description: It is the Applications's protocol.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<protocol>'
                 upperPort:
                     description: It is the Applications's upperPort.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<upperport>'
 
         applicationSet:
             description: It is the Applications's applicationSet.
@@ -347,7 +347,7 @@ data_0:
                     description: It is the Applications's idRef.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<idref>'
 
 
 
@@ -365,18 +365,18 @@ data_1:
                     description: It is the Applications's taskId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: 'aeed229047801200e0ef563dbb9a71c2'
                 url:
                     description: It is the Applications's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_2:
     description: Create new Custom application.
@@ -392,18 +392,18 @@ data_2:
                     description: It is the Applications's taskId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: 'aeed229047801200e0ef563dbb9a71c2'
                 url:
                     description: It is the Applications's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_3:
     description: Edit the attributes of an existing application.
@@ -419,18 +419,18 @@ data_3:
                     description: It is the Applications's taskId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: 'aeed229047801200e0ef563dbb9a71c2'
                 url:
                     description: It is the Applications's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_4:
     description: Get the number of all existing Applications.
@@ -441,18 +441,24 @@ data_4:
             description: Response, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<response>'
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.applications import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.applications import (
+    module_definition,
+)
 
 
 def main():
@@ -463,11 +469,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

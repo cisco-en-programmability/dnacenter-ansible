@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: wireless_rf_profile
 short_description: Manage WirelessRfProfile objects of Wireless
@@ -151,12 +151,12 @@ seealso:
 - name: WirelessRfProfile reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Retrieve all RF profiles.
     returned: success,changed,always
@@ -171,17 +171,17 @@ data_0:
                     description: It is the wireless rf profile's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
                 parentProfileA:
                     description: It is the wireless rf profile's parentProfileA.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<parentprofilea>'
                 parentProfileB:
                     description: It is the wireless rf profile's parentProfileB.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<parentprofileb>'
                 enableARadioType:
                     description: It is the wireless rf profile's enableARadioType.
                     returned: success,changed,always
@@ -196,37 +196,37 @@ data_0:
                     description: It is the wireless rf profile's channelWidth.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<channelwidth>'
                 aRadioChannels:
                     description: It is the wireless rf profile's aRadioChannels.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<aradiochannels>'
                 bRadioChannels:
                     description: It is the wireless rf profile's bRadioChannels.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<bradiochannels>'
                 dataRatesA:
                     description: It is the wireless rf profile's dataRatesA.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<dataratesa>'
                 dataRatesB:
                     description: It is the wireless rf profile's dataRatesB.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<dataratesb>'
                 mandatoryDataRatesA:
                     description: It is the wireless rf profile's mandatoryDataRatesA.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mandatorydataratesa>'
                 mandatoryDataRatesB:
                     description: It is the wireless rf profile's mandatoryDataRatesB.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mandatorydataratesb>'
                 enableCustom:
                     description: It is the wireless rf profile's enableCustom.
                     returned: success,changed,always
@@ -236,22 +236,22 @@ data_0:
                     description: It is the wireless rf profile's minPowerLevelA.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<minpowerlevela>'
                 minPowerLevelB:
                     description: It is the wireless rf profile's minPowerLevelB.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<minpowerlevelb>'
                 maxPowerLevelA:
                     description: It is the wireless rf profile's maxPowerLevelA.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<maxpowerlevela>'
                 maxPowerLevelB:
                     description: It is the wireless rf profile's maxPowerLevelB.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<maxpowerlevelb>'
                 powerThresholdV1A:
                     description: It is the wireless rf profile's powerThresholdV1A.
                     returned: success,changed,always
@@ -266,12 +266,12 @@ data_0:
                     description: It is the wireless rf profile's rxSopThresholdA.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<rxsopthresholda>'
                 rxSopThresholdB:
                     description: It is the wireless rf profile's rxSopThresholdB.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<rxsopthresholdb>'
                 defaultRfProfile:
                     description: It is the wireless rf profile's defaultRfProfile.
                     returned: success,changed,always
@@ -293,17 +293,17 @@ data_1:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionUrl:
             description: Execution Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
 data_2:
     description: Delete RF profile(s).
@@ -314,23 +314,29 @@ data_2:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionUrl:
             description: Execution Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.wireless_rf_profile import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.wireless_rf_profile import (
+    module_definition,
+)
 
 
 def main():
@@ -341,11 +347,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

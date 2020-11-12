@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: pnp_device_import
 short_description: Manage PnpDeviceImport objects of DeviceOnboardingPnp
@@ -1114,12 +1114,12 @@ seealso:
 - name: PnpDeviceImport reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Add devices to PnP in bulk.
     returned: success,changed,always
@@ -1134,7 +1134,7 @@ data_0:
                     description: It is the pnp device import's _id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<_id>'
                 deviceInfo:
                     description: It is the pnp device import's deviceInfo.
                     returned: success,changed,always
@@ -1144,12 +1144,12 @@ data_0:
                             description: It is the pnp device import's source.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<source>'
                         serialNumber:
                             description: It is the pnp device import's serialNumber.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<serialnumber>'
                         stack:
                             description: It is the pnp device import's stack.
                             returned: success,changed,always
@@ -1159,12 +1159,12 @@ data_0:
                             description: It is the pnp device import's mode.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<mode>'
                         state:
                             description: It is the pnp device import's state.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<state>'
                         location:
                             description: It is the pnp device import's location.
                             returned: success,changed,always
@@ -1174,48 +1174,48 @@ data_0:
                                     description: It is the pnp device import's siteId.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<siteid>'
                                 address:
                                     description: It is the pnp device import's address.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<address>'
                                 latitude:
                                     description: It is the pnp device import's latitude.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<latitude>'
                                 longitude:
                                     description: It is the pnp device import's longitude.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<longitude>'
                                 altitude:
                                     description: It is the pnp device import's altitude.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<altitude>'
 
                         description:
                             description: It is the pnp device import's description.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<description>'
                         onbState:
                             description: It is the pnp device import's onbState.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<onbstate>'
                         authenticatedMicNumber:
                             description: It is the pnp device import's authenticatedMicNumber.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<authenticatedmicnumber>'
                         authenticatedSudiSerialNo:
                             description: It is the pnp device import's authenticatedSudiSerialNo.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<authenticatedsudiserialno>'
                         capabilitiesSupported:
                             description: It is the pnp device import's capabilitiesSupported.
                             returned: success,changed,always
@@ -1228,7 +1228,7 @@ data_0:
                             description: It is the pnp device import's cmState.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<cmstate>'
                         firstContact:
                             description: It is the pnp device import's firstContact.
                             returned: success,changed,always
@@ -1243,12 +1243,12 @@ data_0:
                             description: It is the pnp device import's macAddress.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<macaddress>'
                         pid:
                             description: It is the pnp device import's pid.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<pid>'
                         deviceSudiSerialNos:
                             description: It is the pnp device import's deviceSudiSerialNos.
                             returned: success,changed,always
@@ -1262,37 +1262,37 @@ data_0:
                             description: It is the pnp device import's workflowId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<workflowid>'
                         workflowName:
                             description: It is the pnp device import's workflowName.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<workflowname>'
                         projectId:
                             description: It is the pnp device import's projectId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<projectid>'
                         projectName:
                             description: It is the pnp device import's projectName.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<projectname>'
                         deviceType:
                             description: It is the pnp device import's deviceType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<devicetype>'
                         agentType:
                             description: It is the pnp device import's agentType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<agenttype>'
                         imageVersion:
                             description: It is the pnp device import's imageVersion.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<imageversion>'
                         fileSystemList:
                             description: It is the pnp device import's fileSystemList.
                             returned: success,changed,always
@@ -1302,7 +1302,7 @@ data_0:
                                     description: It is the pnp device import's type.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<type>'
                                 writeable:
                                     description: It is the pnp device import's writeable.
                                     returned: success,changed,always
@@ -1317,7 +1317,7 @@ data_0:
                                     description: It is the pnp device import's name.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<name>'
                                 readable:
                                     description: It is the pnp device import's readable.
                                     returned: success,changed,always
@@ -1338,7 +1338,7 @@ data_0:
                                     description: It is the pnp device import's profileName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<profilename>'
                                 discoveryCreated:
                                     description: It is the pnp device import's discoveryCreated.
                                     returned: success,changed,always
@@ -1348,7 +1348,7 @@ data_0:
                                     description: It is the pnp device import's createdBy.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<createdby>'
                                 primaryEndpoint:
                                     description: It is the pnp device import's primaryEndpoint.
                                     returned: success,changed,always
@@ -1363,7 +1363,7 @@ data_0:
                                             description: It is the pnp device import's protocol.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<protocol>'
                                         ipv4Address:
                                             description: It is the pnp device import's ipv4Address.
                                             returned: success,changed,always
@@ -1376,12 +1376,12 @@ data_0:
                                             description: It is the pnp device import's fqdn.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<fqdn>'
                                         certificate:
                                             description: It is the pnp device import's certificate.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<certificate>'
 
                                 secondaryEndpoint:
                                     description: It is the pnp device import's secondaryEndpoint.
@@ -1397,7 +1397,7 @@ data_0:
                                             description: It is the pnp device import's protocol.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<protocol>'
                                         ipv4Address:
                                             description: It is the pnp device import's ipv4Address.
                                             returned: success,changed,always
@@ -1410,19 +1410,19 @@ data_0:
                                             description: It is the pnp device import's fqdn.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<fqdn>'
                                         certificate:
                                             description: It is the pnp device import's certificate.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<certificate>'
 
 
                         imageFile:
                             description: It is the pnp device import's imageFile.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<imagefile>'
                         httpHeaders:
                             description: It is the pnp device import's httpHeaders.
                             returned: success,changed,always
@@ -1432,12 +1432,12 @@ data_0:
                                     description: It is the pnp device import's key.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<key>'
                                 value:
                                     description: It is the pnp device import's value.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<value>'
 
                         neighborLinks:
                             description: It is the pnp device import's neighborLinks.
@@ -1448,47 +1448,47 @@ data_0:
                                     description: It is the pnp device import's localInterfaceName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<localinterfacename>'
                                 localShortInterfaceName:
                                     description: It is the pnp device import's localShortInterfaceName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<localshortinterfacename>'
                                 localMacAddress:
                                     description: It is the pnp device import's localMacAddress.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<localmacaddress>'
                                 remoteInterfaceName:
                                     description: It is the pnp device import's remoteInterfaceName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<remoteinterfacename>'
                                 remoteShortInterfaceName:
                                     description: It is the pnp device import's remoteShortInterfaceName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<remoteshortinterfacename>'
                                 remoteMacAddress:
                                     description: It is the pnp device import's remoteMacAddress.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<remotemacaddress>'
                                 remoteDeviceName:
                                     description: It is the pnp device import's remoteDeviceName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<remotedevicename>'
                                 remotePlatform:
                                     description: It is the pnp device import's remotePlatform.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<remoteplatform>'
                                 remoteVersion:
                                     description: It is the pnp device import's remoteVersion.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<remoteversion>'
 
                         lastSyncTime:
                             description: It is the pnp device import's lastSyncTime.
@@ -1504,12 +1504,12 @@ data_0:
                                     description: It is the pnp device import's status.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<status>'
                                 macAddress:
                                     description: It is the pnp device import's macAddress.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<macaddress>'
                                 ipv4Address:
                                     description: It is the pnp device import's ipv4Address.
                                     returned: success,changed,always
@@ -1522,18 +1522,18 @@ data_0:
                                     description: It is the pnp device import's name.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<name>'
 
                         hostname:
                             description: It is the pnp device import's hostname.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<hostname>'
                         authStatus:
                             description: It is the pnp device import's authStatus.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<authstatus>'
                         stackInfo:
                             description: It is the pnp device import's stackInfo.
                             returned: success,changed,always
@@ -1558,47 +1558,47 @@ data_0:
                                             description: It is the pnp device import's serialNumber.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<serialnumber>'
                                         state:
                                             description: It is the pnp device import's state.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<state>'
                                         role:
                                             description: It is the pnp device import's role.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<role>'
                                         macAddress:
                                             description: It is the pnp device import's macAddress.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<macaddress>'
                                         pid:
                                             description: It is the pnp device import's pid.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<pid>'
                                         licenseLevel:
                                             description: It is the pnp device import's licenseLevel.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<licenselevel>'
                                         licenseType:
                                             description: It is the pnp device import's licenseType.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<licensetype>'
                                         sudiSerialNumber:
                                             description: It is the pnp device import's sudiSerialNumber.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<sudiserialnumber>'
                                         hardwareVersion:
                                             description: It is the pnp device import's hardwareVersion.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<hardwareversion>'
                                         stackNumber:
                                             description: It is the pnp device import's stackNumber.
                                             returned: success,changed,always
@@ -1608,7 +1608,7 @@ data_0:
                                             description: It is the pnp device import's softwareVersion.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<softwareversion>'
                                         priority:
                                             description: It is the pnp device import's priority.
                                             returned: success,changed,always
@@ -1619,7 +1619,7 @@ data_0:
                                     description: It is the pnp device import's stackRingProtocol.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<stackringprotocol>'
                                 validLicenseLevels:
                                     description: It is the pnp device import's validLicenseLevels.
                                     returned: success,changed,always
@@ -1644,7 +1644,7 @@ data_0:
                             description: It is the pnp device import's siteId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<siteid>'
                         aaaCredentials:
                             description: It is the pnp device import's aaaCredentials.
                             returned: success,changed,always
@@ -1654,12 +1654,12 @@ data_0:
                                     description: It is the pnp device import's password.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '*******'
                                 username:
                                     description: It is the pnp device import's username.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: 'devnetuser'
 
                         userMicNumbers:
                             description: It is the pnp device import's userMicNumbers.
@@ -1682,12 +1682,12 @@ data_0:
                                     description: It is the pnp device import's cli.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<cli>'
                                 cliOutput:
                                     description: It is the pnp device import's cliOutput.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<clioutput>'
 
                         tags:
                             description: It is the pnp device import's tags.
@@ -1702,12 +1702,12 @@ data_0:
                             description: It is the pnp device import's smartAccountId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<smartaccountid>'
                         virtualAccountId:
                             description: It is the pnp device import's virtualAccountId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<virtualaccountid>'
                         populateInventory:
                             description: It is the pnp device import's populateInventory.
                             returned: success,changed,always
@@ -1717,12 +1717,12 @@ data_0:
                             description: It is the pnp device import's siteName.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<sitename>'
                         name:
                             description: It is the pnp device import's name.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<name>'
 
                 systemResetWorkflow:
                     description: It is the pnp device import's systemResetWorkflow.
@@ -1733,22 +1733,22 @@ data_0:
                             description: It is the pnp device import's _id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<_id>'
                         state:
                             description: It is the pnp device import's state.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<state>'
                         type:
                             description: It is the pnp device import's type.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<type>'
                         description:
                             description: It is the pnp device import's description.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<description>'
                         lastupdateOn:
                             description: It is the pnp device import's lastupdateOn.
                             returned: success,changed,always
@@ -1758,7 +1758,7 @@ data_0:
                             description: It is the pnp device import's imageId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<imageid>'
                         currTaskIdx:
                             description: It is the pnp device import's currTaskIdx.
                             returned: success,changed,always
@@ -1778,12 +1778,12 @@ data_0:
                                     description: It is the pnp device import's state.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<state>'
                                 type:
                                     description: It is the pnp device import's type.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<type>'
                                 currWorkItemIdx:
                                     description: It is the pnp device import's currWorkItemIdx.
                                     returned: success,changed,always
@@ -1813,17 +1813,17 @@ data_0:
                                             description: It is the pnp device import's state.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<state>'
                                         command:
                                             description: It is the pnp device import's command.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<command>'
                                         outputStr:
                                             description: It is the pnp device import's outputStr.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<outputstr>'
                                         endTime:
                                             description: It is the pnp device import's endTime.
                                             returned: success,changed,always
@@ -1849,7 +1849,7 @@ data_0:
                                     description: It is the pnp device import's name.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<name>'
 
                         addToInventory:
                             description: It is the pnp device import's addToInventory.
@@ -1860,7 +1860,7 @@ data_0:
                             description: It is the pnp device import's instanceType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<instancetype>'
                         endTime:
                             description: It is the pnp device import's endTime.
                             returned: success,changed,always
@@ -1880,17 +1880,17 @@ data_0:
                             description: It is the pnp device import's useState.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<usestate>'
                         configId:
                             description: It is the pnp device import's configId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<configid>'
                         name:
                             description: It is the pnp device import's name.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<name>'
                         version:
                             description: It is the pnp device import's version.
                             returned: success,changed,always
@@ -1900,7 +1900,7 @@ data_0:
                             description: It is the pnp device import's tenantId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<tenantid>'
 
                 systemWorkflow:
                     description: It is the pnp device import's systemWorkflow.
@@ -1911,22 +1911,22 @@ data_0:
                             description: It is the pnp device import's _id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<_id>'
                         state:
                             description: It is the pnp device import's state.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<state>'
                         type:
                             description: It is the pnp device import's type.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<type>'
                         description:
                             description: It is the pnp device import's description.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<description>'
                         lastupdateOn:
                             description: It is the pnp device import's lastupdateOn.
                             returned: success,changed,always
@@ -1936,7 +1936,7 @@ data_0:
                             description: It is the pnp device import's imageId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<imageid>'
                         currTaskIdx:
                             description: It is the pnp device import's currTaskIdx.
                             returned: success,changed,always
@@ -1956,12 +1956,12 @@ data_0:
                                     description: It is the pnp device import's state.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<state>'
                                 type:
                                     description: It is the pnp device import's type.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<type>'
                                 currWorkItemIdx:
                                     description: It is the pnp device import's currWorkItemIdx.
                                     returned: success,changed,always
@@ -1991,17 +1991,17 @@ data_0:
                                             description: It is the pnp device import's state.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<state>'
                                         command:
                                             description: It is the pnp device import's command.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<command>'
                                         outputStr:
                                             description: It is the pnp device import's outputStr.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<outputstr>'
                                         endTime:
                                             description: It is the pnp device import's endTime.
                                             returned: success,changed,always
@@ -2027,7 +2027,7 @@ data_0:
                                     description: It is the pnp device import's name.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<name>'
 
                         addToInventory:
                             description: It is the pnp device import's addToInventory.
@@ -2038,7 +2038,7 @@ data_0:
                             description: It is the pnp device import's instanceType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<instancetype>'
                         endTime:
                             description: It is the pnp device import's endTime.
                             returned: success,changed,always
@@ -2058,17 +2058,17 @@ data_0:
                             description: It is the pnp device import's useState.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<usestate>'
                         configId:
                             description: It is the pnp device import's configId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<configid>'
                         name:
                             description: It is the pnp device import's name.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<name>'
                         version:
                             description: It is the pnp device import's version.
                             returned: success,changed,always
@@ -2078,7 +2078,7 @@ data_0:
                             description: It is the pnp device import's tenantId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<tenantid>'
 
                 workflow:
                     description: It is the pnp device import's workflow.
@@ -2089,22 +2089,22 @@ data_0:
                             description: It is the pnp device import's _id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<_id>'
                         state:
                             description: It is the pnp device import's state.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<state>'
                         type:
                             description: It is the pnp device import's type.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<type>'
                         description:
                             description: It is the pnp device import's description.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<description>'
                         lastupdateOn:
                             description: It is the pnp device import's lastupdateOn.
                             returned: success,changed,always
@@ -2114,7 +2114,7 @@ data_0:
                             description: It is the pnp device import's imageId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<imageid>'
                         currTaskIdx:
                             description: It is the pnp device import's currTaskIdx.
                             returned: success,changed,always
@@ -2134,12 +2134,12 @@ data_0:
                                     description: It is the pnp device import's state.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<state>'
                                 type:
                                     description: It is the pnp device import's type.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<type>'
                                 currWorkItemIdx:
                                     description: It is the pnp device import's currWorkItemIdx.
                                     returned: success,changed,always
@@ -2169,17 +2169,17 @@ data_0:
                                             description: It is the pnp device import's state.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<state>'
                                         command:
                                             description: It is the pnp device import's command.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<command>'
                                         outputStr:
                                             description: It is the pnp device import's outputStr.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<outputstr>'
                                         endTime:
                                             description: It is the pnp device import's endTime.
                                             returned: success,changed,always
@@ -2205,7 +2205,7 @@ data_0:
                                     description: It is the pnp device import's name.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<name>'
 
                         addToInventory:
                             description: It is the pnp device import's addToInventory.
@@ -2216,7 +2216,7 @@ data_0:
                             description: It is the pnp device import's instanceType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<instancetype>'
                         endTime:
                             description: It is the pnp device import's endTime.
                             returned: success,changed,always
@@ -2236,17 +2236,17 @@ data_0:
                             description: It is the pnp device import's useState.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<usestate>'
                         configId:
                             description: It is the pnp device import's configId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<configid>'
                         name:
                             description: It is the pnp device import's name.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<name>'
                         version:
                             description: It is the pnp device import's version.
                             returned: success,changed,always
@@ -2256,7 +2256,7 @@ data_0:
                             description: It is the pnp device import's tenantId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<tenantid>'
 
                 runSummaryList:
                     description: It is the pnp device import's runSummaryList.
@@ -2267,7 +2267,7 @@ data_0:
                             description: It is the pnp device import's details.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<details>'
                         historyTaskInfo:
                             description: It is the pnp device import's historyTaskInfo.
                             returned: success,changed,always
@@ -2277,7 +2277,7 @@ data_0:
                                     description: It is the pnp device import's type.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<type>'
                                 workItemList:
                                     description: It is the pnp device import's workItemList.
                                     returned: success,changed,always
@@ -2287,17 +2287,17 @@ data_0:
                                             description: It is the pnp device import's state.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<state>'
                                         command:
                                             description: It is the pnp device import's command.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<command>'
                                         outputStr:
                                             description: It is the pnp device import's outputStr.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<outputstr>'
                                         endTime:
                                             description: It is the pnp device import's endTime.
                                             returned: success,changed,always
@@ -2328,18 +2328,18 @@ data_0:
                                             description: It is the pnp device import's key.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<key>'
                                         value:
                                             description: It is the pnp device import's value.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<value>'
 
                                 name:
                                     description: It is the pnp device import's name.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<name>'
 
                         errorFlag:
                             description: It is the pnp device import's errorFlag.
@@ -2361,17 +2361,17 @@ data_0:
                             description: It is the pnp device import's topOfStackSerialNumber.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<topofstackserialnumber>'
                         licenseLevel:
                             description: It is the pnp device import's licenseLevel.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<licenselevel>'
                         licenseType:
                             description: It is the pnp device import's licenseType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<licensetype>'
                         configList:
                             description: It is the pnp device import's configList.
                             returned: success,changed,always
@@ -2386,18 +2386,18 @@ data_0:
                                             description: It is the pnp device import's key.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<key>'
                                         value:
                                             description: It is the pnp device import's value.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<value>'
 
                                 configId:
                                     description: It is the pnp device import's configId.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<configid>'
 
 
                 dayZeroConfig:
@@ -2409,7 +2409,7 @@ data_0:
                             description: It is the pnp device import's config.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<config>'
 
                 dayZeroConfigPreview:
                     description: It is the pnp device import's dayZeroConfigPreview.
@@ -2424,7 +2424,7 @@ data_0:
                     description: It is the pnp device import's tenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<tenantid>'
 
         failureList:
             description: Device's Failure List (list of objects).
@@ -2440,24 +2440,30 @@ data_0:
                     description: It is the pnp device import's serialNum.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<serialnum>'
                 id:
                     description: It is the pnp device import's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 msg:
                     description: It is the pnp device import's msg.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<msg>'
 
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.pnp_device_import import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.pnp_device_import import (
+    module_definition,
+)
 
 
 def main():
@@ -2468,11 +2474,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

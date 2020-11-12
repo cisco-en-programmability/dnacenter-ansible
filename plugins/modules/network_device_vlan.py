@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: network_device_vlan
 short_description: Manage NetworkDeviceVlan objects of Devices
@@ -42,12 +42,12 @@ seealso:
 - name: NetworkDeviceVlan reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Returns Device Interface VLANs.
     returned: success,changed,always
@@ -62,12 +62,12 @@ data_0:
                     description: It is the network device vlan's interfaceName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<interfacename>'
                 ipAddress:
                     description: It is the network device vlan's ipAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipaddress>'
                 mask:
                     description: It is the network device vlan's mask.
                     returned: success,changed,always
@@ -77,7 +77,7 @@ data_0:
                     description: It is the network device vlan's networkAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<networkaddress>'
                 numberOfIPs:
                     description: It is the network device vlan's numberOfIPs.
                     returned: success,changed,always
@@ -87,7 +87,7 @@ data_0:
                     description: It is the network device vlan's prefix.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<prefix>'
                 vlanNumber:
                     description: It is the network device vlan's vlanNumber.
                     returned: success,changed,always
@@ -97,19 +97,25 @@ data_0:
                     description: It is the network device vlan's vlanType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<vlantype>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_vlan import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_vlan import (
+    module_definition,
+)
 
 
 def main():
@@ -120,11 +126,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

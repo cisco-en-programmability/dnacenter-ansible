@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: events
 short_description: Manage Events objects of EventManagement
@@ -63,12 +63,12 @@ seealso:
 - name: Events reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Gets the list of registered Events with provided eventIds or tags as mandatory.
     returned: success,changed,always
@@ -78,47 +78,47 @@ data_0:
             description: It is the Events's eventId.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<eventid>'
         nameSpace:
             description: It is the Events's nameSpace.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<namespace>'
         name:
             description: It is the Events's name.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<name>'
         description:
             description: It is the Events's description.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<description>'
         version:
             description: It is the Events's version.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
         category:
             description: It is the Events's category.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<category>'
         domain:
             description: It is the Events's domain.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<domain>'
         subDomain:
             description: It is the Events's subDomain.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<subdomain>'
         type:
             description: It is the Events's type.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<type>'
         tags:
             description: It is the Events's tags.
             returned: success,changed,always
@@ -149,11 +149,17 @@ data_1:
             type: int
             sample: 0
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.events import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.events import (
+    module_definition,
+)
 
 
 def main():
@@ -164,11 +170,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

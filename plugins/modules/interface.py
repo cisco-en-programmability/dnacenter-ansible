@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: interface
 short_description: Manage Interface objects of Devices
@@ -94,12 +94,12 @@ seealso:
 - name: Interface reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Returns all available Interfaces. This endpoint can return a maximum of 500 Interfaces.
     returned: success,changed,always
@@ -114,158 +114,158 @@ data_0:
                     description: It is the Interface's adminStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<adminstatus>'
                 className:
                     description: It is the Interface's className.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<classname>'
                 description:
                     description: It is the Interface's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 deviceId:
                     description: It is the Interface's deviceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<deviceid>'
                 duplex:
                     description: It is the Interface's duplex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<duplex>'
                 id:
                     description: It is the Interface's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 ifIndex:
                     description: It is the Interface's ifIndex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ifindex>'
                 instanceTenantId:
                     description: It is the Interface's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 instanceUuid:
                     description: It is the Interface's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 interfaceType:
                     description: It is the Interface's InterfaceType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<interfacetype>'
                 ipv4Address:
                     description: It is the Interface's ipv4Address.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipv4address>'
                 ipv4Mask:
                     description: It is the Interface's ipv4Mask.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipv4mask>'
                 isisSupport:
                     description: It is the Interface's isisSupport.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<isissupport>'
                 lastUpdated:
                     description: It is the Interface's lastUpdated.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdated>'
                 macAddress:
                     description: It is the Interface's macAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<macaddress>'
                 mappedPhysicalInterfaceId:
                     description: It is the Interface's mappedPhysicalInterfaceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mappedphysicalinterfaceid>'
                 mappedPhysicalInterfaceName:
                     description: It is the Interface's mappedPhysicalInterfaceName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mappedphysicalinterfacename>'
                 mediaType:
                     description: It is the Interface's mediaType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mediatype>'
                 nativeVlanId:
                     description: It is the Interface's nativeVlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<nativevlanid>'
                 ospfSupport:
                     description: It is the Interface's ospfSupport.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ospfsupport>'
                 pid:
                     description: It is the Interface's pid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<pid>'
                 portMode:
                     description: It is the Interface's portMode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<portmode>'
                 portName:
                     description: It is the Interface's portName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<portname>'
                 portType:
                     description: It is the Interface's portType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<porttype>'
                 serialNo:
                     description: It is the Interface's serialNo.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<serialno>'
                 series:
                     description: It is the Interface's series.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<series>'
                 speed:
                     description: It is the Interface's speed.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<speed>'
                 status:
                     description: It is the Interface's status.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<status>'
                 vlanId:
                     description: It is the Interface's vlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<vlanid>'
                 voiceVlan:
                     description: It is the Interface's voiceVlan.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<voicevlan>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_1:
     description: Returns the Interface for the given Interface ID.
@@ -281,158 +281,158 @@ data_1:
                     description: It is the Interface's adminStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<adminstatus>'
                 className:
                     description: It is the Interface's className.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<classname>'
                 description:
                     description: It is the Interface's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 deviceId:
                     description: It is the Interface's deviceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<deviceid>'
                 duplex:
                     description: It is the Interface's duplex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<duplex>'
                 id:
                     description: It is the Interface's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 ifIndex:
                     description: It is the Interface's ifIndex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ifindex>'
                 instanceTenantId:
                     description: It is the Interface's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 instanceUuid:
                     description: It is the Interface's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 interfaceType:
                     description: It is the Interface's InterfaceType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<interfacetype>'
                 ipv4Address:
                     description: It is the Interface's ipv4Address.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipv4address>'
                 ipv4Mask:
                     description: It is the Interface's ipv4Mask.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipv4mask>'
                 isisSupport:
                     description: It is the Interface's isisSupport.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<isissupport>'
                 lastUpdated:
                     description: It is the Interface's lastUpdated.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdated>'
                 macAddress:
                     description: It is the Interface's macAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<macaddress>'
                 mappedPhysicalInterfaceId:
                     description: It is the Interface's mappedPhysicalInterfaceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mappedphysicalinterfaceid>'
                 mappedPhysicalInterfaceName:
                     description: It is the Interface's mappedPhysicalInterfaceName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mappedphysicalinterfacename>'
                 mediaType:
                     description: It is the Interface's mediaType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mediatype>'
                 nativeVlanId:
                     description: It is the Interface's nativeVlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<nativevlanid>'
                 ospfSupport:
                     description: It is the Interface's ospfSupport.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ospfsupport>'
                 pid:
                     description: It is the Interface's pid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<pid>'
                 portMode:
                     description: It is the Interface's portMode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<portmode>'
                 portName:
                     description: It is the Interface's portName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<portname>'
                 portType:
                     description: It is the Interface's portType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<porttype>'
                 serialNo:
                     description: It is the Interface's serialNo.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<serialno>'
                 series:
                     description: It is the Interface's series.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<series>'
                 speed:
                     description: It is the Interface's speed.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<speed>'
                 status:
                     description: It is the Interface's status.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<status>'
                 vlanId:
                     description: It is the Interface's vlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<vlanid>'
                 voiceVlan:
                     description: It is the Interface's voiceVlan.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<voicevlan>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_2:
     description: Returns the count of Interfaces for all devices.
@@ -448,7 +448,7 @@ data_2:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_3:
     description: Returns list of Interfaces by specified IP address.
@@ -464,158 +464,158 @@ data_3:
                     description: It is the Interface's adminStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<adminstatus>'
                 className:
                     description: It is the Interface's className.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<classname>'
                 description:
                     description: It is the Interface's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 deviceId:
                     description: It is the Interface's deviceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<deviceid>'
                 duplex:
                     description: It is the Interface's duplex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<duplex>'
                 id:
                     description: It is the Interface's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 ifIndex:
                     description: It is the Interface's ifIndex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ifindex>'
                 instanceTenantId:
                     description: It is the Interface's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 instanceUuid:
                     description: It is the Interface's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 interfaceType:
                     description: It is the Interface's InterfaceType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<interfacetype>'
                 ipv4Address:
                     description: It is the Interface's ipv4Address.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipv4address>'
                 ipv4Mask:
                     description: It is the Interface's ipv4Mask.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipv4mask>'
                 isisSupport:
                     description: It is the Interface's isisSupport.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<isissupport>'
                 lastUpdated:
                     description: It is the Interface's lastUpdated.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdated>'
                 macAddress:
                     description: It is the Interface's macAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<macaddress>'
                 mappedPhysicalInterfaceId:
                     description: It is the Interface's mappedPhysicalInterfaceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mappedphysicalinterfaceid>'
                 mappedPhysicalInterfaceName:
                     description: It is the Interface's mappedPhysicalInterfaceName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mappedphysicalinterfacename>'
                 mediaType:
                     description: It is the Interface's mediaType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mediatype>'
                 nativeVlanId:
                     description: It is the Interface's nativeVlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<nativevlanid>'
                 ospfSupport:
                     description: It is the Interface's ospfSupport.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ospfsupport>'
                 pid:
                     description: It is the Interface's pid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<pid>'
                 portMode:
                     description: It is the Interface's portMode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<portmode>'
                 portName:
                     description: It is the Interface's portName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<portname>'
                 portType:
                     description: It is the Interface's portType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<porttype>'
                 serialNo:
                     description: It is the Interface's serialNo.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<serialno>'
                 series:
                     description: It is the Interface's series.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<series>'
                 speed:
                     description: It is the Interface's speed.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<speed>'
                 status:
                     description: It is the Interface's status.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<status>'
                 vlanId:
                     description: It is the Interface's vlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<vlanid>'
                 voiceVlan:
                     description: It is the Interface's voiceVlan.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<voicevlan>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_4:
     description: Returns list of Interfaces by specified device.
@@ -631,158 +631,158 @@ data_4:
                     description: It is the Interface's adminStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<adminstatus>'
                 className:
                     description: It is the Interface's className.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<classname>'
                 description:
                     description: It is the Interface's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 deviceId:
                     description: It is the Interface's deviceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<deviceid>'
                 duplex:
                     description: It is the Interface's duplex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<duplex>'
                 id:
                     description: It is the Interface's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 ifIndex:
                     description: It is the Interface's ifIndex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ifindex>'
                 instanceTenantId:
                     description: It is the Interface's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 instanceUuid:
                     description: It is the Interface's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 interfaceType:
                     description: It is the Interface's InterfaceType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<interfacetype>'
                 ipv4Address:
                     description: It is the Interface's ipv4Address.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipv4address>'
                 ipv4Mask:
                     description: It is the Interface's ipv4Mask.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipv4mask>'
                 isisSupport:
                     description: It is the Interface's isisSupport.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<isissupport>'
                 lastUpdated:
                     description: It is the Interface's lastUpdated.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdated>'
                 macAddress:
                     description: It is the Interface's macAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<macaddress>'
                 mappedPhysicalInterfaceId:
                     description: It is the Interface's mappedPhysicalInterfaceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mappedphysicalinterfaceid>'
                 mappedPhysicalInterfaceName:
                     description: It is the Interface's mappedPhysicalInterfaceName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mappedphysicalinterfacename>'
                 mediaType:
                     description: It is the Interface's mediaType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mediatype>'
                 nativeVlanId:
                     description: It is the Interface's nativeVlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<nativevlanid>'
                 ospfSupport:
                     description: It is the Interface's ospfSupport.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ospfsupport>'
                 pid:
                     description: It is the Interface's pid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<pid>'
                 portMode:
                     description: It is the Interface's portMode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<portmode>'
                 portName:
                     description: It is the Interface's portName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<portname>'
                 portType:
                     description: It is the Interface's portType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<porttype>'
                 serialNo:
                     description: It is the Interface's serialNo.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<serialno>'
                 series:
                     description: It is the Interface's series.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<series>'
                 speed:
                     description: It is the Interface's speed.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<speed>'
                 status:
                     description: It is the Interface's status.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<status>'
                 vlanId:
                     description: It is the Interface's vlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<vlanid>'
                 voiceVlan:
                     description: It is the Interface's voiceVlan.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<voicevlan>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_5:
     description: Returns the list of Interfaces for the device for the specified range.
@@ -798,158 +798,158 @@ data_5:
                     description: It is the Interface's adminStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<adminstatus>'
                 className:
                     description: It is the Interface's className.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<classname>'
                 description:
                     description: It is the Interface's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 deviceId:
                     description: It is the Interface's deviceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<deviceid>'
                 duplex:
                     description: It is the Interface's duplex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<duplex>'
                 id:
                     description: It is the Interface's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 ifIndex:
                     description: It is the Interface's ifIndex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ifindex>'
                 instanceTenantId:
                     description: It is the Interface's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 instanceUuid:
                     description: It is the Interface's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 interfaceType:
                     description: It is the Interface's InterfaceType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<interfacetype>'
                 ipv4Address:
                     description: It is the Interface's ipv4Address.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipv4address>'
                 ipv4Mask:
                     description: It is the Interface's ipv4Mask.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipv4mask>'
                 isisSupport:
                     description: It is the Interface's isisSupport.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<isissupport>'
                 lastUpdated:
                     description: It is the Interface's lastUpdated.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdated>'
                 macAddress:
                     description: It is the Interface's macAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<macaddress>'
                 mappedPhysicalInterfaceId:
                     description: It is the Interface's mappedPhysicalInterfaceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mappedphysicalinterfaceid>'
                 mappedPhysicalInterfaceName:
                     description: It is the Interface's mappedPhysicalInterfaceName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mappedphysicalinterfacename>'
                 mediaType:
                     description: It is the Interface's mediaType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mediatype>'
                 nativeVlanId:
                     description: It is the Interface's nativeVlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<nativevlanid>'
                 ospfSupport:
                     description: It is the Interface's ospfSupport.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ospfsupport>'
                 pid:
                     description: It is the Interface's pid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<pid>'
                 portMode:
                     description: It is the Interface's portMode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<portmode>'
                 portName:
                     description: It is the Interface's portName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<portname>'
                 portType:
                     description: It is the Interface's portType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<porttype>'
                 serialNo:
                     description: It is the Interface's serialNo.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<serialno>'
                 series:
                     description: It is the Interface's series.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<series>'
                 speed:
                     description: It is the Interface's speed.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<speed>'
                 status:
                     description: It is the Interface's status.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<status>'
                 vlanId:
                     description: It is the Interface's vlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<vlanid>'
                 voiceVlan:
                     description: It is the Interface's voiceVlan.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<voicevlan>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_6:
     description: Returns the Interface count for the given device.
@@ -965,7 +965,7 @@ data_6:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_7:
     description: Returns Interface by specified device Id and Interface name.
@@ -981,158 +981,158 @@ data_7:
                     description: It is the Interface's adminStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<adminstatus>'
                 className:
                     description: It is the Interface's className.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<classname>'
                 description:
                     description: It is the Interface's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 deviceId:
                     description: It is the Interface's deviceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<deviceid>'
                 duplex:
                     description: It is the Interface's duplex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<duplex>'
                 id:
                     description: It is the Interface's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 ifIndex:
                     description: It is the Interface's ifIndex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ifindex>'
                 instanceTenantId:
                     description: It is the Interface's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 instanceUuid:
                     description: It is the Interface's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 interfaceType:
                     description: It is the Interface's InterfaceType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<interfacetype>'
                 ipv4Address:
                     description: It is the Interface's ipv4Address.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipv4address>'
                 ipv4Mask:
                     description: It is the Interface's ipv4Mask.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipv4mask>'
                 isisSupport:
                     description: It is the Interface's isisSupport.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<isissupport>'
                 lastUpdated:
                     description: It is the Interface's lastUpdated.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdated>'
                 macAddress:
                     description: It is the Interface's macAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<macaddress>'
                 mappedPhysicalInterfaceId:
                     description: It is the Interface's mappedPhysicalInterfaceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mappedphysicalinterfaceid>'
                 mappedPhysicalInterfaceName:
                     description: It is the Interface's mappedPhysicalInterfaceName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mappedphysicalinterfacename>'
                 mediaType:
                     description: It is the Interface's mediaType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mediatype>'
                 nativeVlanId:
                     description: It is the Interface's nativeVlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<nativevlanid>'
                 ospfSupport:
                     description: It is the Interface's ospfSupport.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ospfsupport>'
                 pid:
                     description: It is the Interface's pid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<pid>'
                 portMode:
                     description: It is the Interface's portMode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<portmode>'
                 portName:
                     description: It is the Interface's portName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<portname>'
                 portType:
                     description: It is the Interface's portType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<porttype>'
                 serialNo:
                     description: It is the Interface's serialNo.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<serialno>'
                 series:
                     description: It is the Interface's series.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<series>'
                 speed:
                     description: It is the Interface's speed.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<speed>'
                 status:
                     description: It is the Interface's status.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<status>'
                 vlanId:
                     description: It is the Interface's vlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<vlanid>'
                 voiceVlan:
                     description: It is the Interface's voiceVlan.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<voicevlan>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_8:
     description: Returns the Interfaces that has ISIS enabled.
@@ -1148,158 +1148,158 @@ data_8:
                     description: It is the Interface's adminStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<adminstatus>'
                 className:
                     description: It is the Interface's className.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<classname>'
                 description:
                     description: It is the Interface's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 deviceId:
                     description: It is the Interface's deviceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<deviceid>'
                 duplex:
                     description: It is the Interface's duplex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<duplex>'
                 id:
                     description: It is the Interface's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 ifIndex:
                     description: It is the Interface's ifIndex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ifindex>'
                 instanceTenantId:
                     description: It is the Interface's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 instanceUuid:
                     description: It is the Interface's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 interfaceType:
                     description: It is the Interface's InterfaceType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<interfacetype>'
                 ipv4Address:
                     description: It is the Interface's ipv4Address.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipv4address>'
                 ipv4Mask:
                     description: It is the Interface's ipv4Mask.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipv4mask>'
                 isisSupport:
                     description: It is the Interface's isisSupport.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<isissupport>'
                 lastUpdated:
                     description: It is the Interface's lastUpdated.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdated>'
                 macAddress:
                     description: It is the Interface's macAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<macaddress>'
                 mappedPhysicalInterfaceId:
                     description: It is the Interface's mappedPhysicalInterfaceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mappedphysicalinterfaceid>'
                 mappedPhysicalInterfaceName:
                     description: It is the Interface's mappedPhysicalInterfaceName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mappedphysicalinterfacename>'
                 mediaType:
                     description: It is the Interface's mediaType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mediatype>'
                 nativeVlanId:
                     description: It is the Interface's nativeVlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<nativevlanid>'
                 ospfSupport:
                     description: It is the Interface's ospfSupport.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ospfsupport>'
                 pid:
                     description: It is the Interface's pid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<pid>'
                 portMode:
                     description: It is the Interface's portMode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<portmode>'
                 portName:
                     description: It is the Interface's portName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<portname>'
                 portType:
                     description: It is the Interface's portType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<porttype>'
                 serialNo:
                     description: It is the Interface's serialNo.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<serialno>'
                 series:
                     description: It is the Interface's series.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<series>'
                 speed:
                     description: It is the Interface's speed.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<speed>'
                 status:
                     description: It is the Interface's status.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<status>'
                 vlanId:
                     description: It is the Interface's vlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<vlanid>'
                 voiceVlan:
                     description: It is the Interface's voiceVlan.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<voicevlan>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_9:
     description: Returns the Interfaces that has OSPF enabled.
@@ -1315,164 +1315,170 @@ data_9:
                     description: It is the Interface's adminStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<adminstatus>'
                 className:
                     description: It is the Interface's className.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<classname>'
                 description:
                     description: It is the Interface's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 deviceId:
                     description: It is the Interface's deviceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<deviceid>'
                 duplex:
                     description: It is the Interface's duplex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<duplex>'
                 id:
                     description: It is the Interface's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 ifIndex:
                     description: It is the Interface's ifIndex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ifindex>'
                 instanceTenantId:
                     description: It is the Interface's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 instanceUuid:
                     description: It is the Interface's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 interfaceType:
                     description: It is the Interface's InterfaceType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<interfacetype>'
                 ipv4Address:
                     description: It is the Interface's ipv4Address.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipv4address>'
                 ipv4Mask:
                     description: It is the Interface's ipv4Mask.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipv4mask>'
                 isisSupport:
                     description: It is the Interface's isisSupport.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<isissupport>'
                 lastUpdated:
                     description: It is the Interface's lastUpdated.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdated>'
                 macAddress:
                     description: It is the Interface's macAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<macaddress>'
                 mappedPhysicalInterfaceId:
                     description: It is the Interface's mappedPhysicalInterfaceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mappedphysicalinterfaceid>'
                 mappedPhysicalInterfaceName:
                     description: It is the Interface's mappedPhysicalInterfaceName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mappedphysicalinterfacename>'
                 mediaType:
                     description: It is the Interface's mediaType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<mediatype>'
                 nativeVlanId:
                     description: It is the Interface's nativeVlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<nativevlanid>'
                 ospfSupport:
                     description: It is the Interface's ospfSupport.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ospfsupport>'
                 pid:
                     description: It is the Interface's pid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<pid>'
                 portMode:
                     description: It is the Interface's portMode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<portmode>'
                 portName:
                     description: It is the Interface's portName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<portname>'
                 portType:
                     description: It is the Interface's portType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<porttype>'
                 serialNo:
                     description: It is the Interface's serialNo.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<serialno>'
                 series:
                     description: It is the Interface's series.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<series>'
                 speed:
                     description: It is the Interface's speed.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<speed>'
                 status:
                     description: It is the Interface's status.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<status>'
                 vlanId:
                     description: It is the Interface's vlanId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<vlanid>'
                 voiceVlan:
                     description: It is the Interface's voiceVlan.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<voicevlan>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.interface import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.interface import (
+    module_definition,
+)
 
 
 def main():
@@ -1483,11 +1489,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

@@ -1,6 +1,7 @@
 import json
 
-module_definition = json.loads('''{
+module_definition = json.loads(
+    """{
     "family": "sites",
     "name": "site",
     "operations": {
@@ -165,7 +166,6 @@ module_definition = json.loads('''{
                 "type": "string"
             },
             {
-                "artificial": true,
                 "name": "count",
                 "required": true,
                 "type": "boolean"
@@ -315,36 +315,39 @@ module_definition = json.loads('''{
             "type": "object"
         }
     }
-}''')
+}"""
+)
 
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ObjectExistenceCriteria
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ObjectExistenceCriteria,
+)
+
 
 class SiteExistenceCriteria(ObjectExistenceCriteria):
     def __init__(self, dnac):
         super(SiteExistenceCriteria, self).__init__(
-            dnac = dnac,
-            get_function = "get_site",
-            get_params = {},
-            list_field = "response"
+            dnac=dnac, get_function="get_site", get_params={}, list_field="response"
         )
         self.WARN_OBJECT_EXISTS = "Site already existed and was updated."
 
     def _object_is_equal(self, existing_object, candidate_params):
 
         if "site" in candidate_params.keys():
-          site = candidate_params.get("site")
-          if "area" in site.keys():
-            name = site.get("area").get("name")
-            parentName = site.get("area").get("parentName")
-          elif "building" in site.keys():
-            name = site.get("building").get("name")
-            parentName = site.get("building").get("parentName")
-          elif "floor" in site.keys():
-            name = site.get("floor").get("name")
-            parentName = site.get("floor").get("parentName")
-          else:
-            self.dnac.fail_json(msg="Missing 'area', 'building' or 'floor' param.")
-          return existing_object["siteNameHierarchy"] == "{}/{}".format(parentName, name)
+            site = candidate_params.get("site")
+            if "area" in site.keys():
+                name = site.get("area").get("name")
+                parentName = site.get("area").get("parentName")
+            elif "building" in site.keys():
+                name = site.get("building").get("name")
+                parentName = site.get("building").get("parentName")
+            elif "floor" in site.keys():
+                name = site.get("floor").get("name")
+                parentName = site.get("floor").get("parentName")
+            else:
+                self.dnac.fail_json(msg="Missing 'area', 'building' or 'floor' param.")
+            return existing_object["siteNameHierarchy"] == "{}/{}".format(
+                parentName, name
+            )
         else:
             self.dnac.fail_json(msg="Missing 'site' param.")
 

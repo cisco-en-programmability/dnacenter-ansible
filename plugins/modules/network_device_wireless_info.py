@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: network_device_wireless_info
 short_description: Manage NetworkDeviceWirelessInfo objects of Devices
@@ -38,12 +38,12 @@ seealso:
 - name: NetworkDeviceWirelessInfo reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Returns the wireless lan controller info with given device ID.
     returned: success,changed,always
@@ -62,37 +62,37 @@ data_0:
                     description: It is the network device wireless info's apGroupName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<apgroupname>'
                 deviceId:
                     description: It is the network device wireless info's deviceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<deviceid>'
                 ethMacAddress:
                     description: It is the network device wireless info's ethMacAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ethmacaddress>'
                 flexGroupName:
                     description: It is the network device wireless info's flexGroupName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<flexgroupname>'
                 id:
                     description: It is the network device wireless info's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 instanceTenantId:
                     description: It is the network device wireless info's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 instanceUuid:
                     description: It is the network device wireless info's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 lagModeEnabled:
                     description: It is the network device wireless info's lagModeEnabled.
                     returned: success,changed,always
@@ -107,7 +107,7 @@ data_0:
                     description: It is the network device wireless info's wirelessLicenseInfo.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<wirelesslicenseinfo>'
                 wirelessPackageInstalled:
                     description: It is the network device wireless info's wirelessPackageInstalled.
                     returned: success,changed,always
@@ -118,13 +118,19 @@ data_0:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_wireless_info import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_wireless_info import (
+    module_definition,
+)
 
 
 def main():
@@ -135,11 +141,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

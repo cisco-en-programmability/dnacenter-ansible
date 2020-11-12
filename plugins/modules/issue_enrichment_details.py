@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: issue_enrichment_details
 short_description: Manage IssueEnrichmentDetails objects of Issues
@@ -38,12 +38,12 @@ seealso:
 - name: IssueEnrichmentDetails reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Enriches a given network issue context (an issue id or end user’s Mac Address) with details about the issue(s), impacted hosts and suggested actions for remediation.
     returned: success,changed,always
@@ -63,52 +63,52 @@ data_0:
                             description: It is the issue enrichment details's issueId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issueid>'
                         issueSource:
                             description: It is the issue enrichment details's issueSource.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issuesource>'
                         issueCategory:
                             description: It is the issue enrichment details's issueCategory.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issuecategory>'
                         issueName:
                             description: It is the issue enrichment details's issueName.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issuename>'
                         issueDescription:
                             description: It is the issue enrichment details's issueDescription.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issuedescription>'
                         issueEntity:
                             description: It is the issue enrichment details's issueEntity.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issueentity>'
                         issueEntityValue:
                             description: It is the issue enrichment details's issueEntityValue.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issueentityvalue>'
                         issueSeverity:
                             description: It is the issue enrichment details's issueSeverity.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issueseverity>'
                         issuePriority:
                             description: It is the issue enrichment details's issuePriority.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issuepriority>'
                         issueSummary:
                             description: It is the issue enrichment details's issueSummary.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<issuesummary>'
                         issueTimestamp:
                             description: It is the issue enrichment details's issueTimestamp.
                             returned: success,changed,always
@@ -123,7 +123,7 @@ data_0:
                                     description: It is the issue enrichment details's message.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<message>'
                                 steps:
                                     description: It is the issue enrichment details's steps.
                                     returned: success,changed,always
@@ -136,11 +136,17 @@ data_0:
 
 
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.issue_enrichment_details import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.issue_enrichment_details import (
+    module_definition,
+)
 
 
 def main():
@@ -151,11 +157,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

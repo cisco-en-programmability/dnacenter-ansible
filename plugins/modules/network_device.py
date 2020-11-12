@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: network_device
 short_description: Manage NetworkDevice objects of Devices
@@ -327,12 +327,12 @@ seealso:
 - name: NetworkDevice reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, location name and a wide variety of additional criteria. You can also use the asterisk in any value to conduct a wildcard search. For example, to find all hostnames beginning with myhost in the IP address range 192.25.18.n, issue the following request: GET fqdnoripofdnacenterplatform/dna/intent/api/v1/network-device? hostname=myhost* & managementIpAddress=192.25.18.* For a complete list of parameter names that you can use for filtering this request, see the DNA Center API Reference documentation. Note: If id parameter is provided, it will return the list of network-devices for the given ids and ignores the other request parameters.
     returned: success,changed,always
@@ -347,203 +347,203 @@ data_0:
                     description: It is the network device's apManagerInterfaceIp.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<apmanagerinterfaceip>'
                 associatedWlcIp:
                     description: It is the network device's associatedWlcIp.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<associatedwlcip>'
                 bootDateTime:
                     description: It is the network device's bootDateTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<bootdatetime>'
                 collectionInterval:
                     description: It is the network device's collectionInterval.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<collectioninterval>'
                 collectionStatus:
                     description: It is the network device's collectionStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<collectionstatus>'
                 errorCode:
                     description: It is the network device's errorCode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errorcode>'
                 errorDescription:
                     description: It is the network device's errorDescription.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errordescription>'
                 family:
                     description: It is the network device's family.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<family>'
                 hostname:
                     description: It is the network device's hostname.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<hostname>'
                 id:
                     description: It is the network device's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 instanceTenantId:
                     description: It is the network device's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 instanceUuid:
                     description: It is the network device's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 interfaceCount:
                     description: It is the network device's interfaceCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<interfacecount>'
                 inventoryStatusDetail:
                     description: It is the network device's inventoryStatusDetail.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<inventorystatusdetail>'
                 lastUpdateTime:
                     description: It is the network device's lastUpdateTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdatetime>'
                 lastUpdated:
                     description: It is the network device's lastUpdated.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdated>'
                 lineCardCount:
                     description: It is the network device's lineCardCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<linecardcount>'
                 lineCardId:
                     description: It is the network device's lineCardId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<linecardid>'
                 location:
                     description: It is the network device's location.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<location>'
                 locationName:
                     description: It is the network device's locationName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<locationname>'
                 macAddress:
                     description: It is the network device's macAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<macaddress>'
                 managementIpAddress:
                     description: It is the network device's managementIpAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<managementipaddress>'
                 memorySize:
                     description: It is the network device's memorySize.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<memorysize>'
                 platformId:
                     description: It is the network device's platformId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<platformid>'
                 reachabilityFailureReason:
                     description: It is the network device's reachabilityFailureReason.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<reachabilityfailurereason>'
                 reachabilityStatus:
                     description: It is the network device's reachabilityStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<reachabilitystatus>'
                 role:
                     description: It is the network device's role.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<role>'
                 roleSource:
                     description: It is the network device's roleSource.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<rolesource>'
                 serialNumber:
                     description: It is the network device's serialNumber.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<serialnumber>'
                 series:
                     description: It is the network device's series.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<series>'
                 snmpContact:
                     description: It is the network device's snmpContact.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpcontact>'
                 snmpLocation:
                     description: It is the network device's snmpLocation.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmplocation>'
                 softwareType:
                     description: It is the network device's softwareType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<softwaretype>'
                 softwareVersion:
                     description: It is the network device's softwareVersion.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<softwareversion>'
                 tagCount:
                     description: It is the network device's tagCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<tagcount>'
                 tunnelUdpPort:
                     description: It is the network device's tunnelUdpPort.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<tunneludpport>'
                 type:
                     description: It is the network device's type.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<type>'
                 upTime:
                     description: It is the network device's upTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<uptime>'
                 waasDeviceMode:
                     description: It is the network device's waasDeviceMode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<waasdevicemode>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_1:
     description: Adds the device with given credential.
@@ -563,13 +563,13 @@ data_1:
                     description: It is the network device's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: InventoryDeviceInfo's version.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_2:
     description: Sync the devices provided as input.
@@ -589,13 +589,13 @@ data_2:
                     description: It is the network device's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: InventoryDeviceInfo's version.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_3:
     description: Deletes the network device for the given Id.
@@ -615,13 +615,13 @@ data_3:
                     description: It is the network device's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_4:
     description: Returns the network device details for the given device ID.
@@ -637,203 +637,203 @@ data_4:
                     description: It is the network device's apManagerInterfaceIp.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<apmanagerinterfaceip>'
                 associatedWlcIp:
                     description: It is the network device's associatedWlcIp.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<associatedwlcip>'
                 bootDateTime:
                     description: It is the network device's bootDateTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<bootdatetime>'
                 collectionInterval:
                     description: It is the network device's collectionInterval.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<collectioninterval>'
                 collectionStatus:
                     description: It is the network device's collectionStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<collectionstatus>'
                 errorCode:
                     description: It is the network device's errorCode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errorcode>'
                 errorDescription:
                     description: It is the network device's errorDescription.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errordescription>'
                 family:
                     description: It is the network device's family.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<family>'
                 hostname:
                     description: It is the network device's hostname.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<hostname>'
                 id:
                     description: It is the network device's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 instanceTenantId:
                     description: It is the network device's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 instanceUuid:
                     description: It is the network device's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 interfaceCount:
                     description: It is the network device's interfaceCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<interfacecount>'
                 inventoryStatusDetail:
                     description: It is the network device's inventoryStatusDetail.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<inventorystatusdetail>'
                 lastUpdateTime:
                     description: It is the network device's lastUpdateTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdatetime>'
                 lastUpdated:
                     description: It is the network device's lastUpdated.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdated>'
                 lineCardCount:
                     description: It is the network device's lineCardCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<linecardcount>'
                 lineCardId:
                     description: It is the network device's lineCardId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<linecardid>'
                 location:
                     description: It is the network device's location.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<location>'
                 locationName:
                     description: It is the network device's locationName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<locationname>'
                 macAddress:
                     description: It is the network device's macAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<macaddress>'
                 managementIpAddress:
                     description: It is the network device's managementIpAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<managementipaddress>'
                 memorySize:
                     description: It is the network device's memorySize.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<memorysize>'
                 platformId:
                     description: It is the network device's platformId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<platformid>'
                 reachabilityFailureReason:
                     description: It is the network device's reachabilityFailureReason.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<reachabilityfailurereason>'
                 reachabilityStatus:
                     description: It is the network device's reachabilityStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<reachabilitystatus>'
                 role:
                     description: It is the network device's role.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<role>'
                 roleSource:
                     description: It is the network device's roleSource.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<rolesource>'
                 serialNumber:
                     description: It is the network device's serialNumber.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<serialnumber>'
                 series:
                     description: It is the network device's series.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<series>'
                 snmpContact:
                     description: It is the network device's snmpContact.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpcontact>'
                 snmpLocation:
                     description: It is the network device's snmpLocation.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmplocation>'
                 softwareType:
                     description: It is the network device's softwareType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<softwaretype>'
                 softwareVersion:
                     description: It is the network device's softwareVersion.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<softwareversion>'
                 tagCount:
                     description: It is the network device's tagCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<tagcount>'
                 tunnelUdpPort:
                     description: It is the network device's tunnelUdpPort.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<tunneludpport>'
                 type:
                     description: It is the network device's type.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<type>'
                 upTime:
                     description: It is the network device's upTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<uptime>'
                 waasDeviceMode:
                     description: It is the network device's waasDeviceMode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<waasdevicemode>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_5:
     description: Returns brief summary of device info such as hostname, management IP address for the given device Id.
@@ -849,23 +849,23 @@ data_5:
                     description: It is the network device's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 role:
                     description: It is the network device's role.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<role>'
                 roleSource:
                     description: It is the network device's roleSource.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<rolesource>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_6:
     description: Returns the list of network devices for the given pagination range.
@@ -881,203 +881,203 @@ data_6:
                     description: It is the network device's apManagerInterfaceIp.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<apmanagerinterfaceip>'
                 associatedWlcIp:
                     description: It is the network device's associatedWlcIp.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<associatedwlcip>'
                 bootDateTime:
                     description: It is the network device's bootDateTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<bootdatetime>'
                 collectionInterval:
                     description: It is the network device's collectionInterval.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<collectioninterval>'
                 collectionStatus:
                     description: It is the network device's collectionStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<collectionstatus>'
                 errorCode:
                     description: It is the network device's errorCode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errorcode>'
                 errorDescription:
                     description: It is the network device's errorDescription.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errordescription>'
                 family:
                     description: It is the network device's family.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<family>'
                 hostname:
                     description: It is the network device's hostname.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<hostname>'
                 id:
                     description: It is the network device's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 instanceTenantId:
                     description: It is the network device's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 instanceUuid:
                     description: It is the network device's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 interfaceCount:
                     description: It is the network device's interfaceCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<interfacecount>'
                 inventoryStatusDetail:
                     description: It is the network device's inventoryStatusDetail.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<inventorystatusdetail>'
                 lastUpdateTime:
                     description: It is the network device's lastUpdateTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdatetime>'
                 lastUpdated:
                     description: It is the network device's lastUpdated.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdated>'
                 lineCardCount:
                     description: It is the network device's lineCardCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<linecardcount>'
                 lineCardId:
                     description: It is the network device's lineCardId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<linecardid>'
                 location:
                     description: It is the network device's location.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<location>'
                 locationName:
                     description: It is the network device's locationName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<locationname>'
                 macAddress:
                     description: It is the network device's macAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<macaddress>'
                 managementIpAddress:
                     description: It is the network device's managementIpAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<managementipaddress>'
                 memorySize:
                     description: It is the network device's memorySize.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<memorysize>'
                 platformId:
                     description: It is the network device's platformId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<platformid>'
                 reachabilityFailureReason:
                     description: It is the network device's reachabilityFailureReason.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<reachabilityfailurereason>'
                 reachabilityStatus:
                     description: It is the network device's reachabilityStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<reachabilitystatus>'
                 role:
                     description: It is the network device's role.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<role>'
                 roleSource:
                     description: It is the network device's roleSource.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<rolesource>'
                 serialNumber:
                     description: It is the network device's serialNumber.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<serialnumber>'
                 series:
                     description: It is the network device's series.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<series>'
                 snmpContact:
                     description: It is the network device's snmpContact.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpcontact>'
                 snmpLocation:
                     description: It is the network device's snmpLocation.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmplocation>'
                 softwareType:
                     description: It is the network device's softwareType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<softwaretype>'
                 softwareVersion:
                     description: It is the network device's softwareVersion.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<softwareversion>'
                 tagCount:
                     description: It is the network device's tagCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<tagcount>'
                 tunnelUdpPort:
                     description: It is the network device's tunnelUdpPort.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<tunneludpport>'
                 type:
                     description: It is the network device's type.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<type>'
                 upTime:
                     description: It is the network device's upTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<uptime>'
                 waasDeviceMode:
                     description: It is the network device's waasDeviceMode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<waasdevicemode>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_7:
     description: Returns the count of network devices based on the filter criteria by management IP address, mac address, hostname and location name.
@@ -1093,7 +1093,7 @@ data_7:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_8:
     description: Returns the network device by specified IP address.
@@ -1109,203 +1109,203 @@ data_8:
                     description: It is the network device's apManagerInterfaceIp.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<apmanagerinterfaceip>'
                 associatedWlcIp:
                     description: It is the network device's associatedWlcIp.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<associatedwlcip>'
                 bootDateTime:
                     description: It is the network device's bootDateTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<bootdatetime>'
                 collectionInterval:
                     description: It is the network device's collectionInterval.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<collectioninterval>'
                 collectionStatus:
                     description: It is the network device's collectionStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<collectionstatus>'
                 errorCode:
                     description: It is the network device's errorCode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errorcode>'
                 errorDescription:
                     description: It is the network device's errorDescription.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errordescription>'
                 family:
                     description: It is the network device's family.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<family>'
                 hostname:
                     description: It is the network device's hostname.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<hostname>'
                 id:
                     description: It is the network device's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 instanceTenantId:
                     description: It is the network device's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 instanceUuid:
                     description: It is the network device's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 interfaceCount:
                     description: It is the network device's interfaceCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<interfacecount>'
                 inventoryStatusDetail:
                     description: It is the network device's inventoryStatusDetail.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<inventorystatusdetail>'
                 lastUpdateTime:
                     description: It is the network device's lastUpdateTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdatetime>'
                 lastUpdated:
                     description: It is the network device's lastUpdated.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdated>'
                 lineCardCount:
                     description: It is the network device's lineCardCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<linecardcount>'
                 lineCardId:
                     description: It is the network device's lineCardId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<linecardid>'
                 location:
                     description: It is the network device's location.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<location>'
                 locationName:
                     description: It is the network device's locationName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<locationname>'
                 macAddress:
                     description: It is the network device's macAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<macaddress>'
                 managementIpAddress:
                     description: It is the network device's managementIpAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<managementipaddress>'
                 memorySize:
                     description: It is the network device's memorySize.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<memorysize>'
                 platformId:
                     description: It is the network device's platformId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<platformid>'
                 reachabilityFailureReason:
                     description: It is the network device's reachabilityFailureReason.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<reachabilityfailurereason>'
                 reachabilityStatus:
                     description: It is the network device's reachabilityStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<reachabilitystatus>'
                 role:
                     description: It is the network device's role.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<role>'
                 roleSource:
                     description: It is the network device's roleSource.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<rolesource>'
                 serialNumber:
                     description: It is the network device's serialNumber.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<serialnumber>'
                 series:
                     description: It is the network device's series.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<series>'
                 snmpContact:
                     description: It is the network device's snmpContact.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpcontact>'
                 snmpLocation:
                     description: It is the network device's snmpLocation.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmplocation>'
                 softwareType:
                     description: It is the network device's softwareType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<softwaretype>'
                 softwareVersion:
                     description: It is the network device's softwareVersion.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<softwareversion>'
                 tagCount:
                     description: It is the network device's tagCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<tagcount>'
                 tunnelUdpPort:
                     description: It is the network device's tunnelUdpPort.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<tunneludpport>'
                 type:
                     description: It is the network device's type.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<type>'
                 upTime:
                     description: It is the network device's upTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<uptime>'
                 waasDeviceMode:
                     description: It is the network device's waasDeviceMode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<waasdevicemode>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_9:
     description: Returns the network device with given serial number.
@@ -1321,209 +1321,215 @@ data_9:
                     description: It is the network device's apManagerInterfaceIp.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<apmanagerinterfaceip>'
                 associatedWlcIp:
                     description: It is the network device's associatedWlcIp.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<associatedwlcip>'
                 bootDateTime:
                     description: It is the network device's bootDateTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<bootdatetime>'
                 collectionInterval:
                     description: It is the network device's collectionInterval.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<collectioninterval>'
                 collectionStatus:
                     description: It is the network device's collectionStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<collectionstatus>'
                 errorCode:
                     description: It is the network device's errorCode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errorcode>'
                 errorDescription:
                     description: It is the network device's errorDescription.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<errordescription>'
                 family:
                     description: It is the network device's family.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<family>'
                 hostname:
                     description: It is the network device's hostname.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<hostname>'
                 id:
                     description: It is the network device's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 instanceTenantId:
                     description: It is the network device's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 instanceUuid:
                     description: It is the network device's instanceUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instanceuuid>'
                 interfaceCount:
                     description: It is the network device's interfaceCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<interfacecount>'
                 inventoryStatusDetail:
                     description: It is the network device's inventoryStatusDetail.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<inventorystatusdetail>'
                 lastUpdateTime:
                     description: It is the network device's lastUpdateTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdatetime>'
                 lastUpdated:
                     description: It is the network device's lastUpdated.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdated>'
                 lineCardCount:
                     description: It is the network device's lineCardCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<linecardcount>'
                 lineCardId:
                     description: It is the network device's lineCardId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<linecardid>'
                 location:
                     description: It is the network device's location.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<location>'
                 locationName:
                     description: It is the network device's locationName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<locationname>'
                 macAddress:
                     description: It is the network device's macAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<macaddress>'
                 managementIpAddress:
                     description: It is the network device's managementIpAddress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<managementipaddress>'
                 memorySize:
                     description: It is the network device's memorySize.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<memorysize>'
                 platformId:
                     description: It is the network device's platformId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<platformid>'
                 reachabilityFailureReason:
                     description: It is the network device's reachabilityFailureReason.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<reachabilityfailurereason>'
                 reachabilityStatus:
                     description: It is the network device's reachabilityStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<reachabilitystatus>'
                 role:
                     description: It is the network device's role.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<role>'
                 roleSource:
                     description: It is the network device's roleSource.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<rolesource>'
                 serialNumber:
                     description: It is the network device's serialNumber.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<serialnumber>'
                 series:
                     description: It is the network device's series.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<series>'
                 snmpContact:
                     description: It is the network device's snmpContact.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpcontact>'
                 snmpLocation:
                     description: It is the network device's snmpLocation.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmplocation>'
                 softwareType:
                     description: It is the network device's softwareType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<softwaretype>'
                 softwareVersion:
                     description: It is the network device's softwareVersion.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<softwareversion>'
                 tagCount:
                     description: It is the network device's tagCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<tagcount>'
                 tunnelUdpPort:
                     description: It is the network device's tunnelUdpPort.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<tunneludpport>'
                 type:
                     description: It is the network device's type.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<type>'
                 upTime:
                     description: It is the network device's upTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<uptime>'
                 waasDeviceMode:
                     description: It is the network device's waasDeviceMode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<waasdevicemode>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device import (
+    module_definition,
+)
 
 
 def main():
@@ -1534,11 +1540,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

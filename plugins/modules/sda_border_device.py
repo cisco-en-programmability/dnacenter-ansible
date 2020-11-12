@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: sda_border_device
 short_description: Manage SdaBorderDevice objects of Sda
@@ -107,12 +107,12 @@ seealso:
 - name: SdaBorderDevice reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Gets border device detail from SDA Fabric.
     returned: success,changed,always
@@ -122,12 +122,12 @@ data_0:
             description: Status, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<status>'
         description:
             description: Description, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<description>'
         payload:
             description: Payload, property of the response body.
             returned: success,changed,always
@@ -137,7 +137,7 @@ data_0:
                     description: It is the sda border device's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 instanceId:
                     description: It is the sda border device's instanceId.
                     returned: success,changed,always
@@ -152,7 +152,7 @@ data_0:
                     description: It is the sda border device's displayName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<displayname>'
                 authEntityClass:
                     description: It is the sda border device's authEntityClass.
                     returned: success,changed,always
@@ -162,12 +162,12 @@ data_0:
                     description: It is the sda border device's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 deployPending:
                     description: It is the sda border device's deployPending.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<deploypending>'
                 instanceVersion:
                     description: It is the sda border device's instanceVersion.
                     returned: success,changed,always
@@ -202,17 +202,17 @@ data_0:
                     description: It is the sda border device's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
                 namespace:
                     description: It is the sda border device's namespace.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<namespace>'
                 provisioningState:
                     description: It is the sda border device's provisioningState.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<provisioningstate>'
                 resourceVersion:
                     description: It is the sda border device's resourceVersion.
                     returned: success,changed,always
@@ -226,7 +226,7 @@ data_0:
                     description: It is the sda border device's type.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<type>'
                 cfsChangeInfo:
                     description: It is the sda border device's cfsChangeInfo.
                     returned: success,changed,always
@@ -247,7 +247,7 @@ data_0:
                     description: It is the sda border device's networkDeviceId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<networkdeviceid>'
                 roles:
                     description: It is the sda border device's roles.
                     returned: success,changed,always
@@ -261,7 +261,7 @@ data_0:
                     description: It is the sda border device's siteId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<siteid>'
                 akcSettingsCfs:
                     description: It is the sda border device's akcSettingsCfs.
                     returned: success,changed,always
@@ -279,7 +279,7 @@ data_0:
                             description: It is the sda border device's id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '478012'
                         instanceId:
                             description: It is the sda border device's instanceId.
                             returned: success,changed,always
@@ -289,17 +289,17 @@ data_0:
                             description: It is the sda border device's displayName.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<displayname>'
                         instanceTenantId:
                             description: It is the sda border device's instanceTenantId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<instancetenantid>'
                         deployPending:
                             description: It is the sda border device's deployPending.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<deploypending>'
                         instanceVersion:
                             description: It is the sda border device's instanceVersion.
                             returned: success,changed,always
@@ -323,17 +323,17 @@ data_0:
                             description: It is the sda border device's externalConnectivityIpPool.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<externalconnectivityippool>'
                         externalDomainRoutingProtocol:
                             description: It is the sda border device's externalDomainRoutingProtocol.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<externaldomainroutingprotocol>'
                         internalDomainProtocolNumber:
                             description: It is the sda border device's internalDomainProtocolNumber.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<internaldomainprotocolnumber>'
                         memory:
                             description: It is the sda border device's memory.
                             returned: success,changed,always
@@ -357,7 +357,7 @@ data_0:
                                     description: It is the sda border device's id.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '478012'
                                 instanceId:
                                     description: It is the sda border device's instanceId.
                                     returned: success,changed,always
@@ -367,17 +367,17 @@ data_0:
                                     description: It is the sda border device's displayName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<displayname>'
                                 instanceTenantId:
                                     description: It is the sda border device's instanceTenantId.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<instancetenantid>'
                                 deployPending:
                                     description: It is the sda border device's deployPending.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<deploypending>'
                                 instanceVersion:
                                     description: It is the sda border device's instanceVersion.
                                     returned: success,changed,always
@@ -387,12 +387,12 @@ data_0:
                                     description: It is the sda border device's externalDomainProtocolNumber.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<externaldomainprotocolnumber>'
                                 interfaceUuid:
                                     description: It is the sda border device's interfaceUuid.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<interfaceuuid>'
                                 policyPropagationEnabled:
                                     description: It is the sda border device's policyPropagationEnabled.
                                     returned: success,changed,always
@@ -416,7 +416,7 @@ data_0:
                                             description: It is the sda border device's id.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '478012'
                                         instanceId:
                                             description: It is the sda border device's instanceId.
                                             returned: success,changed,always
@@ -426,17 +426,17 @@ data_0:
                                             description: It is the sda border device's displayName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<displayname>'
                                         instanceTenantId:
                                             description: It is the sda border device's instanceTenantId.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<instancetenantid>'
                                         deployPending:
                                             description: It is the sda border device's deployPending.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<deploypending>'
                                         instanceVersion:
                                             description: It is the sda border device's instanceVersion.
                                             returned: success,changed,always
@@ -446,12 +446,12 @@ data_0:
                                             description: It is the sda border device's localIpAddress.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<localipaddress>'
                                         remoteIpAddress:
                                             description: It is the sda border device's remoteIpAddress.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<remoteipaddress>'
                                         vlanId:
                                             description: It is the sda border device's vlanId.
                                             returned: success,changed,always
@@ -466,7 +466,7 @@ data_0:
                                                     description: It is the sda border device's idRef.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<idref>'
 
 
 
@@ -480,7 +480,7 @@ data_0:
                             description: It is the sda border device's id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '478012'
                         instanceId:
                             description: It is the sda border device's instanceId.
                             returned: success,changed,always
@@ -490,17 +490,17 @@ data_0:
                             description: It is the sda border device's displayName.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<displayname>'
                         instanceTenantId:
                             description: It is the sda border device's instanceTenantId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<instancetenantid>'
                         deployPending:
                             description: It is the sda border device's deployPending.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<deploypending>'
                         instanceVersion:
                             description: It is the sda border device's instanceVersion.
                             returned: success,changed,always
@@ -523,7 +523,7 @@ data_0:
                                     description: It is the sda border device's id.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '478012'
                                 ipAddress:
                                     description: It is the sda border device's ipAddress.
                                     returned: success,changed,always
@@ -533,22 +533,22 @@ data_0:
                                             description: It is the sda border device's id.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '478012'
                                         paddedAddress:
                                             description: It is the sda border device's paddedAddress.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<paddedaddress>'
                                         addressType:
                                             description: It is the sda border device's addressType.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<addresstype>'
                                         address:
                                             description: It is the sda border device's address.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<address>'
 
 
                         dns:
@@ -560,12 +560,12 @@ data_0:
                                     description: It is the sda border device's id.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '478012'
                                 domainName:
                                     description: It is the sda border device's domainName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<domainname>'
                                 ip:
                                     description: It is the sda border device's ip.
                                     returned: success,changed,always
@@ -575,22 +575,22 @@ data_0:
                                             description: It is the sda border device's id.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '478012'
                                         paddedAddress:
                                             description: It is the sda border device's paddedAddress.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<paddedaddress>'
                                         addressType:
                                             description: It is the sda border device's addressType.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<addresstype>'
                                         address:
                                             description: It is the sda border device's address.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<address>'
 
 
                         ldap:
@@ -631,7 +631,7 @@ data_0:
                             description: It is the sda border device's idRef.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<idref>'
 
                 virtualNetwork:
                     description: It is the sda border device's virtualNetwork.
@@ -652,17 +652,17 @@ data_1:
             description: Status, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<status>'
         description:
             description: Description, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<description>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
 
 data_2:
     description: Adds border device in SDA Fabric.
@@ -673,23 +673,29 @@ data_2:
             description: Status, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<status>'
         description:
             description: Description, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<description>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.sda_border_device import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.sda_border_device import (
+    module_definition,
+)
 
 
 def main():
@@ -700,11 +706,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

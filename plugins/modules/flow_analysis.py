@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: flow_analysis
 short_description: Manage FlowAnalysis objects of PathTrace
@@ -131,12 +131,12 @@ seealso:
 - name: FlowAnalysis reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Returns a summary of all flow analyses stored. Results can be filtered by specified parameters.
     returned: success,changed,always
@@ -161,22 +161,22 @@ data_0:
                     description: It is the flow analysis's destIP.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<destip>'
                 destPort:
                     description: It is the flow analysis's destPort.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<destport>'
                 failureReason:
                     description: It is the flow analysis's failureReason.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<failurereason>'
                 id:
                     description: It is the flow analysis's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 inclusions:
                     description: It is the flow analysis's inclusions.
                     returned: success,changed,always
@@ -195,28 +195,28 @@ data_0:
                     description: It is the flow analysis's protocol.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<protocol>'
                 sourceIP:
                     description: It is the flow analysis's sourceIP.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<sourceip>'
                 sourcePort:
                     description: It is the flow analysis's sourcePort.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<sourceport>'
                 status:
                     description: It is the flow analysis's status.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<status>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_1:
     description: Initiates a new flow analysis with periodic refresh and stat collection options. Returns a request id and a task id to get results and follow progress.
@@ -232,23 +232,23 @@ data_1:
                     description: It is the flow analysis's flowAnalysisId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<flowanalysisid>'
                 taskId:
                     description: It is the flow analysis's taskId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: 'aeed229047801200e0ef563dbb9a71c2'
                 url:
                     description: It is the flow analysis's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: FlowAnalysisRequest's version.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_2:
     description: Returns result of a previously requested flow analysis by its Flow Analysis id.
@@ -269,18 +269,18 @@ data_2:
                             description: It is the flow analysis's aclTraceCalculation.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<acltracecalculation>'
                         aclTraceCalculationFailureReason:
                             description: It is the flow analysis's aclTraceCalculationFailureReason.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<acltracecalculationfailurereason>'
 
                 lastUpdate:
                     description: It is the flow analysis's lastUpdate.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdate>'
                 networkElements:
                     description: It is the flow analysis's networkElements.
                     returned: success,changed,always
@@ -300,7 +300,7 @@ data_2:
                                     description: It is the flow analysis's reason.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<reason>'
 
                         detailedStatus:
                             description: It is the flow analysis's detailedStatus.
@@ -311,12 +311,12 @@ data_2:
                                     description: It is the flow analysis's aclTraceCalculation.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<acltracecalculation>'
                                 aclTraceCalculationFailureReason:
                                     description: It is the flow analysis's aclTraceCalculationFailureReason.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<acltracecalculationfailurereason>'
 
                         deviceStatistics:
                             description: It is the flow analysis's deviceStatistics.
@@ -375,12 +375,12 @@ data_2:
                             description: It is the flow analysis's deviceStatsCollection.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<devicestatscollection>'
                         deviceStatsCollectionFailureReason:
                             description: It is the flow analysis's deviceStatsCollectionFailureReason.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<devicestatscollectionfailurereason>'
                         egressPhysicalInterface:
                             description: It is the flow analysis's egressPhysicalInterface.
                             returned: success,changed,always
@@ -395,7 +395,7 @@ data_2:
                                             description: It is the flow analysis's aclName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<aclname>'
                                         matchingAces:
                                             description: It is the flow analysis's matchingAces.
                                             returned: success,changed,always
@@ -405,7 +405,7 @@ data_2:
                                                     description: It is the flow analysis's ace.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<ace>'
                                                 matchingPorts:
                                                     description: It is the flow analysis's matchingPorts.
                                                     returned: success,changed,always
@@ -429,25 +429,25 @@ data_2:
                                                             description: It is the flow analysis's protocol.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<protocol>'
 
                                                 result:
                                                     description: It is the flow analysis's result.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<result>'
 
                                         result:
                                             description: It is the flow analysis's result.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<result>'
 
                                 id:
                                     description: It is the flow analysis's id.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '478012'
                                 interfaceStatistics:
                                     description: It is the flow analysis's interfaceStatistics.
                                     returned: success,changed,always
@@ -457,7 +457,7 @@ data_2:
                                             description: It is the flow analysis's adminStatus.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<adminstatus>'
                                         inputPackets:
                                             description: It is the flow analysis's inputPackets.
                                             returned: success,changed,always
@@ -492,7 +492,7 @@ data_2:
                                             description: It is the flow analysis's operationalStatus.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<operationalstatus>'
                                         outputDrop:
                                             description: It is the flow analysis's outputDrop.
                                             returned: success,changed,always
@@ -528,17 +528,17 @@ data_2:
                                     description: It is the flow analysis's interfaceStatsCollection.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<interfacestatscollection>'
                                 interfaceStatsCollectionFailureReason:
                                     description: It is the flow analysis's interfaceStatsCollectionFailureReason.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<interfacestatscollectionfailurereason>'
                                 name:
                                     description: It is the flow analysis's name.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<name>'
                                 pathOverlayInfo:
                                     description: It is the flow analysis's pathOverlayInfo.
                                     returned: success,changed,always
@@ -548,37 +548,37 @@ data_2:
                                             description: It is the flow analysis's controlPlane.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<controlplane>'
                                         dataPacketEncapsulation:
                                             description: It is the flow analysis's dataPacketEncapsulation.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<datapacketencapsulation>'
                                         destIp:
                                             description: It is the flow analysis's destIp.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<destip>'
                                         destPort:
                                             description: It is the flow analysis's destPort.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<destport>'
                                         protocol:
                                             description: It is the flow analysis's protocol.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<protocol>'
                                         sourceIp:
                                             description: It is the flow analysis's sourceIp.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<sourceip>'
                                         sourcePort:
                                             description: It is the flow analysis's sourcePort.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<sourceport>'
                                         vxlanInfo:
                                             description: It is the flow analysis's vxlanInfo.
                                             returned: success,changed,always
@@ -588,12 +588,12 @@ data_2:
                                                     description: It is the flow analysis's dscp.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<dscp>'
                                                 vnid:
                                                     description: It is the flow analysis's vnid.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<vnid>'
 
 
                                 qosStatistics:
@@ -605,7 +605,7 @@ data_2:
                                             description: It is the flow analysis's classMapName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<classmapname>'
                                         dropRate:
                                             description: It is the flow analysis's dropRate.
                                             returned: success,changed,always
@@ -630,7 +630,7 @@ data_2:
                                             description: It is the flow analysis's queueBandwidthbps.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<queuebandwidthbps>'
                                         queueDepth:
                                             description: It is the flow analysis's queueDepth.
                                             returned: success,changed,always
@@ -656,22 +656,22 @@ data_2:
                                     description: It is the flow analysis's qosStatsCollection.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<qosstatscollection>'
                                 qosStatsCollectionFailureReason:
                                     description: It is the flow analysis's qosStatsCollectionFailureReason.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<qosstatscollectionfailurereason>'
                                 usedVlan:
                                     description: It is the flow analysis's usedVlan.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<usedvlan>'
                                 vrfName:
                                     description: It is the flow analysis's vrfName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<vrfname>'
 
                         egressVirtualInterface:
                             description: It is the flow analysis's egressVirtualInterface.
@@ -687,7 +687,7 @@ data_2:
                                             description: It is the flow analysis's aclName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<aclname>'
                                         matchingAces:
                                             description: It is the flow analysis's matchingAces.
                                             returned: success,changed,always
@@ -697,7 +697,7 @@ data_2:
                                                     description: It is the flow analysis's ace.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<ace>'
                                                 matchingPorts:
                                                     description: It is the flow analysis's matchingPorts.
                                                     returned: success,changed,always
@@ -721,25 +721,25 @@ data_2:
                                                             description: It is the flow analysis's protocol.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<protocol>'
 
                                                 result:
                                                     description: It is the flow analysis's result.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<result>'
 
                                         result:
                                             description: It is the flow analysis's result.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<result>'
 
                                 id:
                                     description: It is the flow analysis's id.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '478012'
                                 interfaceStatistics:
                                     description: It is the flow analysis's interfaceStatistics.
                                     returned: success,changed,always
@@ -749,7 +749,7 @@ data_2:
                                             description: It is the flow analysis's adminStatus.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<adminstatus>'
                                         inputPackets:
                                             description: It is the flow analysis's inputPackets.
                                             returned: success,changed,always
@@ -784,7 +784,7 @@ data_2:
                                             description: It is the flow analysis's operationalStatus.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<operationalstatus>'
                                         outputDrop:
                                             description: It is the flow analysis's outputDrop.
                                             returned: success,changed,always
@@ -820,17 +820,17 @@ data_2:
                                     description: It is the flow analysis's interfaceStatsCollection.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<interfacestatscollection>'
                                 interfaceStatsCollectionFailureReason:
                                     description: It is the flow analysis's interfaceStatsCollectionFailureReason.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<interfacestatscollectionfailurereason>'
                                 name:
                                     description: It is the flow analysis's name.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<name>'
                                 pathOverlayInfo:
                                     description: It is the flow analysis's pathOverlayInfo.
                                     returned: success,changed,always
@@ -840,37 +840,37 @@ data_2:
                                             description: It is the flow analysis's controlPlane.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<controlplane>'
                                         dataPacketEncapsulation:
                                             description: It is the flow analysis's dataPacketEncapsulation.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<datapacketencapsulation>'
                                         destIp:
                                             description: It is the flow analysis's destIp.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<destip>'
                                         destPort:
                                             description: It is the flow analysis's destPort.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<destport>'
                                         protocol:
                                             description: It is the flow analysis's protocol.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<protocol>'
                                         sourceIp:
                                             description: It is the flow analysis's sourceIp.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<sourceip>'
                                         sourcePort:
                                             description: It is the flow analysis's sourcePort.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<sourceport>'
                                         vxlanInfo:
                                             description: It is the flow analysis's vxlanInfo.
                                             returned: success,changed,always
@@ -880,12 +880,12 @@ data_2:
                                                     description: It is the flow analysis's dscp.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<dscp>'
                                                 vnid:
                                                     description: It is the flow analysis's vnid.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<vnid>'
 
 
                                 qosStatistics:
@@ -897,7 +897,7 @@ data_2:
                                             description: It is the flow analysis's classMapName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<classmapname>'
                                         dropRate:
                                             description: It is the flow analysis's dropRate.
                                             returned: success,changed,always
@@ -922,7 +922,7 @@ data_2:
                                             description: It is the flow analysis's queueBandwidthbps.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<queuebandwidthbps>'
                                         queueDepth:
                                             description: It is the flow analysis's queueDepth.
                                             returned: success,changed,always
@@ -948,22 +948,22 @@ data_2:
                                     description: It is the flow analysis's qosStatsCollection.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<qosstatscollection>'
                                 qosStatsCollectionFailureReason:
                                     description: It is the flow analysis's qosStatsCollectionFailureReason.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<qosstatscollectionfailurereason>'
                                 usedVlan:
                                     description: It is the flow analysis's usedVlan.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<usedvlan>'
                                 vrfName:
                                     description: It is the flow analysis's vrfName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<vrfname>'
 
                         flexConnect:
                             description: It is the flow analysis's flexConnect.
@@ -974,12 +974,12 @@ data_2:
                                     description: It is the flow analysis's authentication.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<authentication>'
                                 dataSwitching:
                                     description: It is the flow analysis's dataSwitching.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<dataswitching>'
                                 egressAclAnalysis:
                                     description: It is the flow analysis's egressAclAnalysis.
                                     returned: success,changed,always
@@ -989,7 +989,7 @@ data_2:
                                             description: It is the flow analysis's aclName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<aclname>'
                                         matchingAces:
                                             description: It is the flow analysis's matchingAces.
                                             returned: success,changed,always
@@ -999,7 +999,7 @@ data_2:
                                                     description: It is the flow analysis's ace.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<ace>'
                                                 matchingPorts:
                                                     description: It is the flow analysis's matchingPorts.
                                                     returned: success,changed,always
@@ -1023,19 +1023,19 @@ data_2:
                                                             description: It is the flow analysis's protocol.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<protocol>'
 
                                                 result:
                                                     description: It is the flow analysis's result.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<result>'
 
                                         result:
                                             description: It is the flow analysis's result.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<result>'
 
                                 ingressAclAnalysis:
                                     description: It is the flow analysis's ingressAclAnalysis.
@@ -1046,7 +1046,7 @@ data_2:
                                             description: It is the flow analysis's aclName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<aclname>'
                                         matchingAces:
                                             description: It is the flow analysis's matchingAces.
                                             returned: success,changed,always
@@ -1056,7 +1056,7 @@ data_2:
                                                     description: It is the flow analysis's ace.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<ace>'
                                                 matchingPorts:
                                                     description: It is the flow analysis's matchingPorts.
                                                     returned: success,changed,always
@@ -1080,36 +1080,36 @@ data_2:
                                                             description: It is the flow analysis's protocol.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<protocol>'
 
                                                 result:
                                                     description: It is the flow analysis's result.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<result>'
 
                                         result:
                                             description: It is the flow analysis's result.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<result>'
 
                                 wirelessLanControllerId:
                                     description: It is the flow analysis's wirelessLanControllerId.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<wirelesslancontrollerid>'
                                 wirelessLanControllerName:
                                     description: It is the flow analysis's wirelessLanControllerName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<wirelesslancontrollername>'
 
                         id:
                             description: It is the flow analysis's id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '478012'
                         ingressPhysicalInterface:
                             description: It is the flow analysis's ingressPhysicalInterface.
                             returned: success,changed,always
@@ -1124,7 +1124,7 @@ data_2:
                                             description: It is the flow analysis's aclName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<aclname>'
                                         matchingAces:
                                             description: It is the flow analysis's matchingAces.
                                             returned: success,changed,always
@@ -1134,7 +1134,7 @@ data_2:
                                                     description: It is the flow analysis's ace.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<ace>'
                                                 matchingPorts:
                                                     description: It is the flow analysis's matchingPorts.
                                                     returned: success,changed,always
@@ -1158,25 +1158,25 @@ data_2:
                                                             description: It is the flow analysis's protocol.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<protocol>'
 
                                                 result:
                                                     description: It is the flow analysis's result.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<result>'
 
                                         result:
                                             description: It is the flow analysis's result.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<result>'
 
                                 id:
                                     description: It is the flow analysis's id.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '478012'
                                 interfaceStatistics:
                                     description: It is the flow analysis's interfaceStatistics.
                                     returned: success,changed,always
@@ -1186,7 +1186,7 @@ data_2:
                                             description: It is the flow analysis's adminStatus.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<adminstatus>'
                                         inputPackets:
                                             description: It is the flow analysis's inputPackets.
                                             returned: success,changed,always
@@ -1221,7 +1221,7 @@ data_2:
                                             description: It is the flow analysis's operationalStatus.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<operationalstatus>'
                                         outputDrop:
                                             description: It is the flow analysis's outputDrop.
                                             returned: success,changed,always
@@ -1257,17 +1257,17 @@ data_2:
                                     description: It is the flow analysis's interfaceStatsCollection.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<interfacestatscollection>'
                                 interfaceStatsCollectionFailureReason:
                                     description: It is the flow analysis's interfaceStatsCollectionFailureReason.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<interfacestatscollectionfailurereason>'
                                 name:
                                     description: It is the flow analysis's name.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<name>'
                                 pathOverlayInfo:
                                     description: It is the flow analysis's pathOverlayInfo.
                                     returned: success,changed,always
@@ -1277,37 +1277,37 @@ data_2:
                                             description: It is the flow analysis's controlPlane.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<controlplane>'
                                         dataPacketEncapsulation:
                                             description: It is the flow analysis's dataPacketEncapsulation.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<datapacketencapsulation>'
                                         destIp:
                                             description: It is the flow analysis's destIp.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<destip>'
                                         destPort:
                                             description: It is the flow analysis's destPort.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<destport>'
                                         protocol:
                                             description: It is the flow analysis's protocol.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<protocol>'
                                         sourceIp:
                                             description: It is the flow analysis's sourceIp.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<sourceip>'
                                         sourcePort:
                                             description: It is the flow analysis's sourcePort.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<sourceport>'
                                         vxlanInfo:
                                             description: It is the flow analysis's vxlanInfo.
                                             returned: success,changed,always
@@ -1317,12 +1317,12 @@ data_2:
                                                     description: It is the flow analysis's dscp.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<dscp>'
                                                 vnid:
                                                     description: It is the flow analysis's vnid.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<vnid>'
 
 
                                 qosStatistics:
@@ -1334,7 +1334,7 @@ data_2:
                                             description: It is the flow analysis's classMapName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<classmapname>'
                                         dropRate:
                                             description: It is the flow analysis's dropRate.
                                             returned: success,changed,always
@@ -1359,7 +1359,7 @@ data_2:
                                             description: It is the flow analysis's queueBandwidthbps.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<queuebandwidthbps>'
                                         queueDepth:
                                             description: It is the flow analysis's queueDepth.
                                             returned: success,changed,always
@@ -1385,22 +1385,22 @@ data_2:
                                     description: It is the flow analysis's qosStatsCollection.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<qosstatscollection>'
                                 qosStatsCollectionFailureReason:
                                     description: It is the flow analysis's qosStatsCollectionFailureReason.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<qosstatscollectionfailurereason>'
                                 usedVlan:
                                     description: It is the flow analysis's usedVlan.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<usedvlan>'
                                 vrfName:
                                     description: It is the flow analysis's vrfName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<vrfname>'
 
                         ingressVirtualInterface:
                             description: It is the flow analysis's ingressVirtualInterface.
@@ -1416,7 +1416,7 @@ data_2:
                                             description: It is the flow analysis's aclName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<aclname>'
                                         matchingAces:
                                             description: It is the flow analysis's matchingAces.
                                             returned: success,changed,always
@@ -1426,7 +1426,7 @@ data_2:
                                                     description: It is the flow analysis's ace.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<ace>'
                                                 matchingPorts:
                                                     description: It is the flow analysis's matchingPorts.
                                                     returned: success,changed,always
@@ -1450,25 +1450,25 @@ data_2:
                                                             description: It is the flow analysis's protocol.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<protocol>'
 
                                                 result:
                                                     description: It is the flow analysis's result.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<result>'
 
                                         result:
                                             description: It is the flow analysis's result.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<result>'
 
                                 id:
                                     description: It is the flow analysis's id.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '478012'
                                 interfaceStatistics:
                                     description: It is the flow analysis's interfaceStatistics.
                                     returned: success,changed,always
@@ -1478,7 +1478,7 @@ data_2:
                                             description: It is the flow analysis's adminStatus.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<adminstatus>'
                                         inputPackets:
                                             description: It is the flow analysis's inputPackets.
                                             returned: success,changed,always
@@ -1513,7 +1513,7 @@ data_2:
                                             description: It is the flow analysis's operationalStatus.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<operationalstatus>'
                                         outputDrop:
                                             description: It is the flow analysis's outputDrop.
                                             returned: success,changed,always
@@ -1549,17 +1549,17 @@ data_2:
                                     description: It is the flow analysis's interfaceStatsCollection.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<interfacestatscollection>'
                                 interfaceStatsCollectionFailureReason:
                                     description: It is the flow analysis's interfaceStatsCollectionFailureReason.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<interfacestatscollectionfailurereason>'
                                 name:
                                     description: It is the flow analysis's name.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<name>'
                                 pathOverlayInfo:
                                     description: It is the flow analysis's pathOverlayInfo.
                                     returned: success,changed,always
@@ -1569,37 +1569,37 @@ data_2:
                                             description: It is the flow analysis's controlPlane.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<controlplane>'
                                         dataPacketEncapsulation:
                                             description: It is the flow analysis's dataPacketEncapsulation.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<datapacketencapsulation>'
                                         destIp:
                                             description: It is the flow analysis's destIp.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<destip>'
                                         destPort:
                                             description: It is the flow analysis's destPort.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<destport>'
                                         protocol:
                                             description: It is the flow analysis's protocol.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<protocol>'
                                         sourceIp:
                                             description: It is the flow analysis's sourceIp.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<sourceip>'
                                         sourcePort:
                                             description: It is the flow analysis's sourcePort.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<sourceport>'
                                         vxlanInfo:
                                             description: It is the flow analysis's vxlanInfo.
                                             returned: success,changed,always
@@ -1609,12 +1609,12 @@ data_2:
                                                     description: It is the flow analysis's dscp.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<dscp>'
                                                 vnid:
                                                     description: It is the flow analysis's vnid.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<vnid>'
 
 
                                 qosStatistics:
@@ -1626,7 +1626,7 @@ data_2:
                                             description: It is the flow analysis's classMapName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<classmapname>'
                                         dropRate:
                                             description: It is the flow analysis's dropRate.
                                             returned: success,changed,always
@@ -1651,7 +1651,7 @@ data_2:
                                             description: It is the flow analysis's queueBandwidthbps.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<queuebandwidthbps>'
                                         queueDepth:
                                             description: It is the flow analysis's queueDepth.
                                             returned: success,changed,always
@@ -1677,48 +1677,48 @@ data_2:
                                     description: It is the flow analysis's qosStatsCollection.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<qosstatscollection>'
                                 qosStatsCollectionFailureReason:
                                     description: It is the flow analysis's qosStatsCollectionFailureReason.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<qosstatscollectionfailurereason>'
                                 usedVlan:
                                     description: It is the flow analysis's usedVlan.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<usedvlan>'
                                 vrfName:
                                     description: It is the flow analysis's vrfName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<vrfname>'
 
                         ip:
                             description: It is the flow analysis's ip.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '1.1.1.17'
                         linkInformationSource:
                             description: It is the flow analysis's linkInformationSource.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<linkinformationsource>'
                         name:
                             description: It is the flow analysis's name.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<name>'
                         perfMonCollection:
                             description: It is the flow analysis's perfMonCollection.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<perfmoncollection>'
                         perfMonCollectionFailureReason:
                             description: It is the flow analysis's perfMonCollectionFailureReason.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<perfmoncollectionfailurereason>'
                         perfMonStatistics:
                             description: It is the flow analysis's perfMonStatistics.
                             returned: success,changed,always
@@ -1733,22 +1733,22 @@ data_2:
                                     description: It is the flow analysis's destIpAddress.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<destipaddress>'
                                 destPort:
                                     description: It is the flow analysis's destPort.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<destport>'
                                 inputInterface:
                                     description: It is the flow analysis's inputInterface.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<inputinterface>'
                                 ipv4DSCP:
                                     description: It is the flow analysis's ipv4DSCP.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<ipv4dscp>'
                                 ipv4TTL:
                                     description: It is the flow analysis's ipv4TTL.
                                     returned: success,changed,always
@@ -1758,7 +1758,7 @@ data_2:
                                     description: It is the flow analysis's outputInterface.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<outputinterface>'
                                 packetBytes:
                                     description: It is the flow analysis's packetBytes.
                                     returned: success,changed,always
@@ -1783,7 +1783,7 @@ data_2:
                                     description: It is the flow analysis's protocol.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<protocol>'
                                 refreshedAt:
                                     description: It is the flow analysis's refreshedAt.
                                     returned: success,changed,always
@@ -1808,23 +1808,23 @@ data_2:
                                     description: It is the flow analysis's sourceIpAddress.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<sourceipaddress>'
                                 sourcePort:
                                     description: It is the flow analysis's sourcePort.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<sourceport>'
 
                         role:
                             description: It is the flow analysis's role.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<role>'
                         ssid:
                             description: It is the flow analysis's ssid.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<ssid>'
                         tunnels:
                             description: It is the flow analysis's tunnels.
                             returned: success,changed,always
@@ -1833,12 +1833,12 @@ data_2:
                             description: It is the flow analysis's type.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<type>'
                         wlanId:
                             description: It is the flow analysis's wlanId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<wlanid>'
 
                 networkElementsInfo:
                     description: It is the flow analysis's networkElementsInfo.
@@ -1859,7 +1859,7 @@ data_2:
                                     description: It is the flow analysis's reason.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<reason>'
 
                         detailedStatus:
                             description: It is the flow analysis's detailedStatus.
@@ -1870,12 +1870,12 @@ data_2:
                                     description: It is the flow analysis's aclTraceCalculation.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<acltracecalculation>'
                                 aclTraceCalculationFailureReason:
                                     description: It is the flow analysis's aclTraceCalculationFailureReason.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<acltracecalculationfailurereason>'
 
                         deviceStatistics:
                             description: It is the flow analysis's deviceStatistics.
@@ -1934,12 +1934,12 @@ data_2:
                             description: It is the flow analysis's deviceStatsCollection.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<devicestatscollection>'
                         deviceStatsCollectionFailureReason:
                             description: It is the flow analysis's deviceStatsCollectionFailureReason.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<devicestatscollectionfailurereason>'
                         egressInterface:
                             description: It is the flow analysis's egressInterface.
                             returned: success,changed,always
@@ -1959,7 +1959,7 @@ data_2:
                                                     description: It is the flow analysis's aclName.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<aclname>'
                                                 matchingAces:
                                                     description: It is the flow analysis's matchingAces.
                                                     returned: success,changed,always
@@ -1969,7 +1969,7 @@ data_2:
                                                             description: It is the flow analysis's ace.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<ace>'
                                                         matchingPorts:
                                                             description: It is the flow analysis's matchingPorts.
                                                             returned: success,changed,always
@@ -1993,25 +1993,25 @@ data_2:
                                                                     description: It is the flow analysis's protocol.
                                                                     returned: success,changed,always
                                                                     type: str
-                                                                    sample: 'sample_string'
+                                                                    sample: '<protocol>'
 
                                                         result:
                                                             description: It is the flow analysis's result.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<result>'
 
                                                 result:
                                                     description: It is the flow analysis's result.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<result>'
 
                                         id:
                                             description: It is the flow analysis's id.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '478012'
                                         interfaceStatistics:
                                             description: It is the flow analysis's interfaceStatistics.
                                             returned: success,changed,always
@@ -2021,7 +2021,7 @@ data_2:
                                                     description: It is the flow analysis's adminStatus.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<adminstatus>'
                                                 inputPackets:
                                                     description: It is the flow analysis's inputPackets.
                                                     returned: success,changed,always
@@ -2056,7 +2056,7 @@ data_2:
                                                     description: It is the flow analysis's operationalStatus.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<operationalstatus>'
                                                 outputDrop:
                                                     description: It is the flow analysis's outputDrop.
                                                     returned: success,changed,always
@@ -2092,17 +2092,17 @@ data_2:
                                             description: It is the flow analysis's interfaceStatsCollection.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<interfacestatscollection>'
                                         interfaceStatsCollectionFailureReason:
                                             description: It is the flow analysis's interfaceStatsCollectionFailureReason.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<interfacestatscollectionfailurereason>'
                                         name:
                                             description: It is the flow analysis's name.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<name>'
                                         pathOverlayInfo:
                                             description: It is the flow analysis's pathOverlayInfo.
                                             returned: success,changed,always
@@ -2112,37 +2112,37 @@ data_2:
                                                     description: It is the flow analysis's controlPlane.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<controlplane>'
                                                 dataPacketEncapsulation:
                                                     description: It is the flow analysis's dataPacketEncapsulation.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<datapacketencapsulation>'
                                                 destIp:
                                                     description: It is the flow analysis's destIp.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<destip>'
                                                 destPort:
                                                     description: It is the flow analysis's destPort.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<destport>'
                                                 protocol:
                                                     description: It is the flow analysis's protocol.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<protocol>'
                                                 sourceIp:
                                                     description: It is the flow analysis's sourceIp.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<sourceip>'
                                                 sourcePort:
                                                     description: It is the flow analysis's sourcePort.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<sourceport>'
                                                 vxlanInfo:
                                                     description: It is the flow analysis's vxlanInfo.
                                                     returned: success,changed,always
@@ -2152,12 +2152,12 @@ data_2:
                                                             description: It is the flow analysis's dscp.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<dscp>'
                                                         vnid:
                                                             description: It is the flow analysis's vnid.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<vnid>'
 
 
                                         qosStatistics:
@@ -2169,7 +2169,7 @@ data_2:
                                                     description: It is the flow analysis's classMapName.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<classmapname>'
                                                 dropRate:
                                                     description: It is the flow analysis's dropRate.
                                                     returned: success,changed,always
@@ -2194,7 +2194,7 @@ data_2:
                                                     description: It is the flow analysis's queueBandwidthbps.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<queuebandwidthbps>'
                                                 queueDepth:
                                                     description: It is the flow analysis's queueDepth.
                                                     returned: success,changed,always
@@ -2220,22 +2220,22 @@ data_2:
                                             description: It is the flow analysis's qosStatsCollection.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<qosstatscollection>'
                                         qosStatsCollectionFailureReason:
                                             description: It is the flow analysis's qosStatsCollectionFailureReason.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<qosstatscollectionfailurereason>'
                                         usedVlan:
                                             description: It is the flow analysis's usedVlan.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<usedvlan>'
                                         vrfName:
                                             description: It is the flow analysis's vrfName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<vrfname>'
 
                                 virtualInterface:
                                     description: It is the flow analysis's virtualInterface.
@@ -2251,7 +2251,7 @@ data_2:
                                                     description: It is the flow analysis's aclName.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<aclname>'
                                                 matchingAces:
                                                     description: It is the flow analysis's matchingAces.
                                                     returned: success,changed,always
@@ -2261,7 +2261,7 @@ data_2:
                                                             description: It is the flow analysis's ace.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<ace>'
                                                         matchingPorts:
                                                             description: It is the flow analysis's matchingPorts.
                                                             returned: success,changed,always
@@ -2285,25 +2285,25 @@ data_2:
                                                                     description: It is the flow analysis's protocol.
                                                                     returned: success,changed,always
                                                                     type: str
-                                                                    sample: 'sample_string'
+                                                                    sample: '<protocol>'
 
                                                         result:
                                                             description: It is the flow analysis's result.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<result>'
 
                                                 result:
                                                     description: It is the flow analysis's result.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<result>'
 
                                         id:
                                             description: It is the flow analysis's id.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '478012'
                                         interfaceStatistics:
                                             description: It is the flow analysis's interfaceStatistics.
                                             returned: success,changed,always
@@ -2313,7 +2313,7 @@ data_2:
                                                     description: It is the flow analysis's adminStatus.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<adminstatus>'
                                                 inputPackets:
                                                     description: It is the flow analysis's inputPackets.
                                                     returned: success,changed,always
@@ -2348,7 +2348,7 @@ data_2:
                                                     description: It is the flow analysis's operationalStatus.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<operationalstatus>'
                                                 outputDrop:
                                                     description: It is the flow analysis's outputDrop.
                                                     returned: success,changed,always
@@ -2384,17 +2384,17 @@ data_2:
                                             description: It is the flow analysis's interfaceStatsCollection.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<interfacestatscollection>'
                                         interfaceStatsCollectionFailureReason:
                                             description: It is the flow analysis's interfaceStatsCollectionFailureReason.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<interfacestatscollectionfailurereason>'
                                         name:
                                             description: It is the flow analysis's name.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<name>'
                                         pathOverlayInfo:
                                             description: It is the flow analysis's pathOverlayInfo.
                                             returned: success,changed,always
@@ -2404,37 +2404,37 @@ data_2:
                                                     description: It is the flow analysis's controlPlane.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<controlplane>'
                                                 dataPacketEncapsulation:
                                                     description: It is the flow analysis's dataPacketEncapsulation.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<datapacketencapsulation>'
                                                 destIp:
                                                     description: It is the flow analysis's destIp.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<destip>'
                                                 destPort:
                                                     description: It is the flow analysis's destPort.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<destport>'
                                                 protocol:
                                                     description: It is the flow analysis's protocol.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<protocol>'
                                                 sourceIp:
                                                     description: It is the flow analysis's sourceIp.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<sourceip>'
                                                 sourcePort:
                                                     description: It is the flow analysis's sourcePort.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<sourceport>'
                                                 vxlanInfo:
                                                     description: It is the flow analysis's vxlanInfo.
                                                     returned: success,changed,always
@@ -2444,12 +2444,12 @@ data_2:
                                                             description: It is the flow analysis's dscp.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<dscp>'
                                                         vnid:
                                                             description: It is the flow analysis's vnid.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<vnid>'
 
 
                                         qosStatistics:
@@ -2461,7 +2461,7 @@ data_2:
                                                     description: It is the flow analysis's classMapName.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<classmapname>'
                                                 dropRate:
                                                     description: It is the flow analysis's dropRate.
                                                     returned: success,changed,always
@@ -2486,7 +2486,7 @@ data_2:
                                                     description: It is the flow analysis's queueBandwidthbps.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<queuebandwidthbps>'
                                                 queueDepth:
                                                     description: It is the flow analysis's queueDepth.
                                                     returned: success,changed,always
@@ -2512,22 +2512,22 @@ data_2:
                                             description: It is the flow analysis's qosStatsCollection.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<qosstatscollection>'
                                         qosStatsCollectionFailureReason:
                                             description: It is the flow analysis's qosStatsCollectionFailureReason.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<qosstatscollectionfailurereason>'
                                         usedVlan:
                                             description: It is the flow analysis's usedVlan.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<usedvlan>'
                                         vrfName:
                                             description: It is the flow analysis's vrfName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<vrfname>'
 
 
                         flexConnect:
@@ -2539,12 +2539,12 @@ data_2:
                                     description: It is the flow analysis's authentication.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<authentication>'
                                 dataSwitching:
                                     description: It is the flow analysis's dataSwitching.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<dataswitching>'
                                 egressAclAnalysis:
                                     description: It is the flow analysis's egressAclAnalysis.
                                     returned: success,changed,always
@@ -2554,7 +2554,7 @@ data_2:
                                             description: It is the flow analysis's aclName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<aclname>'
                                         matchingAces:
                                             description: It is the flow analysis's matchingAces.
                                             returned: success,changed,always
@@ -2564,7 +2564,7 @@ data_2:
                                                     description: It is the flow analysis's ace.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<ace>'
                                                 matchingPorts:
                                                     description: It is the flow analysis's matchingPorts.
                                                     returned: success,changed,always
@@ -2588,19 +2588,19 @@ data_2:
                                                             description: It is the flow analysis's protocol.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<protocol>'
 
                                                 result:
                                                     description: It is the flow analysis's result.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<result>'
 
                                         result:
                                             description: It is the flow analysis's result.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<result>'
 
                                 ingressAclAnalysis:
                                     description: It is the flow analysis's ingressAclAnalysis.
@@ -2611,7 +2611,7 @@ data_2:
                                             description: It is the flow analysis's aclName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<aclname>'
                                         matchingAces:
                                             description: It is the flow analysis's matchingAces.
                                             returned: success,changed,always
@@ -2621,7 +2621,7 @@ data_2:
                                                     description: It is the flow analysis's ace.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<ace>'
                                                 matchingPorts:
                                                     description: It is the flow analysis's matchingPorts.
                                                     returned: success,changed,always
@@ -2645,36 +2645,36 @@ data_2:
                                                             description: It is the flow analysis's protocol.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<protocol>'
 
                                                 result:
                                                     description: It is the flow analysis's result.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<result>'
 
                                         result:
                                             description: It is the flow analysis's result.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<result>'
 
                                 wirelessLanControllerId:
                                     description: It is the flow analysis's wirelessLanControllerId.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<wirelesslancontrollerid>'
                                 wirelessLanControllerName:
                                     description: It is the flow analysis's wirelessLanControllerName.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<wirelesslancontrollername>'
 
                         id:
                             description: It is the flow analysis's id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '478012'
                         ingressInterface:
                             description: It is the flow analysis's ingressInterface.
                             returned: success,changed,always
@@ -2694,7 +2694,7 @@ data_2:
                                                     description: It is the flow analysis's aclName.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<aclname>'
                                                 matchingAces:
                                                     description: It is the flow analysis's matchingAces.
                                                     returned: success,changed,always
@@ -2704,7 +2704,7 @@ data_2:
                                                             description: It is the flow analysis's ace.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<ace>'
                                                         matchingPorts:
                                                             description: It is the flow analysis's matchingPorts.
                                                             returned: success,changed,always
@@ -2728,25 +2728,25 @@ data_2:
                                                                     description: It is the flow analysis's protocol.
                                                                     returned: success,changed,always
                                                                     type: str
-                                                                    sample: 'sample_string'
+                                                                    sample: '<protocol>'
 
                                                         result:
                                                             description: It is the flow analysis's result.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<result>'
 
                                                 result:
                                                     description: It is the flow analysis's result.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<result>'
 
                                         id:
                                             description: It is the flow analysis's id.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '478012'
                                         interfaceStatistics:
                                             description: It is the flow analysis's interfaceStatistics.
                                             returned: success,changed,always
@@ -2756,7 +2756,7 @@ data_2:
                                                     description: It is the flow analysis's adminStatus.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<adminstatus>'
                                                 inputPackets:
                                                     description: It is the flow analysis's inputPackets.
                                                     returned: success,changed,always
@@ -2791,7 +2791,7 @@ data_2:
                                                     description: It is the flow analysis's operationalStatus.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<operationalstatus>'
                                                 outputDrop:
                                                     description: It is the flow analysis's outputDrop.
                                                     returned: success,changed,always
@@ -2827,17 +2827,17 @@ data_2:
                                             description: It is the flow analysis's interfaceStatsCollection.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<interfacestatscollection>'
                                         interfaceStatsCollectionFailureReason:
                                             description: It is the flow analysis's interfaceStatsCollectionFailureReason.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<interfacestatscollectionfailurereason>'
                                         name:
                                             description: It is the flow analysis's name.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<name>'
                                         pathOverlayInfo:
                                             description: It is the flow analysis's pathOverlayInfo.
                                             returned: success,changed,always
@@ -2847,37 +2847,37 @@ data_2:
                                                     description: It is the flow analysis's controlPlane.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<controlplane>'
                                                 dataPacketEncapsulation:
                                                     description: It is the flow analysis's dataPacketEncapsulation.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<datapacketencapsulation>'
                                                 destIp:
                                                     description: It is the flow analysis's destIp.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<destip>'
                                                 destPort:
                                                     description: It is the flow analysis's destPort.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<destport>'
                                                 protocol:
                                                     description: It is the flow analysis's protocol.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<protocol>'
                                                 sourceIp:
                                                     description: It is the flow analysis's sourceIp.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<sourceip>'
                                                 sourcePort:
                                                     description: It is the flow analysis's sourcePort.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<sourceport>'
                                                 vxlanInfo:
                                                     description: It is the flow analysis's vxlanInfo.
                                                     returned: success,changed,always
@@ -2887,12 +2887,12 @@ data_2:
                                                             description: It is the flow analysis's dscp.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<dscp>'
                                                         vnid:
                                                             description: It is the flow analysis's vnid.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<vnid>'
 
 
                                         qosStatistics:
@@ -2904,7 +2904,7 @@ data_2:
                                                     description: It is the flow analysis's classMapName.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<classmapname>'
                                                 dropRate:
                                                     description: It is the flow analysis's dropRate.
                                                     returned: success,changed,always
@@ -2929,7 +2929,7 @@ data_2:
                                                     description: It is the flow analysis's queueBandwidthbps.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<queuebandwidthbps>'
                                                 queueDepth:
                                                     description: It is the flow analysis's queueDepth.
                                                     returned: success,changed,always
@@ -2955,22 +2955,22 @@ data_2:
                                             description: It is the flow analysis's qosStatsCollection.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<qosstatscollection>'
                                         qosStatsCollectionFailureReason:
                                             description: It is the flow analysis's qosStatsCollectionFailureReason.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<qosstatscollectionfailurereason>'
                                         usedVlan:
                                             description: It is the flow analysis's usedVlan.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<usedvlan>'
                                         vrfName:
                                             description: It is the flow analysis's vrfName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<vrfname>'
 
                                 virtualInterface:
                                     description: It is the flow analysis's virtualInterface.
@@ -2986,7 +2986,7 @@ data_2:
                                                     description: It is the flow analysis's aclName.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<aclname>'
                                                 matchingAces:
                                                     description: It is the flow analysis's matchingAces.
                                                     returned: success,changed,always
@@ -2996,7 +2996,7 @@ data_2:
                                                             description: It is the flow analysis's ace.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<ace>'
                                                         matchingPorts:
                                                             description: It is the flow analysis's matchingPorts.
                                                             returned: success,changed,always
@@ -3020,25 +3020,25 @@ data_2:
                                                                     description: It is the flow analysis's protocol.
                                                                     returned: success,changed,always
                                                                     type: str
-                                                                    sample: 'sample_string'
+                                                                    sample: '<protocol>'
 
                                                         result:
                                                             description: It is the flow analysis's result.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<result>'
 
                                                 result:
                                                     description: It is the flow analysis's result.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<result>'
 
                                         id:
                                             description: It is the flow analysis's id.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '478012'
                                         interfaceStatistics:
                                             description: It is the flow analysis's interfaceStatistics.
                                             returned: success,changed,always
@@ -3048,7 +3048,7 @@ data_2:
                                                     description: It is the flow analysis's adminStatus.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<adminstatus>'
                                                 inputPackets:
                                                     description: It is the flow analysis's inputPackets.
                                                     returned: success,changed,always
@@ -3083,7 +3083,7 @@ data_2:
                                                     description: It is the flow analysis's operationalStatus.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<operationalstatus>'
                                                 outputDrop:
                                                     description: It is the flow analysis's outputDrop.
                                                     returned: success,changed,always
@@ -3119,17 +3119,17 @@ data_2:
                                             description: It is the flow analysis's interfaceStatsCollection.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<interfacestatscollection>'
                                         interfaceStatsCollectionFailureReason:
                                             description: It is the flow analysis's interfaceStatsCollectionFailureReason.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<interfacestatscollectionfailurereason>'
                                         name:
                                             description: It is the flow analysis's name.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<name>'
                                         pathOverlayInfo:
                                             description: It is the flow analysis's pathOverlayInfo.
                                             returned: success,changed,always
@@ -3139,37 +3139,37 @@ data_2:
                                                     description: It is the flow analysis's controlPlane.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<controlplane>'
                                                 dataPacketEncapsulation:
                                                     description: It is the flow analysis's dataPacketEncapsulation.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<datapacketencapsulation>'
                                                 destIp:
                                                     description: It is the flow analysis's destIp.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<destip>'
                                                 destPort:
                                                     description: It is the flow analysis's destPort.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<destport>'
                                                 protocol:
                                                     description: It is the flow analysis's protocol.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<protocol>'
                                                 sourceIp:
                                                     description: It is the flow analysis's sourceIp.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<sourceip>'
                                                 sourcePort:
                                                     description: It is the flow analysis's sourcePort.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<sourceport>'
                                                 vxlanInfo:
                                                     description: It is the flow analysis's vxlanInfo.
                                                     returned: success,changed,always
@@ -3179,12 +3179,12 @@ data_2:
                                                             description: It is the flow analysis's dscp.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<dscp>'
                                                         vnid:
                                                             description: It is the flow analysis's vnid.
                                                             returned: success,changed,always
                                                             type: str
-                                                            sample: 'sample_string'
+                                                            sample: '<vnid>'
 
 
                                         qosStatistics:
@@ -3196,7 +3196,7 @@ data_2:
                                                     description: It is the flow analysis's classMapName.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<classmapname>'
                                                 dropRate:
                                                     description: It is the flow analysis's dropRate.
                                                     returned: success,changed,always
@@ -3221,7 +3221,7 @@ data_2:
                                                     description: It is the flow analysis's queueBandwidthbps.
                                                     returned: success,changed,always
                                                     type: str
-                                                    sample: 'sample_string'
+                                                    sample: '<queuebandwidthbps>'
                                                 queueDepth:
                                                     description: It is the flow analysis's queueDepth.
                                                     returned: success,changed,always
@@ -3247,49 +3247,49 @@ data_2:
                                             description: It is the flow analysis's qosStatsCollection.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<qosstatscollection>'
                                         qosStatsCollectionFailureReason:
                                             description: It is the flow analysis's qosStatsCollectionFailureReason.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<qosstatscollectionfailurereason>'
                                         usedVlan:
                                             description: It is the flow analysis's usedVlan.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<usedvlan>'
                                         vrfName:
                                             description: It is the flow analysis's vrfName.
                                             returned: success,changed,always
                                             type: str
-                                            sample: 'sample_string'
+                                            sample: '<vrfname>'
 
 
                         ip:
                             description: It is the flow analysis's ip.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '1.1.1.17'
                         linkInformationSource:
                             description: It is the flow analysis's linkInformationSource.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<linkinformationsource>'
                         name:
                             description: It is the flow analysis's name.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<name>'
                         perfMonCollection:
                             description: It is the flow analysis's perfMonCollection.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<perfmoncollection>'
                         perfMonCollectionFailureReason:
                             description: It is the flow analysis's perfMonCollectionFailureReason.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<perfmoncollectionfailurereason>'
                         perfMonitorStatistics:
                             description: It is the flow analysis's perfMonitorStatistics.
                             returned: success,changed,always
@@ -3304,22 +3304,22 @@ data_2:
                                     description: It is the flow analysis's destIpAddress.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<destipaddress>'
                                 destPort:
                                     description: It is the flow analysis's destPort.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<destport>'
                                 inputInterface:
                                     description: It is the flow analysis's inputInterface.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<inputinterface>'
                                 ipv4DSCP:
                                     description: It is the flow analysis's ipv4DSCP.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<ipv4dscp>'
                                 ipv4TTL:
                                     description: It is the flow analysis's ipv4TTL.
                                     returned: success,changed,always
@@ -3329,7 +3329,7 @@ data_2:
                                     description: It is the flow analysis's outputInterface.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<outputinterface>'
                                 packetBytes:
                                     description: It is the flow analysis's packetBytes.
                                     returned: success,changed,always
@@ -3354,7 +3354,7 @@ data_2:
                                     description: It is the flow analysis's protocol.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<protocol>'
                                 refreshedAt:
                                     description: It is the flow analysis's refreshedAt.
                                     returned: success,changed,always
@@ -3379,23 +3379,23 @@ data_2:
                                     description: It is the flow analysis's sourceIpAddress.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<sourceipaddress>'
                                 sourcePort:
                                     description: It is the flow analysis's sourcePort.
                                     returned: success,changed,always
                                     type: str
-                                    sample: 'sample_string'
+                                    sample: '<sourceport>'
 
                         role:
                             description: It is the flow analysis's role.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<role>'
                         ssid:
                             description: It is the flow analysis's ssid.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<ssid>'
                         tunnels:
                             description: It is the flow analysis's tunnels.
                             returned: success,changed,always
@@ -3404,12 +3404,12 @@ data_2:
                             description: It is the flow analysis's type.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<type>'
                         wlanId:
                             description: It is the flow analysis's wlanId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<wlanid>'
 
                 properties:
                     description: It is the flow analysis's properties.
@@ -3434,22 +3434,22 @@ data_2:
                             description: It is the flow analysis's destIP.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<destip>'
                         destPort:
                             description: It is the flow analysis's destPort.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<destport>'
                         failureReason:
                             description: It is the flow analysis's failureReason.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<failurereason>'
                         id:
                             description: It is the flow analysis's id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '478012'
                         inclusions:
                             description: It is the flow analysis's inclusions.
                             returned: success,changed,always
@@ -3468,29 +3468,29 @@ data_2:
                             description: It is the flow analysis's protocol.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<protocol>'
                         sourceIP:
                             description: It is the flow analysis's sourceIP.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<sourceip>'
                         sourcePort:
                             description: It is the flow analysis's sourcePort.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<sourceport>'
                         status:
                             description: It is the flow analysis's status.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<status>'
 
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_3:
     description: Deletes a flow analysis request by its id.
@@ -3510,19 +3510,25 @@ data_3:
                     description: It is the flow analysis's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.flow_analysis import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.flow_analysis import (
+    module_definition,
+)
 
 
 def main():
@@ -3533,11 +3539,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

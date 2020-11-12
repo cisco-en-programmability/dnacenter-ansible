@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: network_device_module
 short_description: Manage NetworkDeviceModule objects of Devices
@@ -73,12 +73,12 @@ seealso:
 - name: NetworkDeviceModule reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Returns modules by specified device id.
     returned: success,changed,always
@@ -93,12 +93,12 @@ data_0:
                     description: It is the network device module's assemblyNumber.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<assemblynumber>'
                 assemblyRevision:
                     description: It is the network device module's assemblyRevision.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<assemblyrevision>'
                 attributeInfo:
                     description: It is the network device module's attributeInfo.
                     returned: success,changed,always
@@ -107,37 +107,37 @@ data_0:
                     description: It is the network device module's containmentEntity.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<containmententity>'
                 description:
                     description: It is the network device module's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 entityPhysicalIndex:
                     description: It is the network device module's entityPhysicalIndex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<entityphysicalindex>'
                 id:
                     description: It is the network device module's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 isFieldReplaceable:
                     description: It is the network device module's isFieldReplaceable.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<isfieldreplaceable>'
                 isReportingAlarmsAllowed:
                     description: It is the network device module's isReportingAlarmsAllowed.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<isreportingalarmsallowed>'
                 manufacturer:
                     description: It is the network device module's manufacturer.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<manufacturer>'
                 moduleIndex:
                     description: It is the network device module's moduleIndex.
                     returned: success,changed,always
@@ -147,33 +147,33 @@ data_0:
                     description: It is the network device module's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
                 operationalStateCode:
                     description: It is the network device module's operationalStateCode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<operationalstatecode>'
                 partNumber:
                     description: It is the network device module's partNumber.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<partnumber>'
                 serialNumber:
                     description: It is the network device module's serialNumber.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<serialnumber>'
                 vendorEquipmentType:
                     description: It is the network device module's vendorEquipmentType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<vendorequipmenttype>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_1:
     description: Returns Module info by id.
@@ -189,12 +189,12 @@ data_1:
                     description: It is the network device module's assemblyNumber.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<assemblynumber>'
                 assemblyRevision:
                     description: It is the network device module's assemblyRevision.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<assemblyrevision>'
                 attributeInfo:
                     description: It is the network device module's attributeInfo.
                     returned: success,changed,always
@@ -203,37 +203,37 @@ data_1:
                     description: It is the network device module's containmentEntity.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<containmententity>'
                 description:
                     description: It is the network device module's description.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<description>'
                 entityPhysicalIndex:
                     description: It is the network device module's entityPhysicalIndex.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<entityphysicalindex>'
                 id:
                     description: It is the network device module's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 isFieldReplaceable:
                     description: It is the network device module's isFieldReplaceable.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<isfieldreplaceable>'
                 isReportingAlarmsAllowed:
                     description: It is the network device module's isReportingAlarmsAllowed.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<isreportingalarmsallowed>'
                 manufacturer:
                     description: It is the network device module's manufacturer.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<manufacturer>'
                 moduleIndex:
                     description: It is the network device module's moduleIndex.
                     returned: success,changed,always
@@ -243,33 +243,33 @@ data_1:
                     description: It is the network device module's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
                 operationalStateCode:
                     description: It is the network device module's operationalStateCode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<operationalstatecode>'
                 partNumber:
                     description: It is the network device module's partNumber.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<partnumber>'
                 serialNumber:
                     description: It is the network device module's serialNumber.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<serialnumber>'
                 vendorEquipmentType:
                     description: It is the network device module's vendorEquipmentType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<vendorequipmenttype>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_2:
     description: Returns Module Count.
@@ -285,13 +285,19 @@ data_2:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_module import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_module import (
+    module_definition,
+)
 
 
 def main():
@@ -302,11 +308,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

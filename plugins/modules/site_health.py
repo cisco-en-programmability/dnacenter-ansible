@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: site_health
 short_description: Manage SiteHealth objects of Sites
@@ -37,12 +37,12 @@ seealso:
 - name: SiteHealth reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Returns Overall Health information for all sites.
     returned: success,changed,always
@@ -57,27 +57,27 @@ data_0:
                     description: It is the site health's siteName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<sitename>'
                 siteId:
                     description: It is the site health's siteId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<siteid>'
                 parentSiteId:
                     description: It is the site health's parentSiteId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<parentsiteid>'
                 parentSiteName:
                     description: It is the site health's parentSiteName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<parentsitename>'
                 siteType:
                     description: It is the site health's siteType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<sitetype>'
                 latitude:
                     description: It is the site health's latitude.
                     returned: success,changed,always
@@ -90,17 +90,17 @@ data_0:
                     description: It is the site health's healthyNetworkDevicePercentage.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<healthynetworkdevicepercentage>'
                 healthyClientsPercentage:
                     description: It is the site health's healthyClientsPercentage.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<healthyclientspercentage>'
                 clientHealthWired:
                     description: It is the site health's clientHealthWired.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<clienthealthwired>'
                 clientHealthWireless:
                     description: It is the site health's clientHealthWireless.
                     returned: success,changed,always
@@ -109,7 +109,7 @@ data_0:
                     description: It is the site health's numberOfClients.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<numberofclients>'
                 clientNumberOfIssues:
                     description: It is the site health's clientNumberOfIssues.
                     returned: success,changed,always
@@ -122,7 +122,7 @@ data_0:
                     description: It is the site health's numberOfNetworkDevice.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<numberofnetworkdevice>'
                 networkHealthAverage:
                     description: It is the site health's networkHealthAverage.
                     returned: success,changed,always
@@ -131,22 +131,22 @@ data_0:
                     description: It is the site health's networkHealthAccess.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<networkhealthaccess>'
                 networkHealthCore:
                     description: It is the site health's networkHealthCore.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<networkhealthcore>'
                 networkHealthDistribution:
                     description: It is the site health's networkHealthDistribution.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<networkhealthdistribution>'
                 networkHealthRouter:
                     description: It is the site health's networkHealthRouter.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<networkhealthrouter>'
                 networkHealthWireless:
                     description: It is the site health's networkHealthWireless.
                     returned: success,changed,always
@@ -159,7 +159,7 @@ data_0:
                     description: It is the site health's numberOfWiredClients.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<numberofwiredclients>'
                 numberOfWirelessClients:
                     description: It is the site health's numberOfWirelessClients.
                     returned: success,changed,always
@@ -168,7 +168,7 @@ data_0:
                     description: It is the site health's wiredGoodClients.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<wiredgoodclients>'
                 wirelessGoodClients:
                     description: It is the site health's wirelessGoodClients.
                     returned: success,changed,always
@@ -181,57 +181,57 @@ data_0:
                     description: It is the site health's overallGoodDevices.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<overallgooddevices>'
                 accessGoodCount:
                     description: It is the site health's accessGoodCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<accessgoodcount>'
                 accessTotalCount:
                     description: It is the site health's accessTotalCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<accesstotalcount>'
                 coreGoodCount:
                     description: It is the site health's coreGoodCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<coregoodcount>'
                 coreTotalCount:
                     description: It is the site health's coreTotalCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<coretotalcount>'
                 distributionGoodCount:
                     description: It is the site health's distributionGoodCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<distributiongoodcount>'
                 distributionTotalCount:
                     description: It is the site health's distributionTotalCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<distributiontotalcount>'
                 routerGoodCount:
                     description: It is the site health's routerGoodCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<routergoodcount>'
                 routerTotalCount:
                     description: It is the site health's routerTotalCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<routertotalcount>'
                 wirelessDeviceGoodCount:
                     description: It is the site health's wirelessDeviceGoodCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<wirelessdevicegoodcount>'
                 wirelessDeviceTotalCount:
                     description: It is the site health's wirelessDeviceTotalCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<wirelessdevicetotalcount>'
                 applicationHealth:
                     description: It is the site health's applicationHealth.
                     returned: success,changed,always
@@ -250,11 +250,17 @@ data_0:
                     type: dict
 
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.site_health import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.site_health import (
+    module_definition,
+)
 
 
 def main():
@@ -265,11 +271,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

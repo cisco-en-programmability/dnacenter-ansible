@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: global_pool
 short_description: Manage GlobalPool objects of NetworkSettings
@@ -99,12 +99,12 @@ seealso:
 - name: GlobalPool reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: API to get global pool.
     returned: success,changed,always
@@ -119,7 +119,7 @@ data_0:
                     description: It is the global pool's ipPoolName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ippoolname>'
                 dhcpServerIps:
                     description: It is the global pool's dhcpServerIps.
                     returned: success,changed,always
@@ -132,52 +132,52 @@ data_0:
                     description: It is the global pool's createTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<createtime>'
                 lastUpdateTime:
                     description: It is the global pool's lastUpdateTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<lastupdatetime>'
                 totalIpAddressCount:
                     description: It is the global pool's totalIpAddressCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<totalipaddresscount>'
                 usedIpAddressCount:
                     description: It is the global pool's usedIpAddressCount.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<usedipaddresscount>'
                 parentUuid:
                     description: It is the global pool's parentUuid.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<parentuuid>'
                 owner:
                     description: It is the global pool's owner.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<owner>'
                 shared:
                     description: It is the global pool's shared.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<shared>'
                 overlapping:
                     description: It is the global pool's overlapping.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<overlapping>'
                 configureExternalDhcp:
                     description: It is the global pool's configureExternalDhcp.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<configureexternaldhcp>'
                 usedPercentage:
                     description: It is the global pool's usedPercentage.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<usedpercentage>'
                 clientOptions:
                     description: It is the global pool's clientOptions.
                     returned: success,changed,always
@@ -195,39 +195,39 @@ data_0:
                             description: It is the global pool's owner.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<owner>'
                         contextKey:
                             description: It is the global pool's contextKey.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<contextkey>'
                         contextValue:
                             description: It is the global pool's contextValue.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<contextvalue>'
 
                 ipv6:
                     description: It is the global pool's ipv6.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipv6>'
                 id:
                     description: It is the global pool's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 ipPoolCidr:
                     description: It is the global pool's ipPoolCidr.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ippoolcidr>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_1:
     description: API to create global pool.
@@ -238,17 +238,17 @@ data_1:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
 data_2:
     description: API to update global pool.
@@ -259,17 +259,17 @@ data_2:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
 data_3:
     description: API to delete global IP pool.
@@ -280,23 +280,29 @@ data_3:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.global_pool import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.global_pool import (
+    module_definition,
+)
 
 
 def main():
@@ -307,11 +313,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

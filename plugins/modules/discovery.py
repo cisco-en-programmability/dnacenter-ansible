@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: discovery
 short_description: Manage Discovery objects of Discovery
@@ -330,12 +330,12 @@ seealso:
 - name: Discovery reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Stops all the discoveries and removes them.
     returned: success,changed,always
@@ -354,13 +354,13 @@ data_0:
                     description: It is the Discovery's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_1:
     description: Initiates Discovery with the given parameters.
@@ -380,13 +380,13 @@ data_1:
                     description: It is the Discovery's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: InventoryRequest's version.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_2:
     description: Stops or starts an existing Discovery.
@@ -406,13 +406,13 @@ data_2:
                     description: It is the Discovery's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: DiscoveryNIO's version.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_3:
     description: Returns the count of all available Discovery jobs.
@@ -428,7 +428,7 @@ data_3:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_4:
     description: Stops the Discovery for the given Discovery ID and removes it. Discovery ID can be obtained using the "Get Discoveries by range" API.
@@ -448,13 +448,13 @@ data_4:
                     description: It is the Discovery's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_5:
     description: Returns Discovery by Discovery ID. Discovery ID can be obtained using the "Get Discoveries by range" API.
@@ -479,27 +479,27 @@ data_5:
                     description: It is the Discovery's deviceIds.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<deviceids>'
                 discoveryCondition:
                     description: It is the Discovery's DiscoveryCondition.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<discoverycondition>'
                 discoveryStatus:
                     description: It is the Discovery's DiscoveryStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<discoverystatus>'
                 discoveryType:
                     description: It is the Discovery's DiscoveryType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<discoverytype>'
                 enablePasswordList:
                     description: It is the Discovery's enablePasswordList.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<enablepasswordlist>'
                 globalCredentialIdList:
                     description: It is the Discovery's globalCredentialIdList.
                     returned: success,changed,always
@@ -513,37 +513,37 @@ data_5:
                             description: It is the Discovery's comments.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<comments>'
                         credentialType:
                             description: It is the Discovery's credentialType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<credentialtype>'
                         description:
                             description: It is the Discovery's description.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<description>'
                         id:
                             description: It is the Discovery's id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '478012'
                         instanceTenantId:
                             description: It is the Discovery's instanceTenantId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<instancetenantid>'
                         instanceUuid:
                             description: It is the Discovery's instanceUuid.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<instanceuuid>'
                         password:
                             description: It is the Discovery's password.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '*******'
                         port:
                             description: It is the Discovery's port.
                             returned: success,changed,always
@@ -558,7 +558,7 @@ data_5:
                             description: It is the Discovery's username.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: 'devnetuser'
 
                 httpWriteCredential:
                     description: It is the Discovery's httpWriteCredential.
@@ -569,37 +569,37 @@ data_5:
                             description: It is the Discovery's comments.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<comments>'
                         credentialType:
                             description: It is the Discovery's credentialType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<credentialtype>'
                         description:
                             description: It is the Discovery's description.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<description>'
                         id:
                             description: It is the Discovery's id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '478012'
                         instanceTenantId:
                             description: It is the Discovery's instanceTenantId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<instancetenantid>'
                         instanceUuid:
                             description: It is the Discovery's instanceUuid.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<instanceuuid>'
                         password:
                             description: It is the Discovery's password.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '*******'
                         port:
                             description: It is the Discovery's port.
                             returned: success,changed,always
@@ -614,23 +614,23 @@ data_5:
                             description: It is the Discovery's username.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: 'devnetuser'
 
                 id:
                     description: It is the Discovery's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 ipAddressList:
                     description: It is the Discovery's ipAddressList.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipaddresslist>'
                 ipFilterList:
                     description: It is the Discovery's ipFilterList.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipfilterlist>'
                 isAutoCdp:
                     description: It is the Discovery's isAutoCdp.
                     returned: success,changed,always
@@ -645,12 +645,12 @@ data_5:
                     description: It is the Discovery's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
                 netconfPort:
                     description: It is the Discovery's netconfPort.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<netconfport>'
                 numDevices:
                     description: It is the Discovery's numDevices.
                     returned: success,changed,always
@@ -660,22 +660,22 @@ data_5:
                     description: It is the Discovery's parentDiscoveryId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<parentdiscoveryid>'
                 passwordList:
                     description: It is the Discovery's passwordList.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<passwordlist>'
                 preferredMgmtIPMethod:
                     description: It is the Discovery's preferredMgmtIPMethod.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<preferredmgmtipmethod>'
                 protocolOrder:
                     description: It is the Discovery's protocolOrder.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<protocolorder>'
                 retryCount:
                     description: It is the Discovery's retryCount.
                     returned: success,changed,always
@@ -685,52 +685,52 @@ data_5:
                     description: It is the Discovery's snmpAuthPassphrase.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpauthpassphrase>'
                 snmpAuthProtocol:
                     description: It is the Discovery's snmpAuthProtocol.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpauthprotocol>'
                 snmpMode:
                     description: It is the Discovery's snmpMode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpmode>'
                 snmpPrivPassphrase:
                     description: It is the Discovery's snmpPrivPassphrase.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpprivpassphrase>'
                 snmpPrivProtocol:
                     description: It is the Discovery's snmpPrivProtocol.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpprivprotocol>'
                 snmpRoCommunity:
                     description: It is the Discovery's snmpRoCommunity.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmprocommunity>'
                 snmpRoCommunityDesc:
                     description: It is the Discovery's snmpRoCommunityDesc.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmprocommunitydesc>'
                 snmpRwCommunity:
                     description: It is the Discovery's snmpRwCommunity.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmprwcommunity>'
                 snmpRwCommunityDesc:
                     description: It is the Discovery's snmpRwCommunityDesc.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmprwcommunitydesc>'
                 snmpUserName:
                     description: It is the Discovery's snmpUserName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpusername>'
                 timeOut:
                     description: It is the Discovery's timeOut.
                     returned: success,changed,always
@@ -745,13 +745,13 @@ data_5:
                     description: It is the Discovery's userNameList.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<usernamelist>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_6:
     description: Stops Discovery for the given range and removes them.
@@ -771,13 +771,13 @@ data_6:
                     description: It is the Discovery's url.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<url>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
 data_7:
     description: Returns the Discovery by specified range.
@@ -802,27 +802,27 @@ data_7:
                     description: It is the Discovery's deviceIds.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<deviceids>'
                 discoveryCondition:
                     description: It is the Discovery's DiscoveryCondition.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<discoverycondition>'
                 discoveryStatus:
                     description: It is the Discovery's DiscoveryStatus.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<discoverystatus>'
                 discoveryType:
                     description: It is the Discovery's DiscoveryType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<discoverytype>'
                 enablePasswordList:
                     description: It is the Discovery's enablePasswordList.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<enablepasswordlist>'
                 globalCredentialIdList:
                     description: It is the Discovery's globalCredentialIdList.
                     returned: success,changed,always
@@ -836,37 +836,37 @@ data_7:
                             description: It is the Discovery's comments.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<comments>'
                         credentialType:
                             description: It is the Discovery's credentialType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<credentialtype>'
                         description:
                             description: It is the Discovery's description.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<description>'
                         id:
                             description: It is the Discovery's id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '478012'
                         instanceTenantId:
                             description: It is the Discovery's instanceTenantId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<instancetenantid>'
                         instanceUuid:
                             description: It is the Discovery's instanceUuid.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<instanceuuid>'
                         password:
                             description: It is the Discovery's password.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '*******'
                         port:
                             description: It is the Discovery's port.
                             returned: success,changed,always
@@ -881,7 +881,7 @@ data_7:
                             description: It is the Discovery's username.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: 'devnetuser'
 
                 httpWriteCredential:
                     description: It is the Discovery's httpWriteCredential.
@@ -892,37 +892,37 @@ data_7:
                             description: It is the Discovery's comments.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<comments>'
                         credentialType:
                             description: It is the Discovery's credentialType.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<credentialtype>'
                         description:
                             description: It is the Discovery's description.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<description>'
                         id:
                             description: It is the Discovery's id.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '478012'
                         instanceTenantId:
                             description: It is the Discovery's instanceTenantId.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<instancetenantid>'
                         instanceUuid:
                             description: It is the Discovery's instanceUuid.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '<instanceuuid>'
                         password:
                             description: It is the Discovery's password.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: '*******'
                         port:
                             description: It is the Discovery's port.
                             returned: success,changed,always
@@ -937,23 +937,23 @@ data_7:
                             description: It is the Discovery's username.
                             returned: success,changed,always
                             type: str
-                            sample: 'sample_string'
+                            sample: 'devnetuser'
 
                 id:
                     description: It is the Discovery's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
                 ipAddressList:
                     description: It is the Discovery's ipAddressList.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipaddresslist>'
                 ipFilterList:
                     description: It is the Discovery's ipFilterList.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<ipfilterlist>'
                 isAutoCdp:
                     description: It is the Discovery's isAutoCdp.
                     returned: success,changed,always
@@ -968,12 +968,12 @@ data_7:
                     description: It is the Discovery's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
                 netconfPort:
                     description: It is the Discovery's netconfPort.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<netconfport>'
                 numDevices:
                     description: It is the Discovery's numDevices.
                     returned: success,changed,always
@@ -983,22 +983,22 @@ data_7:
                     description: It is the Discovery's parentDiscoveryId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<parentdiscoveryid>'
                 passwordList:
                     description: It is the Discovery's passwordList.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<passwordlist>'
                 preferredMgmtIPMethod:
                     description: It is the Discovery's preferredMgmtIPMethod.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<preferredmgmtipmethod>'
                 protocolOrder:
                     description: It is the Discovery's protocolOrder.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<protocolorder>'
                 retryCount:
                     description: It is the Discovery's retryCount.
                     returned: success,changed,always
@@ -1008,52 +1008,52 @@ data_7:
                     description: It is the Discovery's snmpAuthPassphrase.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpauthpassphrase>'
                 snmpAuthProtocol:
                     description: It is the Discovery's snmpAuthProtocol.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpauthprotocol>'
                 snmpMode:
                     description: It is the Discovery's snmpMode.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpmode>'
                 snmpPrivPassphrase:
                     description: It is the Discovery's snmpPrivPassphrase.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpprivpassphrase>'
                 snmpPrivProtocol:
                     description: It is the Discovery's snmpPrivProtocol.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpprivprotocol>'
                 snmpRoCommunity:
                     description: It is the Discovery's snmpRoCommunity.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmprocommunity>'
                 snmpRoCommunityDesc:
                     description: It is the Discovery's snmpRoCommunityDesc.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmprocommunitydesc>'
                 snmpRwCommunity:
                     description: It is the Discovery's snmpRwCommunity.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmprwcommunity>'
                 snmpRwCommunityDesc:
                     description: It is the Discovery's snmpRwCommunityDesc.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmprwcommunitydesc>'
                 snmpUserName:
                     description: It is the Discovery's snmpUserName.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<snmpusername>'
                 timeOut:
                     description: It is the Discovery's timeOut.
                     returned: success,changed,always
@@ -1068,19 +1068,25 @@ data_7:
                     description: It is the Discovery's userNameList.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<usernamelist>'
 
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.discovery import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.discovery import (
+    module_definition,
+)
 
 
 def main():
@@ -1091,11 +1097,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

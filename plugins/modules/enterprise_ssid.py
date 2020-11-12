@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: enterprise_ssid
 short_description: Manage EnterpriseSsid objects of Wireless
@@ -82,12 +82,12 @@ seealso:
 - name: EnterpriseSsid reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Gets either one or all the enterprise SSID.
     returned: success,changed,always
@@ -97,7 +97,7 @@ data_0:
             description: It is the enterprise ssid's instanceUuid.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<instanceuuid>'
         version:
             description: It is the enterprise ssid's version.
             returned: success,changed,always
@@ -112,12 +112,12 @@ data_0:
                     description: It is the enterprise ssid's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
                 wlanType:
                     description: It is the enterprise ssid's wlanType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<wlantype>'
                 enableFastLane:
                     description: It is the enterprise ssid's enableFastLane.
                     returned: success,changed,always
@@ -127,22 +127,22 @@ data_0:
                     description: It is the enterprise ssid's securityLevel.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<securitylevel>'
                 authServer:
                     description: It is the enterprise ssid's authServer.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<authserver>'
                 passphrase:
                     description: It is the enterprise ssid's passphrase.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<passphrase>'
                 trafficType:
                     description: It is the enterprise ssid's trafficType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<traffictype>'
                 enableMACFiltering:
                     description: It is the enterprise ssid's enableMACFiltering.
                     returned: success,changed,always
@@ -162,12 +162,12 @@ data_0:
                     description: It is the enterprise ssid's fastTransition.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<fasttransition>'
                 radioPolicy:
                     description: It is the enterprise ssid's radioPolicy.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<radiopolicy>'
                 enableBroadcastSSID:
                     description: It is the enterprise ssid's enableBroadcastSSID.
                     returned: success,changed,always
@@ -178,17 +178,17 @@ data_0:
             description: It is the enterprise ssid's groupUuid.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<groupuuid>'
         inheritedGroupUuid:
             description: It is the enterprise ssid's inheritedGroupUuid.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<inheritedgroupuuid>'
         inheritedGroupName:
             description: It is the enterprise ssid's inheritedGroupName.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<inheritedgroupname>'
 
 
 data_1:
@@ -200,17 +200,17 @@ data_1:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
 data_2:
     description: Deletes given enterprise SSID.
@@ -221,23 +221,29 @@ data_2:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.enterprise_ssid import module_definition
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.enterprise_ssid import (
+    module_definition,
+)
 
 
 def main():
@@ -248,11 +254,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

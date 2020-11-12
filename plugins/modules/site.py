@@ -5,12 +5,12 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
-    'metadata_version': '0.0.1',
-    'status': ['preview'],
-    'supported_by': 'community'
+    "metadata_version": "0.0.1",
+    "status": ["preview"],
+    "supported_by": "community",
 }
 
-DOCUMENTATION = r'''
+DOCUMENTATION = r"""
 ---
 module: site
 short_description: Manage Site objects of Sites
@@ -141,12 +141,12 @@ seealso:
 - name: Site reference
   description: SDK reference.
   link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
-'''
+"""
 
-EXAMPLES = r'''
-'''
+EXAMPLES = r"""
+"""
 
-RETURN = r'''
+RETURN = r"""
 data_0:
     description: Get Site with area/building/floor with specified hierarchy.
     returned: success,changed,always
@@ -161,12 +161,12 @@ data_0:
                     description: It is the Site's parentId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<parentid>'
                 name:
                     description: It is the Site's name.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<name>'
                 additionalInfo:
                     description: It is the Site's additionalInfo.
                     returned: success,changed,always
@@ -175,22 +175,22 @@ data_0:
                     description: It is the Site's SiteHierarchy.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<sitehierarchy>'
                 siteNameHierarchy:
                     description: It is the Site's SiteNameHierarchy.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<sitenamehierarchy>'
                 instanceTenantId:
                     description: It is the Site's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 id:
                     description: It is the Site's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
 
 
 data_1:
@@ -202,17 +202,17 @@ data_1:
             description: Execution Id, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionid>'
         executionStatusUrl:
             description: Execution Status Url, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<executionstatusurl>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
 data_2:
     description: Delete Site with area/building/floor by SiteId.
@@ -223,12 +223,12 @@ data_2:
             description: Status, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<status>'
         message:
             description: Message, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<message>'
 
 data_3:
     description: Update Site area/building/floor with specified hierarchy and new values.
@@ -239,7 +239,7 @@ data_3:
             description: Result, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<result>'
         response:
             description: Response, property of the response body.
             returned: success,changed,always
@@ -249,32 +249,32 @@ data_3:
                     description: It is the Site's endTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<endtime>'
                 version:
                     description: It is the Site's version.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '1.0'
                 startTime:
                     description: It is the Site's startTime.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<starttime>'
                 progress:
                     description: It is the Site's progress.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<progress>'
                 data:
                     description: It is the Site's data.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<data>'
                 serviceType:
                     description: It is the Site's serviceType.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<servicetype>'
                 operationIdList:
                     description: It is the Site's operationIdList.
                     returned: success,changed,always
@@ -283,28 +283,28 @@ data_3:
                     description: It is the Site's isError.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<iserror>'
                 rootId:
                     description: It is the Site's rootId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<rootid>'
                 instanceTenantId:
                     description: It is the Site's instanceTenantId.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '<instancetenantid>'
                 id:
                     description: It is the Site's id.
                     returned: success,changed,always
                     type: str
-                    sample: 'sample_string'
+                    sample: '478012'
 
         status:
             description: Status, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<status>'
 
 data_4:
     description: API to get Site count.
@@ -315,18 +315,25 @@ data_4:
             description: Response, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '<response>'
         version:
             description: Version, property of the response body.
             returned: success,changed,always
             type: str
-            sample: 'sample_string'
+            sample: '1.0'
 
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import ModuleDefinition, DNACModule, dnac_argument_spec
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.site import module_definition, SiteExistenceCriteria
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ModuleDefinition,
+    DNACModule,
+    dnac_argument_spec,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.definitions.site import (
+    module_definition,
+    SiteExistenceCriteria,
+)
 
 
 def main():
@@ -337,11 +344,9 @@ def main():
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
-    
+
     module = AnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=False,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
     )
 
     dnac = DNACModule(module, moddef)

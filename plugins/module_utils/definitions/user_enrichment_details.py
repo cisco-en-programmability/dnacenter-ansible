@@ -1,6 +1,7 @@
 import json
 
-module_definition = json.loads('''{
+module_definition = json.loads(
+    """{
     "family": "users",
     "name": "user_enrichment_details",
     "operations": {
@@ -29,4 +30,5 @@ module_definition = json.loads('''{
             "type": "array"
         }
     }
-}''')
+}"""
+)
