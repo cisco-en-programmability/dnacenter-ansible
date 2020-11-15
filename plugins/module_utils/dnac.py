@@ -19,7 +19,7 @@ def dnac_argument_spec():
         dnac_version=dict(type="str", default="2.1.1"),
         state=dict(
             type="str",
-            default="present",
+            required=True,
             choices=["absent", "delete", "present", "create", "update", "query"],
         ),
         validate_response_schema=dict(type="bool", default=True)
