@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from dnacentersdk import api
+from ansible.module_utils._text import to_native
 from ansible_collections.cisco.dnac.plugins.module_utils.exceptions import (
     InvalidFunction,
     StateNotSupported,
@@ -9,24 +10,33 @@ from ansible_collections.cisco.dnac.plugins.module_utils.exceptions import (
 )
 
 
-def dnac_argument_spec():
-    return dict(
+def dnac_argument_spec(idempotent=False):
+    argument_spec = dict(
         dnac_host=dict(type="str", required=True),
         dnac_port=dict(type="int", required=False, default=443),
         dnac_username=dict(type="str", default="admin", aliases=["user"]),
         dnac_password=dict(type="str", no_log=True),
         dnac_verify=dict(type="bool", default=True),
         dnac_version=dict(type="str", default="2.1.1"),
-        state=dict(
-            type="str",
-            required=True,
-            choices=["absent", "delete", "present", "create", "update", "query"],
-        ),
-        validate_response_schema=dict(type="bool", default=True)
-        # use_proxy=dict(type='bool', default=True),
-        # use_ssl=dict(type='bool', default=True),
-        # validate_certs=dict(type='bool', default=True),
+        validate_response_schema=dict(type="bool", default=True),
     )
+    if idempotent:
+        argument_spec.update(
+            state=dict(
+                type="str",
+                required=True,
+                choices=["present", "absent", "query"],
+            )
+        )
+    else:
+        argument_spec.update(
+            state=dict(
+                type="str",
+                required=True,
+                choices=["create", "delete", "update", "query"],
+            )
+        )
+    return argument_spec
 
 
 class Parameter(object):
@@ -445,7 +455,10 @@ class DNACModule(object):
                 response = func(**self.params)
             except Exception as e:
                 self.fail_json(
-                    msg="An error occured when executing operation. " + str(e)
+                    msg=(
+                        "An error occured when executing operation."
+                        " The error was: {}"
+                    ).format(to_native(e))
                 )
 
             if (
@@ -457,7 +470,10 @@ class DNACModule(object):
                 if self.module._verbosity >= 3:
                     self.result.update(dict(dnac_response=response))
                 self.fail_json(
-                    msg="The response received from DNAC doesn't match the response schema for this function. Consider setting the 'validate_response_schema' argument to False."
+                    msg=(
+                        "The response received from DNAC doesn't match the response schema for this function."
+                        " Consider setting the 'validate_response_schema' argument to False."
+                    )
                 )
         else:
             self.result.update(dict(missing_params=missing_params))

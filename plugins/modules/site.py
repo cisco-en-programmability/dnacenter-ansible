@@ -340,7 +340,7 @@ def main():
 
     moddef = ModuleDefinition(module_definition)
 
-    argument_spec = dnac_argument_spec()
+    argument_spec = dnac_argument_spec(idempotent=True)
     argument_spec.update(moddef.get_argument_spec_dict())
 
     required_if = moddef.get_required_if_list()
