@@ -1,21 +1,14 @@
-- hosts: localhost
+- hosts: dnac_servers
   gather_facts: no
   tasks:
   - name: Create/delete/update/query object
     cisco.dnac.flow_analysis:
-      dnac_host: 192.168.196.2
-      dnac_port: 443
-      dnac_username: altus
-      dnac_password: Altus123
-      dnac_version: 2.1.1
-      dnac_verify: False
-      #
-      #state: query
-      #flow_analysis_id: 84305942-0f78-4db8-b379-32d298d3077a
+      # state: query
+      # flow_analysis_id: 84305942-0f78-4db8-b379-32d298d3077a
       #
       state: create
       destIP: 1.1.1.18
-      sourceIP: 1.1.1.17
+      sourceIP: 1.1.1.17  
       #
       # state: delete
       # flow_analysis_id: 84305942-0f78-4db8-b379-32d298d3077a
@@ -25,22 +18,3 @@
   - name: Show task id
     debug:
       msg: "{{ result }}"
-
-
-  - name: Get task tree
-    cisco.dnac.task:
-      dnac_host: 192.168.196.2
-      dnac_port: 443
-      dnac_username: altus
-      dnac_password: Altus123
-      dnac_version: 2.1.1
-      dnac_verify: False
-      #
-      state: query
-      task_id: "{{ result.dnac_response.response.taskId }}"
-      tree: True
-    register: result
-
-  - name: Show retrieved task
-    debug:
-      msg: "{{ result.dnac_response.response }}"

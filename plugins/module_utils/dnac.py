@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from dnacentersdk import api
+from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils._text import to_native
 from ansible_collections.cisco.dnac.plugins.module_utils.exceptions import (
     InvalidFunction,
@@ -8,6 +9,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.exceptions import (
     NoMatchingOperation,
     MultipleOperations,
 )
+from ansible.errors import AnsibleActionFail
 
 
 def dnac_argument_spec(idempotent=False):
@@ -376,8 +378,16 @@ class ObjectExistenceCriteria(object):
 
 class DNACModule(object):
     def __init__(self, module, moddef):
-        self.module = module
-        self.params = module.params
+        if isinstance(module, AnsibleModule):
+            self.params = module.params
+            self.verbosity = module._verbosity
+            self.fail = module.fail_json
+            self.exit = module.exit_json
+        else:
+            self.params = module.get("params")
+            self.verbosity = module.get("verbosity")
+            self.fail = self._action_fail
+            self.exit = self._action_exit
         self.response = None
         self.result = dict(changed=False)
         self.validate_response_schema = self.params.get("validate_response_schema")
@@ -467,7 +477,7 @@ class DNACModule(object):
             ):
                 self.result.update(dict(dnac_response=response))
             else:
-                if self.module._verbosity >= 3:
+                if self.verbosity >= 3:
                     self.result.update(dict(dnac_response=response))
                 self.fail_json(
                     msg=(
@@ -486,11 +496,16 @@ class DNACModule(object):
 
     def fail_json(self, msg, **kwargs):
         self.result.update(**kwargs)
-        self.module.fail_json(msg=msg, **self.result)
+        self.fail(msg=msg, **self.result)
 
-    def exit_json(self, **kwargs):
-        self.result.update(**kwargs)
-        self.module.exit_json(**self.result)
+    def exit_json(self):
+        self.exit(**self.result)
+
+    def _action_fail(self, msg, **kwargs):
+        raise AnsibleActionFail(msg, kwargs)
+
+    def _action_exit(self):
+        return self.result
 
 
 def main():
