@@ -22,39 +22,40 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    id:
+  id:
+    description:
+    - Id query parameter.
+    - Required for state delete.
+    type: str
+  limit:
+    description:
+    - Limit query parameter.
+    type: int
+  name:
+    description:
+    - Name query parameter.
+    type: str
+  offset:
+    description:
+    - Offset query parameter.
+    type: int
+  payload:
+    description:
+    - An object to send in the Request body.
+    - Required for state create.
+    type: list
+    elements: dict
+    suboptions:
+      name:
         description:
-        - Id query parameter.
+        - It is the application set's name.
         type: str
-    limit:
-        description:
-        - Limit query parameter.
-        type: int
-    name:
-        description:
-        - Name query parameter.
-        type: str
-    offset:
-        description:
-        - Offset query parameter.
-        type: int
-    payload:
-        description:
-        - An object to send in the Request body.
-        type: list
-        required: True
-        elements: dict
-        suboptions:
-            name:
-                description:
-                - It is the application set's name.
-                type: str
 
-    count:
-        description:
-        - If true gets the number of objects.
-        type: bool
-        required: True
+  count:
+    description:
+    - If true gets the number of objects.
+    - Required for state query.
+    type: bool
 
 requirements:
 - dnacentersdk
@@ -72,159 +73,156 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: delete_application_set
+  cisco.dnac.application_set
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: delete  # required
+    id: SomeValue  # string, required
+  delegate_to: localhost
+  
+- name: get_application_sets
+  cisco.dnac.application_set
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    limit: 1  #  number
+    name: SomeValue  # string
+    offset: 1  #  number
+  delegate_to: localhost
+  register: query_result
+  
+- name: create_application_set
+  cisco.dnac.application_set
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    payload:  # required
+    - name: SomeValue  # string
+  delegate_to: localhost
+  
+- name: get_application_sets_count
+  cisco.dnac.application_set
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    count: True  # boolean, required
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+delete_application_set:
     description: Delete existing application-set by it's id.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the application set's taskId.
-                    returned: success,changed,always
-                    type: str
-                    sample: 'aeed229047801200e0ef563dbb9a71c2'
-                url:
-                    description: It is the application set's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: Response, property of the response body.
+      returned: success
+      type: dict
+      contains:
+        taskId:
+          description: It is the application set's taskId.
+          returned: success
+          type: str
+          sample: 'aeed229047801200e0ef563dbb9a71c2'
+        url:
+          description: It is the application set's url.
+          returned: success
+          type: str
+          sample: '<url>'
 
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: Version, property of the response body.
+      returned: success
+      type: str
+      sample: '1.0'
 
-data_1:
+get_application_sets:
     description: Get appllication-sets by offset/limit or by name.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                id:
-                    description: It is the application set's id.
-                    returned: success,changed,always
-                    type: str
-                    sample: '478012'
-                identitySource:
-                    description: It is the application set's identitySource.
-                    returned: success,changed,always
-                    type: dict
-                    contains:
-                        id:
-                            description: It is the application set's id.
-                            returned: success,changed,always
-                            type: str
-                            sample: '478012'
-                        type:
-                            description: It is the application set's type.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<type>'
+    response:
+      description: Response, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
+        id:
+          description: It is the application set's id.
+          returned: always
+          type: str
+          sample: '478012'
+        identitySource:
+          description: It is the application set's identitySource.
+          returned: always
+          type: dict
+          contains:
+            id:
+              description: It is the application set's id.
+              returned: always
+              type: str
+              sample: '478012'
+            type:
+              description: It is the application set's type.
+              returned: always
+              type: str
+              sample: '<type>'
 
-                name:
-                    description: It is the application set's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
+        name:
+          description: It is the application set's name.
+          returned: always
+          type: str
+          sample: '<name>'
 
 
-data_2:
+create_application_set:
     description: Create new custom application-set/s.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the application set's taskId.
-                    returned: success,changed,always
-                    type: str
-                    sample: 'aeed229047801200e0ef563dbb9a71c2'
-                url:
-                    description: It is the application set's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: Response, property of the response body.
+      returned: success
+      type: dict
+      contains:
+        taskId:
+          description: It is the application set's taskId.
+          returned: success
+          type: str
+          sample: 'aeed229047801200e0ef563dbb9a71c2'
+        url:
+          description: It is the application set's url.
+          returned: success
+          type: str
+          sample: '<url>'
 
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: Version, property of the response body.
+      returned: success
+      type: str
+      sample: '1.0'
 
-data_3:
+get_application_sets_count:
     description: Get the number of existing application-sets.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<response>'
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    response:
+      description: Response, property of the response body.
+      returned: always
+      type: str
+      sample: '<response>'
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.application_set import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    elif state == "delete":
-        dnac.exec("delete")
-
-    elif state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

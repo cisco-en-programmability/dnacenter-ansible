@@ -21,29 +21,31 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    site_name_hierarchy:
+  site_name_hierarchy:
+    description:
+    - SiteNameHierarchy query parameter.
+    type: str
+    required: True
+  virtual_network_name:
+    description:
+    - VirtualNetworkName query parameter.
+    type: str
+    required: True
+  payload:
+    description:
+    - An object to send in the Request body.
+    - Required for state create.
+    type: list
+    elements: dict
+    suboptions:
+      virtualNetworkName:
         description:
-        - SiteNameHierarchy query parameter.
+        - It is the sda virtual network's virtualNetworkName.
         type: str
-    virtual_network_name:
+      siteNameHierarchy:
         description:
-        - VirtualNetworkName query parameter.
+        - It is the sda virtual network's siteNameHierarchy.
         type: str
-    payload:
-        description:
-        - An object to send in the Request body.
-        type: list
-        required: True
-        elements: dict
-        suboptions:
-            virtualNetworkName:
-                description:
-                - It is the sda virtual network's virtualNetworkName.
-                type: str
-            siteNameHierarchy:
-                description:
-                - It is the sda virtual network's siteNameHierarchy.
-                type: str
 
 
 requirements:
@@ -62,156 +64,144 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_vn
+  cisco.dnac.sda_virtual_network
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    site_name_hierarchy: SomeValue  # string, required
+    virtual_network_name: SomeValue  # string, required
+  delegate_to: localhost
+  register: query_result
+  
+- name: delete_vn
+  cisco.dnac.sda_virtual_network
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: delete  # required
+    site_name_hierarchy: SomeValue  # string, required
+    virtual_network_name: SomeValue  # string, required
+  delegate_to: localhost
+  
+- name: add_vn
+  cisco.dnac.sda_virtual_network
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    payload:  # required
+    - virtualNetworkName: SomeValue  # string
+      siteNameHierarchy: SomeValue  # string
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_vn:
     description: Get virtual network (VN) from SDA Fabric.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        status:
-            description: Status, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<status>'
-        description:
-            description: Description, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        name:
-            description: Name, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<name>'
-        roles:
-            description: Roles, property of the response body (list of strings).
-            returned: success,changed,always
-            type: list
-        deviceManagementIpAddress:
-            description: Device Management Ip Address, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<devicemanagementipaddress>'
-        siteHierarchy:
-            description: Site Hierarchy, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<sitehierarchy>'
+    status:
+      description: Status, property of the response body.
+      returned: always
+      type: str
+      sample: '<status>'
+    description:
+      description: Description, property of the response body.
+      returned: always
+      type: str
+      sample: '<description>'
+    name:
+      description: Name, property of the response body.
+      returned: always
+      type: str
+      sample: '<name>'
+    roles:
+      description: Roles, property of the response body (list of strings).
+      returned: always
+      type: list
+    deviceManagementIpAddress:
+      description: Device Management Ip Address, property of the response body.
+      returned: always
+      type: str
+      sample: '<devicemanagementipaddress>'
+    siteHierarchy:
+      description: Site Hierarchy, property of the response body.
+      returned: always
+      type: str
+      sample: '<sitehierarchy>'
 
-data_1:
+delete_vn:
     description: Delete virtual network (VN) from SDA Fabric.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        status:
-            description: Status, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<status>'
-        description:
-            description: Description, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        name:
-            description: Name, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<name>'
-        roles:
-            description: Roles, property of the response body (list of strings).
-            returned: success,changed,always
-            type: list
-        deviceManagementIpAddress:
-            description: Device Management Ip Address, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<devicemanagementipaddress>'
-        siteHierarchy:
-            description: Site Hierarchy, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<sitehierarchy>'
+    status:
+      description: Status, property of the response body.
+      returned: success
+      type: str
+      sample: '<status>'
+    description:
+      description: Description, property of the response body.
+      returned: success
+      type: str
+      sample: '<description>'
+    name:
+      description: Name, property of the response body.
+      returned: success
+      type: str
+      sample: '<name>'
+    roles:
+      description: Roles, property of the response body (list of strings).
+      returned: success
+      type: list
+    deviceManagementIpAddress:
+      description: Device Management Ip Address, property of the response body.
+      returned: success
+      type: str
+      sample: '<devicemanagementipaddress>'
+    siteHierarchy:
+      description: Site Hierarchy, property of the response body.
+      returned: success
+      type: str
+      sample: '<sitehierarchy>'
 
-data_2:
+add_vn:
     description: Add virtual network (VN) in SDA Fabric.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        status:
-            description: Status, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<status>'
-        description:
-            description: Description, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        name:
-            description: Name, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<name>'
-        roles:
-            description: Roles, property of the response body (list of strings).
-            returned: success,changed,always
-            type: list
-        deviceManagementIpAddress:
-            description: Device Management Ip Address, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<devicemanagementipaddress>'
-        siteHierarchy:
-            description: Site Hierarchy, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<sitehierarchy>'
+    status:
+      description: Status, property of the response body.
+      returned: success
+      type: str
+      sample: '<status>'
+    description:
+      description: Description, property of the response body.
+      returned: success
+      type: str
+      sample: '<description>'
+    name:
+      description: Name, property of the response body.
+      returned: success
+      type: str
+      sample: '<name>'
+    roles:
+      description: Roles, property of the response body (list of strings).
+      returned: success
+      type: list
+    deviceManagementIpAddress:
+      description: Device Management Ip Address, property of the response body.
+      returned: success
+      type: str
+      sample: '<devicemanagementipaddress>'
+    siteHierarchy:
+      description: Site Hierarchy, property of the response body.
+      returned: success
+      type: str
+      sample: '<sitehierarchy>'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.sda_virtual_network import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    elif state == "delete":
-        dnac.exec("delete")
-
-    elif state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

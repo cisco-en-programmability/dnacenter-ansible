@@ -20,73 +20,73 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    payload:
-        description:
-        - An object to send in the Request body.
-        type: list
-        required: True
-        elements: dict
-        suboptions:
-            comments:
-                description:
-                - It is the global credential snmpv2 write community's comments.
-                type: str
-            credentialType:
-                description:
-                - It is the global credential snmpv2 write community's credentialType.
-                type: str
-            description:
-                description:
-                - It is the global credential snmpv2 write community's description.
-                type: str
-            id:
-                description:
-                - It is the global credential snmpv2 write community's id.
-                type: str
-            instanceTenantId:
-                description:
-                - It is the global credential snmpv2 write community's instanceTenantId.
-                type: str
-            instanceUuid:
-                description:
-                - It is the global credential snmpv2 write community's instanceUuid.
-                type: str
-            writeCommunity:
-                description:
-                - It is the global credential snmpv2 write community's writeCommunity.
-                type: str
-                required: True
-
-    comments:
-        description:
-        - SNMPv2WriteCommunityDTO's comments.
-        type: str
-    credentialType:
-        description:
-        - SNMPv2WriteCommunityDTO's credentialType.
-        - Available values are 'GLOBAL' and 'APP'.
-        type: str
+  payload:
     description:
+    - An object to send in the Request body.
+    - Required for state create.
+    type: list
+    elements: dict
+    suboptions:
+      comments:
         description:
-        - SNMPv2WriteCommunityDTO's description.
+        - It is the global credential snmpv2 write community's comments.
         type: str
-    id:
+      credentialType:
         description:
-        - SNMPv2WriteCommunityDTO's id.
+        - It is the global credential snmpv2 write community's credentialType.
         type: str
-    instanceTenantId:
+      description:
         description:
-        - SNMPv2WriteCommunityDTO's instanceTenantId.
+        - It is the global credential snmpv2 write community's description.
         type: str
-    instanceUuid:
+      id:
         description:
-        - SNMPv2WriteCommunityDTO's instanceUuid.
+        - It is the global credential snmpv2 write community's id.
         type: str
-    writeCommunity:
+      instanceTenantId:
         description:
-        - SNMPv2WriteCommunityDTO's writeCommunity.
+        - It is the global credential snmpv2 write community's instanceTenantId.
+        type: str
+      instanceUuid:
+        description:
+        - It is the global credential snmpv2 write community's instanceUuid.
+        type: str
+      writeCommunity:
+        description:
+        - It is the global credential snmpv2 write community's writeCommunity.
         type: str
         required: True
+
+  comments:
+    description:
+    - SNMPv2WriteCommunityDTO's comments.
+    type: str
+  credentialType:
+    description:
+    - SNMPv2WriteCommunityDTO's credentialType.
+    - Available values are 'GLOBAL' and 'APP'.
+    type: str
+  description:
+    description:
+    - SNMPv2WriteCommunityDTO's description.
+    type: str
+  id:
+    description:
+    - SNMPv2WriteCommunityDTO's id.
+    type: str
+  instanceTenantId:
+    description:
+    - SNMPv2WriteCommunityDTO's instanceTenantId.
+    type: str
+  instanceUuid:
+    description:
+    - SNMPv2WriteCommunityDTO's instanceUuid.
+    type: str
+  writeCommunity:
+    description:
+    - SNMPv2WriteCommunityDTO's writeCommunity.
+    - Required for state update.
+    type: str
 
 requirements:
 - dnacentersdk
@@ -104,101 +104,90 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: create_snmp_write_community
+  cisco.dnac.global_credential_snmpv2_write_community
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    payload:  # required
+    - writeCommunity: SomeValue  # string, required
+      comments: SomeValue  # string
+      credentialType: SomeValue  # string
+      description: SomeValue  # string
+      id: SomeValue  # string
+      instanceTenantId: SomeValue  # string
+      instanceUuid: SomeValue  # string
+  delegate_to: localhost
+  
+- name: update_snmp_write_community
+  cisco.dnac.global_credential_snmpv2_write_community
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: update  # required
+    writeCommunity: SomeValue  # string, required
+    comments: SomeValue  # string
+    credentialType: SomeValue  # string, valid values: 'GLOBAL', 'APP'.
+    description: SomeValue  # string
+    id: SomeValue  # string
+    instanceTenantId: SomeValue  # string
+    instanceUuid: SomeValue  # string
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+create_snmp_write_community:
     description: Adds global SNMP write community.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        response:
-            description: SNMPv2WriteCommunityDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the global credential snmpv2 write community's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the global credential snmpv2 write community's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: SNMPv2WriteCommunityDTO's response.
+      returned: success
+      type: dict
+      contains:
+        taskId:
+          description: It is the global credential snmpv2 write community's taskId.
+          returned: success
+          type: dict
+        url:
+          description: It is the global credential snmpv2 write community's url.
+          returned: success
+          type: str
+          sample: '<url>'
 
-        version:
-            description: SNMPv2WriteCommunityDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: SNMPv2WriteCommunityDTO's version.
+      returned: success
+      type: str
+      sample: '1.0'
 
-data_1:
+update_snmp_write_community:
     description: Updates global SNMP write community.
-    returned: success,changed,always
+    returned: changed
     type: dict
     contains:
-        response:
-            description: SNMPv2WriteCommunityDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the global credential snmpv2 write community's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the global credential snmpv2 write community's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: SNMPv2WriteCommunityDTO's response.
+      returned: changed
+      type: dict
+      contains:
+        taskId:
+          description: It is the global credential snmpv2 write community's taskId.
+          returned: changed
+          type: dict
+        url:
+          description: It is the global credential snmpv2 write community's url.
+          returned: changed
+          type: str
+          sample: '<url>'
 
-        version:
-            description: SNMPv2WriteCommunityDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: SNMPv2WriteCommunityDTO's version.
+      returned: changed
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.global_credential_snmpv2_write_community import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    elif state == "update":
-        dnac.disable_validation()
-        dnac.exec("put")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

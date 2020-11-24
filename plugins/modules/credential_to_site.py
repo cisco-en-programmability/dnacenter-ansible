@@ -19,35 +19,35 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    site_id:
-        description:
-        - Site id to assign credential.
-        type: str
-        required: True
-    cliId:
-        description:
-        - Cli Id, property of the request body.
-        type: str
-    httpRead:
-        description:
-        - Http Read, property of the request body.
-        type: str
-    httpWrite:
-        description:
-        - Http Write, property of the request body.
-        type: str
-    snmpV2ReadId:
-        description:
-        - Snmp V2 Read Id, property of the request body.
-        type: str
-    snmpV2WriteId:
-        description:
-        - Snmp V2 Write Id, property of the request body.
-        type: str
-    snmpV3Id:
-        description:
-        - Snmp V3 Id, property of the request body.
-        type: str
+  site_id:
+    description:
+    - Site id to assign credential.
+    type: str
+    required: True
+  cliId:
+    description:
+    - Cli Id, property of the request body.
+    type: str
+  httpRead:
+    description:
+    - Http Read, property of the request body.
+    type: str
+  httpWrite:
+    description:
+    - Http Write, property of the request body.
+    type: str
+  snmpV2ReadId:
+    description:
+    - Snmp V2 Read Id, property of the request body.
+    type: str
+  snmpV2WriteId:
+    description:
+    - Snmp V2 Write Id, property of the request body.
+    type: str
+  snmpV3Id:
+    description:
+    - Snmp V3 Id, property of the request body.
+    type: str
 
 requirements:
 - dnacentersdk
@@ -65,66 +65,43 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: assign_credential_to_site
+  cisco.dnac.credential_to_site
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    site_id: SomeValue  # string, required
+    cliId: SomeValue  # string
+    httpRead: SomeValue  # string
+    httpWrite: SomeValue  # string
+    snmpV2ReadId: SomeValue  # string
+    snmpV2WriteId: SomeValue  # string
+    snmpV3Id: SomeValue  # string
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+assign_credential_to_site:
     description: Assign Device Credential To Site.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        executionId:
-            description: Execution Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionid>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
-        message:
-            description: Message, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<message>'
+    executionId:
+      description: Execution Id, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionid>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionstatusurl>'
+    message:
+      description: Message, property of the response body.
+      returned: success
+      type: str
+      sample: '<message>'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.credential_to_site import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

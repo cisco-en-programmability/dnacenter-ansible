@@ -21,53 +21,54 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    ssid_name:
-        description:
-        - Enter the enterprise SSID name that needs to be retrieved. If not entered, all the enterprise SSIDs will be retrieved.
-        - Required for state delete.
-        type: str
-    enableBroadcastSSID:
-        description:
-        - EnableBroadcastSSID, property of the request body.
-        type: bool
-    enableFastLane:
-        description:
-        - EnableFastLane, property of the request body.
-        type: bool
-    enableMACFiltering:
-        description:
-        - EnableMACFiltering, property of the request body.
-        type: bool
-    fastTransition:
-        description:
-        - Fast Transition, property of the request body.
-        - Available values are 'Adaptive', 'Enable' and 'Disable'.
-        type: str
-    name:
-        description:
-        - Enter SSID Name, property of the request body. Constraints: maxLength set to 32.
-        type: str
-        required: True
-    passphrase:
-        description:
-        - Pass Phrase (Only applicable for SSID with PERSONAL security level), property of the request body. Constraints: maxLength set to 63 and minLength set to 8.
-        type: str
-    radioPolicy:
-        description:
-        - Radio Policy, property of the request body.
-        - Available values are 'Dual band operation (2.4GHz and 5GHz)', 'Dual band operation with band select', '5GHz only' and '2.4GHz only'.
-        type: str
-    securityLevel:
-        description:
-        - Security Level, property of the request body.
-        - Available values are 'WPA2_ENTERPRISE', 'WPA2_PERSONAL' and 'OPEN'.
-        type: str
-        required: True
-    trafficType:
-        description:
-        - Traffic Type, property of the request body.
-        - Available values are 'voicedata' and 'data'.
-        type: str
+  ssid_name:
+    description:
+    - Enter the enterprise SSID name that needs to be retrieved. If not entered, all the enterprise SSIDs will be retrieved.
+    - Enter the SSID name to be deleted.
+    - Required for state delete.
+    type: str
+  enableBroadcastSSID:
+    description:
+    - EnableBroadcastSSID, property of the request body.
+    type: bool
+  enableFastLane:
+    description:
+    - EnableFastLane, property of the request body.
+    type: bool
+  enableMACFiltering:
+    description:
+    - EnableMACFiltering, property of the request body.
+    type: bool
+  fastTransition:
+    description:
+    - Fast Transition, property of the request body.
+    - Available values are 'Adaptive', 'Enable' and 'Disable'.
+    type: str
+  name:
+    description:
+    - Enter SSID Name, property of the request body. Constraints: maxLength set to 32.
+    - Required for state create.
+    type: str
+  passphrase:
+    description:
+    - Pass Phrase (Only applicable for SSID with PERSONAL security level), property of the request body. Constraints: maxLength set to 63 and minLength set to 8.
+    type: str
+  radioPolicy:
+    description:
+    - Radio Policy, property of the request body.
+    - Available values are 'Dual band operation (2.4GHz and 5GHz)', 'Dual band operation with band select', '5GHz only' and '2.4GHz only'.
+    type: str
+  securityLevel:
+    description:
+    - Security Level, property of the request body.
+    - Available values are 'WPA2_ENTERPRISE', 'WPA2_PERSONAL' and 'OPEN'.
+    - Required for state create.
+    type: str
+  trafficType:
+    description:
+    - Traffic Type, property of the request body.
+    - Available values are 'voicedata' and 'data'.
+    type: str
 
 requirements:
 - dnacentersdk
@@ -85,196 +86,193 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_enterprise_ssid
+  cisco.dnac.enterprise_ssid
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    ssid_name: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
+- name: create_enterprise_ssid
+  cisco.dnac.enterprise_ssid
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    name: SomeValue  # string, required
+    securityLevel: SomeValue  # string, required, valid values: 'WPA2_ENTERPRISE', 'WPA2_PERSONAL', 'OPEN'.
+    enableBroadcastSSID: True  # boolean
+    enableFastLane: True  # boolean
+    enableMACFiltering: True  # boolean
+    fastTransition: SomeValue  # string, valid values: 'Adaptive', 'Enable', 'Disable'.
+    passphrase: SomeValue  # string
+    radioPolicy: SomeValue  # string, valid values: 'Dual band operation (2.4GHz and 5GHz)', 'Dual band operation with band select', '5GHz only', '2.4GHz only'.
+    trafficType: SomeValue  # string, valid values: 'voicedata', 'data'.
+  delegate_to: localhost
+  
+- name: delete_enterprise_ssid
+  cisco.dnac.enterprise_ssid
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: delete  # required
+    ssid_name: SomeValue  # string, required
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_enterprise_ssid:
     description: Gets either one or all the enterprise SSID.
-    returned: success,changed,always
-    type: list
+    returned: always
+    type: dict
     contains:
+    payload:
+      description: It is the enterprise ssid's payload.
+      returned: always
+      type: list
+      contains:
         instanceUuid:
-            description: It is the enterprise ssid's instanceUuid.
-            returned: success,changed,always
-            type: str
-            sample: '<instanceuuid>'
+          description: It is the enterprise ssid's instanceUuid.
+          returned: always
+          type: str
+          sample: '<instanceuuid>'
         version:
-            description: It is the enterprise ssid's version.
-            returned: success,changed,always
-            type: int
-            sample: 0
+          description: It is the enterprise ssid's version.
+          returned: always
+          type: int
+          sample: 0
         ssidDetails:
-            description: It is the enterprise ssid's ssidDetails.
-            returned: success,changed,always
-            type: list
-            contains:
-                name:
-                    description: It is the enterprise ssid's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
-                wlanType:
-                    description: It is the enterprise ssid's wlanType.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<wlantype>'
-                enableFastLane:
-                    description: It is the enterprise ssid's enableFastLane.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
-                securityLevel:
-                    description: It is the enterprise ssid's securityLevel.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<securitylevel>'
-                authServer:
-                    description: It is the enterprise ssid's authServer.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<authserver>'
-                passphrase:
-                    description: It is the enterprise ssid's passphrase.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<passphrase>'
-                trafficType:
-                    description: It is the enterprise ssid's trafficType.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<traffictype>'
-                enableMACFiltering:
-                    description: It is the enterprise ssid's enableMACFiltering.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
-                isEnabled:
-                    description: It is the enterprise ssid's isEnabled.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
-                isFabric:
-                    description: It is the enterprise ssid's isFabric.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
-                fastTransition:
-                    description: It is the enterprise ssid's fastTransition.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<fasttransition>'
-                radioPolicy:
-                    description: It is the enterprise ssid's radioPolicy.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<radiopolicy>'
-                enableBroadcastSSID:
-                    description: It is the enterprise ssid's enableBroadcastSSID.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
+          description: It is the enterprise ssid's ssidDetails.
+          returned: always
+          type: list
+          contains:
+            name:
+              description: It is the enterprise ssid's name.
+              returned: always
+              type: str
+              sample: '<name>'
+            wlanType:
+              description: It is the enterprise ssid's wlanType.
+              returned: always
+              type: str
+              sample: '<wlantype>'
+            enableFastLane:
+              description: It is the enterprise ssid's enableFastLane.
+              returned: always
+              type: bool
+              sample: false
+            securityLevel:
+              description: It is the enterprise ssid's securityLevel.
+              returned: always
+              type: str
+              sample: '<securitylevel>'
+            authServer:
+              description: It is the enterprise ssid's authServer.
+              returned: always
+              type: str
+              sample: '<authserver>'
+            passphrase:
+              description: It is the enterprise ssid's passphrase.
+              returned: always
+              type: str
+              sample: '<passphrase>'
+            trafficType:
+              description: It is the enterprise ssid's trafficType.
+              returned: always
+              type: str
+              sample: '<traffictype>'
+            enableMACFiltering:
+              description: It is the enterprise ssid's enableMACFiltering.
+              returned: always
+              type: bool
+              sample: false
+            isEnabled:
+              description: It is the enterprise ssid's isEnabled.
+              returned: always
+              type: bool
+              sample: false
+            isFabric:
+              description: It is the enterprise ssid's isFabric.
+              returned: always
+              type: bool
+              sample: false
+            fastTransition:
+              description: It is the enterprise ssid's fastTransition.
+              returned: always
+              type: str
+              sample: '<fasttransition>'
+            radioPolicy:
+              description: It is the enterprise ssid's radioPolicy.
+              returned: always
+              type: str
+              sample: '<radiopolicy>'
+            enableBroadcastSSID:
+              description: It is the enterprise ssid's enableBroadcastSSID.
+              returned: always
+              type: bool
+              sample: false
 
         groupUuid:
-            description: It is the enterprise ssid's groupUuid.
-            returned: success,changed,always
-            type: str
-            sample: '<groupuuid>'
+          description: It is the enterprise ssid's groupUuid.
+          returned: always
+          type: str
+          sample: '<groupuuid>'
         inheritedGroupUuid:
-            description: It is the enterprise ssid's inheritedGroupUuid.
-            returned: success,changed,always
-            type: str
-            sample: '<inheritedgroupuuid>'
+          description: It is the enterprise ssid's inheritedGroupUuid.
+          returned: always
+          type: str
+          sample: '<inheritedgroupuuid>'
         inheritedGroupName:
-            description: It is the enterprise ssid's inheritedGroupName.
-            returned: success,changed,always
-            type: str
-            sample: '<inheritedgroupname>'
+          description: It is the enterprise ssid's inheritedGroupName.
+          returned: always
+          type: str
+          sample: '<inheritedgroupname>'
 
 
-data_1:
+create_enterprise_ssid:
     description: Creates enterprise SSID.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        executionId:
-            description: Execution Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionid>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
-        message:
-            description: Message, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<message>'
+    executionId:
+      description: Execution Id, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionid>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionstatusurl>'
+    message:
+      description: Message, property of the response body.
+      returned: success
+      type: str
+      sample: '<message>'
 
-data_2:
+delete_enterprise_ssid:
     description: Deletes given enterprise SSID.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        executionId:
-            description: Execution Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionid>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
-        message:
-            description: Message, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<message>'
+    executionId:
+      description: Execution Id, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionid>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionstatusurl>'
+    message:
+      description: Message, property of the response body.
+      returned: success
+      type: str
+      sample: '<message>'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.enterprise_ssid import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    elif state == "delete":
-        dnac.exec("delete")
-
-    elif state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

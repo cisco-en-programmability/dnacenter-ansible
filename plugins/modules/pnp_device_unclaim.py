@@ -19,10 +19,10 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    deviceIdList:
-        description:
-        - UnclaimRequest's deviceIdList (list of strings).
-        type: list
+  deviceIdList:
+    description:
+    - UnclaimRequest's deviceIdList (list of strings).
+    type: list
 
 requirements:
 - dnacentersdk
@@ -40,69 +40,41 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: un_claim_device
+  cisco.dnac.pnp_device_unclaim
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    deviceIdList:
+    - SomeValue  # string
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+un_claim_device:
     description: Un-Claims one of more devices with specified workflow.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        jsonArrayResponse:
-            description: UnclaimRequest's Json Array Response (list of any objects).
-            returned: success,changed,always
-            type: list
-        jsonResponse:
-            description: UnclaimRequest's Json Response.
-            returned: success,changed,always
-            type: dict
-        message:
-            description: UnclaimRequest's Message.
-            returned: success,changed,always
-            type: str
-            sample: '<message>'
-        statusCode:
-            description: UnclaimRequest's statusCode.
-            returned: success,changed,always
-            type: int
-            sample: 0
+    jsonArrayResponse:
+      description: UnclaimRequest's Json Array Response (list of any objects).
+      returned: success
+      type: list
+    jsonResponse:
+      description: UnclaimRequest's Json Response.
+      returned: success
+      type: dict
+    message:
+      description: UnclaimRequest's Message.
+      returned: success
+      type: str
+      sample: '<message>'
+    statusCode:
+      description: UnclaimRequest's statusCode.
+      returned: success
+      type: int
+      sample: 0
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.pnp_device_unclaim import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

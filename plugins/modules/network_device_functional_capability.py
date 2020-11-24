@@ -20,19 +20,20 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    device_id:
-        description:
-        - Accepts comma separated deviceid's and return list of functional-capabilities for the given id's. If invalid or not-found id's are provided, null entry will be returned in the list.
-        type: str
-    function_name:
-        description:
-        - FunctionName query parameter.
-        type: str
-    id:
-        description:
-        - Functional Capability UUID.
-        type: str
-        required: True
+  device_id:
+    description:
+    - Accepts comma separated deviceid's and return list of functional-capabilities for the given id's. If invalid or not-found id's are provided, null entry will be returned in the list.
+    type: str
+    required: True
+  function_name:
+    description:
+    - FunctionName query parameter.
+    type: str
+  id:
+    description:
+    - Functional Capability UUID.
+    type: str
+    required: True
 
 requirements:
 - dnacentersdk
@@ -50,186 +51,170 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_functional_capability_for_devices
+  cisco.dnac.network_device_functional_capability
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    device_id: SomeValue  # string, required
+    function_name: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
+- name: get_functional_capability_by_id
+  cisco.dnac.network_device_functional_capability
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    id: SomeValue  # string, required
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_functional_capability_for_devices:
     description: Returns the functional-capability for given devices.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
+    response:
+      description: Response, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
+        attributeInfo:
+          description: It is the network device functional capability's attributeInfo.
+          returned: always
+          type: dict
+        deviceId:
+          description: It is the network device functional capability's deviceId.
+          returned: always
+          type: str
+          sample: '<deviceid>'
+        functionalCapability:
+          description: It is the network device functional capability's functionalCapability.
+          returned: always
+          type: list
+          contains:
+            attributeInfo:
+              description: It is the network device functional capability's attributeInfo.
+              returned: always
+              type: dict
+            functionDetails:
+              description: It is the network device functional capability's functionDetails.
+              returned: always
+              type: list
+              contains:
                 attributeInfo:
-                    description: It is the network device functional capability's attributeInfo.
-                    returned: success,changed,always
-                    type: dict
-                deviceId:
-                    description: It is the network device functional capability's deviceId.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<deviceid>'
-                functionalCapability:
-                    description: It is the network device functional capability's functionalCapability.
-                    returned: success,changed,always
-                    type: list
-                    contains:
-                        attributeInfo:
-                            description: It is the network device functional capability's attributeInfo.
-                            returned: success,changed,always
-                            type: dict
-                        functionDetails:
-                            description: It is the network device functional capability's functionDetails.
-                            returned: success,changed,always
-                            type: list
-                            contains:
-                                attributeInfo:
-                                    description: It is the network device functional capability's attributeInfo.
-                                    returned: success,changed,always
-                                    type: dict
-                                id:
-                                    description: It is the network device functional capability's id.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '478012'
-                                propertyName:
-                                    description: It is the network device functional capability's propertyName.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '<propertyname>'
-                                stringValue:
-                                    description: It is the network device functional capability's stringValue.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '<stringvalue>'
-
-                        functionName:
-                            description: It is the network device functional capability's functionName.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<functionname>'
-                        functionOpState:
-                            description: It is the network device functional capability's functionOpState.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<functionopstate>'
-                        id:
-                            description: It is the network device functional capability's id.
-                            returned: success,changed,always
-                            type: str
-                            sample: '478012'
-
+                  description: It is the network device functional capability's attributeInfo.
+                  returned: always
+                  type: dict
                 id:
-                    description: It is the network device functional capability's id.
-                    returned: success,changed,always
-                    type: str
-                    sample: '478012'
+                  description: It is the network device functional capability's id.
+                  returned: always
+                  type: str
+                  sample: '478012'
+                propertyName:
+                  description: It is the network device functional capability's propertyName.
+                  returned: always
+                  type: str
+                  sample: '<propertyname>'
+                stringValue:
+                  description: It is the network device functional capability's stringValue.
+                  returned: always
+                  type: str
+                  sample: '<stringvalue>'
 
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+            functionName:
+              description: It is the network device functional capability's functionName.
+              returned: always
+              type: str
+              sample: '<functionname>'
+            functionOpState:
+              description: It is the network device functional capability's functionOpState.
+              returned: always
+              type: str
+              sample: '<functionopstate>'
+            id:
+              description: It is the network device functional capability's id.
+              returned: always
+              type: str
+              sample: '478012'
 
-data_1:
+        id:
+          description: It is the network device functional capability's id.
+          returned: always
+          type: str
+          sample: '478012'
+
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
+
+get_functional_capability_by_id:
     description: Returns functional capability with given Id.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: dict
-            contains:
-                attributeInfo:
-                    description: It is the network device functional capability's attributeInfo.
-                    returned: success,changed,always
-                    type: dict
-                functionDetails:
-                    description: It is the network device functional capability's functionDetails.
-                    returned: success,changed,always
-                    type: list
-                    contains:
-                        attributeInfo:
-                            description: It is the network device functional capability's attributeInfo.
-                            returned: success,changed,always
-                            type: dict
-                        id:
-                            description: It is the network device functional capability's id.
-                            returned: success,changed,always
-                            type: str
-                            sample: '478012'
-                        propertyName:
-                            description: It is the network device functional capability's propertyName.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<propertyname>'
-                        stringValue:
-                            description: It is the network device functional capability's stringValue.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<stringvalue>'
+    response:
+      description: Response, property of the response body.
+      returned: always
+      type: dict
+      contains:
+        attributeInfo:
+          description: It is the network device functional capability's attributeInfo.
+          returned: always
+          type: dict
+        functionDetails:
+          description: It is the network device functional capability's functionDetails.
+          returned: always
+          type: list
+          contains:
+            attributeInfo:
+              description: It is the network device functional capability's attributeInfo.
+              returned: always
+              type: dict
+            id:
+              description: It is the network device functional capability's id.
+              returned: always
+              type: str
+              sample: '478012'
+            propertyName:
+              description: It is the network device functional capability's propertyName.
+              returned: always
+              type: str
+              sample: '<propertyname>'
+            stringValue:
+              description: It is the network device functional capability's stringValue.
+              returned: always
+              type: str
+              sample: '<stringvalue>'
 
-                functionName:
-                    description: It is the network device functional capability's functionName.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<functionname>'
-                functionOpState:
-                    description: It is the network device functional capability's functionOpState.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<functionopstate>'
-                id:
-                    description: It is the network device functional capability's id.
-                    returned: success,changed,always
-                    type: str
-                    sample: '478012'
+        functionName:
+          description: It is the network device functional capability's functionName.
+          returned: always
+          type: str
+          sample: '<functionname>'
+        functionOpState:
+          description: It is the network device functional capability's functionOpState.
+          returned: always
+          type: str
+          sample: '<functionopstate>'
+        id:
+          description: It is the network device functional capability's id.
+          returned: always
+          type: str
+          sample: '478012'
 
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_functional_capability import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

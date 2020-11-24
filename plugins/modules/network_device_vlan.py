@@ -19,15 +19,15 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    id:
-        description:
-        - Id path parameter.
-        type: str
-        required: True
-    interface_type:
-        description:
-        - Vlan assocaited with sub-interface.
-        type: str
+  id:
+    description:
+    - Id path parameter.
+    type: str
+    required: True
+  interface_type:
+    description:
+    - Vlan assocaited with sub-interface.
+    type: str
 
 requirements:
 - dnacentersdk
@@ -45,101 +45,75 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_device_interface_vlans
+  cisco.dnac.network_device_vlan
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    id: SomeValue  # string, required
+    interface_type: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_device_interface_vlans:
     description: Returns Device Interface VLANs.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                interfaceName:
-                    description: It is the network device vlan's interfaceName.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<interfacename>'
-                ipAddress:
-                    description: It is the network device vlan's ipAddress.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<ipaddress>'
-                mask:
-                    description: It is the network device vlan's mask.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                networkAddress:
-                    description: It is the network device vlan's networkAddress.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<networkaddress>'
-                numberOfIPs:
-                    description: It is the network device vlan's numberOfIPs.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                prefix:
-                    description: It is the network device vlan's prefix.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<prefix>'
-                vlanNumber:
-                    description: It is the network device vlan's vlanNumber.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                vlanType:
-                    description: It is the network device vlan's vlanType.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<vlantype>'
+    response:
+      description: Response, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
+        interfaceName:
+          description: It is the network device vlan's interfaceName.
+          returned: always
+          type: str
+          sample: '<interfacename>'
+        ipAddress:
+          description: It is the network device vlan's ipAddress.
+          returned: always
+          type: str
+          sample: '<ipaddress>'
+        mask:
+          description: It is the network device vlan's mask.
+          returned: always
+          type: int
+          sample: 0
+        networkAddress:
+          description: It is the network device vlan's networkAddress.
+          returned: always
+          type: str
+          sample: '<networkaddress>'
+        numberOfIPs:
+          description: It is the network device vlan's numberOfIPs.
+          returned: always
+          type: int
+          sample: 0
+        prefix:
+          description: It is the network device vlan's prefix.
+          returned: always
+          type: str
+          sample: '<prefix>'
+        vlanNumber:
+          description: It is the network device vlan's vlanNumber.
+          returned: always
+          type: int
+          sample: 0
+        vlanType:
+          description: It is the network device vlan's vlanType.
+          returned: always
+          type: str
+          sample: '<vlantype>'
 
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_vlan import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

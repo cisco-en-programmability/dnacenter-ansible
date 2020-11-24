@@ -19,26 +19,26 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    id:
-        description:
-        - NetworkDeviceBriefNIO's id.
-        type: str
-        required: True
-    role:
-        description:
-        - NetworkDeviceBriefNIO's role.
-        type: str
-        required: True
-    roleSource:
-        description:
-        - NetworkDeviceBriefNIO's roleSource.
-        type: str
-        required: True
-    summary:
-        description:
-        - If true gets the summary.
-        type: bool
-        required: True
+  id:
+    description:
+    - NetworkDeviceBriefNIO's id.
+    type: str
+    required: True
+  role:
+    description:
+    - NetworkDeviceBriefNIO's role.
+    type: str
+    required: True
+  roleSource:
+    description:
+    - NetworkDeviceBriefNIO's roleSource.
+    type: str
+    required: True
+  summary:
+    description:
+    - If true gets the summary.
+    type: bool
+    required: True
 
 requirements:
 - dnacentersdk
@@ -56,71 +56,45 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: update_device_role
+  cisco.dnac.network_device_update_role
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: update  # required
+    id: SomeValue  # string, required
+    role: SomeValue  # string, required
+    roleSource: SomeValue  # string, required
+    summary: True  # boolean, required
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+update_device_role:
     description: Updates the role of the device as access, core, distribution, border router.
-    returned: success,changed,always
+    returned: changed
     type: dict
     contains:
-        response:
-            description: NetworkDeviceBriefNIO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the network device update role's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the network device update role's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: NetworkDeviceBriefNIO's response.
+      returned: changed
+      type: dict
+      contains:
+        taskId:
+          description: It is the network device update role's taskId.
+          returned: changed
+          type: dict
+        url:
+          description: It is the network device update role's url.
+          returned: changed
+          type: str
+          sample: '<url>'
 
-        version:
-            description: NetworkDeviceBriefNIO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: NetworkDeviceBriefNIO's version.
+      returned: changed
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_update_role import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "update":
-        dnac.disable_validation()
-        dnac.exec("put")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

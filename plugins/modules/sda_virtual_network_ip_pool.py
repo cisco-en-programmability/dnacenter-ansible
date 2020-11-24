@@ -21,53 +21,55 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    ip_pool_name:
+  ip_pool_name:
+    description:
+    - IpPoolName query parameter.
+    type: str
+    required: True
+  virtual_network_name:
+    description:
+    - VirtualNetworkName query parameter.
+    type: str
+    required: True
+  payload:
+    description:
+    - An object to send in the Request body.
+    - Required for state create.
+    type: list
+    elements: dict
+    suboptions:
+      virtualNetworkName:
         description:
-        - IpPoolName query parameter.
+        - It is the sda virtual network ip pool's virtualNetworkName.
         type: str
-    virtual_network_name:
+      ipPoolName:
         description:
-        - VirtualNetworkName query parameter.
+        - It is the sda virtual network ip pool's ipPoolName.
         type: str
-    payload:
+      trafficType:
         description:
-        - An object to send in the Request body.
-        type: list
-        required: True
-        elements: dict
-        suboptions:
-            virtualNetworkName:
-                description:
-                - It is the sda virtual network ip pool's virtualNetworkName.
-                type: str
-            ipPoolName:
-                description:
-                - It is the sda virtual network ip pool's ipPoolName.
-                type: str
-            trafficType:
-                description:
-                - It is the sda virtual network ip pool's trafficType.
-                type: str
-            authenticationPolicyName:
-                description:
-                - It is the sda virtual network ip pool's authenticationPolicyName.
-                type: str
-            scalableGroupName:
-                description:
-                - It is the sda virtual network ip pool's scalableGroupName.
-                type: str
-            isL2FloodingEnabled:
-                description:
-                - It is the sda virtual network ip pool's isL2FloodingEnabled.
-                type: bool
-            isThisCriticalPool:
-                description:
-                - It is the sda virtual network ip pool's isThisCriticalPool.
-                type: bool
-            poolType:
-                description:
-                - It is the sda virtual network ip pool's poolType.
-                type: str
+        - It is the sda virtual network ip pool's trafficType.
+        type: str
+      authenticationPolicyName:
+        description:
+        - It is the sda virtual network ip pool's authenticationPolicyName.
+        type: str
+      scalableGroupName:
+        description:
+        - It is the sda virtual network ip pool's scalableGroupName.
+        type: str
+      isL2FloodingEnabled:
+        description:
+        - It is the sda virtual network ip pool's isL2FloodingEnabled.
+        type: bool
+      isThisCriticalPool:
+        description:
+        - It is the sda virtual network ip pool's isThisCriticalPool.
+        type: bool
+      poolType:
+        description:
+        - It is the sda virtual network ip pool's poolType.
+        type: str
 
 
 requirements:
@@ -86,144 +88,138 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: delete_ip_pool_from_sda_virtual_network
+  cisco.dnac.sda_virtual_network_ip_pool
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: delete  # required
+    ip_pool_name: SomeValue  # string, required
+    virtual_network_name: SomeValue  # string, required
+  delegate_to: localhost
+  
+- name: get_ip_pool_from_sda_virtual_network
+  cisco.dnac.sda_virtual_network_ip_pool
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    ip_pool_name: SomeValue  # string, required
+    virtual_network_name: SomeValue  # string, required
+  delegate_to: localhost
+  register: query_result
+  
+- name: add_ip_pool_in_sda_virtual_network
+  cisco.dnac.sda_virtual_network_ip_pool
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    payload:  # required
+    - virtualNetworkName: SomeValue  # string
+      ipPoolName: SomeValue  # string
+      trafficType: SomeValue  # string
+      authenticationPolicyName: SomeValue  # string
+      scalableGroupName: SomeValue  # string
+      isL2FloodingEnabled: True  # boolean
+      isThisCriticalPool: True  # boolean
+      poolType: SomeValue  # string
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+delete_ip_pool_from_sda_virtual_network:
     description: Delete IP Pool from SDA Virtual Network.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        status:
-            description: Status, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<status>'
-        description:
-            description: Description, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
+    status:
+      description: Status, property of the response body.
+      returned: success
+      type: str
+      sample: '<status>'
+    description:
+      description: Description, property of the response body.
+      returned: success
+      type: str
+      sample: '<description>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionstatusurl>'
 
-data_1:
+get_ip_pool_from_sda_virtual_network:
     description: Get IP Pool from SDA Virtual Network.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        status:
-            description: Status, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<status>'
-        description:
-            description: Description, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        virtualNetworkName:
-            description: Virtual Network Name, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<virtualnetworkname>'
-        ipPoolName:
-            description: Ip Pool Name, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<ippoolname>'
-        authenticationPolicyName:
-            description: Authentication Policy Name, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<authenticationpolicyname>'
-        trafficType:
-            description: Traffic Type, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<traffictype>'
-        scalableGroupName:
-            description: Scalable Group Name, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<scalablegroupname>'
-        isL2FloodingEnabled:
-            description: IsL2FloodingEnabled, property of the response body.
-            returned: success,changed,always
-            type: bool
-            sample: false
-        isThisCriticalPool:
-            description: IsThisCriticalPool, property of the response body.
-            returned: success,changed,always
-            type: bool
-            sample: false
+    status:
+      description: Status, property of the response body.
+      returned: always
+      type: str
+      sample: '<status>'
+    description:
+      description: Description, property of the response body.
+      returned: always
+      type: str
+      sample: '<description>'
+    virtualNetworkName:
+      description: Virtual Network Name, property of the response body.
+      returned: always
+      type: str
+      sample: '<virtualnetworkname>'
+    ipPoolName:
+      description: Ip Pool Name, property of the response body.
+      returned: always
+      type: str
+      sample: '<ippoolname>'
+    authenticationPolicyName:
+      description: Authentication Policy Name, property of the response body.
+      returned: always
+      type: str
+      sample: '<authenticationpolicyname>'
+    trafficType:
+      description: Traffic Type, property of the response body.
+      returned: always
+      type: str
+      sample: '<traffictype>'
+    scalableGroupName:
+      description: Scalable Group Name, property of the response body.
+      returned: always
+      type: str
+      sample: '<scalablegroupname>'
+    isL2FloodingEnabled:
+      description: IsL2FloodingEnabled, property of the response body.
+      returned: always
+      type: bool
+      sample: false
+    isThisCriticalPool:
+      description: IsThisCriticalPool, property of the response body.
+      returned: always
+      type: bool
+      sample: false
 
-data_2:
+add_ip_pool_in_sda_virtual_network:
     description: Add IP Pool in SDA Virtual Network.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        status:
-            description: Status, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<status>'
-        description:
-            description: Description, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
+    status:
+      description: Status, property of the response body.
+      returned: success
+      type: str
+      sample: '<status>'
+    description:
+      description: Description, property of the response body.
+      returned: success
+      type: str
+      sample: '<description>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionstatusurl>'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.sda_virtual_network_ip_pool import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    elif state == "delete":
-        dnac.exec("delete")
-
-    elif state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

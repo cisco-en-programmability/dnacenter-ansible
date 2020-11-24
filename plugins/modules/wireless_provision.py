@@ -20,58 +20,58 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    payload:
+  payload:
+    description:
+    - An object to send in the Request body.
+    type: list
+    required: True
+    elements: dict
+    suboptions:
+      deviceName:
         description:
-        - An object to send in the Request body.
-        type: list
+        - It is the wireless provision's deviceName.
+        type: str
         required: True
+      dynamicInterfaces:
+        description:
+        - It is the wireless provision's dynamicInterfaces.
+        type: list
         elements: dict
         suboptions:
-            deviceName:
-                description:
-                - It is the wireless provision's deviceName.
-                type: str
-                required: True
-            dynamicInterfaces:
-                description:
-                - It is the wireless provision's dynamicInterfaces.
-                type: list
-                elements: dict
-                suboptions:
-                    interfaceGateway:
-                        description:
-                        - It is the wireless provision's interfaceGateway.
-                        type: str
-                    interfaceIPAddress:
-                        description:
-                        - It is the wireless provision's interfaceIPAddress.
-                        type: str
-                    interfaceName:
-                        description:
-                        - It is the wireless provision's interfaceName.
-                        type: str
-                    interfaceNetmaskInCIDR:
-                        description:
-                        - It is the wireless provision's interfaceNetmaskInCIDR.
-                        type: int
-                    lagOrPortNumber:
-                        description:
-                        - It is the wireless provision's lagOrPortNumber.
-                        type: int
-                    vlanId:
-                        description:
-                        - It is the wireless provision's vlanId.
-                        type: int
+          interfaceGateway:
+            description:
+            - It is the wireless provision's interfaceGateway.
+            type: str
+          interfaceIPAddress:
+            description:
+            - It is the wireless provision's interfaceIPAddress.
+            type: str
+          interfaceName:
+            description:
+            - It is the wireless provision's interfaceName.
+            type: str
+          interfaceNetmaskInCIDR:
+            description:
+            - It is the wireless provision's interfaceNetmaskInCIDR.
+            type: int
+          lagOrPortNumber:
+            description:
+            - It is the wireless provision's lagOrPortNumber.
+            type: int
+          vlanId:
+            description:
+            - It is the wireless provision's vlanId.
+            type: int
 
-            managedAPLocations:
-                description:
-                - It is the wireless provision's managedAPLocations.
-                type: list
-            site:
-                description:
-                - It is the wireless provision's site.
-                type: str
-                required: True
+      managedAPLocations:
+        description:
+        - It is the wireless provision's managedAPLocations.
+        type: list
+      site:
+        description:
+        - It is the wireless provision's site.
+        type: str
+        required: True
 
 
 requirements:
@@ -90,109 +90,106 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: provision
+  cisco.dnac.wireless_provision
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    payload:  # required
+    - deviceName: SomeValue  # string, required
+      site: SomeValue  # string, required
+      managedAPLocations:
+      - SomeValue  # string
+      dynamicInterfaces:
+      - interfaceIPAddress: SomeValue  # string
+        interfaceNetmaskInCIDR: 1  #  integer
+        interfaceGateway: SomeValue  # string
+        lagOrPortNumber: 1  #  integer
+        vlanId: 1  #  integer
+        interfaceName: SomeValue  # string
+  delegate_to: localhost
+  
+- name: provision_update
+  cisco.dnac.wireless_provision
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: update  # required
+    payload:  # required
+    - deviceName: SomeValue  # string, required
+      managedAPLocations:
+      - SomeValue  # string
+      dynamicInterfaces:
+      - interfaceIPAddress: SomeValue  # string
+        interfaceNetmaskInCIDR: 1  #  integer
+        interfaceGateway: SomeValue  # string
+        lagOrPortNumber: 1  #  integer
+        vlanId: 1  #  integer
+        interfaceName: SomeValue  # string
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+provision:
     description: Provision wireless devices.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        executionId:
-            description: Execution Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionid>'
-        executionUrl:
-            description: Execution Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionurl>'
-        provisioningTasks:
-            description: Provisioning Tasks, property of the response body.
-            returned: success,changed,always
-            type: dict
-            contains:
-                success:
-                    description: It is the wireless provision's success.
-                    returned: success,changed,always
-                    type: list
-                failed:
-                    description: It is the wireless provision's failed.
-                    returned: success,changed,always
-                    type: list
+    executionId:
+      description: Execution Id, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionid>'
+    executionUrl:
+      description: Execution Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionurl>'
+    provisioningTasks:
+      description: Provisioning Tasks, property of the response body.
+      returned: success
+      type: dict
+      contains:
+        success:
+          description: It is the wireless provision's success.
+          returned: success
+          type: list
+        failed:
+          description: It is the wireless provision's failed.
+          returned: success
+          type: list
 
 
-data_1:
+provision_update:
     description: Updates wireless provisioning.
-    returned: success,changed,always
+    returned: changed
     type: dict
     contains:
-        executionId:
-            description: Execution Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionid>'
-        executionUrl:
-            description: Execution Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionurl>'
-        provisioningTasks:
-            description: Provisioning Tasks, property of the response body.
-            returned: success,changed,always
-            type: dict
-            contains:
-                success:
-                    description: It is the wireless provision's success.
-                    returned: success,changed,always
-                    type: list
-                failed:
-                    description: It is the wireless provision's failed.
-                    returned: success,changed,always
-                    type: list
+    executionId:
+      description: Execution Id, property of the response body.
+      returned: changed
+      type: str
+      sample: '<executionid>'
+    executionUrl:
+      description: Execution Url, property of the response body.
+      returned: changed
+      type: str
+      sample: '<executionurl>'
+    provisioningTasks:
+      description: Provisioning Tasks, property of the response body.
+      returned: changed
+      type: dict
+      contains:
+        success:
+          description: It is the wireless provision's success.
+          returned: changed
+          type: list
+        failed:
+          description: It is the wireless provision's failed.
+          returned: changed
+          type: list
 
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.wireless_provision import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    elif state == "update":
-        dnac.disable_validation()
-        dnac.exec("put")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

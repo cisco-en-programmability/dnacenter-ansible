@@ -20,27 +20,28 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    id:
-        description:
-        - Discovery ID.
-        type: str
-        required: True
-    ip_address:
-        description:
-        - IpAddress query parameter.
-        type: str
-    limit:
-        description:
-        - Limit query parameter.
-        type: int
-    offset:
-        description:
-        - Offset query parameter.
-        type: int
-    name:
-        description:
-        - Name query parameter.
-        type: str
+  id:
+    description:
+    - Discovery ID.
+    type: str
+    required: True
+  ip_address:
+    description:
+    - IpAddress query parameter.
+    - Required for state query.
+    type: str
+  limit:
+    description:
+    - Limit query parameter.
+    type: int
+  offset:
+    description:
+    - Offset query parameter.
+    type: int
+  name:
+    description:
+    - Name query parameter.
+    type: str
 
 requirements:
 - dnacentersdk
@@ -58,236 +59,225 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_list_of_discoveries_by_discovery_id
+  cisco.dnac.discovery_job
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    id: SomeValue  # string, required
+    ip_address: SomeValue  # string
+    limit: 1  #  integer
+    offset: 1  #  integer
+  delegate_to: localhost
+  register: query_result
+  
+- name: get_discovery_jobs_by_ip
+  cisco.dnac.discovery_job
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    ip_address: SomeValue  # string, required
+    limit: 1  #  integer
+    name: SomeValue  # string
+    offset: 1  #  integer
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_list_of_discoveries_by_discovery_id:
     description: Returns the list of discovery jobs for the given Discovery ID. The results can be optionally filtered based on IP. Discovery ID can be obtained using the "Get Discoveries by range" API.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                attributeInfo:
-                    description: It is the discovery job's attributeInfo.
-                    returned: success,changed,always
-                    type: dict
-                cliStatus:
-                    description: It is the discovery job's cliStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<clistatus>'
-                discoveryStatus:
-                    description: It is the discovery job's discoveryStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<discoverystatus>'
-                endTime:
-                    description: It is the discovery job's endTime.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<endtime>'
-                httpStatus:
-                    description: It is the discovery job's httpStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<httpstatus>'
-                id:
-                    description: It is the discovery job's id.
-                    returned: success,changed,always
-                    type: str
-                    sample: '478012'
-                inventoryCollectionStatus:
-                    description: It is the discovery job's inventoryCollectionStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<inventorycollectionstatus>'
-                inventoryReachabilityStatus:
-                    description: It is the discovery job's inventoryReachabilityStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<inventoryreachabilitystatus>'
-                ipAddress:
-                    description: It is the discovery job's ipAddress.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<ipaddress>'
-                jobStatus:
-                    description: It is the discovery job's jobStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<jobstatus>'
-                name:
-                    description: It is the discovery job's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
-                netconfStatus:
-                    description: It is the discovery job's netconfStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<netconfstatus>'
-                pingStatus:
-                    description: It is the discovery job's pingStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<pingstatus>'
-                snmpStatus:
-                    description: It is the discovery job's snmpStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<snmpstatus>'
-                startTime:
-                    description: It is the discovery job's startTime.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<starttime>'
-                taskId:
-                    description: It is the discovery job's taskId.
-                    returned: success,changed,always
-                    type: str
-                    sample: 'aeed229047801200e0ef563dbb9a71c2'
+    response:
+      description: Response, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
+        attributeInfo:
+          description: It is the discovery job's attributeInfo.
+          returned: always
+          type: dict
+        cliStatus:
+          description: It is the discovery job's cliStatus.
+          returned: always
+          type: str
+          sample: '<clistatus>'
+        discoveryStatus:
+          description: It is the discovery job's discoveryStatus.
+          returned: always
+          type: str
+          sample: '<discoverystatus>'
+        endTime:
+          description: It is the discovery job's endTime.
+          returned: always
+          type: str
+          sample: '<endtime>'
+        httpStatus:
+          description: It is the discovery job's httpStatus.
+          returned: always
+          type: str
+          sample: '<httpstatus>'
+        id:
+          description: It is the discovery job's id.
+          returned: always
+          type: str
+          sample: '478012'
+        inventoryCollectionStatus:
+          description: It is the discovery job's inventoryCollectionStatus.
+          returned: always
+          type: str
+          sample: '<inventorycollectionstatus>'
+        inventoryReachabilityStatus:
+          description: It is the discovery job's inventoryReachabilityStatus.
+          returned: always
+          type: str
+          sample: '<inventoryreachabilitystatus>'
+        ipAddress:
+          description: It is the discovery job's ipAddress.
+          returned: always
+          type: str
+          sample: '<ipaddress>'
+        jobStatus:
+          description: It is the discovery job's jobStatus.
+          returned: always
+          type: str
+          sample: '<jobstatus>'
+        name:
+          description: It is the discovery job's name.
+          returned: always
+          type: str
+          sample: '<name>'
+        netconfStatus:
+          description: It is the discovery job's netconfStatus.
+          returned: always
+          type: str
+          sample: '<netconfstatus>'
+        pingStatus:
+          description: It is the discovery job's pingStatus.
+          returned: always
+          type: str
+          sample: '<pingstatus>'
+        snmpStatus:
+          description: It is the discovery job's snmpStatus.
+          returned: always
+          type: str
+          sample: '<snmpstatus>'
+        startTime:
+          description: It is the discovery job's startTime.
+          returned: always
+          type: str
+          sample: '<starttime>'
+        taskId:
+          description: It is the discovery job's taskId.
+          returned: always
+          type: str
+          sample: 'aeed229047801200e0ef563dbb9a71c2'
 
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
-data_1:
+get_discovery_jobs_by_ip:
     description: Returns the list of discovery jobs for the given IP.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                attributeInfo:
-                    description: It is the discovery job's attributeInfo.
-                    returned: success,changed,always
-                    type: dict
-                cliStatus:
-                    description: It is the discovery job's cliStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<clistatus>'
-                discoveryStatus:
-                    description: It is the discovery job's discoveryStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<discoverystatus>'
-                endTime:
-                    description: It is the discovery job's endTime.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<endtime>'
-                httpStatus:
-                    description: It is the discovery job's httpStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<httpstatus>'
-                id:
-                    description: It is the discovery job's id.
-                    returned: success,changed,always
-                    type: str
-                    sample: '478012'
-                inventoryCollectionStatus:
-                    description: It is the discovery job's inventoryCollectionStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<inventorycollectionstatus>'
-                inventoryReachabilityStatus:
-                    description: It is the discovery job's inventoryReachabilityStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<inventoryreachabilitystatus>'
-                ipAddress:
-                    description: It is the discovery job's ipAddress.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<ipaddress>'
-                jobStatus:
-                    description: It is the discovery job's jobStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<jobstatus>'
-                name:
-                    description: It is the discovery job's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
-                netconfStatus:
-                    description: It is the discovery job's netconfStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<netconfstatus>'
-                pingStatus:
-                    description: It is the discovery job's pingStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<pingstatus>'
-                snmpStatus:
-                    description: It is the discovery job's snmpStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<snmpstatus>'
-                startTime:
-                    description: It is the discovery job's startTime.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<starttime>'
-                taskId:
-                    description: It is the discovery job's taskId.
-                    returned: success,changed,always
-                    type: str
-                    sample: 'aeed229047801200e0ef563dbb9a71c2'
+    response:
+      description: Response, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
+        attributeInfo:
+          description: It is the discovery job's attributeInfo.
+          returned: always
+          type: dict
+        cliStatus:
+          description: It is the discovery job's cliStatus.
+          returned: always
+          type: str
+          sample: '<clistatus>'
+        discoveryStatus:
+          description: It is the discovery job's discoveryStatus.
+          returned: always
+          type: str
+          sample: '<discoverystatus>'
+        endTime:
+          description: It is the discovery job's endTime.
+          returned: always
+          type: str
+          sample: '<endtime>'
+        httpStatus:
+          description: It is the discovery job's httpStatus.
+          returned: always
+          type: str
+          sample: '<httpstatus>'
+        id:
+          description: It is the discovery job's id.
+          returned: always
+          type: str
+          sample: '478012'
+        inventoryCollectionStatus:
+          description: It is the discovery job's inventoryCollectionStatus.
+          returned: always
+          type: str
+          sample: '<inventorycollectionstatus>'
+        inventoryReachabilityStatus:
+          description: It is the discovery job's inventoryReachabilityStatus.
+          returned: always
+          type: str
+          sample: '<inventoryreachabilitystatus>'
+        ipAddress:
+          description: It is the discovery job's ipAddress.
+          returned: always
+          type: str
+          sample: '<ipaddress>'
+        jobStatus:
+          description: It is the discovery job's jobStatus.
+          returned: always
+          type: str
+          sample: '<jobstatus>'
+        name:
+          description: It is the discovery job's name.
+          returned: always
+          type: str
+          sample: '<name>'
+        netconfStatus:
+          description: It is the discovery job's netconfStatus.
+          returned: always
+          type: str
+          sample: '<netconfstatus>'
+        pingStatus:
+          description: It is the discovery job's pingStatus.
+          returned: always
+          type: str
+          sample: '<pingstatus>'
+        snmpStatus:
+          description: It is the discovery job's snmpStatus.
+          returned: always
+          type: str
+          sample: '<snmpstatus>'
+        startTime:
+          description: It is the discovery job's startTime.
+          returned: always
+          type: str
+          sample: '<starttime>'
+        taskId:
+          description: It is the discovery job's taskId.
+          returned: always
+          type: str
+          sample: 'aeed229047801200e0ef563dbb9a71c2'
 
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.discovery_job import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

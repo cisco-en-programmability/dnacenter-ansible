@@ -21,45 +21,47 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    device_ip:
+  device_ip:
+    description:
+    - Device-ip query parameter.
+    type: str
+    required: True
+  interface_name:
+    description:
+    - InterfaceName query parameter.
+    type: str
+    required: True
+  payload:
+    description:
+    - An object to send in the Request body.
+    - Required for state create.
+    type: list
+    elements: dict
+    suboptions:
+      siteNameHierarchy:
         description:
-        - Device-ip query parameter.
+        - It is the sda host onboarding access point's siteNameHierarchy.
         type: str
-    interface_name:
+      deviceManagementIpAddress:
         description:
-        - InterfaceName query parameter.
+        - It is the sda host onboarding access point's deviceManagementIpAddress.
         type: str
-    payload:
+      interfaceName:
         description:
-        - An object to send in the Request body.
-        type: list
-        required: True
-        elements: dict
-        suboptions:
-            siteNameHierarchy:
-                description:
-                - It is the sda host onboarding access point's siteNameHierarchy.
-                type: str
-            deviceManagementIpAddress:
-                description:
-                - It is the sda host onboarding access point's deviceManagementIpAddress.
-                type: str
-            interfaceName:
-                description:
-                - It is the sda host onboarding access point's interfaceName.
-                type: str
-            dataIpAddressPoolName:
-                description:
-                - It is the sda host onboarding access point's dataIpAddressPoolName.
-                type: str
-            voiceIpAddressPoolName:
-                description:
-                - It is the sda host onboarding access point's voiceIpAddressPoolName.
-                type: str
-            authenticateTemplateName:
-                description:
-                - It is the sda host onboarding access point's authenticateTemplateName.
-                type: str
+        - It is the sda host onboarding access point's interfaceName.
+        type: str
+      dataIpAddressPoolName:
+        description:
+        - It is the sda host onboarding access point's dataIpAddressPoolName.
+        type: str
+      voiceIpAddressPoolName:
+        description:
+        - It is the sda host onboarding access point's voiceIpAddressPoolName.
+        type: str
+      authenticateTemplateName:
+        description:
+        - It is the sda host onboarding access point's authenticateTemplateName.
+        type: str
 
 
 requirements:
@@ -78,144 +80,136 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: delete_port_assignment_for_access_point
+  cisco.dnac.sda_host_onboarding_access_point
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: delete  # required
+    device_ip: SomeValue  # string, required
+    interface_name: SomeValue  # string, required
+  delegate_to: localhost
+  
+- name: get_port_assignment_for_access_point
+  cisco.dnac.sda_host_onboarding_access_point
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    device_ip: SomeValue  # string, required
+    interface_name: SomeValue  # string, required
+  delegate_to: localhost
+  register: query_result
+  
+- name: add_port_assignment_for_access_point
+  cisco.dnac.sda_host_onboarding_access_point
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    payload:  # required
+    - siteNameHierarchy: SomeValue  # string
+      deviceManagementIpAddress: SomeValue  # string
+      interfaceName: SomeValue  # string
+      dataIpAddressPoolName: SomeValue  # string
+      voiceIpAddressPoolName: SomeValue  # string
+      authenticateTemplateName: SomeValue  # string
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+delete_port_assignment_for_access_point:
     description: Delete Port assignment for access point in SDA Fabric.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        status:
-            description: Status, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<status>'
-        description:
-            description: Description, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
+    status:
+      description: Status, property of the response body.
+      returned: success
+      type: str
+      sample: '<status>'
+    description:
+      description: Description, property of the response body.
+      returned: success
+      type: str
+      sample: '<description>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionstatusurl>'
 
-data_1:
+get_port_assignment_for_access_point:
     description: Get Port assignment for access point in SDA Fabric.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        status:
-            description: Status, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<status>'
-        description:
-            description: Description, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        siteNameHierarchy:
-            description: Site Name Hierarchy, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<sitenamehierarchy>'
-        deviceManagementIpAddress:
-            description: Device Management Ip Address, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<devicemanagementipaddress>'
-        interfaceName:
-            description: Interface Name, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<interfacename>'
-        dataIpAddressPoolName:
-            description: Data Ip Address Pool Name, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<dataipaddresspoolname>'
-        voiceIpAddressPoolName:
-            description: Voice Ip Address Pool Name, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<voiceipaddresspoolname>'
-        scalableGroupName:
-            description: Scalable Group Name, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<scalablegroupname>'
-        authenticateTemplateName:
-            description: Authenticate Template Name, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<authenticatetemplatename>'
+    status:
+      description: Status, property of the response body.
+      returned: always
+      type: str
+      sample: '<status>'
+    description:
+      description: Description, property of the response body.
+      returned: always
+      type: str
+      sample: '<description>'
+    siteNameHierarchy:
+      description: Site Name Hierarchy, property of the response body.
+      returned: always
+      type: str
+      sample: '<sitenamehierarchy>'
+    deviceManagementIpAddress:
+      description: Device Management Ip Address, property of the response body.
+      returned: always
+      type: str
+      sample: '<devicemanagementipaddress>'
+    interfaceName:
+      description: Interface Name, property of the response body.
+      returned: always
+      type: str
+      sample: '<interfacename>'
+    dataIpAddressPoolName:
+      description: Data Ip Address Pool Name, property of the response body.
+      returned: always
+      type: str
+      sample: '<dataipaddresspoolname>'
+    voiceIpAddressPoolName:
+      description: Voice Ip Address Pool Name, property of the response body.
+      returned: always
+      type: str
+      sample: '<voiceipaddresspoolname>'
+    scalableGroupName:
+      description: Scalable Group Name, property of the response body.
+      returned: always
+      type: str
+      sample: '<scalablegroupname>'
+    authenticateTemplateName:
+      description: Authenticate Template Name, property of the response body.
+      returned: always
+      type: str
+      sample: '<authenticatetemplatename>'
 
-data_2:
+add_port_assignment_for_access_point:
     description: Add Port assignment for access point in SDA Fabric.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        status:
-            description: Status, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<status>'
-        description:
-            description: Description, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
+    status:
+      description: Status, property of the response body.
+      returned: success
+      type: str
+      sample: '<status>'
+    description:
+      description: Description, property of the response body.
+      returned: success
+      type: str
+      sample: '<description>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionstatusurl>'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.sda_host_onboarding_access_point import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    elif state == "delete":
-        dnac.exec("delete")
-
-    elif state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

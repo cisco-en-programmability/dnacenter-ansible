@@ -22,67 +22,67 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    profile_name:
+  profile_name:
+    description:
+    - ProfileName query parameter.
+    type: str
+  profileDetails:
+    description:
+    - Profile Details, property of the request body.
+    type: dict
+    required: True
+    suboptions:
+      name:
         description:
-        - ProfileName query parameter.
+        - It is the wireless profile's name.
         type: str
-    profileDetails:
+      sites:
         description:
-        - Profile Details, property of the request body.
-        type: dict
-        required: True
+        - It is the wireless profile's sites.
+        type: list
+      ssidDetails:
+        description:
+        - It is the wireless profile's ssidDetails.
+        type: list
+        elements: dict
         suboptions:
-            name:
+          enableFabric:
+            description:
+            - It is the wireless profile's enableFabric.
+            type: bool
+          flexConnect:
+            description:
+            - It is the wireless profile's flexConnect.
+            type: dict
+            suboptions:
+              enableFlexConnect:
                 description:
-                - It is the wireless profile's name.
-                type: str
-            sites:
+                - It is the wireless profile's enableFlexConnect.
+                type: bool
+              localToVlan:
                 description:
-                - It is the wireless profile's sites.
-                type: list
-            ssidDetails:
-                description:
-                - It is the wireless profile's ssidDetails.
-                type: list
-                elements: dict
-                suboptions:
-                    enableFabric:
-                        description:
-                        - It is the wireless profile's enableFabric.
-                        type: bool
-                    flexConnect:
-                        description:
-                        - It is the wireless profile's flexConnect.
-                        type: dict
-                        suboptions:
-                            enableFlexConnect:
-                                description:
-                                - It is the wireless profile's enableFlexConnect.
-                                type: bool
-                            localToVlan:
-                                description:
-                                - It is the wireless profile's localToVlan.
-                                type: int
+                - It is the wireless profile's localToVlan.
+                type: int
 
-                    interfaceName:
-                        description:
-                        - It is the wireless profile's interfaceName.
-                        type: str
-                    name:
-                        description:
-                        - It is the wireless profile's name.
-                        type: str
-                    type:
-                        description:
-                        - It is the wireless profile's type.
-                        type: str
+          interfaceName:
+            description:
+            - It is the wireless profile's interfaceName.
+            type: str
+          name:
+            description:
+            - It is the wireless profile's name.
+            type: str
+          type:
+            description:
+            - It is the wireless profile's type.
+            type: str
 
 
-    wireless_profile_name:
-        description:
-        - WirelessProfileName path parameter.
-        type: str
-        required: True
+  wireless_profile_name:
+    description:
+    - WirelessProfileName path parameter.
+    - Required for state delete.
+    type: str
 
 requirements:
 - dnacentersdk
@@ -100,182 +100,198 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_wireless_profile
+  cisco.dnac.wireless_profile
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    profile_name: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
+- name: create_wireless_profile
+  cisco.dnac.wireless_profile
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    profileDetails:  # required
+      name: SomeValue  # string
+      sites:
+      - SomeValue  # string
+      ssidDetails:
+      - name: SomeValue  # string
+        type: SomeValue  # string
+        enableFabric: True  # boolean
+        flexConnect:
+          enableFlexConnect: True  # boolean
+          localToVlan: 1  #  integer
+        interfaceName: SomeValue  # string
+  delegate_to: localhost
+  
+- name: update_wireless_profile
+  cisco.dnac.wireless_profile
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: update  # required
+    profileDetails:  # required
+      name: SomeValue  # string
+      sites:
+      - SomeValue  # string
+      ssidDetails:
+      - name: SomeValue  # string
+        type: SomeValue  # string
+        enableFabric: True  # boolean
+        flexConnect:
+          enableFlexConnect: True  # boolean
+          localToVlan: 1  #  integer
+        interfaceName: SomeValue  # string
+  delegate_to: localhost
+  
+- name: delete_wireless_profile
+  cisco.dnac.wireless_profile
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: delete  # required
+    wireless_profile_name: SomeValue  # string, required
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_wireless_profile:
     description: Gets either one or all the wireless network profiles if no name is provided for network-profile.
-    returned: success,changed,always
-    type: list
+    returned: always
+    type: dict
     contains:
+    payload:
+      description: It is the wireless profile's payload.
+      returned: always
+      type: list
+      contains:
         profileDetails:
-            description: It is the wireless profile's profileDetails.
-            returned: success,changed,always
-            type: dict
-            contains:
+          description: It is the wireless profile's profileDetails.
+          returned: always
+          type: dict
+          contains:
+            name:
+              description: It is the wireless profile's name.
+              returned: always
+              type: str
+              sample: '<name>'
+            sites:
+              description: It is the wireless profile's sites.
+              returned: always
+              type: list
+            ssidDetails:
+              description: It is the wireless profile's ssidDetails.
+              returned: always
+              type: list
+              contains:
                 name:
-                    description: It is the wireless profile's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
-                sites:
-                    description: It is the wireless profile's sites.
-                    returned: success,changed,always
-                    type: list
-                ssidDetails:
-                    description: It is the wireless profile's ssidDetails.
-                    returned: success,changed,always
-                    type: list
-                    contains:
-                        name:
-                            description: It is the wireless profile's name.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<name>'
-                        type:
-                            description: It is the wireless profile's type.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<type>'
-                        enableFabric:
-                            description: It is the wireless profile's enableFabric.
-                            returned: success,changed,always
-                            type: bool
-                            sample: false
-                        flexConnect:
-                            description: It is the wireless profile's flexConnect.
-                            returned: success,changed,always
-                            type: dict
-                            contains:
-                                enableFlexConnect:
-                                    description: It is the wireless profile's enableFlexConnect.
-                                    returned: success,changed,always
-                                    type: bool
-                                    sample: false
-                                localToVlan:
-                                    description: It is the wireless profile's localToVlan.
-                                    returned: success,changed,always
-                                    type: int
-                                    sample: 0
+                  description: It is the wireless profile's name.
+                  returned: always
+                  type: str
+                  sample: '<name>'
+                type:
+                  description: It is the wireless profile's type.
+                  returned: always
+                  type: str
+                  sample: '<type>'
+                enableFabric:
+                  description: It is the wireless profile's enableFabric.
+                  returned: always
+                  type: bool
+                  sample: false
+                flexConnect:
+                  description: It is the wireless profile's flexConnect.
+                  returned: always
+                  type: dict
+                  contains:
+                    enableFlexConnect:
+                      description: It is the wireless profile's enableFlexConnect.
+                      returned: always
+                      type: bool
+                      sample: false
+                    localToVlan:
+                      description: It is the wireless profile's localToVlan.
+                      returned: always
+                      type: int
+                      sample: 0
 
-                        interfaceName:
-                            description: It is the wireless profile's interfaceName.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<interfacename>'
+                interfaceName:
+                  description: It is the wireless profile's interfaceName.
+                  returned: always
+                  type: str
+                  sample: '<interfacename>'
 
 
 
 
-data_1:
+create_wireless_profile:
     description: Creates Wireless Network Profile on DNAC and associates sites and SSIDs to it.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        executionId:
-            description: Execution Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionid>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
-        message:
-            description: Message, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<message>'
+    executionId:
+      description: Execution Id, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionid>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionstatusurl>'
+    message:
+      description: Message, property of the response body.
+      returned: success
+      type: str
+      sample: '<message>'
 
-data_2:
+update_wireless_profile:
     description: Updates the wireless Network Profile with updated details provided. All sites to be present in the network profile should be provided.
-    returned: success,changed,always
+    returned: changed
     type: dict
     contains:
-        executionId:
-            description: Execution Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionid>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
-        message:
-            description: Message, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<message>'
+    executionId:
+      description: Execution Id, property of the response body.
+      returned: changed
+      type: str
+      sample: '<executionid>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: changed
+      type: str
+      sample: '<executionstatusurl>'
+    message:
+      description: Message, property of the response body.
+      returned: changed
+      type: str
+      sample: '<message>'
 
-data_3:
+delete_wireless_profile:
     description: Delete the Wireless Profile from DNAC whose name is provided.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        executionId:
-            description: Execution Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionid>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
-        message:
-            description: Message, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<message>'
+    executionId:
+      description: Execution Id, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionid>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionstatusurl>'
+    message:
+      description: Message, property of the response body.
+      returned: success
+      type: str
+      sample: '<message>'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.wireless_profile import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    elif state == "delete":
-        dnac.exec("delete")
-
-    elif state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    elif state == "update":
-        dnac.disable_validation()
-        dnac.exec("put")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

@@ -20,63 +20,63 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    category:
-        description:
-        - Category .
-        type: str
-    domain:
-        description:
-        - Domain .
-        type: str
-    end_time:
-        description:
-        - EndTime .
-        type: str
-    event_ids:
-        description:
-        - The registered EventIds should be provided.
-        type: str
-    limit:
-        description:
-        - Limit whose default value 10.
-        type: int
-    offset:
-        description:
-        - Offset whose default value 0.
-        type: int
-    order:
-        description:
-        - Order query parameter.
-        type: str
-    severity:
-        description:
-        - Severity .
-        type: str
-    sort_by:
-        description:
-        - SortBy field name.
-        type: str
-    source:
-        description:
-        - Source .
-        type: str
-    start_time:
-        description:
-        - StartTime .
-        type: str
-    sub_domain:
-        description:
-        - SubDomain .
-        type: str
-    type:
-        description:
-        - Type .
-        type: str
-    count:
-        description:
-        - If true gets the number of objects.
-        type: bool
-        required: True
+  category:
+    description:
+    - Category .
+    type: str
+  domain:
+    description:
+    - Domain .
+    type: str
+  end_time:
+    description:
+    - EndTime .
+    type: str
+  event_ids:
+    description:
+    - The registered EventIds should be provided.
+    type: str
+  limit:
+    description:
+    - Limit whose default value 10.
+    type: int
+  offset:
+    description:
+    - Offset whose default value 0.
+    type: int
+  order:
+    description:
+    - Order query parameter.
+    type: str
+  severity:
+    description:
+    - Severity .
+    type: str
+  sort_by:
+    description:
+    - SortBy field name.
+    type: str
+  source:
+    description:
+    - Source .
+    type: str
+  start_time:
+    description:
+    - StartTime .
+    type: str
+  sub_domain:
+    description:
+    - SubDomain .
+    type: str
+  type:
+    description:
+    - Type .
+    type: str
+  count:
+    description:
+    - If true gets the number of objects.
+    type: bool
+    required: True
 
 requirements:
 - dnacentersdk
@@ -94,135 +94,139 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_notifications
+  cisco.dnac.event_series
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    category: SomeValue  # string
+    domain: SomeValue  # string
+    end_time: SomeValue  # string
+    event_ids: SomeValue  # string
+    limit: 1  #  number
+    offset: 1  #  number
+    order: SomeValue  # string
+    severity: SomeValue  # string
+    sort_by: SomeValue  # string
+    source: SomeValue  # string
+    start_time: SomeValue  # string
+    sub_domain: SomeValue  # string
+    type: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
+- name: count_of_notifications
+  cisco.dnac.event_series
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    count: True  # boolean, required
+    category: SomeValue  # string
+    domain: SomeValue  # string
+    end_time: SomeValue  # string
+    event_ids: SomeValue  # string
+    severity: SomeValue  # string
+    source: SomeValue  # string
+    start_time: SomeValue  # string
+    sub_domain: SomeValue  # string
+    type: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_notifications:
     description: Get the list of Published Notifications.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        instanceId:
-            description: Instance Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<instanceid>'
-        eventId:
-            description: Event Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<eventid>'
-        name:
-            description: Name, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<name>'
-        namespace:
-            description: Namespace, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<namespace>'
-        description:
-            description: Description, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        type:
-            description: Type, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<type>'
-        category:
-            description: Category, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<category>'
-        severity:
-            description: Severity, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        timestamp:
-            description: Timestamp, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        domain:
-            description: Domain, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<domain>'
-        subDomain:
-            description: Sub Domain, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<subdomain>'
-        source:
-            description: Source, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<source>'
-        context:
-            description: Context, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<context>'
-        details:
-            description: Details, property of the response body.
-            returned: success,changed,always
-            type: dict
-        tenantId:
-            description: Tenant Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<tenantid>'
+    instanceId:
+      description: Instance Id, property of the response body.
+      returned: always
+      type: str
+      sample: '<instanceid>'
+    eventId:
+      description: Event Id, property of the response body.
+      returned: always
+      type: str
+      sample: '<eventid>'
+    name:
+      description: Name, property of the response body.
+      returned: always
+      type: str
+      sample: '<name>'
+    namespace:
+      description: Namespace, property of the response body.
+      returned: always
+      type: str
+      sample: '<namespace>'
+    description:
+      description: Description, property of the response body.
+      returned: always
+      type: str
+      sample: '<description>'
+    type:
+      description: Type, property of the response body.
+      returned: always
+      type: str
+      sample: '<type>'
+    category:
+      description: Category, property of the response body.
+      returned: always
+      type: str
+      sample: '<category>'
+    severity:
+      description: Severity, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    timestamp:
+      description: Timestamp, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    domain:
+      description: Domain, property of the response body.
+      returned: always
+      type: str
+      sample: '<domain>'
+    subDomain:
+      description: Sub Domain, property of the response body.
+      returned: always
+      type: str
+      sample: '<subdomain>'
+    source:
+      description: Source, property of the response body.
+      returned: always
+      type: str
+      sample: '<source>'
+    context:
+      description: Context, property of the response body.
+      returned: always
+      type: str
+      sample: '<context>'
+    details:
+      description: Details, property of the response body.
+      returned: always
+      type: dict
+    tenantId:
+      description: Tenant Id, property of the response body.
+      returned: always
+      type: str
+      sample: '<tenantid>'
 
-data_1:
+count_of_notifications:
     description: Get the Count of Published Notifications.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
+    response:
+      description: Response, property of the response body.
+      returned: always
+      type: int
+      sample: 0
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.event_series import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

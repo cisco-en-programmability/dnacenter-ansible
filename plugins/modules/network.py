@@ -21,155 +21,157 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    site_id:
+  site_id:
+    description:
+    - Site id to get the Network settings associated with the site.
+    - Site id to which site details to associate with the Network settings.
+    - Site id to update the Network settings which is associated with the site.
+    - Required for states update and create.
+    type: str
+  settings:
+    description:
+    - Settings, property of the request body.
+    type: dict
+    required: True
+    suboptions:
+      clientAndEndpoint_aaa:
         description:
-        - Site id to get the Network settings associated with the site.
-        - Required for state create.
-        type: str
-    settings:
-        description:
-        - Settings, property of the request body.
+        - It is the Network's clientAndEndpoint_aaa.
         type: dict
-        required: True
         suboptions:
-            clientAndEndpoint_aaa:
-                description:
-                - It is the Network's clientAndEndpoint_aaa.
-                type: dict
-                suboptions:
-                    ipAddress:
-                        description:
-                        - It is the Network's ipAddress.
-                        type: str
-                    network:
-                        description:
-                        - It is the Network's Network.
-                        type: str
-                    protocol:
-                        description:
-                        - It is the Network's protocol.
-                        type: str
-                    servers:
-                        description:
-                        - It is the Network's servers.
-                        type: str
-                    sharedSecret:
-                        description:
-                        - It is the Network's sharedSecret.
-                        type: str
+          ipAddress:
+            description:
+            - It is the Network's ipAddress.
+            type: str
+          network:
+            description:
+            - It is the Network's Network.
+            type: str
+          protocol:
+            description:
+            - It is the Network's protocol.
+            type: str
+          servers:
+            description:
+            - It is the Network's servers.
+            type: str
+          sharedSecret:
+            description:
+            - It is the Network's sharedSecret.
+            type: str
 
-            dhcpServer:
-                description:
-                - It is the Network's dhcpServer.
-                type: list
-            dnsServer:
-                description:
-                - It is the Network's dnsServer.
-                type: dict
-                suboptions:
-                    domainName:
-                        description:
-                        - It is the Network's domainName.
-                        type: str
-                    primaryIpAddress:
-                        description:
-                        - It is the Network's primaryIpAddress.
-                        type: str
-                    secondaryIpAddress:
-                        description:
-                        - It is the Network's secondaryIpAddress.
-                        type: str
+      dhcpServer:
+        description:
+        - It is the Network's dhcpServer.
+        type: list
+      dnsServer:
+        description:
+        - It is the Network's dnsServer.
+        type: dict
+        suboptions:
+          domainName:
+            description:
+            - It is the Network's domainName.
+            type: str
+          primaryIpAddress:
+            description:
+            - It is the Network's primaryIpAddress.
+            type: str
+          secondaryIpAddress:
+            description:
+            - It is the Network's secondaryIpAddress.
+            type: str
 
-            messageOfTheday:
-                description:
-                - It is the Network's messageOfTheday.
-                type: dict
-                suboptions:
-                    bannerMessage:
-                        description:
-                        - It is the Network's bannerMessage.
-                        type: str
-                    retainExistingBanner:
-                        description:
-                        - It is the Network's retainExistingBanner.
-                        type: bool
+      messageOfTheday:
+        description:
+        - It is the Network's messageOfTheday.
+        type: dict
+        suboptions:
+          bannerMessage:
+            description:
+            - It is the Network's bannerMessage.
+            type: str
+          retainExistingBanner:
+            description:
+            - It is the Network's retainExistingBanner.
+            type: bool
 
-            netflowcollector:
-                description:
-                - It is the Network's netflowcollector.
-                type: dict
-                suboptions:
-                    ipAddress:
-                        description:
-                        - It is the Network's ipAddress.
-                        type: str
-                    port:
-                        description:
-                        - It is the Network's port.
-                        type: int
+      netflowcollector:
+        description:
+        - It is the Network's netflowcollector.
+        type: dict
+        suboptions:
+          ipAddress:
+            description:
+            - It is the Network's ipAddress.
+            type: str
+          port:
+            description:
+            - It is the Network's port.
+            type: int
 
-            network_aaa:
-                description:
-                - It is the Network's Network_aaa.
-                type: dict
-                suboptions:
-                    ipAddress:
-                        description:
-                        - It is the Network's ipAddress.
-                        type: str
-                    network:
-                        description:
-                        - It is the Network's Network.
-                        type: str
-                    protocol:
-                        description:
-                        - It is the Network's protocol.
-                        type: str
-                    servers:
-                        description:
-                        - It is the Network's servers.
-                        type: str
-                    sharedSecret:
-                        description:
-                        - It is the Network's sharedSecret.
-                        type: str
+      network_aaa:
+        description:
+        - It is the Network's Network_aaa.
+        type: dict
+        suboptions:
+          ipAddress:
+            description:
+            - It is the Network's ipAddress.
+            type: str
+          network:
+            description:
+            - It is the Network's Network.
+            type: str
+          protocol:
+            description:
+            - It is the Network's protocol.
+            type: str
+          servers:
+            description:
+            - It is the Network's servers.
+            type: str
+          sharedSecret:
+            description:
+            - It is the Network's sharedSecret.
+            type: str
 
-            ntpServer:
-                description:
-                - It is the Network's ntpServer.
-                type: list
-            snmpServer:
-                description:
-                - It is the Network's snmpServer.
-                type: dict
-                suboptions:
-                    configureDnacIP:
-                        description:
-                        - It is the Network's configureDnacIP.
-                        type: bool
-                    ipAddresses:
-                        description:
-                        - It is the Network's ipAddresses.
-                        type: list
+      ntpServer:
+        description:
+        - It is the Network's ntpServer.
+        type: list
+      snmpServer:
+        description:
+        - It is the Network's snmpServer.
+        type: dict
+        suboptions:
+          configureDnacIP:
+            description:
+            - It is the Network's configureDnacIP.
+            type: bool
+          ipAddresses:
+            description:
+            - It is the Network's ipAddresses.
+            type: list
 
-            syslogServer:
-                description:
-                - It is the Network's syslogServer.
-                type: dict
-                suboptions:
-                    configureDnacIP:
-                        description:
-                        - It is the Network's configureDnacIP.
-                        type: bool
-                    ipAddresses:
-                        description:
-                        - It is the Network's ipAddresses.
-                        type: list
+      syslogServer:
+        description:
+        - It is the Network's syslogServer.
+        type: dict
+        suboptions:
+          configureDnacIP:
+            description:
+            - It is the Network's configureDnacIP.
+            type: bool
+          ipAddresses:
+            description:
+            - It is the Network's ipAddresses.
+            type: list
 
-            timezone:
-                description:
-                - It is the Network's timezone.
-                type: str
+      timezone:
+        description:
+        - It is the Network's timezone.
+        type: str
 
 
 requirements:
@@ -188,171 +190,226 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_network
+  cisco.dnac.network
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    site_id: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
+- name: create_network
+  cisco.dnac.network
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    site_id: SomeValue  # string, required
+    settings:  # required
+      dhcpServer:
+      - SomeValue  # string
+      dnsServer:
+        domainName: SomeValue  # string
+        primaryIpAddress: SomeValue  # string
+        secondaryIpAddress: SomeValue  # string
+      syslogServer:
+        ipAddresses:
+        - SomeValue  # string
+        configureDnacIP: True  # boolean
+      snmpServer:
+        ipAddresses:
+        - SomeValue  # string
+        configureDnacIP: True  # boolean
+      netflowcollector:
+        ipAddress: SomeValue  # string
+        port: 1  #  number
+      ntpServer:
+      - SomeValue  # string
+      timezone: SomeValue  # string
+      messageOfTheday:
+        bannerMessage: SomeValue  # string
+        retainExistingBanner: True  # boolean
+      network_aaa:
+        servers: SomeValue  # string
+        ipAddress: SomeValue  # string
+        network: SomeValue  # string
+        protocol: SomeValue  # string
+        sharedSecret: SomeValue  # string
+      clientAndEndpoint_aaa:
+        servers: SomeValue  # string
+        ipAddress: SomeValue  # string
+        network: SomeValue  # string
+        protocol: SomeValue  # string
+        sharedSecret: SomeValue  # string
+  delegate_to: localhost
+  
+- name: update_network
+  cisco.dnac.network
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: update  # required
+    site_id: SomeValue  # string, required
+    settings:  # required
+      dhcpServer:
+      - SomeValue  # string
+      dnsServer:
+        domainName: SomeValue  # string
+        primaryIpAddress: SomeValue  # string
+        secondaryIpAddress: SomeValue  # string
+      syslogServer:
+        ipAddresses:
+        - SomeValue  # string
+        configureDnacIP: True  # boolean
+      snmpServer:
+        ipAddresses:
+        - SomeValue  # string
+        configureDnacIP: True  # boolean
+      netflowcollector:
+        ipAddress: SomeValue  # string
+        port: 1  #  number
+      ntpServer:
+      - SomeValue  # string
+      timezone: SomeValue  # string
+      messageOfTheday:
+        bannerMessage: SomeValue  # string
+        retainExistingBanner: True  # boolean
+      network_aaa:
+        servers: SomeValue  # string
+        ipAddress: SomeValue  # string
+        network: SomeValue  # string
+        protocol: SomeValue  # string
+        sharedSecret: SomeValue  # string
+      clientAndEndpoint_aaa:
+        servers: SomeValue  # string
+        ipAddress: SomeValue  # string
+        network: SomeValue  # string
+        protocol: SomeValue  # string
+        sharedSecret: SomeValue  # string
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_network:
     description: API to get DHCP and DNS center server details.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                instanceType:
-                    description: It is the Network's instanceType.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<instancetype>'
-                instanceUuid:
-                    description: It is the Network's instanceUuid.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<instanceuuid>'
-                namespace:
-                    description: It is the Network's namespace.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<namespace>'
-                type:
-                    description: It is the Network's type.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<type>'
-                key:
-                    description: It is the Network's key.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<key>'
-                version:
-                    description: It is the Network's version.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                value:
-                    description: It is the Network's value.
-                    returned: success,changed,always
-                    type: list
-                    contains:
-                        ipAddresses:
-                            description: It is the Network's ipAddresses.
-                            returned: success,changed,always
-                            type: list
-                        configureDnacIP:
-                            description: It is the Network's configureDnacIP.
-                            returned: success,changed,always
-                            type: bool
-                            sample: false
-
-                groupUuid:
-                    description: It is the Network's groupUuid.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<groupuuid>'
-                inheritedGroupUuid:
-                    description: It is the Network's inheritedGroupUuid.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<inheritedgroupuuid>'
-                inheritedGroupName:
-                    description: It is the Network's inheritedGroupName.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<inheritedgroupname>'
-
+    response:
+      description: Response, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
+        instanceType:
+          description: It is the Network's instanceType.
+          returned: always
+          type: str
+          sample: '<instancetype>'
+        instanceUuid:
+          description: It is the Network's instanceUuid.
+          returned: always
+          type: str
+          sample: '<instanceuuid>'
+        namespace:
+          description: It is the Network's namespace.
+          returned: always
+          type: str
+          sample: '<namespace>'
+        type:
+          description: It is the Network's type.
+          returned: always
+          type: str
+          sample: '<type>'
+        key:
+          description: It is the Network's key.
+          returned: always
+          type: str
+          sample: '<key>'
         version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+          description: It is the Network's version.
+          returned: always
+          type: int
+          sample: 0
+        value:
+          description: It is the Network's value.
+          returned: always
+          type: list
+          contains:
+            ipAddresses:
+              description: It is the Network's ipAddresses.
+              returned: always
+              type: list
+            configureDnacIP:
+              description: It is the Network's configureDnacIP.
+              returned: always
+              type: bool
+              sample: false
 
-data_1:
+        groupUuid:
+          description: It is the Network's groupUuid.
+          returned: always
+          type: str
+          sample: '<groupuuid>'
+        inheritedGroupUuid:
+          description: It is the Network's inheritedGroupUuid.
+          returned: always
+          type: str
+          sample: '<inheritedgroupuuid>'
+        inheritedGroupName:
+          description: It is the Network's inheritedGroupName.
+          returned: always
+          type: str
+          sample: '<inheritedgroupname>'
+
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
+
+create_network:
     description: API to create a Network for DHCP and DNS center server settings.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        executionId:
-            description: Execution Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionid>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
-        message:
-            description: Message, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<message>'
+    executionId:
+      description: Execution Id, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionid>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionstatusurl>'
+    message:
+      description: Message, property of the response body.
+      returned: success
+      type: str
+      sample: '<message>'
 
-data_2:
+update_network:
     description: API to update Network for DHCP and DNS center server settings.
-    returned: success,changed,always
+    returned: changed
     type: dict
     contains:
-        executionId:
-            description: Execution Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionid>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
-        message:
-            description: Message, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<message>'
+    executionId:
+      description: Execution Id, property of the response body.
+      returned: changed
+      type: str
+      sample: '<executionid>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: changed
+      type: str
+      sample: '<executionstatusurl>'
+    message:
+      description: Message, property of the response body.
+      returned: changed
+      type: str
+      sample: '<message>'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    elif state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    elif state == "update":
-        dnac.disable_validation()
-        dnac.exec("put")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

@@ -24,55 +24,58 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    id:
+  id:
+    description:
+    - Tag ID.
+    type: str
+    required: True
+  member_type:
+    description:
+    - Entity type of the member. Possible values can be retrieved by using /tag/member/type API.
+    - MemberType query parameter.
+    type: str
+    required: True
+  level:
+    description:
+    - Level query parameter.
+    type: str
+  limit:
+    description:
+    - Used to Number of maximum members to return in the result.
+    type: str
+  member_association_type:
+    description:
+    - Indicates how the member is associated with the tag. Possible values and description. 1) DYNAMIC : The member is associated to the tag through rules. 2) STATIC – The member is associated to the tag manually. 3) MIXED – The member is associated manually and also satisfies the rule defined for the tag.
+    - MemberAssociationType query parameter.
+    type: str
+  offset:
+    description:
+    - Used for pagination. It indicates the starting row number out of available member records.
+    type: str
+  member_id:
+    description:
+    - TagMember id to be removed from tag.
+    - Required for state delete.
+    type: str
+  count:
+    description:
+    - If true gets the number of objects.
+    - Required for state query.
+    type: bool
+  memberToTags:
+    description:
+    - TagMemberDTO's memberToTags.
+    type: dict
+    suboptions:
+      key:
         description:
-        - Tag ID.
-        type: str
-        required: True
-    level:
-        description:
-        - Level query parameter.
-        type: str
-    limit:
-        description:
-        - Used to Number of maximum members to return in the result.
-        type: str
-    member_association_type:
-        description:
-        - Indicates how the member is associated with the tag. Possible values and description. 1) DYNAMIC : The member is associated to the tag through rules. 2) STATIC – The member is associated to the tag manually. 3) MIXED – The member is associated manually and also satisfies the rule defined for the tag.
-        type: str
-    member_type:
-        description:
-        - Entity type of the member. Possible values can be retrieved by using /tag/member/type API.
-        type: str
-    offset:
-        description:
-        - Used for pagination. It indicates the starting row number out of available member records.
-        type: str
-    member_id:
-        description:
-        - TagMember id to be removed from tag.
-        type: str
-        required: True
-    count:
-        description:
-        - If true gets the number of objects.
-        type: bool
-        required: True
-    memberToTags:
-        description:
-        - TagMemberDTO's memberToTags.
-        type: dict
-        suboptions:
-            key:
-                description:
-                - It is the tag member's key.
-                type: list
+        - It is the tag member's key.
+        type: list
 
-    memberType:
-        description:
-        - TagMemberDTO's memberType.
-        type: str
+  memberType:
+    description:
+    - TagMemberDTO's memberType.
+    type: str
 
 requirements:
 - dnacentersdk
@@ -90,186 +93,208 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_tag_members_by_id
+  cisco.dnac.tag_member
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    id: SomeValue  # string, required
+    member_type: SomeValue  # string, required
+    level: SomeValue  # string
+    limit: SomeValue  # string
+    member_association_type: SomeValue  # string
+    offset: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
+- name: add_members_to_the_tag
+  cisco.dnac.tag_member
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    id: SomeValue  # string, required
+  delegate_to: localhost
+  
+- name: remove_tag_member
+  cisco.dnac.tag_member
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: delete  # required
+    id: SomeValue  # string, required
+    member_id: SomeValue  # string, required
+  delegate_to: localhost
+  
+- name: get_tag_member_count
+  cisco.dnac.tag_member
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    id: SomeValue  # string, required
+    member_type: SomeValue  # string, required
+    count: True  # boolean, required
+    level: SomeValue  # string
+    member_association_type: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
+- name: updates_tag_membership
+  cisco.dnac.tag_member
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: update  # required
+    memberToTags:
+      key:
+      - SomeValue  # string
+    memberType: SomeValue  # string
+  delegate_to: localhost
+  
+- name: get_tag_resource_types
+  cisco.dnac.tag_member
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_tag_members_by_id:
     description: Returns tag members specified by id.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
-        response:
-            description: Response, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                instanceUuid:
-                    description: It is the tag member's instanceUuid.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<instanceuuid>'
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
+    response:
+      description: Response, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
+        instanceUuid:
+          description: It is the tag member's instanceUuid.
+          returned: always
+          type: str
+          sample: '<instanceuuid>'
 
 
-data_1:
+add_members_to_the_tag:
     description: Adds members to the tag specified by id.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        version:
-            description: List[entry«string,list«string»»]'s version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
-        response:
-            description: List[entry«string,list«string»»]'s response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the tag member's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the tag member's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    version:
+      description: List[entry«string,list«string»»]'s version.
+      returned: success
+      type: str
+      sample: '1.0'
+    response:
+      description: List[entry«string,list«string»»]'s response.
+      returned: success
+      type: dict
+      contains:
+        taskId:
+          description: It is the tag member's taskId.
+          returned: success
+          type: dict
+        url:
+          description: It is the tag member's url.
+          returned: success
+          type: str
+          sample: '<url>'
 
 
-data_2:
+remove_tag_member:
     description: Removes Tag member from the tag specified by id.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the tag member's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the tag member's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    version:
+      description: Version, property of the response body.
+      returned: success
+      type: str
+      sample: '1.0'
+    response:
+      description: Response, property of the response body.
+      returned: success
+      type: dict
+      contains:
+        taskId:
+          description: It is the tag member's taskId.
+          returned: success
+          type: dict
+        url:
+          description: It is the tag member's url.
+          returned: success
+          type: str
+          sample: '<url>'
 
 
-data_3:
+get_tag_member_count:
     description: Returns the number of members in a given tag.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
+    response:
+      description: Response, property of the response body.
+      returned: always
+      type: int
+      sample: 0
 
-data_4:
+updates_tag_membership:
     description: Updates tag membership. As part of the request payload through this API, only the specified members are added / retained to the given input tags. Possible values of memberType attribute in the request payload can be queried by using the /tag/member/type API.
-    returned: success,changed,always
+    returned: changed
     type: dict
     contains:
-        version:
-            description: TagMemberDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
-        response:
-            description: TagMemberDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the tag member's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the tag member's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    version:
+      description: TagMemberDTO's version.
+      returned: changed
+      type: str
+      sample: '1.0'
+    response:
+      description: TagMemberDTO's response.
+      returned: changed
+      type: dict
+      contains:
+        taskId:
+          description: It is the tag member's taskId.
+          returned: changed
+          type: dict
+        url:
+          description: It is the tag member's url.
+          returned: changed
+          type: str
+          sample: '<url>'
 
 
-data_5:
+get_tag_resource_types:
     description: Returns list of supported resource types.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
-        response:
-            description: Response, property of the response body (list of strings).
-            returned: success,changed,always
-            type: list
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
+    response:
+      description: Response, property of the response body (list of strings).
+      returned: always
+      type: list
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.tag_member import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    elif state == "delete":
-        dnac.exec("delete")
-
-    elif state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    elif state == "update":
-        dnac.disable_validation()
-        dnac.exec("put")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

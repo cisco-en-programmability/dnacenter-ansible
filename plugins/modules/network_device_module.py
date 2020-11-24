@@ -21,44 +21,45 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    device_id:
-        description:
-        - DeviceId query parameter.
-        type: str
-    limit:
-        description:
-        - Limit query parameter.
-        type: str
-    name_list:
-        description:
-        - NameList query parameter.
-        type: str
-    offset:
-        description:
-        - Offset query parameter.
-        type: str
-    operational_state_code_list:
-        description:
-        - OperationalStateCodeList query parameter.
-        type: str
-    part_number_list:
-        description:
-        - PartNumberList query parameter.
-        type: str
-    vendor_equipment_type_list:
-        description:
-        - VendorEquipmentTypeList query parameter.
-        type: str
-    id:
-        description:
-        - Id path parameter.
-        type: str
-        required: True
-    count:
-        description:
-        - If true gets the number of objects.
-        type: bool
-        required: True
+  device_id:
+    description:
+    - DeviceId query parameter.
+    type: str
+    required: True
+  limit:
+    description:
+    - Limit query parameter.
+    type: str
+  name_list:
+    description:
+    - NameList query parameter.
+    type: str
+  offset:
+    description:
+    - Offset query parameter.
+    type: str
+  operational_state_code_list:
+    description:
+    - OperationalStateCodeList query parameter.
+    type: str
+  part_number_list:
+    description:
+    - PartNumberList query parameter.
+    type: str
+  vendor_equipment_type_list:
+    description:
+    - VendorEquipmentTypeList query parameter.
+    type: str
+  id:
+    description:
+    - Id path parameter.
+    type: str
+    required: True
+  count:
+    description:
+    - If true gets the number of objects.
+    type: bool
+    required: True
 
 requirements:
 - dnacentersdk
@@ -76,252 +77,256 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_modules
+  cisco.dnac.network_device_module
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    device_id: SomeValue  # string, required
+    limit: SomeValue  # string
+    name_list: SomeValue  # string
+    offset: SomeValue  # string
+    operational_state_code_list: SomeValue  # string
+    part_number_list: SomeValue  # string
+    vendor_equipment_type_list: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
+- name: get_module_info_by_id
+  cisco.dnac.network_device_module
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    id: SomeValue  # string, required
+  delegate_to: localhost
+  register: query_result
+  
+- name: get_module_count
+  cisco.dnac.network_device_module
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    device_id: SomeValue  # string, required
+    count: True  # boolean, required
+    name_list: SomeValue  # string
+    operational_state_code_list: SomeValue  # string
+    part_number_list: SomeValue  # string
+    vendor_equipment_type_list: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_modules:
     description: Returns modules by specified device id.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                assemblyNumber:
-                    description: It is the network device module's assemblyNumber.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<assemblynumber>'
-                assemblyRevision:
-                    description: It is the network device module's assemblyRevision.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<assemblyrevision>'
-                attributeInfo:
-                    description: It is the network device module's attributeInfo.
-                    returned: success,changed,always
-                    type: dict
-                containmentEntity:
-                    description: It is the network device module's containmentEntity.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<containmententity>'
-                description:
-                    description: It is the network device module's description.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<description>'
-                entityPhysicalIndex:
-                    description: It is the network device module's entityPhysicalIndex.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<entityphysicalindex>'
-                id:
-                    description: It is the network device module's id.
-                    returned: success,changed,always
-                    type: str
-                    sample: '478012'
-                isFieldReplaceable:
-                    description: It is the network device module's isFieldReplaceable.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<isfieldreplaceable>'
-                isReportingAlarmsAllowed:
-                    description: It is the network device module's isReportingAlarmsAllowed.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<isreportingalarmsallowed>'
-                manufacturer:
-                    description: It is the network device module's manufacturer.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<manufacturer>'
-                moduleIndex:
-                    description: It is the network device module's moduleIndex.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                name:
-                    description: It is the network device module's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
-                operationalStateCode:
-                    description: It is the network device module's operationalStateCode.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<operationalstatecode>'
-                partNumber:
-                    description: It is the network device module's partNumber.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<partnumber>'
-                serialNumber:
-                    description: It is the network device module's serialNumber.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<serialnumber>'
-                vendorEquipmentType:
-                    description: It is the network device module's vendorEquipmentType.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<vendorequipmenttype>'
+    response:
+      description: Response, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
+        assemblyNumber:
+          description: It is the network device module's assemblyNumber.
+          returned: always
+          type: str
+          sample: '<assemblynumber>'
+        assemblyRevision:
+          description: It is the network device module's assemblyRevision.
+          returned: always
+          type: str
+          sample: '<assemblyrevision>'
+        attributeInfo:
+          description: It is the network device module's attributeInfo.
+          returned: always
+          type: dict
+        containmentEntity:
+          description: It is the network device module's containmentEntity.
+          returned: always
+          type: str
+          sample: '<containmententity>'
+        description:
+          description: It is the network device module's description.
+          returned: always
+          type: str
+          sample: '<description>'
+        entityPhysicalIndex:
+          description: It is the network device module's entityPhysicalIndex.
+          returned: always
+          type: str
+          sample: '<entityphysicalindex>'
+        id:
+          description: It is the network device module's id.
+          returned: always
+          type: str
+          sample: '478012'
+        isFieldReplaceable:
+          description: It is the network device module's isFieldReplaceable.
+          returned: always
+          type: str
+          sample: '<isfieldreplaceable>'
+        isReportingAlarmsAllowed:
+          description: It is the network device module's isReportingAlarmsAllowed.
+          returned: always
+          type: str
+          sample: '<isreportingalarmsallowed>'
+        manufacturer:
+          description: It is the network device module's manufacturer.
+          returned: always
+          type: str
+          sample: '<manufacturer>'
+        moduleIndex:
+          description: It is the network device module's moduleIndex.
+          returned: always
+          type: int
+          sample: 0
+        name:
+          description: It is the network device module's name.
+          returned: always
+          type: str
+          sample: '<name>'
+        operationalStateCode:
+          description: It is the network device module's operationalStateCode.
+          returned: always
+          type: str
+          sample: '<operationalstatecode>'
+        partNumber:
+          description: It is the network device module's partNumber.
+          returned: always
+          type: str
+          sample: '<partnumber>'
+        serialNumber:
+          description: It is the network device module's serialNumber.
+          returned: always
+          type: str
+          sample: '<serialnumber>'
+        vendorEquipmentType:
+          description: It is the network device module's vendorEquipmentType.
+          returned: always
+          type: str
+          sample: '<vendorequipmenttype>'
 
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
-data_1:
+get_module_info_by_id:
     description: Returns Module info by id.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: dict
-            contains:
-                assemblyNumber:
-                    description: It is the network device module's assemblyNumber.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<assemblynumber>'
-                assemblyRevision:
-                    description: It is the network device module's assemblyRevision.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<assemblyrevision>'
-                attributeInfo:
-                    description: It is the network device module's attributeInfo.
-                    returned: success,changed,always
-                    type: dict
-                containmentEntity:
-                    description: It is the network device module's containmentEntity.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<containmententity>'
-                description:
-                    description: It is the network device module's description.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<description>'
-                entityPhysicalIndex:
-                    description: It is the network device module's entityPhysicalIndex.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<entityphysicalindex>'
-                id:
-                    description: It is the network device module's id.
-                    returned: success,changed,always
-                    type: str
-                    sample: '478012'
-                isFieldReplaceable:
-                    description: It is the network device module's isFieldReplaceable.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<isfieldreplaceable>'
-                isReportingAlarmsAllowed:
-                    description: It is the network device module's isReportingAlarmsAllowed.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<isreportingalarmsallowed>'
-                manufacturer:
-                    description: It is the network device module's manufacturer.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<manufacturer>'
-                moduleIndex:
-                    description: It is the network device module's moduleIndex.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                name:
-                    description: It is the network device module's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
-                operationalStateCode:
-                    description: It is the network device module's operationalStateCode.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<operationalstatecode>'
-                partNumber:
-                    description: It is the network device module's partNumber.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<partnumber>'
-                serialNumber:
-                    description: It is the network device module's serialNumber.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<serialnumber>'
-                vendorEquipmentType:
-                    description: It is the network device module's vendorEquipmentType.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<vendorequipmenttype>'
+    response:
+      description: Response, property of the response body.
+      returned: always
+      type: dict
+      contains:
+        assemblyNumber:
+          description: It is the network device module's assemblyNumber.
+          returned: always
+          type: str
+          sample: '<assemblynumber>'
+        assemblyRevision:
+          description: It is the network device module's assemblyRevision.
+          returned: always
+          type: str
+          sample: '<assemblyrevision>'
+        attributeInfo:
+          description: It is the network device module's attributeInfo.
+          returned: always
+          type: dict
+        containmentEntity:
+          description: It is the network device module's containmentEntity.
+          returned: always
+          type: str
+          sample: '<containmententity>'
+        description:
+          description: It is the network device module's description.
+          returned: always
+          type: str
+          sample: '<description>'
+        entityPhysicalIndex:
+          description: It is the network device module's entityPhysicalIndex.
+          returned: always
+          type: str
+          sample: '<entityphysicalindex>'
+        id:
+          description: It is the network device module's id.
+          returned: always
+          type: str
+          sample: '478012'
+        isFieldReplaceable:
+          description: It is the network device module's isFieldReplaceable.
+          returned: always
+          type: str
+          sample: '<isfieldreplaceable>'
+        isReportingAlarmsAllowed:
+          description: It is the network device module's isReportingAlarmsAllowed.
+          returned: always
+          type: str
+          sample: '<isreportingalarmsallowed>'
+        manufacturer:
+          description: It is the network device module's manufacturer.
+          returned: always
+          type: str
+          sample: '<manufacturer>'
+        moduleIndex:
+          description: It is the network device module's moduleIndex.
+          returned: always
+          type: int
+          sample: 0
+        name:
+          description: It is the network device module's name.
+          returned: always
+          type: str
+          sample: '<name>'
+        operationalStateCode:
+          description: It is the network device module's operationalStateCode.
+          returned: always
+          type: str
+          sample: '<operationalstatecode>'
+        partNumber:
+          description: It is the network device module's partNumber.
+          returned: always
+          type: str
+          sample: '<partnumber>'
+        serialNumber:
+          description: It is the network device module's serialNumber.
+          returned: always
+          type: str
+          sample: '<serialnumber>'
+        vendorEquipmentType:
+          description: It is the network device module's vendorEquipmentType.
+          returned: always
+          type: str
+          sample: '<vendorequipmenttype>'
 
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
-data_2:
+get_module_count:
     description: Returns Module Count.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    response:
+      description: Response, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_module import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

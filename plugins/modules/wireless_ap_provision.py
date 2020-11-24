@@ -19,25 +19,25 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    payload:
+  payload:
+    description:
+    - An object to send in the Request body.
+    type: list
+    required: True
+    elements: dict
+    suboptions:
+      executionId:
         description:
-        - An object to send in the Request body.
-        type: list
-        required: True
-        elements: dict
-        suboptions:
-            executionId:
-                description:
-                - It is the wireless ap provision's executionId.
-                type: str
-            executionUrl:
-                description:
-                - It is the wireless ap provision's executionUrl.
-                type: str
-            message:
-                description:
-                - It is the wireless ap provision's message.
-                type: str
+        - It is the wireless ap provision's executionId.
+        type: str
+      executionUrl:
+        description:
+        - It is the wireless ap provision's executionUrl.
+        type: str
+      message:
+        description:
+        - It is the wireless ap provision's message.
+        type: str
 
 
 requirements:
@@ -56,104 +56,78 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: ap_provision_and_re_provision
+  cisco.dnac.wireless_ap_provision
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    payload:  # required
+    - executionId: SomeValue  # string
+      executionUrl: SomeValue  # string
+      message: SomeValue  # string
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+ap_provision_and_re_provision:
     description: Access Point Provision and ReProvision.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        executionId:
-            description: Execution Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionid>'
-        executionUrl:
-            description: Execution Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionurl>'
-        provisionTasks:
-            description: Provision Tasks, property of the response body.
-            returned: success,changed,always
-            type: dict
-            contains:
-                success:
-                    description: It is the wireless ap provision's success.
-                    returned: success,changed,always
-                    type: list
-                    contains:
-                        taskId:
-                            description: It is the wireless ap provision's taskId.
-                            returned: success,changed,always
-                            type: str
-                            sample: 'aeed229047801200e0ef563dbb9a71c2'
-                        taskUrl:
-                            description: It is the wireless ap provision's taskUrl.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<taskurl>'
+    executionId:
+      description: Execution Id, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionid>'
+    executionUrl:
+      description: Execution Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionurl>'
+    provisionTasks:
+      description: Provision Tasks, property of the response body.
+      returned: success
+      type: dict
+      contains:
+        success:
+          description: It is the wireless ap provision's success.
+          returned: success
+          type: list
+          contains:
+            taskId:
+              description: It is the wireless ap provision's taskId.
+              returned: success
+              type: str
+              sample: 'aeed229047801200e0ef563dbb9a71c2'
+            taskUrl:
+              description: It is the wireless ap provision's taskUrl.
+              returned: success
+              type: str
+              sample: '<taskurl>'
 
-                failure:
-                    description: It is the wireless ap provision's failure.
-                    returned: success,changed,always
-                    type: dict
-                    contains:
-                        taskId:
-                            description: It is the wireless ap provision's taskId.
-                            returned: success,changed,always
-                            type: str
-                            sample: 'aeed229047801200e0ef563dbb9a71c2'
-                        taskUrl:
-                            description: It is the wireless ap provision's taskUrl.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<taskurl>'
-                        failureReason:
-                            description: It is the wireless ap provision's failureReason.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<failurereason>'
+        failure:
+          description: It is the wireless ap provision's failure.
+          returned: success
+          type: dict
+          contains:
+            taskId:
+              description: It is the wireless ap provision's taskId.
+              returned: success
+              type: str
+              sample: 'aeed229047801200e0ef563dbb9a71c2'
+            taskUrl:
+              description: It is the wireless ap provision's taskUrl.
+              returned: success
+              type: str
+              sample: '<taskurl>'
+            failureReason:
+              description: It is the wireless ap provision's failureReason.
+              returned: success
+              type: str
+              sample: '<failurereason>'
 
 
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.wireless_ap_provision import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

@@ -19,11 +19,11 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    headers:
-        description:
-        - Adds the header parameters.
-        type: dict
-        required: True
+  headers:
+    description:
+    - Adds the header parameters.
+    type: dict
+    required: True
 
 requirements:
 - dnacentersdk
@@ -41,136 +41,109 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_issue_enrichment_details
+  cisco.dnac.issue_enrichment_details
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    headers:  # required
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_issue_enrichment_details:
     description: Enriches a given network issue context (an issue id or end user’s Mac Address) with details about the issue(s), impacted hosts and suggested actions for remediation.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        issueDetails:
-            description: Issue Details, property of the response body.
-            returned: success,changed,always
-            type: dict
-            contains:
-                issue:
-                    description: It is the issue enrichment details's issue.
-                    returned: success,changed,always
-                    type: list
-                    contains:
-                        issueId:
-                            description: It is the issue enrichment details's issueId.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<issueid>'
-                        issueSource:
-                            description: It is the issue enrichment details's issueSource.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<issuesource>'
-                        issueCategory:
-                            description: It is the issue enrichment details's issueCategory.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<issuecategory>'
-                        issueName:
-                            description: It is the issue enrichment details's issueName.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<issuename>'
-                        issueDescription:
-                            description: It is the issue enrichment details's issueDescription.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<issuedescription>'
-                        issueEntity:
-                            description: It is the issue enrichment details's issueEntity.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<issueentity>'
-                        issueEntityValue:
-                            description: It is the issue enrichment details's issueEntityValue.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<issueentityvalue>'
-                        issueSeverity:
-                            description: It is the issue enrichment details's issueSeverity.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<issueseverity>'
-                        issuePriority:
-                            description: It is the issue enrichment details's issuePriority.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<issuepriority>'
-                        issueSummary:
-                            description: It is the issue enrichment details's issueSummary.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<issuesummary>'
-                        issueTimestamp:
-                            description: It is the issue enrichment details's issueTimestamp.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        suggestedActions:
-                            description: It is the issue enrichment details's suggestedActions.
-                            returned: success,changed,always
-                            type: list
-                            contains:
-                                message:
-                                    description: It is the issue enrichment details's message.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '<message>'
-                                steps:
-                                    description: It is the issue enrichment details's steps.
-                                    returned: success,changed,always
-                                    type: list
+    issueDetails:
+      description: Issue Details, property of the response body.
+      returned: always
+      type: dict
+      contains:
+        issue:
+          description: It is the issue enrichment details's issue.
+          returned: always
+          type: list
+          contains:
+            issueId:
+              description: It is the issue enrichment details's issueId.
+              returned: always
+              type: str
+              sample: '<issueid>'
+            issueSource:
+              description: It is the issue enrichment details's issueSource.
+              returned: always
+              type: str
+              sample: '<issuesource>'
+            issueCategory:
+              description: It is the issue enrichment details's issueCategory.
+              returned: always
+              type: str
+              sample: '<issuecategory>'
+            issueName:
+              description: It is the issue enrichment details's issueName.
+              returned: always
+              type: str
+              sample: '<issuename>'
+            issueDescription:
+              description: It is the issue enrichment details's issueDescription.
+              returned: always
+              type: str
+              sample: '<issuedescription>'
+            issueEntity:
+              description: It is the issue enrichment details's issueEntity.
+              returned: always
+              type: str
+              sample: '<issueentity>'
+            issueEntityValue:
+              description: It is the issue enrichment details's issueEntityValue.
+              returned: always
+              type: str
+              sample: '<issueentityvalue>'
+            issueSeverity:
+              description: It is the issue enrichment details's issueSeverity.
+              returned: always
+              type: str
+              sample: '<issueseverity>'
+            issuePriority:
+              description: It is the issue enrichment details's issuePriority.
+              returned: always
+              type: str
+              sample: '<issuepriority>'
+            issueSummary:
+              description: It is the issue enrichment details's issueSummary.
+              returned: always
+              type: str
+              sample: '<issuesummary>'
+            issueTimestamp:
+              description: It is the issue enrichment details's issueTimestamp.
+              returned: always
+              type: int
+              sample: 0
+            suggestedActions:
+              description: It is the issue enrichment details's suggestedActions.
+              returned: always
+              type: list
+              contains:
+                message:
+                  description: It is the issue enrichment details's message.
+                  returned: always
+                  type: str
+                  sample: '<message>'
+                steps:
+                  description: It is the issue enrichment details's steps.
+                  returned: always
+                  type: list
 
-                        impactedHosts:
-                            description: It is the issue enrichment details's impactedHosts.
-                            returned: success,changed,always
-                            type: list
+            impactedHosts:
+              description: It is the issue enrichment details's impactedHosts.
+              returned: always
+              type: list
 
 
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.issue_enrichment_details import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

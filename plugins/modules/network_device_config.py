@@ -20,11 +20,11 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    count:
-        description:
-        - If true gets the number of objects.
-        type: bool
-        required: True
+  count:
+    description:
+    - If true gets the number of objects.
+    type: bool
+    required: True
 
 requirements:
 - dnacentersdk
@@ -42,131 +42,114 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_device_config_for_all_devices
+  cisco.dnac.network_device_config
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+
+  delegate_to: localhost
+  register: query_result
+  
+- name: get_device_config_count
+  cisco.dnac.network_device_config
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    count: True  # boolean, required
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_device_config_for_all_devices:
     description: Returns the config for all devices.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                attributeInfo:
-                    description: It is the network device config's attributeInfo.
-                    returned: success,changed,always
-                    type: dict
-                cdpNeighbors:
-                    description: It is the network device config's cdpNeighbors.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<cdpneighbors>'
-                healthMonitor:
-                    description: It is the network device config's healthMonitor.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<healthmonitor>'
-                id:
-                    description: It is the network device config's id.
-                    returned: success,changed,always
-                    type: str
-                    sample: '478012'
-                intfDescription:
-                    description: It is the network device config's intfDescription.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<intfdescription>'
-                inventory:
-                    description: It is the network device config's inventory.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<inventory>'
-                ipIntfBrief:
-                    description: It is the network device config's ipIntfBrief.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<ipintfbrief>'
-                macAddressTable:
-                    description: It is the network device config's macAddressTable.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<macaddresstable>'
-                runningConfig:
-                    description: It is the network device config's runningConfig.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<runningconfig>'
-                snmp:
-                    description: It is the network device config's snmp.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<snmp>'
-                version:
-                    description: It is the network device config's version.
-                    returned: success,changed,always
-                    type: str
-                    sample: '1.0'
-
+    response:
+      description: Response, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
+        attributeInfo:
+          description: It is the network device config's attributeInfo.
+          returned: always
+          type: dict
+        cdpNeighbors:
+          description: It is the network device config's cdpNeighbors.
+          returned: always
+          type: str
+          sample: '<cdpneighbors>'
+        healthMonitor:
+          description: It is the network device config's healthMonitor.
+          returned: always
+          type: str
+          sample: '<healthmonitor>'
+        id:
+          description: It is the network device config's id.
+          returned: always
+          type: str
+          sample: '478012'
+        intfDescription:
+          description: It is the network device config's intfDescription.
+          returned: always
+          type: str
+          sample: '<intfdescription>'
+        inventory:
+          description: It is the network device config's inventory.
+          returned: always
+          type: str
+          sample: '<inventory>'
+        ipIntfBrief:
+          description: It is the network device config's ipIntfBrief.
+          returned: always
+          type: str
+          sample: '<ipintfbrief>'
+        macAddressTable:
+          description: It is the network device config's macAddressTable.
+          returned: always
+          type: str
+          sample: '<macaddresstable>'
+        runningConfig:
+          description: It is the network device config's runningConfig.
+          returned: always
+          type: str
+          sample: '<runningconfig>'
+        snmp:
+          description: It is the network device config's snmp.
+          returned: always
+          type: str
+          sample: '<snmp>'
         version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+          description: It is the network device config's version.
+          returned: always
+          type: str
+          sample: '1.0'
 
-data_1:
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
+
+get_device_config_count:
     description: Returns the count of device configs.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    response:
+      description: Response, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_config import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

@@ -20,33 +20,33 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    payload:
+  payload:
+    description:
+    - An object to send in the Request body.
+    - Required for state create.
+    type: list
+    elements: dict
+    suboptions:
+      id:
         description:
-        - An object to send in the Request body.
-        type: list
-        required: True
-        elements: dict
-        suboptions:
-            id:
-                description:
-                - It is the snmp property's id.
-                type: str
-            instanceTenantId:
-                description:
-                - It is the snmp property's instanceTenantId.
-                type: str
-            instanceUuid:
-                description:
-                - It is the snmp property's instanceUuid.
-                type: str
-            intValue:
-                description:
-                - It is the snmp property's intValue.
-                type: int
-            systemPropertyName:
-                description:
-                - It is the snmp property's systemPropertyName.
-                type: str
+        - It is the snmp property's id.
+        type: str
+      instanceTenantId:
+        description:
+        - It is the snmp property's instanceTenantId.
+        type: str
+      instanceUuid:
+        description:
+        - It is the snmp property's instanceUuid.
+        type: str
+      intValue:
+        description:
+        - It is the snmp property's intValue.
+        type: int
+      systemPropertyName:
+        description:
+        - It is the snmp property's systemPropertyName.
+        type: str
 
 
 requirements:
@@ -65,116 +65,99 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_snmp_properties
+  cisco.dnac.snmp_property
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+
+  delegate_to: localhost
+  register: query_result
+  
+- name: create_update_snmp_properties
+  cisco.dnac.snmp_property
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    payload:  # required
+    - id: SomeValue  # string
+      instanceTenantId: SomeValue  # string
+      instanceUuid: SomeValue  # string
+      intValue: 1  #  integer
+      systemPropertyName: SomeValue  # string
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_snmp_properties:
     description: Returns SNMP properties.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                id:
-                    description: It is the snmp property's id.
-                    returned: success,changed,always
-                    type: str
-                    sample: '478012'
-                instanceTenantId:
-                    description: It is the snmp property's instanceTenantId.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<instancetenantid>'
-                instanceUuid:
-                    description: It is the snmp property's instanceUuid.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<instanceuuid>'
-                intValue:
-                    description: It is the snmp property's intValue.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                systemPropertyName:
-                    description: It is the snmp property's systemPropertyName.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<systempropertyname>'
+    response:
+      description: Response, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
+        id:
+          description: It is the snmp property's id.
+          returned: always
+          type: str
+          sample: '478012'
+        instanceTenantId:
+          description: It is the snmp property's instanceTenantId.
+          returned: always
+          type: str
+          sample: '<instancetenantid>'
+        instanceUuid:
+          description: It is the snmp property's instanceUuid.
+          returned: always
+          type: str
+          sample: '<instanceuuid>'
+        intValue:
+          description: It is the snmp property's intValue.
+          returned: always
+          type: int
+          sample: 0
+        systemPropertyName:
+          description: It is the snmp property's systemPropertyName.
+          returned: always
+          type: str
+          sample: '<systempropertyname>'
 
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
-data_1:
+create_update_snmp_properties:
     description: Adds SNMP properties.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        response:
-            description: SystemPropertyNameAndIntValueDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the snmp property's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the snmp property's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: SystemPropertyNameAndIntValueDTO's response.
+      returned: success
+      type: dict
+      contains:
+        taskId:
+          description: It is the snmp property's taskId.
+          returned: success
+          type: dict
+        url:
+          description: It is the snmp property's url.
+          returned: success
+          type: str
+          sample: '<url>'
 
-        version:
-            description: SystemPropertyNameAndIntValueDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: SystemPropertyNameAndIntValueDTO's version.
+      returned: success
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.snmp_property import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    elif state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

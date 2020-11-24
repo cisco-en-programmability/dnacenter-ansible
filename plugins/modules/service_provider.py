@@ -22,45 +22,45 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    settings:
+  settings:
+    description:
+    - Settings, property of the request body.
+    type: dict
+    required: True
+    suboptions:
+      qos:
         description:
-        - Settings, property of the request body.
-        type: dict
-        required: True
+        - It is the service provider's qos.
+        type: list
+        elements: dict
         suboptions:
-            qos:
-                description:
-                - It is the service provider's qos.
-                type: list
-                elements: dict
-                suboptions:
-                    model:
-                        description:
-                        - It is the service provider's model.
-                        - Required for state create.
-                        type: str
-                    oldProfileName:
-                        description:
-                        - It is the service provider's oldProfileName.
-                        type: str
-                        required: True
-                    profileName:
-                        description:
-                        - It is the service provider's profileName.
-                        - Required for state create.
-                        type: str
-                    wanProvider:
-                        description:
-                        - It is the service provider's wanProvider.
-                        - Required for state create.
-                        type: str
+          model:
+            description:
+            - It is the service provider's model.
+            - Required for state create.
+            type: str
+          oldProfileName:
+            description:
+            - It is the service provider's oldProfileName.
+            type: str
+            required: True
+          profileName:
+            description:
+            - It is the service provider's profileName.
+            - Required for state create.
+            type: str
+          wanProvider:
+            description:
+            - It is the service provider's wanProvider.
+            - Required for state create.
+            type: str
 
 
-    sp_profile_name:
-        description:
-        - Sp profile name.
-        type: str
-        required: True
+  sp_profile_name:
+    description:
+    - Sp profile name.
+    - Required for state delete.
+    type: str
 
 requirements:
 - dnacentersdk
@@ -78,201 +78,199 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_service_provider_details
+  cisco.dnac.service_provider
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+
+  delegate_to: localhost
+  register: query_result
+  
+- name: create_sp_profile
+  cisco.dnac.service_provider
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    settings:  # required
+      qos:
+      - profileName: SomeValue  # string, required
+        model: SomeValue  # string, required
+        wanProvider: SomeValue  # string, required
+  delegate_to: localhost
+  
+- name: update_sp_profile
+  cisco.dnac.service_provider
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: update  # required
+    settings:  # required
+      qos:
+      - oldProfileName: SomeValue  # string, required
+        profileName: SomeValue  # string
+        model: SomeValue  # string
+        wanProvider: SomeValue  # string
+  delegate_to: localhost
+  
+- name: delete_sp_profile
+  cisco.dnac.service_provider
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: delete  # required
+    sp_profile_name: SomeValue  # string, required
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_service_provider_details:
     description: API to get service provider details (QoS).
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                instanceType:
-                    description: It is the service provider's instanceType.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<instancetype>'
-                instanceUuid:
-                    description: It is the service provider's instanceUuid.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<instanceuuid>'
-                namespace:
-                    description: It is the service provider's namespace.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<namespace>'
-                type:
-                    description: It is the service provider's type.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<type>'
-                key:
-                    description: It is the service provider's key.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<key>'
-                version:
-                    description: It is the service provider's version.
-                    returned: success,changed,always
-                    type: str
-                    sample: '1.0'
-                value:
-                    description: It is the service provider's value.
-                    returned: success,changed,always
-                    type: list
-                    contains:
-                        wanProvider:
-                            description: It is the service provider's wanProvider.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<wanprovider>'
-                        spProfileName:
-                            description: It is the service provider's spProfileName.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<spprofilename>'
-                        slaProfileName:
-                            description: It is the service provider's slaProfileName.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<slaprofilename>'
-
-                groupUuid:
-                    description: It is the service provider's groupUuid.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<groupuuid>'
-                inheritedGroupUuid:
-                    description: It is the service provider's inheritedGroupUuid.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<inheritedgroupuuid>'
-                inheritedGroupName:
-                    description: It is the service provider's inheritedGroupName.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<inheritedgroupname>'
-
+    response:
+      description: Response, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
+        instanceType:
+          description: It is the service provider's instanceType.
+          returned: always
+          type: str
+          sample: '<instancetype>'
+        instanceUuid:
+          description: It is the service provider's instanceUuid.
+          returned: always
+          type: str
+          sample: '<instanceuuid>'
+        namespace:
+          description: It is the service provider's namespace.
+          returned: always
+          type: str
+          sample: '<namespace>'
+        type:
+          description: It is the service provider's type.
+          returned: always
+          type: str
+          sample: '<type>'
+        key:
+          description: It is the service provider's key.
+          returned: always
+          type: str
+          sample: '<key>'
         version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+          description: It is the service provider's version.
+          returned: always
+          type: str
+          sample: '1.0'
+        value:
+          description: It is the service provider's value.
+          returned: always
+          type: list
+          contains:
+            wanProvider:
+              description: It is the service provider's wanProvider.
+              returned: always
+              type: str
+              sample: '<wanprovider>'
+            spProfileName:
+              description: It is the service provider's spProfileName.
+              returned: always
+              type: str
+              sample: '<spprofilename>'
+            slaProfileName:
+              description: It is the service provider's slaProfileName.
+              returned: always
+              type: str
+              sample: '<slaprofilename>'
 
-data_1:
+        groupUuid:
+          description: It is the service provider's groupUuid.
+          returned: always
+          type: str
+          sample: '<groupuuid>'
+        inheritedGroupUuid:
+          description: It is the service provider's inheritedGroupUuid.
+          returned: always
+          type: str
+          sample: '<inheritedgroupuuid>'
+        inheritedGroupName:
+          description: It is the service provider's inheritedGroupName.
+          returned: always
+          type: str
+          sample: '<inheritedgroupname>'
+
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
+
+create_sp_profile:
     description: API to create service provider profile(QOS).
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        executionId:
-            description: Execution Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionid>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
-        message:
-            description: Message, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<message>'
+    executionId:
+      description: Execution Id, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionid>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionstatusurl>'
+    message:
+      description: Message, property of the response body.
+      returned: success
+      type: str
+      sample: '<message>'
 
-data_2:
+update_sp_profile:
     description: API to update SP profile.
-    returned: success,changed,always
+    returned: changed
     type: dict
     contains:
-        executionId:
-            description: Execution Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionid>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
-        message:
-            description: Message, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<message>'
+    executionId:
+      description: Execution Id, property of the response body.
+      returned: changed
+      type: str
+      sample: '<executionid>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: changed
+      type: str
+      sample: '<executionstatusurl>'
+    message:
+      description: Message, property of the response body.
+      returned: changed
+      type: str
+      sample: '<message>'
 
-data_3:
+delete_sp_profile:
     description: API to delete Service Provider profile (QoS).
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        executionId:
-            description: Execution Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionid>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
-        message:
-            description: Message, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<message>'
+    executionId:
+      description: Execution Id, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionid>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionstatusurl>'
+    message:
+      description: Message, property of the response body.
+      returned: success
+      type: str
+      sample: '<message>'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.service_provider import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    elif state == "delete":
-        dnac.exec("delete")
-
-    elif state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    elif state == "update":
-        dnac.disable_validation()
-        dnac.exec("put")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

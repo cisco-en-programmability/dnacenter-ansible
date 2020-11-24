@@ -19,11 +19,11 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    execution_id:
-        description:
-        - Execution ID.
-        type: str
-        required: True
+  execution_id:
+    description:
+    - Execution ID.
+    type: str
+    required: True
 
 requirements:
 - dnacentersdk
@@ -41,64 +41,37 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_status_api_for_events
+  cisco.dnac.event_api_status
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    execution_id: SomeValue  # string, required
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_status_api_for_events:
     description: Get the Status of events API calls with provided executionId as mandatory path parameter.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        errorMessage:
-            description: Error Message, property of the response body.
-            returned: success,changed,always
-            type: dict
-        apiStatus:
-            description: Api Status, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<apistatus>'
-        statusMessage:
-            description: Status Message, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<statusmessage>'
+    errorMessage:
+      description: Error Message, property of the response body.
+      returned: always
+      type: dict
+    apiStatus:
+      description: Api Status, property of the response body.
+      returned: always
+      type: str
+      sample: '<apistatus>'
+    statusMessage:
+      description: Status Message, property of the response body.
+      returned: always
+      type: str
+      sample: '<statusmessage>'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.event_api_status import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

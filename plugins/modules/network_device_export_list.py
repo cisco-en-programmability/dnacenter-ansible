@@ -19,28 +19,28 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    deviceUuids:
-        description:
-        - ExportDeviceDTO's deviceUuids (list of strings).
-        type: list
-        required: True
-    id:
-        description:
-        - ExportDeviceDTO's id.
-        type: str
-    operationEnum:
-        description:
-        - ExportDeviceDTO's operationEnum.
-        - Available values are 'CREDENTIALDETAILS' and 'DEVICEDETAILS'.
-        type: str
-    parameters:
-        description:
-        - ExportDeviceDTO's parameters (list of strings).
-        type: list
-    password:
-        description:
-        - ExportDeviceDTO's password.
-        type: str
+  deviceUuids:
+    description:
+    - ExportDeviceDTO's deviceUuids (list of strings).
+    type: list
+    required: True
+  id:
+    description:
+    - ExportDeviceDTO's id.
+    type: str
+  operationEnum:
+    description:
+    - ExportDeviceDTO's operationEnum.
+    - Available values are 'CREDENTIALDETAILS' and 'DEVICEDETAILS'.
+    type: str
+  parameters:
+    description:
+    - ExportDeviceDTO's parameters (list of strings).
+    type: list
+  password:
+    description:
+    - ExportDeviceDTO's password.
+    type: str
 
 requirements:
 - dnacentersdk
@@ -58,71 +58,48 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: export_device_list
+  cisco.dnac.network_device_export_list
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    deviceUuids:  # required
+    - SomeValue  # string
+    id: SomeValue  # string
+    operationEnum: SomeValue  # string, valid values: 'CREDENTIALDETAILS', 'DEVICEDETAILS'.
+    parameters:
+    - SomeValue  # string
+    password: SomeValue  # string
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+export_device_list:
     description: Exports the selected network device to a file.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        response:
-            description: ExportDeviceDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the network device export list's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the network device export list's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: ExportDeviceDTO's response.
+      returned: success
+      type: dict
+      contains:
+        taskId:
+          description: It is the network device export list's taskId.
+          returned: success
+          type: dict
+        url:
+          description: It is the network device export list's url.
+          returned: success
+          type: str
+          sample: '<url>'
 
-        version:
-            description: ExportDeviceDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: ExportDeviceDTO's version.
+      returned: success
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_export_list import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

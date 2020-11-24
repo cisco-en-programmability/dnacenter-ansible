@@ -24,116 +24,120 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    additional_info_attributes:
-        description:
-        - AdditionalInfo.attributes query parameter.
-        type: str
-    additional_info_name_space:
-        description:
-        - AdditionalInfo.nameSpace query parameter.
-        type: str
-    field:
-        description:
-        - Available field names are :'name,id,parentId,type,additionalInfo.nameSpace,additionalInfo.attributes'.
-        type: str
-    level:
-        description:
-        - Level query parameter.
-        type: str
-    limit:
-        description:
-        - Limit query parameter.
-        type: str
-    name:
-        description:
-        - Tag name is mandatory when filter operation is used.
-        type: str
-    offset:
-        description:
-        - Offset query parameter.
-        type: str
-    order:
-        description:
-        - Available values are asc and des.
-        type: str
-    size:
-        description:
-        - Size in kilobytes(KB).
-        type: str
-    sort_by:
-        description:
-        - Only supported attribute is name. SortyBy is mandatory when order is used.
-        type: str
-    system_tag:
-        description:
-        - SystemTag query parameter.
-        type: str
+  additional_info_attributes:
     description:
+    - AdditionalInfo.attributes query parameter.
+    type: str
+  additional_info_name_space:
+    description:
+    - AdditionalInfo.nameSpace query parameter.
+    type: str
+  field:
+    description:
+    - Available field names are :'name,id,parentId,type,additionalInfo.nameSpace,additionalInfo.attributes'.
+    type: str
+  level:
+    description:
+    - Level query parameter.
+    type: str
+  limit:
+    description:
+    - Limit query parameter.
+    type: str
+  name:
+    description:
+    - Tag name is mandatory when filter operation is used.
+    - TagDTO's name.
+    - Name query parameter.
+    type: str
+  offset:
+    description:
+    - Offset query parameter.
+    type: str
+  order:
+    description:
+    - Available values are asc and des.
+    type: str
+  size:
+    description:
+    - Size in kilobytes(KB).
+    type: str
+  sort_by:
+    description:
+    - Only supported attribute is name. SortyBy is mandatory when order is used.
+    type: str
+  system_tag:
+    description:
+    - SystemTag query parameter.
+    type: str
+  description:
+    description:
+    - TagDTO's description.
+    type: str
+  dynamicRules:
+    description:
+    - TagDTO's dynamicRules (list of objects).
+    type: list
+    elements: dict
+    suboptions:
+      memberType:
         description:
-        - TagDTO's description.
+        - It is the Tag's memberType.
         type: str
-    dynamicRules:
+      rules:
         description:
-        - TagDTO's dynamicRules (list of objects).
-        type: list
-        elements: dict
+        - It is the Tag's rules.
+        type: dict
         suboptions:
-            memberType:
-                description:
-                - It is the Tag's memberType.
-                type: str
-            rules:
-                description:
-                - It is the Tag's rules.
-                type: dict
-                suboptions:
-                    items:
-                        description:
-                        - It is the Tag's items.
-                        type: list
-                    name:
-                        description:
-                        - It is the Tag's name.
-                        type: str
-                    operation:
-                        description:
-                        - It is the Tag's operation.
-                        type: str
-                    value:
-                        description:
-                        - It is the Tag's value.
-                        type: str
-                    values:
-                        description:
-                        - It is the Tag's values.
-                        type: list
+          items:
+            description:
+            - It is the Tag's items.
+            type: list
+          name:
+            description:
+            - It is the Tag's name.
+            type: str
+          operation:
+            description:
+            - It is the Tag's operation.
+            type: str
+          value:
+            description:
+            - It is the Tag's value.
+            type: str
+          values:
+            description:
+            - It is the Tag's values.
+            type: list
 
 
-    id:
-        description:
-        - TagDTO's id.
-        type: str
-    instanceTenantId:
-        description:
-        - TagDTO's instanceTenantId.
-        type: str
-    systemTag:
-        description:
-        - TagDTO's systemTag.
-        type: bool
-    attribute_name:
-        description:
-        - AttributeName query parameter.
-        type: str
-    name_space:
-        description:
-        - NameSpace query parameter.
-        type: str
-    count:
-        description:
-        - If true gets the number of objects.
-        type: bool
-        required: True
+  id:
+    description:
+    - TagDTO's id.
+    - Tag ID.
+    - Required for states absent and query.
+    type: str
+  instanceTenantId:
+    description:
+    - TagDTO's instanceTenantId.
+    type: str
+  systemTag:
+    description:
+    - TagDTO's systemTag.
+    type: bool
+  attribute_name:
+    description:
+    - AttributeName query parameter.
+    type: str
+  name_space:
+    description:
+    - NameSpace query parameter.
+    type: str
+  count:
+    description:
+    - If true gets the number of objects.
+    - Required for state query.
+    type: bool
 
 requirements:
 - dnacentersdk
@@ -151,318 +155,364 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_tag
+  cisco.dnac.tag
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    additional_info_attributes: SomeValue  # string
+    additional_info_name_space: SomeValue  # string
+    field: SomeValue  # string
+    level: SomeValue  # string
+    limit: SomeValue  # string
+    name: SomeValue  # string
+    offset: SomeValue  # string
+    order: SomeValue  # string
+    size: SomeValue  # string
+    sort_by: SomeValue  # string
+    system_tag: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
+- name: create_tag
+  cisco.dnac.tag
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: present  # required
+    description: SomeValue  # string
+    dynamicRules:
+    - memberType: SomeValue  # string
+      rules:
+        values:
+        - SomeValue  # string
+        items: None
+        operation: SomeValue  # string
+        name: SomeValue  # string
+        value: SomeValue  # string
+    id: SomeValue  # string
+    instanceTenantId: SomeValue  # string
+    name: SomeValue  # string
+    systemTag: True  # boolean
+  delegate_to: localhost
+  
+- name: update_tag
+  cisco.dnac.tag
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: present  # required
+    description: SomeValue  # string
+    dynamicRules:
+    - memberType: SomeValue  # string
+      rules:
+        values:
+        - SomeValue  # string
+        items: None
+        operation: SomeValue  # string
+        name: SomeValue  # string
+        value: SomeValue  # string
+    id: SomeValue  # string
+    instanceTenantId: SomeValue  # string
+    name: SomeValue  # string
+    systemTag: True  # boolean
+  delegate_to: localhost
+  
+- name: delete_tag
+  cisco.dnac.tag
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: absent  # required
+    id: SomeValue  # string, required
+  delegate_to: localhost
+  
+- name: get_tag_by_id
+  cisco.dnac.tag
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    id: SomeValue  # string, required
+  delegate_to: localhost
+  register: query_result
+  
+- name: get_tag_count
+  cisco.dnac.tag
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    count: True  # boolean, required
+    attribute_name: SomeValue  # string
+    level: SomeValue  # string
+    name: SomeValue  # string
+    name_space: SomeValue  # string
+    size: SomeValue  # string
+    system_tag: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_tag:
     description: Returns the Tags for given filter criteria.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
-        response:
-            description: Response, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                systemTag:
-                    description: It is the Tag's systemTag.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
-                description:
-                    description: It is the Tag's description.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<description>'
-                dynamicRules:
-                    description: It is the Tag's dynamicRules.
-                    returned: success,changed,always
-                    type: list
-                    contains:
-                        memberType:
-                            description: It is the Tag's memberType.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<membertype>'
-                        rules:
-                            description: It is the Tag's rules.
-                            returned: success,changed,always
-                            type: dict
-                            contains:
-                                values:
-                                    description: It is the Tag's values.
-                                    returned: success,changed,always
-                                    type: list
-                                items:
-                                    description: It is the Tag's items.
-                                    returned: success,changed,always
-                                    type: list
-                                operation:
-                                    description: It is the Tag's operation.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '<operation>'
-                                name:
-                                    description: It is the Tag's name.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '<name>'
-                                value:
-                                    description: It is the Tag's value.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '<value>'
-
-
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
+    response:
+      description: Response, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
+        systemTag:
+          description: It is the Tag's systemTag.
+          returned: always
+          type: bool
+          sample: false
+        description:
+          description: It is the Tag's description.
+          returned: always
+          type: str
+          sample: '<description>'
+        dynamicRules:
+          description: It is the Tag's dynamicRules.
+          returned: always
+          type: list
+          contains:
+            memberType:
+              description: It is the Tag's memberType.
+              returned: always
+              type: str
+              sample: '<membertype>'
+            rules:
+              description: It is the Tag's rules.
+              returned: always
+              type: dict
+              contains:
+                values:
+                  description: It is the Tag's values.
+                  returned: always
+                  type: list
+                items:
+                  description: It is the Tag's items.
+                  returned: always
+                  type: list
+                operation:
+                  description: It is the Tag's operation.
+                  returned: always
+                  type: str
+                  sample: '<operation>'
                 name:
-                    description: It is the Tag's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
-                id:
-                    description: It is the Tag's id.
-                    returned: success,changed,always
-                    type: str
-                    sample: '478012'
-                instanceTenantId:
-                    description: It is the Tag's instanceTenantId.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<instancetenantid>'
+                  description: It is the Tag's name.
+                  returned: always
+                  type: str
+                  sample: '<name>'
+                value:
+                  description: It is the Tag's value.
+                  returned: always
+                  type: str
+                  sample: '<value>'
 
 
-data_1:
+        name:
+          description: It is the Tag's name.
+          returned: always
+          type: str
+          sample: '<name>'
+        id:
+          description: It is the Tag's id.
+          returned: always
+          type: str
+          sample: '478012'
+        instanceTenantId:
+          description: It is the Tag's instanceTenantId.
+          returned: always
+          type: str
+          sample: '<instancetenantid>'
+
+
+create_tag:
     description: Creates Tag with specified Tag attributes.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        version:
-            description: TagDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
-        response:
-            description: TagDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the Tag's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the Tag's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    version:
+      description: TagDTO's version.
+      returned: success
+      type: str
+      sample: '1.0'
+    response:
+      description: TagDTO's response.
+      returned: success
+      type: dict
+      contains:
+        taskId:
+          description: It is the Tag's taskId.
+          returned: success
+          type: dict
+        url:
+          description: It is the Tag's url.
+          returned: success
+          type: str
+          sample: '<url>'
 
 
-data_2:
+update_tag:
     description: Updates a Tag specified by id.
-    returned: success,changed,always
+    returned: changed
     type: dict
     contains:
-        version:
-            description: TagDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
-        response:
-            description: TagDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the Tag's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the Tag's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    version:
+      description: TagDTO's version.
+      returned: changed
+      type: str
+      sample: '1.0'
+    response:
+      description: TagDTO's response.
+      returned: changed
+      type: dict
+      contains:
+        taskId:
+          description: It is the Tag's taskId.
+          returned: changed
+          type: dict
+        url:
+          description: It is the Tag's url.
+          returned: changed
+          type: str
+          sample: '<url>'
 
 
-data_3:
+delete_tag:
     description: Deletes a Tag specified by id.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the Tag's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the Tag's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    version:
+      description: Version, property of the response body.
+      returned: success
+      type: str
+      sample: '1.0'
+    response:
+      description: Response, property of the response body.
+      returned: success
+      type: dict
+      contains:
+        taskId:
+          description: It is the Tag's taskId.
+          returned: success
+          type: dict
+        url:
+          description: It is the Tag's url.
+          returned: success
+          type: str
+          sample: '<url>'
 
 
-data_4:
+get_tag_by_id:
     description: Returns Tag specified by Id.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: dict
-            contains:
-                systemTag:
-                    description: It is the Tag's systemTag.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
-                description:
-                    description: It is the Tag's description.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<description>'
-                dynamicRules:
-                    description: It is the Tag's dynamicRules.
-                    returned: success,changed,always
-                    type: list
-                    contains:
-                        memberType:
-                            description: It is the Tag's memberType.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<membertype>'
-                        rules:
-                            description: It is the Tag's rules.
-                            returned: success,changed,always
-                            type: dict
-                            contains:
-                                values:
-                                    description: It is the Tag's values.
-                                    returned: success,changed,always
-                                    type: list
-                                items:
-                                    description: It is the Tag's items.
-                                    returned: success,changed,always
-                                    type: list
-                                operation:
-                                    description: It is the Tag's operation.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '<operation>'
-                                name:
-                                    description: It is the Tag's name.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '<name>'
-                                value:
-                                    description: It is the Tag's value.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '<value>'
-
-
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
+    response:
+      description: Response, property of the response body.
+      returned: always
+      type: dict
+      contains:
+        systemTag:
+          description: It is the Tag's systemTag.
+          returned: always
+          type: bool
+          sample: false
+        description:
+          description: It is the Tag's description.
+          returned: always
+          type: str
+          sample: '<description>'
+        dynamicRules:
+          description: It is the Tag's dynamicRules.
+          returned: always
+          type: list
+          contains:
+            memberType:
+              description: It is the Tag's memberType.
+              returned: always
+              type: str
+              sample: '<membertype>'
+            rules:
+              description: It is the Tag's rules.
+              returned: always
+              type: dict
+              contains:
+                values:
+                  description: It is the Tag's values.
+                  returned: always
+                  type: list
+                items:
+                  description: It is the Tag's items.
+                  returned: always
+                  type: list
+                operation:
+                  description: It is the Tag's operation.
+                  returned: always
+                  type: str
+                  sample: '<operation>'
                 name:
-                    description: It is the Tag's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
-                id:
-                    description: It is the Tag's id.
-                    returned: success,changed,always
-                    type: str
-                    sample: '478012'
-                instanceTenantId:
-                    description: It is the Tag's instanceTenantId.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<instancetenantid>'
+                  description: It is the Tag's name.
+                  returned: always
+                  type: str
+                  sample: '<name>'
+                value:
+                  description: It is the Tag's value.
+                  returned: always
+                  type: str
+                  sample: '<value>'
 
 
-data_5:
+        name:
+          description: It is the Tag's name.
+          returned: always
+          type: str
+          sample: '<name>'
+        id:
+          description: It is the Tag's id.
+          returned: always
+          type: str
+          sample: '478012'
+        instanceTenantId:
+          description: It is the Tag's instanceTenantId.
+          returned: always
+          type: str
+          sample: '<instancetenantid>'
+
+
+get_tag_count:
     description: Returns Tag count.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
+    response:
+      description: Response, property of the response body.
+      returned: always
+      type: int
+      sample: 0
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.tag import (
-    module_definition,
-    TagExistenceCriteria,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec(idempotent=True)
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    elif state == "absent":
-        dnac.exec("delete")
-
-    elif state == "present":
-        ec = TagExistenceCriteria(dnac)
-
-        if ec.object_exists():
-            dnac.disable_validation()
-            dnac.exec("put")
-            dnac.result.update({"warning": ec.WARN_OBJECT_EXISTS})
-
-        else:
-            dnac.disable_validation()
-            dnac.exec("post")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

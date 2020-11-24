@@ -19,11 +19,11 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    site_id:
-        description:
-        - Site id to retrieve device associated with the site.
-        type: str
-        required: True
+  site_id:
+    description:
+    - Site id to retrieve device associated with the site.
+    type: str
+    required: True
 
 requirements:
 - dnacentersdk
@@ -41,85 +41,58 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_membership
+  cisco.dnac.site_membership
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    site_id: SomeValue  # string, required
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_membership:
     description: Getting the site children details and device details.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        site:
-            description: Site, property of the response body.
-            returned: success,changed,always
-            type: dict
-            contains:
-                response:
-                    description: It is the site membership's response.
-                    returned: success,changed,always
-                    type: list
-                version:
-                    description: It is the site membership's version.
-                    returned: success,changed,always
-                    type: str
-                    sample: '1.0'
+    site:
+      description: Site, property of the response body.
+      returned: always
+      type: dict
+      contains:
+        response:
+          description: It is the site membership's response.
+          returned: always
+          type: list
+        version:
+          description: It is the site membership's version.
+          returned: always
+          type: str
+          sample: '1.0'
 
-        device:
-            description: Device, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                response:
-                    description: It is the site membership's response.
-                    returned: success,changed,always
-                    type: list
-                version:
-                    description: It is the site membership's version.
-                    returned: success,changed,always
-                    type: str
-                    sample: '1.0'
-                siteId:
-                    description: It is the site membership's siteId.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<siteid>'
+    device:
+      description: Device, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
+        response:
+          description: It is the site membership's response.
+          returned: always
+          type: list
+        version:
+          description: It is the site membership's version.
+          returned: always
+          type: str
+          sample: '1.0'
+        siteId:
+          description: It is the site membership's siteId.
+          returned: always
+          type: str
+          sample: '<siteid>'
 
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.site_membership import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

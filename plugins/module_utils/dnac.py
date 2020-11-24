@@ -215,7 +215,6 @@ class ModuleDefinition(object):
         _operations = module_definition.get("operations")
         _response_schema = module_definition.get("responses")
         self.methods = ["post", "put", "delete", "get"]
-        # self.operations = dict.fromkeys(self.methods, [])
         self.operations = dict()
 
         for method, func_list in _operations.items():

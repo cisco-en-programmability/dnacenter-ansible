@@ -20,93 +20,93 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    payload:
-        description:
-        - An object to send in the Request body.
-        type: list
-        required: True
-        elements: dict
-        suboptions:
-            comments:
-                description:
-                - It is the global credential cli's comments.
-                type: str
-            credentialType:
-                description:
-                - It is the global credential cli's credentialType.
-                type: str
-            description:
-                description:
-                - It is the global credential cli's description.
-                type: str
-            enablePassword:
-                description:
-                - It is the global credential cli's enablePassword.
-                type: str
-                required: True
-            id:
-                description:
-                - It is the global credential cli's id.
-                type: str
-            instanceTenantId:
-                description:
-                - It is the global credential cli's instanceTenantId.
-                type: str
-            instanceUuid:
-                description:
-                - It is the global credential cli's instanceUuid.
-                type: str
-            password:
-                description:
-                - It is the global credential cli's password.
-                type: str
-                required: True
-            username:
-                description:
-                - It is the global credential cli's username.
-                type: str
-                required: True
-
-    comments:
-        description:
-        - CLICredentialDTO's comments.
-        type: str
-    credentialType:
-        description:
-        - CLICredentialDTO's credentialType.
-        - Available values are 'GLOBAL' and 'APP'.
-        type: str
+  payload:
     description:
+    - An object to send in the Request body.
+    - Required for state create.
+    type: list
+    elements: dict
+    suboptions:
+      comments:
         description:
-        - CLICredentialDTO's description.
+        - It is the global credential cli's comments.
         type: str
-    enablePassword:
+      credentialType:
         description:
-        - CLICredentialDTO's enablePassword.
+        - It is the global credential cli's credentialType.
         type: str
-        required: True
-    id:
+      description:
         description:
-        - CLICredentialDTO's id.
+        - It is the global credential cli's description.
         type: str
-    instanceTenantId:
+      enablePassword:
         description:
-        - CLICredentialDTO's instanceTenantId.
-        type: str
-    instanceUuid:
-        description:
-        - CLICredentialDTO's instanceUuid.
-        type: str
-    password:
-        description:
-        - CLICredentialDTO's password.
+        - It is the global credential cli's enablePassword.
         type: str
         required: True
-    username:
+      id:
         description:
-        - CLICredentialDTO's username.
+        - It is the global credential cli's id.
+        type: str
+      instanceTenantId:
+        description:
+        - It is the global credential cli's instanceTenantId.
+        type: str
+      instanceUuid:
+        description:
+        - It is the global credential cli's instanceUuid.
+        type: str
+      password:
+        description:
+        - It is the global credential cli's password.
         type: str
         required: True
+      username:
+        description:
+        - It is the global credential cli's username.
+        type: str
+        required: True
+
+  comments:
+    description:
+    - CLICredentialDTO's comments.
+    type: str
+  credentialType:
+    description:
+    - CLICredentialDTO's credentialType.
+    - Available values are 'GLOBAL' and 'APP'.
+    type: str
+  description:
+    description:
+    - CLICredentialDTO's description.
+    type: str
+  enablePassword:
+    description:
+    - CLICredentialDTO's enablePassword.
+    - Required for state update.
+    type: str
+  id:
+    description:
+    - CLICredentialDTO's id.
+    type: str
+  instanceTenantId:
+    description:
+    - CLICredentialDTO's instanceTenantId.
+    type: str
+  instanceUuid:
+    description:
+    - CLICredentialDTO's instanceUuid.
+    type: str
+  password:
+    description:
+    - CLICredentialDTO's password.
+    - Required for state update.
+    type: str
+  username:
+    description:
+    - CLICredentialDTO's username.
+    - Required for state update.
+    type: str
 
 requirements:
 - dnacentersdk
@@ -124,101 +124,94 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: create_cli_credentials
+  cisco.dnac.global_credential_cli
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    payload:  # required
+    - enablePassword: SomeValue  # string, required
+      password: SomeValue  # string, required
+      username: SomeValue  # string, required
+      comments: SomeValue  # string
+      credentialType: SomeValue  # string
+      description: SomeValue  # string
+      id: SomeValue  # string
+      instanceTenantId: SomeValue  # string
+      instanceUuid: SomeValue  # string
+  delegate_to: localhost
+  
+- name: update_cli_credentials
+  cisco.dnac.global_credential_cli
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: update  # required
+    enablePassword: SomeValue  # string, required
+    password: SomeValue  # string, required
+    username: SomeValue  # string, required
+    comments: SomeValue  # string
+    credentialType: SomeValue  # string, valid values: 'GLOBAL', 'APP'.
+    description: SomeValue  # string
+    id: SomeValue  # string
+    instanceTenantId: SomeValue  # string
+    instanceUuid: SomeValue  # string
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+create_cli_credentials:
     description: Adds global CLI credential.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        response:
-            description: CLICredentialDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the global credential cli's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the global credential cli's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: CLICredentialDTO's response.
+      returned: success
+      type: dict
+      contains:
+        taskId:
+          description: It is the global credential cli's taskId.
+          returned: success
+          type: dict
+        url:
+          description: It is the global credential cli's url.
+          returned: success
+          type: str
+          sample: '<url>'
 
-        version:
-            description: CLICredentialDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: CLICredentialDTO's version.
+      returned: success
+      type: str
+      sample: '1.0'
 
-data_1:
+update_cli_credentials:
     description: Updates global CLI credentials.
-    returned: success,changed,always
+    returned: changed
     type: dict
     contains:
-        response:
-            description: CLICredentialDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the global credential cli's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the global credential cli's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: CLICredentialDTO's response.
+      returned: changed
+      type: dict
+      contains:
+        taskId:
+          description: It is the global credential cli's taskId.
+          returned: changed
+          type: dict
+        url:
+          description: It is the global credential cli's url.
+          returned: changed
+          type: str
+          sample: '<url>'
 
-        version:
-            description: CLICredentialDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: CLICredentialDTO's version.
+      returned: changed
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.global_credential_cli import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    elif state == "update":
-        dnac.disable_validation()
-        dnac.exec("put")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

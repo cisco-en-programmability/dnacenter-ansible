@@ -20,11 +20,11 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    id:
-        description:
-        - Device ID.
-        type: str
-        required: True
+  id:
+    description:
+    - Device ID.
+    type: str
+    required: True
 
 requirements:
 - dnacentersdk
@@ -42,76 +42,59 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_polling_interval_by_id
+  cisco.dnac.network_device_polling_interval
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    id: SomeValue  # string, required
+  delegate_to: localhost
+  register: query_result
+  
+- name: get_polling_interval_for_all_devices
+  cisco.dnac.network_device_polling_interval
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_polling_interval_by_id:
     description: Returns polling interval by device id.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    response:
+      description: Response, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
-data_1:
+get_polling_interval_for_all_devices:
     description: Returns polling interval of all devices.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    response:
+      description: Response, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_polling_interval import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

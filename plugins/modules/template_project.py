@@ -22,39 +22,40 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    name:
-        description:
-        - Name of project to be searched.
-        type: str
-    createTime:
-        description:
-        - ProjectDTO's createTime.
-        type: int
+  name:
     description:
-        description:
-        - ProjectDTO's description.
-        type: str
-    id:
-        description:
-        - ProjectDTO's id.
-        type: str
-    lastUpdateTime:
-        description:
-        - ProjectDTO's lastUpdateTime.
-        type: int
-    tags:
-        description:
-        - ProjectDTO's tags (list of strings).
-        type: list
-    templates:
-        description:
-        - ProjectDTO's templates.
-        type: dict
-    project_id:
-        description:
-        - ProjectId path parameter.
-        type: str
-        required: True
+    - Name of project to be searched.
+    - ProjectDTO's name.
+    type: str
+  createTime:
+    description:
+    - ProjectDTO's createTime.
+    type: int
+  description:
+    description:
+    - ProjectDTO's description.
+    type: str
+  id:
+    description:
+    - ProjectDTO's id.
+    type: str
+  lastUpdateTime:
+    description:
+    - ProjectDTO's lastUpdateTime.
+    type: int
+  tags:
+    description:
+    - ProjectDTO's tags (list of strings).
+    type: list
+  templates:
+    description:
+    - ProjectDTO's templates.
+    type: dict
+  project_id:
+    description:
+    - ProjectId path parameter.
+    - Required for state delete.
+    type: str
 
 requirements:
 - dnacentersdk
@@ -72,171 +73,179 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_projects
+  cisco.dnac.template_project
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    name: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
+- name: create_project
+  cisco.dnac.template_project
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    createTime: 1  #  integer
+    description: SomeValue  # string
+    id: SomeValue  # string
+    lastUpdateTime: 1  #  integer
+    name: SomeValue  # string
+    tags:
+    - SomeValue  # string
+    templates: None
+  delegate_to: localhost
+  
+- name: update_project
+  cisco.dnac.template_project
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: update  # required
+    createTime: 1  #  integer
+    description: SomeValue  # string
+    id: SomeValue  # string
+    lastUpdateTime: 1  #  integer
+    name: SomeValue  # string
+    tags:
+    - SomeValue  # string
+    templates: None
+  delegate_to: localhost
+  
+- name: delete_project
+  cisco.dnac.template_project
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: delete  # required
+    project_id: SomeValue  # string, required
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_projects:
     description: Returns the projects in the system.
-    returned: success,changed,always
-    type: list
+    returned: always
+    type: dict
     contains:
+    payload:
+      description: It is the template project's payload.
+      returned: always
+      type: list
+      contains:
         name:
-            description: It is the template project's name.
-            returned: success,changed,always
-            type: str
-            sample: '<name>'
+          description: It is the template project's name.
+          returned: always
+          type: str
+          sample: '<name>'
         id:
-            description: It is the template project's id.
-            returned: success,changed,always
-            type: str
-            sample: '478012'
+          description: It is the template project's id.
+          returned: always
+          type: str
+          sample: '478012'
         templates:
-            description: It is the template project's templates.
-            returned: success,changed,always
-            type: list
-            contains:
-                name:
-                    description: It is the template project's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
-                composite:
-                    description: It is the template project's composite.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
-                id:
-                    description: It is the template project's id.
-                    returned: success,changed,always
-                    type: str
-                    sample: '478012'
+          description: It is the template project's templates.
+          returned: always
+          type: list
+          contains:
+            name:
+              description: It is the template project's name.
+              returned: always
+              type: str
+              sample: '<name>'
+            composite:
+              description: It is the template project's composite.
+              returned: always
+              type: bool
+              sample: false
+            id:
+              description: It is the template project's id.
+              returned: always
+              type: str
+              sample: '478012'
 
 
 
-data_1:
+create_project:
     description: Creates a new project.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        response:
-            description: ProjectDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the template project's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the template project's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: ProjectDTO's response.
+      returned: success
+      type: dict
+      contains:
+        taskId:
+          description: It is the template project's taskId.
+          returned: success
+          type: dict
+        url:
+          description: It is the template project's url.
+          returned: success
+          type: str
+          sample: '<url>'
 
-        version:
-            description: ProjectDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: ProjectDTO's version.
+      returned: success
+      type: str
+      sample: '1.0'
 
-data_2:
+update_project:
     description: Updates an existing project.
-    returned: success,changed,always
+    returned: changed
     type: dict
     contains:
-        response:
-            description: ProjectDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the template project's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the template project's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: ProjectDTO's response.
+      returned: changed
+      type: dict
+      contains:
+        taskId:
+          description: It is the template project's taskId.
+          returned: changed
+          type: dict
+        url:
+          description: It is the template project's url.
+          returned: changed
+          type: str
+          sample: '<url>'
 
-        version:
-            description: ProjectDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: ProjectDTO's version.
+      returned: changed
+      type: str
+      sample: '1.0'
 
-data_3:
+delete_project:
     description: Deletes an existing Project.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the template project's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the template project's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: Response, property of the response body.
+      returned: success
+      type: dict
+      contains:
+        taskId:
+          description: It is the template project's taskId.
+          returned: success
+          type: dict
+        url:
+          description: It is the template project's url.
+          returned: success
+          type: str
+          sample: '<url>'
 
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: Version, property of the response body.
+      returned: success
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.template_project import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    elif state == "delete":
-        dnac.exec("delete")
-
-    elif state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    elif state == "update":
-        dnac.disable_validation()
-        dnac.exec("put")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

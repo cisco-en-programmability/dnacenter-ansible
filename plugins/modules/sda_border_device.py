@@ -21,74 +21,75 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    device_ipaddress:
+  device_ipaddress:
+    description:
+    - Device IP Address.
+    type: str
+    required: True
+  payload:
+    description:
+    - An object to send in the Request body.
+    - Required for state create.
+    type: list
+    elements: dict
+    suboptions:
+      deviceManagementIpAddress:
         description:
-        - Device IP Address.
+        - It is the sda border device's deviceManagementIpAddress.
         type: str
-    payload:
+      siteNameHierarchy:
         description:
-        - An object to send in the Request body.
+        - It is the sda border device's siteNameHierarchy.
+        type: str
+      externalDomainRoutingProtocolName:
+        description:
+        - It is the sda border device's externalDomainRoutingProtocolName.
+        type: str
+      externalConnectivityIpPoolName:
+        description:
+        - It is the sda border device's externalConnectivityIpPoolName.
+        type: str
+      internalAutonomouSystemNumber:
+        description:
+        - It is the sda border device's internalAutonomouSystemNumber.
+        type: str
+      borderSessionType:
+        description:
+        - It is the sda border device's borderSessionType.
+        type: str
+      connectedToInternet:
+        description:
+        - It is the sda border device's connectedToInternet.
+        type: bool
+      externalConnectivitySettings:
+        description:
+        - It is the sda border device's externalConnectivitySettings.
         type: list
-        required: True
         elements: dict
         suboptions:
-            deviceManagementIpAddress:
+          interfaceName:
+            description:
+            - It is the sda border device's interfaceName.
+            type: str
+          externalAutonomouSystemNumber:
+            description:
+            - It is the sda border device's externalAutonomouSystemNumber.
+            type: str
+          l3Handoff:
+            description:
+            - It is the sda border device's l3Handoff.
+            type: list
+            elements: dict
+            suboptions:
+              virtualNetwork:
                 description:
-                - It is the sda border device's deviceManagementIpAddress.
-                type: str
-            siteNameHierarchy:
-                description:
-                - It is the sda border device's siteNameHierarchy.
-                type: str
-            externalDomainRoutingProtocolName:
-                description:
-                - It is the sda border device's externalDomainRoutingProtocolName.
-                type: str
-            externalConnectivityIpPoolName:
-                description:
-                - It is the sda border device's externalConnectivityIpPoolName.
-                type: str
-            internalAutonomouSystemNumber:
-                description:
-                - It is the sda border device's internalAutonomouSystemNumber.
-                type: str
-            borderSessionType:
-                description:
-                - It is the sda border device's borderSessionType.
-                type: str
-            connectedToInternet:
-                description:
-                - It is the sda border device's connectedToInternet.
-                type: bool
-            externalConnectivitySettings:
-                description:
-                - It is the sda border device's externalConnectivitySettings.
-                type: list
-                elements: dict
+                - It is the sda border device's virtualNetwork.
+                type: dict
                 suboptions:
-                    interfaceName:
-                        description:
-                        - It is the sda border device's interfaceName.
-                        type: str
-                    externalAutonomouSystemNumber:
-                        description:
-                        - It is the sda border device's externalAutonomouSystemNumber.
-                        type: str
-                    l3Handoff:
-                        description:
-                        - It is the sda border device's l3Handoff.
-                        type: list
-                        elements: dict
-                        suboptions:
-                            virtualNetwork:
-                                description:
-                                - It is the sda border device's virtualNetwork.
-                                type: dict
-                                suboptions:
-                                    virtualNetworkName:
-                                        description:
-                                        - It is the sda border device's virtualNetworkName.
-                                        type: str
+                  virtualNetworkName:
+                    description:
+                    - It is the sda border device's virtualNetworkName.
+                    type: str
 
 
 
@@ -110,623 +111,620 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: gets_border_device_detail
+  cisco.dnac.sda_border_device
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    device_ipaddress: SomeValue  # string, required
+  delegate_to: localhost
+  register: query_result
+  
+- name: deletes_border_device
+  cisco.dnac.sda_border_device
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: delete  # required
+    device_ipaddress: SomeValue  # string, required
+  delegate_to: localhost
+  
+- name: adds_border_device
+  cisco.dnac.sda_border_device
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    payload:  # required
+    - deviceManagementIpAddress: SomeValue  # string
+      siteNameHierarchy: SomeValue  # string
+      externalDomainRoutingProtocolName: SomeValue  # string
+      externalConnectivityIpPoolName: SomeValue  # string
+      internalAutonomouSystemNumber: SomeValue  # string
+      borderSessionType: SomeValue  # string
+      connectedToInternet: True  # boolean
+      externalConnectivitySettings:
+      - interfaceName: SomeValue  # string
+        externalAutonomouSystemNumber: SomeValue  # string
+        l3Handoff:
+        - virtualNetwork:
+            virtualNetworkName: SomeValue  # string
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+gets_border_device_detail:
     description: Gets border device detail from SDA Fabric.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        status:
-            description: Status, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<status>'
-        description:
-            description: Description, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        payload:
-            description: Payload, property of the response body.
-            returned: success,changed,always
-            type: dict
-            contains:
+    status:
+      description: Status, property of the response body.
+      returned: always
+      type: str
+      sample: '<status>'
+    description:
+      description: Description, property of the response body.
+      returned: always
+      type: str
+      sample: '<description>'
+    payload:
+      description: Payload, property of the response body.
+      returned: always
+      type: dict
+      contains:
+        id:
+          description: It is the sda border device's id.
+          returned: always
+          type: str
+          sample: '478012'
+        instanceId:
+          description: It is the sda border device's instanceId.
+          returned: always
+          type: int
+          sample: 0
+        authEntityId:
+          description: It is the sda border device's authEntityId.
+          returned: always
+          type: int
+          sample: 0
+        displayName:
+          description: It is the sda border device's displayName.
+          returned: always
+          type: str
+          sample: '<displayname>'
+        authEntityClass:
+          description: It is the sda border device's authEntityClass.
+          returned: always
+          type: int
+          sample: 0
+        instanceTenantId:
+          description: It is the sda border device's instanceTenantId.
+          returned: always
+          type: str
+          sample: '<instancetenantid>'
+        deployPending:
+          description: It is the sda border device's deployPending.
+          returned: always
+          type: str
+          sample: '<deploypending>'
+        instanceVersion:
+          description: It is the sda border device's instanceVersion.
+          returned: always
+          type: int
+          sample: 0
+        createTime:
+          description: It is the sda border device's createTime.
+          returned: always
+          type: int
+          sample: 0
+        deployed:
+          description: It is the sda border device's deployed.
+          returned: always
+          type: bool
+          sample: false
+        isSeeded:
+          description: It is the sda border device's isSeeded.
+          returned: always
+          type: bool
+          sample: false
+        isStale:
+          description: It is the sda border device's isStale.
+          returned: always
+          type: bool
+          sample: false
+        lastUpdateTime:
+          description: It is the sda border device's lastUpdateTime.
+          returned: always
+          type: int
+          sample: 0
+        name:
+          description: It is the sda border device's name.
+          returned: always
+          type: str
+          sample: '<name>'
+        namespace:
+          description: It is the sda border device's namespace.
+          returned: always
+          type: str
+          sample: '<namespace>'
+        provisioningState:
+          description: It is the sda border device's provisioningState.
+          returned: always
+          type: str
+          sample: '<provisioningstate>'
+        resourceVersion:
+          description: It is the sda border device's resourceVersion.
+          returned: always
+          type: int
+          sample: 0
+        targetIdList:
+          description: It is the sda border device's targetIdList.
+          returned: always
+          type: list
+        type:
+          description: It is the sda border device's type.
+          returned: always
+          type: str
+          sample: '<type>'
+        cfsChangeInfo:
+          description: It is the sda border device's cfsChangeInfo.
+          returned: always
+          type: list
+        customProvisions:
+          description: It is the sda border device's customProvisions.
+          returned: always
+          type: list
+        configs:
+          description: It is the sda border device's configs.
+          returned: always
+          type: list
+        managedSites:
+          description: It is the sda border device's managedSites.
+          returned: always
+          type: list
+        networkDeviceId:
+          description: It is the sda border device's networkDeviceId.
+          returned: always
+          type: str
+          sample: '<networkdeviceid>'
+        roles:
+          description: It is the sda border device's roles.
+          returned: always
+          type: list
+        saveWanConnectivityDetailsOnly:
+          description: It is the sda border device's saveWanConnectivityDetailsOnly.
+          returned: always
+          type: bool
+          sample: false
+        siteId:
+          description: It is the sda border device's siteId.
+          returned: always
+          type: str
+          sample: '<siteid>'
+        akcSettingsCfs:
+          description: It is the sda border device's akcSettingsCfs.
+          returned: always
+          type: list
+        deviceInterfaceInfo:
+          description: It is the sda border device's deviceInterfaceInfo.
+          returned: always
+          type: list
+        deviceSettings:
+          description: It is the sda border device's deviceSettings.
+          returned: always
+          type: dict
+          contains:
+            id:
+              description: It is the sda border device's id.
+              returned: always
+              type: str
+              sample: '478012'
+            instanceId:
+              description: It is the sda border device's instanceId.
+              returned: always
+              type: int
+              sample: 0
+            displayName:
+              description: It is the sda border device's displayName.
+              returned: always
+              type: str
+              sample: '<displayname>'
+            instanceTenantId:
+              description: It is the sda border device's instanceTenantId.
+              returned: always
+              type: str
+              sample: '<instancetenantid>'
+            deployPending:
+              description: It is the sda border device's deployPending.
+              returned: always
+              type: str
+              sample: '<deploypending>'
+            instanceVersion:
+              description: It is the sda border device's instanceVersion.
+              returned: always
+              type: int
+              sample: 0
+            connectedTo:
+              description: It is the sda border device's connectedTo.
+              returned: always
+              type: list
+            cpu:
+              description: It is the sda border device's cpu.
+              returned: always
+              type: int
+              sample: 0
+            dhcpEnabled:
+              description: It is the sda border device's dhcpEnabled.
+              returned: always
+              type: bool
+              sample: false
+            externalConnectivityIpPool:
+              description: It is the sda border device's externalConnectivityIpPool.
+              returned: always
+              type: str
+              sample: '<externalconnectivityippool>'
+            externalDomainRoutingProtocol:
+              description: It is the sda border device's externalDomainRoutingProtocol.
+              returned: always
+              type: str
+              sample: '<externaldomainroutingprotocol>'
+            internalDomainProtocolNumber:
+              description: It is the sda border device's internalDomainProtocolNumber.
+              returned: always
+              type: str
+              sample: '<internaldomainprotocolnumber>'
+            memory:
+              description: It is the sda border device's memory.
+              returned: always
+              type: int
+              sample: 0
+            nodeType:
+              description: It is the sda border device's nodeType.
+              returned: always
+              type: list
+            storage:
+              description: It is the sda border device's storage.
+              returned: always
+              type: int
+              sample: 0
+            extConnectivitySettings:
+              description: It is the sda border device's extConnectivitySettings.
+              returned: always
+              type: list
+              contains:
                 id:
-                    description: It is the sda border device's id.
-                    returned: success,changed,always
-                    type: str
-                    sample: '478012'
+                  description: It is the sda border device's id.
+                  returned: always
+                  type: str
+                  sample: '478012'
                 instanceId:
-                    description: It is the sda border device's instanceId.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                authEntityId:
-                    description: It is the sda border device's authEntityId.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
+                  description: It is the sda border device's instanceId.
+                  returned: always
+                  type: int
+                  sample: 0
                 displayName:
-                    description: It is the sda border device's displayName.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<displayname>'
-                authEntityClass:
-                    description: It is the sda border device's authEntityClass.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
+                  description: It is the sda border device's displayName.
+                  returned: always
+                  type: str
+                  sample: '<displayname>'
                 instanceTenantId:
-                    description: It is the sda border device's instanceTenantId.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<instancetenantid>'
+                  description: It is the sda border device's instanceTenantId.
+                  returned: always
+                  type: str
+                  sample: '<instancetenantid>'
                 deployPending:
-                    description: It is the sda border device's deployPending.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<deploypending>'
+                  description: It is the sda border device's deployPending.
+                  returned: always
+                  type: str
+                  sample: '<deploypending>'
                 instanceVersion:
-                    description: It is the sda border device's instanceVersion.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                createTime:
-                    description: It is the sda border device's createTime.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                deployed:
-                    description: It is the sda border device's deployed.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
-                isSeeded:
-                    description: It is the sda border device's isSeeded.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
-                isStale:
-                    description: It is the sda border device's isStale.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
-                lastUpdateTime:
-                    description: It is the sda border device's lastUpdateTime.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                name:
-                    description: It is the sda border device's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
-                namespace:
-                    description: It is the sda border device's namespace.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<namespace>'
-                provisioningState:
-                    description: It is the sda border device's provisioningState.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<provisioningstate>'
-                resourceVersion:
-                    description: It is the sda border device's resourceVersion.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                targetIdList:
-                    description: It is the sda border device's targetIdList.
-                    returned: success,changed,always
-                    type: list
-                type:
-                    description: It is the sda border device's type.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<type>'
-                cfsChangeInfo:
-                    description: It is the sda border device's cfsChangeInfo.
-                    returned: success,changed,always
-                    type: list
-                customProvisions:
-                    description: It is the sda border device's customProvisions.
-                    returned: success,changed,always
-                    type: list
-                configs:
-                    description: It is the sda border device's configs.
-                    returned: success,changed,always
-                    type: list
-                managedSites:
-                    description: It is the sda border device's managedSites.
-                    returned: success,changed,always
-                    type: list
-                networkDeviceId:
-                    description: It is the sda border device's networkDeviceId.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<networkdeviceid>'
-                roles:
-                    description: It is the sda border device's roles.
-                    returned: success,changed,always
-                    type: list
-                saveWanConnectivityDetailsOnly:
-                    description: It is the sda border device's saveWanConnectivityDetailsOnly.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
-                siteId:
-                    description: It is the sda border device's siteId.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<siteid>'
-                akcSettingsCfs:
-                    description: It is the sda border device's akcSettingsCfs.
-                    returned: success,changed,always
-                    type: list
-                deviceInterfaceInfo:
-                    description: It is the sda border device's deviceInterfaceInfo.
-                    returned: success,changed,always
-                    type: list
-                deviceSettings:
-                    description: It is the sda border device's deviceSettings.
-                    returned: success,changed,always
-                    type: dict
-                    contains:
-                        id:
-                            description: It is the sda border device's id.
-                            returned: success,changed,always
-                            type: str
-                            sample: '478012'
-                        instanceId:
-                            description: It is the sda border device's instanceId.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        displayName:
-                            description: It is the sda border device's displayName.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<displayname>'
-                        instanceTenantId:
-                            description: It is the sda border device's instanceTenantId.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<instancetenantid>'
-                        deployPending:
-                            description: It is the sda border device's deployPending.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<deploypending>'
-                        instanceVersion:
-                            description: It is the sda border device's instanceVersion.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        connectedTo:
-                            description: It is the sda border device's connectedTo.
-                            returned: success,changed,always
-                            type: list
-                        cpu:
-                            description: It is the sda border device's cpu.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        dhcpEnabled:
-                            description: It is the sda border device's dhcpEnabled.
-                            returned: success,changed,always
-                            type: bool
-                            sample: false
-                        externalConnectivityIpPool:
-                            description: It is the sda border device's externalConnectivityIpPool.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<externalconnectivityippool>'
-                        externalDomainRoutingProtocol:
-                            description: It is the sda border device's externalDomainRoutingProtocol.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<externaldomainroutingprotocol>'
-                        internalDomainProtocolNumber:
-                            description: It is the sda border device's internalDomainProtocolNumber.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<internaldomainprotocolnumber>'
-                        memory:
-                            description: It is the sda border device's memory.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        nodeType:
-                            description: It is the sda border device's nodeType.
-                            returned: success,changed,always
-                            type: list
-                        storage:
-                            description: It is the sda border device's storage.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        extConnectivitySettings:
-                            description: It is the sda border device's extConnectivitySettings.
-                            returned: success,changed,always
-                            type: list
-                            contains:
-                                id:
-                                    description: It is the sda border device's id.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '478012'
-                                instanceId:
-                                    description: It is the sda border device's instanceId.
-                                    returned: success,changed,always
-                                    type: int
-                                    sample: 0
-                                displayName:
-                                    description: It is the sda border device's displayName.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '<displayname>'
-                                instanceTenantId:
-                                    description: It is the sda border device's instanceTenantId.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '<instancetenantid>'
-                                deployPending:
-                                    description: It is the sda border device's deployPending.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '<deploypending>'
-                                instanceVersion:
-                                    description: It is the sda border device's instanceVersion.
-                                    returned: success,changed,always
-                                    type: int
-                                    sample: 0
-                                externalDomainProtocolNumber:
-                                    description: It is the sda border device's externalDomainProtocolNumber.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '<externaldomainprotocolnumber>'
-                                interfaceUuid:
-                                    description: It is the sda border device's interfaceUuid.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '<interfaceuuid>'
-                                policyPropagationEnabled:
-                                    description: It is the sda border device's policyPropagationEnabled.
-                                    returned: success,changed,always
-                                    type: bool
-                                    sample: false
-                                policySgtTag:
-                                    description: It is the sda border device's policySgtTag.
-                                    returned: success,changed,always
-                                    type: int
-                                    sample: 0
-                                l2Handoff:
-                                    description: It is the sda border device's l2Handoff.
-                                    returned: success,changed,always
-                                    type: list
-                                l3Handoff:
-                                    description: It is the sda border device's l3Handoff.
-                                    returned: success,changed,always
-                                    type: list
-                                    contains:
-                                        id:
-                                            description: It is the sda border device's id.
-                                            returned: success,changed,always
-                                            type: str
-                                            sample: '478012'
-                                        instanceId:
-                                            description: It is the sda border device's instanceId.
-                                            returned: success,changed,always
-                                            type: int
-                                            sample: 0
-                                        displayName:
-                                            description: It is the sda border device's displayName.
-                                            returned: success,changed,always
-                                            type: str
-                                            sample: '<displayname>'
-                                        instanceTenantId:
-                                            description: It is the sda border device's instanceTenantId.
-                                            returned: success,changed,always
-                                            type: str
-                                            sample: '<instancetenantid>'
-                                        deployPending:
-                                            description: It is the sda border device's deployPending.
-                                            returned: success,changed,always
-                                            type: str
-                                            sample: '<deploypending>'
-                                        instanceVersion:
-                                            description: It is the sda border device's instanceVersion.
-                                            returned: success,changed,always
-                                            type: int
-                                            sample: 0
-                                        localIpAddress:
-                                            description: It is the sda border device's localIpAddress.
-                                            returned: success,changed,always
-                                            type: str
-                                            sample: '<localipaddress>'
-                                        remoteIpAddress:
-                                            description: It is the sda border device's remoteIpAddress.
-                                            returned: success,changed,always
-                                            type: str
-                                            sample: '<remoteipaddress>'
-                                        vlanId:
-                                            description: It is the sda border device's vlanId.
-                                            returned: success,changed,always
-                                            type: int
-                                            sample: 0
-                                        virtualNetwork:
-                                            description: It is the sda border device's virtualNetwork.
-                                            returned: success,changed,always
-                                            type: dict
-                                            contains:
-                                                idRef:
-                                                    description: It is the sda border device's idRef.
-                                                    returned: success,changed,always
-                                                    type: str
-                                                    sample: '<idref>'
-
-
-
-
-                networkWideSettings:
-                    description: It is the sda border device's networkWideSettings.
-                    returned: success,changed,always
-                    type: dict
-                    contains:
-                        id:
-                            description: It is the sda border device's id.
-                            returned: success,changed,always
-                            type: str
-                            sample: '478012'
-                        instanceId:
-                            description: It is the sda border device's instanceId.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        displayName:
-                            description: It is the sda border device's displayName.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<displayname>'
-                        instanceTenantId:
-                            description: It is the sda border device's instanceTenantId.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<instancetenantid>'
-                        deployPending:
-                            description: It is the sda border device's deployPending.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<deploypending>'
-                        instanceVersion:
-                            description: It is the sda border device's instanceVersion.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        aaa:
-                            description: It is the sda border device's aaa.
-                            returned: success,changed,always
-                            type: list
-                        cmx:
-                            description: It is the sda border device's cmx.
-                            returned: success,changed,always
-                            type: list
-                        dhcp:
-                            description: It is the sda border device's dhcp.
-                            returned: success,changed,always
-                            type: list
-                            contains:
-                                id:
-                                    description: It is the sda border device's id.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '478012'
-                                ipAddress:
-                                    description: It is the sda border device's ipAddress.
-                                    returned: success,changed,always
-                                    type: dict
-                                    contains:
-                                        id:
-                                            description: It is the sda border device's id.
-                                            returned: success,changed,always
-                                            type: str
-                                            sample: '478012'
-                                        paddedAddress:
-                                            description: It is the sda border device's paddedAddress.
-                                            returned: success,changed,always
-                                            type: str
-                                            sample: '<paddedaddress>'
-                                        addressType:
-                                            description: It is the sda border device's addressType.
-                                            returned: success,changed,always
-                                            type: str
-                                            sample: '<addresstype>'
-                                        address:
-                                            description: It is the sda border device's address.
-                                            returned: success,changed,always
-                                            type: str
-                                            sample: '<address>'
-
-
-                        dns:
-                            description: It is the sda border device's dns.
-                            returned: success,changed,always
-                            type: list
-                            contains:
-                                id:
-                                    description: It is the sda border device's id.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '478012'
-                                domainName:
-                                    description: It is the sda border device's domainName.
-                                    returned: success,changed,always
-                                    type: str
-                                    sample: '<domainname>'
-                                ip:
-                                    description: It is the sda border device's ip.
-                                    returned: success,changed,always
-                                    type: dict
-                                    contains:
-                                        id:
-                                            description: It is the sda border device's id.
-                                            returned: success,changed,always
-                                            type: str
-                                            sample: '478012'
-                                        paddedAddress:
-                                            description: It is the sda border device's paddedAddress.
-                                            returned: success,changed,always
-                                            type: str
-                                            sample: '<paddedaddress>'
-                                        addressType:
-                                            description: It is the sda border device's addressType.
-                                            returned: success,changed,always
-                                            type: str
-                                            sample: '<addresstype>'
-                                        address:
-                                            description: It is the sda border device's address.
-                                            returned: success,changed,always
-                                            type: str
-                                            sample: '<address>'
-
-
-                        ldap:
-                            description: It is the sda border device's ldap.
-                            returned: success,changed,always
-                            type: list
-                        nativeVlan:
-                            description: It is the sda border device's nativeVlan.
-                            returned: success,changed,always
-                            type: list
-                        netflow:
-                            description: It is the sda border device's netflow.
-                            returned: success,changed,always
-                            type: list
-                        ntp:
-                            description: It is the sda border device's ntp.
-                            returned: success,changed,always
-                            type: list
-                        snmp:
-                            description: It is the sda border device's snmp.
-                            returned: success,changed,always
-                            type: list
-                        syslogs:
-                            description: It is the sda border device's syslogs.
-                            returned: success,changed,always
-                            type: list
-
-                otherDevice:
-                    description: It is the sda border device's otherDevice.
-                    returned: success,changed,always
-                    type: list
-                transitNetworks:
-                    description: It is the sda border device's transitNetworks.
-                    returned: success,changed,always
-                    type: list
-                    contains:
+                  description: It is the sda border device's instanceVersion.
+                  returned: always
+                  type: int
+                  sample: 0
+                externalDomainProtocolNumber:
+                  description: It is the sda border device's externalDomainProtocolNumber.
+                  returned: always
+                  type: str
+                  sample: '<externaldomainprotocolnumber>'
+                interfaceUuid:
+                  description: It is the sda border device's interfaceUuid.
+                  returned: always
+                  type: str
+                  sample: '<interfaceuuid>'
+                policyPropagationEnabled:
+                  description: It is the sda border device's policyPropagationEnabled.
+                  returned: always
+                  type: bool
+                  sample: false
+                policySgtTag:
+                  description: It is the sda border device's policySgtTag.
+                  returned: always
+                  type: int
+                  sample: 0
+                l2Handoff:
+                  description: It is the sda border device's l2Handoff.
+                  returned: always
+                  type: list
+                l3Handoff:
+                  description: It is the sda border device's l3Handoff.
+                  returned: always
+                  type: list
+                  contains:
+                    id:
+                      description: It is the sda border device's id.
+                      returned: always
+                      type: str
+                      sample: '478012'
+                    instanceId:
+                      description: It is the sda border device's instanceId.
+                      returned: always
+                      type: int
+                      sample: 0
+                    displayName:
+                      description: It is the sda border device's displayName.
+                      returned: always
+                      type: str
+                      sample: '<displayname>'
+                    instanceTenantId:
+                      description: It is the sda border device's instanceTenantId.
+                      returned: always
+                      type: str
+                      sample: '<instancetenantid>'
+                    deployPending:
+                      description: It is the sda border device's deployPending.
+                      returned: always
+                      type: str
+                      sample: '<deploypending>'
+                    instanceVersion:
+                      description: It is the sda border device's instanceVersion.
+                      returned: always
+                      type: int
+                      sample: 0
+                    localIpAddress:
+                      description: It is the sda border device's localIpAddress.
+                      returned: always
+                      type: str
+                      sample: '<localipaddress>'
+                    remoteIpAddress:
+                      description: It is the sda border device's remoteIpAddress.
+                      returned: always
+                      type: str
+                      sample: '<remoteipaddress>'
+                    vlanId:
+                      description: It is the sda border device's vlanId.
+                      returned: always
+                      type: int
+                      sample: 0
+                    virtualNetwork:
+                      description: It is the sda border device's virtualNetwork.
+                      returned: always
+                      type: dict
+                      contains:
                         idRef:
-                            description: It is the sda border device's idRef.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<idref>'
-
-                virtualNetwork:
-                    description: It is the sda border device's virtualNetwork.
-                    returned: success,changed,always
-                    type: list
-                wlan:
-                    description: It is the sda border device's wlan.
-                    returned: success,changed,always
-                    type: list
+                          description: It is the sda border device's idRef.
+                          returned: always
+                          type: str
+                          sample: '<idref>'
 
 
-data_1:
+
+
+        networkWideSettings:
+          description: It is the sda border device's networkWideSettings.
+          returned: always
+          type: dict
+          contains:
+            id:
+              description: It is the sda border device's id.
+              returned: always
+              type: str
+              sample: '478012'
+            instanceId:
+              description: It is the sda border device's instanceId.
+              returned: always
+              type: int
+              sample: 0
+            displayName:
+              description: It is the sda border device's displayName.
+              returned: always
+              type: str
+              sample: '<displayname>'
+            instanceTenantId:
+              description: It is the sda border device's instanceTenantId.
+              returned: always
+              type: str
+              sample: '<instancetenantid>'
+            deployPending:
+              description: It is the sda border device's deployPending.
+              returned: always
+              type: str
+              sample: '<deploypending>'
+            instanceVersion:
+              description: It is the sda border device's instanceVersion.
+              returned: always
+              type: int
+              sample: 0
+            aaa:
+              description: It is the sda border device's aaa.
+              returned: always
+              type: list
+            cmx:
+              description: It is the sda border device's cmx.
+              returned: always
+              type: list
+            dhcp:
+              description: It is the sda border device's dhcp.
+              returned: always
+              type: list
+              contains:
+                id:
+                  description: It is the sda border device's id.
+                  returned: always
+                  type: str
+                  sample: '478012'
+                ipAddress:
+                  description: It is the sda border device's ipAddress.
+                  returned: always
+                  type: dict
+                  contains:
+                    id:
+                      description: It is the sda border device's id.
+                      returned: always
+                      type: str
+                      sample: '478012'
+                    paddedAddress:
+                      description: It is the sda border device's paddedAddress.
+                      returned: always
+                      type: str
+                      sample: '<paddedaddress>'
+                    addressType:
+                      description: It is the sda border device's addressType.
+                      returned: always
+                      type: str
+                      sample: '<addresstype>'
+                    address:
+                      description: It is the sda border device's address.
+                      returned: always
+                      type: str
+                      sample: '<address>'
+
+
+            dns:
+              description: It is the sda border device's dns.
+              returned: always
+              type: list
+              contains:
+                id:
+                  description: It is the sda border device's id.
+                  returned: always
+                  type: str
+                  sample: '478012'
+                domainName:
+                  description: It is the sda border device's domainName.
+                  returned: always
+                  type: str
+                  sample: '<domainname>'
+                ip:
+                  description: It is the sda border device's ip.
+                  returned: always
+                  type: dict
+                  contains:
+                    id:
+                      description: It is the sda border device's id.
+                      returned: always
+                      type: str
+                      sample: '478012'
+                    paddedAddress:
+                      description: It is the sda border device's paddedAddress.
+                      returned: always
+                      type: str
+                      sample: '<paddedaddress>'
+                    addressType:
+                      description: It is the sda border device's addressType.
+                      returned: always
+                      type: str
+                      sample: '<addresstype>'
+                    address:
+                      description: It is the sda border device's address.
+                      returned: always
+                      type: str
+                      sample: '<address>'
+
+
+            ldap:
+              description: It is the sda border device's ldap.
+              returned: always
+              type: list
+            nativeVlan:
+              description: It is the sda border device's nativeVlan.
+              returned: always
+              type: list
+            netflow:
+              description: It is the sda border device's netflow.
+              returned: always
+              type: list
+            ntp:
+              description: It is the sda border device's ntp.
+              returned: always
+              type: list
+            snmp:
+              description: It is the sda border device's snmp.
+              returned: always
+              type: list
+            syslogs:
+              description: It is the sda border device's syslogs.
+              returned: always
+              type: list
+
+        otherDevice:
+          description: It is the sda border device's otherDevice.
+          returned: always
+          type: list
+        transitNetworks:
+          description: It is the sda border device's transitNetworks.
+          returned: always
+          type: list
+          contains:
+            idRef:
+              description: It is the sda border device's idRef.
+              returned: always
+              type: str
+              sample: '<idref>'
+
+        virtualNetwork:
+          description: It is the sda border device's virtualNetwork.
+          returned: always
+          type: list
+        wlan:
+          description: It is the sda border device's wlan.
+          returned: always
+          type: list
+
+
+deletes_border_device:
     description: Deletes border device from SDA Fabric.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        status:
-            description: Status, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<status>'
-        description:
-            description: Description, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
+    status:
+      description: Status, property of the response body.
+      returned: success
+      type: str
+      sample: '<status>'
+    description:
+      description: Description, property of the response body.
+      returned: success
+      type: str
+      sample: '<description>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionstatusurl>'
 
-data_2:
+adds_border_device:
     description: Adds border device in SDA Fabric.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        status:
-            description: Status, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<status>'
-        description:
-            description: Description, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
+    status:
+      description: Status, property of the response body.
+      returned: success
+      type: str
+      sample: '<status>'
+    description:
+      description: Description, property of the response body.
+      returned: success
+      type: str
+      sample: '<description>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionstatusurl>'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.sda_border_device import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    elif state == "delete":
-        dnac.exec("delete")
-
-    elif state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

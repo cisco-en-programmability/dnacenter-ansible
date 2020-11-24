@@ -19,19 +19,19 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    file_id:
-        description:
-        - File Identification number.
-        type: str
-        required: True
-    dirpath:
-        description:
-        - Directory absolute path. Defaults to current working directory.
-        type: str
-    save_file:
-        description:
-        - Enable or disable automatic File creation of raw response.
-        type: bool
+  file_id:
+    description:
+    - File Identification number.
+    type: str
+    required: True
+  dirpath:
+    description:
+    - Directory absolute path. Defaults to current working directory.
+    type: str
+  save_file:
+    description:
+    - Enable or disable automatic File creation of raw response.
+    type: bool
 
 requirements:
 - dnacentersdk
@@ -49,50 +49,25 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: download_a_file_by_fileid
+  cisco.dnac.file
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    file_id: SomeValue  # string, required
+    dirpath: SomeValue  # string
+    save_file: True  # boolean
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+download_a_file_by_fileid:
     description: Downloads a File specified by FileId.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.file import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

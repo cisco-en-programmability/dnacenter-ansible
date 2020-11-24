@@ -23,103 +23,105 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    subscriptions:
+  subscriptions:
+    description:
+    - List of EventSubscriptionId's for removal.
+    - Required for state delete.
+    type: str
+  event_ids:
+    description:
+    - List of subscriptions related to the respective eventIds.
+    - Required for state query.
+    type: str
+  limit:
+    description:
+    - The number of Subscriptions's to limit in the resultset whose default value 10.
+    type: int
+  offset:
+    description:
+    - The number of Subscriptions's to offset in the resultset whose default value 0.
+    type: int
+  order:
+    description:
+    - Order query parameter.
+    type: str
+  sort_by:
+    description:
+    - SortBy field name.
+    type: str
+  payload:
+    description:
+    - An object to send in the Request body.
+    type: list
+    required: True
+    elements: dict
+    suboptions:
+      description:
         description:
-        - List of EventSubscriptionId's for removal.
+        - It is the event subscription's description.
         type: str
-    event_ids:
+      filter:
         description:
-        - List of subscriptions related to the respective eventIds.
-        type: str
-    limit:
-        description:
-        - The number of Subscriptions's to limit in the resultset whose default value 10.
-        type: int
-    offset:
-        description:
-        - The number of Subscriptions's to offset in the resultset whose default value 0.
-        type: int
-    order:
-        description:
-        - Order query parameter.
-        type: str
-    sort_by:
-        description:
-        - SortBy field name.
-        type: str
-    payload:
-        description:
-        - An object to send in the Request body.
-        type: list
+        - It is the event subscription's filter.
+        type: dict
         required: True
+        suboptions:
+          eventIds:
+            description:
+            - It is the event subscription's eventIds.
+            type: list
+
+      name:
+        description:
+        - It is the event subscription's name.
+        type: str
+      subscriptionEndpoints:
+        description:
+        - It is the event subscription's subscriptionEndpoints.
+        type: list
         elements: dict
         suboptions:
+          instanceId:
             description:
+            - It is the event subscription's instanceId.
+            type: str
+          subscriptionDetails:
+            description:
+            - It is the event subscription's subscriptionDetails.
+            type: dict
+            suboptions:
+              connectorType:
                 description:
-                - It is the event subscription's description.
+                - It is the event subscription's connectorType.
                 type: str
-            filter:
+              method:
                 description:
-                - It is the event subscription's filter.
-                type: dict
-                required: True
-                suboptions:
-                    eventIds:
-                        description:
-                        - It is the event subscription's eventIds.
-                        type: list
-
-            name:
+                - It is the event subscription's method.
+                type: str
+              name:
                 description:
                 - It is the event subscription's name.
                 type: str
-            subscriptionEndpoints:
+              url:
                 description:
-                - It is the event subscription's subscriptionEndpoints.
-                type: list
-                elements: dict
-                suboptions:
-                    instanceId:
-                        description:
-                        - It is the event subscription's instanceId.
-                        type: str
-                    subscriptionDetails:
-                        description:
-                        - It is the event subscription's subscriptionDetails.
-                        type: dict
-                        suboptions:
-                            connectorType:
-                                description:
-                                - It is the event subscription's connectorType.
-                                type: str
-                            method:
-                                description:
-                                - It is the event subscription's method.
-                                type: str
-                            name:
-                                description:
-                                - It is the event subscription's name.
-                                type: str
-                            url:
-                                description:
-                                - It is the event subscription's url.
-                                type: str
-
-
-            subscriptionId:
-                description:
-                - It is the event subscription's subscriptionId.
-                type: str
-            version:
-                description:
-                - It is the event subscription's version.
+                - It is the event subscription's url.
                 type: str
 
-    count:
+
+      subscriptionId:
         description:
-        - If true gets the number of objects.
-        type: bool
-        required: True
+        - It is the event subscription's subscriptionId.
+        type: str
+      version:
+        description:
+        - It is the event subscription's version.
+        type: str
+
+  count:
+    description:
+    - If true gets the number of objects.
+    - Required for state query.
+    type: bool
 
 requirements:
 - dnacentersdk
@@ -137,173 +139,210 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: delete_event_subscriptions
+  cisco.dnac.event_subscription
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: delete  # required
+    subscriptions: SomeValue  # string, required
+  delegate_to: localhost
+  
+- name: get_event_subscriptions
+  cisco.dnac.event_subscription
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    event_ids: SomeValue  # string
+    limit: 1  #  number
+    offset: 1  #  number
+    order: SomeValue  # string
+    sort_by: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
+- name: create_event_subscriptions
+  cisco.dnac.event_subscription
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    payload:  # required
+    - filter:  # required
+        eventIds:
+        - SomeValue  # string
+      subscriptionId: SomeValue  # string
+      version: SomeValue  # string
+      name: SomeValue  # string
+      description: SomeValue  # string
+      subscriptionEndpoints:
+      - instanceId: SomeValue  # string
+        subscriptionDetails:
+          name: SomeValue  # string
+          url: SomeValue  # string
+          method: SomeValue  # string
+          connectorType: SomeValue  # string
+  delegate_to: localhost
+  
+- name: update_event_subscriptions
+  cisco.dnac.event_subscription
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: update  # required
+    payload:  # required
+    - filter:  # required
+        eventIds:
+        - SomeValue  # string
+      subscriptionId: SomeValue  # string
+      version: SomeValue  # string
+      name: SomeValue  # string
+      description: SomeValue  # string
+      subscriptionEndpoints:
+      - instanceId: SomeValue  # string
+        subscriptionDetails:
+          name: SomeValue  # string
+          url: SomeValue  # string
+          method: SomeValue  # string
+          connectorType: SomeValue  # string
+  delegate_to: localhost
+  
+- name: count_of_event_subscriptions
+  cisco.dnac.event_subscription
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    event_ids: SomeValue  # string, required
+    count: True  # boolean, required
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+delete_event_subscriptions:
     description: Delete EventSubscriptions.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        statusUri:
-            description: Status Uri, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<statusuri>'
+    statusUri:
+      description: Status Uri, property of the response body.
+      returned: success
+      type: str
+      sample: '<statusuri>'
 
-data_1:
+get_event_subscriptions:
     description: Gets the list of Subscriptions's based on provided offset and limit.
-    returned: success,changed,always
-    type: list
+    returned: always
+    type: dict
     contains:
+    payload:
+      description: It is the event subscription's payload.
+      returned: always
+      type: list
+      contains:
         version:
-            description: It is the event subscription's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+          description: It is the event subscription's version.
+          returned: always
+          type: str
+          sample: '1.0'
         name:
-            description: It is the event subscription's name.
-            returned: success,changed,always
-            type: str
-            sample: '<name>'
+          description: It is the event subscription's name.
+          returned: always
+          type: str
+          sample: '<name>'
         description:
-            description: It is the event subscription's description.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
+          description: It is the event subscription's description.
+          returned: always
+          type: str
+          sample: '<description>'
         subscriptionEndpoints:
-            description: It is the event subscription's subscriptionEndpoints.
-            returned: success,changed,always
-            type: list
-            contains:
-                instanceId:
-                    description: It is the event subscription's instanceId.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<instanceid>'
-                id:
-                    description: It is the event subscription's id.
-                    returned: success,changed,always
-                    type: str
-                    sample: '478012'
-                subscriptionDetails:
-                    description: It is the event subscription's subscriptionDetails.
-                    returned: success,changed,always
-                    type: dict
-                    contains:
-                        name:
-                            description: It is the event subscription's name.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<name>'
-                        url:
-                            description: It is the event subscription's url.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<url>'
-                        method:
-                            description: It is the event subscription's method.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<method>'
-                        connectorType:
-                            description: It is the event subscription's connectorType.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<connectortype>'
+          description: It is the event subscription's subscriptionEndpoints.
+          returned: always
+          type: list
+          contains:
+            instanceId:
+              description: It is the event subscription's instanceId.
+              returned: always
+              type: str
+              sample: '<instanceid>'
+            id:
+              description: It is the event subscription's id.
+              returned: always
+              type: str
+              sample: '478012'
+            subscriptionDetails:
+              description: It is the event subscription's subscriptionDetails.
+              returned: always
+              type: dict
+              contains:
+                name:
+                  description: It is the event subscription's name.
+                  returned: always
+                  type: str
+                  sample: '<name>'
+                url:
+                  description: It is the event subscription's url.
+                  returned: always
+                  type: str
+                  sample: '<url>'
+                method:
+                  description: It is the event subscription's method.
+                  returned: always
+                  type: str
+                  sample: '<method>'
+                connectorType:
+                  description: It is the event subscription's connectorType.
+                  returned: always
+                  type: str
+                  sample: '<connectortype>'
 
 
         filter:
-            description: It is the event subscription's filter.
-            returned: success,changed,always
-            type: dict
-            contains:
-                eventIds:
-                    description: It is the event subscription's eventIds.
-                    returned: success,changed,always
-                    type: list
+          description: It is the event subscription's filter.
+          returned: always
+          type: dict
+          contains:
+            eventIds:
+              description: It is the event subscription's eventIds.
+              returned: always
+              type: list
 
 
 
-data_2:
+create_event_subscriptions:
     description: Subscribe SubscriptionEndpoint to list of registered events.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        statusUri:
-            description: Status Uri, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<statusuri>'
+    statusUri:
+      description: Status Uri, property of the response body.
+      returned: success
+      type: str
+      sample: '<statusuri>'
 
-data_3:
+update_event_subscriptions:
     description: Update SubscriptionEndpoint to list of registered events.
-    returned: success,changed,always
+    returned: changed
     type: dict
     contains:
-        statusUri:
-            description: Status Uri, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<statusuri>'
+    statusUri:
+      description: Status Uri, property of the response body.
+      returned: changed
+      type: str
+      sample: '<statusuri>'
 
-data_4:
+count_of_event_subscriptions:
     description: Returns the Count of EventSubscriptions.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
+    response:
+      description: Response, property of the response body.
+      returned: always
+      type: int
+      sample: 0
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.event_subscription import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    elif state == "delete":
-        dnac.exec("delete")
-
-    elif state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    elif state == "update":
-        dnac.disable_validation()
-        dnac.exec("put")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

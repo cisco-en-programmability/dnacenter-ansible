@@ -19,11 +19,11 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    id:
-        description:
-        - Device ID.
-        type: str
-        required: True
+  id:
+    description:
+    - Device ID.
+    type: str
+    required: True
 
 requirements:
 - dnacentersdk
@@ -41,120 +41,93 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_wireless_lan_controller_details_by_id
+  cisco.dnac.network_device_wireless_info
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    id: SomeValue  # string, required
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_wireless_lan_controller_details_by_id:
     description: Returns the wireless lan controller info with given device ID.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: dict
-            contains:
-                adminEnabledPorts:
-                    description: It is the network device wireless info's adminEnabledPorts.
-                    returned: success,changed,always
-                    type: list
-                apGroupName:
-                    description: It is the network device wireless info's apGroupName.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<apgroupname>'
-                deviceId:
-                    description: It is the network device wireless info's deviceId.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<deviceid>'
-                ethMacAddress:
-                    description: It is the network device wireless info's ethMacAddress.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<ethmacaddress>'
-                flexGroupName:
-                    description: It is the network device wireless info's flexGroupName.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<flexgroupname>'
-                id:
-                    description: It is the network device wireless info's id.
-                    returned: success,changed,always
-                    type: str
-                    sample: '478012'
-                instanceTenantId:
-                    description: It is the network device wireless info's instanceTenantId.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<instancetenantid>'
-                instanceUuid:
-                    description: It is the network device wireless info's instanceUuid.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<instanceuuid>'
-                lagModeEnabled:
-                    description: It is the network device wireless info's lagModeEnabled.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
-                netconfEnabled:
-                    description: It is the network device wireless info's netconfEnabled.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
-                wirelessLicenseInfo:
-                    description: It is the network device wireless info's wirelessLicenseInfo.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<wirelesslicenseinfo>'
-                wirelessPackageInstalled:
-                    description: It is the network device wireless info's wirelessPackageInstalled.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
+    response:
+      description: Response, property of the response body.
+      returned: always
+      type: dict
+      contains:
+        adminEnabledPorts:
+          description: It is the network device wireless info's adminEnabledPorts.
+          returned: always
+          type: list
+        apGroupName:
+          description: It is the network device wireless info's apGroupName.
+          returned: always
+          type: str
+          sample: '<apgroupname>'
+        deviceId:
+          description: It is the network device wireless info's deviceId.
+          returned: always
+          type: str
+          sample: '<deviceid>'
+        ethMacAddress:
+          description: It is the network device wireless info's ethMacAddress.
+          returned: always
+          type: str
+          sample: '<ethmacaddress>'
+        flexGroupName:
+          description: It is the network device wireless info's flexGroupName.
+          returned: always
+          type: str
+          sample: '<flexgroupname>'
+        id:
+          description: It is the network device wireless info's id.
+          returned: always
+          type: str
+          sample: '478012'
+        instanceTenantId:
+          description: It is the network device wireless info's instanceTenantId.
+          returned: always
+          type: str
+          sample: '<instancetenantid>'
+        instanceUuid:
+          description: It is the network device wireless info's instanceUuid.
+          returned: always
+          type: str
+          sample: '<instanceuuid>'
+        lagModeEnabled:
+          description: It is the network device wireless info's lagModeEnabled.
+          returned: always
+          type: bool
+          sample: false
+        netconfEnabled:
+          description: It is the network device wireless info's netconfEnabled.
+          returned: always
+          type: bool
+          sample: false
+        wirelessLicenseInfo:
+          description: It is the network device wireless info's wirelessLicenseInfo.
+          returned: always
+          type: str
+          sample: '<wirelesslicenseinfo>'
+        wirelessPackageInstalled:
+          description: It is the network device wireless info's wirelessPackageInstalled.
+          returned: always
+          type: bool
+          sample: false
 
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_wireless_info import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

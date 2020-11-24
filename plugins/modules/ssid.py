@@ -20,93 +20,93 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    enableFabric:
+  enableFabric:
+    description:
+    - EnableFabric, property of the request body.
+    - Required for state create.
+    type: bool
+  flexConnect:
+    description:
+    - Flex Connect - Applicable for non fabric profile, property of the request body.
+    type: dict
+    suboptions:
+      enableFlexConnect:
         description:
-        - EnableFabric, property of the request body.
+        - It is the Ssid's enableFlexConnect.
         type: bool
-        required: True
-    flexConnect:
+      localToVlan:
         description:
-        - Flex Connect - Applicable for non fabric profile, property of the request body.
-        type: dict
-        suboptions:
-            enableFlexConnect:
-                description:
-                - It is the Ssid's enableFlexConnect.
-                type: bool
-            localToVlan:
-                description:
-                - It is the Ssid's localToVlan.
-                type: int
+        - It is the Ssid's localToVlan.
+        type: int
 
-    managedAPLocations:
+  managedAPLocations:
+    description:
+    - Managed AP Locations (Enter entire Site(s) hierarchy), property of the request body (list of strings).
+    - Required for state create.
+    type: list
+  ssidDetails:
+    description:
+    - SsidDetails, property of the request body.
+    - Required for state create.
+    type: dict
+    suboptions:
+      name:
         description:
-        - Managed AP Locations (Enter entire Site(s) hierarchy), property of the request body (list of strings).
-        type: list
-        required: True
-    ssidDetails:
+        - It is the Ssid's name.
+        type: str
+      securityLevel:
         description:
-        - SsidDetails, property of the request body.
-        type: dict
-        required: True
-        suboptions:
-            name:
-                description:
-                - It is the Ssid's name.
-                type: str
-            securityLevel:
-                description:
-                - It is the Ssid's securityLevel.
-                type: str
-            enableFastLane:
-                description:
-                - It is the Ssid's enableFastLane.
-                type: bool
-            passphrase:
-                description:
-                - It is the Ssid's passphrase.
-                type: str
-            trafficType:
-                description:
-                - It is the Ssid's trafficType.
-                type: str
-            enableBroadcastSSID:
-                description:
-                - It is the Ssid's enableBroadcastSSID.
-                type: bool
-            radioPolicy:
-                description:
-                - It is the Ssid's radioPolicy.
-                type: str
-            enableMACFiltering:
-                description:
-                - It is the Ssid's enableMACFiltering.
-                type: bool
-            fastTransition:
-                description:
-                - It is the Ssid's fastTransition.
-                type: str
-            webAuthURL:
-                description:
-                - It is the Ssid's webAuthURL.
-                type: str
+        - It is the Ssid's securityLevel.
+        type: str
+      enableFastLane:
+        description:
+        - It is the Ssid's enableFastLane.
+        type: bool
+      passphrase:
+        description:
+        - It is the Ssid's passphrase.
+        type: str
+      trafficType:
+        description:
+        - It is the Ssid's trafficType.
+        type: str
+      enableBroadcastSSID:
+        description:
+        - It is the Ssid's enableBroadcastSSID.
+        type: bool
+      radioPolicy:
+        description:
+        - It is the Ssid's radioPolicy.
+        type: str
+      enableMACFiltering:
+        description:
+        - It is the Ssid's enableMACFiltering.
+        type: bool
+      fastTransition:
+        description:
+        - It is the Ssid's fastTransition.
+        type: str
+      webAuthURL:
+        description:
+        - It is the Ssid's webAuthURL.
+        type: str
 
-    ssidType:
-        description:
-        - SSID Type, property of the request body.
-        - Available values are 'Guest' and 'Enterprise'.
-        type: str
-        required: True
-    managed_aplocations:
-        description:
-        - ManagedAPLocations path parameter.
-        type: str
-        required: True
-    ssid_name:
-        description:
-        - SsidName path parameter.
-        type: str
-        required: True
+  ssidType:
+    description:
+    - SSID Type, property of the request body.
+    - Available values are 'Guest' and 'Enterprise'.
+    - Required for state create.
+    type: str
+  managed_aplocations:
+    description:
+    - ManagedAPLocations path parameter.
+    - Required for state delete.
+    type: str
+  ssid_name:
+    description:
+    - SsidName path parameter.
+    - Required for state delete.
+    type: str
 
 requirements:
 - dnacentersdk
@@ -124,90 +124,85 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: create_and_provision_ssid
+  cisco.dnac.ssid
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    enableFabric: True  # boolean, required
+    managedAPLocations:  # required
+    - SomeValue  # string
+    ssidDetails:  # required
+      name: SomeValue  # string
+      securityLevel: SomeValue  # string
+      enableFastLane: True  # boolean
+      passphrase: SomeValue  # string
+      trafficType: SomeValue  # string
+      enableBroadcastSSID: True  # boolean
+      radioPolicy: SomeValue  # string
+      enableMACFiltering: True  # boolean
+      fastTransition: SomeValue  # string
+      webAuthURL: SomeValue  # string
+    ssidType: SomeValue  # string, required, valid values: 'Guest', 'Enterprise'.
+    flexConnect:
+      enableFlexConnect: True  # boolean
+      localToVlan: 1  #  integer
+  delegate_to: localhost
+  
+- name: delete_ssid_and_provision_it_to_devices
+  cisco.dnac.ssid
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: delete  # required
+    managed_aplocations: SomeValue  # string, required
+    ssid_name: SomeValue  # string, required
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+create_and_provision_ssid:
     description: Creates SSID, updates the SSID to the corresponding site profiles and provision it to the devices matching the given sites.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        executionId:
-            description: Execution Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionid>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
-        message:
-            description: Message, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<message>'
+    executionId:
+      description: Execution Id, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionid>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionstatusurl>'
+    message:
+      description: Message, property of the response body.
+      returned: success
+      type: str
+      sample: '<message>'
 
-data_1:
+delete_ssid_and_provision_it_to_devices:
     description: Removes SSID or WLAN from the network profile, reprovision the device(s) and deletes the SSID or WLAN from DNA Center.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        executionId:
-            description: Execution Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionid>'
-        executionStatusUrl:
-            description: Execution Status Url, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<executionstatusurl>'
-        message:
-            description: Message, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<message>'
+    executionId:
+      description: Execution Id, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionid>'
+    executionStatusUrl:
+      description: Execution Status Url, property of the response body.
+      returned: success
+      type: str
+      sample: '<executionstatusurl>'
+    message:
+      description: Message, property of the response body.
+      returned: success
+      type: str
+      sample: '<message>'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.ssid import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "delete":
-        dnac.exec("delete")
-
-    elif state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

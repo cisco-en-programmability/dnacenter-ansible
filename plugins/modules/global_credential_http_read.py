@@ -20,101 +20,101 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    payload:
-        description:
-        - An object to send in the Request body.
-        type: list
-        required: True
-        elements: dict
-        suboptions:
-            comments:
-                description:
-                - It is the global credential http read's comments.
-                type: str
-            credentialType:
-                description:
-                - It is the global credential http read's credentialType.
-                type: str
-            description:
-                description:
-                - It is the global credential http read's description.
-                type: str
-            id:
-                description:
-                - It is the global credential http read's id.
-                type: str
-            instanceTenantId:
-                description:
-                - It is the global credential http read's instanceTenantId.
-                type: str
-            instanceUuid:
-                description:
-                - It is the global credential http read's instanceUuid.
-                type: str
-            password:
-                description:
-                - It is the global credential http read's password.
-                type: str
-                required: True
-            port:
-                description:
-                - It is the global credential http read's port.
-                type: int
-                required: True
-            secure:
-                description:
-                - It is the global credential http read's secure.
-                type: bool
-            username:
-                description:
-                - It is the global credential http read's username.
-                type: str
-                required: True
-
-    comments:
-        description:
-        - HTTPReadCredentialDTO's comments.
-        type: str
-    credentialType:
-        description:
-        - HTTPReadCredentialDTO's credentialType.
-        - Available values are 'GLOBAL' and 'APP'.
-        type: str
+  payload:
     description:
+    - An object to send in the Request body.
+    - Required for state create.
+    type: list
+    elements: dict
+    suboptions:
+      comments:
         description:
-        - HTTPReadCredentialDTO's description.
+        - It is the global credential http read's comments.
         type: str
-    id:
+      credentialType:
         description:
-        - HTTPReadCredentialDTO's id.
+        - It is the global credential http read's credentialType.
         type: str
-    instanceTenantId:
+      description:
         description:
-        - HTTPReadCredentialDTO's instanceTenantId.
+        - It is the global credential http read's description.
         type: str
-    instanceUuid:
+      id:
         description:
-        - HTTPReadCredentialDTO's instanceUuid.
+        - It is the global credential http read's id.
         type: str
-    password:
+      instanceTenantId:
         description:
-        - HTTPReadCredentialDTO's password.
+        - It is the global credential http read's instanceTenantId.
+        type: str
+      instanceUuid:
+        description:
+        - It is the global credential http read's instanceUuid.
+        type: str
+      password:
+        description:
+        - It is the global credential http read's password.
         type: str
         required: True
-    port:
+      port:
         description:
-        - HTTPReadCredentialDTO's port.
+        - It is the global credential http read's port.
         type: int
         required: True
-    secure:
+      secure:
         description:
-        - HTTPReadCredentialDTO's secure.
+        - It is the global credential http read's secure.
         type: bool
-    username:
+      username:
         description:
-        - HTTPReadCredentialDTO's username.
+        - It is the global credential http read's username.
         type: str
         required: True
+
+  comments:
+    description:
+    - HTTPReadCredentialDTO's comments.
+    type: str
+  credentialType:
+    description:
+    - HTTPReadCredentialDTO's credentialType.
+    - Available values are 'GLOBAL' and 'APP'.
+    type: str
+  description:
+    description:
+    - HTTPReadCredentialDTO's description.
+    type: str
+  id:
+    description:
+    - HTTPReadCredentialDTO's id.
+    type: str
+  instanceTenantId:
+    description:
+    - HTTPReadCredentialDTO's instanceTenantId.
+    type: str
+  instanceUuid:
+    description:
+    - HTTPReadCredentialDTO's instanceUuid.
+    type: str
+  password:
+    description:
+    - HTTPReadCredentialDTO's password.
+    - Required for state update.
+    type: str
+  port:
+    description:
+    - HTTPReadCredentialDTO's port.
+    - Required for state update.
+    type: int
+  secure:
+    description:
+    - HTTPReadCredentialDTO's secure.
+    type: bool
+  username:
+    description:
+    - HTTPReadCredentialDTO's username.
+    - Required for state update.
+    type: str
 
 requirements:
 - dnacentersdk
@@ -132,101 +132,96 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: create_http_read_credentials
+  cisco.dnac.global_credential_http_read
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    payload:  # required
+    - password: SomeValue  # string, required
+      port: 1  #  integer, required
+      username: SomeValue  # string, required
+      comments: SomeValue  # string
+      credentialType: SomeValue  # string
+      description: SomeValue  # string
+      id: SomeValue  # string
+      instanceTenantId: SomeValue  # string
+      instanceUuid: SomeValue  # string
+      secure: True  # boolean
+  delegate_to: localhost
+  
+- name: update_http_read_credential
+  cisco.dnac.global_credential_http_read
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: update  # required
+    password: SomeValue  # string, required
+    port: 1  #  integer, required
+    username: SomeValue  # string, required
+    comments: SomeValue  # string
+    credentialType: SomeValue  # string, valid values: 'GLOBAL', 'APP'.
+    description: SomeValue  # string
+    id: SomeValue  # string
+    instanceTenantId: SomeValue  # string
+    instanceUuid: SomeValue  # string
+    secure: True  # boolean
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+create_http_read_credentials:
     description: Adds HTTP read credentials.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        response:
-            description: HTTPReadCredentialDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the global credential http read's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the global credential http read's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: HTTPReadCredentialDTO's response.
+      returned: success
+      type: dict
+      contains:
+        taskId:
+          description: It is the global credential http read's taskId.
+          returned: success
+          type: dict
+        url:
+          description: It is the global credential http read's url.
+          returned: success
+          type: str
+          sample: '<url>'
 
-        version:
-            description: HTTPReadCredentialDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: HTTPReadCredentialDTO's version.
+      returned: success
+      type: str
+      sample: '1.0'
 
-data_1:
+update_http_read_credential:
     description: Updates global HTTP Read credential.
-    returned: success,changed,always
+    returned: changed
     type: dict
     contains:
-        response:
-            description: HTTPReadCredentialDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the global credential http read's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the global credential http read's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: HTTPReadCredentialDTO's response.
+      returned: changed
+      type: dict
+      contains:
+        taskId:
+          description: It is the global credential http read's taskId.
+          returned: changed
+          type: dict
+        url:
+          description: It is the global credential http read's url.
+          returned: changed
+          type: str
+          sample: '<url>'
 
-        version:
-            description: HTTPReadCredentialDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: HTTPReadCredentialDTO's version.
+      returned: changed
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.global_credential_http_read import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    elif state == "update":
-        dnac.disable_validation()
-        dnac.exec("put")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

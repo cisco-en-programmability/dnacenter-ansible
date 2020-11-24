@@ -19,28 +19,28 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    commands:
-        description:
-        - CommandRunnerDTO's commands (list of strings).
-        type: list
-        required: True
+  commands:
     description:
-        description:
-        - CommandRunnerDTO's description.
-        type: str
-    deviceUuids:
-        description:
-        - CommandRunnerDTO's deviceUuids (list of strings).
-        type: list
-        required: True
-    name:
-        description:
-        - CommandRunnerDTO's name.
-        type: str
-    timeout:
-        description:
-        - CommandRunnerDTO's timeout.
-        type: int
+    - CommandRunnerDTO's commands (list of strings).
+    type: list
+    required: True
+  description:
+    description:
+    - CommandRunnerDTO's description.
+    type: str
+  deviceUuids:
+    description:
+    - CommandRunnerDTO's deviceUuids (list of strings).
+    type: list
+    required: True
+  name:
+    description:
+    - CommandRunnerDTO's name.
+    type: str
+  timeout:
+    description:
+    - CommandRunnerDTO's timeout.
+    type: int
 
 requirements:
 - dnacentersdk
@@ -58,71 +58,48 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: run_read_only_commands_on_devices
+  cisco.dnac.network_device_poller_read_request
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    commands:  # required
+    - SomeValue  # string
+    deviceUuids:  # required
+    - SomeValue  # string
+    description: SomeValue  # string
+    name: SomeValue  # string
+    timeout: 1  #  integer
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+run_read_only_commands_on_devices:
     description: Submit request for read-only CLIs.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        response:
-            description: CommandRunnerDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the network device poller read request's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the network device poller read request's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: CommandRunnerDTO's response.
+      returned: success
+      type: dict
+      contains:
+        taskId:
+          description: It is the network device poller read request's taskId.
+          returned: success
+          type: dict
+        url:
+          description: It is the network device poller read request's url.
+          returned: success
+          type: str
+          sample: '<url>'
 
-        version:
-            description: CommandRunnerDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: CommandRunnerDTO's version.
+      returned: success
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_poller_read_request import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

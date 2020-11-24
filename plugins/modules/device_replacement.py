@@ -22,121 +22,122 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    family:
+  family:
+    description:
+    - List of families[Routers, Switches and Hubs, AP].
+    type: str
+  faulty_device_name:
+    description:
+    - Faulty Device Name.
+    type: str
+  faulty_device_platform:
+    description:
+    - Faulty Device Platform.
+    type: str
+  faulty_device_serial_number:
+    description:
+    - Faulty Device Serial Number.
+    type: str
+  limit:
+    description:
+    - Limit query parameter.
+    type: int
+  offset:
+    description:
+    - Offset query parameter.
+    type: int
+  replacement_device_platform:
+    description:
+    - Replacement Device Platform.
+    type: str
+  replacement_device_serial_number:
+    description:
+    - Replacement Device Serial Number.
+    type: str
+  replacement_status:
+    description:
+    - Device Replacement status [READY-FOR-REPLACEMENT, REPLACEMENT-IN-PROGRESS, REPLACEMENT-SCHEDULED, REPLACED, ERROR, NETWORK_READINESS_REQUESTED, NETWORK_READINESS_FAILED].
+    - Device Replacement status list[READY-FOR-REPLACEMENT, REPLACEMENT-IN-PROGRESS, REPLACEMENT-SCHEDULED, REPLACED, ERROR].
+    type: str
+  sort_by:
+    description:
+    - SortBy this field. SortBy is mandatory when order is used.
+    type: str
+  sort_order:
+    description:
+    - Order on displayName[ASC,DESC].
+    type: str
+  payload:
+    description:
+    - An object to send in the Request body.
+    type: list
+    required: True
+    elements: dict
+    suboptions:
+      creationTime:
         description:
-        - List of families[Routers, Switches and Hubs, AP].
-        type: str
-    faulty_device_name:
-        description:
-        - Faulty Device Name.
-        type: str
-    faulty_device_platform:
-        description:
-        - Faulty Device Platform.
-        type: str
-    faulty_device_serial_number:
-        description:
-        - Faulty Device Serial Number.
-        type: str
-    limit:
-        description:
-        - Limit query parameter.
+        - It is the device replacement's creationTime.
         type: int
-    offset:
+      family:
         description:
-        - Offset query parameter.
+        - It is the device replacement's family.
+        type: str
+      faultyDeviceId:
+        description:
+        - It is the device replacement's faultyDeviceId.
+        - Required for states create and update.
+        type: str
+      faultyDeviceName:
+        description:
+        - It is the device replacement's faultyDeviceName.
+        type: str
+      faultyDevicePlatform:
+        description:
+        - It is the device replacement's faultyDevicePlatform.
+        type: str
+      faultyDeviceSerialNumber:
+        description:
+        - It is the device replacement's faultyDeviceSerialNumber.
+        type: str
+      id:
+        description:
+        - It is the device replacement's id.
+        type: str
+      neighbourDeviceId:
+        description:
+        - It is the device replacement's neighbourDeviceId.
+        type: str
+      networkReadinessTaskId:
+        description:
+        - It is the device replacement's networkReadinessTaskId.
+        type: str
+      replacementDevicePlatform:
+        description:
+        - It is the device replacement's replacementDevicePlatform.
+        type: str
+      replacementDeviceSerialNumber:
+        description:
+        - It is the device replacement's replacementDeviceSerialNumber.
+        type: str
+      replacementStatus:
+        description:
+        - It is the device replacement's replacementStatus.
+        - Required for states create and update.
+        type: str
+      replacementTime:
+        description:
+        - It is the device replacement's replacementTime.
         type: int
-    replacement_device_platform:
+      workflowId:
         description:
-        - Replacement Device Platform.
+        - It is the device replacement's workflowId.
         type: str
-    replacement_device_serial_number:
-        description:
-        - Replacement Device Serial Number.
-        type: str
-    replacement_status:
-        description:
-        - Device Replacement status [READY-FOR-REPLACEMENT, REPLACEMENT-IN-PROGRESS, REPLACEMENT-SCHEDULED, REPLACED, ERROR, NETWORK_READINESS_REQUESTED, NETWORK_READINESS_FAILED].
-        type: str
-    sort_by:
-        description:
-        - SortBy this field. SortBy is mandatory when order is used.
-        type: str
-    sort_order:
-        description:
-        - Order on displayName[ASC,DESC].
-        type: str
-    payload:
-        description:
-        - An object to send in the Request body.
-        type: list
-        required: True
-        elements: dict
-        suboptions:
-            creationTime:
-                description:
-                - It is the device replacement's creationTime.
-                type: int
-            family:
-                description:
-                - It is the device replacement's family.
-                type: str
-            faultyDeviceId:
-                description:
-                - It is the device replacement's faultyDeviceId.
-                type: str
-                required: True
-            faultyDeviceName:
-                description:
-                - It is the device replacement's faultyDeviceName.
-                type: str
-            faultyDevicePlatform:
-                description:
-                - It is the device replacement's faultyDevicePlatform.
-                type: str
-            faultyDeviceSerialNumber:
-                description:
-                - It is the device replacement's faultyDeviceSerialNumber.
-                type: str
-            id:
-                description:
-                - It is the device replacement's id.
-                type: str
-            neighbourDeviceId:
-                description:
-                - It is the device replacement's neighbourDeviceId.
-                type: str
-            networkReadinessTaskId:
-                description:
-                - It is the device replacement's networkReadinessTaskId.
-                type: str
-            replacementDevicePlatform:
-                description:
-                - It is the device replacement's replacementDevicePlatform.
-                type: str
-            replacementDeviceSerialNumber:
-                description:
-                - It is the device replacement's replacementDeviceSerialNumber.
-                type: str
-            replacementStatus:
-                description:
-                - It is the device replacement's replacementStatus.
-                type: str
-                required: True
-            replacementTime:
-                description:
-                - It is the device replacement's replacementTime.
-                type: int
-            workflowId:
-                description:
-                - It is the device replacement's workflowId.
-                type: str
 
-    count:
-        description:
-        - If true gets the number of objects.
-        type: bool
-        required: True
+  count:
+    description:
+    - If true gets the number of objects.
+    - Required for state query.
+    type: bool
 
 requirements:
 - dnacentersdk
@@ -154,207 +155,239 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: return_replacement_devices_with_details
+  cisco.dnac.device_replacement
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    family: SomeValue  # string
+    faulty_device_name: SomeValue  # string
+    faulty_device_platform: SomeValue  # string
+    faulty_device_serial_number: SomeValue  # string
+    limit: 1  #  integer
+    offset: 1  #  integer
+    replacement_device_platform: SomeValue  # string
+    replacement_device_serial_number: SomeValue  # string
+    replacement_status: SomeValue  # string
+    sort_by: SomeValue  # string
+    sort_order: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
+- name: mark_device_for_replacement
+  cisco.dnac.device_replacement
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    payload:  # required
+    - faultyDeviceId: SomeValue  # string, required
+      replacementStatus: SomeValue  # string, required
+      creationTime: 1  #  integer
+      family: SomeValue  # string
+      faultyDeviceName: SomeValue  # string
+      faultyDevicePlatform: SomeValue  # string
+      faultyDeviceSerialNumber: SomeValue  # string
+      id: SomeValue  # string
+      neighbourDeviceId: SomeValue  # string
+      networkReadinessTaskId: SomeValue  # string
+      replacementDevicePlatform: SomeValue  # string
+      replacementDeviceSerialNumber: SomeValue  # string
+      replacementTime: 1  #  integer
+      workflowId: SomeValue  # string
+  delegate_to: localhost
+  
+- name: unmark_device_for_replacement
+  cisco.dnac.device_replacement
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: update  # required
+    payload:  # required
+    - faultyDeviceId: SomeValue  # string, required
+      replacementStatus: SomeValue  # string, required
+      creationTime: 1  #  integer
+      family: SomeValue  # string
+      faultyDeviceName: SomeValue  # string
+      faultyDevicePlatform: SomeValue  # string
+      faultyDeviceSerialNumber: SomeValue  # string
+      id: SomeValue  # string
+      neighbourDeviceId: SomeValue  # string
+      networkReadinessTaskId: SomeValue  # string
+      replacementDevicePlatform: SomeValue  # string
+      replacementDeviceSerialNumber: SomeValue  # string
+      replacementTime: 1  #  integer
+      workflowId: SomeValue  # string
+  delegate_to: localhost
+  
+- name: return_replacement_devices_count
+  cisco.dnac.device_replacement
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    count: True  # boolean, required
+    replacement_status: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+return_replacement_devices_with_details:
     description: Get list of replacement devices with replacement details and it can filter replacement devices based on Faulty Device Name,Faulty Device Platform, Replacement Device Platform, Faulty Device Serial Number,Replacement Device Serial Number, Device Replacement status, Product Family.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                creationTime:
-                    description: It is the device replacement's creationTime.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                family:
-                    description: It is the device replacement's family.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<family>'
-                faultyDeviceId:
-                    description: It is the device replacement's faultyDeviceId.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<faultydeviceid>'
-                faultyDeviceName:
-                    description: It is the device replacement's faultyDeviceName.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<faultydevicename>'
-                faultyDevicePlatform:
-                    description: It is the device replacement's faultyDevicePlatform.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<faultydeviceplatform>'
-                faultyDeviceSerialNumber:
-                    description: It is the device replacement's faultyDeviceSerialNumber.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<faultydeviceserialnumber>'
-                id:
-                    description: It is the device replacement's id.
-                    returned: success,changed,always
-                    type: str
-                    sample: '478012'
-                neighbourDeviceId:
-                    description: It is the device replacement's neighbourDeviceId.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<neighbourdeviceid>'
-                networkReadinessTaskId:
-                    description: It is the device replacement's networkReadinessTaskId.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<networkreadinesstaskid>'
-                replacementDevicePlatform:
-                    description: It is the device replacement's replacementDevicePlatform.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<replacementdeviceplatform>'
-                replacementDeviceSerialNumber:
-                    description: It is the device replacement's replacementDeviceSerialNumber.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<replacementdeviceserialnumber>'
-                replacementStatus:
-                    description: It is the device replacement's replacementStatus.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<replacementstatus>'
-                replacementTime:
-                    description: It is the device replacement's replacementTime.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                workflowId:
-                    description: It is the device replacement's workflowId.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<workflowid>'
+    response:
+      description: Response, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
+        creationTime:
+          description: It is the device replacement's creationTime.
+          returned: always
+          type: int
+          sample: 0
+        family:
+          description: It is the device replacement's family.
+          returned: always
+          type: str
+          sample: '<family>'
+        faultyDeviceId:
+          description: It is the device replacement's faultyDeviceId.
+          returned: always
+          type: str
+          sample: '<faultydeviceid>'
+        faultyDeviceName:
+          description: It is the device replacement's faultyDeviceName.
+          returned: always
+          type: str
+          sample: '<faultydevicename>'
+        faultyDevicePlatform:
+          description: It is the device replacement's faultyDevicePlatform.
+          returned: always
+          type: str
+          sample: '<faultydeviceplatform>'
+        faultyDeviceSerialNumber:
+          description: It is the device replacement's faultyDeviceSerialNumber.
+          returned: always
+          type: str
+          sample: '<faultydeviceserialnumber>'
+        id:
+          description: It is the device replacement's id.
+          returned: always
+          type: str
+          sample: '478012'
+        neighbourDeviceId:
+          description: It is the device replacement's neighbourDeviceId.
+          returned: always
+          type: str
+          sample: '<neighbourdeviceid>'
+        networkReadinessTaskId:
+          description: It is the device replacement's networkReadinessTaskId.
+          returned: always
+          type: str
+          sample: '<networkreadinesstaskid>'
+        replacementDevicePlatform:
+          description: It is the device replacement's replacementDevicePlatform.
+          returned: always
+          type: str
+          sample: '<replacementdeviceplatform>'
+        replacementDeviceSerialNumber:
+          description: It is the device replacement's replacementDeviceSerialNumber.
+          returned: always
+          type: str
+          sample: '<replacementdeviceserialnumber>'
+        replacementStatus:
+          description: It is the device replacement's replacementStatus.
+          returned: always
+          type: str
+          sample: '<replacementstatus>'
+        replacementTime:
+          description: It is the device replacement's replacementTime.
+          returned: always
+          type: int
+          sample: 0
+        workflowId:
+          description: It is the device replacement's workflowId.
+          returned: always
+          type: str
+          sample: '<workflowid>'
 
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
-data_1:
+mark_device_for_replacement:
     description: Marks device for replacement.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        response:
-            description: DeviceReplacementDataDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the device replacement's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the device replacement's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: DeviceReplacementDataDTO's response.
+      returned: success
+      type: dict
+      contains:
+        taskId:
+          description: It is the device replacement's taskId.
+          returned: success
+          type: dict
+        url:
+          description: It is the device replacement's url.
+          returned: success
+          type: str
+          sample: '<url>'
 
-        version:
-            description: DeviceReplacementDataDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: DeviceReplacementDataDTO's version.
+      returned: success
+      type: str
+      sample: '1.0'
 
-data_2:
+unmark_device_for_replacement:
     description: UnMarks device for replacement.
-    returned: success,changed,always
+    returned: changed
     type: dict
     contains:
-        response:
-            description: DeviceReplacementDataDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the device replacement's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the device replacement's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: DeviceReplacementDataDTO's response.
+      returned: changed
+      type: dict
+      contains:
+        taskId:
+          description: It is the device replacement's taskId.
+          returned: changed
+          type: dict
+        url:
+          description: It is the device replacement's url.
+          returned: changed
+          type: str
+          sample: '<url>'
 
-        version:
-            description: DeviceReplacementDataDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: DeviceReplacementDataDTO's version.
+      returned: changed
+      type: str
+      sample: '1.0'
 
-data_3:
+return_replacement_devices_count:
     description: Get replacement devices count.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    response:
+      description: Response, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.device_replacement import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    elif state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    elif state == "update":
-        dnac.disable_validation()
-        dnac.exec("put")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

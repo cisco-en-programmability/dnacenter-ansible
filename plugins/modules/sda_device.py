@@ -19,10 +19,11 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    device_ipaddress:
-        description:
-        - Device IP Address.
-        type: str
+  device_ipaddress:
+    description:
+    - Device IP Address.
+    type: str
+    required: True
 
 requirements:
 - dnacentersdk
@@ -40,79 +41,52 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_device_info
+  cisco.dnac.sda_device
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    device_ipaddress: SomeValue  # string, required
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_device_info:
     description: Get device info from SDA Fabric.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        status:
-            description: Status, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<status>'
-        description:
-            description: Description, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        name:
-            description: Name, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<name>'
-        roles:
-            description: Roles, property of the response body (list of strings).
-            returned: success,changed,always
-            type: list
-        deviceManagementIpAddress:
-            description: Device Management Ip Address, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<devicemanagementipaddress>'
-        siteHierarchy:
-            description: Site Hierarchy, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<sitehierarchy>'
+    status:
+      description: Status, property of the response body.
+      returned: always
+      type: str
+      sample: '<status>'
+    description:
+      description: Description, property of the response body.
+      returned: always
+      type: str
+      sample: '<description>'
+    name:
+      description: Name, property of the response body.
+      returned: always
+      type: str
+      sample: '<name>'
+    roles:
+      description: Roles, property of the response body (list of strings).
+      returned: always
+      type: list
+    deviceManagementIpAddress:
+      description: Device Management Ip Address, property of the response body.
+      returned: always
+      type: str
+      sample: '<devicemanagementipaddress>'
+    siteHierarchy:
+      description: Site Hierarchy, property of the response body.
+      returned: always
+      type: str
+      sample: '<sitehierarchy>'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.sda_device import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

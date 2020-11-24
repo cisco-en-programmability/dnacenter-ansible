@@ -20,101 +20,101 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    payload:
-        description:
-        - An object to send in the Request body.
-        type: list
-        required: True
-        elements: dict
-        suboptions:
-            comments:
-                description:
-                - It is the global credential http write's comments.
-                type: str
-            credentialType:
-                description:
-                - It is the global credential http write's credentialType.
-                type: str
-            description:
-                description:
-                - It is the global credential http write's description.
-                type: str
-            id:
-                description:
-                - It is the global credential http write's id.
-                type: str
-            instanceTenantId:
-                description:
-                - It is the global credential http write's instanceTenantId.
-                type: str
-            instanceUuid:
-                description:
-                - It is the global credential http write's instanceUuid.
-                type: str
-            password:
-                description:
-                - It is the global credential http write's password.
-                type: str
-                required: True
-            port:
-                description:
-                - It is the global credential http write's port.
-                type: int
-                required: True
-            secure:
-                description:
-                - It is the global credential http write's secure.
-                type: bool
-            username:
-                description:
-                - It is the global credential http write's username.
-                type: str
-                required: True
-
-    comments:
-        description:
-        - HTTPWriteCredentialDTO's comments.
-        type: str
-    credentialType:
-        description:
-        - HTTPWriteCredentialDTO's credentialType.
-        - Available values are 'GLOBAL' and 'APP'.
-        type: str
+  payload:
     description:
+    - An object to send in the Request body.
+    - Required for state create.
+    type: list
+    elements: dict
+    suboptions:
+      comments:
         description:
-        - HTTPWriteCredentialDTO's description.
+        - It is the global credential http write's comments.
         type: str
-    id:
+      credentialType:
         description:
-        - HTTPWriteCredentialDTO's id.
+        - It is the global credential http write's credentialType.
         type: str
-    instanceTenantId:
+      description:
         description:
-        - HTTPWriteCredentialDTO's instanceTenantId.
+        - It is the global credential http write's description.
         type: str
-    instanceUuid:
+      id:
         description:
-        - HTTPWriteCredentialDTO's instanceUuid.
+        - It is the global credential http write's id.
         type: str
-    password:
+      instanceTenantId:
         description:
-        - HTTPWriteCredentialDTO's password.
+        - It is the global credential http write's instanceTenantId.
+        type: str
+      instanceUuid:
+        description:
+        - It is the global credential http write's instanceUuid.
+        type: str
+      password:
+        description:
+        - It is the global credential http write's password.
         type: str
         required: True
-    port:
+      port:
         description:
-        - HTTPWriteCredentialDTO's port.
+        - It is the global credential http write's port.
         type: int
         required: True
-    secure:
+      secure:
         description:
-        - HTTPWriteCredentialDTO's secure.
+        - It is the global credential http write's secure.
         type: bool
-    username:
+      username:
         description:
-        - HTTPWriteCredentialDTO's username.
+        - It is the global credential http write's username.
         type: str
         required: True
+
+  comments:
+    description:
+    - HTTPWriteCredentialDTO's comments.
+    type: str
+  credentialType:
+    description:
+    - HTTPWriteCredentialDTO's credentialType.
+    - Available values are 'GLOBAL' and 'APP'.
+    type: str
+  description:
+    description:
+    - HTTPWriteCredentialDTO's description.
+    type: str
+  id:
+    description:
+    - HTTPWriteCredentialDTO's id.
+    type: str
+  instanceTenantId:
+    description:
+    - HTTPWriteCredentialDTO's instanceTenantId.
+    type: str
+  instanceUuid:
+    description:
+    - HTTPWriteCredentialDTO's instanceUuid.
+    type: str
+  password:
+    description:
+    - HTTPWriteCredentialDTO's password.
+    - Required for state update.
+    type: str
+  port:
+    description:
+    - HTTPWriteCredentialDTO's port.
+    - Required for state update.
+    type: int
+  secure:
+    description:
+    - HTTPWriteCredentialDTO's secure.
+    type: bool
+  username:
+    description:
+    - HTTPWriteCredentialDTO's username.
+    - Required for state update.
+    type: str
 
 requirements:
 - dnacentersdk
@@ -132,101 +132,96 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: create_http_write_credentials
+  cisco.dnac.global_credential_http_write
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    payload:  # required
+    - password: SomeValue  # string, required
+      port: 1  #  integer, required
+      username: SomeValue  # string, required
+      comments: SomeValue  # string
+      credentialType: SomeValue  # string
+      description: SomeValue  # string
+      id: SomeValue  # string
+      instanceTenantId: SomeValue  # string
+      instanceUuid: SomeValue  # string
+      secure: True  # boolean
+  delegate_to: localhost
+  
+- name: update_http_write_credentials
+  cisco.dnac.global_credential_http_write
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: update  # required
+    password: SomeValue  # string, required
+    port: 1  #  integer, required
+    username: SomeValue  # string, required
+    comments: SomeValue  # string
+    credentialType: SomeValue  # string, valid values: 'GLOBAL', 'APP'.
+    description: SomeValue  # string
+    id: SomeValue  # string
+    instanceTenantId: SomeValue  # string
+    instanceUuid: SomeValue  # string
+    secure: True  # boolean
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+create_http_write_credentials:
     description: Adds global HTTP write credentials.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        response:
-            description: HTTPWriteCredentialDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the global credential http write's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the global credential http write's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: HTTPWriteCredentialDTO's response.
+      returned: success
+      type: dict
+      contains:
+        taskId:
+          description: It is the global credential http write's taskId.
+          returned: success
+          type: dict
+        url:
+          description: It is the global credential http write's url.
+          returned: success
+          type: str
+          sample: '<url>'
 
-        version:
-            description: HTTPWriteCredentialDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: HTTPWriteCredentialDTO's version.
+      returned: success
+      type: str
+      sample: '1.0'
 
-data_1:
+update_http_write_credentials:
     description: Updates global HTTP write credentials.
-    returned: success,changed,always
+    returned: changed
     type: dict
     contains:
-        response:
-            description: HTTPWriteCredentialDTO's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                taskId:
-                    description: It is the global credential http write's taskId.
-                    returned: success,changed,always
-                    type: dict
-                url:
-                    description: It is the global credential http write's url.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<url>'
+    response:
+      description: HTTPWriteCredentialDTO's response.
+      returned: changed
+      type: dict
+      contains:
+        taskId:
+          description: It is the global credential http write's taskId.
+          returned: changed
+          type: dict
+        url:
+          description: It is the global credential http write's url.
+          returned: changed
+          type: str
+          sample: '<url>'
 
-        version:
-            description: HTTPWriteCredentialDTO's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: HTTPWriteCredentialDTO's version.
+      returned: changed
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.global_credential_http_write import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    elif state == "update":
-        dnac.disable_validation()
-        dnac.exec("put")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

@@ -19,19 +19,19 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    deviceId:
-        description:
-        - SiteProvisionRequest's deviceId.
-        type: str
-    siteId:
-        description:
-        - SiteProvisionRequest's siteId.
-        type: str
-    type:
-        description:
-        - SiteProvisionRequest's type.
-        - Available values are 'Default', 'AccessPoint', 'StackSwitch', 'Sensor' and 'MobilityExpress'.
-        type: str
+  deviceId:
+    description:
+    - SiteProvisionRequest's deviceId.
+    type: str
+  siteId:
+    description:
+    - SiteProvisionRequest's siteId.
+    type: str
+  type:
+    description:
+    - SiteProvisionRequest's type.
+    - Available values are 'Default', 'AccessPoint', 'StackSwitch', 'Sensor' and 'MobilityExpress'.
+    type: str
 
 requirements:
 - dnacentersdk
@@ -49,112 +49,85 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: preview_config
+  cisco.dnac.pnp_device_site_config_preview
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    deviceId: SomeValue  # string
+    siteId: SomeValue  # string
+    type: SomeValue  # string, valid values: 'Default', 'AccessPoint', 'StackSwitch', 'Sensor', 'MobilityExpress'.
+  delegate_to: localhost
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+preview_config:
     description: Triggers a preview for site-based Day 0 Configuration.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        response:
-            description: SiteProvisionRequest's response.
-            returned: success,changed,always
-            type: dict
-            contains:
-                complete:
-                    description: It is the pnp device site config preview's complete.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
-                config:
-                    description: It is the pnp device site config preview's config.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<config>'
-                error:
-                    description: It is the pnp device site config preview's error.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
-                errorMessage:
-                    description: It is the pnp device site config preview's errorMessage.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<errormessage>'
-                expiredTime:
-                    description: It is the pnp device site config preview's expiredTime.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                rfProfile:
-                    description: It is the pnp device site config preview's rfProfile.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<rfprofile>'
-                sensorProfile:
-                    description: It is the pnp device site config preview's sensorProfile.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<sensorprofile>'
-                siteId:
-                    description: It is the pnp device site config preview's siteId.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<siteid>'
-                startTime:
-                    description: It is the pnp device site config preview's startTime.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                taskId:
-                    description: It is the pnp device site config preview's taskId.
-                    returned: success,changed,always
-                    type: str
-                    sample: 'aeed229047801200e0ef563dbb9a71c2'
+    response:
+      description: SiteProvisionRequest's response.
+      returned: success
+      type: dict
+      contains:
+        complete:
+          description: It is the pnp device site config preview's complete.
+          returned: success
+          type: bool
+          sample: false
+        config:
+          description: It is the pnp device site config preview's config.
+          returned: success
+          type: str
+          sample: '<config>'
+        error:
+          description: It is the pnp device site config preview's error.
+          returned: success
+          type: bool
+          sample: false
+        errorMessage:
+          description: It is the pnp device site config preview's errorMessage.
+          returned: success
+          type: str
+          sample: '<errormessage>'
+        expiredTime:
+          description: It is the pnp device site config preview's expiredTime.
+          returned: success
+          type: int
+          sample: 0
+        rfProfile:
+          description: It is the pnp device site config preview's rfProfile.
+          returned: success
+          type: str
+          sample: '<rfprofile>'
+        sensorProfile:
+          description: It is the pnp device site config preview's sensorProfile.
+          returned: success
+          type: str
+          sample: '<sensorprofile>'
+        siteId:
+          description: It is the pnp device site config preview's siteId.
+          returned: success
+          type: str
+          sample: '<siteid>'
+        startTime:
+          description: It is the pnp device site config preview's startTime.
+          returned: success
+          type: int
+          sample: 0
+        taskId:
+          description: It is the pnp device site config preview's taskId.
+          returned: success
+          type: str
+          sample: 'aeed229047801200e0ef563dbb9a71c2'
 
-        version:
-            description: SiteProvisionRequest's version.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: SiteProvisionRequest's version.
+      returned: success
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.pnp_device_site_config_preview import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

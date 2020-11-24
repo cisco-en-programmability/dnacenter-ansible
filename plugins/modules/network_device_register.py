@@ -19,14 +19,14 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    macaddress:
-        description:
-        - Mac addres of the device.
-        type: str
-    serial_number:
-        description:
-        - Serial number of the device.
-        type: str
+  macaddress:
+    description:
+    - Mac addres of the device.
+    type: str
+  serial_number:
+    description:
+    - Serial number of the device.
+    type: str
 
 requirements:
 - dnacentersdk
@@ -44,86 +44,60 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: register_device_for_wsa
+  cisco.dnac.network_device_register
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    macaddress: SomeValue  # string
+    serial_number: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+register_device_for_wsa:
     description: Registers a device for WSA notification.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: dict
-            contains:
-                macAddress:
-                    description: It is the network device register's macAddress.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<macaddress>'
-                modelNumber:
-                    description: It is the network device register's modelNumber.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<modelnumber>'
-                name:
-                    description: It is the network device register's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
-                serialNumber:
-                    description: It is the network device register's serialNumber.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<serialnumber>'
-                tenantId:
-                    description: It is the network device register's tenantId.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<tenantid>'
+    response:
+      description: Response, property of the response body.
+      returned: always
+      type: dict
+      contains:
+        macAddress:
+          description: It is the network device register's macAddress.
+          returned: always
+          type: str
+          sample: '<macaddress>'
+        modelNumber:
+          description: It is the network device register's modelNumber.
+          returned: always
+          type: str
+          sample: '<modelnumber>'
+        name:
+          description: It is the network device register's name.
+          returned: always
+          type: str
+          sample: '<name>'
+        serialNumber:
+          description: It is the network device register's serialNumber.
+          returned: always
+          type: str
+          sample: '<serialnumber>'
+        tenantId:
+          description: It is the network device register's tenantId.
+          returned: always
+          type: str
+          sample: '<tenantid>'
 
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_register import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

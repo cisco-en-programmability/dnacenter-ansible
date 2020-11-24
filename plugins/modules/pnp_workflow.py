@@ -24,174 +24,176 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    limit:
-        description:
-        - Limits number of results.
-        type: int
-    name:
-        description:
-        - Workflow Name.
-        type: str
-    offset:
-        description:
-        - Index of first result.
-        type: int
-    sort:
-        description:
-        - Comma seperated lost of fields to sort on.
-        type: str
-    sort_order:
-        description:
-        - Sort Order Ascending (asc) or Descending (des).
-        type: str
-    type:
-        description:
-        - Workflow Type.
-        type: str
-    _id:
-        description:
-        - Workflow's _id.
-        type: str
-    addToInventory:
-        description:
-        - Workflow's addToInventory.
-        type: bool
-    addedOn:
-        description:
-        - Workflow's addedOn.
-        type: int
-    configId:
-        description:
-        - Workflow's configId.
-        type: str
-    currTaskIdx:
-        description:
-        - Workflow's currTaskIdx.
-        type: int
+  limit:
     description:
+    - Limits number of results.
+    type: int
+  name:
+    description:
+    - Workflow Name.
+    - Workflow's name.
+    type: str
+  offset:
+    description:
+    - Index of first result.
+    type: int
+  sort:
+    description:
+    - Comma seperated lost of fields to sort on.
+    type: str
+  sort_order:
+    description:
+    - Sort Order Ascending (asc) or Descending (des).
+    type: str
+  type:
+    description:
+    - Workflow Type.
+    - Workflow's type.
+    type: str
+  _id:
+    description:
+    - Workflow's _id.
+    type: str
+  addToInventory:
+    description:
+    - Workflow's addToInventory.
+    type: bool
+  addedOn:
+    description:
+    - Workflow's addedOn.
+    type: int
+  configId:
+    description:
+    - Workflow's configId.
+    type: str
+  currTaskIdx:
+    description:
+    - Workflow's currTaskIdx.
+    type: int
+  description:
+    description:
+    - Workflow's description.
+    type: str
+  endTime:
+    description:
+    - Workflow's endTime.
+    type: int
+  execTime:
+    description:
+    - Workflow's execTime.
+    type: int
+  imageId:
+    description:
+    - Workflow's imageId.
+    type: str
+  instanceType:
+    description:
+    - Workflow's instanceType.
+    type: str
+  lastupdateOn:
+    description:
+    - Workflow's lastupdateOn.
+    type: int
+  startTime:
+    description:
+    - Workflow's startTime.
+    type: int
+  state:
+    description:
+    - Workflow's state.
+    type: str
+  tasks:
+    description:
+    - Workflow's tasks (list of objects).
+    type: list
+    elements: dict
+    suboptions:
+      currWorkItemIdx:
         description:
-        - Workflow's description.
-        type: str
-    endTime:
-        description:
-        - Workflow's endTime.
+        - It is the pnp workflow's currWorkItemIdx.
         type: int
-    execTime:
+      endTime:
         description:
-        - Workflow's execTime.
+        - It is the pnp workflow's endTime.
         type: int
-    imageId:
+      name:
         description:
-        - Workflow's imageId.
+        - It is the pnp workflow's name.
         type: str
-    instanceType:
+      startTime:
         description:
-        - Workflow's instanceType.
-        type: str
-    lastupdateOn:
-        description:
-        - Workflow's lastupdateOn.
+        - It is the pnp workflow's startTime.
         type: int
-    startTime:
+      state:
         description:
-        - Workflow's startTime.
-        type: int
-    state:
-        description:
-        - Workflow's state.
+        - It is the pnp workflow's state.
         type: str
-    tasks:
+      taskSeqNo:
         description:
-        - Workflow's tasks (list of objects).
+        - It is the pnp workflow's taskSeqNo.
+        type: int
+      timeTaken:
+        description:
+        - It is the pnp workflow's timeTaken.
+        type: int
+      type:
+        description:
+        - It is the pnp workflow's type.
+        type: str
+      workItemList:
+        description:
+        - It is the pnp workflow's workItemList.
         type: list
         elements: dict
         suboptions:
-            currWorkItemIdx:
-                description:
-                - It is the pnp workflow's currWorkItemIdx.
-                type: int
-            endTime:
-                description:
-                - It is the pnp workflow's endTime.
-                type: int
-            name:
-                description:
-                - It is the pnp workflow's name.
-                type: str
-            startTime:
-                description:
-                - It is the pnp workflow's startTime.
-                type: int
-            state:
-                description:
-                - It is the pnp workflow's state.
-                type: str
-            taskSeqNo:
-                description:
-                - It is the pnp workflow's taskSeqNo.
-                type: int
-            timeTaken:
-                description:
-                - It is the pnp workflow's timeTaken.
-                type: int
-            type:
-                description:
-                - It is the pnp workflow's type.
-                type: str
-            workItemList:
-                description:
-                - It is the pnp workflow's workItemList.
-                type: list
-                elements: dict
-                suboptions:
-                    command:
-                        description:
-                        - It is the pnp workflow's command.
-                        type: str
-                    endTime:
-                        description:
-                        - It is the pnp workflow's endTime.
-                        type: int
-                    outputStr:
-                        description:
-                        - It is the pnp workflow's outputStr.
-                        type: str
-                    startTime:
-                        description:
-                        - It is the pnp workflow's startTime.
-                        type: int
-                    state:
-                        description:
-                        - It is the pnp workflow's state.
-                        type: str
-                    timeTaken:
-                        description:
-                        - It is the pnp workflow's timeTaken.
-                        type: int
+          command:
+            description:
+            - It is the pnp workflow's command.
+            type: str
+          endTime:
+            description:
+            - It is the pnp workflow's endTime.
+            type: int
+          outputStr:
+            description:
+            - It is the pnp workflow's outputStr.
+            type: str
+          startTime:
+            description:
+            - It is the pnp workflow's startTime.
+            type: int
+          state:
+            description:
+            - It is the pnp workflow's state.
+            type: str
+          timeTaken:
+            description:
+            - It is the pnp workflow's timeTaken.
+            type: int
 
 
-    tenantId:
-        description:
-        - Workflow's tenantId.
-        type: str
-    useState:
-        description:
-        - Workflow's useState.
-        type: str
-    version:
-        description:
-        - Workflow's version.
-        type: int
-    id:
-        description:
-        - Id path parameter.
-        type: str
-        required: True
-    count:
-        description:
-        - If true gets the number of objects.
-        type: bool
-        required: True
+  tenantId:
+    description:
+    - Workflow's tenantId.
+    type: str
+  useState:
+    description:
+    - Workflow's useState.
+    type: str
+  version:
+    description:
+    - Workflow's version.
+    type: int
+  id:
+    description:
+    - Id path parameter.
+    type: str
+    required: True
+  count:
+    description:
+    - If true gets the number of objects.
+    - Required for state query.
+    type: bool
 
 requirements:
 - dnacentersdk
@@ -209,957 +211,1044 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_workflows
+  cisco.dnac.pnp_workflow
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    limit: 1  #  integer
+    name: SomeValue  # string
+    offset: 1  #  integer
+    sort: SomeValue  # string
+    sort_order: SomeValue  # string
+    type: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
+- name: add_a_workflow
+  cisco.dnac.pnp_workflow
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: create  # required
+    _id: SomeValue  # string
+    addToInventory: True  # boolean
+    addedOn: 1  #  integer
+    configId: SomeValue  # string
+    currTaskIdx: 1  #  integer
+    description: SomeValue  # string
+    endTime: 1  #  integer
+    execTime: 1  #  integer
+    imageId: SomeValue  # string
+    instanceType: SomeValue  # string, valid values: 'SystemWorkflow', 'UserWorkflow', 'SystemResetWorkflow'.
+    lastupdateOn: 1  #  integer
+    name: SomeValue  # string
+    startTime: 1  #  integer
+    state: SomeValue  # string
+    tasks:
+    - currWorkItemIdx: 1  #  integer
+      endTime: 1  #  integer
+      name: SomeValue  # string
+      startTime: 1  #  integer
+      state: SomeValue  # string
+      taskSeqNo: 1  #  integer
+      timeTaken: 1  #  integer
+      type: SomeValue  # string
+      workItemList:
+      - command: SomeValue  # string
+        endTime: 1  #  integer
+        outputStr: SomeValue  # string
+        startTime: 1  #  integer
+        state: SomeValue  # string
+        timeTaken: 1  #  integer
+    tenantId: SomeValue  # string
+    type: SomeValue  # string
+    useState: SomeValue  # string
+    version: 1  #  integer
+  delegate_to: localhost
+  
+- name: get_workflow_by_id
+  cisco.dnac.pnp_workflow
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    id: SomeValue  # string, required
+  delegate_to: localhost
+  register: query_result
+  
+- name: delete_workflow_by_id
+  cisco.dnac.pnp_workflow
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: delete  # required
+    id: SomeValue  # string, required
+  delegate_to: localhost
+  
+- name: update_workflow
+  cisco.dnac.pnp_workflow
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: update  # required
+    id: SomeValue  # string, required
+    _id: SomeValue  # string
+    addToInventory: True  # boolean
+    addedOn: 1  #  integer
+    configId: SomeValue  # string
+    currTaskIdx: 1  #  integer
+    description: SomeValue  # string
+    endTime: 1  #  integer
+    execTime: 1  #  integer
+    imageId: SomeValue  # string
+    instanceType: SomeValue  # string, valid values: 'SystemWorkflow', 'UserWorkflow', 'SystemResetWorkflow'.
+    lastupdateOn: 1  #  integer
+    name: SomeValue  # string
+    startTime: 1  #  integer
+    state: SomeValue  # string
+    tasks:
+    - currWorkItemIdx: 1  #  integer
+      endTime: 1  #  integer
+      name: SomeValue  # string
+      startTime: 1  #  integer
+      state: SomeValue  # string
+      taskSeqNo: 1  #  integer
+      timeTaken: 1  #  integer
+      type: SomeValue  # string
+      workItemList:
+      - command: SomeValue  # string
+        endTime: 1  #  integer
+        outputStr: SomeValue  # string
+        startTime: 1  #  integer
+        state: SomeValue  # string
+        timeTaken: 1  #  integer
+    tenantId: SomeValue  # string
+    type: SomeValue  # string
+    useState: SomeValue  # string
+    version: 1  #  integer
+  delegate_to: localhost
+  
+- name: get_workflow_count
+  cisco.dnac.pnp_workflow
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    count: True  # boolean, required
+    name: SomeValue  # string
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_workflows:
     description: Returns the list of workflows based on filter criteria. If a limit is not specified, it will default to return 50 workflows. Pagination and sorting are also supported by this endpoint.
-    returned: success,changed,always
-    type: list
+    returned: always
+    type: dict
     contains:
+    payload:
+      description: It is the pnp workflow's payload.
+      returned: always
+      type: list
+      contains:
         _id:
-            description: It is the pnp workflow's _id.
-            returned: success,changed,always
-            type: str
-            sample: '<_id>'
+          description: It is the pnp workflow's _id.
+          returned: always
+          type: str
+          sample: '<_id>'
         state:
-            description: It is the pnp workflow's state.
-            returned: success,changed,always
-            type: str
-            sample: '<state>'
+          description: It is the pnp workflow's state.
+          returned: always
+          type: str
+          sample: '<state>'
         type:
-            description: It is the pnp workflow's type.
-            returned: success,changed,always
-            type: str
-            sample: '<type>'
+          description: It is the pnp workflow's type.
+          returned: always
+          type: str
+          sample: '<type>'
         description:
-            description: It is the pnp workflow's description.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
+          description: It is the pnp workflow's description.
+          returned: always
+          type: str
+          sample: '<description>'
         lastupdateOn:
-            description: It is the pnp workflow's lastupdateOn.
-            returned: success,changed,always
-            type: int
-            sample: 0
+          description: It is the pnp workflow's lastupdateOn.
+          returned: always
+          type: int
+          sample: 0
         imageId:
-            description: It is the pnp workflow's imageId.
-            returned: success,changed,always
-            type: str
-            sample: '<imageid>'
+          description: It is the pnp workflow's imageId.
+          returned: always
+          type: str
+          sample: '<imageid>'
         currTaskIdx:
-            description: It is the pnp workflow's currTaskIdx.
-            returned: success,changed,always
-            type: int
-            sample: 0
+          description: It is the pnp workflow's currTaskIdx.
+          returned: always
+          type: int
+          sample: 0
         addedOn:
-            description: It is the pnp workflow's addedOn.
-            returned: success,changed,always
-            type: int
-            sample: 0
+          description: It is the pnp workflow's addedOn.
+          returned: always
+          type: int
+          sample: 0
         tasks:
-            description: It is the pnp workflow's tasks.
-            returned: success,changed,always
-            type: list
-            contains:
+          description: It is the pnp workflow's tasks.
+          returned: always
+          type: list
+          contains:
+            state:
+              description: It is the pnp workflow's state.
+              returned: always
+              type: str
+              sample: '<state>'
+            type:
+              description: It is the pnp workflow's type.
+              returned: always
+              type: str
+              sample: '<type>'
+            currWorkItemIdx:
+              description: It is the pnp workflow's currWorkItemIdx.
+              returned: always
+              type: int
+              sample: 0
+            taskSeqNo:
+              description: It is the pnp workflow's taskSeqNo.
+              returned: always
+              type: int
+              sample: 0
+            endTime:
+              description: It is the pnp workflow's endTime.
+              returned: always
+              type: int
+              sample: 0
+            startTime:
+              description: It is the pnp workflow's startTime.
+              returned: always
+              type: int
+              sample: 0
+            workItemList:
+              description: It is the pnp workflow's workItemList.
+              returned: always
+              type: list
+              contains:
                 state:
-                    description: It is the pnp workflow's state.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<state>'
-                type:
-                    description: It is the pnp workflow's type.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<type>'
-                currWorkItemIdx:
-                    description: It is the pnp workflow's currWorkItemIdx.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                taskSeqNo:
-                    description: It is the pnp workflow's taskSeqNo.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
+                  description: It is the pnp workflow's state.
+                  returned: always
+                  type: str
+                  sample: '<state>'
+                command:
+                  description: It is the pnp workflow's command.
+                  returned: always
+                  type: str
+                  sample: '<command>'
+                outputStr:
+                  description: It is the pnp workflow's outputStr.
+                  returned: always
+                  type: str
+                  sample: '<outputstr>'
                 endTime:
-                    description: It is the pnp workflow's endTime.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
+                  description: It is the pnp workflow's endTime.
+                  returned: always
+                  type: int
+                  sample: 0
                 startTime:
-                    description: It is the pnp workflow's startTime.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                workItemList:
-                    description: It is the pnp workflow's workItemList.
-                    returned: success,changed,always
-                    type: list
-                    contains:
-                        state:
-                            description: It is the pnp workflow's state.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<state>'
-                        command:
-                            description: It is the pnp workflow's command.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<command>'
-                        outputStr:
-                            description: It is the pnp workflow's outputStr.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<outputstr>'
-                        endTime:
-                            description: It is the pnp workflow's endTime.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        startTime:
-                            description: It is the pnp workflow's startTime.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        timeTaken:
-                            description: It is the pnp workflow's timeTaken.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-
+                  description: It is the pnp workflow's startTime.
+                  returned: always
+                  type: int
+                  sample: 0
                 timeTaken:
-                    description: It is the pnp workflow's timeTaken.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                name:
-                    description: It is the pnp workflow's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
+                  description: It is the pnp workflow's timeTaken.
+                  returned: always
+                  type: int
+                  sample: 0
+
+            timeTaken:
+              description: It is the pnp workflow's timeTaken.
+              returned: always
+              type: int
+              sample: 0
+            name:
+              description: It is the pnp workflow's name.
+              returned: always
+              type: str
+              sample: '<name>'
 
         addToInventory:
-            description: It is the pnp workflow's addToInventory.
-            returned: success,changed,always
-            type: bool
-            sample: false
+          description: It is the pnp workflow's addToInventory.
+          returned: always
+          type: bool
+          sample: false
         instanceType:
-            description: It is the pnp workflow's instanceType.
-            returned: success,changed,always
-            type: str
-            sample: '<instancetype>'
+          description: It is the pnp workflow's instanceType.
+          returned: always
+          type: str
+          sample: '<instancetype>'
         endTime:
-            description: It is the pnp workflow's endTime.
-            returned: success,changed,always
-            type: int
-            sample: 0
+          description: It is the pnp workflow's endTime.
+          returned: always
+          type: int
+          sample: 0
         execTime:
-            description: It is the pnp workflow's execTime.
-            returned: success,changed,always
-            type: int
-            sample: 0
+          description: It is the pnp workflow's execTime.
+          returned: always
+          type: int
+          sample: 0
         startTime:
-            description: It is the pnp workflow's startTime.
-            returned: success,changed,always
-            type: int
-            sample: 0
+          description: It is the pnp workflow's startTime.
+          returned: always
+          type: int
+          sample: 0
         useState:
-            description: It is the pnp workflow's useState.
-            returned: success,changed,always
-            type: str
-            sample: '<usestate>'
+          description: It is the pnp workflow's useState.
+          returned: always
+          type: str
+          sample: '<usestate>'
         configId:
-            description: It is the pnp workflow's configId.
-            returned: success,changed,always
-            type: str
-            sample: '<configid>'
+          description: It is the pnp workflow's configId.
+          returned: always
+          type: str
+          sample: '<configid>'
         name:
-            description: It is the pnp workflow's name.
-            returned: success,changed,always
-            type: str
-            sample: '<name>'
+          description: It is the pnp workflow's name.
+          returned: always
+          type: str
+          sample: '<name>'
         version:
-            description: It is the pnp workflow's version.
-            returned: success,changed,always
-            type: int
-            sample: 0
+          description: It is the pnp workflow's version.
+          returned: always
+          type: int
+          sample: 0
         tenantId:
-            description: It is the pnp workflow's tenantId.
-            returned: success,changed,always
-            type: str
-            sample: '<tenantid>'
+          description: It is the pnp workflow's tenantId.
+          returned: always
+          type: str
+          sample: '<tenantid>'
 
 
-data_1:
+add_a_workflow:
     description: Adds a PnP Workflow along with the relevant tasks in the workflow into the PnP database.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        _id:
-            description: Workflow's Id.
-            returned: success,changed,always
-            type: str
-            sample: '<_id>'
+    _id:
+      description: Workflow's Id.
+      returned: success
+      type: str
+      sample: '<_id>'
+    state:
+      description: Workflow's State.
+      returned: success
+      type: str
+      sample: '<state>'
+    type:
+      description: Workflow's Type.
+      returned: success
+      type: str
+      sample: '<type>'
+    description:
+      description: Workflow's Description.
+      returned: success
+      type: str
+      sample: '<description>'
+    lastupdateOn:
+      description: Workflow's lastupdateOn.
+      returned: success
+      type: int
+      sample: 0
+    imageId:
+      description: Workflow's Image Id.
+      returned: success
+      type: str
+      sample: '<imageid>'
+    currTaskIdx:
+      description: Workflow's currTaskIdx.
+      returned: success
+      type: int
+      sample: 0
+    addedOn:
+      description: Workflow's addedOn.
+      returned: success
+      type: int
+      sample: 0
+    tasks:
+      description: Workflow's Tasks (list of objects).
+      returned: success
+      type: list
+      contains:
         state:
-            description: Workflow's State.
-            returned: success,changed,always
-            type: str
-            sample: '<state>'
+          description: It is the pnp workflow's state.
+          returned: success
+          type: str
+          sample: '<state>'
         type:
-            description: Workflow's Type.
-            returned: success,changed,always
-            type: str
-            sample: '<type>'
-        description:
-            description: Workflow's Description.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        lastupdateOn:
-            description: Workflow's lastupdateOn.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        imageId:
-            description: Workflow's Image Id.
-            returned: success,changed,always
-            type: str
-            sample: '<imageid>'
-        currTaskIdx:
-            description: Workflow's currTaskIdx.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        addedOn:
-            description: Workflow's addedOn.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        tasks:
-            description: Workflow's Tasks (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                state:
-                    description: It is the pnp workflow's state.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<state>'
-                type:
-                    description: It is the pnp workflow's type.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<type>'
-                currWorkItemIdx:
-                    description: It is the pnp workflow's currWorkItemIdx.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                taskSeqNo:
-                    description: It is the pnp workflow's taskSeqNo.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                endTime:
-                    description: It is the pnp workflow's endTime.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                startTime:
-                    description: It is the pnp workflow's startTime.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                workItemList:
-                    description: It is the pnp workflow's workItemList.
-                    returned: success,changed,always
-                    type: list
-                    contains:
-                        state:
-                            description: It is the pnp workflow's state.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<state>'
-                        command:
-                            description: It is the pnp workflow's command.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<command>'
-                        outputStr:
-                            description: It is the pnp workflow's outputStr.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<outputstr>'
-                        endTime:
-                            description: It is the pnp workflow's endTime.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        startTime:
-                            description: It is the pnp workflow's startTime.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        timeTaken:
-                            description: It is the pnp workflow's timeTaken.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-
-                timeTaken:
-                    description: It is the pnp workflow's timeTaken.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                name:
-                    description: It is the pnp workflow's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
-
-        addToInventory:
-            description: Workflow's addToInventory.
-            returned: success,changed,always
-            type: bool
-            sample: false
-        instanceType:
-            description: Workflow's Instance Type.
-            returned: success,changed,always
-            type: str
-            sample: '<instancetype>'
+          description: It is the pnp workflow's type.
+          returned: success
+          type: str
+          sample: '<type>'
+        currWorkItemIdx:
+          description: It is the pnp workflow's currWorkItemIdx.
+          returned: success
+          type: int
+          sample: 0
+        taskSeqNo:
+          description: It is the pnp workflow's taskSeqNo.
+          returned: success
+          type: int
+          sample: 0
         endTime:
-            description: Workflow's endTime.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        execTime:
-            description: Workflow's execTime.
-            returned: success,changed,always
-            type: int
-            sample: 0
+          description: It is the pnp workflow's endTime.
+          returned: success
+          type: int
+          sample: 0
         startTime:
-            description: Workflow's startTime.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        useState:
-            description: Workflow's Use State.
-            returned: success,changed,always
-            type: str
-            sample: '<usestate>'
-        configId:
-            description: Workflow's Config Id.
-            returned: success,changed,always
-            type: str
-            sample: '<configid>'
-        name:
-            description: Workflow's Name.
-            returned: success,changed,always
-            type: str
-            sample: '<name>'
-        version:
-            description: Workflow's version.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        tenantId:
-            description: Workflow's Tenant Id.
-            returned: success,changed,always
-            type: str
-            sample: '<tenantid>'
+          description: It is the pnp workflow's startTime.
+          returned: success
+          type: int
+          sample: 0
+        workItemList:
+          description: It is the pnp workflow's workItemList.
+          returned: success
+          type: list
+          contains:
+            state:
+              description: It is the pnp workflow's state.
+              returned: success
+              type: str
+              sample: '<state>'
+            command:
+              description: It is the pnp workflow's command.
+              returned: success
+              type: str
+              sample: '<command>'
+            outputStr:
+              description: It is the pnp workflow's outputStr.
+              returned: success
+              type: str
+              sample: '<outputstr>'
+            endTime:
+              description: It is the pnp workflow's endTime.
+              returned: success
+              type: int
+              sample: 0
+            startTime:
+              description: It is the pnp workflow's startTime.
+              returned: success
+              type: int
+              sample: 0
+            timeTaken:
+              description: It is the pnp workflow's timeTaken.
+              returned: success
+              type: int
+              sample: 0
 
-data_2:
+        timeTaken:
+          description: It is the pnp workflow's timeTaken.
+          returned: success
+          type: int
+          sample: 0
+        name:
+          description: It is the pnp workflow's name.
+          returned: success
+          type: str
+          sample: '<name>'
+
+    addToInventory:
+      description: Workflow's addToInventory.
+      returned: success
+      type: bool
+      sample: false
+    instanceType:
+      description: Workflow's Instance Type.
+      returned: success
+      type: str
+      sample: '<instancetype>'
+    endTime:
+      description: Workflow's endTime.
+      returned: success
+      type: int
+      sample: 0
+    execTime:
+      description: Workflow's execTime.
+      returned: success
+      type: int
+      sample: 0
+    startTime:
+      description: Workflow's startTime.
+      returned: success
+      type: int
+      sample: 0
+    useState:
+      description: Workflow's Use State.
+      returned: success
+      type: str
+      sample: '<usestate>'
+    configId:
+      description: Workflow's Config Id.
+      returned: success
+      type: str
+      sample: '<configid>'
+    name:
+      description: Workflow's Name.
+      returned: success
+      type: str
+      sample: '<name>'
+    version:
+      description: Workflow's version.
+      returned: success
+      type: int
+      sample: 0
+    tenantId:
+      description: Workflow's Tenant Id.
+      returned: success
+      type: str
+      sample: '<tenantid>'
+
+get_workflow_by_id:
     description: Returns a workflow specified by id.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        _id:
-            description: Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<_id>'
+    _id:
+      description: Id, property of the response body.
+      returned: always
+      type: str
+      sample: '<_id>'
+    state:
+      description: State, property of the response body.
+      returned: always
+      type: str
+      sample: '<state>'
+    type:
+      description: Type, property of the response body.
+      returned: always
+      type: str
+      sample: '<type>'
+    description:
+      description: Description, property of the response body.
+      returned: always
+      type: str
+      sample: '<description>'
+    lastupdateOn:
+      description: LastupdateOn, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    imageId:
+      description: Image Id, property of the response body.
+      returned: always
+      type: str
+      sample: '<imageid>'
+    currTaskIdx:
+      description: CurrTaskIdx, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    addedOn:
+      description: AddedOn, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    tasks:
+      description: Tasks, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
         state:
-            description: State, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<state>'
+          description: It is the pnp workflow's state.
+          returned: always
+          type: str
+          sample: '<state>'
         type:
-            description: Type, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<type>'
-        description:
-            description: Description, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        lastupdateOn:
-            description: LastupdateOn, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        imageId:
-            description: Image Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<imageid>'
-        currTaskIdx:
-            description: CurrTaskIdx, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        addedOn:
-            description: AddedOn, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        tasks:
-            description: Tasks, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                state:
-                    description: It is the pnp workflow's state.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<state>'
-                type:
-                    description: It is the pnp workflow's type.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<type>'
-                currWorkItemIdx:
-                    description: It is the pnp workflow's currWorkItemIdx.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                taskSeqNo:
-                    description: It is the pnp workflow's taskSeqNo.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                endTime:
-                    description: It is the pnp workflow's endTime.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                startTime:
-                    description: It is the pnp workflow's startTime.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                workItemList:
-                    description: It is the pnp workflow's workItemList.
-                    returned: success,changed,always
-                    type: list
-                    contains:
-                        state:
-                            description: It is the pnp workflow's state.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<state>'
-                        command:
-                            description: It is the pnp workflow's command.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<command>'
-                        outputStr:
-                            description: It is the pnp workflow's outputStr.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<outputstr>'
-                        endTime:
-                            description: It is the pnp workflow's endTime.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        startTime:
-                            description: It is the pnp workflow's startTime.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        timeTaken:
-                            description: It is the pnp workflow's timeTaken.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-
-                timeTaken:
-                    description: It is the pnp workflow's timeTaken.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                name:
-                    description: It is the pnp workflow's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
-
-        addToInventory:
-            description: AddToInventory, property of the response body.
-            returned: success,changed,always
-            type: bool
-            sample: false
-        instanceType:
-            description: Instance Type, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<instancetype>'
+          description: It is the pnp workflow's type.
+          returned: always
+          type: str
+          sample: '<type>'
+        currWorkItemIdx:
+          description: It is the pnp workflow's currWorkItemIdx.
+          returned: always
+          type: int
+          sample: 0
+        taskSeqNo:
+          description: It is the pnp workflow's taskSeqNo.
+          returned: always
+          type: int
+          sample: 0
         endTime:
-            description: EndTime, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        execTime:
-            description: ExecTime, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
+          description: It is the pnp workflow's endTime.
+          returned: always
+          type: int
+          sample: 0
         startTime:
-            description: StartTime, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        useState:
-            description: Use State, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<usestate>'
-        configId:
-            description: Config Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<configid>'
-        name:
-            description: Name, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<name>'
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        tenantId:
-            description: Tenant Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<tenantid>'
+          description: It is the pnp workflow's startTime.
+          returned: always
+          type: int
+          sample: 0
+        workItemList:
+          description: It is the pnp workflow's workItemList.
+          returned: always
+          type: list
+          contains:
+            state:
+              description: It is the pnp workflow's state.
+              returned: always
+              type: str
+              sample: '<state>'
+            command:
+              description: It is the pnp workflow's command.
+              returned: always
+              type: str
+              sample: '<command>'
+            outputStr:
+              description: It is the pnp workflow's outputStr.
+              returned: always
+              type: str
+              sample: '<outputstr>'
+            endTime:
+              description: It is the pnp workflow's endTime.
+              returned: always
+              type: int
+              sample: 0
+            startTime:
+              description: It is the pnp workflow's startTime.
+              returned: always
+              type: int
+              sample: 0
+            timeTaken:
+              description: It is the pnp workflow's timeTaken.
+              returned: always
+              type: int
+              sample: 0
 
-data_3:
+        timeTaken:
+          description: It is the pnp workflow's timeTaken.
+          returned: always
+          type: int
+          sample: 0
+        name:
+          description: It is the pnp workflow's name.
+          returned: always
+          type: str
+          sample: '<name>'
+
+    addToInventory:
+      description: AddToInventory, property of the response body.
+      returned: always
+      type: bool
+      sample: false
+    instanceType:
+      description: Instance Type, property of the response body.
+      returned: always
+      type: str
+      sample: '<instancetype>'
+    endTime:
+      description: EndTime, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    execTime:
+      description: ExecTime, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    startTime:
+      description: StartTime, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    useState:
+      description: Use State, property of the response body.
+      returned: always
+      type: str
+      sample: '<usestate>'
+    configId:
+      description: Config Id, property of the response body.
+      returned: always
+      type: str
+      sample: '<configid>'
+    name:
+      description: Name, property of the response body.
+      returned: always
+      type: str
+      sample: '<name>'
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    tenantId:
+      description: Tenant Id, property of the response body.
+      returned: always
+      type: str
+      sample: '<tenantid>'
+
+delete_workflow_by_id:
     description: Deletes a workflow specified by id.
-    returned: success,changed,always
+    returned: success
     type: dict
     contains:
-        _id:
-            description: Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<_id>'
+    _id:
+      description: Id, property of the response body.
+      returned: success
+      type: str
+      sample: '<_id>'
+    state:
+      description: State, property of the response body.
+      returned: success
+      type: str
+      sample: '<state>'
+    type:
+      description: Type, property of the response body.
+      returned: success
+      type: str
+      sample: '<type>'
+    description:
+      description: Description, property of the response body.
+      returned: success
+      type: str
+      sample: '<description>'
+    lastupdateOn:
+      description: LastupdateOn, property of the response body.
+      returned: success
+      type: int
+      sample: 0
+    imageId:
+      description: Image Id, property of the response body.
+      returned: success
+      type: str
+      sample: '<imageid>'
+    currTaskIdx:
+      description: CurrTaskIdx, property of the response body.
+      returned: success
+      type: int
+      sample: 0
+    addedOn:
+      description: AddedOn, property of the response body.
+      returned: success
+      type: int
+      sample: 0
+    tasks:
+      description: Tasks, property of the response body (list of objects).
+      returned: success
+      type: list
+      contains:
         state:
-            description: State, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<state>'
+          description: It is the pnp workflow's state.
+          returned: success
+          type: str
+          sample: '<state>'
         type:
-            description: Type, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<type>'
-        description:
-            description: Description, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        lastupdateOn:
-            description: LastupdateOn, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        imageId:
-            description: Image Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<imageid>'
-        currTaskIdx:
-            description: CurrTaskIdx, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        addedOn:
-            description: AddedOn, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        tasks:
-            description: Tasks, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                state:
-                    description: It is the pnp workflow's state.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<state>'
-                type:
-                    description: It is the pnp workflow's type.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<type>'
-                currWorkItemIdx:
-                    description: It is the pnp workflow's currWorkItemIdx.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                taskSeqNo:
-                    description: It is the pnp workflow's taskSeqNo.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                endTime:
-                    description: It is the pnp workflow's endTime.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                startTime:
-                    description: It is the pnp workflow's startTime.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                workItemList:
-                    description: It is the pnp workflow's workItemList.
-                    returned: success,changed,always
-                    type: list
-                    contains:
-                        state:
-                            description: It is the pnp workflow's state.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<state>'
-                        command:
-                            description: It is the pnp workflow's command.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<command>'
-                        outputStr:
-                            description: It is the pnp workflow's outputStr.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<outputstr>'
-                        endTime:
-                            description: It is the pnp workflow's endTime.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        startTime:
-                            description: It is the pnp workflow's startTime.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        timeTaken:
-                            description: It is the pnp workflow's timeTaken.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-
-                timeTaken:
-                    description: It is the pnp workflow's timeTaken.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                name:
-                    description: It is the pnp workflow's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
-
-        addToInventory:
-            description: AddToInventory, property of the response body.
-            returned: success,changed,always
-            type: bool
-            sample: false
-        instanceType:
-            description: Instance Type, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<instancetype>'
+          description: It is the pnp workflow's type.
+          returned: success
+          type: str
+          sample: '<type>'
+        currWorkItemIdx:
+          description: It is the pnp workflow's currWorkItemIdx.
+          returned: success
+          type: int
+          sample: 0
+        taskSeqNo:
+          description: It is the pnp workflow's taskSeqNo.
+          returned: success
+          type: int
+          sample: 0
         endTime:
-            description: EndTime, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        execTime:
-            description: ExecTime, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
+          description: It is the pnp workflow's endTime.
+          returned: success
+          type: int
+          sample: 0
         startTime:
-            description: StartTime, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        useState:
-            description: Use State, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<usestate>'
-        configId:
-            description: Config Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<configid>'
-        name:
-            description: Name, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<name>'
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        tenantId:
-            description: Tenant Id, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<tenantid>'
+          description: It is the pnp workflow's startTime.
+          returned: success
+          type: int
+          sample: 0
+        workItemList:
+          description: It is the pnp workflow's workItemList.
+          returned: success
+          type: list
+          contains:
+            state:
+              description: It is the pnp workflow's state.
+              returned: success
+              type: str
+              sample: '<state>'
+            command:
+              description: It is the pnp workflow's command.
+              returned: success
+              type: str
+              sample: '<command>'
+            outputStr:
+              description: It is the pnp workflow's outputStr.
+              returned: success
+              type: str
+              sample: '<outputstr>'
+            endTime:
+              description: It is the pnp workflow's endTime.
+              returned: success
+              type: int
+              sample: 0
+            startTime:
+              description: It is the pnp workflow's startTime.
+              returned: success
+              type: int
+              sample: 0
+            timeTaken:
+              description: It is the pnp workflow's timeTaken.
+              returned: success
+              type: int
+              sample: 0
 
-data_4:
+        timeTaken:
+          description: It is the pnp workflow's timeTaken.
+          returned: success
+          type: int
+          sample: 0
+        name:
+          description: It is the pnp workflow's name.
+          returned: success
+          type: str
+          sample: '<name>'
+
+    addToInventory:
+      description: AddToInventory, property of the response body.
+      returned: success
+      type: bool
+      sample: false
+    instanceType:
+      description: Instance Type, property of the response body.
+      returned: success
+      type: str
+      sample: '<instancetype>'
+    endTime:
+      description: EndTime, property of the response body.
+      returned: success
+      type: int
+      sample: 0
+    execTime:
+      description: ExecTime, property of the response body.
+      returned: success
+      type: int
+      sample: 0
+    startTime:
+      description: StartTime, property of the response body.
+      returned: success
+      type: int
+      sample: 0
+    useState:
+      description: Use State, property of the response body.
+      returned: success
+      type: str
+      sample: '<usestate>'
+    configId:
+      description: Config Id, property of the response body.
+      returned: success
+      type: str
+      sample: '<configid>'
+    name:
+      description: Name, property of the response body.
+      returned: success
+      type: str
+      sample: '<name>'
+    version:
+      description: Version, property of the response body.
+      returned: success
+      type: int
+      sample: 0
+    tenantId:
+      description: Tenant Id, property of the response body.
+      returned: success
+      type: str
+      sample: '<tenantid>'
+
+update_workflow:
     description: Updates an existing workflow.
-    returned: success,changed,always
+    returned: changed
     type: dict
     contains:
-        _id:
-            description: Workflow's Id.
-            returned: success,changed,always
-            type: str
-            sample: '<_id>'
+    _id:
+      description: Workflow's Id.
+      returned: changed
+      type: str
+      sample: '<_id>'
+    state:
+      description: Workflow's State.
+      returned: changed
+      type: str
+      sample: '<state>'
+    type:
+      description: Workflow's Type.
+      returned: changed
+      type: str
+      sample: '<type>'
+    description:
+      description: Workflow's Description.
+      returned: changed
+      type: str
+      sample: '<description>'
+    lastupdateOn:
+      description: Workflow's lastupdateOn.
+      returned: changed
+      type: int
+      sample: 0
+    imageId:
+      description: Workflow's Image Id.
+      returned: changed
+      type: str
+      sample: '<imageid>'
+    currTaskIdx:
+      description: Workflow's currTaskIdx.
+      returned: changed
+      type: int
+      sample: 0
+    addedOn:
+      description: Workflow's addedOn.
+      returned: changed
+      type: int
+      sample: 0
+    tasks:
+      description: Workflow's Tasks (list of objects).
+      returned: changed
+      type: list
+      contains:
         state:
-            description: Workflow's State.
-            returned: success,changed,always
-            type: str
-            sample: '<state>'
+          description: It is the pnp workflow's state.
+          returned: changed
+          type: str
+          sample: '<state>'
         type:
-            description: Workflow's Type.
-            returned: success,changed,always
-            type: str
-            sample: '<type>'
-        description:
-            description: Workflow's Description.
-            returned: success,changed,always
-            type: str
-            sample: '<description>'
-        lastupdateOn:
-            description: Workflow's lastupdateOn.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        imageId:
-            description: Workflow's Image Id.
-            returned: success,changed,always
-            type: str
-            sample: '<imageid>'
-        currTaskIdx:
-            description: Workflow's currTaskIdx.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        addedOn:
-            description: Workflow's addedOn.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        tasks:
-            description: Workflow's Tasks (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                state:
-                    description: It is the pnp workflow's state.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<state>'
-                type:
-                    description: It is the pnp workflow's type.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<type>'
-                currWorkItemIdx:
-                    description: It is the pnp workflow's currWorkItemIdx.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                taskSeqNo:
-                    description: It is the pnp workflow's taskSeqNo.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                endTime:
-                    description: It is the pnp workflow's endTime.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                startTime:
-                    description: It is the pnp workflow's startTime.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                workItemList:
-                    description: It is the pnp workflow's workItemList.
-                    returned: success,changed,always
-                    type: list
-                    contains:
-                        state:
-                            description: It is the pnp workflow's state.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<state>'
-                        command:
-                            description: It is the pnp workflow's command.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<command>'
-                        outputStr:
-                            description: It is the pnp workflow's outputStr.
-                            returned: success,changed,always
-                            type: str
-                            sample: '<outputstr>'
-                        endTime:
-                            description: It is the pnp workflow's endTime.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        startTime:
-                            description: It is the pnp workflow's startTime.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-                        timeTaken:
-                            description: It is the pnp workflow's timeTaken.
-                            returned: success,changed,always
-                            type: int
-                            sample: 0
-
-                timeTaken:
-                    description: It is the pnp workflow's timeTaken.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                name:
-                    description: It is the pnp workflow's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
-
-        addToInventory:
-            description: Workflow's addToInventory.
-            returned: success,changed,always
-            type: bool
-            sample: false
-        instanceType:
-            description: Workflow's Instance Type.
-            returned: success,changed,always
-            type: str
-            sample: '<instancetype>'
+          description: It is the pnp workflow's type.
+          returned: changed
+          type: str
+          sample: '<type>'
+        currWorkItemIdx:
+          description: It is the pnp workflow's currWorkItemIdx.
+          returned: changed
+          type: int
+          sample: 0
+        taskSeqNo:
+          description: It is the pnp workflow's taskSeqNo.
+          returned: changed
+          type: int
+          sample: 0
         endTime:
-            description: Workflow's endTime.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        execTime:
-            description: Workflow's execTime.
-            returned: success,changed,always
-            type: int
-            sample: 0
+          description: It is the pnp workflow's endTime.
+          returned: changed
+          type: int
+          sample: 0
         startTime:
-            description: Workflow's startTime.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        useState:
-            description: Workflow's Use State.
-            returned: success,changed,always
-            type: str
-            sample: '<usestate>'
-        configId:
-            description: Workflow's Config Id.
-            returned: success,changed,always
-            type: str
-            sample: '<configid>'
-        name:
-            description: Workflow's Name.
-            returned: success,changed,always
-            type: str
-            sample: '<name>'
-        version:
-            description: Workflow's version.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        tenantId:
-            description: Workflow's Tenant Id.
-            returned: success,changed,always
-            type: str
-            sample: '<tenantid>'
+          description: It is the pnp workflow's startTime.
+          returned: changed
+          type: int
+          sample: 0
+        workItemList:
+          description: It is the pnp workflow's workItemList.
+          returned: changed
+          type: list
+          contains:
+            state:
+              description: It is the pnp workflow's state.
+              returned: changed
+              type: str
+              sample: '<state>'
+            command:
+              description: It is the pnp workflow's command.
+              returned: changed
+              type: str
+              sample: '<command>'
+            outputStr:
+              description: It is the pnp workflow's outputStr.
+              returned: changed
+              type: str
+              sample: '<outputstr>'
+            endTime:
+              description: It is the pnp workflow's endTime.
+              returned: changed
+              type: int
+              sample: 0
+            startTime:
+              description: It is the pnp workflow's startTime.
+              returned: changed
+              type: int
+              sample: 0
+            timeTaken:
+              description: It is the pnp workflow's timeTaken.
+              returned: changed
+              type: int
+              sample: 0
 
-data_5:
+        timeTaken:
+          description: It is the pnp workflow's timeTaken.
+          returned: changed
+          type: int
+          sample: 0
+        name:
+          description: It is the pnp workflow's name.
+          returned: changed
+          type: str
+          sample: '<name>'
+
+    addToInventory:
+      description: Workflow's addToInventory.
+      returned: changed
+      type: bool
+      sample: false
+    instanceType:
+      description: Workflow's Instance Type.
+      returned: changed
+      type: str
+      sample: '<instancetype>'
+    endTime:
+      description: Workflow's endTime.
+      returned: changed
+      type: int
+      sample: 0
+    execTime:
+      description: Workflow's execTime.
+      returned: changed
+      type: int
+      sample: 0
+    startTime:
+      description: Workflow's startTime.
+      returned: changed
+      type: int
+      sample: 0
+    useState:
+      description: Workflow's Use State.
+      returned: changed
+      type: str
+      sample: '<usestate>'
+    configId:
+      description: Workflow's Config Id.
+      returned: changed
+      type: str
+      sample: '<configid>'
+    name:
+      description: Workflow's Name.
+      returned: changed
+      type: str
+      sample: '<name>'
+    version:
+      description: Workflow's version.
+      returned: changed
+      type: int
+      sample: 0
+    tenantId:
+      description: Workflow's Tenant Id.
+      returned: changed
+      type: str
+      sample: '<tenantid>'
+
+get_workflow_count:
     description: Returns the workflow count.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
+    response:
+      description: Response, property of the response body.
+      returned: always
+      type: int
+      sample: 0
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.pnp_workflow import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    elif state == "delete":
-        dnac.exec("delete")
-
-    elif state == "create":
-        dnac.disable_validation()
-        dnac.exec("post")
-
-    elif state == "update":
-        dnac.disable_validation()
-        dnac.exec("put")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

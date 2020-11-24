@@ -19,10 +19,10 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    timestamp:
-        description:
-        - Epoch time(in milliseconds) when the Network health data is required.
-        type: int
+  timestamp:
+    description:
+    - Epoch time(in milliseconds) when the Network health data is required.
+    type: int
 
 requirements:
 - dnacentersdk
@@ -40,204 +40,177 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_overall_network_health
+  cisco.dnac.network_health
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    timestamp: 1  #  integer
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_overall_network_health:
     description: Returns Overall Network Health information by Device category (Access, Distribution, Core, Router, Wireless) for any given point of time.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
-        response:
-            description: Response, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                time:
-                    description: It is the network health's time.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<time>'
-                healthScore:
-                    description: It is the network health's healthScore.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                totalCount:
-                    description: It is the network health's totalCount.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                goodCount:
-                    description: It is the network health's goodCount.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                unmonCount:
-                    description: It is the network health's unmonCount.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                fairCount:
-                    description: It is the network health's fairCount.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                badCount:
-                    description: It is the network health's badCount.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                entity:
-                    description: It is the network health's entity.
-                    returned: success,changed,always
-                    type: dict
-                timeinMillis:
-                    description: It is the network health's timeinMillis.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
+    response:
+      description: Response, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
+        time:
+          description: It is the network health's time.
+          returned: always
+          type: str
+          sample: '<time>'
+        healthScore:
+          description: It is the network health's healthScore.
+          returned: always
+          type: int
+          sample: 0
+        totalCount:
+          description: It is the network health's totalCount.
+          returned: always
+          type: int
+          sample: 0
+        goodCount:
+          description: It is the network health's goodCount.
+          returned: always
+          type: int
+          sample: 0
+        unmonCount:
+          description: It is the network health's unmonCount.
+          returned: always
+          type: int
+          sample: 0
+        fairCount:
+          description: It is the network health's fairCount.
+          returned: always
+          type: int
+          sample: 0
+        badCount:
+          description: It is the network health's badCount.
+          returned: always
+          type: int
+          sample: 0
+        entity:
+          description: It is the network health's entity.
+          returned: always
+          type: dict
+        timeinMillis:
+          description: It is the network health's timeinMillis.
+          returned: always
+          type: int
+          sample: 0
 
-        measuredBy:
-            description: Measured By, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '<measuredby>'
-        latestMeasuredByEntity:
-            description: Latest Measured By Entity, property of the response body.
-            returned: success,changed,always
-            type: dict
-        latestHealthScore:
-            description: LatestHealthScore, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        monitoredDevices:
-            description: MonitoredDevices, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        monitoredHealthyDevices:
-            description: MonitoredHealthyDevices, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        monitoredUnHealthyDevices:
-            description: MonitoredUnHealthyDevices, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        unMonitoredDevices:
-            description: UnMonitoredDevices, property of the response body.
-            returned: success,changed,always
-            type: int
-            sample: 0
-        healthDistirubution:
-            description: Health Distirubution, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                category:
-                    description: It is the network health's category.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<category>'
-                totalCount:
-                    description: It is the network health's totalCount.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                healthScore:
-                    description: It is the network health's healthScore.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                goodPercentage:
-                    description: It is the network health's goodPercentage.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                badPercentage:
-                    description: It is the network health's badPercentage.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                fairPercentage:
-                    description: It is the network health's fairPercentage.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                unmonPercentage:
-                    description: It is the network health's unmonPercentage.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                goodCount:
-                    description: It is the network health's goodCount.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                badCount:
-                    description: It is the network health's badCount.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                fairCount:
-                    description: It is the network health's fairCount.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                unmonCount:
-                    description: It is the network health's unmonCount.
-                    returned: success,changed,always
-                    type: int
-                    sample: 0
-                kpiMetrics:
-                    description: It is the network health's kpiMetrics.
-                    returned: success,changed,always
-                    type: list
+    measuredBy:
+      description: Measured By, property of the response body.
+      returned: always
+      type: str
+      sample: '<measuredby>'
+    latestMeasuredByEntity:
+      description: Latest Measured By Entity, property of the response body.
+      returned: always
+      type: dict
+    latestHealthScore:
+      description: LatestHealthScore, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    monitoredDevices:
+      description: MonitoredDevices, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    monitoredHealthyDevices:
+      description: MonitoredHealthyDevices, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    monitoredUnHealthyDevices:
+      description: MonitoredUnHealthyDevices, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    unMonitoredDevices:
+      description: UnMonitoredDevices, property of the response body.
+      returned: always
+      type: int
+      sample: 0
+    healthDistirubution:
+      description: Health Distirubution, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
+        category:
+          description: It is the network health's category.
+          returned: always
+          type: str
+          sample: '<category>'
+        totalCount:
+          description: It is the network health's totalCount.
+          returned: always
+          type: int
+          sample: 0
+        healthScore:
+          description: It is the network health's healthScore.
+          returned: always
+          type: int
+          sample: 0
+        goodPercentage:
+          description: It is the network health's goodPercentage.
+          returned: always
+          type: int
+          sample: 0
+        badPercentage:
+          description: It is the network health's badPercentage.
+          returned: always
+          type: int
+          sample: 0
+        fairPercentage:
+          description: It is the network health's fairPercentage.
+          returned: always
+          type: int
+          sample: 0
+        unmonPercentage:
+          description: It is the network health's unmonPercentage.
+          returned: always
+          type: int
+          sample: 0
+        goodCount:
+          description: It is the network health's goodCount.
+          returned: always
+          type: int
+          sample: 0
+        badCount:
+          description: It is the network health's badCount.
+          returned: always
+          type: int
+          sample: 0
+        fairCount:
+          description: It is the network health's fairCount.
+          returned: always
+          type: int
+          sample: 0
+        unmonCount:
+          description: It is the network health's unmonCount.
+          returned: always
+          type: int
+          sample: 0
+        kpiMetrics:
+          description: It is the network health's kpiMetrics.
+          returned: always
+          type: list
 
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_health import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()

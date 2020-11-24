@@ -20,11 +20,11 @@ description:
 version_added: '1.0'
 author: first last (@GitHubID)
 options:
-    name_space:
-        description:
-        - A listing of fileId's.
-        type: str
-        required: True
+  name_space:
+    description:
+    - A listing of fileId's.
+    type: str
+    required: True
 
 requirements:
 - dnacentersdk
@@ -42,133 +42,116 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: get_list_of_available_namespaces
+  cisco.dnac.file_namespace
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+
+  delegate_to: localhost
+  register: query_result
+  
+- name: get_list_of_files
+  cisco.dnac.file_namespace
+    dnac_host: dnac
+    dnac_username: admin
+    dnac_password: SomeSecretPassword
+    state: query  # required
+    name_space: SomeValue  # string, required
+  delegate_to: localhost
+  register: query_result
+  
 """
 
-RETURN = r"""
-data_0:
+RETURN = """
+get_list_of_available_namespaces:
     description: Returns list of available namespaces.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body (list of strings).
-            returned: success,changed,always
-            type: list
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    response:
+      description: Response, property of the response body (list of strings).
+      returned: always
+      type: list
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
-data_1:
+get_list_of_files:
     description: Returns list of files under a specific namespace.
-    returned: success,changed,always
+    returned: always
     type: dict
     contains:
-        response:
-            description: Response, property of the response body (list of objects).
-            returned: success,changed,always
-            type: list
-            contains:
-                attributeInfo:
-                    description: It is the file namespace's attributeInfo.
-                    returned: success,changed,always
-                    type: dict
-                downloadPath:
-                    description: It is the file namespace's downloadPath.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<downloadpath>'
-                encrypted:
-                    description: It is the file namespace's encrypted.
-                    returned: success,changed,always
-                    type: bool
-                    sample: false
-                fileFormat:
-                    description: It is the file namespace's fileFormat.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<fileformat>'
-                fileSize:
-                    description: It is the file namespace's fileSize.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<filesize>'
-                id:
-                    description: It is the file namespace's id.
-                    returned: success,changed,always
-                    type: str
-                    sample: '478012'
-                md5Checksum:
-                    description: It is the file namespace's md5Checksum.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<md5checksum>'
-                name:
-                    description: It is the file namespace's name.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<name>'
-                nameSpace:
-                    description: It is the file namespace's nameSpace.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<namespace>'
-                sftpServerList:
-                    description: It is the file namespace's sftpServerList.
-                    returned: success,changed,always
-                    type: list
-                sha1Checksum:
-                    description: It is the file namespace's sha1Checksum.
-                    returned: success,changed,always
-                    type: str
-                    sample: '<sha1checksum>'
-                taskId:
-                    description: It is the file namespace's taskId.
-                    returned: success,changed,always
-                    type: dict
+    response:
+      description: Response, property of the response body (list of objects).
+      returned: always
+      type: list
+      contains:
+        attributeInfo:
+          description: It is the file namespace's attributeInfo.
+          returned: always
+          type: dict
+        downloadPath:
+          description: It is the file namespace's downloadPath.
+          returned: always
+          type: str
+          sample: '<downloadpath>'
+        encrypted:
+          description: It is the file namespace's encrypted.
+          returned: always
+          type: bool
+          sample: false
+        fileFormat:
+          description: It is the file namespace's fileFormat.
+          returned: always
+          type: str
+          sample: '<fileformat>'
+        fileSize:
+          description: It is the file namespace's fileSize.
+          returned: always
+          type: str
+          sample: '<filesize>'
+        id:
+          description: It is the file namespace's id.
+          returned: always
+          type: str
+          sample: '478012'
+        md5Checksum:
+          description: It is the file namespace's md5Checksum.
+          returned: always
+          type: str
+          sample: '<md5checksum>'
+        name:
+          description: It is the file namespace's name.
+          returned: always
+          type: str
+          sample: '<name>'
+        nameSpace:
+          description: It is the file namespace's nameSpace.
+          returned: always
+          type: str
+          sample: '<namespace>'
+        sftpServerList:
+          description: It is the file namespace's sftpServerList.
+          returned: always
+          type: list
+        sha1Checksum:
+          description: It is the file namespace's sha1Checksum.
+          returned: always
+          type: str
+          sample: '<sha1checksum>'
+        taskId:
+          description: It is the file namespace's taskId.
+          returned: always
+          type: dict
 
-        version:
-            description: Version, property of the response body.
-            returned: success,changed,always
-            type: str
-            sample: '1.0'
+    version:
+      description: Version, property of the response body.
+      returned: always
+      type: str
+      sample: '1.0'
 
 """
-
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    ModuleDefinition,
-    DNACModule,
-    dnac_argument_spec,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.definitions.file_namespace import (
-    module_definition,
-)
-
-
-def main():
-
-    moddef = ModuleDefinition(module_definition)
-
-    argument_spec = dnac_argument_spec()
-    argument_spec.update(moddef.get_argument_spec_dict())
-
-    required_if = moddef.get_required_if_list()
-
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=False, required_if=required_if
-    )
-
-    dnac = DNACModule(module, moddef)
-
-    state = module.params.get("state")
-
-    if state == "query":
-        dnac.exec("get")
-
-    dnac.exit_json()
-
-
-if __name__ == "__main__":
-    main()
