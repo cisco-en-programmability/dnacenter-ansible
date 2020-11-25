@@ -412,6 +412,9 @@ class DNACModule(object):
             )
             self.params.setdefault("multipart_monitor_callback", None)
 
+    def changed(self):
+        self.result["changed"] = True
+
     def get_func(self, function):
         try:
             family = getattr(self.api, function.family)
