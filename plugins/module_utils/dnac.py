@@ -303,6 +303,7 @@ class ModuleDefinition(object):
 
         return param_dict
 
+    # TODO: Validate the conditional param requirements
     def get_required_if_list(self):
         return []
 
@@ -376,18 +377,9 @@ class ObjectExistenceCriteria(object):
 
 
 class DNACModule(object):
-    def __init__(self, module, moddef):
-        if isinstance(module, AnsibleModule):
-            self.params = module.params
-            self.verbosity = module._verbosity
-            self.fail = module.fail_json
-            self.exit = module.exit_json
-        else:
-            self.params = module.get("params")
-            self.verbosity = module.get("verbosity")
-            self.fail = self._action_fail
-            self.exit = self._action_exit
-        self.response = None
+    def __init__(self, moddef, params, verbosity):
+        self.params = params
+        self.verbosity = verbosity
         self.result = dict(changed=False)
         self.validate_response_schema = self.params.get("validate_response_schema")
         self.api = api.DNACenterAPI(
@@ -498,15 +490,9 @@ class DNACModule(object):
 
     def fail_json(self, msg, **kwargs):
         self.result.update(**kwargs)
-        self.fail(msg=msg, **self.result)
-
-    def exit_json(self):
-        self.exit(**self.result)
-
-    def _action_fail(self, msg, **kwargs):
         raise AnsibleActionFail(msg, kwargs)
 
-    def _action_exit(self):
+    def exit_json(self):
         return self.result
 
 

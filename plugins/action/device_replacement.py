@@ -15,8 +15,8 @@ from ansible_collections.cisco.dnac.plugins.module_utils.definitions.device_repl
 
 # Instantiate the module definition for this module
 moddef = ModuleDefinition(module_definition)
-# Get the argument spec for this module and add the 'state' param, which is common
-# to all modules
+# Get the argument spec for this module and add the 'state' param,
+# which is common to all modules
 argument_spec = moddef.get_argument_spec_dict()
 argument_spec.update(dict(state=dnac_argument_spec().get("state")))
 # Get the schema conditionals, if applicable
@@ -25,18 +25,9 @@ required_if = moddef.get_required_if_list()
 
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
-        """Start here"""
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._result = None
-
-    # Retrieves the module parameters supplied by the user
-    def get_params(self):
-        return self._task.args
-
-    # Retrieves the verbosity level supplied by the user
-    def get_verbosity(self):
-        return self._play_context.verbosity
 
     # Checks the supplied parameters against the argument spec for this module
     def _check_argspec(self):
@@ -44,7 +35,7 @@ class ActionModule(ActionBase):
             data=self._task.args,
             schema=dict(argument_spec=argument_spec),
             schema_format="argspec",
-            # schema_conditionals=dict(required_if=required_if),
+            schema_conditionals=dict(required_if=required_if),
             name=self._task.action,
         )
         valid, errors, self._task.args = aav.validate()
@@ -52,7 +43,6 @@ class ActionModule(ActionBase):
             raise AnsibleActionFail(errors)
 
     def run(self, tmp=None, task_vars=None):
-        """action entry point"""
         self._task.diff = False
         self._result = super(ActionModule, self).run(tmp, task_vars)
         self._result["changed"] = False
@@ -68,10 +58,11 @@ class ActionModule(ActionBase):
         # Updates the module parameters dictionary with the dnac parameters
         self._task.args.update(dnac_params)
 
-        # Dictionary with the required data from DNA Center
-        module = dict(params=self._task.args, verbosity=self._play_context.verbosity)
-
-        dnac = DNACModule(module, moddef)
+        dnac = DNACModule(
+            moddef=moddef,
+            params=self._task.args,
+            verbosity=self._play_context.verbosity,
+        )
 
         state = self._task.args.get("state")
 
@@ -86,5 +77,5 @@ class ActionModule(ActionBase):
             dnac.disable_validation()
             dnac.exec("put")
 
-        self._result.update(dnac.exit())
+        self._result.update(dnac.exit_json())
         return self._result
