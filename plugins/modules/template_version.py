@@ -51,23 +51,15 @@ seealso:
 
 EXAMPLES = r"""
 - name: version_template
-  cisco.dnac.template_version
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.template_version:
     state: create  # required
     comments: SomeValue  # string
     templateId: SomeValue  # string
-  delegate_to: localhost
   
 - name: get_template_versions
-  cisco.dnac.template_version
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.template_version:
     state: query  # required
     template_id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 """

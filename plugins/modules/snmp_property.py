@@ -66,20 +66,13 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_snmp_properties
-  cisco.dnac.snmp_property
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.snmp_property:
     state: query  # required
 
-  delegate_to: localhost
   register: query_result
   
 - name: create_update_snmp_properties
-  cisco.dnac.snmp_property
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.snmp_property:
     state: create  # required
     payload:  # required
     - id: SomeValue  # string
@@ -87,7 +80,6 @@ EXAMPLES = r"""
       instanceUuid: SomeValue  # string
       intValue: 1  #  integer
       systemPropertyName: SomeValue  # string
-  delegate_to: localhost
   
 """
 

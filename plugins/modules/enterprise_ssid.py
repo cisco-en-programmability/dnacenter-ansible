@@ -87,20 +87,13 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_enterprise_ssid
-  cisco.dnac.enterprise_ssid
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.enterprise_ssid:
     state: query  # required
     ssid_name: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: create_enterprise_ssid
-  cisco.dnac.enterprise_ssid
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.enterprise_ssid:
     state: create  # required
     name: SomeValue  # string, required
     securityLevel: SomeValue  # string, required, valid values: 'WPA2_ENTERPRISE', 'WPA2_PERSONAL', 'OPEN'.
@@ -111,16 +104,11 @@ EXAMPLES = r"""
     passphrase: SomeValue  # string
     radioPolicy: SomeValue  # string, valid values: 'Dual band operation (2.4GHz and 5GHz)', 'Dual band operation with band select', '5GHz only', '2.4GHz only'.
     trafficType: SomeValue  # string, valid values: 'voicedata', 'data'.
-  delegate_to: localhost
   
 - name: delete_enterprise_ssid
-  cisco.dnac.enterprise_ssid
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.enterprise_ssid:
     state: delete  # required
     ssid_name: SomeValue  # string, required
-  delegate_to: localhost
   
 """
 

@@ -99,108 +99,68 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_all_interfaces
-  cisco.dnac.interface
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.interface:
     state: query  # required
     limit: 1  #  number
     offset: 1  #  number
-  delegate_to: localhost
   register: query_result
   
 - name: get_interface_by_id
-  cisco.dnac.interface
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.interface:
     state: query  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: get_device_interface_count
-  cisco.dnac.interface
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.interface:
     state: query  # required
     count: True  # boolean, required
-  delegate_to: localhost
   register: query_result
   
 - name: get_interface_by_ip
-  cisco.dnac.interface
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.interface:
     state: query  # required
     ip_address: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: get_interface_info_by_id
-  cisco.dnac.interface
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.interface:
     state: query  # required
     device_id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: get_device_interfaces_by_specified_range
-  cisco.dnac.interface
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.interface:
     state: query  # required
     device_id: SomeValue  # string, required
     records_to_return: 1  #  integer, required
     start_index: 1  #  integer, required
-  delegate_to: localhost
   register: query_result
   
 - name: get_device_interface_count_by_id
-  cisco.dnac.interface
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.interface:
     state: query  # required
     device_id: SomeValue  # string, required
     count: True  # boolean, required
-  delegate_to: localhost
   register: query_result
   
 - name: get_interface_details
-  cisco.dnac.interface
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.interface:
     state: query  # required
     device_id: SomeValue  # string, required
     name: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: get_isis_interfaces
-  cisco.dnac.interface
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.interface:
     state: query  # required
     isis: True  # boolean, required
-  delegate_to: localhost
   register: query_result
   
 - name: get_ospf_interfaces
-  cisco.dnac.interface
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.interface:
     state: query  # required
     ospf: True  # boolean, required
-  delegate_to: localhost
   register: query_result
   
 """

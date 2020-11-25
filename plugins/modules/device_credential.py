@@ -92,20 +92,13 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_device_credential_details
-  cisco.dnac.device_credential
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.device_credential:
     state: query  # required
     site_id: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: create_device_credentials
-  cisco.dnac.device_credential
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.device_credential:
     state: create  # required
     settings:  # required
       cliCredential:
@@ -137,13 +130,9 @@ EXAMPLES = r"""
         password: SomeValue  # string, required
         name: SomeValue  # string
         port: 1  #  number
-  delegate_to: localhost
   
 - name: update_device_credentials
-  cisco.dnac.device_credential
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.device_credential:
     state: update  # required
     settings:  # required
       cliCredential:
@@ -181,16 +170,11 @@ EXAMPLES = r"""
         password: SomeValue  # string
         port: SomeValue  # string
         id: SomeValue  # string
-  delegate_to: localhost
   
 - name: delete_device_credential
-  cisco.dnac.device_credential
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.device_credential:
     state: delete  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   
 """
 

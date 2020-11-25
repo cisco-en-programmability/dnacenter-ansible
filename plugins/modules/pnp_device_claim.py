@@ -118,10 +118,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: claim_device
-  cisco.dnac.pnp_device_claim
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_device_claim:
     state: create  # required
     configFileUrl: SomeValue  # string
     configId: SomeValue  # string
@@ -141,7 +138,6 @@ EXAMPLES = r"""
     populateInventory: True  # boolean
     projectId: SomeValue  # string
     workflowId: SomeValue  # string
-  delegate_to: localhost
   
 """
 

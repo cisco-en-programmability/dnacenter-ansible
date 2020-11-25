@@ -123,10 +123,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_tasks
-  cisco.dnac.task
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.task:
     state: query  # required
     data: SomeValue  # string
     end_time: SomeValue  # string
@@ -142,24 +139,16 @@ EXAMPLES = r"""
     sort_by: SomeValue  # string
     start_time: SomeValue  # string
     username: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: get_task_by_id
-  cisco.dnac.task
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.task:
     state: query  # required
     task_id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: get_task_count
-  cisco.dnac.task
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.task:
     state: query  # required
     count: True  # boolean, required
     data: SomeValue  # string
@@ -172,30 +161,21 @@ EXAMPLES = r"""
     service_type: SomeValue  # string
     start_time: SomeValue  # string
     username: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: get_task_by_operationid
-  cisco.dnac.task
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.task:
     state: query  # required
     limit: 1  #  integer, required
     offset: 1  #  integer, required
     operation_id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: get_task_tree
-  cisco.dnac.task
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.task:
     state: query  # required
     task_id: SomeValue  # string, required
     tree: True  # boolean, required
-  delegate_to: localhost
   register: query_result
   
 """

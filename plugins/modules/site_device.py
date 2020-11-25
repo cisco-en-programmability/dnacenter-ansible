@@ -55,15 +55,11 @@ seealso:
 
 EXAMPLES = r"""
 - name: assign_device_to_site
-  cisco.dnac.site_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.site_device:
     state: create  # required
     site_id: SomeValue  # string, required
     device:  # required
     - ip: SomeValue  # string, required
-  delegate_to: localhost
   
 """
 

@@ -133,10 +133,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: create_http_write_credentials
-  cisco.dnac.global_credential_http_write
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_credential_http_write:
     state: create  # required
     payload:  # required
     - password: SomeValue  # string, required
@@ -149,13 +146,9 @@ EXAMPLES = r"""
       instanceTenantId: SomeValue  # string
       instanceUuid: SomeValue  # string
       secure: True  # boolean
-  delegate_to: localhost
   
 - name: update_http_write_credentials
-  cisco.dnac.global_credential_http_write
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_credential_http_write:
     state: update  # required
     password: SomeValue  # string, required
     port: 1  #  integer, required
@@ -167,7 +160,6 @@ EXAMPLES = r"""
     instanceTenantId: SomeValue  # string
     instanceUuid: SomeValue  # string
     secure: True  # boolean
-  delegate_to: localhost
   
 """
 

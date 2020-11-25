@@ -56,33 +56,21 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_sda_fabric_info
-  cisco.dnac.sda_fabric
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_fabric:
     state: query  # required
     fabric_name: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: delete_sda_fabric
-  cisco.dnac.sda_fabric
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_fabric:
     state: delete  # required
     fabric_name: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: add_fabric
-  cisco.dnac.sda_fabric
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_fabric:
     state: create  # required
     payload:  # required
     - fabricName: SomeValue  # string
-  delegate_to: localhost
   
 """
 

@@ -59,10 +59,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: run_read_only_commands_on_devices
-  cisco.dnac.network_device_poller_read_request
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_poller_read_request:
     state: create  # required
     commands:  # required
     - SomeValue  # string
@@ -71,7 +68,6 @@ EXAMPLES = r"""
     description: SomeValue  # string
     name: SomeValue  # string
     timeout: 1  #  integer
-  delegate_to: localhost
   
 """
 

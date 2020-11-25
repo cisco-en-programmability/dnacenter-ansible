@@ -57,16 +57,12 @@ seealso:
 
 EXAMPLES = r"""
 - name: ap_provision_and_re_provision
-  cisco.dnac.wireless_ap_provision
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.wireless_ap_provision:
     state: create  # required
     payload:  # required
     - executionId: SomeValue  # string
       executionUrl: SomeValue  # string
       message: SomeValue  # string
-  delegate_to: localhost
   
 """
 

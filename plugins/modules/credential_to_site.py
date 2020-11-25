@@ -66,10 +66,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: assign_credential_to_site
-  cisco.dnac.credential_to_site
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.credential_to_site:
     state: create  # required
     site_id: SomeValue  # string, required
     cliId: SomeValue  # string
@@ -78,7 +75,6 @@ EXAMPLES = r"""
     snmpV2ReadId: SomeValue  # string
     snmpV2WriteId: SomeValue  # string
     snmpV3Id: SomeValue  # string
-  delegate_to: localhost
   
 """
 

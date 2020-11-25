@@ -74,44 +74,28 @@ seealso:
 
 EXAMPLES = r"""
 - name: delete_application_set
-  cisco.dnac.application_set
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.application_set:
     state: delete  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: get_application_sets
-  cisco.dnac.application_set
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.application_set:
     state: query  # required
     limit: 1  #  number
     name: SomeValue  # string
     offset: 1  #  number
-  delegate_to: localhost
   register: query_result
   
 - name: create_application_set
-  cisco.dnac.application_set
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.application_set:
     state: create  # required
     payload:  # required
     - name: SomeValue  # string
-  delegate_to: localhost
   
 - name: get_application_sets_count
-  cisco.dnac.application_set
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.application_set:
     state: query  # required
     count: True  # boolean, required
-  delegate_to: localhost
   register: query_result
   
 """

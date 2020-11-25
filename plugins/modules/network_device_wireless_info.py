@@ -42,13 +42,9 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_wireless_lan_controller_details_by_id
-  cisco.dnac.network_device_wireless_info
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_wireless_info:
     state: query  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 """

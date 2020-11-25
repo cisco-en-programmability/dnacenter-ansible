@@ -50,15 +50,11 @@ seealso:
 
 EXAMPLES = r"""
 - name: claim_a_device_to_a_site
-  cisco.dnac.pnp_device_site_claim
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_device_site_claim:
     state: create  # required
     deviceId: SomeValue  # string
     siteId: SomeValue  # string
     type: SomeValue  # string, valid values: 'Default', 'AccessPoint', 'StackSwitch', 'Sensor', 'MobilityExpress'.
-  delegate_to: localhost
   
 """
 

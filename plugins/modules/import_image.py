@@ -109,10 +109,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_software_image_details
-  cisco.dnac.import_image
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.import_image:
     state: query  # required
     application_type: SomeValue  # string
     created_time: 1  #  integer
@@ -132,7 +129,6 @@ EXAMPLES = r"""
     sort_by: SomeValue  # string
     sort_order: SomeValue  # string
     version: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 """

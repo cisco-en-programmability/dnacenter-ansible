@@ -42,13 +42,9 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_device_info
-  cisco.dnac.sda_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_device:
     state: query  # required
     device_ipaddress: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 """

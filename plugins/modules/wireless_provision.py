@@ -91,10 +91,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: provision
-  cisco.dnac.wireless_provision
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.wireless_provision:
     state: create  # required
     payload:  # required
     - deviceName: SomeValue  # string, required
@@ -108,13 +105,9 @@ EXAMPLES = r"""
         lagOrPortNumber: 1  #  integer
         vlanId: 1  #  integer
         interfaceName: SomeValue  # string
-  delegate_to: localhost
   
 - name: provision_update
-  cisco.dnac.wireless_provision
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.wireless_provision:
     state: update  # required
     payload:  # required
     - deviceName: SomeValue  # string, required
@@ -127,7 +120,6 @@ EXAMPLES = r"""
         lagOrPortNumber: 1  #  integer
         vlanId: 1  #  integer
         interfaceName: SomeValue  # string
-  delegate_to: localhost
   
 """
 

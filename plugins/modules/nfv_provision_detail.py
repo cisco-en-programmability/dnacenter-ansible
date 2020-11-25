@@ -42,13 +42,9 @@ seealso:
 
 EXAMPLES = r"""
 - name: nfv_provisioning_detail
-  cisco.dnac.nfv_provision_detail
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.nfv_provision_detail:
     state: create  # required
     device_ip: SomeValue  # string, required
-  delegate_to: localhost
   
 """
 

@@ -41,14 +41,10 @@ seealso:
 
 EXAMPLES = r"""
 - name: un_claim_device
-  cisco.dnac.pnp_device_unclaim
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_device_unclaim:
     state: create  # required
     deviceIdList:
     - SomeValue  # string
-  delegate_to: localhost
   
 """
 

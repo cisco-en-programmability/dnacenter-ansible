@@ -156,10 +156,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_tag
-  cisco.dnac.tag
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.tag:
     state: query  # required
     additional_info_attributes: SomeValue  # string
     additional_info_name_space: SomeValue  # string
@@ -172,14 +169,10 @@ EXAMPLES = r"""
     size: SomeValue  # string
     sort_by: SomeValue  # string
     system_tag: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: create_tag
-  cisco.dnac.tag
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.tag:
     state: present  # required
     description: SomeValue  # string
     dynamicRules:
@@ -195,13 +188,9 @@ EXAMPLES = r"""
     instanceTenantId: SomeValue  # string
     name: SomeValue  # string
     systemTag: True  # boolean
-  delegate_to: localhost
   
 - name: update_tag
-  cisco.dnac.tag
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.tag:
     state: present  # required
     description: SomeValue  # string
     dynamicRules:
@@ -217,32 +206,20 @@ EXAMPLES = r"""
     instanceTenantId: SomeValue  # string
     name: SomeValue  # string
     systemTag: True  # boolean
-  delegate_to: localhost
   
 - name: delete_tag
-  cisco.dnac.tag
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.tag:
     state: absent  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: get_tag_by_id
-  cisco.dnac.tag
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.tag:
     state: query  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: get_tag_count
-  cisco.dnac.tag
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.tag:
     state: query  # required
     count: True  # boolean, required
     attribute_name: SomeValue  # string
@@ -251,7 +228,6 @@ EXAMPLES = r"""
     name_space: SomeValue  # string
     size: SomeValue  # string
     system_tag: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 """

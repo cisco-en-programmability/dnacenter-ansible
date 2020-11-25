@@ -125,10 +125,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: create_and_provision_ssid
-  cisco.dnac.ssid
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.ssid:
     state: create  # required
     enableFabric: True  # boolean, required
     managedAPLocations:  # required
@@ -148,17 +145,12 @@ EXAMPLES = r"""
     flexConnect:
       enableFlexConnect: True  # boolean
       localToVlan: 1  #  integer
-  delegate_to: localhost
   
 - name: delete_ssid_and_provision_it_to_devices
-  cisco.dnac.ssid
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.ssid:
     state: delete  # required
     managed_aplocations: SomeValue  # string, required
     ssid_name: SomeValue  # string, required
-  delegate_to: localhost
   
 """
 

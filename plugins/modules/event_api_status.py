@@ -42,13 +42,9 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_status_api_for_events
-  cisco.dnac.event_api_status
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.event_api_status:
     state: query  # required
     execution_id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 """

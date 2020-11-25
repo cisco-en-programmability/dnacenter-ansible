@@ -60,34 +60,22 @@ seealso:
 
 EXAMPLES = r"""
 - name: delete_site
-  cisco.dnac.sda_fabric_site
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_fabric_site:
     state: delete  # required
     site_name_hierarchy: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: get_site
-  cisco.dnac.sda_fabric_site
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_fabric_site:
     state: query  # required
     site_name_hierarchy: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: add_site
-  cisco.dnac.sda_fabric_site
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_fabric_site:
     state: create  # required
     payload:  # required
     - fabricName: SomeValue  # string
       siteNameHierarchy: SomeValue  # string
-  delegate_to: localhost
   
 """
 

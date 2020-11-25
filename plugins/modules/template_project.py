@@ -74,20 +74,13 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_projects
-  cisco.dnac.template_project
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.template_project:
     state: query  # required
     name: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: create_project
-  cisco.dnac.template_project
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.template_project:
     state: create  # required
     createTime: 1  #  integer
     description: SomeValue  # string
@@ -97,13 +90,9 @@ EXAMPLES = r"""
     tags:
     - SomeValue  # string
     templates: None
-  delegate_to: localhost
   
 - name: update_project
-  cisco.dnac.template_project
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.template_project:
     state: update  # required
     createTime: 1  #  integer
     description: SomeValue  # string
@@ -113,16 +102,11 @@ EXAMPLES = r"""
     tags:
     - SomeValue  # string
     templates: None
-  delegate_to: localhost
   
 - name: delete_project
-  cisco.dnac.template_project
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.template_project:
     state: delete  # required
     project_id: SomeValue  # string, required
-  delegate_to: localhost
   
 """
 

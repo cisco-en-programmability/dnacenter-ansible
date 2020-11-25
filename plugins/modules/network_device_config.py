@@ -43,23 +43,15 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_device_config_for_all_devices
-  cisco.dnac.network_device_config
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_config:
     state: query  # required
 
-  delegate_to: localhost
   register: query_result
   
 - name: get_device_config_count
-  cisco.dnac.network_device_config
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_config:
     state: query  # required
     count: True  # boolean, required
-  delegate_to: localhost
   register: query_result
   
 """

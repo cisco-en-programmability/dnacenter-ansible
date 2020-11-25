@@ -136,10 +136,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: retrives_all_previous_pathtraces_summary
-  cisco.dnac.flow_analysis
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.flow_analysis:
     state: query  # required
     dest_ip: SomeValue  # string
     dest_port: SomeValue  # string
@@ -156,14 +153,10 @@ EXAMPLES = r"""
     source_port: SomeValue  # string
     status: SomeValue  # string
     task_id: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: initiate_a_new_pathtrace
-  cisco.dnac.flow_analysis
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.flow_analysis:
     state: create  # required
     destIP: SomeValue  # string, required
     sourceIP: SomeValue  # string, required
@@ -174,26 +167,17 @@ EXAMPLES = r"""
     periodicRefresh: True  # boolean
     protocol: SomeValue  # string
     sourcePort: SomeValue  # string
-  delegate_to: localhost
   
 - name: retrieves_previous_pathtrace
-  cisco.dnac.flow_analysis
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.flow_analysis:
     state: query  # required
     flow_analysis_id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: deletes_pathtrace_by_id
-  cisco.dnac.flow_analysis
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.flow_analysis:
     state: delete  # required
     flow_analysis_id: SomeValue  # string, required
-  delegate_to: localhost
   
 """
 

@@ -60,34 +60,22 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_control_plane_device
-  cisco.dnac.sda_control_plane_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_control_plane_device:
     state: query  # required
     device_ipaddress: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: delete_control_plane_device
-  cisco.dnac.sda_control_plane_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_control_plane_device:
     state: delete  # required
     device_ipaddress: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: add_control_plane_device
-  cisco.dnac.sda_control_plane_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_control_plane_device:
     state: create  # required
     payload:  # required
     - deviceManagementIpAddress: SomeValue  # string
       siteNameHierarchy: SomeValue  # string
-  delegate_to: localhost
   
 """
 

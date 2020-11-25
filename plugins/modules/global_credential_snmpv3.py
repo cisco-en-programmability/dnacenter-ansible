@@ -150,10 +150,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: create_snmpv3_credentials
-  cisco.dnac.global_credential_snmpv3
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_credential_snmpv3:
     state: create  # required
     payload:  # required
     - snmpMode: SomeValue  # string, required
@@ -168,13 +165,9 @@ EXAMPLES = r"""
       instanceUuid: SomeValue  # string
       privacyPassword: SomeValue  # string
       privacyType: SomeValue  # string
-  delegate_to: localhost
   
 - name: update_snmpv3_credentials
-  cisco.dnac.global_credential_snmpv3
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_credential_snmpv3:
     state: update  # required
     snmpMode: SomeValue  # string, required, valid values: 'AUTHPRIV', 'AUTHNOPRIV', 'NOAUTHNOPRIV'.
     username: SomeValue  # string, required
@@ -188,7 +181,6 @@ EXAMPLES = r"""
     instanceUuid: SomeValue  # string
     privacyPassword: SomeValue  # string
     privacyType: SomeValue  # string, valid values: 'DES', 'AES128'.
-  delegate_to: localhost
   
 """
 

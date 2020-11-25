@@ -59,10 +59,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: export_device_list
-  cisco.dnac.network_device_export_list
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_export_list:
     state: create  # required
     deviceUuids:  # required
     - SomeValue  # string
@@ -71,7 +68,6 @@ EXAMPLES = r"""
     parameters:
     - SomeValue  # string
     password: SomeValue  # string
-  delegate_to: localhost
   
 """
 

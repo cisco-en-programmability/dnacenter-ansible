@@ -68,45 +68,29 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_global_credentials
-  cisco.dnac.global_credential
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_credential:
     state: query  # required
     credential_sub_type: SomeValue  # string, required
     order: SomeValue  # string
     sort_by: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: delete_global_credentials_by_id
-  cisco.dnac.global_credential
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_credential:
     state: delete  # required
     global_credential_id: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: update_global_credentials
-  cisco.dnac.global_credential
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_credential:
     state: update  # required
     global_credential_id: SomeValue  # string, required
     siteUuids:
     - SomeValue  # string
-  delegate_to: localhost
   
 - name: get_credential_sub_type_by_credential_id
-  cisco.dnac.global_credential
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_credential:
     state: query  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 """

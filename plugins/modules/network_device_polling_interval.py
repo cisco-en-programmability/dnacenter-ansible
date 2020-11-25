@@ -43,23 +43,15 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_polling_interval_by_id
-  cisco.dnac.network_device_polling_interval
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_polling_interval:
     state: query  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: get_polling_interval_for_all_devices
-  cisco.dnac.network_device_polling_interval
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_polling_interval:
     state: query  # required
 
-  delegate_to: localhost
   register: query_result
   
 """

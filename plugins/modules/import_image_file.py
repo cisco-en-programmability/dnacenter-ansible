@@ -63,10 +63,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: import_local_software_image
-  cisco.dnac.import_image_file
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.import_image_file:
     state: create  # required
     filename: SomeValue  # string, required
     filepath: SomeValue  # string, required
@@ -74,7 +71,6 @@ EXAMPLES = r"""
     third_party_application_type: SomeValue  # string
     third_party_image_family: SomeValue  # string
     third_party_vendor: SomeValue  # string
-  delegate_to: localhost
   
 """
 

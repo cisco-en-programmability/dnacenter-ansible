@@ -86,10 +86,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: deploy_template
-  cisco.dnac.template_deploy
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.template_deploy:
     state: create  # required
     forcePushTemplate: True  # boolean
     isComposite: True  # boolean
@@ -101,16 +98,11 @@ EXAMPLES = r"""
       params:
       type: SomeValue  # string
     templateId: SomeValue  # string
-  delegate_to: localhost
   
 - name: get_template_deployment_status
-  cisco.dnac.template_deploy
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.template_deploy:
     state: query  # required
     deployment_id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 """

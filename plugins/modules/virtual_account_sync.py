@@ -160,10 +160,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: sync_virtual_account_devices
-  cisco.dnac.virtual_account_sync
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.virtual_account_sync:
     state: create  # required
     profile:  # required
       addressFqdn: SomeValue  # string
@@ -191,17 +188,12 @@ EXAMPLES = r"""
     syncStartTime: 1  #  integer
     tenantId: SomeValue  # string
     token: SomeValue  # string
-  delegate_to: localhost
   
 - name: get_sync_result_for_virtual_account
-  cisco.dnac.virtual_account_sync
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.virtual_account_sync:
     state: query  # required
     domain: SomeValue  # string, required
     name: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 """

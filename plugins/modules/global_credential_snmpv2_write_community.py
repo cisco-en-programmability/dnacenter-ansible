@@ -105,10 +105,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: create_snmp_write_community
-  cisco.dnac.global_credential_snmpv2_write_community
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_credential_snmpv2_write_community:
     state: create  # required
     payload:  # required
     - writeCommunity: SomeValue  # string, required
@@ -118,13 +115,9 @@ EXAMPLES = r"""
       id: SomeValue  # string
       instanceTenantId: SomeValue  # string
       instanceUuid: SomeValue  # string
-  delegate_to: localhost
   
 - name: update_snmp_write_community
-  cisco.dnac.global_credential_snmpv2_write_community
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_credential_snmpv2_write_community:
     state: update  # required
     writeCommunity: SomeValue  # string, required
     comments: SomeValue  # string
@@ -133,7 +126,6 @@ EXAMPLES = r"""
     id: SomeValue  # string
     instanceTenantId: SomeValue  # string
     instanceUuid: SomeValue  # string
-  delegate_to: localhost
   
 """
 

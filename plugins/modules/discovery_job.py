@@ -60,29 +60,21 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_list_of_discoveries_by_discovery_id
-  cisco.dnac.discovery_job
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.discovery_job:
     state: query  # required
     id: SomeValue  # string, required
     ip_address: SomeValue  # string
     limit: 1  #  integer
     offset: 1  #  integer
-  delegate_to: localhost
   register: query_result
   
 - name: get_discovery_jobs_by_ip
-  cisco.dnac.discovery_job
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.discovery_job:
     state: query  # required
     ip_address: SomeValue  # string, required
     limit: 1  #  integer
     name: SomeValue  # string
     offset: 1  #  integer
-  delegate_to: localhost
   register: query_result
   
 """

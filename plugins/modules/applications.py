@@ -195,31 +195,20 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_applications
-  cisco.dnac.applications
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.applications:
     state: query  # required
     limit: 1  #  number
     name: SomeValue  # string
     offset: 1  #  number
-  delegate_to: localhost
   register: query_result
   
 - name: delete_application
-  cisco.dnac.applications
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.applications:
     state: delete  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: create_application
-  cisco.dnac.applications
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.applications:
     state: create  # required
     payload:  # required
     - name: SomeValue  # string
@@ -248,13 +237,9 @@ EXAMPLES = r"""
         upperPort: SomeValue  # string
       applicationSet:
         idRef: SomeValue  # string
-  delegate_to: localhost
   
 - name: edit_application
-  cisco.dnac.applications
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.applications:
     state: update  # required
     payload:  # required
     - id: SomeValue  # string
@@ -286,16 +271,11 @@ EXAMPLES = r"""
         upperPort: SomeValue  # string
       applicationSet:
         idRef: SomeValue  # string
-  delegate_to: localhost
   
 - name: get_applications_count
-  cisco.dnac.applications
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.applications:
     state: query  # required
     count: True  # boolean, required
-  delegate_to: localhost
   register: query_result
   
 """

@@ -57,16 +57,12 @@ seealso:
 
 EXAMPLES = r"""
 - name: update_device_role
-  cisco.dnac.network_device_update_role
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_update_role:
     state: update  # required
     id: SomeValue  # string, required
     role: SomeValue  # string, required
     roleSource: SomeValue  # string, required
     summary: True  # boolean, required
-  delegate_to: localhost
   
 """
 

@@ -94,10 +94,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: reset_device
-  cisco.dnac.pnp_device_reset
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_device_reset:
     state: create  # required
     deviceResetList:
     - configList:
@@ -111,7 +108,6 @@ EXAMPLES = r"""
       topOfStackSerialNumber: SomeValue  # string
     projectId: SomeValue  # string
     workflowId: SomeValue  # string
-  delegate_to: localhost
   
 """
 

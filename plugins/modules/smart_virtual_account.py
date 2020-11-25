@@ -162,30 +162,19 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_smart_account_list
-  cisco.dnac.smart_virtual_account
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.smart_virtual_account:
     state: query  # required
 
-  delegate_to: localhost
   register: query_result
   
 - name: get_virtual_account_list
-  cisco.dnac.smart_virtual_account
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.smart_virtual_account:
     state: query  # required
     domain: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: add_virtual_account
-  cisco.dnac.smart_virtual_account
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.smart_virtual_account:
     state: create  # required
     profile:  # required
       addressFqdn: SomeValue  # string
@@ -213,13 +202,9 @@ EXAMPLES = r"""
     syncStartTime: 1  #  integer
     tenantId: SomeValue  # string
     token: SomeValue  # string
-  delegate_to: localhost
   
 - name: update_pnp_server_profile
-  cisco.dnac.smart_virtual_account
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.smart_virtual_account:
     state: update  # required
     profile:  # required
       addressFqdn: SomeValue  # string
@@ -247,17 +232,12 @@ EXAMPLES = r"""
     syncStartTime: 1  #  integer
     tenantId: SomeValue  # string
     token: SomeValue  # string
-  delegate_to: localhost
   
 - name: deregister_virtual_account
-  cisco.dnac.smart_virtual_account
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.smart_virtual_account:
     state: delete  # required
     domain: SomeValue  # string, required
     name: SomeValue  # string, required
-  delegate_to: localhost
   
 """
 

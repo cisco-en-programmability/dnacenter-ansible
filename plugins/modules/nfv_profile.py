@@ -255,10 +255,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: create_nfv_profile
-  cisco.dnac.nfv_profile
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.nfv_profile:
     state: create  # required
     device:  # required
     - deviceType: SomeValue  # string, required
@@ -294,36 +291,24 @@ EXAMPLES = r"""
         template: SomeValue  # string, required
         templateType: SomeValue  # string, required
     profileName: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: get_nfv_profile
-  cisco.dnac.nfv_profile
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.nfv_profile:
     state: query  # required
     id: SomeValue  # string, required
     limit: SomeValue  # string
     name: SomeValue  # string
     offset: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: delete_nfv_profile
-  cisco.dnac.nfv_profile
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.nfv_profile:
     state: delete  # required
     id: SomeValue  # string, required
     name: SomeValue  # string
-  delegate_to: localhost
   
 - name: update_nfv_profile
-  cisco.dnac.nfv_profile
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.nfv_profile:
     state: update  # required
     id: SomeValue  # string, required
     device:  # required
@@ -355,7 +340,6 @@ EXAMPLES = r"""
         template: SomeValue  # string, required
         templateType: SomeValue  # string, required
     name: SomeValue  # string
-  delegate_to: localhost
   
 """
 

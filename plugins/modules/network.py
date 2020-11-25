@@ -26,7 +26,7 @@ options:
     - Site id to get the Network settings associated with the site.
     - Site id to which site details to associate with the Network settings.
     - Site id to update the Network settings which is associated with the site.
-    - Required for states update and create.
+    - Required for states create and update.
     type: str
   settings:
     description:
@@ -191,20 +191,13 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_network
-  cisco.dnac.network
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network:
     state: query  # required
     site_id: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: create_network
-  cisco.dnac.network
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network:
     state: create  # required
     site_id: SomeValue  # string, required
     settings:  # required
@@ -243,13 +236,9 @@ EXAMPLES = r"""
         network: SomeValue  # string
         protocol: SomeValue  # string
         sharedSecret: SomeValue  # string
-  delegate_to: localhost
   
 - name: update_network
-  cisco.dnac.network
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network:
     state: update  # required
     site_id: SomeValue  # string, required
     settings:  # required
@@ -288,7 +277,6 @@ EXAMPLES = r"""
         network: SomeValue  # string
         protocol: SomeValue  # string
         sharedSecret: SomeValue  # string
-  delegate_to: localhost
   
 """
 

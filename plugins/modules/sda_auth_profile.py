@@ -61,45 +61,29 @@ seealso:
 
 EXAMPLES = r"""
 - name: delete_default_authentication_profile
-  cisco.dnac.sda_auth_profile
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_auth_profile:
     state: delete  # required
     site_name_hierarchy: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: get_default_authentication_profile
-  cisco.dnac.sda_auth_profile
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_auth_profile:
     state: query  # required
     site_name_hierarchy: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: add_default_authentication_profile
-  cisco.dnac.sda_auth_profile
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_auth_profile:
     state: create  # required
     payload:  # required
     - siteNameHierarchy: SomeValue  # string
       authenticateTemplateName: SomeValue  # string
-  delegate_to: localhost
   
 - name: update_default_authentication_profile
-  cisco.dnac.sda_auth_profile
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_auth_profile:
     state: update  # required
     payload:  # required
     - siteNameHierarchy: SomeValue  # string
       authenticateTemplateName: SomeValue  # string
-  delegate_to: localhost
   
 """
 

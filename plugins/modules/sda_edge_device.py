@@ -60,34 +60,22 @@ seealso:
 
 EXAMPLES = r"""
 - name: delete_edge_device
-  cisco.dnac.sda_edge_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_edge_device:
     state: delete  # required
     device_ipaddress: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: get_edge_device
-  cisco.dnac.sda_edge_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_edge_device:
     state: query  # required
     device_ipaddress: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: add_edge_device
-  cisco.dnac.sda_edge_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_edge_device:
     state: create  # required
     payload:  # required
     - deviceManagementIpAddress: SomeValue  # string
       siteNameHierarchy: SomeValue  # string
-  delegate_to: localhost
   
 """
 

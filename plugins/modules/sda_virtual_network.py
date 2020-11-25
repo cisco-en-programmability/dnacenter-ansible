@@ -65,36 +65,24 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_vn
-  cisco.dnac.sda_virtual_network
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_virtual_network:
     state: query  # required
     site_name_hierarchy: SomeValue  # string, required
     virtual_network_name: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: delete_vn
-  cisco.dnac.sda_virtual_network
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_virtual_network:
     state: delete  # required
     site_name_hierarchy: SomeValue  # string, required
     virtual_network_name: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: add_vn
-  cisco.dnac.sda_virtual_network
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_virtual_network:
     state: create  # required
     payload:  # required
     - virtualNetworkName: SomeValue  # string
       siteNameHierarchy: SomeValue  # string
-  delegate_to: localhost
   
 """
 

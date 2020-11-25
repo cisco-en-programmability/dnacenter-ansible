@@ -81,31 +81,20 @@ seealso:
 
 EXAMPLES = r"""
 - name: delete_port_assignment_for_access_point
-  cisco.dnac.sda_host_onboarding_access_point
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_host_onboarding_access_point:
     state: delete  # required
     device_ip: SomeValue  # string, required
     interface_name: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: get_port_assignment_for_access_point
-  cisco.dnac.sda_host_onboarding_access_point
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_host_onboarding_access_point:
     state: query  # required
     device_ip: SomeValue  # string, required
     interface_name: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: add_port_assignment_for_access_point
-  cisco.dnac.sda_host_onboarding_access_point
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_host_onboarding_access_point:
     state: create  # required
     payload:  # required
     - siteNameHierarchy: SomeValue  # string
@@ -114,7 +103,6 @@ EXAMPLES = r"""
       dataIpAddressPoolName: SomeValue  # string
       voiceIpAddressPoolName: SomeValue  # string
       authenticateTemplateName: SomeValue  # string
-  delegate_to: localhost
   
 """
 

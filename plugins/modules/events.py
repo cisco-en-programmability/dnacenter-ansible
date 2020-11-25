@@ -68,10 +68,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_events
-  cisco.dnac.events
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.events:
     state: query  # required
     tags: SomeValue  # string, required
     event_id: SomeValue  # string
@@ -79,19 +76,14 @@ EXAMPLES = r"""
     offset: 1  #  number
     order: SomeValue  # string
     sort_by: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: count_of_events
-  cisco.dnac.events
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.events:
     state: query  # required
     tags: SomeValue  # string, required
     count: True  # boolean, required
     event_id: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 """

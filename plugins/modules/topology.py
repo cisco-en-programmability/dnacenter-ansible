@@ -80,56 +80,36 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_topology_details
-  cisco.dnac.topology
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.topology:
     state: query  # required
     vlan_id: SomeValue  # string, required
     layer2: True  # boolean, required
-  delegate_to: localhost
   register: query_result
   
 - name: get_l3_topology_details
-  cisco.dnac.topology
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.topology:
     state: query  # required
     topology_type: SomeValue  # string, required
     layer3: True  # boolean, required
-  delegate_to: localhost
   register: query_result
   
 - name: get_physical_topology
-  cisco.dnac.topology
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.topology:
     state: query  # required
     physical: True  # boolean, required
     node_type: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: get_site_topology
-  cisco.dnac.topology
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.topology:
     state: query  # required
     site: True  # boolean, required
-  delegate_to: localhost
   register: query_result
   
 - name: get_vlan_details
-  cisco.dnac.topology
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.topology:
     state: query  # required
     vlan: True  # boolean, required
-  delegate_to: localhost
   register: query_result
   
 """

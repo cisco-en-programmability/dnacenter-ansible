@@ -46,14 +46,10 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_client_detail
-  cisco.dnac.client_detail
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.client_detail:
     state: query  # required
     mac_address: SomeValue  # string, required
     timestamp: 1  #  integer
-  delegate_to: localhost
   register: query_result
   
 """

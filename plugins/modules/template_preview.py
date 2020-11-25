@@ -45,14 +45,10 @@ seealso:
 
 EXAMPLES = r"""
 - name: preview_template
-  cisco.dnac.template_preview
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.template_preview:
     state: update  # required
     params:
     templateId: SomeValue  # string
-  delegate_to: localhost
   
 """
 

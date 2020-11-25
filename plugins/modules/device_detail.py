@@ -51,15 +51,11 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_device_detail
-  cisco.dnac.device_detail
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.device_detail:
     state: query  # required
     identifier: SomeValue  # string, required
     search_by: SomeValue  # string, required
     timestamp: 1  #  integer
-  delegate_to: localhost
   register: query_result
   
 """

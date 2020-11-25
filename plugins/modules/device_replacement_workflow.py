@@ -47,14 +47,10 @@ seealso:
 
 EXAMPLES = r"""
 - name: deploy_device_replacement_workflow
-  cisco.dnac.device_replacement_workflow
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.device_replacement_workflow:
     state: create  # required
     faultyDeviceSerialNumber: SomeValue  # string, required
     replacementDeviceSerialNumber: SomeValue  # string, required
-  delegate_to: localhost
   
 """
 

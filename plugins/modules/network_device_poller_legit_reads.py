@@ -37,13 +37,9 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_all_keywords_of_clis_accepted
-  cisco.dnac.network_device_poller_legit_reads
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_poller_legit_reads:
     state: query  # required
 
-  delegate_to: localhost
   register: query_result
   
 """

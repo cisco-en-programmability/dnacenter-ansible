@@ -50,15 +50,11 @@ seealso:
 
 EXAMPLES = r"""
 - name: download_a_file_by_fileid
-  cisco.dnac.file
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.file:
     state: query  # required
     file_id: SomeValue  # string, required
     dirpath: SomeValue  # string
     save_file: True  # boolean
-  delegate_to: localhost
   register: query_result
   
 """

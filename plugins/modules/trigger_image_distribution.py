@@ -53,15 +53,11 @@ seealso:
 
 EXAMPLES = r"""
 - name: trigger_software_image_distribution
-  cisco.dnac.trigger_image_distribution
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.trigger_image_distribution:
     state: create  # required
     payload:  # required
     - deviceUuid: SomeValue  # string
       imageUuid: SomeValue  # string
-  delegate_to: localhost
   
 """
 

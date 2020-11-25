@@ -1199,10 +1199,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_device_list
-  cisco.dnac.pnp_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_device:
     state: query  # required
     cm_state: SomeValue  # string
     last_contact: True  # boolean
@@ -1222,14 +1219,10 @@ EXAMPLES = r"""
     virtual_account_id: SomeValue  # string
     workflow_id: SomeValue  # string
     workflow_name: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: add_device
-  cisco.dnac.pnp_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_device:
     state: create  # required
     deviceInfo:  # required
       aaaCredentials:
@@ -1486,32 +1479,20 @@ EXAMPLES = r"""
       licenseLevel: SomeValue  # string
       licenseType: SomeValue  # string
       topOfStackSerialNumber: SomeValue  # string
-  delegate_to: localhost
   
 - name: get_device_by_id
-  cisco.dnac.pnp_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_device:
     state: query  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: delete_device_by_id_from_pnp
-  cisco.dnac.pnp_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_device:
     state: delete  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: update_device
-  cisco.dnac.pnp_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_device:
     state: update  # required
     id: SomeValue  # string, required
     deviceInfo:  # required
@@ -1769,13 +1750,9 @@ EXAMPLES = r"""
       licenseLevel: SomeValue  # string
       licenseType: SomeValue  # string
       topOfStackSerialNumber: SomeValue  # string
-  delegate_to: localhost
   
 - name: get_device_count
-  cisco.dnac.pnp_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_device:
     state: query  # required
     count: True  # boolean, required
     cm_state: SomeValue  # string
@@ -1792,19 +1769,14 @@ EXAMPLES = r"""
     virtual_account_id: SomeValue  # string
     workflow_id: SomeValue  # string
     workflow_name: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: get_device_history
-  cisco.dnac.pnp_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_device:
     state: query  # required
     serial_number: SomeValue  # string, required
     sort: SomeValue  # string
     sort_order: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 """

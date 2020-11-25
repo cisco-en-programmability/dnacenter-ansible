@@ -95,10 +95,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_notifications
-  cisco.dnac.event_series
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.event_series:
     state: query  # required
     category: SomeValue  # string
     domain: SomeValue  # string
@@ -113,14 +110,10 @@ EXAMPLES = r"""
     start_time: SomeValue  # string
     sub_domain: SomeValue  # string
     type: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: count_of_notifications
-  cisco.dnac.event_series
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.event_series:
     state: query  # required
     count: True  # boolean, required
     category: SomeValue  # string
@@ -132,7 +125,6 @@ EXAMPLES = r"""
     start_time: SomeValue  # string
     sub_domain: SomeValue  # string
     type: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 """

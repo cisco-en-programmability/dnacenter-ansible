@@ -103,21 +103,14 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_global_pool
-  cisco.dnac.global_pool
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_pool:
     state: query  # required
     limit: SomeValue  # string
     offset: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: create_global_pool
-  cisco.dnac.global_pool
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_pool:
     state: create  # required
     settings:  # required
       ippool:
@@ -130,13 +123,9 @@ EXAMPLES = r"""
         dnsServerIps:
         - SomeValue  # string
         IpAddressSpace: SomeValue  # string
-  delegate_to: localhost
   
 - name: update_global_pool
-  cisco.dnac.global_pool
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_pool:
     state: update  # required
     settings:  # required
       ippool:
@@ -147,16 +136,11 @@ EXAMPLES = r"""
         - SomeValue  # string
         dnsServerIps:
         - SomeValue  # string
-  delegate_to: localhost
   
 - name: delete_global_ip_pool
-  cisco.dnac.global_pool
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_pool:
     state: delete  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   
 """
 

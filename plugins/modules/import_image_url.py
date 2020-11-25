@@ -77,10 +77,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: import_software_image_via_url
-  cisco.dnac.import_image_url
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.import_image_url:
     state: create  # required
     payload:  # required
     - applicationType: SomeValue  # string
@@ -91,7 +88,6 @@ EXAMPLES = r"""
     schedule_at: SomeValue  # string
     schedule_desc: SomeValue  # string
     schedule_origin: SomeValue  # string
-  delegate_to: localhost
   
 """
 

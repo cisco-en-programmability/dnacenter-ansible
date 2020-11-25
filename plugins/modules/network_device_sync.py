@@ -46,14 +46,10 @@ seealso:
 
 EXAMPLES = r"""
 - name: sync_devices_using_forcesync
-  cisco.dnac.network_device_sync
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_sync:
     state: update  # required
     payload: None, required
     force_sync: True  # boolean
-  delegate_to: localhost
   
 """
 

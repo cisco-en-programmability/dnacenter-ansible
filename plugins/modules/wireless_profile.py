@@ -101,20 +101,13 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_wireless_profile
-  cisco.dnac.wireless_profile
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.wireless_profile:
     state: query  # required
     profile_name: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: create_wireless_profile
-  cisco.dnac.wireless_profile
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.wireless_profile:
     state: create  # required
     profileDetails:  # required
       name: SomeValue  # string
@@ -128,13 +121,9 @@ EXAMPLES = r"""
           enableFlexConnect: True  # boolean
           localToVlan: 1  #  integer
         interfaceName: SomeValue  # string
-  delegate_to: localhost
   
 - name: update_wireless_profile
-  cisco.dnac.wireless_profile
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.wireless_profile:
     state: update  # required
     profileDetails:  # required
       name: SomeValue  # string
@@ -148,16 +137,11 @@ EXAMPLES = r"""
           enableFlexConnect: True  # boolean
           localToVlan: 1  #  integer
         interfaceName: SomeValue  # string
-  delegate_to: localhost
   
 - name: delete_wireless_profile
-  cisco.dnac.wireless_profile
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.wireless_profile:
     state: delete  # required
     wireless_profile_name: SomeValue  # string, required
-  delegate_to: localhost
   
 """
 

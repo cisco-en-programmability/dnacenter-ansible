@@ -369,19 +369,12 @@ seealso:
 
 EXAMPLES = r"""
 - name: delete_all_discovery
-  cisco.dnac.discovery
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.discovery:
     state: delete  # required
 
-  delegate_to: localhost
   
 - name: start_discovery
-  cisco.dnac.discovery
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.discovery:
     state: create  # required
     discoveryType: SomeValue  # string, required
     ipAddressList: SomeValue  # string, required
@@ -440,13 +433,9 @@ EXAMPLES = r"""
     updateMgmtIp: True  # boolean
     userNameList:
     - SomeValue  # string
-  delegate_to: localhost
   
 - name: updates_discovery_by_id
-  cisco.dnac.discovery
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.discovery:
     state: update  # required
     discoveryStatus: SomeValue  # string, required
     id: SomeValue  # string, required
@@ -505,56 +494,35 @@ EXAMPLES = r"""
     timeOut: 1  #  integer
     updateMgmtIp: True  # boolean
     userNameList: SomeValue  # string
-  delegate_to: localhost
   
 - name: get_count_of_all_discovery_jobs
-  cisco.dnac.discovery
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.discovery:
     state: query  # required
     count: True  # boolean, required
-  delegate_to: localhost
   register: query_result
   
 - name: delete_discovery_by_id
-  cisco.dnac.discovery
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.discovery:
     state: delete  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: get_discovery_by_id
-  cisco.dnac.discovery
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.discovery:
     state: query  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: delete_discovery_by_specified_range
-  cisco.dnac.discovery
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.discovery:
     state: delete  # required
     records_to_delete: 1  #  integer, required
     start_index: 1  #  integer, required
-  delegate_to: localhost
   
 - name: get_discoveries_by_range
-  cisco.dnac.discovery
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.discovery:
     state: query  # required
     records_to_return: 1  #  integer, required
     start_index: 1  #  integer, required
-  delegate_to: localhost
   register: query_result
   
 """

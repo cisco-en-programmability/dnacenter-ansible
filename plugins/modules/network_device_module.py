@@ -78,10 +78,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_modules
-  cisco.dnac.network_device_module
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_module:
     state: query  # required
     device_id: SomeValue  # string, required
     limit: SomeValue  # string
@@ -90,24 +87,16 @@ EXAMPLES = r"""
     operational_state_code_list: SomeValue  # string
     part_number_list: SomeValue  # string
     vendor_equipment_type_list: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: get_module_info_by_id
-  cisco.dnac.network_device_module
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_module:
     state: query  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: get_module_count
-  cisco.dnac.network_device_module
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_module:
     state: query  # required
     device_id: SomeValue  # string, required
     count: True  # boolean, required
@@ -115,7 +104,6 @@ EXAMPLES = r"""
     operational_state_code_list: SomeValue  # string
     part_number_list: SomeValue  # string
     vendor_equipment_type_list: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 """

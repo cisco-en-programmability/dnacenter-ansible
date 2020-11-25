@@ -105,10 +105,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: create_netconf_credentials
-  cisco.dnac.global_credential_netconf
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_credential_netconf:
     state: create  # required
     payload:  # required
     - netconfPort: SomeValue  # string, required
@@ -118,13 +115,9 @@ EXAMPLES = r"""
       id: SomeValue  # string
       instanceTenantId: SomeValue  # string
       instanceUuid: SomeValue  # string
-  delegate_to: localhost
   
 - name: update_netconf_credentials
-  cisco.dnac.global_credential_netconf
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_credential_netconf:
     state: update  # required
     netconfPort: SomeValue  # string, required
     comments: SomeValue  # string
@@ -133,7 +126,6 @@ EXAMPLES = r"""
     id: SomeValue  # string
     instanceTenantId: SomeValue  # string
     instanceUuid: SomeValue  # string
-  delegate_to: localhost
   
 """
 

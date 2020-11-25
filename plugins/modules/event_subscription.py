@@ -140,33 +140,22 @@ seealso:
 
 EXAMPLES = r"""
 - name: delete_event_subscriptions
-  cisco.dnac.event_subscription
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.event_subscription:
     state: delete  # required
     subscriptions: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: get_event_subscriptions
-  cisco.dnac.event_subscription
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.event_subscription:
     state: query  # required
     event_ids: SomeValue  # string
     limit: 1  #  number
     offset: 1  #  number
     order: SomeValue  # string
     sort_by: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: create_event_subscriptions
-  cisco.dnac.event_subscription
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.event_subscription:
     state: create  # required
     payload:  # required
     - filter:  # required
@@ -183,13 +172,9 @@ EXAMPLES = r"""
           url: SomeValue  # string
           method: SomeValue  # string
           connectorType: SomeValue  # string
-  delegate_to: localhost
   
 - name: update_event_subscriptions
-  cisco.dnac.event_subscription
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.event_subscription:
     state: update  # required
     payload:  # required
     - filter:  # required
@@ -206,17 +191,12 @@ EXAMPLES = r"""
           url: SomeValue  # string
           method: SomeValue  # string
           connectorType: SomeValue  # string
-  delegate_to: localhost
   
 - name: count_of_event_subscriptions
-  cisco.dnac.event_subscription
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.event_subscription:
     state: query  # required
     event_ids: SomeValue  # string, required
     count: True  # boolean, required
-  delegate_to: localhost
   register: query_result
   
 """

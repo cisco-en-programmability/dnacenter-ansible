@@ -73,10 +73,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: trigger_software_image_activation
-  cisco.dnac.trigger_image_activation
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.trigger_image_activation:
     state: create  # required
     payload:  # required
     - activateLowerImageVersion: True  # boolean
@@ -88,7 +85,6 @@ EXAMPLES = r"""
       smuImageUuidList:
       - SomeValue  # string
     schedule_validate: True  # boolean
-  delegate_to: localhost
   
 """
 

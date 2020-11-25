@@ -1118,10 +1118,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: import_devices_in_bulk
-  cisco.dnac.pnp_device_import
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_device_import:
     state: create  # required
     payload:  # required
     - deviceInfo:  # required
@@ -1379,7 +1376,6 @@ EXAMPLES = r"""
         licenseLevel: SomeValue  # string
         licenseType: SomeValue  # string
         topOfStackSerialNumber: SomeValue  # string
-  delegate_to: localhost
   
 """
 

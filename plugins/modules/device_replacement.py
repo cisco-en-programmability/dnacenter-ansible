@@ -156,10 +156,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: return_replacement_devices_with_details
-  cisco.dnac.device_replacement
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.device_replacement:
     state: query  # required
     family: SomeValue  # string
     faulty_device_name: SomeValue  # string
@@ -172,14 +169,10 @@ EXAMPLES = r"""
     replacement_status: SomeValue  # string
     sort_by: SomeValue  # string
     sort_order: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: mark_device_for_replacement
-  cisco.dnac.device_replacement
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.device_replacement:
     state: create  # required
     payload:  # required
     - faultyDeviceId: SomeValue  # string, required
@@ -196,13 +189,9 @@ EXAMPLES = r"""
       replacementDeviceSerialNumber: SomeValue  # string
       replacementTime: 1  #  integer
       workflowId: SomeValue  # string
-  delegate_to: localhost
   
 - name: unmark_device_for_replacement
-  cisco.dnac.device_replacement
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.device_replacement:
     state: update  # required
     payload:  # required
     - faultyDeviceId: SomeValue  # string, required
@@ -219,17 +208,12 @@ EXAMPLES = r"""
       replacementDeviceSerialNumber: SomeValue  # string
       replacementTime: 1  #  integer
       workflowId: SomeValue  # string
-  delegate_to: localhost
   
 - name: return_replacement_devices_count
-  cisco.dnac.device_replacement
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.device_replacement:
     state: query  # required
     count: True  # boolean, required
     replacement_status: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 """

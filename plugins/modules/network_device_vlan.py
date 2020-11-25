@@ -46,14 +46,10 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_device_interface_vlans
-  cisco.dnac.network_device_vlan
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_vlan:
     state: query  # required
     id: SomeValue  # string, required
     interface_type: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 """

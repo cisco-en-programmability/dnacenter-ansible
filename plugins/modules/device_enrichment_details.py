@@ -42,13 +42,9 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_device_enrichment_details
-  cisco.dnac.device_enrichment_details
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.device_enrichment_details:
     state: query  # required
     headers:  # required
-  delegate_to: localhost
   register: query_result
   
 """

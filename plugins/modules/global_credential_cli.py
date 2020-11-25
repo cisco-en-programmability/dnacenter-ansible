@@ -125,10 +125,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: create_cli_credentials
-  cisco.dnac.global_credential_cli
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_credential_cli:
     state: create  # required
     payload:  # required
     - enablePassword: SomeValue  # string, required
@@ -140,13 +137,9 @@ EXAMPLES = r"""
       id: SomeValue  # string
       instanceTenantId: SomeValue  # string
       instanceUuid: SomeValue  # string
-  delegate_to: localhost
   
 - name: update_cli_credentials
-  cisco.dnac.global_credential_cli
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.global_credential_cli:
     state: update  # required
     enablePassword: SomeValue  # string, required
     password: SomeValue  # string, required
@@ -157,7 +150,6 @@ EXAMPLES = r"""
     id: SomeValue  # string
     instanceTenantId: SomeValue  # string
     instanceUuid: SomeValue  # string
-  delegate_to: localhost
   
 """
 

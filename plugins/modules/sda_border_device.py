@@ -112,29 +112,18 @@ seealso:
 
 EXAMPLES = r"""
 - name: gets_border_device_detail
-  cisco.dnac.sda_border_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_border_device:
     state: query  # required
     device_ipaddress: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: deletes_border_device
-  cisco.dnac.sda_border_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_border_device:
     state: delete  # required
     device_ipaddress: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: adds_border_device
-  cisco.dnac.sda_border_device
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.sda_border_device:
     state: create  # required
     payload:  # required
     - deviceManagementIpAddress: SomeValue  # string
@@ -150,7 +139,6 @@ EXAMPLES = r"""
         l3Handoff:
         - virtualNetwork:
             virtualNetworkName: SomeValue  # string
-  delegate_to: localhost
   
 """
 

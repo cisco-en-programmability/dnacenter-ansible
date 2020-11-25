@@ -52,24 +52,16 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_functional_capability_for_devices
-  cisco.dnac.network_device_functional_capability
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_functional_capability:
     state: query  # required
     device_id: SomeValue  # string, required
     function_name: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: get_functional_capability_by_id
-  cisco.dnac.network_device_functional_capability
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_functional_capability:
     state: query  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 """

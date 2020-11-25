@@ -403,10 +403,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: create_template
-  cisco.dnac.template
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.template:
     state: create  # required
     project_id: SomeValue  # string, required
     author: SomeValue  # string
@@ -485,13 +482,9 @@ EXAMPLES = r"""
         selectionType: SomeValue  # string
         selectionValues:
     version: SomeValue  # string
-  delegate_to: localhost
   
 - name: gets_the_templates_available
-  cisco.dnac.template
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.template:
     state: query  # required
     filter_conflicting_templates: True  # boolean
     product_family: SomeValue  # string
@@ -500,14 +493,10 @@ EXAMPLES = r"""
     project_id: SomeValue  # string
     software_type: SomeValue  # string
     software_version: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: update_template
-  cisco.dnac.template
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.template:
     state: update  # required
     author: SomeValue  # string
     composite: True  # boolean
@@ -585,27 +574,18 @@ EXAMPLES = r"""
         selectionType: SomeValue  # string
         selectionValues:
     version: SomeValue  # string
-  delegate_to: localhost
   
 - name: get_template_details
-  cisco.dnac.template
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.template:
     state: query  # required
     template_id: SomeValue  # string, required
     latest_version: True  # boolean
-  delegate_to: localhost
   register: query_result
   
 - name: delete_template
-  cisco.dnac.template
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.template:
     state: delete  # required
     template_id: SomeValue  # string, required
-  delegate_to: localhost
   
 """
 

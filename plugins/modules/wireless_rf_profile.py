@@ -156,20 +156,13 @@ seealso:
 
 EXAMPLES = r"""
 - name: retrieve_rf_profiles
-  cisco.dnac.wireless_rf_profile
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.wireless_rf_profile:
     state: query  # required
     rf_profile_name: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: create_or_update_rf_profile
-  cisco.dnac.wireless_rf_profile
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.wireless_rf_profile:
     state: create  # required
     channelWidth: SomeValue  # string, required
     defaultRfProfile: True  # boolean, required
@@ -196,16 +189,11 @@ EXAMPLES = r"""
       rxSopThreshold: SomeValue  # string
       minPowerLevel: 1  #  number
       maxPowerLevel: 1  #  number
-  delegate_to: localhost
   
 - name: delete_rf_profiles
-  cisco.dnac.wireless_rf_profile
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.wireless_rf_profile:
     state: delete  # required
     rf_profile_name: SomeValue  # string, required
-  delegate_to: localhost
   
 """
 

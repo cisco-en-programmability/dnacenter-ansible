@@ -42,13 +42,9 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_membership
-  cisco.dnac.site_membership
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.site_membership:
     state: query  # required
     site_id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 """

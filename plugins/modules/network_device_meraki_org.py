@@ -42,13 +42,9 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_organization_list_for_meraki
-  cisco.dnac.network_device_meraki_org
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_meraki_org:
     state: query  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 """

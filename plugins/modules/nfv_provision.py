@@ -570,10 +570,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: provision_nfv
-  cisco.dnac.nfv_provision
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.nfv_provision:
     state: create  # required
     provisioning:  # required
     - site:  # required
@@ -678,16 +675,11 @@ EXAMPLES = r"""
         customTemplate:
         - deviceType: SomeValue  # string, required
           template: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: get_device_details_by_ip
-  cisco.dnac.nfv_provision
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.nfv_provision:
     state: query  # required
     device_ip: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 """

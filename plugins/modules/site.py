@@ -149,24 +149,17 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_site
-  cisco.dnac.site
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.site:
     state: query  # required
     limit: SomeValue  # string
     name: SomeValue  # string
     offset: SomeValue  # string
     site_id: SomeValue  # string
     type: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: create_site
-  cisco.dnac.site
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.site:
     state: present  # required
     site:  # required
       area:
@@ -186,22 +179,14 @@ EXAMPLES = r"""
         length: 1  #  number
         height: 1  #  number
     type: SomeValue  # string, required, valid values: 'area', 'building', 'floor'.
-  delegate_to: localhost
   
 - name: delete_site
-  cisco.dnac.site
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.site:
     state: absent  # required
     site_id: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: update_site
-  cisco.dnac.site
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.site:
     state: present  # required
     site_id: SomeValue  # string, required
     site:  # required
@@ -221,17 +206,12 @@ EXAMPLES = r"""
         length: 1  #  number
         height: 1  #  number
     type: SomeValue  # string, required, valid values: 'area', 'building', 'floor'.
-  delegate_to: localhost
   
 - name: get_site_count
-  cisco.dnac.site
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.site:
     state: query  # required
     count: True  # boolean, required
     site_id: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 """

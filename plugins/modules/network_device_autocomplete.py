@@ -125,10 +125,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: retrieves_all_network_devices
-  cisco.dnac.network_device_autocomplete
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.network_device_autocomplete:
     state: query  # required
     associated_wlc_ip: SomeValue  # string
     collection_interval: SomeValue  # string
@@ -152,7 +149,6 @@ EXAMPLES = r"""
     type: SomeValue  # string
     up_time: SomeValue  # string
     vrf_name: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 """

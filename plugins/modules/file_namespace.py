@@ -43,23 +43,15 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_list_of_available_namespaces
-  cisco.dnac.file_namespace
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.file_namespace:
     state: query  # required
 
-  delegate_to: localhost
   register: query_result
   
 - name: get_list_of_files
-  cisco.dnac.file_namespace
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.file_namespace:
     state: query  # required
     name_space: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 """

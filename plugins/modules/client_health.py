@@ -41,13 +41,9 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_overall_client_health
-  cisco.dnac.client_health
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.client_health:
     state: query  # required
     timestamp: 1  #  integer
-  delegate_to: localhost
   register: query_result
   
 """

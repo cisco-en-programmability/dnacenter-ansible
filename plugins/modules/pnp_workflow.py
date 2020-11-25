@@ -212,10 +212,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: get_workflows
-  cisco.dnac.pnp_workflow
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_workflow:
     state: query  # required
     limit: 1  #  integer
     name: SomeValue  # string
@@ -223,14 +220,10 @@ EXAMPLES = r"""
     sort: SomeValue  # string
     sort_order: SomeValue  # string
     type: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 - name: add_a_workflow
-  cisco.dnac.pnp_workflow
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_workflow:
     state: create  # required
     _id: SomeValue  # string
     addToInventory: True  # boolean
@@ -266,32 +259,20 @@ EXAMPLES = r"""
     type: SomeValue  # string
     useState: SomeValue  # string
     version: 1  #  integer
-  delegate_to: localhost
   
 - name: get_workflow_by_id
-  cisco.dnac.pnp_workflow
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_workflow:
     state: query  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   register: query_result
   
 - name: delete_workflow_by_id
-  cisco.dnac.pnp_workflow
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_workflow:
     state: delete  # required
     id: SomeValue  # string, required
-  delegate_to: localhost
   
 - name: update_workflow
-  cisco.dnac.pnp_workflow
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_workflow:
     state: update  # required
     id: SomeValue  # string, required
     _id: SomeValue  # string
@@ -328,17 +309,12 @@ EXAMPLES = r"""
     type: SomeValue  # string
     useState: SomeValue  # string
     version: 1  #  integer
-  delegate_to: localhost
   
 - name: get_workflow_count
-  cisco.dnac.pnp_workflow
-    dnac_host: dnac
-    dnac_username: admin
-    dnac_password: SomeSecretPassword
+  cisco.dnac.pnp_workflow:
     state: query  # required
     count: True  # boolean, required
     name: SomeValue  # string
-  delegate_to: localhost
   register: query_result
   
 """
