@@ -1,0 +1,18 @@
+- hosts: dnac_servers
+  gather_facts: no
+  tasks:
+  - name: Get/create/delete import image file
+    cisco.dnac.import_image_file:
+      state: create
+      filename: test.template  # string
+      filepath: playbooks/files/test.template  # string
+      is_third_party: True  # boolean
+      third_party_application_type: SomeValue  # string
+      third_party_image_family: SomeValue  # string
+      third_party_vendor: SomeValue  # string
+       
+    register: result
+
+  - name: Show result
+    debug:
+      msg: "{{ result }}"     

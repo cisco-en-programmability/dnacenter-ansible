@@ -1,10 +1,10 @@
 dnac_servers:
   hosts:
     dnac_server:
-      dnac_host: 192.168.196.2
+      dnac_host: <A.B.C.D>
       dnac_port: 443
-      dnac_username: altus
-      dnac_password: Altus123
+      dnac_username: <username>
+      dnac_password: <password>
       dnac_version: 2.1.1
       dnac_verify: False
 

@@ -1,0 +1,41 @@
+- hosts: dnac_servers
+  gather_facts: no
+  tasks:
+  - name: Create an application set
+    cisco.dnac.application_set:
+      state: create
+      payload:
+        - name: AppSet1
+        - name: AppSet2
+    register: result
+
+  - name: Get task tree
+    cisco.dnac.task:
+      state: query
+      task_id: "{{ result.dnac_response.response.taskId }}"
+      tree: True
+    register: result
+
+  - name: Show retrieved task
+    debug:
+      msg: "{{ result.dnac_response.response }}"
+  
+  - name: Get all tasks
+    cisco.dnac.application_set:
+      state: query
+    register: result
+
+  - name: Show results
+    debug:
+      msg: "{{ result }}"
+
+  - name: Get task count
+    cisco.dnac.application_set:
+      state: query
+      count: True
+    register: result
+
+  - name: Show results
+    debug:
+      msg: "{{ result }}"
+

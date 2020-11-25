@@ -1,7 +1,8 @@
 cisco-dnac-*.tar.gz
 tmp/*
 __pycache__/
-docs/examples/*.json
+docs/examples/*
+playbooks/hosts.yml
 .vscode/
 debug
 run
