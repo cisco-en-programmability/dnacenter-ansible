@@ -1,0 +1,77 @@
+- hosts: dnac_servers
+  gather_facts: no
+  tasks:
+  - name: Create tag with name "MyNewTag"
+    cisco.dnac.tag:
+      state: present
+      description: My Tag
+      name: MyNewTag
+    register: result
+
+  - name: Get task status
+    cisco.dnac.task:
+      state: query
+      task_id: "{{ result.dnac_response.response.taskId }}"
+      tree: True
+    register: task_tree_result
+  
+  - name: Show status of create tag operation
+    debug:
+      msg: "{{ task_tree_result.dnac_response.response }}"
+  
+  - name: Create the same tag
+    cisco.dnac.tag:
+      state: present
+      description: My Tag
+      name: MyNewTag
+    register: result
+
+  - name: Get task status
+    cisco.dnac.task:
+      state: query
+      task_id: "{{ result.dnac_response.response.taskId }}"
+      tree: True
+    register: task_tree_result
+
+  - name: Show status of update tag operation
+    debug:
+      msg: "{{ task_tree_result.dnac_response.response }}"
+
+  - name: Get tag with name "MyNewTag"
+    cisco.dnac.tag:
+      state: query
+      name: MyNewTag
+    register: result
+
+  - name: Show tags with name "MyNewTag"
+    debug:
+      msg: "{{ result }}"
+
+  - name: Delete tag
+    cisco.dnac.tag:
+      state: absent
+      id: "{{ result.dnac_response.response[0].id }}"
+    register: result
+
+  - name: Get task status
+    cisco.dnac.task:
+      state: query
+      task_id: "{{ result.dnac_response.response.taskId }}"
+      tree: True
+    register: task_tree_result
+
+  - name: Show status of delete tag operation
+    debug:
+      msg: "{{ task_tree_result.dnac_response.response }}"
+
+  - name: Get tag with name "MyNewTag"
+    cisco.dnac.tag:
+      state: query
+      name: MyNewTag
+    register: result
+
+  - name: Show tags with name "MyNewTag"
+    debug:
+      msg: "{{ result }}"
+
+  
