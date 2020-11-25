@@ -16,8 +16,7 @@ tags:
 - collection
 - networking
 - sdn
-repository: https://github.com/CiscoDevNet/ansible-dnac
+repository: https://github.com/cisco-en-programmability/dnacenter-ansible
 documentation: https://docs.ansible.com/ansible/latest/scenario_guides/guide_dnac.html
-homepage: https://github.com/CiscoDevNet/ansible-dnac
-issues: https://github.com/CiscoDevNet/ansible-aci/issues
-
+homepage: https://github.com/cisco-en-programmability/dnacenter-ansible
+issues: https://github.com/cisco-en-programmability/dnacenter-ansible.git/issues
