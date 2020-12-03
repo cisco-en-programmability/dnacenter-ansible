@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2020, first last <email>
+# Copyright: (c) 2020, Rafael Campos <rcampos@altus.cr>
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
@@ -21,7 +21,7 @@ description:
 - Update Site area/building/floor with specified hierarchy and new values.
 - API to get Site count.
 version_added: '1.0'
-author: first last (@GitHubID)
+author: Rafael Campos (@racampos)
 options:
   limit:
     description:
@@ -41,7 +41,7 @@ options:
     - Site id to which Site details to be deleted.
     - Site id to which Site details to be updated.
     - Site id to retrieve Site count.
-    - Required for states absent and present.
+    - Required for states present and absent.
     type: str
   type:
     description:

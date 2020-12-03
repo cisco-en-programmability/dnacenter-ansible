@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2020, first last <email>
+# Copyright: (c) 2020, Rafael Campos <rcampos@altus.cr>
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
@@ -17,7 +17,7 @@ short_description: Manage EventApiStatus objects of EventManagement
 description:
 - Get the Status of events API calls with provided executionId as mandatory path parameter.
 version_added: '1.0'
-author: first last (@GitHubID)
+author: Rafael Campos (@racampos)
 options:
   execution_id:
     description:

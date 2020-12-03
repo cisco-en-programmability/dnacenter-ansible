@@ -1,5 +1,4 @@
 from ansible.plugins.action import ActionBase
-from ansible.module_utils._text import to_native
 from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
     AnsibleArgSpecValidator,
 )
@@ -54,7 +53,7 @@ class ActionModule(ActionBase):
         dnac_params = {
             k: task_vars[k]
             for k in dnac_argument_spec().keys()
-            if not task_vars.get(k) == None
+            if not task_vars.get(k) is None
         }
         # Updates the module parameters dictionary with the dnac parameters
         self._task.args.update(dnac_params)

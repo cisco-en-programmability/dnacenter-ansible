@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2020, first last <email>
+# Copyright: (c) 2020, Rafael Campos <rcampos@altus.cr>
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
@@ -15,9 +15,9 @@ DOCUMENTATION = r"""
 module: import_image
 short_description: Manage ImportImage objects of SoftwareImageManagementSwim
 description:
-- Returns software image list based on a filter criteria. For example: "filterbyName = cat3k%".
+- Returns software image list based on a filter criteria. For example "filterbyName = cat3k%"
 version_added: '1.0'
-author: first last (@GitHubID)
+author: Rafael Campos (@racampos)
 options:
   application_type:
     description:
@@ -135,7 +135,7 @@ EXAMPLES = r"""
 
 RETURN = """
 get_software_image_details:
-    description: Returns software image list based on a filter criteria. For example: "filterbyName = cat3k%".
+    description: Returns software image list based on a filter criteria. For example "filterbyName = cat3k%"
     returned: always
     type: dict
     contains:

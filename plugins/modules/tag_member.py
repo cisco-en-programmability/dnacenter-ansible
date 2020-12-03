@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2020, first last <email>
+# Copyright: (c) 2020, Rafael Campos <rcampos@altus.cr>
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
@@ -22,7 +22,7 @@ description:
 - Updates tag membership. As part of the request payload through this API, only the specified members are added / retained to the given input tags. Possible values of memberType attribute in the request payload can be queried by using the /tag/member/type API.
 - Returns list of supported resource types.
 version_added: '1.0'
-author: first last (@GitHubID)
+author: Rafael Campos (@racampos)
 options:
   id:
     description:

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2020, first last <email>
+# Copyright: (c) 2020, Rafael Campos <rcampos@altus.cr>
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
@@ -19,14 +19,14 @@ description:
 - API to create a Network for DHCP and DNS center server settings.
 - API to update Network for DHCP and DNS center server settings.
 version_added: '1.0'
-author: first last (@GitHubID)
+author: Rafael Campos (@racampos)
 options:
   site_id:
     description:
     - Site id to get the Network settings associated with the site.
     - Site id to which site details to associate with the Network settings.
     - Site id to update the Network settings which is associated with the site.
-    - Required for states create and update.
+    - Required for states update and create.
     type: str
   settings:
     description:
