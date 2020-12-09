@@ -17,6 +17,6 @@ tags:
 - networking
 - sdn
 repository: https://github.com/cisco-en-programmability/dnacenter-ansible
-documentation: https://docs.ansible.com/ansible/latest/scenario_guides/guide_dnac.html
+documentation: https://developer.cisco.com/docs/dna-center/#!ansible
 homepage: https://github.com/cisco-en-programmability/dnacenter-ansible
-issues: https://github.com/cisco-en-programmability/dnacenter-ansible.git/issues
+issues: https://github.com/cisco-en-programmability/dnacenter-ansible/issues
