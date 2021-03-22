@@ -9,12 +9,18 @@ This collection has been tested and supports Cisco DNA Center 2.1.1.
 *Note: This collection is not compatible with versions of Ansible before v2.8.*
 
 ## Requirements
-Ansible v2.9 or newer
+- Ansible v2.9 or newer
+- [DNA Center SDK](https://github.com/cisco-en-programmability/dnacentersdk) v2.1.1 or newer
 
 ## Install
 Ansible must be installed
 ```
 sudo pip install ansible
+```
+
+DNA Center SDK must be installed
+```
+sudo pip install dnacentersdk
 ```
 
 Install the collection
@@ -79,6 +85,24 @@ ansible-galaxy collection install cisco-dnac-* --force
 ### See Also:
 
 * [Ansible Using collections](https://docs.ansible.com/ansible/latest/user_guide/collections_using.html) for more details.
+
+## Attention macOS users
+
+If you're using macOS you may receive this error when running your playbook:
+
+```
+objc[34120]: +[__NSCFConstantString initialize] may have been in progress in another thread when fork() was called.
+objc[34120]: +[__NSCFConstantString initialize] may have been in progress in another thread when fork() was called. We cannot safely call it or ignore it in the fork() child process. Crashing instead. Set a breakpoint on objc_initializeAfterForkError to debug.
+ERROR! A worker was found in a dead state
+```
+
+If that's the case try setting this environment variable:
+```
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+```
+
+
+
 
 ## Contributing to this collection
 
