@@ -291,7 +291,7 @@ class ModuleDefinition(object):
     # Retrieves a dictionary with all the parameters supported by this module
     # This dictionary is later used to instantiate the AnsibleModule class
     def get_argument_spec_dict(self):
-        param_dict = dict()
+        param_dict = dnac_argument_spec()
         for function in self.get_functions():
             for param in function.params:
                 param_dict.update(param.get_dict())
