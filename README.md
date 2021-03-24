@@ -101,11 +101,13 @@ If that's the case try setting this environment variable:
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 ```
 
-
-
-
 ## Contributing to this collection
 
 Ongoing development efforts and contributions to this collection are tracked as issues in this repository.
 
 We welcome community contributions to this collection. If you find problems, need an enhancement or need a new module, please open an issue or create a PR against the [Cisco DNA Center Ansible collection repository](https://github.com/cisco-en-programmability/dnacenter-ansible/issues).
+
+## Code of Conduct
+This collection follows the Ansible project's
+[Code of Conduct](https://docs.ansible.com/ansible/devel/community/code_of_conduct.html).
+Please read and familiarize yourself with this document.

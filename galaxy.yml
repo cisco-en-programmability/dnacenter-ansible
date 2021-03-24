@@ -10,7 +10,7 @@ authors:
 description: Ansible Modules for Cisco DNA Center
 license_file: 'LICENSE'
 tags:
-- ciscoq
+- cisco
 - dnac
 - cloud
 - collection
