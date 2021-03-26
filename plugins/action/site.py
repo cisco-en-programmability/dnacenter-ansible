@@ -15,7 +15,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.definitions.site import
     SiteExistenceCriteria,
 )
 
-IDEMPOTENT=True
+IDEMPOTENT = True
 
 # Instantiate the module definition for this module
 moddef = ModuleDefinition(module_definition)

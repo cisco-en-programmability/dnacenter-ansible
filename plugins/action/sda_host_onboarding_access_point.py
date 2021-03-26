@@ -14,7 +14,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.definitions.sda_host_on
     module_definition,
 )
 
-IDEMPOTENT=False
+IDEMPOTENT = False
 
 # Instantiate the module definition for this module
 moddef = ModuleDefinition(module_definition)
