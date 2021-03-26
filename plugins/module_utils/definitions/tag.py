@@ -321,3 +321,22 @@ module_definition = json.loads(
     }
 }"""
 )
+
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    ObjectExistenceCriteria,
+)
+
+
+class TagExistenceCriteria(ObjectExistenceCriteria):
+    def __init__(self, dnac):
+        super(TagExistenceCriteria, self).__init__(
+            dnac=dnac, get_function="get_tag", get_params={}, list_field="response"
+        )
+        self.WARN_OBJECT_EXISTS = "Tag already exists and was updated."
+        self.ERR_MISSING_PARAM = "Missing 'name' parameter"
+
+    def _object_is_equal(self, existing_object, candidate_params):
+        if "name" in candidate_params.keys():
+            return existing_object["name"] == candidate_params["name"]
+        else:
+            self.dnac.fail_json(msg=self.ERR_MISSING_PARAM)
