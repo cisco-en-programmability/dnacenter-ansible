@@ -15,7 +15,7 @@ DOCUMENTATION = r"""
 module: issue_enrichment_details
 short_description: Manage IssueEnrichmentDetails objects of Issues
 description:
-- Enriches a given network issue context (an issue id or end user’s Mac Address) with details about the issue(s), impacted hosts and suggested actions for remediation.
+- Enriches a given network issue context (an issue id or end user's Mac Address) with details about the issue(s), impacted hosts and suggested actions for remediation.
 version_added: '1.0'
 author: Rafael Campos (@racampos)
 options:
@@ -51,7 +51,7 @@ EXAMPLES = r"""
 
 RETURN = """
 get_issue_enrichment_details:
-    description: Enriches a given network issue context (an issue id or end user’s Mac Address) with details about the issue(s), impacted hosts and suggested actions for remediation.
+    description: Enriches a given network issue context (an issue id or end user's Mac Address) with details about the issue(s), impacted hosts and suggested actions for remediation.
     returned: always
     type: dict
     contains:

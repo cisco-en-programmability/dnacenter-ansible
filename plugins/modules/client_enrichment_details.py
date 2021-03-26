@@ -15,7 +15,7 @@ DOCUMENTATION = r"""
 module: client_enrichment_details
 short_description: Manage ClientEnrichmentDetails objects of Clients
 description:
-- Enriches a given network End User context (a network user-id or end user’s device Mac Address) with details about the user, the devices that the user is connected to and the assurance issues that the user is impacted by.
+- Enriches a given network End User context (a network user-id or end user's device Mac Address) with details about the user, the devices that the user is connected to and the assurance issues that the user is impacted by.
 version_added: '1.0'
 author: Rafael Campos (@racampos)
 options:
@@ -51,7 +51,7 @@ EXAMPLES = r"""
 
 RETURN = """
 get_client_enrichment_details:
-    description: Enriches a given network End User context (a network user-id or end user’s device Mac Address) with details about the user, the devices that the user is connected to and the assurance issues that the user is impacted by.
+    description: Enriches a given network End User context (a network user-id or end user's device Mac Address) with details about the user, the devices that the user is connected to and the assurance issues that the user is impacted by.
     returned: always
     type: dict
     contains:
