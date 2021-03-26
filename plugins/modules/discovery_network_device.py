@@ -106,8 +106,7 @@ EXAMPLES = r"""
     id: SomeValue  # string, required
     task_id: SomeValue  # string
   register: query_result
-  
-- name: get_discovered_devices_by_range
+  - name: get_discovered_devices_by_range
   cisco.dnac.discovery_network_device:
     state: query  # required
     id: SomeValue  # string, required
@@ -115,16 +114,14 @@ EXAMPLES = r"""
     start_index: 1  #  integer, required
     task_id: SomeValue  # string
   register: query_result
-  
-- name: get_devices_discovered_by_id
+  - name: get_devices_discovered_by_id
   cisco.dnac.discovery_network_device:
     state: query  # required
     id: SomeValue  # string, required
     count: True  # boolean, required
     task_id: SomeValue  # string
   register: query_result
-  
-- name: get_network_devices_from_discovery
+  - name: get_network_devices_from_discovery
   cisco.dnac.discovery_network_device:
     state: query  # required
     id: SomeValue  # string, required
@@ -139,8 +136,7 @@ EXAMPLES = r"""
     sort_order: SomeValue  # string
     task_id: SomeValue  # string
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 get_discovered_network_devices_by_discovery_id:

@@ -157,8 +157,7 @@ EXAMPLES = r"""
     site_id: SomeValue  # string
     type: SomeValue  # string
   register: query_result
-  
-- name: create_site
+  - name: create_site
   cisco.dnac.site:
     state: present  # required
     site:  # required
@@ -179,13 +178,11 @@ EXAMPLES = r"""
         length: 1  #  number
         height: 1  #  number
     type: SomeValue  # string, required, valid values: 'area', 'building', 'floor'.
-  
-- name: delete_site
+  - name: delete_site
   cisco.dnac.site:
     state: absent  # required
     site_id: SomeValue  # string, required
-  
-- name: update_site
+  - name: update_site
   cisco.dnac.site:
     state: present  # required
     site_id: SomeValue  # string, required
@@ -206,15 +203,13 @@ EXAMPLES = r"""
         length: 1  #  number
         height: 1  #  number
     type: SomeValue  # string, required, valid values: 'area', 'building', 'floor'.
-  
-- name: get_site_count
+  - name: get_site_count
   cisco.dnac.site:
     state: query  # required
     count: True  # boolean, required
     site_id: SomeValue  # string
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 get_site:

@@ -116,13 +116,11 @@ EXAMPLES = r"""
     state: query  # required
     device_ipaddress: SomeValue  # string, required
   register: query_result
-  
-- name: deletes_border_device
+  - name: deletes_border_device
   cisco.dnac.sda_border_device:
     state: delete  # required
     device_ipaddress: SomeValue  # string, required
-  
-- name: adds_border_device
+  - name: adds_border_device
   cisco.dnac.sda_border_device:
     state: create  # required
     payload:  # required
@@ -139,8 +137,7 @@ EXAMPLES = r"""
         l3Handoff:
         - virtualNetwork:
             virtualNetworkName: SomeValue  # string
-  
-"""
+  """
 
 RETURN = """
 gets_border_device_detail:

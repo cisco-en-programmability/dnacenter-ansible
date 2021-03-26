@@ -70,8 +70,7 @@ EXAMPLES = r"""
     state: query  # required
 
   register: query_result
-  
-- name: create_update_snmp_properties
+  - name: create_update_snmp_properties
   cisco.dnac.snmp_property:
     state: create  # required
     payload:  # required
@@ -80,8 +79,7 @@ EXAMPLES = r"""
       instanceUuid: SomeValue  # string
       intValue: 1  #  integer
       systemPropertyName: SomeValue  # string
-  
-"""
+  """
 
 RETURN = """
 get_snmp_properties:

@@ -86,14 +86,12 @@ EXAMPLES = r"""
     device_ip: SomeValue  # string, required
     interface_name: SomeValue  # string, required
   register: query_result
-  
-- name: delete_port_assignment_for_user_device
+  - name: delete_port_assignment_for_user_device
   cisco.dnac.sda_host_onboarding_user_device:
     state: delete  # required
     device_ip: SomeValue  # string, required
     interface_name: SomeValue  # string, required
-  
-- name: add_port_assignment_for_user_device
+  - name: add_port_assignment_for_user_device
   cisco.dnac.sda_host_onboarding_user_device:
     state: create  # required
     payload:  # required
@@ -103,8 +101,7 @@ EXAMPLES = r"""
       dataIpAddressPoolName: SomeValue  # string
       voiceIpAddressPoolName: SomeValue  # string
       authenticateTemplateName: SomeValue  # string
-  
-"""
+  """
 
 RETURN = """
 get_port_assignment_for_user_device:

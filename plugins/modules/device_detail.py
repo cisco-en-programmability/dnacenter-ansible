@@ -57,8 +57,7 @@ EXAMPLES = r"""
     search_by: SomeValue  # string, required
     timestamp: 1  #  integer
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 get_device_detail:

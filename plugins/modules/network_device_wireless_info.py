@@ -46,8 +46,7 @@ EXAMPLES = r"""
     state: query  # required
     id: SomeValue  # string, required
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 get_wireless_lan_controller_details_by_id:

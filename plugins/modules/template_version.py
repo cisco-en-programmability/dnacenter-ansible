@@ -55,14 +55,12 @@ EXAMPLES = r"""
     state: create  # required
     comments: SomeValue  # string
     templateId: SomeValue  # string
-  
-- name: get_template_versions
+  - name: get_template_versions
   cisco.dnac.template_version:
     state: query  # required
     template_id: SomeValue  # string, required
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 version_template:

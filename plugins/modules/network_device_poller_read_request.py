@@ -68,8 +68,7 @@ EXAMPLES = r"""
     description: SomeValue  # string
     name: SomeValue  # string
     timeout: 1  #  integer
-  
-"""
+  """
 
 RETURN = """
 run_read_only_commands_on_devices:

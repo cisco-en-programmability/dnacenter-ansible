@@ -88,8 +88,7 @@ EXAMPLES = r"""
     schedule_at: SomeValue  # string
     schedule_desc: SomeValue  # string
     schedule_origin: SomeValue  # string
-  
-"""
+  """
 
 RETURN = """
 import_software_image_via_url:

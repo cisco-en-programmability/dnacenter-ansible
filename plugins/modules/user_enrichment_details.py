@@ -46,8 +46,7 @@ EXAMPLES = r"""
     state: query  # required
     headers:  # required
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 get_user_enrichment_details:

@@ -150,8 +150,7 @@ EXAMPLES = r"""
     up_time: SomeValue  # string
     vrf_name: SomeValue  # string
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 retrieves_all_network_devices:

@@ -221,8 +221,7 @@ EXAMPLES = r"""
     sort_order: SomeValue  # string
     type: SomeValue  # string
   register: query_result
-  
-- name: add_a_workflow
+  - name: add_a_workflow
   cisco.dnac.pnp_workflow:
     state: create  # required
     _id: SomeValue  # string
@@ -259,19 +258,16 @@ EXAMPLES = r"""
     type: SomeValue  # string
     useState: SomeValue  # string
     version: 1  #  integer
-  
-- name: get_workflow_by_id
+  - name: get_workflow_by_id
   cisco.dnac.pnp_workflow:
     state: query  # required
     id: SomeValue  # string, required
   register: query_result
-  
-- name: delete_workflow_by_id
+  - name: delete_workflow_by_id
   cisco.dnac.pnp_workflow:
     state: delete  # required
     id: SomeValue  # string, required
-  
-- name: update_workflow
+  - name: update_workflow
   cisco.dnac.pnp_workflow:
     state: update  # required
     id: SomeValue  # string, required
@@ -309,15 +305,13 @@ EXAMPLES = r"""
     type: SomeValue  # string
     useState: SomeValue  # string
     version: 1  #  integer
-  
-- name: get_workflow_count
+  - name: get_workflow_count
   cisco.dnac.pnp_workflow:
     state: query  # required
     count: True  # boolean, required
     name: SomeValue  # string
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 get_workflows:

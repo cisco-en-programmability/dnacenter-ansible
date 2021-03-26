@@ -67,8 +67,7 @@ EXAMPLES = r"""
     limit: 1  #  integer
     offset: 1  #  integer
   register: query_result
-  
-- name: get_discovery_jobs_by_ip
+  - name: get_discovery_jobs_by_ip
   cisco.dnac.discovery_job:
     state: query  # required
     ip_address: SomeValue  # string, required
@@ -76,8 +75,7 @@ EXAMPLES = r"""
     name: SomeValue  # string
     offset: 1  #  integer
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 get_list_of_discoveries_by_discovery_id:

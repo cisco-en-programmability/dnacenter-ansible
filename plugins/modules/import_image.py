@@ -15,7 +15,7 @@ DOCUMENTATION = r"""
 module: import_image
 short_description: Manage ImportImage objects of SoftwareImageManagementSwim
 description:
-- Returns software image list based on a filter criteria. For example "filterbyName = cat3k%"
+- Returns software image list based on a filter criteria. For example: "filterbyName = cat3k%".
 version_added: '1.0'
 author: Rafael Campos (@racampos)
 options:
@@ -130,12 +130,11 @@ EXAMPLES = r"""
     sort_order: SomeValue  # string
     version: SomeValue  # string
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 get_software_image_details:
-    description: Returns software image list based on a filter criteria. For example "filterbyName = cat3k%"
+    description: Returns software image list based on a filter criteria. For example: "filterbyName = cat3k%".
     returned: always
     type: dict
     contains:

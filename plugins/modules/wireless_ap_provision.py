@@ -63,8 +63,7 @@ EXAMPLES = r"""
     - executionId: SomeValue  # string
       executionUrl: SomeValue  # string
       message: SomeValue  # string
-  
-"""
+  """
 
 RETURN = """
 ap_provision_and_re_provision:

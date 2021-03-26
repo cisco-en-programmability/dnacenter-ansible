@@ -170,8 +170,7 @@ EXAMPLES = r"""
     sort_by: SomeValue  # string
     sort_order: SomeValue  # string
   register: query_result
-  
-- name: mark_device_for_replacement
+  - name: mark_device_for_replacement
   cisco.dnac.device_replacement:
     state: create  # required
     payload:  # required
@@ -189,8 +188,7 @@ EXAMPLES = r"""
       replacementDeviceSerialNumber: SomeValue  # string
       replacementTime: 1  #  integer
       workflowId: SomeValue  # string
-  
-- name: unmark_device_for_replacement
+  - name: unmark_device_for_replacement
   cisco.dnac.device_replacement:
     state: update  # required
     payload:  # required
@@ -208,15 +206,13 @@ EXAMPLES = r"""
       replacementDeviceSerialNumber: SomeValue  # string
       replacementTime: 1  #  integer
       workflowId: SomeValue  # string
-  
-- name: return_replacement_devices_count
+  - name: return_replacement_devices_count
   cisco.dnac.device_replacement:
     state: query  # required
     count: True  # boolean, required
     replacement_status: SomeValue  # string
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 return_replacement_devices_with_details:

@@ -63,21 +63,18 @@ EXAMPLES = r"""
   cisco.dnac.sda_edge_device:
     state: delete  # required
     device_ipaddress: SomeValue  # string, required
-  
-- name: get_edge_device
+  - name: get_edge_device
   cisco.dnac.sda_edge_device:
     state: query  # required
     device_ipaddress: SomeValue  # string, required
   register: query_result
-  
-- name: add_edge_device
+  - name: add_edge_device
   cisco.dnac.sda_edge_device:
     state: create  # required
     payload:  # required
     - deviceManagementIpAddress: SomeValue  # string
       siteNameHierarchy: SomeValue  # string
-  
-"""
+  """
 
 RETURN = """
 delete_edge_device:

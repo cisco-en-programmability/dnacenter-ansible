@@ -49,8 +49,7 @@ EXAMPLES = r"""
     state: update  # required
     params:
     templateId: SomeValue  # string
-  
-"""
+  """
 
 RETURN = """
 preview_template:

@@ -41,8 +41,7 @@ EXAMPLES = r"""
     state: query  # required
 
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 get_all_keywords_of_clis_accepted:

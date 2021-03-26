@@ -74,26 +74,22 @@ EXAMPLES = r"""
     order: SomeValue  # string
     sort_by: SomeValue  # string
   register: query_result
-  
-- name: delete_global_credentials_by_id
+  - name: delete_global_credentials_by_id
   cisco.dnac.global_credential:
     state: delete  # required
     global_credential_id: SomeValue  # string, required
-  
-- name: update_global_credentials
+  - name: update_global_credentials
   cisco.dnac.global_credential:
     state: update  # required
     global_credential_id: SomeValue  # string, required
     siteUuids:
     - SomeValue  # string
-  
-- name: get_credential_sub_type_by_credential_id
+  - name: get_credential_sub_type_by_credential_id
   cisco.dnac.global_credential:
     state: query  # required
     id: SomeValue  # string, required
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 get_global_credentials:

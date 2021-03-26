@@ -83,8 +83,7 @@ EXAMPLES = r"""
     state: query  # required
 
   register: query_result
-  
-- name: create_sp_profile
+  - name: create_sp_profile
   cisco.dnac.service_provider:
     state: create  # required
     settings:  # required
@@ -92,8 +91,7 @@ EXAMPLES = r"""
       - profileName: SomeValue  # string, required
         model: SomeValue  # string, required
         wanProvider: SomeValue  # string, required
-  
-- name: update_sp_profile
+  - name: update_sp_profile
   cisco.dnac.service_provider:
     state: update  # required
     settings:  # required
@@ -102,13 +100,11 @@ EXAMPLES = r"""
         profileName: SomeValue  # string
         model: SomeValue  # string
         wanProvider: SomeValue  # string
-  
-- name: delete_sp_profile
+  - name: delete_sp_profile
   cisco.dnac.service_provider:
     state: delete  # required
     sp_profile_name: SomeValue  # string, required
-  
-"""
+  """
 
 RETURN = """
 get_service_provider_details:

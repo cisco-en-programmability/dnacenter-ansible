@@ -115,8 +115,7 @@ EXAMPLES = r"""
       id: SomeValue  # string
       instanceTenantId: SomeValue  # string
       instanceUuid: SomeValue  # string
-  
-- name: update_netconf_credentials
+  - name: update_netconf_credentials
   cisco.dnac.global_credential_netconf:
     state: update  # required
     netconfPort: SomeValue  # string, required
@@ -126,8 +125,7 @@ EXAMPLES = r"""
     id: SomeValue  # string
     instanceTenantId: SomeValue  # string
     instanceUuid: SomeValue  # string
-  
-"""
+  """
 
 RETURN = """
 create_netconf_credentials:

@@ -26,7 +26,7 @@ options:
     - Site id to get the Network settings associated with the site.
     - Site id to which site details to associate with the Network settings.
     - Site id to update the Network settings which is associated with the site.
-    - Required for states update and create.
+    - Required for states create and update.
     type: str
   settings:
     description:
@@ -195,8 +195,7 @@ EXAMPLES = r"""
     state: query  # required
     site_id: SomeValue  # string
   register: query_result
-  
-- name: create_network
+  - name: create_network
   cisco.dnac.network:
     state: create  # required
     site_id: SomeValue  # string, required
@@ -236,8 +235,7 @@ EXAMPLES = r"""
         network: SomeValue  # string
         protocol: SomeValue  # string
         sharedSecret: SomeValue  # string
-  
-- name: update_network
+  - name: update_network
   cisco.dnac.network:
     state: update  # required
     site_id: SomeValue  # string, required
@@ -277,8 +275,7 @@ EXAMPLES = r"""
         network: SomeValue  # string
         protocol: SomeValue  # string
         sharedSecret: SomeValue  # string
-  
-"""
+  """
 
 RETURN = """
 get_network:

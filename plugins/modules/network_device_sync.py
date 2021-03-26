@@ -50,8 +50,7 @@ EXAMPLES = r"""
     state: update  # required
     payload: None, required
     force_sync: True  # boolean
-  
-"""
+  """
 
 RETURN = """
 sync_devices_using_forcesync:

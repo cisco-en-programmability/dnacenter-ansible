@@ -234,8 +234,7 @@ EXAMPLES = r"""
     state: query  # required
 
   register: query_result
-  
-- name: update_pnp_global_settings
+  - name: update_pnp_global_settings
   cisco.dnac.pnp_settings:
     state: update  # required
     _id: SomeValue  # string
@@ -284,8 +283,7 @@ EXAMPLES = r"""
       imageDownloadTimeOut: 1  #  integer
     tenantId: SomeValue  # string
     version: 1  #  integer
-  
-"""
+  """
 
 RETURN = """
 get_pnp_global_settings:

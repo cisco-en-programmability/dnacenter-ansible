@@ -85,8 +85,7 @@ EXAMPLES = r"""
       smuImageUuidList:
       - SomeValue  # string
     schedule_validate: True  # boolean
-  
-"""
+  """
 
 RETURN = """
 trigger_software_image_activation:

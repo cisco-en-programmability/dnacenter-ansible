@@ -154,8 +154,7 @@ EXAMPLES = r"""
     status: SomeValue  # string
     task_id: SomeValue  # string
   register: query_result
-  
-- name: initiate_a_new_pathtrace
+  - name: initiate_a_new_pathtrace
   cisco.dnac.flow_analysis:
     state: create  # required
     destIP: SomeValue  # string, required
@@ -167,19 +166,16 @@ EXAMPLES = r"""
     periodicRefresh: True  # boolean
     protocol: SomeValue  # string
     sourcePort: SomeValue  # string
-  
-- name: retrieves_previous_pathtrace
+  - name: retrieves_previous_pathtrace
   cisco.dnac.flow_analysis:
     state: query  # required
     flow_analysis_id: SomeValue  # string, required
   register: query_result
-  
-- name: deletes_pathtrace_by_id
+  - name: deletes_pathtrace_by_id
   cisco.dnac.flow_analysis:
     state: delete  # required
     flow_analysis_id: SomeValue  # string, required
-  
-"""
+  """
 
 RETURN = """
 retrives_all_previous_pathtraces_summary:

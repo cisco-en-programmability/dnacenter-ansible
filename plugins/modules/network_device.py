@@ -15,7 +15,7 @@ DOCUMENTATION = r"""
 module: network_device
 short_description: Manage NetworkDevice objects of Devices
 description:
-- Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, location name and a wide variety of additional criteria. You can also use the asterisk in any value to conduct a wildcard search. For example, to find all hostnames beginning with myhost in the IP address range 192.25.18.n, issue the following request GET fqdnoripofdnacenterplatform/dna/intent/api/v1/network-device? hostname=myhost* & managementIpAddress=192.25.18.* For a complete list of parameter names that you can use for filtering this request, see the DNA Center API Reference documentation. Note: If id parameter is provided, it will return the list of network-devices for the given ids and ignores the other request parameters.
+- Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, location name and a wide variety of additional criteria. You can also use the asterisk in any value to conduct a wildcard search. For example, to find all hostnames beginning with myhost in the IP address range 192.25.18.n, issue the following request: GET fqdnoripofdnacenterplatform/dna/intent/api/v1/network-device? hostname=myhost* & managementIpAddress=192.25.18.* For a complete list of parameter names that you can use for filtering this request, see the DNA Center API Reference documentation. Note: If id parameter is provided, it will return the list of network-devices for the given ids and ignores the other request parameters.
 - Adds the device with given credential.
 - Sync the devices provided as input.
 - Deletes the network device for the given Id.
@@ -60,7 +60,7 @@ options:
     description:
     - Accepts comma separated id's and return list of network-devices for the given id's. If invalid or not-found id's are provided, null entry will be returned in the list.
     - Device ID.
-    - Required for states delete and query.
+    - Required for states query and delete.
     type: str
   license_name:
     description:
@@ -368,8 +368,7 @@ EXAMPLES = r"""
     type: SomeValue  # string
     up_time: SomeValue  # string
   register: query_result
-  
-- name: add_device
+  - name: add_device
   cisco.dnac.network_device:
     state: create  # required
     cliTransport: SomeValue  # string, required
@@ -403,8 +402,7 @@ EXAMPLES = r"""
     updateMgmtIPaddressList:
     - existMgmtIpAddress: SomeValue  # string
       newMgmtIpAddress: SomeValue  # string
-  
-- name: sync_devices
+  - name: sync_devices
   cisco.dnac.network_device:
     state: update  # required
     cliTransport: SomeValue  # string, required
@@ -438,56 +436,48 @@ EXAMPLES = r"""
     updateMgmtIPaddressList:
     - existMgmtIpAddress: SomeValue  # string
       newMgmtIpAddress: SomeValue  # string
-  
-- name: delete_device_by_id
+  - name: delete_device_by_id
   cisco.dnac.network_device:
     state: delete  # required
     id: SomeValue  # string, required
     is_force_delete: True  # boolean
-  
-- name: get_device_by_id
+  - name: get_device_by_id
   cisco.dnac.network_device:
     state: query  # required
     id: SomeValue  # string, required
   register: query_result
-  
-- name: get_device_summary
+  - name: get_device_summary
   cisco.dnac.network_device:
     state: query  # required
     id: SomeValue  # string, required
     summary: True  # boolean, required
   register: query_result
-  
-- name: get_network_device_by_pagination_range
+  - name: get_network_device_by_pagination_range
   cisco.dnac.network_device:
     state: query  # required
     records_to_return: 1  #  integer, required
     start_index: 1  #  integer, required
   register: query_result
-  
-- name: get_device_count
+  - name: get_device_count
   cisco.dnac.network_device:
     state: query  # required
     count: True  # boolean, required
   register: query_result
-  
-- name: get_network_device_by_ip
+  - name: get_network_device_by_ip
   cisco.dnac.network_device:
     state: query  # required
     ip_address: SomeValue  # string, required
   register: query_result
-  
-- name: get_device_by_serial_number
+  - name: get_device_by_serial_number
   cisco.dnac.network_device:
     state: query  # required
     serial_number: SomeValue  # string, required
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 get_device_list:
-    description: Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, location name and a wide variety of additional criteria. You can also use the asterisk in any value to conduct a wildcard search. For example, to find all hostnames beginning with myhost in the IP address range 192.25.18.n, issue the following request GET fqdnoripofdnacenterplatform/dna/intent/api/v1/network-device? hostname=myhost* & managementIpAddress=192.25.18.* For a complete list of parameter names that you can use for filtering this request, see the DNA Center API Reference documentation. Note If id parameter is provided, it will return the list of network-devices for the given ids and ignores the other request parameters.
+    description: Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, location name and a wide variety of additional criteria. You can also use the asterisk in any value to conduct a wildcard search. For example, to find all hostnames beginning with myhost in the IP address range 192.25.18.n, issue the following request: GET fqdnoripofdnacenterplatform/dna/intent/api/v1/network-device? hostname=myhost* & managementIpAddress=192.25.18.* For a complete list of parameter names that you can use for filtering this request, see the DNA Center API Reference documentation. Note: If id parameter is provided, it will return the list of network-devices for the given ids and ignores the other request parameters.
     returned: always
     type: dict
     contains:

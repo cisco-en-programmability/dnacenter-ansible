@@ -46,8 +46,7 @@ EXAMPLES = r"""
     state: query  # required
     execution_id: SomeValue  # string, required
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 get_status_api_for_events:

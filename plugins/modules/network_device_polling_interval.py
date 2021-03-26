@@ -47,14 +47,12 @@ EXAMPLES = r"""
     state: query  # required
     id: SomeValue  # string, required
   register: query_result
-  
-- name: get_polling_interval_for_all_devices
+  - name: get_polling_interval_for_all_devices
   cisco.dnac.network_device_polling_interval:
     state: query  # required
 
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 get_polling_interval_by_id:

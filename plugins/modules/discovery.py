@@ -372,8 +372,7 @@ EXAMPLES = r"""
   cisco.dnac.discovery:
     state: delete  # required
 
-  
-- name: start_discovery
+  - name: start_discovery
   cisco.dnac.discovery:
     state: create  # required
     discoveryType: SomeValue  # string, required
@@ -433,8 +432,7 @@ EXAMPLES = r"""
     updateMgmtIp: True  # boolean
     userNameList:
     - SomeValue  # string
-  
-- name: updates_discovery_by_id
+  - name: updates_discovery_by_id
   cisco.dnac.discovery:
     state: update  # required
     discoveryStatus: SomeValue  # string, required
@@ -494,38 +492,32 @@ EXAMPLES = r"""
     timeOut: 1  #  integer
     updateMgmtIp: True  # boolean
     userNameList: SomeValue  # string
-  
-- name: get_count_of_all_discovery_jobs
+  - name: get_count_of_all_discovery_jobs
   cisco.dnac.discovery:
     state: query  # required
     count: True  # boolean, required
   register: query_result
-  
-- name: delete_discovery_by_id
+  - name: delete_discovery_by_id
   cisco.dnac.discovery:
     state: delete  # required
     id: SomeValue  # string, required
-  
-- name: get_discovery_by_id
+  - name: get_discovery_by_id
   cisco.dnac.discovery:
     state: query  # required
     id: SomeValue  # string, required
   register: query_result
-  
-- name: delete_discovery_by_specified_range
+  - name: delete_discovery_by_specified_range
   cisco.dnac.discovery:
     state: delete  # required
     records_to_delete: 1  #  integer, required
     start_index: 1  #  integer, required
-  
-- name: get_discoveries_by_range
+  - name: get_discoveries_by_range
   cisco.dnac.discovery:
     state: query  # required
     records_to_return: 1  #  integer, required
     start_index: 1  #  integer, required
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 delete_all_discovery:

@@ -240,7 +240,7 @@ class ModuleDefinition(object):
 
     # Strips all unused parameters (those that were not explicitly passed by the user)
     def strip_unused_params(self, module_params):
-        return {k: v for k, v in module_params.items() if v != None}
+        return {k: v for k, v in module_params.items() if v is not None}
 
     # Strips off the passed params that are optional for the functions a given method
     def _strip_optional_params(self, module_params, method):

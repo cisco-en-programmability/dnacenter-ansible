@@ -111,8 +111,7 @@ EXAMPLES = r"""
     sub_domain: SomeValue  # string
     type: SomeValue  # string
   register: query_result
-  
-- name: count_of_notifications
+  - name: count_of_notifications
   cisco.dnac.event_series:
     state: query  # required
     count: True  # boolean, required
@@ -126,8 +125,7 @@ EXAMPLES = r"""
     sub_domain: SomeValue  # string
     type: SomeValue  # string
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 get_notifications:

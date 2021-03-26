@@ -204,4 +204,10 @@ plugins/action/wireless_profile.py compile-2.7!skip # Python 2.7 is not supporte
 plugins/action/wireless_provision.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/wireless_rf_profile.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/module_utils/dnac.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
-plugins/module_utils/dnac.py import # Python library 'dnacentersdk' is required but not available during sanity checks
+plugins/module_utils/dnac.py import-2.6 # Python library 'dnacentersdk' is required but not available during sanity checks
+plugins/module_utils/dnac.py import-2.7 # Python library 'dnacentersdk' is required but not available during sanity checks
+plugins/module_utils/dnac.py import-3.5 # Python library 'dnacentersdk' is required but not available during sanity checks
+plugins/module_utils/dnac.py import-3.6 # Python library 'dnacentersdk' is required but not available during sanity checks
+plugins/module_utils/dnac.py import-3.7 # Python library 'dnacentersdk' is required but not available during sanity checks
+plugins/module_utils/dnac.py import-3.8 # Python library 'dnacentersdk' is required but not available during sanity checks
+plugins/module_utils/dnac.py import-3.9 # Python library 'dnacentersdk' is required but not available during sanity checks

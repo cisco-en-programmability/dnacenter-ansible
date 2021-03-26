@@ -47,14 +47,12 @@ EXAMPLES = r"""
     state: query  # required
 
   register: query_result
-  
-- name: get_list_of_files
+  - name: get_list_of_files
   cisco.dnac.file_namespace:
     state: query  # required
     name_space: SomeValue  # string, required
   register: query_result
-  
-"""
+  """
 
 RETURN = """
 get_list_of_available_namespaces:
