@@ -1,3 +1,5 @@
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
 from ansible.plugins.action import ActionBase
 from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
     AnsibleArgSpecValidator,
