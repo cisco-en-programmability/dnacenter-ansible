@@ -76,14 +76,14 @@ plugins/action/sda_host_onboarding_user_device.py compile-2.6!skip # Python 2.6 
 plugins/action/sda_virtual_network.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/sda_virtual_network_ip_pool.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/service_provider.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
-plugins/action/site.py:57:15: SyntaxError: for k in dnac_argument_spec().keys()
+plugins/action/site.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/site_device.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/site_health.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/site_membership.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/smart_virtual_account.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/snmp_property.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/ssid.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
-plugins/action/tag.py:57:15: SyntaxError: for k in dnac_argument_spec().keys()
+plugins/action/tag.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/tag_member.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/task.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/template.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
@@ -179,14 +179,14 @@ plugins/action/sda_host_onboarding_user_device.py compile-2.7!skip # Python 2.7 
 plugins/action/sda_virtual_network.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/sda_virtual_network_ip_pool.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/service_provider.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
-plugins/action/site.py:57:15: SyntaxError: for k in dnac_argument_spec().keys()
+plugins/action/site.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/site_device.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/site_health.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/site_membership.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/smart_virtual_account.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/snmp_property.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/ssid.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
-plugins/action/tag.py:57:15: SyntaxError: for k in dnac_argument_spec().keys()
+plugins/action/tag.py:57:15 compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/tag_member.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/task.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/template.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
