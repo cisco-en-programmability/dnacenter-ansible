@@ -16,7 +16,7 @@ module: site_membership
 short_description: Manage SiteMembership objects of Sites
 description:
 - Getting the site children details and device details.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   site_id:

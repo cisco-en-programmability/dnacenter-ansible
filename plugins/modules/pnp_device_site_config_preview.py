@@ -16,7 +16,7 @@ module: pnp_device_site_config_preview
 short_description: Manage PnpDeviceSiteConfigPreview objects of DeviceOnboardingPnp
 description:
 - Triggers a preview for site-based Day 0 Configuration.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   deviceId:

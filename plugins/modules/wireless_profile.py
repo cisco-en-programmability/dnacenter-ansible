@@ -19,7 +19,7 @@ description:
 - Creates Wireless Network Profile on DNAC and associates sites and SSIDs to it.
 - Updates the wireless Network Profile with updated details provided. All sites to be present in the network profile should be provided.
 - Delete the Wireless Profile from DNAC whose name is provided.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   profile_name:

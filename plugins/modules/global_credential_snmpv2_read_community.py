@@ -17,7 +17,7 @@ short_description: Manage GlobalCredentialSnmpv2ReadCommunity objects of Discove
 description:
 - Adds global SNMP read community.
 - Updates global SNMP read community.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   payload:

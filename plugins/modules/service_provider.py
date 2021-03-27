@@ -19,7 +19,7 @@ description:
 - API to create service provider profile(QOS).
 - API to update SP profile.
 - API to delete Service Provider profile (QoS).
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   settings:

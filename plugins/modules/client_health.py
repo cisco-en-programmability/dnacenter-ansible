@@ -16,7 +16,7 @@ module: client_health
 short_description: Manage ClientHealth objects of Clients
 description:
 - Returns Overall Client Health information by Client type (Wired and Wireless) for any given point of time.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   timestamp:

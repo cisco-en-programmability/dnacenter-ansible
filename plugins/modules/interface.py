@@ -25,7 +25,7 @@ description:
 - Returns Interface by specified device Id and Interface name.
 - Returns the Interfaces that has ISIS enabled.
 - Returns the Interfaces that has OSPF enabled.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   limit:

@@ -21,7 +21,7 @@ description:
 - Returns the number of members in a given tag.
 - Updates tag membership. As part of the request payload through this API, only the specified members are added / retained to the given input tags. Possible values of memberType attribute in the request payload can be queried by using the /tag/member/type API.
 - Returns list of supported resource types.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   id:

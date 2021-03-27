@@ -22,7 +22,7 @@ description:
 - Updates device details specified by device id in PnP database.
 - Returns the device count based on filter criteria. This is useful for pagination.
 - Returns history for a specific device. Serial number is a required parameter.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   cm_state:

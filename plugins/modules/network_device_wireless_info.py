@@ -16,7 +16,7 @@ module: network_device_wireless_info
 short_description: Manage NetworkDeviceWirelessInfo objects of Devices
 description:
 - Returns the wireless lan controller info with given device ID.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   id:

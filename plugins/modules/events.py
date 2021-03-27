@@ -17,7 +17,7 @@ short_description: Manage Events objects of EventManagement
 description:
 - Gets the list of registered Events with provided eventIds or tags as mandatory.
 - Get the count of registered Events with provided eventIds or tags as mandatory.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   tags:

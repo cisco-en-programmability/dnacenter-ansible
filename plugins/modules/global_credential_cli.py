@@ -17,7 +17,7 @@ short_description: Manage GlobalCredentialCli objects of Discovery
 description:
 - Adds global CLI credential.
 - Updates global CLI credentials.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   payload:

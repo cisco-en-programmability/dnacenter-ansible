@@ -18,7 +18,7 @@ description:
 - Gets either one or all the enterprise SSID.
 - Creates enterprise SSID.
 - Deletes given enterprise SSID.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   ssid_name:

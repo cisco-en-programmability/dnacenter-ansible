@@ -18,7 +18,7 @@ description:
 - Get control plane device from SDA Fabric.
 - Delete control plane device in SDA Fabric.
 - Add control plane device in SDA Fabric.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   device_ipaddress:

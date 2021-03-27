@@ -17,7 +17,7 @@ short_description: Manage EventSeries objects of EventManagement
 description:
 - Get the list of Published Notifications.
 - Get the Count of Published Notifications.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   category:

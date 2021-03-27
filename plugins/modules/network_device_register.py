@@ -16,7 +16,7 @@ module: network_device_register
 short_description: Manage NetworkDeviceRegister objects of Devices
 description:
 - Registers a device for WSA notification.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   macaddress:

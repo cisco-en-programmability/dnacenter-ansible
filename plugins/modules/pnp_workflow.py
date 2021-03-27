@@ -21,7 +21,7 @@ description:
 - Deletes a workflow specified by id.
 - Updates an existing workflow.
 - Returns the workflow count.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   limit:

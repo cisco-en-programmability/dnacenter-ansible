@@ -16,7 +16,7 @@ module: network_health
 short_description: Manage NetworkHealth objects of Topology
 description:
 - Returns Overall Network Health information by Device category (Access, Distribution, Core, Router, Wireless) for any given point of time.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   timestamp:

@@ -16,7 +16,7 @@ module: device_replacement_workflow
 short_description: Manage DeviceReplacementWorkflow objects of DeviceReplacement
 description:
 - API to trigger RMA workflow that will replace faulty device with replacement device with same configuration and images.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   faultyDeviceSerialNumber:

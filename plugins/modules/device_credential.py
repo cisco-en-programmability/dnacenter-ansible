@@ -19,7 +19,7 @@ description:
 - API to create device credentials.
 - API to update device credentials.
 - Delete device credential.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   site_id:

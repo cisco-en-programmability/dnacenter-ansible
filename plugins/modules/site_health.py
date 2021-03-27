@@ -16,7 +16,7 @@ module: site_health
 short_description: Manage SiteHealth objects of Sites
 description:
 - Returns Overall Health information for all sites.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   timestamp:

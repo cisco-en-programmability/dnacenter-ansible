@@ -20,7 +20,7 @@ description:
 - Returns the raw physical Topology by specified criteria of nodeType.
 - Returns site Topology.
 - Returns the list of VLAN names.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   vlan_id:

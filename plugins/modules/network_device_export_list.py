@@ -16,7 +16,7 @@ module: network_device_export_list
 short_description: Manage NetworkDeviceExportList objects of Devices
 description:
 - Exports the selected network device to a file.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   deviceUuids:

@@ -19,7 +19,7 @@ description:
 - Get appllication-sets by offset/limit or by name.
 - Create new custom application-set/s.
 - Get the number of existing application-sets.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   id:

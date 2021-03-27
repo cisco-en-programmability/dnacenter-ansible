@@ -17,7 +17,7 @@ short_description: Manage NfvProvision objects of SiteDesign
 description:
 - Design and Provision single/multi NFV device with given site/area/building/floor .
 - Returns provisioning device information for the specified IP address.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   provisioning:

@@ -16,7 +16,7 @@ module: sda_device
 short_description: Manage SdaDevice objects of Sda
 description:
 - Get device info from SDA Fabric.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   device_ipaddress:

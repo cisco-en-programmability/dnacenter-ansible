@@ -18,7 +18,7 @@ description:
 - Gets border device detail from SDA Fabric.
 - Deletes border device from SDA Fabric.
 - Adds border device in SDA Fabric.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   device_ipaddress:

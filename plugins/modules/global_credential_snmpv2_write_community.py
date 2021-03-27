@@ -17,7 +17,7 @@ short_description: Manage GlobalCredentialSnmpv2WriteCommunity objects of Discov
 description:
 - Adds global SNMP write community.
 - Updates global SNMP write community.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   payload:

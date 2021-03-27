@@ -16,7 +16,7 @@ module: event_api_status
 short_description: Manage EventApiStatus objects of EventManagement
 description:
 - Get the Status of events API calls with provided executionId as mandatory path parameter.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   execution_id:

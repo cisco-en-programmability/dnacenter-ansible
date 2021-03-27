@@ -17,7 +17,7 @@ short_description: Manage TemplateDeploy objects of ConfigurationTemplates
 description:
 - Deploys a template.
 - Returns the status of a deployed template.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   forcePushTemplate:

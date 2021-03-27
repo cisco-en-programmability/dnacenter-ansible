@@ -16,7 +16,7 @@ module: wireless_ap_provision
 short_description: Manage WirelessApProvision objects of Wireless
 description:
 - Access Point Provision and ReProvision.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   payload:

@@ -16,7 +16,7 @@ module: user_enrichment_details
 short_description: Manage UserEnrichmentDetails objects of Users
 description:
 - Enriches a given network End User context (a network user-id or end user's device Mac Address) with details about the user and devices that the user is connected to.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   headers:

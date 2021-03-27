@@ -19,7 +19,7 @@ description:
 - Creates a new project.
 - Updates an existing project.
 - Deletes an existing Project.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   name:

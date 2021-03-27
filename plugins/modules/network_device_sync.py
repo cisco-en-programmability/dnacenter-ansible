@@ -16,7 +16,7 @@ module: network_device_sync
 short_description: Manage NetworkDeviceSync objects of Devices
 description:
 - Synchronizes the devices. If forceSync param is false (default) then the sync would run in normal priority thread. If forceSync param is true then the sync would run in high priority thread if available, else the sync will fail. Result can be seen in the child task of each device.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   force_sync:

@@ -16,7 +16,7 @@ module: network_device_poller_legit_reads
 short_description: Manage NetworkDevicePollerLegitReads objects of CommandRunner
 description:
 - Get valid keywords.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options: {}
 

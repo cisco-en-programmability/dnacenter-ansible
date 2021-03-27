@@ -16,7 +16,7 @@ module: pnp_device_reset
 short_description: Manage PnpDeviceReset objects of DeviceOnboardingPnp
 description:
 - Recovers a device from a Workflow Execution Error state.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   deviceResetList:

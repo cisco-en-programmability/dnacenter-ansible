@@ -19,7 +19,7 @@ description:
 - API to get NFV network profile.
 - API to delete nfv network profile.
 - API to update a NFV Network profile.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   device:

@@ -17,7 +17,7 @@ short_description: Manage TemplateVersion objects of ConfigurationTemplates
 description:
 - Creates Versioning for the current contents of the template.
 - Returns the versions of a specified template.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   comments:

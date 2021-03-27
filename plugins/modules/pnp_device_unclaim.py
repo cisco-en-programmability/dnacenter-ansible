@@ -16,7 +16,7 @@ module: pnp_device_unclaim
 short_description: Manage PnpDeviceUnclaim objects of DeviceOnboardingPnp
 description:
 - Un-Claims one of more devices with specified workflow.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   deviceIdList:

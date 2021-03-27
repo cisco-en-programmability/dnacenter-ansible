@@ -17,7 +17,7 @@ short_description: Manage GlobalCredentialHttpWrite objects of Discovery
 description:
 - Adds global HTTP write credentials.
 - Updates global HTTP write credentials.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   payload:

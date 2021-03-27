@@ -20,7 +20,7 @@ description:
 - Subscribe SubscriptionEndpoint to list of registered events.
 - Update SubscriptionEndpoint to list of registered events.
 - Returns the Count of EventSubscriptions.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   subscriptions:

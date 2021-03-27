@@ -18,7 +18,7 @@ description:
 - Delete Port assignment for access point in SDA Fabric.
 - Get Port assignment for access point in SDA Fabric.
 - Add Port assignment for access point in SDA Fabric.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   device_ip:

@@ -16,7 +16,7 @@ module: network_device_update_role
 short_description: Manage NetworkDeviceUpdateRole objects of Devices
 description:
 - Updates the role of the device as access, core, distribution, border router.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   id:

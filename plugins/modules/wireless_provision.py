@@ -17,7 +17,7 @@ short_description: Manage WirelessProvision objects of Wireless
 description:
 - Provision wireless devices.
 - Updates wireless provisioning.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   payload:

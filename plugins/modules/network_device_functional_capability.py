@@ -17,7 +17,7 @@ short_description: Manage NetworkDeviceFunctionalCapability objects of Devices
 description:
 - Returns the functional-capability for given devices.
 - Returns functional capability with given Id.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   device_id:

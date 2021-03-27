@@ -18,7 +18,7 @@ description:
 - Retrieve all RF profiles.
 - Create or Update RF profile.
 - Delete RF profile(s).
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   rf_profile_name:

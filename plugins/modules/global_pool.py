@@ -19,7 +19,7 @@ description:
 - API to create global pool.
 - API to update global pool.
 - API to delete global IP pool.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   limit:

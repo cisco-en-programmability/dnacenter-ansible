@@ -19,7 +19,7 @@ description:
 - Deletes global credential for the given ID.
 - Update global credential for network devices in site(s).
 - Returns the credential sub type for the given Id.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   credential_sub_type:

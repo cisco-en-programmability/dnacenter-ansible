@@ -19,7 +19,7 @@ description:
 - Initiates a new flow analysis with periodic refresh and stat collection options. Returns a request id and a task id to get results and follow progress.
 - Returns result of a previously requested flow analysis by its Flow Analysis id.
 - Deletes a flow analysis request by its id.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   dest_ip:

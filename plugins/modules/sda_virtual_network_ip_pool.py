@@ -18,7 +18,7 @@ description:
 - Delete IP Pool from SDA Virtual Network.
 - Get IP Pool from SDA Virtual Network.
 - Add IP Pool in SDA Virtual Network.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   ip_pool_name:

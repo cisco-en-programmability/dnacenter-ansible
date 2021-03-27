@@ -16,7 +16,7 @@ module: credential_to_site
 short_description: Manage CredentialToSite objects of NetworkSettings
 description:
 - Assign Device Credential To Site.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   site_id:

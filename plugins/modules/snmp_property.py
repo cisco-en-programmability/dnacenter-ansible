@@ -17,7 +17,7 @@ short_description: Manage SnmpProperty objects of Discovery
 description:
 - Returns SNMP properties.
 - Adds SNMP properties.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   payload:

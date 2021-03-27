@@ -16,7 +16,7 @@ module: template_preview
 short_description: Manage TemplatePreview objects of ConfigurationTemplates
 description:
 - Previews an existing template.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   params:

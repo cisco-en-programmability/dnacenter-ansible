@@ -17,7 +17,7 @@ short_description: Manage Ssid objects of Wireless
 description:
 - Creates SSID, updates the SSID to the corresponding site profiles and provision it to the devices matching the given sites.
 - Removes SSID or WLAN from the network profile, reprovision the device(s) and deletes the SSID or WLAN from DNA Center.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   enableFabric:

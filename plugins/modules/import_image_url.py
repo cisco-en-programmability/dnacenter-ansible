@@ -16,7 +16,7 @@ module: import_image_url
 short_description: Manage ImportImageUrl objects of SoftwareImageManagementSwim
 description:
 - Fetches a software image from remote file system (using URL for HTTP/FTP) and uploads to DNA Center. Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   schedule_at:

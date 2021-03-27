@@ -17,7 +17,7 @@ short_description: Manage VirtualAccountSync objects of DeviceOnboardingPnp
 description:
 - Synchronizes the device info from the given smart account & virtual account with the PnP database. The response payload returns a list of synced devices.
 - Returns the summary of devices synced from the given smart account & virtual account with PnP.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   autoSyncPeriod:

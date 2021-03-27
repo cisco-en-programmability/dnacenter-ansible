@@ -16,7 +16,7 @@ module: network_device_autocomplete
 short_description: Manage NetworkDeviceAutocomplete objects of Devices
 description:
 - Gets the list of first 500 network devices sorted lexicographically based on host name. It can be filtered using management IP address, mac address, hostname and location name. If id param is provided, it will be returning the list of network-devices for the given id's and other request params will be ignored. In case of autocomplete request, returns the list of specified attributes.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   associated_wlc_ip:

@@ -16,7 +16,7 @@ module: trigger_image_activation
 short_description: Manage TriggerImageActivation objects of SoftwareImageManagementSwim
 description:
 - Activates a software image on a given device. Software image must be present in the device flash.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   schedule_validate:

@@ -16,7 +16,7 @@ module: pnp_device_site_claim
 short_description: Manage PnpDeviceSiteClaim objects of DeviceOnboardingPnp
 description:
 - Claim a device based on DNA-C Site based design process. Different parameters are required for different device platforms.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   deviceId:

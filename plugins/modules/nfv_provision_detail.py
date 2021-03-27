@@ -16,7 +16,7 @@ module: nfv_provision_detail
 short_description: Manage NfvProvisionDetail objects of SiteDesign
 description:
 - Checks the provisioning detail of an ENCS device including log information.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   device_ip:

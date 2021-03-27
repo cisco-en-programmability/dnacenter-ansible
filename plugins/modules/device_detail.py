@@ -16,7 +16,7 @@ module: device_detail
 short_description: Manage DeviceDetail objects of Devices
 description:
 - Returns detailed Network Device information retrieved by Mac Address, Device Name or UUID for any given point of time.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   identifier:

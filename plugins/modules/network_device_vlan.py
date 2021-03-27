@@ -16,7 +16,7 @@ module: network_device_vlan
 short_description: Manage NetworkDeviceVlan objects of Devices
 description:
 - Returns Device Interface VLANs.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   id:

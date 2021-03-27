@@ -18,7 +18,7 @@ description:
 - Returns modules by specified device id.
 - Returns Module info by id.
 - Returns Module Count.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   device_id:

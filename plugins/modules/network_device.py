@@ -25,7 +25,7 @@ description:
 - Returns the count of network devices based on the filter criteria by management IP address, mac address, hostname and location name.
 - Returns the network device by specified IP address.
 - Returns the network device with given serial number.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   associated_wlc_ip:

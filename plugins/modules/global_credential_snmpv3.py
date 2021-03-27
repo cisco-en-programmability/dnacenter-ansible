@@ -17,7 +17,7 @@ short_description: Manage GlobalCredentialSnmpv3 objects of Discovery
 description:
 - Adds global SNMPv3 credentials.
 - Updates global SNMPv3 credential.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   payload:

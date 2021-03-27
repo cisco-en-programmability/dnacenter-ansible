@@ -17,7 +17,7 @@ short_description: Manage GlobalCredentialNetconf objects of Discovery
 description:
 - Adds global netconf credentials.
 - Updates global netconf credentials.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   payload:

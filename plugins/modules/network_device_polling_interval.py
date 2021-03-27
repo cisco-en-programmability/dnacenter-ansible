@@ -17,7 +17,7 @@ short_description: Manage NetworkDevicePollingInterval objects of Devices
 description:
 - Returns polling interval by device id.
 - Returns polling interval of all devices.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   id:

@@ -20,7 +20,7 @@ description:
 - Delete Site with area/building/floor by SiteId.
 - Update Site area/building/floor with specified hierarchy and new values.
 - API to get Site count.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   limit:

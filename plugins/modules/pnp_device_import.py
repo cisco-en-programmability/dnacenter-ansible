@@ -16,7 +16,7 @@ module: pnp_device_import
 short_description: Manage PnpDeviceImport objects of DeviceOnboardingPnp
 description:
 - Add devices to PnP in bulk.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   payload:

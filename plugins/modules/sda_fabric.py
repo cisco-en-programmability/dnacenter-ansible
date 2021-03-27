@@ -18,7 +18,7 @@ description:
 - Get SDA Fabric Info.
 - Delete SDA Fabric.
 - Add SDA Fabric.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   fabric_name:

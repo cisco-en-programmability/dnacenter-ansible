@@ -20,7 +20,7 @@ description:
 - Updates an existing Template.
 - Returns details of the specified Template.
 - Deletes an existing Template.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   project_id:

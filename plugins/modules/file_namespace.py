@@ -17,7 +17,7 @@ short_description: Manage FileNamespace objects of File
 description:
 - Returns list of available namespaces.
 - Returns list of files under a specific namespace.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   name_space:

@@ -16,7 +16,7 @@ module: network_device_meraki_org
 short_description: Manage NetworkDeviceMerakiOrg objects of Devices
 description:
 - Returns list of organizations for meraki dashboard.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   id:

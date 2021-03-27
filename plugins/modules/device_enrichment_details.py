@@ -16,7 +16,7 @@ module: device_enrichment_details
 short_description: Manage DeviceEnrichmentDetails objects of Devices
 description:
 - Enriches a given network device context (device id or device Mac Address or device management IP address) with details about the device and neighbor topology.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   headers:

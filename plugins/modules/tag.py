@@ -21,7 +21,7 @@ description:
 - Deletes a Tag specified by id.
 - Returns Tag specified by Id.
 - Returns Tag count.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   additional_info_attributes:
@@ -115,7 +115,7 @@ options:
     description:
     - TagDTO's id.
     - Tag ID.
-    - Required for states absent and query.
+    - Required for states query and absent.
     type: str
   instanceTenantId:
     description:

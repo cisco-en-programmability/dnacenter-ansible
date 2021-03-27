@@ -18,7 +18,7 @@ description:
 - API to get DHCP and DNS center server details.
 - API to create a Network for DHCP and DNS center server settings.
 - API to update Network for DHCP and DNS center server settings.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   site_id:
@@ -26,7 +26,7 @@ options:
     - Site id to get the Network settings associated with the site.
     - Site id to which site details to associate with the Network settings.
     - Site id to update the Network settings which is associated with the site.
-    - Required for states update and create.
+    - Required for states create and update.
     type: str
   settings:
     description:

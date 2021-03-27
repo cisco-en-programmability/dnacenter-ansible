@@ -18,7 +18,7 @@ description:
 - Delete edge device from SDA Fabric.
 - Get edge device from SDA Fabric.
 - Add edge device in SDA Fabric.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   device_ipaddress:

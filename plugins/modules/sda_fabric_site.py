@@ -18,7 +18,7 @@ description:
 - Delete Site from SDA Fabric.
 - Get Site info from SDA Fabric.
 - Add Site in SDA Fabric.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   site_name_hierarchy:

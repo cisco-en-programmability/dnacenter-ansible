@@ -16,7 +16,7 @@ module: trigger_image_distribution
 short_description: Manage TriggerImageDistribution objects of SoftwareImageManagementSwim
 description:
 - Distributes a software image on a given device. Software image must be imported successfully into DNA Center before it can be distributed.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   payload:

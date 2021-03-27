@@ -17,7 +17,7 @@ short_description: Manage PnpSettings objects of DeviceOnboardingPnp
 description:
 - Returns global PnP settings of the user.
 - Updates the user's list of global PnP settings.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   _id:

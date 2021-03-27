@@ -16,7 +16,7 @@ module: site_device
 short_description: Manage SiteDevice objects of Sites
 description:
 - Assigns list of devices to a site.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   site_id:

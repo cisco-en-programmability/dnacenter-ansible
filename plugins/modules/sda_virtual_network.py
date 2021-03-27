@@ -18,7 +18,7 @@ description:
 - Get virtual network (VN) from SDA Fabric.
 - Delete virtual network (VN) from SDA Fabric.
 - Add virtual network (VN) in SDA Fabric.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   site_name_hierarchy:

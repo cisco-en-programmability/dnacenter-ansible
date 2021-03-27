@@ -16,7 +16,7 @@ module: file
 short_description: Manage File objects of File
 description:
 - Downloads a File specified by FileId.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   file_id:

@@ -16,7 +16,7 @@ module: network_device_poller_read_request
 short_description: Manage NetworkDevicePollerReadRequest objects of CommandRunner
 description:
 - Submit request for read-only CLIs.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   commands:

@@ -18,7 +18,7 @@ description:
 - Get Port assignment for user device in SDA Fabric.
 - Delete Port assignment for user device in SDA Fabric.
 - Add Port assignment for user device in SDA Fabric.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   device_ip:

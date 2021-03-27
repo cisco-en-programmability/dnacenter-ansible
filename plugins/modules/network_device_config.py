@@ -17,7 +17,7 @@ short_description: Manage NetworkDeviceConfig objects of Devices
 description:
 - Returns the config for all devices.
 - Returns the count of device configs.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   count:

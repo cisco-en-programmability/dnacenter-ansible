@@ -20,7 +20,7 @@ description:
 - Returns Task count.
 - Returns root Tasks associated with an Operationid.
 - Returns a Task with its children Tasks by based on their id.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   data:

@@ -16,7 +16,7 @@ module: client_detail
 short_description: Manage ClientDetail objects of Clients
 description:
 - Returns detailed Client information retrieved by Mac Address for any given point of time.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   mac_address:

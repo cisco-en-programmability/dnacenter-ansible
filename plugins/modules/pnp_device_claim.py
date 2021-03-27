@@ -16,7 +16,7 @@ module: pnp_device_claim
 short_description: Manage PnpDeviceClaim objects of DeviceOnboardingPnp
 description:
 - Claims one of more devices with specified workflow.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   configFileUrl:

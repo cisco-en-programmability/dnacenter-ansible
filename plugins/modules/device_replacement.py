@@ -19,7 +19,7 @@ description:
 - Marks device for replacement.
 - UnMarks device for replacement.
 - Get replacement devices count.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   family:

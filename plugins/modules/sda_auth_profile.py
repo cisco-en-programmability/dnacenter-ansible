@@ -19,7 +19,7 @@ description:
 - Get default authentication profile from SDA Fabric.
 - Add default authentication profile in SDA Fabric.
 - Update default authentication profile in SDA Fabric.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   site_name_hierarchy:

@@ -20,7 +20,7 @@ description:
 - Create new Custom application.
 - Edit the attributes of an existing application.
 - Get the number of all existing Applications.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   limit:

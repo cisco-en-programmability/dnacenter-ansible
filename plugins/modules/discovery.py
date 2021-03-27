@@ -23,7 +23,7 @@ description:
 - Returns Discovery by Discovery ID. Discovery ID can be obtained using the "Get Discoveries by range" API.
 - Stops Discovery for the given range and removes them.
 - Returns the Discovery by specified range.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   cdpLevel:

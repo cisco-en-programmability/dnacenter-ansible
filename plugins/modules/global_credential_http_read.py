@@ -17,7 +17,7 @@ short_description: Manage GlobalCredentialHttpRead objects of Discovery
 description:
 - Adds HTTP read credentials.
 - Updates global HTTP Read credential.
-version_added: '1.0'
+version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   payload:
