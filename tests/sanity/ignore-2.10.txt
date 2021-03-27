@@ -225,18 +225,18 @@ plugins/module_utils/definitions/tag.py import-3.8 # Python library 'dnacentersd
 plugins/module_utils/dnac.py import-3.9 # Python library 'dnacentersdk' is required but not available during sanity checks
 plugins/module_utils/definitions/site.py import-3.9 # Python library 'dnacentersdk' is required but not available during sanity checks
 plugins/module_utils/definitions/tag.py import-3.9 # Python library 'dnacentersdk' is required but not available during sanity checks
-plugins/modules/client_enrichment_details.py pep8-3.6 # The long lines are inside the DOCUMENTATION and RETURN strings
-plugins/modules/device_enrichment_details.py pep8-3.6 # The long lines are inside the DOCUMENTATION and RETURN strings
-plugins/modules/discovery_job.py pep8-3.6 # The long lines are inside the DOCUMENTATION and RETURN strings
-plugins/modules/enterprise_ssid.py pep8-3.6 # The long lines are inside the DOCUMENTATION and RETURN strings
-plugins/modules/flow_analysis.py pep8-3.6 # The long lines are inside the DOCUMENTATION and RETURN strings
-plugins/modules/import_image_file.py pep8-3.6 # The long lines are inside the DOCUMENTATION and RETURN strings
-plugins/modules/integration_event.py pep8-3.6 # The long lines are inside the DOCUMENTATION and RETURN strings
-plugins/modules/issue_enrichment_details.py pep8-3.6 # The long lines are inside the DOCUMENTATION and RETURN strings
-plugins/modules/network_device.py pep8-3.6 # The long lines are inside the DOCUMENTATION and RETURN strings
-plugins/modules/pnp_device.py pep8-3.6 # The long lines are inside the DOCUMENTATION and RETURN strings
-plugins/modules/smart_virtual_account.py pep8-3.6 # The long lines are inside the DOCUMENTATION and RETURN strings
-plugins/modules/tag_member.py pep8-3.6 # The long lines are inside the DOCUMENTATION and RETURN strings
-plugins/modules/template.py pep8-3.6 # The long lines are inside the DOCUMENTATION and RETURN strings
-plugins/modules/user_enrichment_details.py pep8-3.6 # The long lines are inside the DOCUMENTATION and RETURN strings
-plugins/modules/virtual_account_sync.py pep8-3.6 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/client_enrichment_details.py pep8-3.6:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/device_enrichment_details.py pep8-3.6:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/discovery_job.py pep8-3.6:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/enterprise_ssid.py pep8-3.6:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/flow_analysis.py pep8-3.6:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/import_image_file.py pep8-3.6:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/integration_event.py pep8-3.6:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/issue_enrichment_details.py pep8-3.6:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/network_device.py pep8-3.6:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/pnp_device.py pep8-3.6:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/smart_virtual_account.py pep8-3.6:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/tag_member.py pep8-3.6:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/template.py pep8-3.6:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/user_enrichment_details.py pep8-3.6:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/virtual_account_sync.py pep8-3.6:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
