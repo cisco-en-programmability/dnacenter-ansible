@@ -146,7 +146,8 @@ EXAMPLES = r"""
       instanceTenantId: SomeValue  # string
       instanceUuid: SomeValue  # string
       secure: True  # boolean
-  - name: update_http_write_credentials
+  
+- name: update_http_write_credentials
   cisco.dnac.global_credential_http_write:
     state: update  # required
     password: SomeValue  # string, required
@@ -159,7 +160,8 @@ EXAMPLES = r"""
     instanceTenantId: SomeValue  # string
     instanceUuid: SomeValue  # string
     secure: True  # boolean
-  """
+  
+"""
 
 RETURN = """
 create_http_write_credentials:

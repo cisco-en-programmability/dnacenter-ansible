@@ -105,7 +105,8 @@ EXAMPLES = r"""
         lagOrPortNumber: 1  #  integer
         vlanId: 1  #  integer
         interfaceName: SomeValue  # string
-  - name: provision_update
+  
+- name: provision_update
   cisco.dnac.wireless_provision:
     state: update  # required
     payload:  # required
@@ -119,7 +120,8 @@ EXAMPLES = r"""
         lagOrPortNumber: 1  #  integer
         vlanId: 1  #  integer
         interfaceName: SomeValue  # string
-  """
+  
+"""
 
 RETURN = """
 provision:

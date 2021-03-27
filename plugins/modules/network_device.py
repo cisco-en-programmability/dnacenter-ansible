@@ -60,7 +60,7 @@ options:
     description:
     - Accepts comma separated id's and return list of network-devices for the given id's. If invalid or not-found id's are provided, null entry will be returned in the list.
     - Device ID.
-    - Required for states query and delete.
+    - Required for states delete and query.
     type: str
   license_name:
     description:
@@ -368,7 +368,8 @@ EXAMPLES = r"""
     type: SomeValue  # string
     up_time: SomeValue  # string
   register: query_result
-  - name: add_device
+  
+- name: add_device
   cisco.dnac.network_device:
     state: create  # required
     cliTransport: SomeValue  # string, required
@@ -402,7 +403,8 @@ EXAMPLES = r"""
     updateMgmtIPaddressList:
     - existMgmtIpAddress: SomeValue  # string
       newMgmtIpAddress: SomeValue  # string
-  - name: sync_devices
+  
+- name: sync_devices
   cisco.dnac.network_device:
     state: update  # required
     cliTransport: SomeValue  # string, required
@@ -436,44 +438,52 @@ EXAMPLES = r"""
     updateMgmtIPaddressList:
     - existMgmtIpAddress: SomeValue  # string
       newMgmtIpAddress: SomeValue  # string
-  - name: delete_device_by_id
+  
+- name: delete_device_by_id
   cisco.dnac.network_device:
     state: delete  # required
     id: SomeValue  # string, required
     is_force_delete: True  # boolean
-  - name: get_device_by_id
+  
+- name: get_device_by_id
   cisco.dnac.network_device:
     state: query  # required
     id: SomeValue  # string, required
   register: query_result
-  - name: get_device_summary
+  
+- name: get_device_summary
   cisco.dnac.network_device:
     state: query  # required
     id: SomeValue  # string, required
     summary: True  # boolean, required
   register: query_result
-  - name: get_network_device_by_pagination_range
+  
+- name: get_network_device_by_pagination_range
   cisco.dnac.network_device:
     state: query  # required
     records_to_return: 1  #  integer, required
     start_index: 1  #  integer, required
   register: query_result
-  - name: get_device_count
+  
+- name: get_device_count
   cisco.dnac.network_device:
     state: query  # required
     count: True  # boolean, required
   register: query_result
-  - name: get_network_device_by_ip
+  
+- name: get_network_device_by_ip
   cisco.dnac.network_device:
     state: query  # required
     ip_address: SomeValue  # string, required
   register: query_result
-  - name: get_device_by_serial_number
+  
+- name: get_device_by_serial_number
   cisco.dnac.network_device:
     state: query  # required
     serial_number: SomeValue  # string, required
   register: query_result
-  """
+  
+"""
 
 RETURN = """
 get_device_list:

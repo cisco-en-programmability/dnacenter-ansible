@@ -675,12 +675,14 @@ EXAMPLES = r"""
         customTemplate:
         - deviceType: SomeValue  # string, required
           template: SomeValue  # string, required
-  - name: get_device_details_by_ip
+  
+- name: get_device_details_by_ip
   cisco.dnac.nfv_provision:
     state: query  # required
     device_ip: SomeValue  # string, required
   register: query_result
-  """
+  
+"""
 
 RETURN = """
 provision_nfv:

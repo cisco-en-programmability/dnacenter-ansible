@@ -77,24 +77,28 @@ EXAMPLES = r"""
   cisco.dnac.application_set:
     state: delete  # required
     id: SomeValue  # string, required
-  - name: get_application_sets
+  
+- name: get_application_sets
   cisco.dnac.application_set:
     state: query  # required
     limit: 1  #  number
     name: SomeValue  # string
     offset: 1  #  number
   register: query_result
-  - name: create_application_set
+  
+- name: create_application_set
   cisco.dnac.application_set:
     state: create  # required
     payload:  # required
     - name: SomeValue  # string
-  - name: get_application_sets_count
+  
+- name: get_application_sets_count
   cisco.dnac.application_set:
     state: query  # required
     count: True  # boolean, required
   register: query_result
-  """
+  
+"""
 
 RETURN = """
 delete_application_set:

@@ -188,13 +188,15 @@ EXAMPLES = r"""
     syncStartTime: 1  #  integer
     tenantId: SomeValue  # string
     token: SomeValue  # string
-  - name: get_sync_result_for_virtual_account
+  
+- name: get_sync_result_for_virtual_account
   cisco.dnac.virtual_account_sync:
     state: query  # required
     domain: SomeValue  # string, required
     name: SomeValue  # string, required
   register: query_result
-  """
+  
+"""
 
 RETURN = """
 sync_virtual_account_devices:

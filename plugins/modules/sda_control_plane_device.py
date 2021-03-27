@@ -64,17 +64,20 @@ EXAMPLES = r"""
     state: query  # required
     device_ipaddress: SomeValue  # string, required
   register: query_result
-  - name: delete_control_plane_device
+  
+- name: delete_control_plane_device
   cisco.dnac.sda_control_plane_device:
     state: delete  # required
     device_ipaddress: SomeValue  # string, required
-  - name: add_control_plane_device
+  
+- name: add_control_plane_device
   cisco.dnac.sda_control_plane_device:
     state: create  # required
     payload:  # required
     - deviceManagementIpAddress: SomeValue  # string
       siteNameHierarchy: SomeValue  # string
-  """
+  
+"""
 
 RETURN = """
 get_control_plane_device:

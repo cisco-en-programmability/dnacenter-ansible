@@ -170,7 +170,8 @@ EXAMPLES = r"""
     sort_by: SomeValue  # string
     system_tag: SomeValue  # string
   register: query_result
-  - name: create_tag
+  
+- name: create_tag
   cisco.dnac.tag:
     state: present  # required
     description: SomeValue  # string
@@ -187,7 +188,8 @@ EXAMPLES = r"""
     instanceTenantId: SomeValue  # string
     name: SomeValue  # string
     systemTag: True  # boolean
-  - name: update_tag
+  
+- name: update_tag
   cisco.dnac.tag:
     state: present  # required
     description: SomeValue  # string
@@ -204,16 +206,19 @@ EXAMPLES = r"""
     instanceTenantId: SomeValue  # string
     name: SomeValue  # string
     systemTag: True  # boolean
-  - name: delete_tag
+  
+- name: delete_tag
   cisco.dnac.tag:
     state: absent  # required
     id: SomeValue  # string, required
-  - name: get_tag_by_id
+  
+- name: get_tag_by_id
   cisco.dnac.tag:
     state: query  # required
     id: SomeValue  # string, required
   register: query_result
-  - name: get_tag_count
+  
+- name: get_tag_count
   cisco.dnac.tag:
     state: query  # required
     count: True  # boolean, required
@@ -224,7 +229,8 @@ EXAMPLES = r"""
     size: SomeValue  # string
     system_tag: SomeValue  # string
   register: query_result
-  """
+  
+"""
 
 RETURN = """
 get_tag:

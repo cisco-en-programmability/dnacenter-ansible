@@ -78,7 +78,8 @@ EXAMPLES = r"""
     state: query  # required
     name: SomeValue  # string
   register: query_result
-  - name: create_project
+  
+- name: create_project
   cisco.dnac.template_project:
     state: create  # required
     createTime: 1  #  integer
@@ -89,7 +90,8 @@ EXAMPLES = r"""
     tags:
     - SomeValue  # string
     templates: None
-  - name: update_project
+  
+- name: update_project
   cisco.dnac.template_project:
     state: update  # required
     createTime: 1  #  integer
@@ -100,11 +102,13 @@ EXAMPLES = r"""
     tags:
     - SomeValue  # string
     templates: None
-  - name: delete_project
+  
+- name: delete_project
   cisco.dnac.template_project:
     state: delete  # required
     project_id: SomeValue  # string, required
-  """
+  
+"""
 
 RETURN = """
 get_projects:

@@ -96,7 +96,8 @@ EXAMPLES = r"""
     state: query  # required
     site_id: SomeValue  # string
   register: query_result
-  - name: create_device_credentials
+  
+- name: create_device_credentials
   cisco.dnac.device_credential:
     state: create  # required
     settings:  # required
@@ -129,7 +130,8 @@ EXAMPLES = r"""
         password: SomeValue  # string, required
         name: SomeValue  # string
         port: 1  #  number
-  - name: update_device_credentials
+  
+- name: update_device_credentials
   cisco.dnac.device_credential:
     state: update  # required
     settings:  # required
@@ -168,11 +170,13 @@ EXAMPLES = r"""
         password: SomeValue  # string
         port: SomeValue  # string
         id: SomeValue  # string
-  - name: delete_device_credential
+  
+- name: delete_device_credential
   cisco.dnac.device_credential:
     state: delete  # required
     id: SomeValue  # string, required
-  """
+  
+"""
 
 RETURN = """
 get_device_credential_details:

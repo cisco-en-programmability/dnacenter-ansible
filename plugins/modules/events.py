@@ -77,14 +77,16 @@ EXAMPLES = r"""
     order: SomeValue  # string
     sort_by: SomeValue  # string
   register: query_result
-  - name: count_of_events
+  
+- name: count_of_events
   cisco.dnac.events:
     state: query  # required
     tags: SomeValue  # string, required
     count: True  # boolean, required
     event_id: SomeValue  # string
   register: query_result
-  """
+  
+"""
 
 RETURN = """
 get_events:

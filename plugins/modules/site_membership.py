@@ -46,7 +46,8 @@ EXAMPLES = r"""
     state: query  # required
     site_id: SomeValue  # string, required
   register: query_result
-  """
+  
+"""
 
 RETURN = """
 get_membership:

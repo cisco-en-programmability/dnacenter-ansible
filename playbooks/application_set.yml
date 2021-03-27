@@ -38,4 +38,3 @@
   - name: Show results
     debug:
       msg: "{{ result }}"
-

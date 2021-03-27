@@ -45,7 +45,8 @@ EXAMPLES = r"""
   cisco.dnac.nfv_provision_detail:
     state: create  # required
     device_ip: SomeValue  # string, required
-  """
+  
+"""
 
 RETURN = """
 nfv_provisioning_detail:

@@ -45,7 +45,8 @@ EXAMPLES = r"""
     state: query  # required
     timestamp: 1  #  integer
   register: query_result
-  """
+  
+"""
 
 RETURN = """
 get_overall_client_health:

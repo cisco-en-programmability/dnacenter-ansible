@@ -145,12 +145,14 @@ EXAMPLES = r"""
     flexConnect:
       enableFlexConnect: True  # boolean
       localToVlan: 1  #  integer
-  - name: delete_ssid_and_provision_it_to_devices
+  
+- name: delete_ssid_and_provision_it_to_devices
   cisco.dnac.ssid:
     state: delete  # required
     managed_aplocations: SomeValue  # string, required
     ssid_name: SomeValue  # string, required
-  """
+  
+"""
 
 RETURN = """
 create_and_provision_ssid:

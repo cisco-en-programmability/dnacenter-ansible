@@ -108,7 +108,8 @@ EXAMPLES = r"""
     limit: SomeValue  # string
     offset: SomeValue  # string
   register: query_result
-  - name: create_global_pool
+  
+- name: create_global_pool
   cisco.dnac.global_pool:
     state: create  # required
     settings:  # required
@@ -122,7 +123,8 @@ EXAMPLES = r"""
         dnsServerIps:
         - SomeValue  # string
         IpAddressSpace: SomeValue  # string
-  - name: update_global_pool
+  
+- name: update_global_pool
   cisco.dnac.global_pool:
     state: update  # required
     settings:  # required
@@ -134,11 +136,13 @@ EXAMPLES = r"""
         - SomeValue  # string
         dnsServerIps:
         - SomeValue  # string
-  - name: delete_global_ip_pool
+  
+- name: delete_global_ip_pool
   cisco.dnac.global_pool:
     state: delete  # required
     id: SomeValue  # string, required
-  """
+  
+"""
 
 RETURN = """
 get_global_pool:

@@ -51,7 +51,8 @@ EXAMPLES = r"""
     state: create  # required
     faultyDeviceSerialNumber: SomeValue  # string, required
     replacementDeviceSerialNumber: SomeValue  # string, required
-  """
+  
+"""
 
 RETURN = """
 deploy_device_replacement_workflow:

@@ -68,7 +68,8 @@ EXAMPLES = r"""
     parameters:
     - SomeValue  # string
     password: SomeValue  # string
-  """
+  
+"""
 
 RETURN = """
 export_device_list:

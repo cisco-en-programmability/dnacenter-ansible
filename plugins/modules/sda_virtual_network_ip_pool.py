@@ -93,13 +93,15 @@ EXAMPLES = r"""
     state: delete  # required
     ip_pool_name: SomeValue  # string, required
     virtual_network_name: SomeValue  # string, required
-  - name: get_ip_pool_from_sda_virtual_network
+  
+- name: get_ip_pool_from_sda_virtual_network
   cisco.dnac.sda_virtual_network_ip_pool:
     state: query  # required
     ip_pool_name: SomeValue  # string, required
     virtual_network_name: SomeValue  # string, required
   register: query_result
-  - name: add_ip_pool_in_sda_virtual_network
+  
+- name: add_ip_pool_in_sda_virtual_network
   cisco.dnac.sda_virtual_network_ip_pool:
     state: create  # required
     payload:  # required
@@ -111,7 +113,8 @@ EXAMPLES = r"""
       isL2FloodingEnabled: True  # boolean
       isThisCriticalPool: True  # boolean
       poolType: SomeValue  # string
-  """
+  
+"""
 
 RETURN = """
 delete_ip_pool_from_sda_virtual_network:

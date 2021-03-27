@@ -143,7 +143,8 @@ EXAMPLES = r"""
   cisco.dnac.event_subscription:
     state: delete  # required
     subscriptions: SomeValue  # string, required
-  - name: get_event_subscriptions
+  
+- name: get_event_subscriptions
   cisco.dnac.event_subscription:
     state: query  # required
     event_ids: SomeValue  # string
@@ -152,7 +153,8 @@ EXAMPLES = r"""
     order: SomeValue  # string
     sort_by: SomeValue  # string
   register: query_result
-  - name: create_event_subscriptions
+  
+- name: create_event_subscriptions
   cisco.dnac.event_subscription:
     state: create  # required
     payload:  # required
@@ -170,7 +172,8 @@ EXAMPLES = r"""
           url: SomeValue  # string
           method: SomeValue  # string
           connectorType: SomeValue  # string
-  - name: update_event_subscriptions
+  
+- name: update_event_subscriptions
   cisco.dnac.event_subscription:
     state: update  # required
     payload:  # required
@@ -188,13 +191,15 @@ EXAMPLES = r"""
           url: SomeValue  # string
           method: SomeValue  # string
           connectorType: SomeValue  # string
-  - name: count_of_event_subscriptions
+  
+- name: count_of_event_subscriptions
   cisco.dnac.event_subscription:
     state: query  # required
     event_ids: SomeValue  # string, required
     count: True  # boolean, required
   register: query_result
-  """
+  
+"""
 
 RETURN = """
 delete_event_subscriptions:

@@ -64,24 +64,28 @@ EXAMPLES = r"""
   cisco.dnac.sda_auth_profile:
     state: delete  # required
     site_name_hierarchy: SomeValue  # string, required
-  - name: get_default_authentication_profile
+  
+- name: get_default_authentication_profile
   cisco.dnac.sda_auth_profile:
     state: query  # required
     site_name_hierarchy: SomeValue  # string, required
   register: query_result
-  - name: add_default_authentication_profile
+  
+- name: add_default_authentication_profile
   cisco.dnac.sda_auth_profile:
     state: create  # required
     payload:  # required
     - siteNameHierarchy: SomeValue  # string
       authenticateTemplateName: SomeValue  # string
-  - name: update_default_authentication_profile
+  
+- name: update_default_authentication_profile
   cisco.dnac.sda_auth_profile:
     state: update  # required
     payload:  # required
     - siteNameHierarchy: SomeValue  # string
       authenticateTemplateName: SomeValue  # string
-  """
+  
+"""
 
 RETURN = """
 delete_default_authentication_profile:

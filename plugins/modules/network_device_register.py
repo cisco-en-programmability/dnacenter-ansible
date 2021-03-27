@@ -50,7 +50,8 @@ EXAMPLES = r"""
     macaddress: SomeValue  # string
     serial_number: SomeValue  # string
   register: query_result
-  """
+  
+"""
 
 RETURN = """
 register_device_for_wsa:

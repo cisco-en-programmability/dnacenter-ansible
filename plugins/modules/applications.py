@@ -201,11 +201,13 @@ EXAMPLES = r"""
     name: SomeValue  # string
     offset: 1  #  number
   register: query_result
-  - name: delete_application
+  
+- name: delete_application
   cisco.dnac.applications:
     state: delete  # required
     id: SomeValue  # string, required
-  - name: create_application
+  
+- name: create_application
   cisco.dnac.applications:
     state: create  # required
     payload:  # required
@@ -235,7 +237,8 @@ EXAMPLES = r"""
         upperPort: SomeValue  # string
       applicationSet:
         idRef: SomeValue  # string
-  - name: edit_application
+  
+- name: edit_application
   cisco.dnac.applications:
     state: update  # required
     payload:  # required
@@ -268,12 +271,14 @@ EXAMPLES = r"""
         upperPort: SomeValue  # string
       applicationSet:
         idRef: SomeValue  # string
-  - name: get_applications_count
+  
+- name: get_applications_count
   cisco.dnac.applications:
     state: query  # required
     count: True  # boolean, required
   register: query_result
-  """
+  
+"""
 
 RETURN = """
 get_applications:

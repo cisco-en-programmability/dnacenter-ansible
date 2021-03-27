@@ -115,7 +115,8 @@ EXAMPLES = r"""
       id: SomeValue  # string
       instanceTenantId: SomeValue  # string
       instanceUuid: SomeValue  # string
-  - name: update_snmp_write_community
+  
+- name: update_snmp_write_community
   cisco.dnac.global_credential_snmpv2_write_community:
     state: update  # required
     writeCommunity: SomeValue  # string, required
@@ -125,7 +126,8 @@ EXAMPLES = r"""
     id: SomeValue  # string
     instanceTenantId: SomeValue  # string
     instanceUuid: SomeValue  # string
-  """
+  
+"""
 
 RETURN = """
 create_snmp_write_community:

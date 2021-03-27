@@ -1376,7 +1376,8 @@ EXAMPLES = r"""
         licenseLevel: SomeValue  # string
         licenseType: SomeValue  # string
         topOfStackSerialNumber: SomeValue  # string
-  """
+  
+"""
 
 RETURN = """
 import_devices_in_bulk:

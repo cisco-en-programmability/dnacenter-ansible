@@ -45,7 +45,8 @@ EXAMPLES = r"""
     state: create  # required
     deviceIdList:
     - SomeValue  # string
-  """
+  
+"""
 
 RETURN = """
 un_claim_device:

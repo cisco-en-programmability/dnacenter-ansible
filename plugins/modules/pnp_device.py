@@ -1220,7 +1220,8 @@ EXAMPLES = r"""
     workflow_id: SomeValue  # string
     workflow_name: SomeValue  # string
   register: query_result
-  - name: add_device
+  
+- name: add_device
   cisco.dnac.pnp_device:
     state: create  # required
     deviceInfo:  # required
@@ -1478,16 +1479,19 @@ EXAMPLES = r"""
       licenseLevel: SomeValue  # string
       licenseType: SomeValue  # string
       topOfStackSerialNumber: SomeValue  # string
-  - name: get_device_by_id
+  
+- name: get_device_by_id
   cisco.dnac.pnp_device:
     state: query  # required
     id: SomeValue  # string, required
   register: query_result
-  - name: delete_device_by_id_from_pnp
+  
+- name: delete_device_by_id_from_pnp
   cisco.dnac.pnp_device:
     state: delete  # required
     id: SomeValue  # string, required
-  - name: update_device
+  
+- name: update_device
   cisco.dnac.pnp_device:
     state: update  # required
     id: SomeValue  # string, required
@@ -1746,7 +1750,8 @@ EXAMPLES = r"""
       licenseLevel: SomeValue  # string
       licenseType: SomeValue  # string
       topOfStackSerialNumber: SomeValue  # string
-  - name: get_device_count
+  
+- name: get_device_count
   cisco.dnac.pnp_device:
     state: query  # required
     count: True  # boolean, required
@@ -1765,14 +1770,16 @@ EXAMPLES = r"""
     workflow_id: SomeValue  # string
     workflow_name: SomeValue  # string
   register: query_result
-  - name: get_device_history
+  
+- name: get_device_history
   cisco.dnac.pnp_device:
     state: query  # required
     serial_number: SomeValue  # string, required
     sort: SomeValue  # string
     sort_order: SomeValue  # string
   register: query_result
-  """
+  
+"""
 
 RETURN = """
 get_device_list:

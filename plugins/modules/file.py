@@ -56,7 +56,8 @@ EXAMPLES = r"""
     dirpath: SomeValue  # string
     save_file: True  # boolean
   register: query_result
-  """
+  
+"""
 
 RETURN = """
 download_a_file_by_fileid:

@@ -85,29 +85,34 @@ EXAMPLES = r"""
     vlan_id: SomeValue  # string, required
     layer2: True  # boolean, required
   register: query_result
-  - name: get_l3_topology_details
+  
+- name: get_l3_topology_details
   cisco.dnac.topology:
     state: query  # required
     topology_type: SomeValue  # string, required
     layer3: True  # boolean, required
   register: query_result
-  - name: get_physical_topology
+  
+- name: get_physical_topology
   cisco.dnac.topology:
     state: query  # required
     physical: True  # boolean, required
     node_type: SomeValue  # string
   register: query_result
-  - name: get_site_topology
+  
+- name: get_site_topology
   cisco.dnac.topology:
     state: query  # required
     site: True  # boolean, required
   register: query_result
-  - name: get_vlan_details
+  
+- name: get_vlan_details
   cisco.dnac.topology:
     state: query  # required
     vlan: True  # boolean, required
   register: query_result
-  """
+  
+"""
 
 RETURN = """
 get_topology_details:

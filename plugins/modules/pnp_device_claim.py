@@ -138,7 +138,8 @@ EXAMPLES = r"""
     populateInventory: True  # boolean
     projectId: SomeValue  # string
     workflowId: SomeValue  # string
-  """
+  
+"""
 
 RETURN = """
 claim_device:

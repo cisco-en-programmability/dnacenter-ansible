@@ -482,7 +482,8 @@ EXAMPLES = r"""
         selectionType: SomeValue  # string
         selectionValues:
     version: SomeValue  # string
-  - name: gets_the_templates_available
+  
+- name: gets_the_templates_available
   cisco.dnac.template:
     state: query  # required
     filter_conflicting_templates: True  # boolean
@@ -493,7 +494,8 @@ EXAMPLES = r"""
     software_type: SomeValue  # string
     software_version: SomeValue  # string
   register: query_result
-  - name: update_template
+  
+- name: update_template
   cisco.dnac.template:
     state: update  # required
     author: SomeValue  # string
@@ -572,17 +574,20 @@ EXAMPLES = r"""
         selectionType: SomeValue  # string
         selectionValues:
     version: SomeValue  # string
-  - name: get_template_details
+  
+- name: get_template_details
   cisco.dnac.template:
     state: query  # required
     template_id: SomeValue  # string, required
     latest_version: True  # boolean
   register: query_result
-  - name: delete_template
+  
+- name: delete_template
   cisco.dnac.template:
     state: delete  # required
     template_id: SomeValue  # string, required
-  """
+  
+"""
 
 RETURN = """
 create_template:

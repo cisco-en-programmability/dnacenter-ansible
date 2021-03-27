@@ -58,7 +58,8 @@ EXAMPLES = r"""
     payload:  # required
     - deviceUuid: SomeValue  # string
       imageUuid: SomeValue  # string
-  """
+  
+"""
 
 RETURN = """
 trigger_software_image_distribution:

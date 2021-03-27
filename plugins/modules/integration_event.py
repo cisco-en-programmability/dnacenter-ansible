@@ -51,12 +51,14 @@ EXAMPLES = r"""
     state: query  # required
     instance_id: SomeValue  # string
   register: query_result
-  - name: retry_integration_events
+  
+- name: retry_integration_events
   cisco.dnac.integration_event:
     state: create  # required
     payload:  # required
     - SomeValue  # string
-  """
+  
+"""
 
 RETURN = """
 get_failed_itsm_events:

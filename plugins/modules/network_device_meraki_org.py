@@ -46,7 +46,8 @@ EXAMPLES = r"""
     state: query  # required
     id: SomeValue  # string, required
   register: query_result
-  """
+  
+"""
 
 RETURN = """
 get_organization_list_for_meraki:
