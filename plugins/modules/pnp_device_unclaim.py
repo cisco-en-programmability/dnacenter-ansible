@@ -49,28 +49,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-un_claim_device:
-    description: Un-Claims one of more devices with specified workflow.
-    returned: success
-    type: dict
-    contains:
-      jsonArrayResponse:
-      description: UnclaimRequest's Json Array Response (list of any objects).
-      returned: success
-      type: list
-    jsonResponse:
-      description: UnclaimRequest's Json Response.
-      returned: success
-      type: dict
-    message:
-      description: UnclaimRequest's Message.
-      returned: success
-      type: str
-      sample: '<message>'
-    statusCode:
-      description: UnclaimRequest's statusCode.
-      returned: success
-      type: int
-      sample: 0
-
 """

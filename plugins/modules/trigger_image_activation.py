@@ -89,30 +89,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-trigger_software_image_activation:
-    description: Activates a software image on a given device. Software image must be present in the device flash.
-    returned: success
-    type: dict
-    contains:
-      response:
-      description: ActivateDTO's response.
-      returned: success
-      type: dict
-      contains:
-        taskId:
-          description: It is the trigger image activation's taskId.
-          returned: success
-          type: dict
-        url:
-          description: It is the trigger image activation's url.
-          returned: success
-          type: str
-          sample: '<url>'
-
-    version:
-      description: ActivateDTO's version.
-      returned: success
-      type: str
-      sample: '1.0'
-
 """

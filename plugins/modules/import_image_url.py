@@ -92,30 +92,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-import_software_image_via_url:
-    description: Fetches a software image from remote file system (using URL for HTTP/FTP) and uploads to DNA Center. Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
-    returned: success
-    type: dict
-    contains:
-      response:
-      description: ImageImportFromUrlDTO's response.
-      returned: success
-      type: dict
-      contains:
-        taskId:
-          description: It is the import image url's taskId.
-          returned: success
-          type: dict
-        url:
-          description: It is the import image url's url.
-          returned: success
-          type: str
-          sample: '<url>'
-
-    version:
-      description: ImageImportFromUrlDTO's version.
-      returned: success
-      type: str
-      sample: '1.0'
-
 """

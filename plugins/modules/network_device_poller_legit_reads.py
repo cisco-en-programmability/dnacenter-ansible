@@ -45,19 +45,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-get_all_keywords_of_clis_accepted:
-    description: Get valid keywords.
-    returned: always
-    type: dict
-    contains:
-      response:
-      description: Response, property of the response body (list of strings).
-      returned: always
-      type: list
-    version:
-      description: Version, property of the response body.
-      returned: always
-      type: str
-      sample: '1.0'
-
 """

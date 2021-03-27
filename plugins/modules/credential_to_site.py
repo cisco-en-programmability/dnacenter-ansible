@@ -79,25 +79,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-assign_credential_to_site:
-    description: Assign Device Credential To Site.
-    returned: success
-    type: dict
-    contains:
-      executionId:
-      description: Execution Id, property of the response body.
-      returned: success
-      type: str
-      sample: '<executionid>'
-    executionStatusUrl:
-      description: Execution Status Url, property of the response body.
-      returned: success
-      type: str
-      sample: '<executionstatusurl>'
-    message:
-      description: Message, property of the response body.
-      returned: success
-      type: str
-      sample: '<message>'
-
 """

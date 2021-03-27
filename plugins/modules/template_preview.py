@@ -53,24 +53,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-preview_template:
-    description: Previews an existing template.
-    returned: changed
-    type: dict
-    contains:
-      cliPreview:
-      description: TemplatePreviewRequestDTO's cliPreview.
-      returned: changed
-      type: str
-      sample: '<clipreview>'
-    templateId:
-      description: TemplatePreviewRequestDTO's templateId.
-      returned: changed
-      type: str
-      sample: '<templateid>'
-    validationErrors:
-      description: TemplatePreviewRequestDTO's validationErrors.
-      returned: changed
-      type: dict
-
 """

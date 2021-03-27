@@ -72,30 +72,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-run_read_only_commands_on_devices:
-    description: Submit request for read-only CLIs.
-    returned: success
-    type: dict
-    contains:
-      response:
-      description: CommandRunnerDTO's response.
-      returned: success
-      type: dict
-      contains:
-        taskId:
-          description: It is the network device poller read request's taskId.
-          returned: success
-          type: dict
-        url:
-          description: It is the network device poller read request's url.
-          returned: success
-          type: str
-          sample: '<url>'
-
-    version:
-      description: CommandRunnerDTO's version.
-      returned: success
-      type: str
-      sample: '1.0'
-
 """

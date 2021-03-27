@@ -57,36 +57,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-get_polling_interval_by_id:
-    description: Returns polling interval by device id.
-    returned: always
-    type: dict
-    contains:
-      response:
-      description: Response, property of the response body.
-      returned: always
-      type: int
-      sample: 0
-    version:
-      description: Version, property of the response body.
-      returned: always
-      type: str
-      sample: '1.0'
-
-get_polling_interval_for_all_devices:
-    description: Returns polling interval of all devices.
-    returned: always
-    type: dict
-    contains:
-      response:
-      description: Response, property of the response body.
-      returned: always
-      type: int
-      sample: 0
-    version:
-      description: Version, property of the response body.
-      returned: always
-      type: str
-      sample: '1.0'
-
 """

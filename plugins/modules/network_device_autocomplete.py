@@ -154,10 +154,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-retrieves_all_network_devices:
-    description: Gets the list of first 500 network devices sorted lexicographically based on host name. It can be filtered using management IP address, mac address, hostname and location name. If id param is provided, it will be returning the list of network-devices for the given id's and other request params will be ignored. In case of autocomplete request, returns the list of specified attributes.
-    returned: always
-    type: dict
-    contains:
-  
 """

@@ -55,30 +55,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-deploy_device_replacement_workflow:
-    description: API to trigger RMA workflow that will replace faulty device with replacement device with same configuration and images.
-    returned: success
-    type: dict
-    contains:
-      response:
-      description: DeviceReplacementWorkflowDTO's response.
-      returned: success
-      type: dict
-      contains:
-        taskId:
-          description: It is the device replacement workflow's taskId.
-          returned: success
-          type: dict
-        url:
-          description: It is the device replacement workflow's url.
-          returned: success
-          type: str
-          sample: '<url>'
-
-    version:
-      description: DeviceReplacementWorkflowDTO's version.
-      returned: success
-      type: str
-      sample: '1.0'
-
 """

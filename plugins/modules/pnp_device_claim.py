@@ -142,28 +142,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-claim_device:
-    description: Claims one of more devices with specified workflow.
-    returned: success
-    type: dict
-    contains:
-      jsonArrayResponse:
-      description: ClaimDeviceRequest's Json Array Response (list of any objects).
-      returned: success
-      type: list
-    jsonResponse:
-      description: ClaimDeviceRequest's Json Response.
-      returned: success
-      type: dict
-    message:
-      description: ClaimDeviceRequest's Message.
-      returned: success
-      type: str
-      sample: '<message>'
-    statusCode:
-      description: ClaimDeviceRequest's statusCode.
-      returned: success
-      type: int
-      sample: 0
-
 """

@@ -62,30 +62,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-trigger_software_image_distribution:
-    description: Distributes a software image on a given device. Software image must be imported successfully into DNA Center before it can be distributed.
-    returned: success
-    type: dict
-    contains:
-      response:
-      description: DistributeDTO's response.
-      returned: success
-      type: dict
-      contains:
-        taskId:
-          description: It is the trigger image distribution's taskId.
-          returned: success
-          type: dict
-        url:
-          description: It is the trigger image distribution's url.
-          returned: success
-          type: str
-          sample: '<url>'
-
-    version:
-      description: DistributeDTO's version.
-      returned: success
-      type: str
-      sample: '1.0'
-
 """

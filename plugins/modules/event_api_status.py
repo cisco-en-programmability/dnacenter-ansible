@@ -50,24 +50,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-get_status_api_for_events:
-    description: Get the Status of events API calls with provided executionId as mandatory path parameter.
-    returned: always
-    type: dict
-    contains:
-      errorMessage:
-      description: Error Message, property of the response body.
-      returned: always
-      type: dict
-    apiStatus:
-      description: Api Status, property of the response body.
-      returned: always
-      type: str
-      sample: '<apistatus>'
-    statusMessage:
-      description: Status Message, property of the response body.
-      returned: always
-      type: str
-      sample: '<statusmessage>'
-
 """

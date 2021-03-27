@@ -60,10 +60,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-download_a_file_by_fileid:
-    description: Downloads a File specified by FileId.
-    returned: always
-    type: dict
-    contains:
-  
 """

@@ -49,25 +49,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-nfv_provisioning_detail:
-    description: Checks the provisioning detail of an ENCS device including log information.
-    returned: success
-    type: dict
-    contains:
-      executionId:
-      description: Execution Id, property of the response body.
-      returned: success
-      type: str
-      sample: '<executionid>'
-    executionStatusUrl:
-      description: Execution Status Url, property of the response body.
-      returned: success
-      type: str
-      sample: '<executionstatusurl>'
-    message:
-      description: Message, property of the response body.
-      returned: success
-      type: str
-      sample: '<message>'
-
 """

@@ -72,30 +72,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-export_device_list:
-    description: Exports the selected network device to a file.
-    returned: success
-    type: dict
-    contains:
-      response:
-      description: ExportDeviceDTO's response.
-      returned: success
-      type: dict
-      contains:
-        taskId:
-          description: It is the network device export list's taskId.
-          returned: success
-          type: dict
-        url:
-          description: It is the network device export list's url.
-          returned: success
-          type: str
-          sample: '<url>'
-
-    version:
-      description: ExportDeviceDTO's version.
-      returned: success
-      type: str
-      sample: '1.0'
-
 """

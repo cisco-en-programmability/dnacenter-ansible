@@ -50,39 +50,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-get_device_info:
-    description: Get device info from SDA Fabric.
-    returned: always
-    type: dict
-    contains:
-      status:
-      description: Status, property of the response body.
-      returned: always
-      type: str
-      sample: '<status>'
-    description:
-      description: Description, property of the response body.
-      returned: always
-      type: str
-      sample: '<description>'
-    name:
-      description: Name, property of the response body.
-      returned: always
-      type: str
-      sample: '<name>'
-    roles:
-      description: Roles, property of the response body (list of strings).
-      returned: always
-      type: list
-    deviceManagementIpAddress:
-      description: Device Management Ip Address, property of the response body.
-      returned: always
-      type: str
-      sample: '<devicemanagementipaddress>'
-    siteHierarchy:
-      description: Site Hierarchy, property of the response body.
-      returned: always
-      type: str
-      sample: '<sitehierarchy>'
-
 """

@@ -54,30 +54,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-sync_devices_using_forcesync:
-    description: Synchronizes the devices. If forceSync param is false (default) then the sync would run in normal priority thread. If forceSync param is true then the sync would run in high priority thread if available, else the sync will fail. Result can be seen in the child task of each device.
-    returned: changed
-    type: dict
-    contains:
-      response:
-      description: Response, property of the response body.
-      returned: changed
-      type: dict
-      contains:
-        taskId:
-          description: It is the network device sync's taskId.
-          returned: changed
-          type: dict
-        url:
-          description: It is the network device sync's url.
-          returned: changed
-          type: str
-          sample: '<url>'
-
-    version:
-      description: Version, property of the response body.
-      returned: changed
-      type: str
-      sample: '1.0'
-
 """

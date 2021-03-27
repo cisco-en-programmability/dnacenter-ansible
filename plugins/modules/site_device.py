@@ -64,25 +64,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-assign_device_to_site:
-    description: Assigns list of devices to a site.
-    returned: success
-    type: dict
-    contains:
-      executionId:
-      description: Execution Id, property of the response body.
-      returned: success
-      type: str
-      sample: '<executionid>'
-    executionStatusUrl:
-      description: Execution Status Url, property of the response body.
-      returned: success
-      type: str
-      sample: '<executionstatusurl>'
-    message:
-      description: Message, property of the response body.
-      returned: success
-      type: str
-      sample: '<message>'
-
 """

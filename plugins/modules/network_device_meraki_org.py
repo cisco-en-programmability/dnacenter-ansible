@@ -50,19 +50,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-get_organization_list_for_meraki:
-    description: Returns list of organizations for meraki dashboard.
-    returned: always
-    type: dict
-    contains:
-      response:
-      description: Response, property of the response body (list of strings).
-      returned: always
-      type: list
-    version:
-      description: Version, property of the response body.
-      returned: always
-      type: str
-      sample: '1.0'
-
 """

@@ -67,30 +67,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-update_device_role:
-    description: Updates the role of the device as access, core, distribution, border router.
-    returned: changed
-    type: dict
-    contains:
-      response:
-      description: NetworkDeviceBriefNIO's response.
-      returned: changed
-      type: dict
-      contains:
-        taskId:
-          description: It is the network device update role's taskId.
-          returned: changed
-          type: dict
-        url:
-          description: It is the network device update role's url.
-          returned: changed
-          type: str
-          sample: '<url>'
-
-    version:
-      description: NetworkDeviceBriefNIO's version.
-      returned: changed
-      type: str
-      sample: '1.0'
-
 """

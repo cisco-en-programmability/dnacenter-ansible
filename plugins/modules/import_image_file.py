@@ -75,30 +75,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-import_local_software_image:
-    description: Fetches a software image from local file system and uploads to DNA Center. Supported software image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
-    returned: success
-    type: dict
-    contains:
-      response:
-      description: Response, property of the response body.
-      returned: success
-      type: dict
-      contains:
-        taskId:
-          description: It is the import image file's taskId.
-          returned: success
-          type: dict
-        url:
-          description: It is the import image file's url.
-          returned: success
-          type: str
-          sample: '<url>'
-
-    version:
-      description: Version, property of the response body.
-      returned: success
-      type: str
-      sample: '1.0'
-
 """

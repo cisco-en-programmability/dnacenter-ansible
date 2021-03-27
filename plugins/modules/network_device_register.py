@@ -54,46 +54,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-register_device_for_wsa:
-    description: Registers a device for WSA notification.
-    returned: always
-    type: dict
-    contains:
-      response:
-      description: Response, property of the response body.
-      returned: always
-      type: dict
-      contains:
-        macAddress:
-          description: It is the network device register's macAddress.
-          returned: always
-          type: str
-          sample: '<macaddress>'
-        modelNumber:
-          description: It is the network device register's modelNumber.
-          returned: always
-          type: str
-          sample: '<modelnumber>'
-        name:
-          description: It is the network device register's name.
-          returned: always
-          type: str
-          sample: '<name>'
-        serialNumber:
-          description: It is the network device register's serialNumber.
-          returned: always
-          type: str
-          sample: '<serialnumber>'
-        tenantId:
-          description: It is the network device register's tenantId.
-          returned: always
-          type: str
-          sample: '<tenantid>'
-
-    version:
-      description: Version, property of the response body.
-      returned: always
-      type: str
-      sample: '1.0'
-
 """

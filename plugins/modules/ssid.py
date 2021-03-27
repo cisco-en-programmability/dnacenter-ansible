@@ -155,46 +155,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-create_and_provision_ssid:
-    description: Creates SSID, updates the SSID to the corresponding site profiles and provision it to the devices matching the given sites.
-    returned: success
-    type: dict
-    contains:
-      executionId:
-      description: Execution Id, property of the response body.
-      returned: success
-      type: str
-      sample: '<executionid>'
-    executionStatusUrl:
-      description: Execution Status Url, property of the response body.
-      returned: success
-      type: str
-      sample: '<executionstatusurl>'
-    message:
-      description: Message, property of the response body.
-      returned: success
-      type: str
-      sample: '<message>'
-
-delete_ssid_and_provision_it_to_devices:
-    description: Removes SSID or WLAN from the network profile, reprovision the device(s) and deletes the SSID or WLAN from DNA Center.
-    returned: success
-    type: dict
-    contains:
-      executionId:
-      description: Execution Id, property of the response body.
-      returned: success
-      type: str
-      sample: '<executionid>'
-    executionStatusUrl:
-      description: Execution Status Url, property of the response body.
-      returned: success
-      type: str
-      sample: '<executionstatusurl>'
-    message:
-      description: Message, property of the response body.
-      returned: success
-      type: str
-      sample: '<message>'
-
 """

@@ -112,28 +112,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-reset_device:
-    description: Recovers a device from a Workflow Execution Error state.
-    returned: success
-    type: dict
-    contains:
-      jsonArrayResponse:
-      description: ResetRequest's Json Array Response (list of any objects).
-      returned: success
-      type: list
-    jsonResponse:
-      description: ResetRequest's Json Response.
-      returned: success
-      type: dict
-    message:
-      description: ResetRequest's Message.
-      returned: success
-      type: str
-      sample: '<message>'
-    statusCode:
-      description: ResetRequest's statusCode.
-      returned: success
-      type: int
-      sample: 0
-
 """

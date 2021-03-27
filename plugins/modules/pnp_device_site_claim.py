@@ -59,20 +59,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-claim_a_device_to_a_site:
-    description: Claim a device based on DNA-C Site based design process. Different parameters are required for different device platforms.
-    returned: success
-    type: dict
-    contains:
-      response:
-      description: SiteProvisionRequest's response.
-      returned: success
-      type: str
-      sample: '<response>'
-    version:
-      description: SiteProvisionRequest's version.
-      returned: success
-      type: str
-      sample: '1.0'
-
 """

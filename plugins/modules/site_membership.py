@@ -50,45 +50,4 @@ EXAMPLES = r"""
 """
 
 RETURN = """
-get_membership:
-    description: Getting the site children details and device details.
-    returned: always
-    type: dict
-    contains:
-      site:
-      description: Site, property of the response body.
-      returned: always
-      type: dict
-      contains:
-        response:
-          description: It is the site membership's response.
-          returned: always
-          type: list
-        version:
-          description: It is the site membership's version.
-          returned: always
-          type: str
-          sample: '1.0'
-
-    device:
-      description: Device, property of the response body (list of objects).
-      returned: always
-      type: list
-      contains:
-        response:
-          description: It is the site membership's response.
-          returned: always
-          type: list
-        version:
-          description: It is the site membership's version.
-          returned: always
-          type: str
-          sample: '1.0'
-        siteId:
-          description: It is the site membership's siteId.
-          returned: always
-          type: str
-          sample: '<siteid>'
-
-
 """
