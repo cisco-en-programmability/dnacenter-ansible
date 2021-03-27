@@ -368,7 +368,7 @@ EXAMPLES = r"""
     type: SomeValue  # string
     up_time: SomeValue  # string
   register: query_result
-  
+
 - name: add_device
   cisco.dnac.network_device:
     state: create  # required
@@ -403,7 +403,7 @@ EXAMPLES = r"""
     updateMgmtIPaddressList:
     - existMgmtIpAddress: SomeValue  # string
       newMgmtIpAddress: SomeValue  # string
-  
+
 - name: sync_devices
   cisco.dnac.network_device:
     state: update  # required
@@ -438,51 +438,51 @@ EXAMPLES = r"""
     updateMgmtIPaddressList:
     - existMgmtIpAddress: SomeValue  # string
       newMgmtIpAddress: SomeValue  # string
-  
+
 - name: delete_device_by_id
   cisco.dnac.network_device:
     state: delete  # required
     id: SomeValue  # string, required
     is_force_delete: True  # boolean
-  
+
 - name: get_device_by_id
   cisco.dnac.network_device:
     state: query  # required
     id: SomeValue  # string, required
   register: query_result
-  
+
 - name: get_device_summary
   cisco.dnac.network_device:
     state: query  # required
     id: SomeValue  # string, required
     summary: True  # boolean, required
   register: query_result
-  
+
 - name: get_network_device_by_pagination_range
   cisco.dnac.network_device:
     state: query  # required
     records_to_return: 1  #  integer, required
     start_index: 1  #  integer, required
   register: query_result
-  
+
 - name: get_device_count
   cisco.dnac.network_device:
     state: query  # required
     count: True  # boolean, required
   register: query_result
-  
+
 - name: get_network_device_by_ip
   cisco.dnac.network_device:
     state: query  # required
     ip_address: SomeValue  # string, required
   register: query_result
-  
+
 - name: get_device_by_serial_number
   cisco.dnac.network_device:
     state: query  # required
     serial_number: SomeValue  # string, required
   register: query_result
-  
+
 """
 
 RETURN = """

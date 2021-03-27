@@ -68,7 +68,7 @@ EXAMPLES = r"""
     description: SomeValue  # string
     name: SomeValue  # string
     timeout: 1  #  integer
-  
+
 """
 
 RETURN = """

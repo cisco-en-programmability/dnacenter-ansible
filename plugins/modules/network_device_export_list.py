@@ -68,7 +68,7 @@ EXAMPLES = r"""
     parameters:
     - SomeValue  # string
     password: SomeValue  # string
-  
+
 """
 
 RETURN = """

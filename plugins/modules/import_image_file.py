@@ -71,7 +71,7 @@ EXAMPLES = r"""
     third_party_application_type: SomeValue  # string
     third_party_image_family: SomeValue  # string
     third_party_vendor: SomeValue  # string
-  
+
 """
 
 RETURN = """

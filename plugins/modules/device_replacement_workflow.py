@@ -51,7 +51,7 @@ EXAMPLES = r"""
     state: create  # required
     faultyDeviceSerialNumber: SomeValue  # string, required
     replacementDeviceSerialNumber: SomeValue  # string, required
-  
+
 """
 
 RETURN = """

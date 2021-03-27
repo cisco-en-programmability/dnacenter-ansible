@@ -88,13 +88,13 @@ EXAMPLES = r"""
     part_number_list: SomeValue  # string
     vendor_equipment_type_list: SomeValue  # string
   register: query_result
-  
+
 - name: get_module_info_by_id
   cisco.dnac.network_device_module:
     state: query  # required
     id: SomeValue  # string, required
   register: query_result
-  
+
 - name: get_module_count
   cisco.dnac.network_device_module:
     state: query  # required
@@ -105,7 +105,7 @@ EXAMPLES = r"""
     part_number_list: SomeValue  # string
     vendor_equipment_type_list: SomeValue  # string
   register: query_result
-  
+
 """
 
 RETURN = """

@@ -77,7 +77,7 @@ EXAMPLES = r"""
     order: SomeValue  # string
     sort_by: SomeValue  # string
   register: query_result
-  
+
 - name: count_of_events
   cisco.dnac.events:
     state: query  # required
@@ -85,7 +85,7 @@ EXAMPLES = r"""
     count: True  # boolean, required
     event_id: SomeValue  # string
   register: query_result
-  
+
 """
 
 RETURN = """

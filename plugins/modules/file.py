@@ -56,7 +56,7 @@ EXAMPLES = r"""
     dirpath: SomeValue  # string
     save_file: True  # boolean
   register: query_result
-  
+
 """
 
 RETURN = """

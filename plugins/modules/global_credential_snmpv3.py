@@ -165,7 +165,7 @@ EXAMPLES = r"""
       instanceUuid: SomeValue  # string
       privacyPassword: SomeValue  # string
       privacyType: SomeValue  # string
-  
+
 - name: update_snmpv3_credentials
   cisco.dnac.global_credential_snmpv3:
     state: update  # required
@@ -181,7 +181,7 @@ EXAMPLES = r"""
     instanceUuid: SomeValue  # string
     privacyPassword: SomeValue  # string
     privacyType: SomeValue  # string, valid values: 'DES', 'AES128'.
-  
+
 """
 
 RETURN = """

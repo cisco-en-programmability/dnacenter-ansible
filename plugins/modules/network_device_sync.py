@@ -50,7 +50,7 @@ EXAMPLES = r"""
     state: update  # required
     payload: None, required
     force_sync: True  # boolean
-  
+
 """
 
 RETURN = """

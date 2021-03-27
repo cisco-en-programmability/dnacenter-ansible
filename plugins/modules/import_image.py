@@ -130,7 +130,7 @@ EXAMPLES = r"""
     sort_order: SomeValue  # string
     version: SomeValue  # string
   register: query_result
-  
+
 """
 
 RETURN = """

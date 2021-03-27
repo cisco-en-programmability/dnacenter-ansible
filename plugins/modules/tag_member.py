@@ -103,18 +103,18 @@ EXAMPLES = r"""
     member_association_type: SomeValue  # string
     offset: SomeValue  # string
   register: query_result
-  
+
 - name: add_members_to_the_tag
   cisco.dnac.tag_member:
     state: create  # required
     id: SomeValue  # string, required
-  
+
 - name: remove_tag_member
   cisco.dnac.tag_member:
     state: delete  # required
     id: SomeValue  # string, required
     member_id: SomeValue  # string, required
-  
+
 - name: get_tag_member_count
   cisco.dnac.tag_member:
     state: query  # required
@@ -124,7 +124,7 @@ EXAMPLES = r"""
     level: SomeValue  # string
     member_association_type: SomeValue  # string
   register: query_result
-  
+
 - name: updates_tag_membership
   cisco.dnac.tag_member:
     state: update  # required
@@ -132,13 +132,13 @@ EXAMPLES = r"""
       key:
       - SomeValue  # string
     memberType: SomeValue  # string
-  
+
 - name: get_tag_resource_types
   cisco.dnac.tag_member:
     state: query  # required
 
   register: query_result
-  
+
 """
 
 RETURN = """

@@ -46,7 +46,7 @@ EXAMPLES = r"""
     state: query  # required
     device_ipaddress: SomeValue  # string, required
   register: query_result
-  
+
 """
 
 RETURN = """

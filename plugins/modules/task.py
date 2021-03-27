@@ -140,13 +140,13 @@ EXAMPLES = r"""
     start_time: SomeValue  # string
     username: SomeValue  # string
   register: query_result
-  
+
 - name: get_task_by_id
   cisco.dnac.task:
     state: query  # required
     task_id: SomeValue  # string, required
   register: query_result
-  
+
 - name: get_task_count
   cisco.dnac.task:
     state: query  # required
@@ -162,7 +162,7 @@ EXAMPLES = r"""
     start_time: SomeValue  # string
     username: SomeValue  # string
   register: query_result
-  
+
 - name: get_task_by_operationid
   cisco.dnac.task:
     state: query  # required
@@ -170,14 +170,14 @@ EXAMPLES = r"""
     offset: 1  #  integer, required
     operation_id: SomeValue  # string, required
   register: query_result
-  
+
 - name: get_task_tree
   cisco.dnac.task:
     state: query  # required
     task_id: SomeValue  # string, required
     tree: True  # boolean, required
   register: query_result
-  
+
 """
 
 RETURN = """

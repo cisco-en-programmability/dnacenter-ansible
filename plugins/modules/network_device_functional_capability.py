@@ -57,13 +57,13 @@ EXAMPLES = r"""
     device_id: SomeValue  # string, required
     function_name: SomeValue  # string
   register: query_result
-  
+
 - name: get_functional_capability_by_id
   cisco.dnac.network_device_functional_capability:
     state: query  # required
     id: SomeValue  # string, required
   register: query_result
-  
+
 """
 
 RETURN = """

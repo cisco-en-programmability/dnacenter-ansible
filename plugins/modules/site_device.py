@@ -60,7 +60,7 @@ EXAMPLES = r"""
     site_id: SomeValue  # string, required
     device:  # required
     - ip: SomeValue  # string, required
-  
+
 """
 
 RETURN = """

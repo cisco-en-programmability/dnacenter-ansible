@@ -98,13 +98,13 @@ EXAMPLES = r"""
       params:
       type: SomeValue  # string
     templateId: SomeValue  # string
-  
+
 - name: get_template_deployment_status
   cisco.dnac.template_deploy:
     state: query  # required
     deployment_id: SomeValue  # string, required
   register: query_result
-  
+
 """
 
 RETURN = """

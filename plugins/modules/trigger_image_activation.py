@@ -85,7 +85,7 @@ EXAMPLES = r"""
       smuImageUuidList:
       - SomeValue  # string
     schedule_validate: True  # boolean
-  
+
 """
 
 RETURN = """

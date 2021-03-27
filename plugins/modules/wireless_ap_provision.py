@@ -63,7 +63,7 @@ EXAMPLES = r"""
     - executionId: SomeValue  # string
       executionUrl: SomeValue  # string
       message: SomeValue  # string
-  
+
 """
 
 RETURN = """

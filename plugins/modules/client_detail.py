@@ -51,7 +51,7 @@ EXAMPLES = r"""
     mac_address: SomeValue  # string, required
     timestamp: 1  #  integer
   register: query_result
-  
+
 """
 
 RETURN = """

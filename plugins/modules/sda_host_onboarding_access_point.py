@@ -85,14 +85,14 @@ EXAMPLES = r"""
     state: delete  # required
     device_ip: SomeValue  # string, required
     interface_name: SomeValue  # string, required
-  
+
 - name: get_port_assignment_for_access_point
   cisco.dnac.sda_host_onboarding_access_point:
     state: query  # required
     device_ip: SomeValue  # string, required
     interface_name: SomeValue  # string, required
   register: query_result
-  
+
 - name: add_port_assignment_for_access_point
   cisco.dnac.sda_host_onboarding_access_point:
     state: create  # required
@@ -103,7 +103,7 @@ EXAMPLES = r"""
       dataIpAddressPoolName: SomeValue  # string
       voiceIpAddressPoolName: SomeValue  # string
       authenticateTemplateName: SomeValue  # string
-  
+
 """
 
 RETURN = """

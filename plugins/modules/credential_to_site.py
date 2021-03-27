@@ -75,7 +75,7 @@ EXAMPLES = r"""
     snmpV2ReadId: SomeValue  # string
     snmpV2WriteId: SomeValue  # string
     snmpV3Id: SomeValue  # string
-  
+
 """
 
 RETURN = """

@@ -108,7 +108,7 @@ EXAMPLES = r"""
       topOfStackSerialNumber: SomeValue  # string
     projectId: SomeValue  # string
     workflowId: SomeValue  # string
-  
+
 """
 
 RETURN = """

@@ -91,7 +91,7 @@ EXAMPLES = r"""
     state: query  # required
     ssid_name: SomeValue  # string
   register: query_result
-  
+
 - name: create_enterprise_ssid
   cisco.dnac.enterprise_ssid:
     state: create  # required
@@ -104,12 +104,12 @@ EXAMPLES = r"""
     passphrase: SomeValue  # string
     radioPolicy: SomeValue  # string, valid values: 'Dual band operation (2.4GHz and 5GHz)', 'Dual band operation with band select', '5GHz only', '2.4GHz only'.
     trafficType: SomeValue  # string, valid values: 'voicedata', 'data'.
-  
+
 - name: delete_enterprise_ssid
   cisco.dnac.enterprise_ssid:
     state: delete  # required
     ssid_name: SomeValue  # string, required
-  
+
 """
 
 RETURN = """

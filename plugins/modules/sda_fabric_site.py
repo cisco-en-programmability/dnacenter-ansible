@@ -63,20 +63,20 @@ EXAMPLES = r"""
   cisco.dnac.sda_fabric_site:
     state: delete  # required
     site_name_hierarchy: SomeValue  # string, required
-  
+
 - name: get_site
   cisco.dnac.sda_fabric_site:
     state: query  # required
     site_name_hierarchy: SomeValue  # string, required
   register: query_result
-  
+
 - name: add_site
   cisco.dnac.sda_fabric_site:
     state: create  # required
     payload:  # required
     - fabricName: SomeValue  # string
       siteNameHierarchy: SomeValue  # string
-  
+
 """
 
 RETURN = """

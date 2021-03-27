@@ -63,7 +63,7 @@ EXAMPLES = r"""
     role: SomeValue  # string, required
     roleSource: SomeValue  # string, required
     summary: True  # boolean, required
-  
+
 """
 
 RETURN = """

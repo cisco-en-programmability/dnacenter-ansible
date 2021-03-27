@@ -46,7 +46,7 @@ EXAMPLES = r"""
     state: query  # required
     id: SomeValue  # string, required
   register: query_result
-  
+
 """
 
 RETURN = """

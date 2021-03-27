@@ -291,7 +291,7 @@ EXAMPLES = r"""
         template: SomeValue  # string, required
         templateType: SomeValue  # string, required
     profileName: SomeValue  # string, required
-  
+
 - name: get_nfv_profile
   cisco.dnac.nfv_profile:
     state: query  # required
@@ -300,13 +300,13 @@ EXAMPLES = r"""
     name: SomeValue  # string
     offset: SomeValue  # string
   register: query_result
-  
+
 - name: delete_nfv_profile
   cisco.dnac.nfv_profile:
     state: delete  # required
     id: SomeValue  # string, required
     name: SomeValue  # string
-  
+
 - name: update_nfv_profile
   cisco.dnac.nfv_profile:
     state: update  # required
@@ -340,7 +340,7 @@ EXAMPLES = r"""
         template: SomeValue  # string, required
         templateType: SomeValue  # string, required
     name: SomeValue  # string
-  
+
 """
 
 RETURN = """

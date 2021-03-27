@@ -164,15 +164,14 @@ EXAMPLES = r"""
 - name: get_smart_account_list
   cisco.dnac.smart_virtual_account:
     state: query  # required
-
   register: query_result
-  
+
 - name: get_virtual_account_list
   cisco.dnac.smart_virtual_account:
     state: query  # required
     domain: SomeValue  # string, required
   register: query_result
-  
+
 - name: add_virtual_account
   cisco.dnac.smart_virtual_account:
     state: create  # required
@@ -202,7 +201,7 @@ EXAMPLES = r"""
     syncStartTime: 1  #  integer
     tenantId: SomeValue  # string
     token: SomeValue  # string
-  
+
 - name: update_pnp_server_profile
   cisco.dnac.smart_virtual_account:
     state: update  # required
@@ -232,13 +231,13 @@ EXAMPLES = r"""
     syncStartTime: 1  #  integer
     tenantId: SomeValue  # string
     token: SomeValue  # string
-  
+
 - name: deregister_virtual_account
   cisco.dnac.smart_virtual_account:
     state: delete  # required
     domain: SomeValue  # string, required
     name: SomeValue  # string, required
-  
+
 """
 
 RETURN = """

@@ -1376,7 +1376,7 @@ EXAMPLES = r"""
         licenseLevel: SomeValue  # string
         licenseType: SomeValue  # string
         topOfStackSerialNumber: SomeValue  # string
-  
+
 """
 
 RETURN = """

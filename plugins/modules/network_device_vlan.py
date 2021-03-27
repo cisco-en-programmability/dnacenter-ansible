@@ -51,7 +51,7 @@ EXAMPLES = r"""
     id: SomeValue  # string, required
     interface_type: SomeValue  # string
   register: query_result
-  
+
 """
 
 RETURN = """

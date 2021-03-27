@@ -137,7 +137,7 @@ EXAMPLES = r"""
       id: SomeValue  # string
       instanceTenantId: SomeValue  # string
       instanceUuid: SomeValue  # string
-  
+
 - name: update_cli_credentials
   cisco.dnac.global_credential_cli:
     state: update  # required
@@ -150,7 +150,7 @@ EXAMPLES = r"""
     id: SomeValue  # string
     instanceTenantId: SomeValue  # string
     instanceUuid: SomeValue  # string
-  
+
 """
 
 RETURN = """

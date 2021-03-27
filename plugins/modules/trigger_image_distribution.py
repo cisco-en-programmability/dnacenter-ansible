@@ -58,7 +58,7 @@ EXAMPLES = r"""
     payload:  # required
     - deviceUuid: SomeValue  # string
       imageUuid: SomeValue  # string
-  
+
 """
 
 RETURN = """

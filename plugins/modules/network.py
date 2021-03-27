@@ -195,7 +195,7 @@ EXAMPLES = r"""
     state: query  # required
     site_id: SomeValue  # string
   register: query_result
-  
+
 - name: create_network
   cisco.dnac.network:
     state: create  # required
@@ -236,7 +236,7 @@ EXAMPLES = r"""
         network: SomeValue  # string
         protocol: SomeValue  # string
         sharedSecret: SomeValue  # string
-  
+
 - name: update_network
   cisco.dnac.network:
     state: update  # required
@@ -277,7 +277,7 @@ EXAMPLES = r"""
         network: SomeValue  # string
         protocol: SomeValue  # string
         sharedSecret: SomeValue  # string
-  
+
 """
 
 RETURN = """

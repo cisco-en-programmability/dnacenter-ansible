@@ -55,7 +55,7 @@ EXAMPLES = r"""
     deviceId: SomeValue  # string
     siteId: SomeValue  # string
     type: SomeValue  # string, valid values: 'Default', 'AccessPoint', 'StackSwitch', 'Sensor', 'MobilityExpress'.
-  
+
 """
 
 RETURN = """

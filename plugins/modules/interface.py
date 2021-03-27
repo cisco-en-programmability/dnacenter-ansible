@@ -104,31 +104,31 @@ EXAMPLES = r"""
     limit: 1  #  number
     offset: 1  #  number
   register: query_result
-  
+
 - name: get_interface_by_id
   cisco.dnac.interface:
     state: query  # required
     id: SomeValue  # string, required
   register: query_result
-  
+
 - name: get_device_interface_count
   cisco.dnac.interface:
     state: query  # required
     count: True  # boolean, required
   register: query_result
-  
+
 - name: get_interface_by_ip
   cisco.dnac.interface:
     state: query  # required
     ip_address: SomeValue  # string, required
   register: query_result
-  
+
 - name: get_interface_info_by_id
   cisco.dnac.interface:
     state: query  # required
     device_id: SomeValue  # string, required
   register: query_result
-  
+
 - name: get_device_interfaces_by_specified_range
   cisco.dnac.interface:
     state: query  # required
@@ -136,33 +136,33 @@ EXAMPLES = r"""
     records_to_return: 1  #  integer, required
     start_index: 1  #  integer, required
   register: query_result
-  
+
 - name: get_device_interface_count_by_id
   cisco.dnac.interface:
     state: query  # required
     device_id: SomeValue  # string, required
     count: True  # boolean, required
   register: query_result
-  
+
 - name: get_interface_details
   cisco.dnac.interface:
     state: query  # required
     device_id: SomeValue  # string, required
     name: SomeValue  # string, required
   register: query_result
-  
+
 - name: get_isis_interfaces
   cisco.dnac.interface:
     state: query  # required
     isis: True  # boolean, required
   register: query_result
-  
+
 - name: get_ospf_interfaces
   cisco.dnac.interface:
     state: query  # required
     ospf: True  # boolean, required
   register: query_result
-  
+
 """
 
 RETURN = """

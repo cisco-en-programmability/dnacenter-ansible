@@ -105,7 +105,7 @@ EXAMPLES = r"""
     state: query  # required
     profile_name: SomeValue  # string
   register: query_result
-  
+
 - name: create_wireless_profile
   cisco.dnac.wireless_profile:
     state: create  # required
@@ -121,7 +121,7 @@ EXAMPLES = r"""
           enableFlexConnect: True  # boolean
           localToVlan: 1  #  integer
         interfaceName: SomeValue  # string
-  
+
 - name: update_wireless_profile
   cisco.dnac.wireless_profile:
     state: update  # required
@@ -137,12 +137,12 @@ EXAMPLES = r"""
           enableFlexConnect: True  # boolean
           localToVlan: 1  #  integer
         interfaceName: SomeValue  # string
-  
+
 - name: delete_wireless_profile
   cisco.dnac.wireless_profile:
     state: delete  # required
     wireless_profile_name: SomeValue  # string, required
-  
+
 """
 
 RETURN = """
