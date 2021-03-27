@@ -72,7 +72,7 @@ get_functional_capability_for_devices:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list
@@ -153,7 +153,7 @@ get_functional_capability_by_id:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: dict

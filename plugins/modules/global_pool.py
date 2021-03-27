@@ -150,7 +150,7 @@ get_global_pool:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list
@@ -274,7 +274,7 @@ create_global_pool:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str
@@ -295,7 +295,7 @@ update_global_pool:
     returned: changed
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: changed
       type: str
@@ -316,7 +316,7 @@ delete_global_ip_pool:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str

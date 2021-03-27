@@ -70,7 +70,7 @@ version_template:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: TemplateVersionRequestDTO's response.
       returned: success
       type: dict
@@ -96,7 +96,7 @@ get_template_versions:
     returned: always
     type: dict
     contains:
-    payload:
+      payload:
       description: It is the template version's payload.
       returned: always
       type: list

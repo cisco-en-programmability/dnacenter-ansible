@@ -148,7 +148,7 @@ get_discovered_network_devices_by_discovery_id:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list
@@ -395,7 +395,7 @@ get_discovered_devices_by_range:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list
@@ -642,7 +642,7 @@ get_devices_discovered_by_id:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: int
@@ -658,7 +658,7 @@ get_network_devices_from_discovery:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: int

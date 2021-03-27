@@ -169,7 +169,7 @@ create_http_write_credentials:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: HTTPWriteCredentialDTO's response.
       returned: success
       type: dict
@@ -195,7 +195,7 @@ update_http_write_credentials:
     returned: changed
     type: dict
     contains:
-    response:
+      response:
       description: HTTPWriteCredentialDTO's response.
       returned: changed
       type: dict

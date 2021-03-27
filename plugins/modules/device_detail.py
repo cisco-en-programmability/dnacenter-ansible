@@ -66,7 +66,7 @@ get_device_detail:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: dict

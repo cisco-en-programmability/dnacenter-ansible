@@ -147,7 +147,7 @@ claim_device:
     returned: success
     type: dict
     contains:
-    jsonArrayResponse:
+      jsonArrayResponse:
       description: ClaimDeviceRequest's Json Array Response (list of any objects).
       returned: success
       type: list

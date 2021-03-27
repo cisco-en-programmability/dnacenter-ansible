@@ -59,7 +59,7 @@ sync_devices_using_forcesync:
     returned: changed
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: changed
       type: dict

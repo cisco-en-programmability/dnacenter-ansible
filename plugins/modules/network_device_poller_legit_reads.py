@@ -50,7 +50,7 @@ get_all_keywords_of_clis_accepted:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of strings).
       returned: always
       type: list

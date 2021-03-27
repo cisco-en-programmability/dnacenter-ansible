@@ -60,7 +60,7 @@ deploy_device_replacement_workflow:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: DeviceReplacementWorkflowDTO's response.
       returned: success
       type: dict

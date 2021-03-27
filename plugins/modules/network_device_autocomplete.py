@@ -159,5 +159,5 @@ retrieves_all_network_devices:
     returned: always
     type: dict
     contains:
-
+  
 """

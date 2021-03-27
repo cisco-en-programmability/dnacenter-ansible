@@ -60,7 +60,7 @@ get_device_interface_vlans:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list

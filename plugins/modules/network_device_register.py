@@ -59,7 +59,7 @@ register_device_for_wsa:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: dict

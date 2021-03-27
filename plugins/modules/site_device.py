@@ -69,7 +69,7 @@ assign_device_to_site:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str

@@ -55,7 +55,7 @@ get_status_api_for_events:
     returned: always
     type: dict
     contains:
-    errorMessage:
+      errorMessage:
       description: Error Message, property of the response body.
       returned: always
       type: dict

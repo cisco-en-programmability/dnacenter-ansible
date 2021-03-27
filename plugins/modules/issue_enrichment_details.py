@@ -55,7 +55,7 @@ get_issue_enrichment_details:
     returned: always
     type: dict
     contains:
-    issueDetails:
+      issueDetails:
       description: Issue Details, property of the response body.
       returned: always
       type: dict

@@ -147,7 +147,7 @@ get_tag_members_by_id:
     returned: always
     type: dict
     contains:
-    version:
+      version:
       description: Version, property of the response body.
       returned: always
       type: str
@@ -169,7 +169,7 @@ add_members_to_the_tag:
     returned: success
     type: dict
     contains:
-    version:
+      version:
       description: List[entry«string,list«string»»]'s version.
       returned: success
       type: str
@@ -195,7 +195,7 @@ remove_tag_member:
     returned: success
     type: dict
     contains:
-    version:
+      version:
       description: Version, property of the response body.
       returned: success
       type: str
@@ -221,7 +221,7 @@ get_tag_member_count:
     returned: always
     type: dict
     contains:
-    version:
+      version:
       description: Version, property of the response body.
       returned: always
       type: str
@@ -237,7 +237,7 @@ updates_tag_membership:
     returned: changed
     type: dict
     contains:
-    version:
+      version:
       description: TagMemberDTO's version.
       returned: changed
       type: str
@@ -263,7 +263,7 @@ get_tag_resource_types:
     returned: always
     type: dict
     contains:
-    version:
+      version:
       description: Version, property of the response body.
       returned: always
       type: str

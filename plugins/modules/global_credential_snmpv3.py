@@ -190,7 +190,7 @@ create_snmpv3_credentials:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: SNMPv3CredentialDTO's response.
       returned: success
       type: dict
@@ -216,7 +216,7 @@ update_snmpv3_credentials:
     returned: changed
     type: dict
     contains:
-    response:
+      response:
       description: SNMPv3CredentialDTO's response.
       returned: changed
       type: dict

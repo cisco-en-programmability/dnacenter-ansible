@@ -187,7 +187,7 @@ retrives_all_previous_pathtraces_summary:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list
@@ -268,7 +268,7 @@ initiate_a_new_pathtrace:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: FlowAnalysisRequest's response.
       returned: success
       type: dict
@@ -300,7 +300,7 @@ retrieves_previous_pathtrace:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: dict
@@ -3542,7 +3542,7 @@ deletes_pathtrace_by_id:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: success
       type: dict

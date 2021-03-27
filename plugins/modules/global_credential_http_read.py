@@ -169,7 +169,7 @@ create_http_read_credentials:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: HTTPReadCredentialDTO's response.
       returned: success
       type: dict
@@ -195,7 +195,7 @@ update_http_read_credential:
     returned: changed
     type: dict
     contains:
-    response:
+      response:
       description: HTTPReadCredentialDTO's response.
       returned: changed
       type: dict

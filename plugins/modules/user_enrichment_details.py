@@ -55,7 +55,7 @@ get_user_enrichment_details:
     returned: always
     type: dict
     contains:
-    payload:
+      payload:
       description: It is the user enrichment details's payload.
       returned: always
       type: list

@@ -93,7 +93,7 @@ delete_default_authentication_profile:
     returned: success
     type: dict
     contains:
-    status:
+      status:
       description: Status, property of the response body.
       returned: success
       type: str
@@ -114,7 +114,7 @@ get_default_authentication_profile:
     returned: always
     type: dict
     contains:
-    siteNameHierarchy:
+      siteNameHierarchy:
       description: Site Name Hierarchy, property of the response body.
       returned: always
       type: str
@@ -135,7 +135,7 @@ add_default_authentication_profile:
     returned: success
     type: dict
     contains:
-    status:
+      status:
       description: Status, property of the response body.
       returned: success
       type: str
@@ -156,7 +156,7 @@ update_default_authentication_profile:
     returned: changed
     type: dict
     contains:
-    status:
+      status:
       description: Status, property of the response body.
       returned: changed
       type: str

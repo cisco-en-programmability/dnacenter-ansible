@@ -120,7 +120,7 @@ get_topology_details:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: dict
@@ -387,7 +387,7 @@ get_l3_topology_details:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: dict
@@ -654,7 +654,7 @@ get_physical_topology:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: dict
@@ -921,7 +921,7 @@ get_site_topology:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: dict
@@ -994,7 +994,7 @@ get_vlan_details:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of strings).
       returned: always
       type: list

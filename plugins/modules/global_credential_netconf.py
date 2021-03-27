@@ -135,7 +135,7 @@ create_netconf_credentials:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: NetconfCredentialDTO's response.
       returned: success
       type: dict
@@ -161,7 +161,7 @@ update_netconf_credentials:
     returned: changed
     type: dict
     contains:
-    response:
+      response:
       description: NetconfCredentialDTO's response.
       returned: changed
       type: dict

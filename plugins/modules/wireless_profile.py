@@ -151,7 +151,7 @@ get_wireless_profile:
     returned: always
     type: dict
     contains:
-    payload:
+      payload:
       description: It is the wireless profile's payload.
       returned: always
       type: list
@@ -220,7 +220,7 @@ create_wireless_profile:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str
@@ -241,7 +241,7 @@ update_wireless_profile:
     returned: changed
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: changed
       type: str
@@ -262,7 +262,7 @@ delete_wireless_profile:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str

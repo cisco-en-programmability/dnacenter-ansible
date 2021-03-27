@@ -77,7 +77,7 @@ run_read_only_commands_on_devices:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: CommandRunnerDTO's response.
       returned: success
       type: dict

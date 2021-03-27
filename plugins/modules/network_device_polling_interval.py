@@ -62,7 +62,7 @@ get_polling_interval_by_id:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: int
@@ -78,7 +78,7 @@ get_polling_interval_for_all_devices:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: int

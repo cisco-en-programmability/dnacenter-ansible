@@ -64,7 +64,7 @@ claim_a_device_to_a_site:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: SiteProvisionRequest's response.
       returned: success
       type: str

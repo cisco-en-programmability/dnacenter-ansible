@@ -148,7 +148,7 @@ gets_border_device_detail:
     returned: always
     type: dict
     contains:
-    status:
+      status:
       description: Status, property of the response body.
       returned: always
       type: str
@@ -678,7 +678,7 @@ deletes_border_device:
     returned: success
     type: dict
     contains:
-    status:
+      status:
       description: Status, property of the response body.
       returned: success
       type: str
@@ -699,7 +699,7 @@ adds_border_device:
     returned: success
     type: dict
     contains:
-    status:
+      status:
       description: Status, property of the response body.
       returned: success
       type: str

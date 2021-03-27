@@ -203,7 +203,7 @@ retrieve_rf_profiles:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list
@@ -330,7 +330,7 @@ create_or_update_rf_profile:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str
@@ -351,7 +351,7 @@ delete_rf_profiles:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str

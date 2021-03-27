@@ -85,7 +85,7 @@ get_control_plane_device:
     returned: always
     type: dict
     contains:
-    status:
+      status:
       description: Status, property of the response body.
       returned: always
       type: str
@@ -120,7 +120,7 @@ delete_control_plane_device:
     returned: success
     type: dict
     contains:
-    status:
+      status:
       description: Status, property of the response body.
       returned: success
       type: str
@@ -141,7 +141,7 @@ add_control_plane_device:
     returned: success
     type: dict
     contains:
-    status:
+      status:
       description: Status, property of the response body.
       returned: success
       type: str

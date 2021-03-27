@@ -224,7 +224,7 @@ return_replacement_devices_with_details:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list
@@ -311,7 +311,7 @@ mark_device_for_replacement:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: DeviceReplacementDataDTO's response.
       returned: success
       type: dict
@@ -337,7 +337,7 @@ unmark_device_for_replacement:
     returned: changed
     type: dict
     contains:
-    response:
+      response:
       description: DeviceReplacementDataDTO's response.
       returned: changed
       type: dict
@@ -363,7 +363,7 @@ return_replacement_devices_count:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: int

@@ -66,7 +66,7 @@ get_failed_itsm_events:
     returned: always
     type: dict
     contains:
-    payload:
+      payload:
       description: It is the integration event's payload.
       returned: always
       type: list
@@ -158,7 +158,7 @@ retry_integration_events:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str

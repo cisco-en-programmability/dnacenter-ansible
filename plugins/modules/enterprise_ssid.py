@@ -118,7 +118,7 @@ get_enterprise_ssid:
     returned: always
     type: dict
     contains:
-    payload:
+      payload:
       description: It is the enterprise ssid's payload.
       returned: always
       type: list
@@ -226,7 +226,7 @@ create_enterprise_ssid:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str
@@ -247,7 +247,7 @@ delete_enterprise_ssid:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str

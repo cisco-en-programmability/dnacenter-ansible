@@ -247,7 +247,7 @@ get_smart_account_list:
     returned: always
     type: dict
     contains:
-    payload:
+      payload:
       description: It is the smart virtual account's payload.
       returned: always
       type: list
@@ -257,7 +257,7 @@ get_virtual_account_list:
     returned: always
     type: dict
     contains:
-    payload:
+      payload:
       description: It is the smart virtual account's payload.
       returned: always
       type: list
@@ -267,7 +267,7 @@ add_virtual_account:
     returned: success
     type: dict
     contains:
-    virtualAccountId:
+      virtualAccountId:
       description: SAVAMapping's Virtual Account Id.
       returned: success
       type: str
@@ -400,7 +400,7 @@ update_pnp_server_profile:
     returned: changed
     type: dict
     contains:
-    virtualAccountId:
+      virtualAccountId:
       description: SAVAMapping's Virtual Account Id.
       returned: changed
       type: str
@@ -533,7 +533,7 @@ deregister_virtual_account:
     returned: success
     type: dict
     contains:
-    virtualAccountId:
+      virtualAccountId:
       description: Virtual Account Id, property of the response body.
       returned: success
       type: str

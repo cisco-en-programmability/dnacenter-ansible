@@ -97,7 +97,7 @@ import_software_image_via_url:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: ImageImportFromUrlDTO's response.
       returned: success
       type: dict

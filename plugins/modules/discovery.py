@@ -533,7 +533,7 @@ delete_all_discovery:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: success
       type: dict
@@ -559,7 +559,7 @@ start_discovery:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: InventoryRequest's response.
       returned: success
       type: dict
@@ -585,7 +585,7 @@ updates_discovery_by_id:
     returned: changed
     type: dict
     contains:
-    response:
+      response:
       description: DiscoveryNIO's response.
       returned: changed
       type: dict
@@ -611,7 +611,7 @@ get_count_of_all_discovery_jobs:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: int
@@ -627,7 +627,7 @@ delete_discovery_by_id:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: success
       type: dict
@@ -653,7 +653,7 @@ get_discovery_by_id:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: dict
@@ -950,7 +950,7 @@ delete_discovery_by_specified_range:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: success
       type: dict
@@ -976,7 +976,7 @@ get_discoveries_by_range:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list

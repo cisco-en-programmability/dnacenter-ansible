@@ -286,7 +286,7 @@ get_applications:
     returned: always
     type: dict
     contains:
-    payload:
+      payload:
       description: It is the Applications's payload.
       returned: always
       type: list
@@ -446,7 +446,7 @@ delete_application:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: success
       type: dict
@@ -473,7 +473,7 @@ create_application:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: success
       type: dict
@@ -500,7 +500,7 @@ edit_application:
     returned: changed
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: changed
       type: dict
@@ -527,7 +527,7 @@ get_applications_count:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: str

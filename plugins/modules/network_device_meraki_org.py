@@ -55,7 +55,7 @@ get_organization_list_for_meraki:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of strings).
       returned: always
       type: list

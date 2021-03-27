@@ -85,7 +85,7 @@ get_list_of_discoveries_by_discovery_id:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list
@@ -181,7 +181,7 @@ get_discovery_jobs_by_ip:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list

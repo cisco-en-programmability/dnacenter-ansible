@@ -159,7 +159,7 @@ create_cli_credentials:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: CLICredentialDTO's response.
       returned: success
       type: dict
@@ -185,7 +185,7 @@ update_cli_credentials:
     returned: changed
     type: dict
     contains:
-    response:
+      response:
       description: CLICredentialDTO's response.
       returned: changed
       type: dict

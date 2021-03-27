@@ -115,7 +115,7 @@ options:
     description:
     - TagDTO's id.
     - Tag ID.
-    - Required for states query and absent.
+    - Required for states absent and query.
     type: str
   instanceTenantId:
     description:
@@ -238,7 +238,7 @@ get_tag:
     returned: always
     type: dict
     contains:
-    version:
+      version:
       description: Version, property of the response body.
       returned: always
       type: str
@@ -320,7 +320,7 @@ create_tag:
     returned: success
     type: dict
     contains:
-    version:
+      version:
       description: TagDTO's version.
       returned: success
       type: str
@@ -346,7 +346,7 @@ update_tag:
     returned: changed
     type: dict
     contains:
-    version:
+      version:
       description: TagDTO's version.
       returned: changed
       type: str
@@ -372,7 +372,7 @@ delete_tag:
     returned: success
     type: dict
     contains:
-    version:
+      version:
       description: Version, property of the response body.
       returned: success
       type: str
@@ -398,7 +398,7 @@ get_tag_by_id:
     returned: always
     type: dict
     contains:
-    version:
+      version:
       description: Version, property of the response body.
       returned: always
       type: str
@@ -480,7 +480,7 @@ get_tag_count:
     returned: always
     type: dict
     contains:
-    version:
+      version:
       description: Version, property of the response body.
       returned: always
       type: str

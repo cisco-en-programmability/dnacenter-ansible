@@ -55,7 +55,7 @@ get_device_info:
     returned: always
     type: dict
     contains:
-    status:
+      status:
       description: Status, property of the response body.
       returned: always
       type: str

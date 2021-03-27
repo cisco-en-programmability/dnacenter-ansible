@@ -94,7 +94,7 @@ trigger_software_image_activation:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: ActivateDTO's response.
       returned: success
       type: dict

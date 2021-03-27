@@ -94,7 +94,7 @@ get_events:
     returned: always
     type: dict
     contains:
-    payload:
+      payload:
       description: It is the Events's payload.
       returned: always
       type: list
@@ -168,7 +168,7 @@ count_of_events:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: int

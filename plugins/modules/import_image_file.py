@@ -80,7 +80,7 @@ import_local_software_image:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: success
       type: dict

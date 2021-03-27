@@ -293,7 +293,7 @@ get_pnp_global_settings:
     returned: always
     type: dict
     contains:
-    savaMappingList:
+      savaMappingList:
       description: Sava Mapping List, property of the response body (list of objects).
       returned: always
       type: list
@@ -523,7 +523,7 @@ update_pnp_global_settings:
     returned: changed
     type: dict
     contains:
-    savaMappingList:
+      savaMappingList:
       description: Settings's Sava Mapping List (list of objects).
       returned: changed
       type: list

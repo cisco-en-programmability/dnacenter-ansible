@@ -129,7 +129,7 @@ provision:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str
@@ -159,7 +159,7 @@ provision_update:
     returned: changed
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: changed
       type: str

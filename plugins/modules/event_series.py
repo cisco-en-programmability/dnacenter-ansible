@@ -135,7 +135,7 @@ get_notifications:
     returned: always
     type: dict
     contains:
-    instanceId:
+      instanceId:
       description: Instance Id, property of the response body.
       returned: always
       type: str
@@ -215,7 +215,7 @@ count_of_notifications:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: int

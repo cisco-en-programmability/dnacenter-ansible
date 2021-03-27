@@ -60,7 +60,7 @@ get_client_detail:
     returned: always
     type: dict
     contains:
-    detail:
+      detail:
       description: Detail, property of the response body.
       returned: always
       type: dict

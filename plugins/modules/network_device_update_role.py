@@ -72,7 +72,7 @@ update_device_role:
     returned: changed
     type: dict
     contains:
-    response:
+      response:
       description: NetworkDeviceBriefNIO's response.
       returned: changed
       type: dict

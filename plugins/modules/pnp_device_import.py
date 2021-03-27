@@ -1385,7 +1385,7 @@ import_devices_in_bulk:
     returned: success
     type: dict
     contains:
-    successList:
+      successList:
       description: Device's Success List (list of objects).
       returned: success
       type: list

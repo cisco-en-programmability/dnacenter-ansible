@@ -89,7 +89,7 @@ get_snmp_properties:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list
@@ -131,7 +131,7 @@ create_update_snmp_properties:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: SystemPropertyNameAndIntValueDTO's response.
       returned: success
       type: dict

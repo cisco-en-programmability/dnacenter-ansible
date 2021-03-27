@@ -222,7 +222,7 @@ get_site:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list
@@ -268,7 +268,7 @@ create_site:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str
@@ -289,7 +289,7 @@ delete_site:
     returned: success
     type: dict
     contains:
-    status:
+      status:
       description: Status, property of the response body.
       returned: success
       type: str
@@ -305,7 +305,7 @@ update_site:
     returned: changed
     type: dict
     contains:
-    result:
+      result:
       description: Result, property of the response body.
       returned: changed
       type: str
@@ -381,7 +381,7 @@ get_site_count:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: str

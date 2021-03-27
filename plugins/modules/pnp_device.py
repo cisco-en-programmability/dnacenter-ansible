@@ -1787,7 +1787,7 @@ get_device_list:
     returned: always
     type: dict
     contains:
-    deviceInfo:
+      deviceInfo:
       description: Device Info, property of the response body.
       returned: always
       type: dict
@@ -3083,7 +3083,7 @@ add_device:
     returned: success
     type: dict
     contains:
-    _id:
+      _id:
       description: Device's Id.
       returned: success
       type: str
@@ -4384,7 +4384,7 @@ get_device_by_id:
     returned: always
     type: dict
     contains:
-    _id:
+      _id:
       description: Id, property of the response body.
       returned: always
       type: str
@@ -5685,7 +5685,7 @@ delete_device_by_id_from_pnp:
     returned: success
     type: dict
     contains:
-    _id:
+      _id:
       description: Id, property of the response body.
       returned: success
       type: str
@@ -6986,7 +6986,7 @@ update_device:
     returned: changed
     type: dict
     contains:
-    _id:
+      _id:
       description: Device's Id.
       returned: changed
       type: str
@@ -8287,7 +8287,7 @@ get_device_count:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: int
@@ -8298,7 +8298,7 @@ get_device_history:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list

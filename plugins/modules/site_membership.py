@@ -55,7 +55,7 @@ get_membership:
     returned: always
     type: dict
     contains:
-    site:
+      site:
       description: Site, property of the response body.
       returned: always
       type: dict

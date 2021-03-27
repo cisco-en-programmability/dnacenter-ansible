@@ -106,7 +106,7 @@ delete_application_set:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: success
       type: dict
@@ -133,7 +133,7 @@ get_application_sets:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list
@@ -171,7 +171,7 @@ create_application_set:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: success
       type: dict
@@ -198,7 +198,7 @@ get_application_sets_count:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: str

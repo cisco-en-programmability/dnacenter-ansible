@@ -58,7 +58,7 @@ preview_template:
     returned: changed
     type: dict
     contains:
-    cliPreview:
+      cliPreview:
       description: TemplatePreviewRequestDTO's cliPreview.
       returned: changed
       type: str

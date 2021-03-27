@@ -122,7 +122,7 @@ delete_ip_pool_from_sda_virtual_network:
     returned: success
     type: dict
     contains:
-    status:
+      status:
       description: Status, property of the response body.
       returned: success
       type: str
@@ -143,7 +143,7 @@ get_ip_pool_from_sda_virtual_network:
     returned: always
     type: dict
     contains:
-    status:
+      status:
       description: Status, property of the response body.
       returned: always
       type: str
@@ -194,7 +194,7 @@ add_ip_pool_in_sda_virtual_network:
     returned: success
     type: dict
     contains:
-    status:
+      status:
       description: Status, property of the response body.
       returned: success
       type: str

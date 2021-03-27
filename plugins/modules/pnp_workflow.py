@@ -325,7 +325,7 @@ get_workflows:
     returned: always
     type: dict
     contains:
-    payload:
+      payload:
       description: It is the pnp workflow's payload.
       returned: always
       type: list
@@ -509,7 +509,7 @@ add_a_workflow:
     returned: success
     type: dict
     contains:
-    _id:
+      _id:
       description: Workflow's Id.
       returned: success
       type: str
@@ -687,7 +687,7 @@ get_workflow_by_id:
     returned: always
     type: dict
     contains:
-    _id:
+      _id:
       description: Id, property of the response body.
       returned: always
       type: str
@@ -865,7 +865,7 @@ delete_workflow_by_id:
     returned: success
     type: dict
     contains:
-    _id:
+      _id:
       description: Id, property of the response body.
       returned: success
       type: str
@@ -1043,7 +1043,7 @@ update_workflow:
     returned: changed
     type: dict
     contains:
-    _id:
+      _id:
       description: Workflow's Id.
       returned: changed
       type: str
@@ -1221,7 +1221,7 @@ get_workflow_count:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: int

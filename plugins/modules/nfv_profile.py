@@ -349,7 +349,7 @@ create_nfv_profile:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str
@@ -370,7 +370,7 @@ get_nfv_profile:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list
@@ -565,7 +565,7 @@ delete_nfv_profile:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str
@@ -586,7 +586,7 @@ update_nfv_profile:
     returned: changed
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: changed
       type: str

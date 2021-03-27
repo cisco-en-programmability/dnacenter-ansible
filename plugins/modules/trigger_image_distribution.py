@@ -67,7 +67,7 @@ trigger_software_image_distribution:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: DistributeDTO's response.
       returned: success
       type: dict

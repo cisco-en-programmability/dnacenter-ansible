@@ -135,7 +135,7 @@ create_snmp_read_community:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: SNMPv2ReadCommunityDTO's response.
       returned: success
       type: dict
@@ -161,7 +161,7 @@ update_snmp_read_community:
     returned: changed
     type: dict
     contains:
-    response:
+      response:
       description: SNMPv2ReadCommunityDTO's response.
       returned: changed
       type: dict

@@ -491,7 +491,7 @@ get_device_list:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list
@@ -703,7 +703,7 @@ add_device:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: InventoryDeviceInfo's response.
       returned: success
       type: dict
@@ -729,7 +729,7 @@ sync_devices:
     returned: changed
     type: dict
     contains:
-    response:
+      response:
       description: InventoryDeviceInfo's response.
       returned: changed
       type: dict
@@ -755,7 +755,7 @@ delete_device_by_id:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: success
       type: dict
@@ -781,7 +781,7 @@ get_device_by_id:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: dict
@@ -993,7 +993,7 @@ get_device_summary:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: dict
@@ -1025,7 +1025,7 @@ get_network_device_by_pagination_range:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list
@@ -1237,7 +1237,7 @@ get_device_count:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: int
@@ -1253,7 +1253,7 @@ get_network_device_by_ip:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: dict
@@ -1465,7 +1465,7 @@ get_device_by_serial_number:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: dict

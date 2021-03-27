@@ -112,7 +112,7 @@ delete_port_assignment_for_access_point:
     returned: success
     type: dict
     contains:
-    status:
+      status:
       description: Status, property of the response body.
       returned: success
       type: str
@@ -133,7 +133,7 @@ get_port_assignment_for_access_point:
     returned: always
     type: dict
     contains:
-    status:
+      status:
       description: Status, property of the response body.
       returned: always
       type: str
@@ -184,7 +184,7 @@ add_port_assignment_for_access_point:
     returned: success
     type: dict
     contains:
-    status:
+      status:
       description: Status, property of the response body.
       returned: success
       type: str

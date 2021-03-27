@@ -690,7 +690,7 @@ provision_nfv:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str
@@ -711,7 +711,7 @@ get_device_details_by_ip:
     returned: always
     type: dict
     contains:
-    provisionDetails:
+      provisionDetails:
       description: Provision Details, property of the response body.
       returned: always
       type: dict

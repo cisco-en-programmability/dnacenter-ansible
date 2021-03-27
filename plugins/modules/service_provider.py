@@ -116,7 +116,7 @@ get_service_provider_details:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list
@@ -199,7 +199,7 @@ create_sp_profile:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str
@@ -220,7 +220,7 @@ update_sp_profile:
     returned: changed
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: changed
       type: str
@@ -241,7 +241,7 @@ delete_sp_profile:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str

@@ -595,7 +595,7 @@ create_template:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: TemplateDTO's response.
       returned: success
       type: dict
@@ -621,13 +621,13 @@ gets_the_templates_available:
     returned: always
     type: dict
     contains:
-
+  
 update_template:
     description: Updates an existing Template.
     returned: changed
     type: dict
     contains:
-    response:
+      response:
       description: TemplateDTO's response.
       returned: changed
       type: dict
@@ -653,7 +653,7 @@ get_template_details:
     returned: always
     type: dict
     contains:
-    author:
+      author:
       description: Author, property of the response body.
       returned: always
       type: str
@@ -1039,7 +1039,7 @@ delete_template:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: success
       type: dict

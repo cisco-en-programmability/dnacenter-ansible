@@ -184,7 +184,7 @@ get_device_credential_details:
     returned: always
     type: dict
     contains:
-    snmp_v3:
+      snmp_v3:
       description: Snmp V3, property of the response body (list of objects).
       returned: always
       type: list
@@ -501,7 +501,7 @@ create_device_credentials:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str
@@ -522,7 +522,7 @@ update_device_credentials:
     returned: changed
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: changed
       type: str
@@ -543,7 +543,7 @@ delete_device_credential:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str

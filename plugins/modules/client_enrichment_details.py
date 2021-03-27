@@ -55,7 +55,7 @@ get_client_enrichment_details:
     returned: always
     type: dict
     contains:
-    payload:
+      payload:
       description: It is the client enrichment details's payload.
       returned: always
       type: list

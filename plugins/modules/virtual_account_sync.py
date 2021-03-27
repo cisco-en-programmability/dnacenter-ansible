@@ -204,7 +204,7 @@ sync_virtual_account_devices:
     returned: success
     type: dict
     contains:
-    virtualAccountId:
+      virtualAccountId:
       description: SAVAMapping's Virtual Account Id.
       returned: success
       type: str
@@ -337,7 +337,7 @@ get_sync_result_for_virtual_account:
     returned: always
     type: dict
     contains:
-    virtualAccountId:
+      virtualAccountId:
       description: Virtual Account Id, property of the response body.
       returned: always
       type: str

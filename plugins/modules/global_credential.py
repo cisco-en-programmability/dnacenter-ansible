@@ -101,7 +101,7 @@ get_global_credentials:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list
@@ -148,7 +148,7 @@ delete_global_credentials_by_id:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: success
       type: dict
@@ -174,7 +174,7 @@ update_global_credentials:
     returned: changed
     type: dict
     contains:
-    response:
+      response:
       description: SitesInfoDTO's response.
       returned: changed
       type: dict
@@ -200,7 +200,7 @@ get_credential_sub_type_by_credential_id:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: str

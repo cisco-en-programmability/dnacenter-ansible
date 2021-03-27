@@ -207,7 +207,7 @@ delete_event_subscriptions:
     returned: success
     type: dict
     contains:
-    statusUri:
+      statusUri:
       description: Status Uri, property of the response body.
       returned: success
       type: str
@@ -218,7 +218,7 @@ get_event_subscriptions:
     returned: always
     type: dict
     contains:
-    payload:
+      payload:
       description: It is the event subscription's payload.
       returned: always
       type: list
@@ -297,7 +297,7 @@ create_event_subscriptions:
     returned: success
     type: dict
     contains:
-    statusUri:
+      statusUri:
       description: Status Uri, property of the response body.
       returned: success
       type: str
@@ -308,7 +308,7 @@ update_event_subscriptions:
     returned: changed
     type: dict
     contains:
-    statusUri:
+      statusUri:
       description: Status Uri, property of the response body.
       returned: changed
       type: str
@@ -319,7 +319,7 @@ count_of_event_subscriptions:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: int

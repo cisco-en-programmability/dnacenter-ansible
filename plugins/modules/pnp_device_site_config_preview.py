@@ -64,7 +64,7 @@ preview_config:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: SiteProvisionRequest's response.
       returned: success
       type: dict

@@ -135,7 +135,7 @@ create_snmp_write_community:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: SNMPv2WriteCommunityDTO's response.
       returned: success
       type: dict
@@ -161,7 +161,7 @@ update_snmp_write_community:
     returned: changed
     type: dict
     contains:
-    response:
+      response:
       description: SNMPv2WriteCommunityDTO's response.
       returned: changed
       type: dict

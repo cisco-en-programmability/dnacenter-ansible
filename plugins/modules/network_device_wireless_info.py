@@ -55,7 +55,7 @@ get_wireless_lan_controller_details_by_id:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: always
       type: dict

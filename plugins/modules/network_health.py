@@ -54,7 +54,7 @@ get_overall_network_health:
     returned: always
     type: dict
     contains:
-    version:
+      version:
       description: Version, property of the response body.
       returned: always
       type: str

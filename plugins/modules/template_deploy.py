@@ -113,7 +113,7 @@ deploy_template:
     returned: success
     type: dict
     contains:
-    deploymentId:
+      deploymentId:
       description: TemplateDeploymentInfo's deploymentId.
       returned: success
       type: str
@@ -205,7 +205,7 @@ get_template_deployment_status:
     returned: always
     type: dict
     contains:
-    deploymentId:
+      deploymentId:
       description: DeploymentId, property of the response body.
       returned: always
       type: str

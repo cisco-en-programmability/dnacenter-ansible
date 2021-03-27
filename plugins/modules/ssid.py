@@ -160,7 +160,7 @@ create_and_provision_ssid:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str
@@ -181,7 +181,7 @@ delete_ssid_and_provision_it_to_devices:
     returned: success
     type: dict
     contains:
-    executionId:
+      executionId:
       description: Execution Id, property of the response body.
       returned: success
       type: str

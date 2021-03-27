@@ -62,7 +62,7 @@ get_list_of_available_namespaces:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of strings).
       returned: always
       type: list
@@ -77,7 +77,7 @@ get_list_of_files:
     returned: always
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body (list of objects).
       returned: always
       type: list

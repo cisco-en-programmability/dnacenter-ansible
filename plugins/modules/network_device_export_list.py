@@ -77,7 +77,7 @@ export_device_list:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: ExportDeviceDTO's response.
       returned: success
       type: dict

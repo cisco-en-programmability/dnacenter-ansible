@@ -116,7 +116,7 @@ get_projects:
     returned: always
     type: dict
     contains:
-    payload:
+      payload:
       description: It is the template project's payload.
       returned: always
       type: list
@@ -159,7 +159,7 @@ create_project:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: ProjectDTO's response.
       returned: success
       type: dict
@@ -185,7 +185,7 @@ update_project:
     returned: changed
     type: dict
     contains:
-    response:
+      response:
       description: ProjectDTO's response.
       returned: changed
       type: dict
@@ -211,7 +211,7 @@ delete_project:
     returned: success
     type: dict
     contains:
-    response:
+      response:
       description: Response, property of the response body.
       returned: success
       type: dict
