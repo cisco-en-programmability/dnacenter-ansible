@@ -240,3 +240,11 @@ plugins/modules/tag_member.py pep8:E501 # The long lines are inside the DOCUMENT
 plugins/modules/template.py pep8:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
 plugins/modules/user_enrichment_details.py pep8:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
 plugins/modules/virtual_account_sync.py pep8:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/device_replacement.py pep8:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/discovery_network_device.py pep8:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/import_image_url.py pep8:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/network_device_autocomplete.py pep8:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/network_device_functional_capability.py pep8:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/network_device_sync.py pep8:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/modules/pnp_workflow.py pep8:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
+plugins/module_utils/dnac.py pylint:ansible-bad-module-import # We don't honestly understand what this error means

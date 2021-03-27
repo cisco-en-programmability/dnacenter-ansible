@@ -112,7 +112,9 @@ class Parameter(object):
 
     # TO DO: Add logic to validate parameters of type 'array of objects'
     # Right now if a parameter is an array of objects, we're not validating its schema
-    def has_valid_schema(self, module_params, missing_params={}):
+    def has_valid_schema(self, module_params, missing_params=None):
+        if not missing_params:
+            missing_params = {}
         if self._is_object():
             if not module_params:
                 if self.is_required():
@@ -182,7 +184,9 @@ class Function(object):
     def needs_passed_params(self, module_params):
         return set(module_params.keys()).issubset(self.get_required_params())
 
-    def has_valid_request_schema(self, module_params, missing_params={}):
+    def has_valid_request_schema(self, module_params, missing_params=None):
+        if not missing_params:
+            missing_params = {}
         result = True
         for param in self.params:
             result = result and param.has_valid_schema(
@@ -386,8 +390,8 @@ class DNACModule(object):
         self.api = api.DNACenterAPI(
             username=self.params.get("dnac_username"),
             password=self.params.get("dnac_password"),
-            base_url="https://{}:{}".format(
-                self.params.get("dnac_host"), self.params.get("dnac_port")
+            base_url="https://{dnac_host}:{dnac_port}".format(
+                dnac_host=self.params.get("dnac_host"), dnac_port=self.params.get("dnac_port")
             ),
             version=self.params.get("dnac_version"),
             verify=self.params.get("dnac_verify"),
@@ -434,8 +438,8 @@ class DNACModule(object):
                 function = self.moddef.choose_function(method, self.params)
             except StateNotSupported:
                 self.fail_json(
-                    msg="State '{}' not supported by this module".format(
-                        self.moddef.state.get(method)
+                    msg="State '{state}' not supported by this module".format(
+                        state=self.moddef.state.get(method)
                     )
                 )
             except NoMatchingOperation:
@@ -447,10 +451,10 @@ class DNACModule(object):
                     msg="More than one operation matched the given arguments."
                 )
         else:
-            self.fail_json(msg="Wrong method '{}'".format(method))
+            self.fail_json(msg="Wrong method '{method}'".format(method=method))
 
         self.result.update(
-            dict(sdk_function="{}.{}".format(function.family, function.name))
+            dict(sdk_function="{family}.{name}".format(family=function.family, name=function.name))
         )
         self.params = function.strip_artificial_params(self.params)
         func = self.get_func(function)
@@ -462,8 +466,8 @@ class DNACModule(object):
                 self.fail_json(
                     msg=(
                         "An error occured when executing operation."
-                        " The error was: {}"
-                    ).format(to_native(e))
+                        " The error was: {error}"
+                    ).format(error=to_native(e))
                 )
 
             if (

@@ -348,8 +348,8 @@ class SiteExistenceCriteria(ObjectExistenceCriteria):
                 parentName = site.get("floor").get("parentName")
             else:
                 self.dnac.fail_json(msg="Missing 'area', 'building' or 'floor' param.")
-            return existing_object["siteNameHierarchy"] == "{}/{}".format(
-                parentName, name
+            return existing_object["siteNameHierarchy"] == "{parentName}/{name}".format(
+                parentName=parentName, name=name
             )
         else:
             self.dnac.fail_json(msg="Missing 'site' param.")
