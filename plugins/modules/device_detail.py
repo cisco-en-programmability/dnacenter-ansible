@@ -20,7 +20,7 @@ version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   identifier:
-    description: One of keywords : macAddress or uuid or nwDeviceName.
+    description: One of keywords, macAddress or uuid or nwDeviceName.
     type: str
     required: True
   search_by:

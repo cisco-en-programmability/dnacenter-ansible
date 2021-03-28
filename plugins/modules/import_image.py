@@ -15,7 +15,7 @@ DOCUMENTATION = r"""
 module: import_image
 short_description: Manage ImportImage objects of SoftwareImageManagementSwim
 description:
-- Returns software image list based on a filter criteria. For example: "filterbyName = cat3k%".
+- Returns software image list based on a filter criteria. For example "filterbyName = cat3k%".
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
