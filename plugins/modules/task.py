@@ -41,7 +41,7 @@ options:
     type: str
   is_error:
     description:
-    - Fetch Tasks ended as success or failure. Valid values: true, false.
+    - Fetch Tasks ended as success or failure. Valid values true, false.
     type: str
   limit:
     description:

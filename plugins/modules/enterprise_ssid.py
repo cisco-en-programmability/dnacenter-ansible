@@ -46,12 +46,12 @@ options:
     type: str
   name:
     description:
-    - Enter SSID Name, property of the request body. Constraints: maxLength set to 32.
+    - Enter SSID Name, property of the request body. Constraints maxLength set to 32.
     - Required for state create.
     type: str
   passphrase:
     description:
-    - Pass Phrase (Only applicable for SSID with PERSONAL security level), property of the request body. Constraints: maxLength set to 63 and minLength set to 8.
+    - Pass Phrase (Only applicable for SSID with PERSONAL security level), property of the request body. Constraints maxLength set to 63 and minLength set to 8.
     type: str
   radioPolicy:
     description:

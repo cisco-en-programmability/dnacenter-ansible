@@ -15,7 +15,7 @@ DOCUMENTATION = r"""
 module: network_device
 short_description: Manage NetworkDevice objects of Devices
 description:
-- Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, location name and a wide variety of additional criteria. You can also use the asterisk in any value to conduct a wildcard search. For example, to find all hostnames beginning with myhost in the IP address range 192.25.18.n, issue the following request: GET fqdnoripofdnacenterplatform/dna/intent/api/v1/network-device? hostname=myhost* & managementIpAddress=192.25.18.* For a complete list of parameter names that you can use for filtering this request, see the DNA Center API Reference documentation. Note If id parameter is provided, it will return the list of network-devices for the given ids and ignores the other request parameters.
+- Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, location name and a wide variety of additional criteria. You can also use the asterisk in any value to conduct a wildcard search. For example, to find all hostnames beginning with myhost in the IP address range 192.25.18.n, issue the following request GET fqdnoripofdnacenterplatform/dna/intent/api/v1/network-device? hostname=myhost* & managementIpAddress=192.25.18.* For a complete list of parameter names that you can use for filtering this request, see the DNA Center API Reference documentation. Note If id parameter is provided, it will return the list of network-devices for the given ids and ignores the other request parameters.
 - Adds the device with given credential.
 - Sync the devices provided as input.
 - Deletes the network device for the given Id.

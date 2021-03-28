@@ -45,7 +45,7 @@ options:
     type: str
   member_association_type:
     description:
-    - Indicates how the member is associated with the tag. Possible values and description. 1) DYNAMIC : The member is associated to the tag through rules. 2) STATIC – The member is associated to the tag manually. 3) MIXED – The member is associated manually and also satisfies the rule defined for the tag.
+    - Indicates how the member is associated with the tag. Possible values and description. 1) DYNAMIC The member is associated to the tag through rules. 2) STATIC – The member is associated to the tag manually. 3) MIXED – The member is associated manually and also satisfies the rule defined for the tag.
     - MemberAssociationType query parameter.
     type: str
   offset:

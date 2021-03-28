@@ -29,7 +29,7 @@ options:
     type: str
   name:
     description:
-    - SiteNameHierarchy (ex: global/groupName).
+    - SiteNameHierarchy (ex global/groupName).
     type: str
   offset:
     description:
@@ -45,7 +45,7 @@ options:
     type: str
   type:
     description:
-    - Type (ex: area, building, floor).
+    - Type (ex area, building, floor).
     - Type, property of the request body.
     - Required for state present.
     type: str
