@@ -238,7 +238,6 @@ EXAMPLES = r"""
     lastupdateOn: 1  #  integer
     name: SomeValue  # string
     startTime: 1  #  integer
-    state: SomeValue  # string
     tasks:
     - currWorkItemIdx: 1  #  integer
       endTime: 1  #  integer
@@ -288,7 +287,6 @@ EXAMPLES = r"""
     lastupdateOn: 1  #  integer
     name: SomeValue  # string
     startTime: 1  #  integer
-    state: SomeValue  # string
     tasks:
     - currWorkItemIdx: 1  #  integer
       endTime: 1  #  integer

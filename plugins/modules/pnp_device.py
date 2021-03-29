@@ -1215,7 +1215,6 @@ EXAMPLES = r"""
     sort: SomeValue  # string
     sort_order: SomeValue  # string
     source: SomeValue  # string
-    state: SomeValue  # string
     virtual_account_id: SomeValue  # string
     workflow_id: SomeValue  # string
     workflow_name: SomeValue  # string
@@ -1765,7 +1764,6 @@ EXAMPLES = r"""
     serial_number: SomeValue  # string
     smart_account_id: SomeValue  # string
     source: SomeValue  # string
-    state: SomeValue  # string
     virtual_account_id: SomeValue  # string
     workflow_id: SomeValue  # string
     workflow_name: SomeValue  # string
