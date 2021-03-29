@@ -1,0 +1,35 @@
+releases:
+  1.0.0:
+    release_date: '2020-12-02'
+    changes:
+      release_summary: This is the initial release of the collection.
+  1.0.1:
+    release_date: '2021-03-22'
+    changes:
+      release_summary: Fixes a bug related to idempotent modules.
+      bugfixes:
+        - Fixes a bug in the 'site' and 'tag' modules, which are the only two idempotent modules.
+  1.0.2:
+    release_date: '2021-03-22'
+    changes:
+      release_summary: Fixes a bug related to optional module parameters.
+      bugfixes:
+        - Fixes a bug that caused the task execution to fail if the optional parameters like port, dnac version and SSL verification were missing from the hosts.yml file.
+  1.0.3:
+    release_date: '2021-03-29'
+    changes:
+      release_summary: Fixes several bugs and issues required to pass sanity checks
+      bugfixes:
+        - Adds code of conduct
+        - Adds missing boilerplate code
+        - Adds code specific to idempotent module definitions
+        - Adds entries to the sanity check ignore file
+        - Fixes pylint issues
+        - Fixes yamllint issues
+        - Fixes return syntax errors
+        - Removes the RETURN section from all modules
+        - Removes blank spaces from DOCUMENTATION
+        - Removes colon characters from DOCUMENTATION
+        - Removes duplicate keys from DOCUMENTATION
+        - Removes ANSIBLE_METADATA section from all modules
+        - Adds changelog

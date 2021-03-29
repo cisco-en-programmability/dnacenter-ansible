@@ -247,4 +247,4 @@ plugins/modules/network_device_autocomplete.py pep8:E501 # The long lines are in
 plugins/modules/network_device_functional_capability.py pep8:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
 plugins/modules/network_device_sync.py pep8:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
 plugins/modules/pnp_workflow.py pep8:E501 # The long lines are inside the DOCUMENTATION and RETURN strings
-plugins/module_utils/dnac.py pylint:ansible-bad-module-import # We don't honestly understand what this error means
+plugins/module_utils/dnac.py pylint:ansible-bad-module-import # We need more information about this error in order to fix integration_event 
