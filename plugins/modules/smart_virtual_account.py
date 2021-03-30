@@ -11,9 +11,13 @@ short_description: Manage SmartVirtualAccount objects of DeviceOnboardingPnp
 description:
 - Returns the list of Smart Account domains.
 - Returns list of virtual accounts associated with the specified smart account.
-- Registers a Smart Account, Virtual Account and the relevant server profile info with the PnP System & database. The devices present in the registered virtual account are synced with the PnP database as well. The response payload returns the new profile.
+- >
+   Registers a Smart Account, Virtual Account and the relevant server profile info with the PnP System & database. 
+   The devices present in the registered virtual account are synced with the PnP database as well. The response payload returns the new profile.
 - Updates the PnP Server profile in a registered Virtual Account in the PnP database. The response payload returns the updated smart & virtual account info.
-- Deregisters the specified smart account & virtual account info and the associated device information from the PnP System & database. The devices associated with the deregistered virtual account are removed from the PnP database as well. The response payload contains the deregistered smart & virtual account information.
+- >
+   Deregisters the specified smart account & virtual account info and the associated device information from the PnP System & database.
+   The devices associated with the deregistered virtual account are removed from the PnP database as well. The response payload contains the deregistered smart & virtual account information.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:

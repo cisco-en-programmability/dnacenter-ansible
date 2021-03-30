@@ -13,7 +13,9 @@ description:
 - Adds members to the tag specified by id.
 - Removes Tag member from the tag specified by id.
 - Returns the number of members in a given tag.
-- Updates tag membership. As part of the request payload through this API, only the specified members are added / retained to the given input tags. Possible values of memberType attribute in the request payload can be queried by using the /tag/member/type API.
+- >
+   Updates tag membership. As part of the request payload through this API, only the specified members are added / retained to the given
+   input tags. Possible values of memberType attribute in the request payload can be queried by using the /tag/member/type API.
 - Returns list of supported resource types.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
@@ -39,7 +41,9 @@ options:
     type: str
   member_association_type:
     description:
-    - Indicates how the member is associated with the tag. Possible values and description. 1) DYNAMIC The member is associated to the tag through rules. 2) STATIC – The member is associated to the tag manually. 3) MIXED – The member is associated manually and also satisfies the rule defined for the tag.
+    - >
+       Indicates how the member is associated with the tag. Possible values and description. 1) DYNAMIC The member is associated to the tag through rules.
+       2) STATIC – The member is associated to the tag manually. 3) MIXED – The member is associated manually and also satisfies the rule defined for the tag.
     - MemberAssociationType query parameter.
     type: str
   offset:

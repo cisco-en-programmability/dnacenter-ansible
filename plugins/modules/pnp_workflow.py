@@ -9,7 +9,9 @@ DOCUMENTATION = r"""
 module: pnp_workflow
 short_description: Manage PnpWorkflow objects of DeviceOnboardingPnp
 description:
-- Returns the list of workflows based on filter criteria. If a limit is not specified, it will default to return 50 workflows. Pagination and sorting are also supported by this endpoint.
+- >
+   Returns the list of workflows based on filter criteria. If a limit is not specified, it will default
+   to return 50 workflows. Pagination and sorting are also supported by this endpoint.
 - Adds a PnP Workflow along with the relevant tasks in the workflow into the PnP database.
 - Returns a workflow specified by id.
 - Deletes a workflow specified by id.

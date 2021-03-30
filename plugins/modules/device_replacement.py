@@ -9,7 +9,9 @@ DOCUMENTATION = r"""
 module: device_replacement
 short_description: Manage DeviceReplacement objects of DeviceReplacement
 description:
-- Get list of replacement devices with replacement details and it can filter replacement devices based on Faulty Device Name,Faulty Device Platform, Replacement Device Platform, Faulty Device Serial Number,Replacement Device Serial Number, Device Replacement status, Product Family.
+- >
+   Get list of replacement devices with replacement details and it can filter replacement devices based on Faulty Device Name,Faulty Device Platform,
+   Replacement Device Platform, Faulty Device Serial Number,Replacement Device Serial Number, Device Replacement status, Product Family.
 - Marks device for replacement.
 - UnMarks device for replacement.
 - Get replacement devices count.
@@ -50,7 +52,9 @@ options:
     type: str
   replacement_status:
     description:
-    - Device Replacement status [READY-FOR-REPLACEMENT, REPLACEMENT-IN-PROGRESS, REPLACEMENT-SCHEDULED, REPLACED, ERROR, NETWORK_READINESS_REQUESTED, NETWORK_READINESS_FAILED].
+    - >
+       Device Replacement status [READY-FOR-REPLACEMENT, REPLACEMENT-IN-PROGRESS, REPLACEMENT-SCHEDULED, REPLACED, ERROR, 
+       NETWORK_READINESS_REQUESTED, NETWORK_READINESS_FAILED].
     - Device Replacement status list[READY-FOR-REPLACEMENT, REPLACEMENT-IN-PROGRESS, REPLACEMENT-SCHEDULED, REPLACED, ERROR].
     type: str
   sort_by:

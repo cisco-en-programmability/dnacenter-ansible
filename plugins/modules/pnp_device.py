@@ -9,7 +9,9 @@ DOCUMENTATION = r"""
 module: pnp_device
 short_description: Manage PnpDevice objects of DeviceOnboardingPnp
 description:
-- Returns list of devices based on filter crieteria. If a limit is not specified, it will default to return 50 devices. Pagination and sorting are also supported by this endpoint.
+- >
+   Returns list of devices based on filter crieteria. If a limit is not specified, it will default to return 50 devices. 
+   Pagination and sorting are also supported by this endpoint.
 - Adds a device to the PnP database.
 - Returns device details specified by device id.
 - Deletes specified device from PnP database.

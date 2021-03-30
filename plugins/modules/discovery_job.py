@@ -9,7 +9,9 @@ DOCUMENTATION = r"""
 module: discovery_job
 short_description: Manage DiscoveryJob objects of Discovery
 description:
-- Returns the list of discovery jobs for the given Discovery ID. The results can be optionally filtered based on IP. Discovery ID can be obtained using the "Get Discoveries by range" API.
+- >
+   Returns the list of discovery jobs for the given Discovery ID. The results can be optionally filtered based on IP.
+   Discovery ID can be obtained using the "Get Discoveries by range" API.
 - Returns the list of discovery jobs for the given IP.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)

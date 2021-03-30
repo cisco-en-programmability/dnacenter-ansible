@@ -413,7 +413,9 @@ EXAMPLES = r"""
     - productFamily: SomeValue  # string
       productSeries: SomeValue  # string
       productType: SomeValue  # string
-    failurePolicy: SomeValue  # string, valid values: 'ABORT_ON_ERROR', 'CONTINUE_ON_ERROR', 'ROLLBACK_ON_ERROR', 'ROLLBACK_TARGET_ON_ERROR', 'ABORT_TARGET_ON_ERROR'.
+    failurePolicy: >
+                    SomeValue  # string, valid values: 'ABORT_ON_ERROR', 'CONTINUE_ON_ERROR',
+                    'ROLLBACK_ON_ERROR', 'ROLLBACK_TARGET_ON_ERROR', 'ABORT_TARGET_ON_ERROR'.
     id: SomeValue  # string
     lastUpdateTime: 1  #  integer
     name: SomeValue  # string
@@ -505,7 +507,9 @@ EXAMPLES = r"""
     - productFamily: SomeValue  # string
       productSeries: SomeValue  # string
       productType: SomeValue  # string
-    failurePolicy: SomeValue  # string, valid values: 'ABORT_ON_ERROR', 'CONTINUE_ON_ERROR', 'ROLLBACK_ON_ERROR', 'ROLLBACK_TARGET_ON_ERROR', 'ABORT_TARGET_ON_ERROR'.
+    failurePolicy: >
+                    SomeValue  # string, valid values: 'ABORT_ON_ERROR', 'CONTINUE_ON_ERROR',
+                    'ROLLBACK_ON_ERROR', 'ROLLBACK_TARGET_ON_ERROR', 'ABORT_TARGET_ON_ERROR'.
     id: SomeValue  # string
     lastUpdateTime: 1  #  integer
     name: SomeValue  # string

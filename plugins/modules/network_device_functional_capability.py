@@ -16,7 +16,9 @@ author: Rafael Campos (@racampos)
 options:
   device_id:
     description:
-    - Accepts comma separated deviceid's and return list of functional-capabilities for the given id's. If invalid or not-found id's are provided, null entry will be returned in the list.
+    - >
+       Accepts comma separated deviceid's and return list of functional-capabilities for the given id's.
+       If invalid or not-found id's are provided, null entry will be returned in the list.
     type: str
     required: True
   function_name:
