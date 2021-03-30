@@ -33,3 +33,9 @@ releases:
         - Removes duplicate keys from DOCUMENTATION
         - Removes ANSIBLE_METADATA section from all modules
         - Adds changelog
+  1.0.4:
+    release_date: '2021-03-29'
+    changes:
+      release_summary: Fixes linting problems with the DOCUMENTATION and adds CI tests.
+      bugfixes:
+        - Fixes linting problems with the DOCUMENTATION.
