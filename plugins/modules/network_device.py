@@ -60,7 +60,7 @@ options:
   id:
     description:
     - >
-       Accepts comma separated id's and return list of network-devices for the given id's. If invalid or 
+       Accepts comma separated id's and return list of network-devices for the given id's. If invalid or
        not-found id's are provided, null entry will be returned in the list.
     - Device ID.
     - Required for states delete and query.
