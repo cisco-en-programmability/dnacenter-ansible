@@ -1,8 +1,14 @@
 - hosts: dnac_servers
+  vars_files:
+    - credentials.yml
   gather_facts: no
   tasks:
   - name: Get/create/delete import image file
     cisco.dnac.import_image_file:
+      dnac_host: "{{dnac_host}}"
+      dnac_username: "{{dnac_username}}"
+      dnac_password: "{{dnac_password}}"
+      dnac_verify: "{{dnac_verify}}"
       state: create
       filename: test.template  # string
       filepath: playbooks/files/test.template  # string

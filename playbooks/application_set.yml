@@ -1,8 +1,14 @@
 - hosts: dnac_servers
+  vars_files:
+    - credentials.yml
   gather_facts: no
   tasks:
   - name: Create an application set
     cisco.dnac.application_set:
+      dnac_host: "{{dnac_host}}"
+      dnac_username: "{{dnac_username}}"
+      dnac_password: "{{dnac_password}}"
+      dnac_verify: "{{dnac_verify}}"
       state: create
       payload:
         - name: AppSet1
@@ -11,6 +17,10 @@
 
   - name: Get task tree
     cisco.dnac.task:
+      dnac_host: "{{dnac_host}}"
+      dnac_username: "{{dnac_username}}"
+      dnac_password: "{{dnac_password}}"
+      dnac_verify: "{{dnac_verify}}"
       state: query
       task_id: "{{ result.dnac_response.response.taskId }}"
       tree: True
@@ -22,6 +32,10 @@
   
   - name: Get all tasks
     cisco.dnac.application_set:
+      dnac_host: "{{dnac_host}}"
+      dnac_username: "{{dnac_username}}"
+      dnac_password: "{{dnac_password}}"
+      dnac_verify: "{{dnac_verify}}"
       state: query
     register: result
 
@@ -31,6 +45,10 @@
 
   - name: Get task count
     cisco.dnac.application_set:
+      dnac_host: "{{dnac_host}}"
+      dnac_username: "{{dnac_username}}"
+      dnac_password: "{{dnac_password}}"
+      dnac_verify: "{{dnac_verify}}"
       state: query
       count: True
     register: result
