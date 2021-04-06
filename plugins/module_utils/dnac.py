@@ -19,7 +19,9 @@ from ansible_collections.cisco.dnac.plugins.module_utils.exceptions import (
 try:
     from ansible.errors import AnsibleActionFail
 except ImportError:
-    raise Exception("Could not import ansible.errors library")
+    ANSIBLE_ERRORS_INSTALLED = False
+else:
+    ANSIBLE_ERRORS_INSTALLED = True
     
 
 def dnac_argument_spec(idempotent=False):
