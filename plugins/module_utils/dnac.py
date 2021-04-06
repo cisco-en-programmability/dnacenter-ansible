@@ -23,6 +23,7 @@ except ImportError:
 else:
     ANSIBLE_ERRORS_INSTALLED = True
 
+
 def dnac_argument_spec(idempotent=False):
     argument_spec = dict(
         dnac_host=dict(type="str", required=True),
