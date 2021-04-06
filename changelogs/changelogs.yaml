@@ -56,3 +56,9 @@ releases:
       release_summary: Fixes linting problems with the DOCUMENTATION.
       bugfixes:
         - Fixes linting problems with the DOCUMENTATION.
+  2.0.2:
+    release_date: '2021-04-06'
+    changes:
+      release_summary: Adds code to gracefully handle missing dependencies.
+      bugfixes:
+        - Adds try/except clauses to gracefully handle missing SDK and ansible.utils dependencies per ansible-core-2.11 requirements
