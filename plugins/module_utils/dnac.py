@@ -392,7 +392,7 @@ class DNACModule(object):
         self.verbosity = verbosity
         self.result = dict(changed=False)
         self.validate_response_schema = self.params.get("validate_response_schema")
-        if DNAC_SDK_IS_INSTALLED: 
+        if DNAC_SDK_IS_INSTALLED:
             self.api = api.DNACenterAPI(
                 username=self.params.get("dnac_username"),
                 password=self.params.get("dnac_password"),
