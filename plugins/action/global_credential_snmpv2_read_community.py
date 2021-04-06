@@ -1,9 +1,14 @@
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
-from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-    AnsibleArgSpecValidator,
-)
+try:
+    from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
+        AnsibleArgSpecValidator,
+    )
+except ImportError:
+    ANSIBLE_UTILS_IS_INSTALLED = False
+else:
+    ANSIBLE_UTILS_IS_INSTALLED = True
 from ansible.errors import AnsibleActionFail
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     ModuleDefinition,
@@ -28,6 +33,8 @@ required_if = moddef.get_required_if_list()
 
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
+        if not ANSIBLE_UTILS_IS_INSTALLED:
+            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._result = None

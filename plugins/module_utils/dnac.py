@@ -1,7 +1,12 @@
 #!/usr/bin/env python
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
-from dnacentersdk import api
+try:
+    from dnacentersdk import api
+except ImportError:
+    DNAC_SDK_IS_INSTALLED = False
+else:
+    DNAC_SDK_IS_INSTALLED = True
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils._text import to_native
 from ansible_collections.cisco.dnac.plugins.module_utils.exceptions import (
@@ -387,15 +392,18 @@ class DNACModule(object):
         self.verbosity = verbosity
         self.result = dict(changed=False)
         self.validate_response_schema = self.params.get("validate_response_schema")
-        self.api = api.DNACenterAPI(
-            username=self.params.get("dnac_username"),
-            password=self.params.get("dnac_password"),
-            base_url="https://{dnac_host}:{dnac_port}".format(
-                dnac_host=self.params.get("dnac_host"), dnac_port=self.params.get("dnac_port")
-            ),
-            version=self.params.get("dnac_version"),
-            verify=self.params.get("dnac_verify"),
-        )
+        if DNAC_SDK_IS_INSTALLED: 
+            self.api = api.DNACenterAPI(
+                username=self.params.get("dnac_username"),
+                password=self.params.get("dnac_password"),
+                base_url="https://{dnac_host}:{dnac_port}".format(
+                    dnac_host=self.params.get("dnac_host"), dnac_port=self.params.get("dnac_port")
+                ),
+                version=self.params.get("dnac_version"),
+                verify=self.params.get("dnac_verify"),
+            )
+        else:
+            self.fail_json(msg="DNA Center Python SDK is not installed. Execute 'pip install dnacentersdk'")
         self.moddef = moddef
         self.params = self.moddef.strip_common_params(self.params)
         self.params = self.moddef.strip_unused_params(self.params)
