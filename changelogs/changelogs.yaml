@@ -50,3 +50,9 @@ releases:
         - Documents the minimum version of Python supported by the collection.
         - Documents the dependency on ansible.utils
         - Documents the non-standard return values of all modules in the collection
+  2.0.1:
+    release_date: '2021-04-05'
+    changes:
+      release_summary: Fixes linting problems with the DOCUMENTATION.
+      bugfixes:
+        - Fixes linting problems with the DOCUMENTATION.
