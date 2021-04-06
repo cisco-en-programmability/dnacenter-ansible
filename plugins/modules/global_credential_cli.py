@@ -161,6 +161,7 @@ sdk_function:
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied
-  type: array
+  type: list
   sample:
 """
+
