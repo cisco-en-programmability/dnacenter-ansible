@@ -9,14 +9,18 @@ else:
     DNAC_SDK_IS_INSTALLED = True
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils._text import to_native
+from ansible.module_utils.six import raise_from
 from ansible_collections.cisco.dnac.plugins.module_utils.exceptions import (
     InvalidFunction,
     StateNotSupported,
     NoMatchingOperation,
     MultipleOperations,
 )
-from ansible.errors import AnsibleActionFail
-
+try:
+    from ansible.errors import AnsibleActionFail
+except ImportError:
+    raise Exception("Could not import ansible.errors library")
+    
 
 def dnac_argument_spec(idempotent=False):
     argument_spec = dict(
