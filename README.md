@@ -29,24 +29,30 @@ Install the collection
 ansible-galaxy collection install cisco.dnac
 ```
 ## Use
-First, define a `hosts.yml` file where you specify your DNA Center servers and their associated credentials:
+First, define a `credentials.yml` file where you specify your DNA Center credentials as ansible variables:
 ```
-dnac_servers:
-  hosts:
-    dnac_server:
-      dnac_host: 10.10.10.10
-      dnac_port: 443
-      dnac_username: myuser
-      dnac_password: mypass
+---
+dnac_host: <A.B.C.D>
+dnac_port: 443  # optional, defaults to 443
+dnac_username: <username>
+dnac_password: <password>
+dnac_version: 2.1.1  # optional, defaults to 2.1.1
+dnac_verify: False  # optional, defaults to True
 ```
 
-Then, create a playbook `myplaybook.yml` referencing your hosts file and specifying the full namespace path to the module, plugin and/or role:
+Then, create a playbook `myplaybook.yml` referencing the variables in your credentials.yml file and specifying the full namespace path to the module, plugin and/or role:
 ```
 - hosts: dnac_servers
+  vars_files:
+    - credentials.yml
   gather_facts: no
   tasks:
   - name: Create tag
     cisco.dnac.tag:
+      dnac_host: "{{dnac_host}}"
+      dnac_username: "{{dnac_username}}"
+      dnac_password: "{{dnac_password}}"
+      dnac_verify: "{{dnac_verify}}"
       state: present
       description: My Tag
       name: MyNewTag
@@ -54,7 +60,7 @@ Then, create a playbook `myplaybook.yml` referencing your hosts file and specify
 
 Execute the playbook:
 ```
-ansible-playbook -i hosts.yml myplaybook.yml
+ansible-playbook -i hosts myplaybook.yml
 ```
 In the `playbooks` directory you can find more examples and use cases.
 
