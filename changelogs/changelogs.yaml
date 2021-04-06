@@ -39,3 +39,14 @@ releases:
       release_summary: Fixes linting problems with the DOCUMENTATION and adds CI tests.
       bugfixes:
         - Fixes linting problems with the DOCUMENTATION.
+  2.0.0:
+    release_date: '2021-04-05'
+    changes:
+      release_summary: Moves the module parameters out of the inventory and places them inside the tasks themselves.
+      major_changes:
+        - Moves the module parameters out of the inventory and places them inside the tasks themselves.
+      bugfixes:
+        - Adds policy about releasing, versioning and deprecation to the README.
+        - Documents the minimum version of Python supported by the collection.
+        - Documents the dependency on ansible.utils
+        - Documents the non-standard return values of all modules in the collection
