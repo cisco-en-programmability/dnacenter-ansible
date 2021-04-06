@@ -62,3 +62,9 @@ releases:
       release_summary: Adds code to gracefully handle missing dependencies.
       bugfixes:
         - Adds try/except clauses to gracefully handle missing SDK and ansible.utils dependencies per ansible-core-2.11 requirements
+  2.0.3:
+    release_date: '2021-04-06'
+    changes:
+      release_summary: Updates the README to reflect latest API changes.
+      bugfixes:
+        - Updates the README to reflect latest API changes.
