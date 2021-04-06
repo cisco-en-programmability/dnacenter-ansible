@@ -14,7 +14,7 @@ jobs:
       matrix:
         ansible:
           - stable-2.10
-          - devel
+          - stable-2.11
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
