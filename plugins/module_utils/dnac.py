@@ -22,7 +22,6 @@ except ImportError:
     ANSIBLE_ERRORS_INSTALLED = False
 else:
     ANSIBLE_ERRORS_INSTALLED = True
-    
 
 def dnac_argument_spec(idempotent=False):
     argument_spec = dict(
