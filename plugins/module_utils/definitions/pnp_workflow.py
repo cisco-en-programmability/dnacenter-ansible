@@ -82,7 +82,7 @@ module_definition = json.loads(
                 "type": "integer"
             },
             {
-                "name": "state",
+                "name": "_state",
                 "type": "string"
             },
             {
@@ -311,7 +311,7 @@ module_definition = json.loads(
                 "type": "integer"
             },
             {
-                "name": "state",
+                "name": "_state",
                 "type": "string"
             },
             {

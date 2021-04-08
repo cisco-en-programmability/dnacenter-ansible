@@ -176,6 +176,12 @@ class Function(object):
                     required_params.append(param.name)
         return required_params
 
+    def fix_overlapping_params(self, params):
+        if self.name in ["get_device_list", "get_device_count", "add_a_workflow", "update_workflow"]:
+            if "_state" in params:
+                params["state"] = params.pop("_state")
+        return params
+
     def strip_artificial_params(self, module_params):
         for param_name in list(module_params):
             param = self._get_param_by_name(param_name)
@@ -469,7 +475,7 @@ class DNACModule(object):
         self.result.update(
             dict(sdk_function="{family}.{name}".format(family=function.family, name=function.name))
         )
-        self.params = function.strip_artificial_params(self.params)
+        self.params = function.fix_overlapping_params(function.strip_artificial_params(self.params))
         func = self.get_func(function)
         missing_params = dict()
         if function.has_valid_request_schema(self.params, missing_params):

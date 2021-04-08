@@ -1424,7 +1424,7 @@ module_definition = json.loads(
                 "type": "string"
             },
             {
-                "name": "state",
+                "name": "_state",
                 "required": false,
                 "type": "string"
             },
@@ -1539,7 +1539,7 @@ module_definition = json.loads(
                 "type": "string"
             },
             {
-                "name": "state",
+                "name": "_state",
                 "required": false,
                 "type": "string"
             },
