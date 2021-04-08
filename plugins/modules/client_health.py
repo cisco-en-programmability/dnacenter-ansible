@@ -38,7 +38,7 @@ EXAMPLES = r"""
   cisco.dnac.client_health:
     state: query  # required
     timestamp: 1  #  integer
-  register: query_result
+  register: nm_get_overall_client_health
 
 """
 
@@ -52,7 +52,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: clients.get_overall_client_health
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

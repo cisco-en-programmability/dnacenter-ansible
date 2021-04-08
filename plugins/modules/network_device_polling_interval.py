@@ -40,12 +40,12 @@ EXAMPLES = r"""
   cisco.dnac.network_device_polling_interval:
     state: query  # required
     id: SomeValue  # string, required
-  register: query_result
+  register: nm_get_polling_interval_by_id
 
 - name: get_polling_interval_for_all_devices
   cisco.dnac.network_device_polling_interval:
     state: query  # required
-  register: query_result
+  register: nm_get_polling_interval_for_all_devices
 
 """
 
@@ -59,7 +59,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: devices.get_polling_interval_by_id
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

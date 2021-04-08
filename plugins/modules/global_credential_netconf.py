@@ -115,7 +115,9 @@ EXAMPLES = r"""
     state: update  # required
     netconfPort: SomeValue  # string, required
     comments: SomeValue  # string
-    credentialType: SomeValue  # string, valid values: 'GLOBAL', 'APP'.
+    credentialType: # valid values are 'GLOBAL',
+      # 'APP'.
+      SomeValue  # string
     description: SomeValue  # string
     id: SomeValue  # string
     instanceTenantId: SomeValue  # string
@@ -133,7 +135,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: discovery.create_netconf_credentials
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

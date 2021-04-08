@@ -413,9 +413,12 @@ EXAMPLES = r"""
     - productFamily: SomeValue  # string
       productSeries: SomeValue  # string
       productType: SomeValue  # string
-    failurePolicy: >
-                    SomeValue  # string, valid values: 'ABORT_ON_ERROR', 'CONTINUE_ON_ERROR',
-                    'ROLLBACK_ON_ERROR', 'ROLLBACK_TARGET_ON_ERROR', 'ABORT_TARGET_ON_ERROR'.
+    failurePolicy: # valid values are 'ABORT_ON_ERROR',
+      # 'CONTINUE_ON_ERROR',
+      # 'ROLLBACK_ON_ERROR',
+      # 'ROLLBACK_TARGET_ON_ERROR',
+      # 'ABORT_TARGET_ON_ERROR'.
+      SomeValue  # string
     id: SomeValue  # string
     lastUpdateTime: 1  #  integer
     name: SomeValue  # string
@@ -489,7 +492,7 @@ EXAMPLES = r"""
     project_id: SomeValue  # string
     software_type: SomeValue  # string
     software_version: SomeValue  # string
-  register: query_result
+  register: nm_gets_the_templates_available
 
 - name: update_template
   cisco.dnac.template:
@@ -507,9 +510,12 @@ EXAMPLES = r"""
     - productFamily: SomeValue  # string
       productSeries: SomeValue  # string
       productType: SomeValue  # string
-    failurePolicy: >
-                    SomeValue  # string, valid values: 'ABORT_ON_ERROR', 'CONTINUE_ON_ERROR',
-                    'ROLLBACK_ON_ERROR', 'ROLLBACK_TARGET_ON_ERROR', 'ABORT_TARGET_ON_ERROR'.
+    failurePolicy: # valid values are 'ABORT_ON_ERROR',
+      # 'CONTINUE_ON_ERROR',
+      # 'ROLLBACK_ON_ERROR',
+      # 'ROLLBACK_TARGET_ON_ERROR',
+      # 'ABORT_TARGET_ON_ERROR'.
+      SomeValue  # string
     id: SomeValue  # string
     lastUpdateTime: 1  #  integer
     name: SomeValue  # string
@@ -578,7 +584,7 @@ EXAMPLES = r"""
     state: query  # required
     template_id: SomeValue  # string, required
     latest_version: True  # boolean
-  register: query_result
+  register: nm_get_template_details
 
 - name: delete_template
   cisco.dnac.template:
@@ -597,7 +603,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: configuration_templates.create_template
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

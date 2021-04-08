@@ -9,7 +9,9 @@ DOCUMENTATION = r"""
 module: ssid
 short_description: Manage Ssid objects of Wireless
 description:
-- Creates SSID, updates the SSID to the corresponding site profiles and provision it to the devices matching the given sites.
+- >
+   Creates SSID, updates the SSID to the corresponding site profiles and provision it to the devices matching the
+   given sites.
 - Removes SSID or WLAN from the network profile, reprovision the device(s) and deletes the SSID or WLAN from DNA Center.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
@@ -135,7 +137,9 @@ EXAMPLES = r"""
       enableMACFiltering: True  # boolean
       fastTransition: SomeValue  # string
       webAuthURL: SomeValue  # string
-    ssidType: SomeValue  # string, required, valid values: 'Guest', 'Enterprise'.
+    ssidType: # valid values are 'Guest',
+      # 'Enterprise'.
+      SomeValue  # string, required
     flexConnect:
       enableFlexConnect: True  # boolean
       localToVlan: 1  #  integer
@@ -158,7 +162,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: wireless.create_and_provision_ssid
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

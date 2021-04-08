@@ -10,10 +10,10 @@ module: network_device_autocomplete
 short_description: Manage NetworkDeviceAutocomplete objects of Devices
 description:
 - >
-   Gets the list of first 500 network devices sorted lexicographically based on host name.
-   It can be filtered using management IP address, mac address, hostname and location name.
-   If id param is provided, it will be returning the list of network-devices for the given
-   id's and other request params will be ignored. In case of autocomplete request, returns the list of specified attributes.
+   Gets the list of first 500 network devices sorted lexicographically based on host name. It can be filtered using
+   management IP address, mac address, hostname and location name. If id param is provided, it will be returning the
+   list of network-devices for the given id's and other request params will be ignored. In case of autocomplete
+   request, returns the list of specified attributes.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
@@ -147,7 +147,7 @@ EXAMPLES = r"""
     type: SomeValue  # string
     up_time: SomeValue  # string
     vrf_name: SomeValue  # string
-  register: query_result
+  register: nm_retrieves_all_network_devices
 
 """
 
@@ -161,7 +161,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: devices.retrieves_all_network_devices
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

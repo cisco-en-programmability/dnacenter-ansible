@@ -9,7 +9,9 @@ DOCUMENTATION = r"""
 module: device_replacement_workflow
 short_description: Manage DeviceReplacementWorkflow objects of DeviceReplacement
 description:
-- API to trigger RMA workflow that will replace faulty device with replacement device with same configuration and images.
+- >
+   API to trigger RMA workflow that will replace faulty device with replacement device with same configuration and
+   images.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
@@ -58,7 +60,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: device_replacement.deploy_device_replacement_workflow
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

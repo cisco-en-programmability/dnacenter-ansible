@@ -13,12 +13,15 @@ description:
 - Returns list of virtual accounts associated with the specified smart account.
 - >
    Registers a Smart Account, Virtual Account and the relevant server profile info with the PnP System & database.
-   The devices present in the registered virtual account are synced with the PnP database as well. The response payload returns the new profile.
-- Updates the PnP Server profile in a registered Virtual Account in the PnP database. The response payload returns the updated smart & virtual account info.
+   The devices present in the registered virtual account are synced with the PnP database as well. The response
+   payload returns the new profile.
 - >
-   Deregisters the specified smart account & virtual account info and the associated device information from the PnP System & database.
-   The devices associated with the deregistered virtual account are removed from the PnP database as well. The response payload contains
-   the deregistered smart & virtual account information.
+   Updates the PnP Server profile in a registered Virtual Account in the PnP database. The response payload returns
+   the updated smart & virtual account info.
+- >
+   Deregisters the specified smart account & virtual account info and the associated device information from the PnP
+   System & database. The devices associated with the deregistered virtual account are removed from the PnP database
+   as well. The response payload contains the deregistered smart & virtual account information.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
@@ -163,13 +166,13 @@ EXAMPLES = r"""
 - name: get_smart_account_list
   cisco.dnac.smart_virtual_account:
     state: query  # required
-  register: query_result
+  register: nm_get_smart_account_list
 
 - name: get_virtual_account_list
   cisco.dnac.smart_virtual_account:
     state: query  # required
     domain: SomeValue  # string, required
-  register: query_result
+  register: nm_get_virtual_account_list
 
 - name: add_virtual_account
   cisco.dnac.smart_virtual_account:
@@ -184,7 +187,11 @@ EXAMPLES = r"""
       profileId: SomeValue  # string
       proxy: True  # boolean
     smartAccountId: SomeValue  # string, required
-    syncStatus: SomeValue  # string, required, valid values: 'NOT_SYNCED', 'SYNCING', 'SUCCESS', 'FAILURE'.
+    syncStatus: # valid values are 'NOT_SYNCED',
+      # 'SYNCING',
+      # 'SUCCESS',
+      # 'FAILURE'.
+      SomeValue  # string, required
     virtualAccountId: SomeValue  # string, required
     autoSyncPeriod: 1  #  integer
     ccoUser: SomeValue  # string
@@ -214,7 +221,11 @@ EXAMPLES = r"""
       profileId: SomeValue  # string
       proxy: True  # boolean
     smartAccountId: SomeValue  # string, required
-    syncStatus: SomeValue  # string, required, valid values: 'NOT_SYNCED', 'SYNCING', 'SUCCESS', 'FAILURE'.
+    syncStatus: # valid values are 'NOT_SYNCED',
+      # 'SYNCING',
+      # 'SUCCESS',
+      # 'FAILURE'.
+      SomeValue  # string, required
     virtualAccountId: SomeValue  # string, required
     autoSyncPeriod: 1  #  integer
     ccoUser: SomeValue  # string
@@ -249,7 +260,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: device_onboarding_pnp.add_virtual_account
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

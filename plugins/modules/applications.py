@@ -194,7 +194,7 @@ EXAMPLES = r"""
     limit: 1  #  number
     name: SomeValue  # string
     offset: 1  #  number
-  register: query_result
+  register: nm_get_applications
 
 - name: delete_application
   cisco.dnac.applications:
@@ -270,7 +270,7 @@ EXAMPLES = r"""
   cisco.dnac.applications:
     state: query  # required
     count: True  # boolean, required
-  register: query_result
+  register: nm_get_applications_count
 
 """
 
@@ -284,7 +284,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: application_policy.create_application
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

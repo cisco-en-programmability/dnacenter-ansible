@@ -14,8 +14,9 @@ description:
 - Removes Tag member from the tag specified by id.
 - Returns the number of members in a given tag.
 - >
-   Updates tag membership. As part of the request payload through this API, only the specified members are added / retained to the given
-   input tags. Possible values of memberType attribute in the request payload can be queried by using the /tag/member/type API.
+   Updates tag membership. As part of the request payload through this API, only the specified members are added /
+   retained to the given input tags. Possible values of memberType attribute in the request payload can be queried by
+   using the /tag/member/type API.
 - Returns list of supported resource types.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
@@ -42,8 +43,9 @@ options:
   member_association_type:
     description:
     - >
-       Indicates how the member is associated with the tag. Possible values and description. 1) DYNAMIC The member is associated to the tag through rules.
-       2) STATIC – The member is associated to the tag manually. 3) MIXED – The member is associated manually and also satisfies the rule defined for the tag.
+       Indicates how the member is associated with the tag. Possible values and description. 1) DYNAMIC The
+       member is associated to the tag through rules. 2) STATIC – The member is associated to the tag manually.
+       3) MIXED – The member is associated manually and also satisfies the rule defined for the tag.
     - MemberAssociationType query parameter.
     type: str
   offset:
@@ -100,7 +102,7 @@ EXAMPLES = r"""
     limit: SomeValue  # string
     member_association_type: SomeValue  # string
     offset: SomeValue  # string
-  register: query_result
+  register: nm_get_tag_members_by_id
 
 - name: add_members_to_the_tag
   cisco.dnac.tag_member:
@@ -121,7 +123,7 @@ EXAMPLES = r"""
     count: True  # boolean, required
     level: SomeValue  # string
     member_association_type: SomeValue  # string
-  register: query_result
+  register: nm_get_tag_member_count
 
 - name: updates_tag_membership
   cisco.dnac.tag_member:
@@ -134,8 +136,7 @@ EXAMPLES = r"""
 - name: get_tag_resource_types
   cisco.dnac.tag_member:
     state: query  # required
-
-  register: query_result
+  register: nm_get_tag_resource_types
 
 """
 
@@ -149,7 +150,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: tag.add_members_to_the_tag
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

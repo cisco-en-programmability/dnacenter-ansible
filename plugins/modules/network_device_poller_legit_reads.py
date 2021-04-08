@@ -33,7 +33,7 @@ EXAMPLES = r"""
 - name: get_all_keywords_of_clis_accepted
   cisco.dnac.network_device_poller_legit_reads:
     state: query  # required
-  register: query_result
+  register: nm_get_all_keywords_of_clis_accepted
 
 """
 
@@ -47,7 +47,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: command_runner.get_all_keywords_of_clis_accepted
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

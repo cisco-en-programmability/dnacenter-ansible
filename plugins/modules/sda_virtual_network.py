@@ -63,7 +63,7 @@ EXAMPLES = r"""
     state: query  # required
     site_name_hierarchy: SomeValue  # string, required
     virtual_network_name: SomeValue  # string, required
-  register: query_result
+  register: nm_get_vn
 
 - name: delete_vn
   cisco.dnac.sda_virtual_network:
@@ -90,7 +90,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: sda.add_vn
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

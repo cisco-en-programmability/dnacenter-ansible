@@ -9,7 +9,9 @@ DOCUMENTATION = r"""
 module: network_health
 short_description: Manage NetworkHealth objects of Topology
 description:
-- Returns Overall Network Health information by Device category (Access, Distribution, Core, Router, Wireless) for any given point of time.
+- >
+   Returns Overall Network Health information by Device category (Access, Distribution, Core, Router, Wireless) for
+   any given point of time.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
@@ -38,7 +40,7 @@ EXAMPLES = r"""
   cisco.dnac.network_health:
     state: query  # required
     timestamp: 1  #  integer
-  register: query_result
+  register: nm_get_overall_network_health
 
 """
 
@@ -52,7 +54,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: topology.get_overall_network_health
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

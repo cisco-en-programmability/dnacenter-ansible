@@ -39,7 +39,7 @@ EXAMPLES = r"""
   cisco.dnac.event_api_status:
     state: query  # required
     execution_id: SomeValue  # string, required
-  register: query_result
+  register: nm_get_status_api_for_events
 
 """
 
@@ -53,7 +53,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: event_management.get_status_api_for_events
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

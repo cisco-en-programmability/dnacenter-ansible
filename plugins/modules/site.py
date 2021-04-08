@@ -35,7 +35,7 @@ options:
     - Site id to which Site details to be deleted.
     - Site id to which Site details to be updated.
     - Site id to retrieve Site count.
-    - Required for states absent and present.
+    - Required for states present and absent.
     type: str
   type:
     description:
@@ -150,7 +150,7 @@ EXAMPLES = r"""
     offset: SomeValue  # string
     site_id: SomeValue  # string
     type: SomeValue  # string
-  register: query_result
+  register: nm_get_site
 
 - name: create_site
   cisco.dnac.site:
@@ -172,7 +172,10 @@ EXAMPLES = r"""
         width: 1  #  number
         length: 1  #  number
         height: 1  #  number
-    type: SomeValue  # string, required, valid values: 'area', 'building', 'floor'.
+    type: # valid values are 'area',
+      # 'building',
+      # 'floor'.
+      SomeValue  # string, required
 
 - name: delete_site
   cisco.dnac.site:
@@ -199,14 +202,17 @@ EXAMPLES = r"""
         width: 1  #  number
         length: 1  #  number
         height: 1  #  number
-    type: SomeValue  # string, required, valid values: 'area', 'building', 'floor'.
+    type: # valid values are 'area',
+      # 'building',
+      # 'floor'.
+      SomeValue  # string, required
 
 - name: get_site_count
   cisco.dnac.site:
     state: query  # required
     count: True  # boolean, required
     site_id: SomeValue  # string
-  register: query_result
+  register: nm_get_site_count
 
 """
 
@@ -220,7 +226,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: sites.create_site
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

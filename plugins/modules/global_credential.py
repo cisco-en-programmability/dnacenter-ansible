@@ -18,7 +18,9 @@ author: Rafael Campos (@racampos)
 options:
   credential_sub_type:
     description:
-    - Credential type as CLI / SNMPV2_READ_COMMUNITY / SNMPV2_WRITE_COMMUNITY / SNMPV3 / HTTP_WRITE / HTTP_READ / NETCONF.
+    - >
+       Credential type as CLI / SNMPV2_READ_COMMUNITY / SNMPV2_WRITE_COMMUNITY / SNMPV3 / HTTP_WRITE / HTTP_READ
+       / NETCONF.
     - Required for state query.
     type: str
   order:
@@ -67,7 +69,7 @@ EXAMPLES = r"""
     credential_sub_type: SomeValue  # string, required
     order: SomeValue  # string
     sort_by: SomeValue  # string
-  register: query_result
+  register: nm_get_global_credentials
 
 - name: delete_global_credentials_by_id
   cisco.dnac.global_credential:
@@ -85,7 +87,7 @@ EXAMPLES = r"""
   cisco.dnac.global_credential:
     state: query  # required
     id: SomeValue  # string, required
-  register: query_result
+  register: nm_get_credential_sub_type_by_credential_id
 
 """
 
@@ -99,7 +101,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: discovery.delete_global_credentials_by_id
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

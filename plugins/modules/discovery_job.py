@@ -62,7 +62,7 @@ EXAMPLES = r"""
     ip_address: SomeValue  # string
     limit: 1  #  integer
     offset: 1  #  integer
-  register: query_result
+  register: nm_get_list_of_discoveries_by_discovery_id
 
 - name: get_discovery_jobs_by_ip
   cisco.dnac.discovery_job:
@@ -71,7 +71,7 @@ EXAMPLES = r"""
     limit: 1  #  integer
     name: SomeValue  # string
     offset: 1  #  integer
-  register: query_result
+  register: nm_get_discovery_jobs_by_ip
 
 """
 
@@ -85,7 +85,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: discovery.get_discovery_jobs_by_ip
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

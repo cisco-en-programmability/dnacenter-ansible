@@ -44,7 +44,7 @@ EXAMPLES = r"""
     state: query  # required
     id: SomeValue  # string, required
     interface_type: SomeValue  # string
-  register: query_result
+  register: nm_get_device_interface_vlans
 
 """
 
@@ -58,7 +58,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: devices.get_device_interface_vlans
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

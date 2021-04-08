@@ -123,7 +123,7 @@ EXAMPLES = r"""
     sort_by: SomeValue  # string
     sort_order: SomeValue  # string
     version: SomeValue  # string
-  register: query_result
+  register: nm_get_software_image_details
 
 """
 
@@ -137,7 +137,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: software_image_management_swim.get_software_image_details
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

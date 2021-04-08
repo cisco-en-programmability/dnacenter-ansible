@@ -133,13 +133,13 @@ EXAMPLES = r"""
     sort_by: SomeValue  # string
     start_time: SomeValue  # string
     username: SomeValue  # string
-  register: query_result
+  register: nm_get_tasks
 
 - name: get_task_by_id
   cisco.dnac.task:
     state: query  # required
     task_id: SomeValue  # string, required
-  register: query_result
+  register: nm_get_task_by_id
 
 - name: get_task_count
   cisco.dnac.task:
@@ -155,7 +155,7 @@ EXAMPLES = r"""
     service_type: SomeValue  # string
     start_time: SomeValue  # string
     username: SomeValue  # string
-  register: query_result
+  register: nm_get_task_count
 
 - name: get_task_by_operationid
   cisco.dnac.task:
@@ -163,14 +163,14 @@ EXAMPLES = r"""
     limit: 1  #  integer, required
     offset: 1  #  integer, required
     operation_id: SomeValue  # string, required
-  register: query_result
+  register: nm_get_task_by_operationid
 
 - name: get_task_tree
   cisco.dnac.task:
     state: query  # required
     task_id: SomeValue  # string, required
     tree: True  # boolean, required
-  register: query_result
+  register: nm_get_task_tree
 
 """
 
@@ -184,7 +184,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: task.get_task_by_id
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

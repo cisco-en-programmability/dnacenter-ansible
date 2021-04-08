@@ -97,31 +97,31 @@ EXAMPLES = r"""
     state: query  # required
     limit: 1  #  number
     offset: 1  #  number
-  register: query_result
+  register: nm_get_all_interfaces
 
 - name: get_interface_by_id
   cisco.dnac.interface:
     state: query  # required
     id: SomeValue  # string, required
-  register: query_result
+  register: nm_get_interface_by_id
 
 - name: get_device_interface_count
   cisco.dnac.interface:
     state: query  # required
     count: True  # boolean, required
-  register: query_result
+  register: nm_get_device_interface_count
 
 - name: get_interface_by_ip
   cisco.dnac.interface:
     state: query  # required
     ip_address: SomeValue  # string, required
-  register: query_result
+  register: nm_get_interface_by_ip
 
 - name: get_interface_info_by_id
   cisco.dnac.interface:
     state: query  # required
     device_id: SomeValue  # string, required
-  register: query_result
+  register: nm_get_interface_info_by_id
 
 - name: get_device_interfaces_by_specified_range
   cisco.dnac.interface:
@@ -129,33 +129,33 @@ EXAMPLES = r"""
     device_id: SomeValue  # string, required
     records_to_return: 1  #  integer, required
     start_index: 1  #  integer, required
-  register: query_result
+  register: nm_get_device_interfaces_by_specified_range
 
 - name: get_device_interface_count_by_id
   cisco.dnac.interface:
     state: query  # required
     device_id: SomeValue  # string, required
     count: True  # boolean, required
-  register: query_result
+  register: nm_get_device_interface_count_by_id
 
 - name: get_interface_details
   cisco.dnac.interface:
     state: query  # required
     device_id: SomeValue  # string, required
     name: SomeValue  # string, required
-  register: query_result
+  register: nm_get_interface_details
 
 - name: get_isis_interfaces
   cisco.dnac.interface:
     state: query  # required
     isis: True  # boolean, required
-  register: query_result
+  register: nm_get_isis_interfaces
 
 - name: get_ospf_interfaces
   cisco.dnac.interface:
     state: query  # required
     ospf: True  # boolean, required
-  register: query_result
+  register: nm_get_ospf_interfaces
 
 """
 
@@ -169,7 +169,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: devices.get_all_interfaces
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

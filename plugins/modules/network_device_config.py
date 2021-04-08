@@ -39,13 +39,13 @@ EXAMPLES = r"""
 - name: get_device_config_for_all_devices
   cisco.dnac.network_device_config:
     state: query  # required
-  register: query_result
+  register: nm_get_device_config_for_all_devices
 
 - name: get_device_config_count
   cisco.dnac.network_device_config:
     state: query  # required
     count: True  # boolean, required
-  register: query_result
+  register: nm_get_device_config_count
 
 """
 
@@ -59,7 +59,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: devices.get_device_config_count
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

@@ -11,10 +11,10 @@ short_description: Manage NetworkDevice objects of Devices
 description:
 - >
    Returns list of network devices based on filter criteria such as management IP address, mac address, hostname,
-   location name and a wide variety of additional criteria. You can also use the asterisk in any value to conduct
-   a wildcard search. For example, to find all hostnames beginning with myhost in the IP address range 192.25.18.n,
-   issue the following request GET fqdnoripofdnacenterplatform/dna/intent/api/v1/network-device? hostname=myhost*
-   & managementIpAddress=192.25.18.* For a complete list of parameter names that you can use for filtering this
+   location name and a wide variety of additional criteria. You can also use the asterisk in any value to conduct a
+   wildcard search. For example, to find all hostnames beginning with myhost in the IP address range 192.25.18.n,
+   issue the following request GET fqdnoripofdnacenterplatform/dna/intent/api/v1/network-device? hostname=myhost* &
+   managementIpAddress=192.25.18.* For a complete list of parameter names that you can use for filtering this
    request, see the DNA Center API Reference documentation. Note If id parameter is provided, it will return the list
    of network-devices for the given ids and ignores the other request parameters.
 - Adds the device with given credential.
@@ -23,7 +23,9 @@ description:
 - Returns the network device details for the given device ID.
 - Returns brief summary of device info such as hostname, management IP address for the given device Id.
 - Returns the list of network devices for the given pagination range.
-- Returns the count of network devices based on the filter criteria by management IP address, mac address, hostname and location name.
+- >
+   Returns the count of network devices based on the filter criteria by management IP address, mac address, hostname
+   and location name.
 - Returns the network device by specified IP address.
 - Returns the network device with given serial number.
 version_added: '1.0.0'
@@ -60,10 +62,10 @@ options:
   id:
     description:
     - >
-       Accepts comma separated id's and return list of network-devices for the given id's. If invalid or
-       not-found id's are provided, null entry will be returned in the list.
+       Accepts comma separated id's and return list of network-devices for the given id's. If invalid or not-
+       found id's are provided, null entry will be returned in the list.
     - Device ID.
-    - Required for states delete and query.
+    - Required for states query and delete.
     type: str
   license_name:
     description:
@@ -370,7 +372,7 @@ EXAMPLES = r"""
     software_version: SomeValue  # string
     type: SomeValue  # string
     up_time: SomeValue  # string
-  register: query_result
+  register: nm_get_device_list
 
 - name: add_device
   cisco.dnac.network_device:
@@ -402,7 +404,11 @@ EXAMPLES = r"""
     netconfPort: SomeValue  # string
     serialNumber: SomeValue  # string
     snmpVersion: SomeValue  # string
-    type: SomeValue  # string, valid values: 'COMPUTE_DEVICE', 'MERAKI_DASHBOARD', 'NETWORK_DEVICE', 'NODATACHANGE'.
+    type: # valid values are 'COMPUTE_DEVICE',
+      # 'MERAKI_DASHBOARD',
+      # 'NETWORK_DEVICE',
+      # 'NODATACHANGE'.
+      SomeValue  # string
     updateMgmtIPaddressList:
     - existMgmtIpAddress: SomeValue  # string
       newMgmtIpAddress: SomeValue  # string
@@ -437,7 +443,11 @@ EXAMPLES = r"""
     netconfPort: SomeValue  # string
     serialNumber: SomeValue  # string
     snmpVersion: SomeValue  # string
-    type: SomeValue  # string, valid values: 'COMPUTE_DEVICE', 'MERAKI_DASHBOARD', 'NETWORK_DEVICE', 'NODATACHANGE'.
+    type: # valid values are 'COMPUTE_DEVICE',
+      # 'MERAKI_DASHBOARD',
+      # 'NETWORK_DEVICE',
+      # 'NODATACHANGE'.
+      SomeValue  # string
     updateMgmtIPaddressList:
     - existMgmtIpAddress: SomeValue  # string
       newMgmtIpAddress: SomeValue  # string
@@ -452,39 +462,39 @@ EXAMPLES = r"""
   cisco.dnac.network_device:
     state: query  # required
     id: SomeValue  # string, required
-  register: query_result
+  register: nm_get_device_by_id
 
 - name: get_device_summary
   cisco.dnac.network_device:
     state: query  # required
     id: SomeValue  # string, required
     summary: True  # boolean, required
-  register: query_result
+  register: nm_get_device_summary
 
 - name: get_network_device_by_pagination_range
   cisco.dnac.network_device:
     state: query  # required
     records_to_return: 1  #  integer, required
     start_index: 1  #  integer, required
-  register: query_result
+  register: nm_get_network_device_by_pagination_range
 
 - name: get_device_count
   cisco.dnac.network_device:
     state: query  # required
     count: True  # boolean, required
-  register: query_result
+  register: nm_get_device_count
 
 - name: get_network_device_by_ip
   cisco.dnac.network_device:
     state: query  # required
     ip_address: SomeValue  # string, required
-  register: query_result
+  register: nm_get_network_device_by_ip
 
 - name: get_device_by_serial_number
   cisco.dnac.network_device:
     state: query  # required
     serial_number: SomeValue  # string, required
-  register: query_result
+  register: nm_get_device_by_serial_number
 
 """
 
@@ -498,7 +508,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: devices.add_device
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

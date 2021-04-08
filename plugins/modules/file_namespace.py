@@ -39,13 +39,13 @@ EXAMPLES = r"""
 - name: get_list_of_available_namespaces
   cisco.dnac.file_namespace:
     state: query  # required
-  register: query_result
+  register: nm_get_list_of_available_namespaces
 
 - name: get_list_of_files
   cisco.dnac.file_namespace:
     state: query  # required
     name_space: SomeValue  # string, required
-  register: query_result
+  register: nm_get_list_of_files
 
 """
 
@@ -59,7 +59,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: file.get_list_of_available_namespaces
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

@@ -146,7 +146,7 @@ EXAMPLES = r"""
     offset: 1  #  number
     order: SomeValue  # string
     sort_by: SomeValue  # string
-  register: query_result
+  register: nm_get_event_subscriptions
 
 - name: create_event_subscriptions
   cisco.dnac.event_subscription:
@@ -191,7 +191,7 @@ EXAMPLES = r"""
     state: query  # required
     event_ids: SomeValue  # string, required
     count: True  # boolean, required
-  register: query_result
+  register: nm_count_of_event_subscriptions
 
 """
 
@@ -205,7 +205,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: event_management.count_of_event_subscriptions
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

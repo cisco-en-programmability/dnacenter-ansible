@@ -62,7 +62,7 @@ EXAMPLES = r"""
   cisco.dnac.sda_edge_device:
     state: query  # required
     device_ipaddress: SomeValue  # string, required
-  register: query_result
+  register: nm_get_edge_device
 
 - name: add_edge_device
   cisco.dnac.sda_edge_device:
@@ -83,7 +83,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: sda.add_edge_device
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

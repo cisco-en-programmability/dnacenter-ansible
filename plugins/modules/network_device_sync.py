@@ -10,8 +10,9 @@ module: network_device_sync
 short_description: Manage NetworkDeviceSync objects of Devices
 description:
 - >
-   Synchronizes the devices. If forceSync param is false (default) then the sync would run in normal priority thread. If forceSync param is true then the
-   sync would run in high priority thread if available, else the sync will fail. Result can be seen in the child task of each device.
+   Synchronizes the devices. If forceSync param is false (default) then the sync would run in normal priority thread.
+   If forceSync param is true then the sync would run in high priority thread if available, else the sync will fail.
+   Result can be seen in the child task of each device.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
@@ -59,7 +60,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: devices.sync_devices_using_forcesync
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

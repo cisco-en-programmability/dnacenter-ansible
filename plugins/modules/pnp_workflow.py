@@ -10,8 +10,8 @@ module: pnp_workflow
 short_description: Manage PnpWorkflow objects of DeviceOnboardingPnp
 description:
 - >
-   Returns the list of workflows based on filter criteria. If a limit is not specified, it will default
-   to return 50 workflows. Pagination and sorting are also supported by this endpoint.
+   Returns the list of workflows based on filter criteria. If a limit is not specified, it will default to return 50
+   workflows. Pagination and sorting are also supported by this endpoint.
 - Adds a PnP Workflow along with the relevant tasks in the workflow into the PnP database.
 - Returns a workflow specified by id.
 - Deletes a workflow specified by id.
@@ -94,7 +94,7 @@ options:
     description:
     - Workflow's startTime.
     type: int
-  state:
+  _state:
     description:
     - Workflow's state.
     type: str
@@ -216,7 +216,7 @@ EXAMPLES = r"""
     sort: SomeValue  # string
     sort_order: SomeValue  # string
     type: SomeValue  # string
-  register: query_result
+  register: nm_get_workflows
 
 - name: add_a_workflow
   cisco.dnac.pnp_workflow:
@@ -230,10 +230,14 @@ EXAMPLES = r"""
     endTime: 1  #  integer
     execTime: 1  #  integer
     imageId: SomeValue  # string
-    instanceType: SomeValue  # string, valid values: 'SystemWorkflow', 'UserWorkflow', 'SystemResetWorkflow'.
+    instanceType: # valid values are 'SystemWorkflow',
+      # 'UserWorkflow',
+      # 'SystemResetWorkflow'.
+      SomeValue  # string
     lastupdateOn: 1  #  integer
     name: SomeValue  # string
     startTime: 1  #  integer
+    _state: SomeValue  # string
     tasks:
     - currWorkItemIdx: 1  #  integer
       endTime: 1  #  integer
@@ -259,7 +263,7 @@ EXAMPLES = r"""
   cisco.dnac.pnp_workflow:
     state: query  # required
     id: SomeValue  # string, required
-  register: query_result
+  register: nm_get_workflow_by_id
 
 - name: delete_workflow_by_id
   cisco.dnac.pnp_workflow:
@@ -279,10 +283,14 @@ EXAMPLES = r"""
     endTime: 1  #  integer
     execTime: 1  #  integer
     imageId: SomeValue  # string
-    instanceType: SomeValue  # string, valid values: 'SystemWorkflow', 'UserWorkflow', 'SystemResetWorkflow'.
+    instanceType: # valid values are 'SystemWorkflow',
+      # 'UserWorkflow',
+      # 'SystemResetWorkflow'.
+      SomeValue  # string
     lastupdateOn: 1  #  integer
     name: SomeValue  # string
     startTime: 1  #  integer
+    _state: SomeValue  # string
     tasks:
     - currWorkItemIdx: 1  #  integer
       endTime: 1  #  integer
@@ -309,7 +317,7 @@ EXAMPLES = r"""
     state: query  # required
     count: True  # boolean, required
     name: SomeValue  # string
-  register: query_result
+  register: nm_get_workflow_count
 
 """
 
@@ -323,7 +331,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: device_onboarding_pnp.add_a_workflow
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

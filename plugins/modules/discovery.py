@@ -13,7 +13,9 @@ description:
 - Initiates Discovery with the given parameters.
 - Stops or starts an existing Discovery.
 - Returns the count of all available Discovery jobs.
-- Stops the Discovery for the given Discovery ID and removes it. Discovery ID can be obtained using the "Get Discoveries by range" API.
+- >
+   Stops the Discovery for the given Discovery ID and removes it. Discovery ID can be obtained using the "Get
+   Discoveries by range" API.
 - Returns Discovery by Discovery ID. Discovery ID can be obtained using the "Get Discoveries by range" API.
 - Stops Discovery for the given range and removes them.
 - Returns the Discovery by specified range.
@@ -492,7 +494,7 @@ EXAMPLES = r"""
   cisco.dnac.discovery:
     state: query  # required
     count: True  # boolean, required
-  register: query_result
+  register: nm_get_count_of_all_discovery_jobs
 
 - name: delete_discovery_by_id
   cisco.dnac.discovery:
@@ -503,7 +505,7 @@ EXAMPLES = r"""
   cisco.dnac.discovery:
     state: query  # required
     id: SomeValue  # string, required
-  register: query_result
+  register: nm_get_discovery_by_id
 
 - name: delete_discovery_by_specified_range
   cisco.dnac.discovery:
@@ -516,7 +518,7 @@ EXAMPLES = r"""
     state: query  # required
     records_to_return: 1  #  integer, required
     start_index: 1  #  integer, required
-  register: query_result
+  register: nm_get_discoveries_by_range
 
 """
 
@@ -530,7 +532,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: discovery.delete_all_discovery
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

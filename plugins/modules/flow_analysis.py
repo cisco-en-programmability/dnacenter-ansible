@@ -10,7 +10,9 @@ module: flow_analysis
 short_description: Manage FlowAnalysis objects of PathTrace
 description:
 - Returns a summary of all flow analyses stored. Results can be filtered by specified parameters.
-- Initiates a new flow analysis with periodic refresh and stat collection options. Returns a request id and a task id to get results and follow progress.
+- >
+   Initiates a new flow analysis with periodic refresh and stat collection options. Returns a request id and a task
+   id to get results and follow progress.
 - Returns result of a previously requested flow analysis by its Flow Analysis id.
 - Deletes a flow analysis request by its id.
 version_added: '1.0.0'
@@ -147,7 +149,7 @@ EXAMPLES = r"""
     source_port: SomeValue  # string
     status: SomeValue  # string
     task_id: SomeValue  # string
-  register: query_result
+  register: nm_retrives_all_previous_pathtraces_summary
 
 - name: initiate_a_new_pathtrace
   cisco.dnac.flow_analysis:
@@ -166,7 +168,7 @@ EXAMPLES = r"""
   cisco.dnac.flow_analysis:
     state: query  # required
     flow_analysis_id: SomeValue  # string, required
-  register: query_result
+  register: nm_retrieves_previous_pathtrace
 
 - name: deletes_pathtrace_by_id
   cisco.dnac.flow_analysis:
@@ -185,7 +187,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: path_trace.deletes_pathtrace_by_id
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

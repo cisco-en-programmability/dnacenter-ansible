@@ -17,8 +17,8 @@ options:
   device_id:
     description:
     - >
-       Accepts comma separated deviceid's and return list of functional-capabilities for the given id's.
-       If invalid or not-found id's are provided, null entry will be returned in the list.
+       Accepts comma separated deviceid's and return list of functional-capabilities for the given id's. If
+       invalid or not-found id's are provided, null entry will be returned in the list.
     type: str
     required: True
   function_name:
@@ -52,13 +52,13 @@ EXAMPLES = r"""
     state: query  # required
     device_id: SomeValue  # string, required
     function_name: SomeValue  # string
-  register: query_result
+  register: nm_get_functional_capability_for_devices
 
 - name: get_functional_capability_by_id
   cisco.dnac.network_device_functional_capability:
     state: query  # required
     id: SomeValue  # string, required
-  register: query_result
+  register: nm_get_functional_capability_by_id
 
 """
 
@@ -72,7 +72,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: devices.get_functional_capability_by_id
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

@@ -62,7 +62,7 @@ EXAMPLES = r"""
 - name: get_snmp_properties
   cisco.dnac.snmp_property:
     state: query  # required
-  register: query_result
+  register: nm_get_snmp_properties
 
 - name: create_update_snmp_properties
   cisco.dnac.snmp_property:
@@ -86,7 +86,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: discovery.create_update_snmp_properties
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

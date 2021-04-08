@@ -11,7 +11,9 @@ short_description: Manage WirelessProfile objects of Wireless
 description:
 - Gets either one or all the wireless network profiles if no name is provided for network-profile.
 - Creates Wireless Network Profile on DNAC and associates sites and SSIDs to it.
-- Updates the wireless Network Profile with updated details provided. All sites to be present in the network profile should be provided.
+- >
+   Updates the wireless Network Profile with updated details provided. All sites to be present in the network profile
+   should be provided.
 - Delete the Wireless Profile from DNAC whose name is provided.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
@@ -98,7 +100,7 @@ EXAMPLES = r"""
   cisco.dnac.wireless_profile:
     state: query  # required
     profile_name: SomeValue  # string
-  register: query_result
+  register: nm_get_wireless_profile
 
 - name: create_wireless_profile
   cisco.dnac.wireless_profile:
@@ -149,7 +151,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: wireless.create_wireless_profile
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

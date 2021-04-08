@@ -17,7 +17,9 @@ author: Rafael Campos (@racampos)
 options:
   ssid_name:
     description:
-    - Enter the enterprise SSID name that needs to be retrieved. If not entered, all the enterprise SSIDs will be retrieved.
+    - >
+       Enter the enterprise SSID name that needs to be retrieved. If not entered, all the enterprise SSIDs will
+       be retrieved.
     - Enter the SSID name to be deleted.
     - Required for state delete.
     type: str
@@ -40,17 +42,21 @@ options:
     type: str
   name:
     description:
-    - Enter SSID Name, property of the request body. Constraints maxLength set to 32.
+    - Enter SSID Name, property of the request body. Constraint is maxLength set to 32.
     - Required for state create.
     type: str
   passphrase:
     description:
-    - Pass Phrase (Only applicable for SSID with PERSONAL security level), property of the request body. Constraints maxLength set to 63 and minLength set to 8.
+    - >
+       Pass Phrase (Only applicable for SSID with PERSONAL security level), property of the request body.
+       Constraints are maxLength set to 63 and minLength set to 8.
     type: str
   radioPolicy:
     description:
     - Radio Policy, property of the request body.
-    - Available values are 'Dual band operation (2.4GHz and 5GHz)', 'Dual band operation with band select', '5GHz only' and '2.4GHz only'.
+    - >
+       Available values are 'Dual band operation (2.4GHz and 5GHz)', 'Dual band operation with band select',
+       '5GHz only' and '2.4GHz only'.
     type: str
   securityLevel:
     description:
@@ -84,20 +90,32 @@ EXAMPLES = r"""
   cisco.dnac.enterprise_ssid:
     state: query  # required
     ssid_name: SomeValue  # string
-  register: query_result
+  register: nm_get_enterprise_ssid
 
 - name: create_enterprise_ssid
   cisco.dnac.enterprise_ssid:
     state: create  # required
     name: SomeValue  # string, required
-    securityLevel: SomeValue  # string, required, valid values: 'WPA2_ENTERPRISE', 'WPA2_PERSONAL', 'OPEN'.
+    securityLevel: # valid values are 'WPA2_ENTERPRISE',
+      # 'WPA2_PERSONAL',
+      # 'OPEN'.
+      SomeValue  # string, required
     enableBroadcastSSID: True  # boolean
     enableFastLane: True  # boolean
     enableMACFiltering: True  # boolean
-    fastTransition: SomeValue  # string, valid values: 'Adaptive', 'Enable', 'Disable'.
+    fastTransition: # valid values are 'Adaptive',
+      # 'Enable',
+      # 'Disable'.
+      SomeValue  # string
     passphrase: SomeValue  # string
-    radioPolicy: SomeValue  # string, valid values: 'Dual band operation (2.4GHz and 5GHz)', 'Dual band operation with band select', '5GHz only', '2.4GHz only'.
-    trafficType: SomeValue  # string, valid values: 'voicedata', 'data'.
+    radioPolicy: # valid values are 'Dual band operation (2.4GHz and 5GHz)',
+      # 'Dual band operation with band select',
+      # '5GHz only',
+      # '2.4GHz only'.
+      SomeValue  # string
+    trafficType: # valid values are 'voicedata',
+      # 'data'.
+      SomeValue  # string
 
 - name: delete_enterprise_ssid
   cisco.dnac.enterprise_ssid:
@@ -116,7 +134,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: wireless.create_enterprise_ssid
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

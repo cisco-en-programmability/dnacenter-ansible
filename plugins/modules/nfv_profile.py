@@ -37,12 +37,12 @@ options:
           connectionType:
             description:
             - It is the nfv profile's connectionType.
-            - Required for states create and update.
+            - Required for states update and create.
             type: str
           networkName:
             description:
             - It is the nfv profile's networkName.
-            - Required for states create and update.
+            - Required for states update and create.
             type: str
           servicesToConnect:
             description:
@@ -54,18 +54,18 @@ options:
               serviceName:
                 description:
                 - It is the nfv profile's serviceName.
-                - Required for states create and update.
+                - Required for states update and create.
                 type: str
 
           vlanId:
             description:
             - It is the nfv profile's vlanId.
-            - Required for states create and update.
+            - Required for states update and create.
             type: int
           vlanMode:
             description:
             - It is the nfv profile's vlanMode.
-            - Required for states create and update.
+            - Required for states update and create.
             type: str
 
       customTemplate:
@@ -77,23 +77,23 @@ options:
           deviceType:
             description:
             - It is the nfv profile's deviceType.
-            - Required for states create and update.
+            - Required for states update and create.
             type: str
           template:
             description:
             - It is the nfv profile's template.
-            - Required for states create and update.
+            - Required for states update and create.
             type: str
           templateType:
             description:
             - It is the nfv profile's templateType.
-            - Required for states create and update.
+            - Required for states update and create.
             type: str
 
       deviceTag:
         description:
         - It is the nfv profile's deviceTag.
-        - Required for states create and update.
+        - Required for states update and create.
         type: str
       deviceType:
         description:
@@ -103,7 +103,7 @@ options:
       directInternetAccessForFirewall:
         description:
         - It is the nfv profile's directInternetAccessForFirewall.
-        - Required for states create and update.
+        - Required for states update and create.
         type: bool
       serviceProviderProfile:
         description:
@@ -147,22 +147,22 @@ options:
           imageName:
             description:
             - It is the nfv profile's imageName.
-            - Required for states create and update.
+            - Required for states update and create.
             type: str
           profileType:
             description:
             - It is the nfv profile's profileType.
-            - Required for states create and update.
+            - Required for states update and create.
             type: str
           serviceName:
             description:
             - It is the nfv profile's serviceName.
-            - Required for states create and update.
+            - Required for states update and create.
             type: str
           serviceType:
             description:
             - It is the nfv profile's serviceType.
-            - Required for states create and update.
+            - Required for states update and create.
             type: str
           vNicMapping:
             description:
@@ -178,7 +178,7 @@ options:
               networkType:
                 description:
                 - It is the nfv profile's networkType.
-                - Required for states create and update.
+                - Required for states update and create.
                 type: str
 
 
@@ -191,17 +191,17 @@ options:
           vlanDescription:
             description:
             - It is the nfv profile's vlanDescription.
-            - Required for states create and update.
+            - Required for states update and create.
             type: str
           vlanId:
             description:
             - It is the nfv profile's vlanId.
-            - Required for states create and update.
+            - Required for states update and create.
             type: int
           vlanType:
             description:
             - It is the nfv profile's vlanType.
-            - Required for states create and update.
+            - Required for states update and create.
             type: str
 
 
@@ -293,7 +293,7 @@ EXAMPLES = r"""
     limit: SomeValue  # string
     name: SomeValue  # string
     offset: SomeValue  # string
-  register: query_result
+  register: nm_get_nfv_profile
 
 - name: delete_nfv_profile
   cisco.dnac.nfv_profile:
@@ -347,7 +347,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: site_design.create_nfv_profile
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

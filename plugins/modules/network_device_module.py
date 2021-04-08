@@ -81,13 +81,13 @@ EXAMPLES = r"""
     operational_state_code_list: SomeValue  # string
     part_number_list: SomeValue  # string
     vendor_equipment_type_list: SomeValue  # string
-  register: query_result
+  register: nm_get_modules
 
 - name: get_module_info_by_id
   cisco.dnac.network_device_module:
     state: query  # required
     id: SomeValue  # string, required
-  register: query_result
+  register: nm_get_module_info_by_id
 
 - name: get_module_count
   cisco.dnac.network_device_module:
@@ -98,7 +98,7 @@ EXAMPLES = r"""
     operational_state_code_list: SomeValue  # string
     part_number_list: SomeValue  # string
     vendor_equipment_type_list: SomeValue  # string
-  register: query_result
+  register: nm_get_module_count
 
 """
 
@@ -112,7 +112,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: devices.get_module_count
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

@@ -9,7 +9,9 @@ DOCUMENTATION = r"""
 module: virtual_account_sync
 short_description: Manage VirtualAccountSync objects of DeviceOnboardingPnp
 description:
-- Synchronizes the device info from the given smart account & virtual account with the PnP database. The response payload returns a list of synced devices.
+- >
+   Synchronizes the device info from the given smart account & virtual account with the PnP database. The response
+   payload returns a list of synced devices.
 - Returns the summary of devices synced from the given smart account & virtual account with PnP.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
@@ -166,7 +168,11 @@ EXAMPLES = r"""
       profileId: SomeValue  # string
       proxy: True  # boolean
     smartAccountId: SomeValue  # string, required
-    syncStatus: SomeValue  # string, required, valid values: 'NOT_SYNCED', 'SYNCING', 'SUCCESS', 'FAILURE'.
+    syncStatus: # valid values are 'NOT_SYNCED',
+      # 'SYNCING',
+      # 'SUCCESS',
+      # 'FAILURE'.
+      SomeValue  # string, required
     virtualAccountId: SomeValue  # string, required
     autoSyncPeriod: 1  #  integer
     ccoUser: SomeValue  # string
@@ -188,7 +194,7 @@ EXAMPLES = r"""
     state: query  # required
     domain: SomeValue  # string, required
     name: SomeValue  # string, required
-  register: query_result
+  register: nm_get_sync_result_for_virtual_account
 
 """
 
@@ -202,7 +208,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: device_onboarding_pnp.get_sync_result_for_virtual_account
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

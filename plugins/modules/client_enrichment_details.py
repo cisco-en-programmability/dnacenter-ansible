@@ -10,8 +10,8 @@ module: client_enrichment_details
 short_description: Manage ClientEnrichmentDetails objects of Clients
 description:
 - >
-   Enriches a given network End User context (a network user-id or end user's device Mac Address) with details about the user,
-   the devices that the user is connected to and the assurance issues that the user is impacted by.
+   Enriches a given network End User context (a network user-id or end user's device Mac Address) with details about
+   the user, the devices that the user is connected to and the assurance issues that the user is impacted by.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
@@ -41,7 +41,7 @@ EXAMPLES = r"""
   cisco.dnac.client_enrichment_details:
     state: query  # required
     headers:  # required
-  register: query_result
+  register: nm_get_client_enrichment_details
 
 """
 
@@ -55,7 +55,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: clients.get_client_enrichment_details
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

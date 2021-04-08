@@ -54,7 +54,7 @@ EXAMPLES = r"""
   cisco.dnac.template_version:
     state: query  # required
     template_id: SomeValue  # string, required
-  register: query_result
+  register: nm_get_template_versions
 
 """
 
@@ -68,7 +68,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: configuration_templates.get_template_versions
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

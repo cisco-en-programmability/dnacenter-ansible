@@ -53,7 +53,7 @@ EXAMPLES = r"""
   cisco.dnac.sda_fabric:
     state: query  # required
     fabric_name: SomeValue  # string, required
-  register: query_result
+  register: nm_get_sda_fabric_info
 
 - name: delete_sda_fabric
   cisco.dnac.sda_fabric:
@@ -78,7 +78,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: sda.add_fabric
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

@@ -101,7 +101,7 @@ EXAMPLES = r"""
     state: query  # required
     limit: SomeValue  # string
     offset: SomeValue  # string
-  register: query_result
+  register: nm_get_global_pool
 
 - name: create_global_pool
   cisco.dnac.global_pool:
@@ -148,7 +148,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: network_settings.create_global_pool
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

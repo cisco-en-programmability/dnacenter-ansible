@@ -78,33 +78,33 @@ EXAMPLES = r"""
     state: query  # required
     vlan_id: SomeValue  # string, required
     layer2: True  # boolean, required
-  register: query_result
+  register: nm_get_topology_details
 
 - name: get_l3_topology_details
   cisco.dnac.topology:
     state: query  # required
     topology_type: SomeValue  # string, required
     layer3: True  # boolean, required
-  register: query_result
+  register: nm_get_l3_topology_details
 
 - name: get_physical_topology
   cisco.dnac.topology:
     state: query  # required
     physical: True  # boolean, required
     node_type: SomeValue  # string
-  register: query_result
+  register: nm_get_physical_topology
 
 - name: get_site_topology
   cisco.dnac.topology:
     state: query  # required
     site: True  # boolean, required
-  register: query_result
+  register: nm_get_site_topology
 
 - name: get_vlan_details
   cisco.dnac.topology:
     state: query  # required
     vlan: True  # boolean, required
-  register: query_result
+  register: nm_get_vlan_details
 
 """
 
@@ -118,7 +118,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: topology.get_l3_topology_details
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

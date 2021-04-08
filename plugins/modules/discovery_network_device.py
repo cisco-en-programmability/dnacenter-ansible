@@ -9,12 +9,18 @@ DOCUMENTATION = r"""
 module: discovery_network_device
 short_description: Manage DiscoveryNetworkDevice objects of Discovery
 description:
-- Returns the network devices discovered for the given Discovery ID. Discovery ID can be obtained using the "Get Discoveries by range" API.
 - >
-   Returns the network devices discovered for the given discovery and for the given range. The maximum number of records that can be retrieved is 500.
-   Discovery ID can be obtained using the "Get Discoveries by range" API.
-- Returns the count of network devices discovered in the given discovery. Discovery ID can be obtained using the "Get Discoveries by range" API.
-- Returns the network devices from a discovery job based on given filters. Discovery ID can be obtained using the "Get Discoveries by range" API.
+   Returns the network devices discovered for the given Discovery ID. Discovery ID can be obtained using the "Get
+   Discoveries by range" API.
+- >
+   Returns the network devices discovered for the given discovery and for the given range. The maximum number of
+   records that can be retrieved is 500. Discovery ID can be obtained using the "Get Discoveries by range" API.
+- >
+   Returns the count of network devices discovered in the given discovery. Discovery ID can be obtained using the
+   "Get Discoveries by range" API.
+- >
+   Returns the network devices from a discovery job based on given filters. Discovery ID can be obtained using the
+   "Get Discoveries by range" API.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
@@ -101,7 +107,7 @@ EXAMPLES = r"""
     state: query  # required
     id: SomeValue  # string, required
     task_id: SomeValue  # string
-  register: query_result
+  register: nm_get_discovered_network_devices_by_discovery_id
 
 - name: get_discovered_devices_by_range
   cisco.dnac.discovery_network_device:
@@ -110,7 +116,7 @@ EXAMPLES = r"""
     records_to_return: 1  #  integer, required
     start_index: 1  #  integer, required
     task_id: SomeValue  # string
-  register: query_result
+  register: nm_get_discovered_devices_by_range
 
 - name: get_devices_discovered_by_id
   cisco.dnac.discovery_network_device:
@@ -118,7 +124,7 @@ EXAMPLES = r"""
     id: SomeValue  # string, required
     count: True  # boolean, required
     task_id: SomeValue  # string
-  register: query_result
+  register: nm_get_devices_discovered_by_id
 
 - name: get_network_devices_from_discovery
   cisco.dnac.discovery_network_device:
@@ -134,7 +140,7 @@ EXAMPLES = r"""
     sort_by: SomeValue  # string
     sort_order: SomeValue  # string
     task_id: SomeValue  # string
-  register: query_result
+  register: nm_get_network_devices_from_discovery
 
 """
 
@@ -148,7 +154,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: discovery.get_devices_discovered_by_id
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

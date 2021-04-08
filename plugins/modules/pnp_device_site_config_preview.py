@@ -48,7 +48,12 @@ EXAMPLES = r"""
     state: create  # required
     deviceId: SomeValue  # string
     siteId: SomeValue  # string
-    type: SomeValue  # string, valid values: 'Default', 'AccessPoint', 'StackSwitch', 'Sensor', 'MobilityExpress'.
+    type: # valid values are 'Default',
+      # 'AccessPoint',
+      # 'StackSwitch',
+      # 'Sensor',
+      # 'MobilityExpress'.
+      SomeValue  # string
 
 """
 
@@ -62,7 +67,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: device_onboarding_pnp.preview_config
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

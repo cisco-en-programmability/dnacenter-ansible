@@ -10,14 +10,16 @@ module: import_image_url
 short_description: Manage ImportImageUrl objects of SoftwareImageManagementSwim
 description:
 - >
-   Fetches a software image from remote file system (using URL for HTTP/FTP) and uploads to DNA Center. Supported image files extensions are bin,
-   img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
+   Fetches a software image from remote file system (using URL for HTTP/FTP) and uploads to DNA Center. Supported
+   image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   schedule_at:
     description:
-    - Epoch Time (The number of milli-seconds since January 1 1970 UTC) at which the distribution should be scheduled (Optional) .
+    - >
+       Epoch Time (The number of milli-seconds since January 1 1970 UTC) at which the distribution should be
+       scheduled (Optional) .
     type: str
   schedule_desc:
     description:
@@ -97,7 +99,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: software_image_management_swim.import_software_image_via_url
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

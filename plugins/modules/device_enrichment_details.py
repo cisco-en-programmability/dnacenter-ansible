@@ -9,7 +9,9 @@ DOCUMENTATION = r"""
 module: device_enrichment_details
 short_description: Manage DeviceEnrichmentDetails objects of Devices
 description:
-- Enriches a given network device context (device id or device Mac Address or device management IP address) with details about the device and neighbor topology.
+- >
+   Enriches a given network device context (device id or device Mac Address or device management IP address) with
+   details about the device and neighbor topology.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
@@ -39,7 +41,7 @@ EXAMPLES = r"""
   cisco.dnac.device_enrichment_details:
     state: query  # required
     headers:  # required
-  register: query_result
+  register: nm_get_device_enrichment_details
 
 """
 
@@ -53,7 +55,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: devices.get_device_enrichment_details
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

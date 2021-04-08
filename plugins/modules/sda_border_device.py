@@ -109,7 +109,7 @@ EXAMPLES = r"""
   cisco.dnac.sda_border_device:
     state: query  # required
     device_ipaddress: SomeValue  # string, required
-  register: query_result
+  register: nm_gets_border_device_detail
 
 - name: deletes_border_device
   cisco.dnac.sda_border_device:
@@ -146,7 +146,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: sda.adds_border_device
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

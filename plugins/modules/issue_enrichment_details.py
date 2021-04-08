@@ -10,8 +10,8 @@ module: issue_enrichment_details
 short_description: Manage IssueEnrichmentDetails objects of Issues
 description:
 - >
-   Enriches a given network issue context (an issue id or end user's Mac Address) with details about
-   the issue(s), impacted hosts and suggested actions for remediation.
+   Enriches a given network issue context (an issue id or end user's Mac Address) with details about the issue(s),
+   impacted hosts and suggested actions for remediation.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
@@ -41,7 +41,7 @@ EXAMPLES = r"""
   cisco.dnac.issue_enrichment_details:
     state: query  # required
     headers:  # required
-  register: query_result
+  register: nm_get_issue_enrichment_details
 
 """
 
@@ -55,7 +55,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: issues.get_issue_enrichment_details
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

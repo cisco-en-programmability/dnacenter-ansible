@@ -28,7 +28,7 @@ options:
     type: str
   field:
     description:
-    - Available field names are :'name,id,parentId,type,additionalInfo.nameSpace,additionalInfo.attributes'.
+    - Available field names are 'name,id,parentId,type,additionalInfo.nameSpace,additionalInfo.attributes'.
     type: str
   level:
     description:
@@ -109,7 +109,7 @@ options:
     description:
     - TagDTO's id.
     - Tag ID.
-    - Required for states absent and query.
+    - Required for states query and absent.
     type: str
   instanceTenantId:
     description:
@@ -163,7 +163,7 @@ EXAMPLES = r"""
     size: SomeValue  # string
     sort_by: SomeValue  # string
     system_tag: SomeValue  # string
-  register: query_result
+  register: nm_get_tag
 
 - name: create_tag
   cisco.dnac.tag:
@@ -210,7 +210,7 @@ EXAMPLES = r"""
   cisco.dnac.tag:
     state: query  # required
     id: SomeValue  # string, required
-  register: query_result
+  register: nm_get_tag_by_id
 
 - name: get_tag_count
   cisco.dnac.tag:
@@ -222,7 +222,7 @@ EXAMPLES = r"""
     name_space: SomeValue  # string
     size: SomeValue  # string
     system_tag: SomeValue  # string
-  register: query_result
+  register: nm_get_tag_count
 
 """
 
@@ -236,7 +236,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: tag.create_tag
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

@@ -10,8 +10,8 @@ module: user_enrichment_details
 short_description: Manage UserEnrichmentDetails objects of Users
 description:
 - >
-   Enriches a given network End User context (a network user-id or end user's device Mac Address)
-   with details about the user and devices that the user is connected to.
+   Enriches a given network End User context (a network user-id or end user's device Mac Address) with details about
+   the user and devices that the user is connected to.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
@@ -41,7 +41,7 @@ EXAMPLES = r"""
   cisco.dnac.user_enrichment_details:
     state: query  # required
     headers:  # required
-  register: query_result
+  register: nm_get_user_enrichment_details
 
 """
 
@@ -55,7 +55,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: users.get_user_enrichment_details
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

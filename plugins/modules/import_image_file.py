@@ -10,8 +10,8 @@ module: import_image_file
 short_description: Manage ImportImageFile objects of SoftwareImageManagementSwim
 description:
 - >
-   Fetches a software image from local file system and uploads to DNA Center. Supported software image files extensions are bin,
-   img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
+   Fetches a software image from local file system and uploads to DNA Center. Supported software image files
+   extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
@@ -80,7 +80,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: software_image_management_swim.import_local_software_image
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

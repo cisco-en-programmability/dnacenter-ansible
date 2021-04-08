@@ -10,8 +10,8 @@ module: pnp_device
 short_description: Manage PnpDevice objects of DeviceOnboardingPnp
 description:
 - >
-   Returns list of devices based on filter crieteria. If a limit is not specified, it will default to return 50 devices.
-   Pagination and sorting are also supported by this endpoint.
+   Returns list of devices based on filter crieteria. If a limit is not specified, it will default to return 50
+   devices. Pagination and sorting are also supported by this endpoint.
 - Adds a device to the PnP database.
 - Returns device details specified by device id.
 - Deletes specified device from PnP database.
@@ -78,7 +78,7 @@ options:
     description:
     - Device Source.
     type: str
-  state:
+  _state:
     description:
     - Device State.
     type: str
@@ -1211,10 +1211,11 @@ EXAMPLES = r"""
     sort: SomeValue  # string
     sort_order: SomeValue  # string
     source: SomeValue  # string
+    _state: SomeValue  # string
     virtual_account_id: SomeValue  # string
     workflow_id: SomeValue  # string
     workflow_name: SomeValue  # string
-  register: query_result
+  register: nm_get_device_list
 
 - name: add_device
   cisco.dnac.pnp_device:
@@ -1479,7 +1480,7 @@ EXAMPLES = r"""
   cisco.dnac.pnp_device:
     state: query  # required
     id: SomeValue  # string, required
-  register: query_result
+  register: nm_get_device_by_id
 
 - name: delete_device_by_id_from_pnp
   cisco.dnac.pnp_device:
@@ -1760,10 +1761,11 @@ EXAMPLES = r"""
     serial_number: SomeValue  # string
     smart_account_id: SomeValue  # string
     source: SomeValue  # string
+    _state: SomeValue  # string
     virtual_account_id: SomeValue  # string
     workflow_id: SomeValue  # string
     workflow_name: SomeValue  # string
-  register: query_result
+  register: nm_get_device_count
 
 - name: get_device_history
   cisco.dnac.pnp_device:
@@ -1771,7 +1773,7 @@ EXAMPLES = r"""
     serial_number: SomeValue  # string, required
     sort: SomeValue  # string
     sort_order: SomeValue  # string
-  register: query_result
+  register: nm_get_device_history
 
 """
 
@@ -1785,7 +1787,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: device_onboarding_pnp.add_device
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

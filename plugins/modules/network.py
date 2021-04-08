@@ -20,7 +20,7 @@ options:
     - Site id to get the Network settings associated with the site.
     - Site id to which site details to associate with the Network settings.
     - Site id to update the Network settings which is associated with the site.
-    - Required for states create and update.
+    - Required for states update and create.
     type: str
   settings:
     description:
@@ -188,7 +188,7 @@ EXAMPLES = r"""
   cisco.dnac.network:
     state: query  # required
     site_id: SomeValue  # string
-  register: query_result
+  register: nm_get_network
 
 - name: create_network
   cisco.dnac.network:
@@ -284,7 +284,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: network_settings.create_network
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

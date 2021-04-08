@@ -10,8 +10,9 @@ module: device_replacement
 short_description: Manage DeviceReplacement objects of DeviceReplacement
 description:
 - >
-   Get list of replacement devices with replacement details and it can filter replacement devices based on Faulty Device Name,Faulty Device Platform,
-   Replacement Device Platform, Faulty Device Serial Number,Replacement Device Serial Number, Device Replacement status, Product Family.
+   Get list of replacement devices with replacement details and it can filter replacement devices based on Faulty
+   Device Name,Faulty Device Platform, Replacement Device Platform, Faulty Device Serial Number,Replacement Device
+   Serial Number, Device Replacement status, Product Family.
 - Marks device for replacement.
 - UnMarks device for replacement.
 - Get replacement devices count.
@@ -53,9 +54,11 @@ options:
   replacement_status:
     description:
     - >
-       Device Replacement status [READY-FOR-REPLACEMENT, REPLACEMENT-IN-PROGRESS, REPLACEMENT-SCHEDULED, REPLACED, ERROR,
-       NETWORK_READINESS_REQUESTED, NETWORK_READINESS_FAILED].
-    - Device Replacement status list[READY-FOR-REPLACEMENT, REPLACEMENT-IN-PROGRESS, REPLACEMENT-SCHEDULED, REPLACED, ERROR].
+       Device Replacement status [READY-FOR-REPLACEMENT, REPLACEMENT-IN-PROGRESS, REPLACEMENT-SCHEDULED,
+       REPLACED, ERROR, NETWORK_READINESS_REQUESTED, NETWORK_READINESS_FAILED].
+    - >
+       Device Replacement status list[READY-FOR-REPLACEMENT, REPLACEMENT-IN-PROGRESS, REPLACEMENT-SCHEDULED,
+       REPLACED, ERROR].
     type: str
   sort_by:
     description:
@@ -83,7 +86,7 @@ options:
       faultyDeviceId:
         description:
         - It is the device replacement's faultyDeviceId.
-        - Required for states create and update.
+        - Required for states update and create.
         type: str
       faultyDeviceName:
         description:
@@ -120,7 +123,7 @@ options:
       replacementStatus:
         description:
         - It is the device replacement's replacementStatus.
-        - Required for states create and update.
+        - Required for states update and create.
         type: str
       replacementTime:
         description:
@@ -167,7 +170,7 @@ EXAMPLES = r"""
     replacement_status: SomeValue  # string
     sort_by: SomeValue  # string
     sort_order: SomeValue  # string
-  register: query_result
+  register: nm_return_replacement_devices_with_details
 
 - name: mark_device_for_replacement
   cisco.dnac.device_replacement:
@@ -212,7 +215,7 @@ EXAMPLES = r"""
     state: query  # required
     count: True  # boolean, required
     replacement_status: SomeValue  # string
-  register: query_result
+  register: nm_return_replacement_devices_count
 
 """
 
@@ -226,7 +229,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: device_replacement.mark_device_for_replacement
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

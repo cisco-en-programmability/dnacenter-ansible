@@ -93,7 +93,7 @@ EXAMPLES = r"""
     state: query  # required
     ip_pool_name: SomeValue  # string, required
     virtual_network_name: SomeValue  # string, required
-  register: query_result
+  register: nm_get_ip_pool_from_sda_virtual_network
 
 - name: add_ip_pool_in_sda_virtual_network
   cisco.dnac.sda_virtual_network_ip_pool:
@@ -120,7 +120,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: sda.add_ip_pool_in_sda_virtual_network
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

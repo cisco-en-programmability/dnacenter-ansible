@@ -85,7 +85,7 @@ EXAMPLES = r"""
     state: query  # required
     device_ip: SomeValue  # string, required
     interface_name: SomeValue  # string, required
-  register: query_result
+  register: nm_get_port_assignment_for_access_point
 
 - name: add_port_assignment_for_access_point
   cisco.dnac.sda_host_onboarding_access_point:
@@ -110,7 +110,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: sda.add_port_assignment_for_access_point
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

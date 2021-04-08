@@ -226,7 +226,7 @@ EXAMPLES = r"""
 - name: get_pnp_global_settings
   cisco.dnac.pnp_settings:
     state: query  # required
-  register: query_result
+  register: nm_get_pnp_global_settings
 
 - name: update_pnp_global_settings
   cisco.dnac.pnp_settings:
@@ -290,7 +290,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: device_onboarding_pnp.get_pnp_global_settings
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

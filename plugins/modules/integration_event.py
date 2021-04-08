@@ -11,9 +11,9 @@ short_description: Manage IntegrationEvent objects of Itsm
 description:
 - Used to retrieve the list of integration events that failed to create tickets in ITSM.
 - >
-   Allows retry of multiple failed ITSM event instances. The retry request payload can be given as a list of
-   strings ["instance1","instance2","instance3",..] A minimum of one instance Id is mandatory. The list of
-   failed event instance Ids can be retrieved using the 'Get Failed ITSM Events' API in the 'instanceId' attribute.
+   Allows retry of multiple failed ITSM event instances. The retry request payload can be given as a list of strings
+   ["instance1","instance2","instance3",..] A minimum of one instance Id is mandatory. The list of failed event
+   instance Ids can be retrieved using the 'Get Failed ITSM Events' API in the 'instanceId' attribute.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
@@ -47,7 +47,7 @@ EXAMPLES = r"""
   cisco.dnac.integration_event:
     state: query  # required
     instance_id: SomeValue  # string
-  register: query_result
+  register: nm_get_failed_itsm_events
 
 - name: retry_integration_events
   cisco.dnac.integration_event:
@@ -67,7 +67,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: itsm.get_failed_itsm_events
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

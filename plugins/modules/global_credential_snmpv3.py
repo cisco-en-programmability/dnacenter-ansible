@@ -163,18 +163,27 @@ EXAMPLES = r"""
 - name: update_snmpv3_credentials
   cisco.dnac.global_credential_snmpv3:
     state: update  # required
-    snmpMode: SomeValue  # string, required, valid values: 'AUTHPRIV', 'AUTHNOPRIV', 'NOAUTHNOPRIV'.
+    snmpMode: # valid values are 'AUTHPRIV',
+      # 'AUTHNOPRIV',
+      # 'NOAUTHNOPRIV'.
+      SomeValue  # string, required
     username: SomeValue  # string, required
     authPassword: SomeValue  # string
-    authType: SomeValue  # string, valid values: 'SHA', 'MD5'.
+    authType: # valid values are 'SHA',
+      # 'MD5'.
+      SomeValue  # string
     comments: SomeValue  # string
-    credentialType: SomeValue  # string, valid values: 'GLOBAL', 'APP'.
+    credentialType: # valid values are 'GLOBAL',
+      # 'APP'.
+      SomeValue  # string
     description: SomeValue  # string
     id: SomeValue  # string
     instanceTenantId: SomeValue  # string
     instanceUuid: SomeValue  # string
     privacyPassword: SomeValue  # string
-    privacyType: SomeValue  # string, valid values: 'DES', 'AES128'.
+    privacyType: # valid values are 'DES',
+      # 'AES128'.
+      SomeValue  # string
 
 """
 
@@ -188,7 +197,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: discovery.create_snmpv3_credentials
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

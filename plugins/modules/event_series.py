@@ -104,7 +104,7 @@ EXAMPLES = r"""
     start_time: SomeValue  # string
     sub_domain: SomeValue  # string
     type: SomeValue  # string
-  register: query_result
+  register: nm_get_notifications
 
 - name: count_of_notifications
   cisco.dnac.event_series:
@@ -119,7 +119,7 @@ EXAMPLES = r"""
     start_time: SomeValue  # string
     sub_domain: SomeValue  # string
     type: SomeValue  # string
-  register: query_result
+  register: nm_count_of_notifications
 
 """
 
@@ -133,7 +133,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: event_management.count_of_notifications
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

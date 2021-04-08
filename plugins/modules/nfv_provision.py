@@ -674,7 +674,7 @@ EXAMPLES = r"""
   cisco.dnac.nfv_provision:
     state: query  # required
     device_ip: SomeValue  # string, required
-  register: query_result
+  register: nm_get_device_details_by_ip
 
 """
 
@@ -688,7 +688,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: site_design.get_device_details_by_ip
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

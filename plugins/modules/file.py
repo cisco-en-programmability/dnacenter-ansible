@@ -49,7 +49,7 @@ EXAMPLES = r"""
     file_id: SomeValue  # string, required
     dirpath: SomeValue  # string
     save_file: True  # boolean
-  register: query_result
+  register: nm_download_a_file_by_fileid
 
 """
 
@@ -63,7 +63,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: file.download_a_file_by_fileid
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied

@@ -75,7 +75,7 @@ EXAMPLES = r"""
 - name: get_service_provider_details
   cisco.dnac.service_provider:
     state: query  # required
-  register: query_result
+  register: nm_get_service_provider_details
 
 - name: create_sp_profile
   cisco.dnac.service_provider:
@@ -113,7 +113,7 @@ sdk_function:
   description: The DNA Center SDK function used to execute the task
   returned: always
   type: str
-  sample: application_policy.get_application_sets
+  sample: network_settings.create_sp_profile
 missing_params:
   description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
   returned: when the function request schema is not satisfied
