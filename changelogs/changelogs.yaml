@@ -75,3 +75,7 @@ releases:
       bugfixes:
         - Fixes linting problems with the DOCUMENTATION.
         - Fixes a problem with the overlapping 'state' param in four plugins.
+  2.0.5:
+    release_date: '2021-04-12'
+    changes:
+      release_summary: This release introduces no changes. Exists just to be in sync with the Ansible Galaxy release number.
