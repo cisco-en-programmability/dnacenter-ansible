@@ -68,3 +68,10 @@ releases:
       release_summary: Updates the README to reflect latest API changes.
       bugfixes:
         - Updates the README to reflect latest API changes.
+  2.0.4:
+    release_date: '2021-04-12'
+    changes:
+      release_summary: Resolves an issue with overlapping params in some plugins as well as some documentation issues.
+      bugfixes:
+        - Fixes linting problems with the DOCUMENTATION.
+        - Fixes a problem with the overlapping 'state' param in four plugins.
