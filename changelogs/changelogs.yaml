@@ -79,3 +79,7 @@ releases:
     release_date: '2021-04-12'
     changes:
       release_summary: This release introduces no changes. Exists just to be in sync with the Ansible Galaxy release number.
+  2.0.6:
+    release_date: '2021-04-13'
+    changes:
+      release_summary: Adds dnacentersdk to the requirements.txt file. Adds sanitiy checks for Ansible v2.9.
