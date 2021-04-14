@@ -83,3 +83,7 @@ releases:
     release_date: '2021-04-13'
     changes:
       release_summary: Adds dnacentersdk to the requirements.txt file. Adds sanitiy checks for Ansible v2.9.
+  2.0.7:
+    release_date: '2021-04-14'
+    changes:
+      release_summary: Changes the minimum supported version of Ansible to v2.9.
