@@ -14,7 +14,7 @@ This collection has been tested and supports Cisco DNA Center 2.1.1.
 - Python >= 3.5, as the DNA Center SDK doesn't support Python version 2.x
 
 ## Install
-Ansible must be installed
+Ansible must be installed ([Install guide](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html))
 ```
 sudo pip install ansible
 ```
@@ -24,12 +24,12 @@ DNA Center SDK must be installed
 sudo pip install dnacentersdk
 ```
 
-Install the collection
+Install the collection ([Galaxy link](https://galaxy.ansible.com/cisco/dnac))
 ```
 ansible-galaxy collection install cisco.dnac
 ```
 ## Use
-First, define a `credentials.yml` file where you specify your DNA Center credentials as ansible variables:
+First, define a `credentials.yml` ([example](playbooks/credentials.template)) file where you specify your DNA Center credentials as ansible variables:
 ```
 ---
 dnac_host: <A.B.C.D>
@@ -40,13 +40,13 @@ dnac_version: 2.1.1  # optional, defaults to 2.1.1
 dnac_verify: False  # optional, defaults to True
 ```
 
-Create a ```hosts``` file that uses ```[dnac_servers]``` with your Cisco DNA Center Settings:
+Create a `hosts` ([example](playbooks/hosts)) file that uses `[dnac_servers]` with your Cisco DNA Center Settings:
 ```
 [dnac_servers]
 dnac_server
 ```
 
-Then, create a playbook `myplaybook.yml` referencing the variables in your credentials.yml file and specifying the full namespace path to the module, plugin and/or role:
+Then, create a playbook `myplaybook.yml` ([example](playbooks/tag.yml])) referencing the variables in your credentials.yml file and specifying the full namespace path to the module, plugin and/or role:
 ```
 - hosts: dnac_servers
   vars_files:
@@ -68,7 +68,7 @@ Execute the playbook:
 ```
 ansible-playbook -i hosts myplaybook.yml
 ```
-In the `playbooks` directory you can find more examples and use cases.
+In the `playbooks` [directory](playbooks/) you can find more examples and use cases.
 
 
 ## Update
