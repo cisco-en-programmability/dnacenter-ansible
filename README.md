@@ -40,6 +40,12 @@ dnac_version: 2.1.1  # optional, defaults to 2.1.1
 dnac_verify: False  # optional, defaults to True
 ```
 
+Create a ```hosts``` file that uses ```[dnac_servers]``` with your Cisco DNA Center Settings:
+```
+[dnac_servers]
+dnac_server
+```
+
 Then, create a playbook `myplaybook.yml` referencing the variables in your credentials.yml file and specifying the full namespace path to the module, plugin and/or role:
 ```
 - hosts: dnac_servers
