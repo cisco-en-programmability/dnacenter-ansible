@@ -1,0 +1,527 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>cisco.dnac.wireless_ap_provision – Manage WirelessApProvision objects of Wireless &mdash; DNACenterAnsibleActions  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/ansible-basic-sphinx-ext.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="cisco.dnac.wireless_profile – Manage WirelessProfile objects of Wireless" href="wireless_profile_module.html" />
+    <link rel="prev" title="cisco.dnac.virtual_account_sync – Manage VirtualAccountSync objects of DeviceOnboardingPnp" href="virtual_account_sync_module.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> DNACenterAnsibleActions
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">User documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Cisco.Dnac</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#plugin-index">Plugin Index</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#modules">Modules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="application_set_module.html">cisco.dnac.application_set – Manage ApplicationSet objects of ApplicationPolicy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="applications_module.html">cisco.dnac.applications – Manage Applications objects of ApplicationPolicy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="client_detail_module.html">cisco.dnac.client_detail – Manage ClientDetail objects of Clients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="client_enrichment_details_module.html">cisco.dnac.client_enrichment_details – Manage ClientEnrichmentDetails objects of Clients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="client_health_module.html">cisco.dnac.client_health – Manage ClientHealth objects of Clients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="credential_to_site_module.html">cisco.dnac.credential_to_site – Manage CredentialToSite objects of NetworkSettings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_credential_module.html">cisco.dnac.device_credential – Manage DeviceCredential objects of NetworkSettings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_detail_module.html">cisco.dnac.device_detail – Manage DeviceDetail objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_enrichment_details_module.html">cisco.dnac.device_enrichment_details – Manage DeviceEnrichmentDetails objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_replacement_module.html">cisco.dnac.device_replacement – Manage DeviceReplacement objects of DeviceReplacement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_replacement_workflow_module.html">cisco.dnac.device_replacement_workflow – Manage DeviceReplacementWorkflow objects of DeviceReplacement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discovery_module.html">cisco.dnac.discovery – Manage Discovery objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discovery_job_module.html">cisco.dnac.discovery_job – Manage DiscoveryJob objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discovery_network_device_module.html">cisco.dnac.discovery_network_device – Manage DiscoveryNetworkDevice objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enterprise_ssid_module.html">cisco.dnac.enterprise_ssid – Manage EnterpriseSsid objects of Wireless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="event_api_status_module.html">cisco.dnac.event_api_status – Manage EventApiStatus objects of EventManagement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="event_series_module.html">cisco.dnac.event_series – Manage EventSeries objects of EventManagement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="event_subscription_module.html">cisco.dnac.event_subscription – Manage EventSubscription objects of EventManagement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="events_module.html">cisco.dnac.events – Manage Events objects of EventManagement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="file_module.html">cisco.dnac.file – Manage File objects of File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="file_namespace_module.html">cisco.dnac.file_namespace – Manage FileNamespace objects of File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flow_analysis_module.html">cisco.dnac.flow_analysis – Manage FlowAnalysis objects of PathTrace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_module.html">cisco.dnac.global_credential – Manage GlobalCredential objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_cli_module.html">cisco.dnac.global_credential_cli – Manage GlobalCredentialCli objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_http_read_module.html">cisco.dnac.global_credential_http_read – Manage GlobalCredentialHttpRead objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_http_write_module.html">cisco.dnac.global_credential_http_write – Manage GlobalCredentialHttpWrite objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_netconf_module.html">cisco.dnac.global_credential_netconf – Manage GlobalCredentialNetconf objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_snmpv2_read_community_module.html">cisco.dnac.global_credential_snmpv2_read_community – Manage GlobalCredentialSnmpv2ReadCommunity objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_snmpv2_write_community_module.html">cisco.dnac.global_credential_snmpv2_write_community – Manage GlobalCredentialSnmpv2WriteCommunity objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_snmpv3_module.html">cisco.dnac.global_credential_snmpv3 – Manage GlobalCredentialSnmpv3 objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_pool_module.html">cisco.dnac.global_pool – Manage GlobalPool objects of NetworkSettings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="import_image_module.html">cisco.dnac.import_image – Manage ImportImage objects of SoftwareImageManagementSwim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="import_image_file_module.html">cisco.dnac.import_image_file – Manage ImportImageFile objects of SoftwareImageManagementSwim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="import_image_url_module.html">cisco.dnac.import_image_url – Manage ImportImageUrl objects of SoftwareImageManagementSwim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="integration_event_module.html">cisco.dnac.integration_event – Manage IntegrationEvent objects of Itsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="interface_module.html">cisco.dnac.interface – Manage Interface objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="issue_enrichment_details_module.html">cisco.dnac.issue_enrichment_details – Manage IssueEnrichmentDetails objects of Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_module.html">cisco.dnac.network – Manage Network objects of NetworkSettings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_module.html">cisco.dnac.network_device – Manage NetworkDevice objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_autocomplete_module.html">cisco.dnac.network_device_autocomplete – Manage NetworkDeviceAutocomplete objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_config_module.html">cisco.dnac.network_device_config – Manage NetworkDeviceConfig objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_export_list_module.html">cisco.dnac.network_device_export_list – Manage NetworkDeviceExportList objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_functional_capability_module.html">cisco.dnac.network_device_functional_capability – Manage NetworkDeviceFunctionalCapability objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_meraki_org_module.html">cisco.dnac.network_device_meraki_org – Manage NetworkDeviceMerakiOrg objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_module_module.html">cisco.dnac.network_device_module – Manage NetworkDeviceModule objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_poller_legit_reads_module.html">cisco.dnac.network_device_poller_legit_reads – Manage NetworkDevicePollerLegitReads objects of CommandRunner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_poller_read_request_module.html">cisco.dnac.network_device_poller_read_request – Manage NetworkDevicePollerReadRequest objects of CommandRunner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_polling_interval_module.html">cisco.dnac.network_device_polling_interval – Manage NetworkDevicePollingInterval objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_register_module.html">cisco.dnac.network_device_register – Manage NetworkDeviceRegister objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_sync_module.html">cisco.dnac.network_device_sync – Manage NetworkDeviceSync objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_update_role_module.html">cisco.dnac.network_device_update_role – Manage NetworkDeviceUpdateRole objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_vlan_module.html">cisco.dnac.network_device_vlan – Manage NetworkDeviceVlan objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_wireless_info_module.html">cisco.dnac.network_device_wireless_info – Manage NetworkDeviceWirelessInfo objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_health_module.html">cisco.dnac.network_health – Manage NetworkHealth objects of Topology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nfv_profile_module.html">cisco.dnac.nfv_profile – Manage NfvProfile objects of SiteDesign</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nfv_provision_module.html">cisco.dnac.nfv_provision – Manage NfvProvision objects of SiteDesign</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nfv_provision_detail_module.html">cisco.dnac.nfv_provision_detail – Manage NfvProvisionDetail objects of SiteDesign</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_module.html">cisco.dnac.pnp_device – Manage PnpDevice objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_claim_module.html">cisco.dnac.pnp_device_claim – Manage PnpDeviceClaim objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_import_module.html">cisco.dnac.pnp_device_import – Manage PnpDeviceImport objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_reset_module.html">cisco.dnac.pnp_device_reset – Manage PnpDeviceReset objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_site_claim_module.html">cisco.dnac.pnp_device_site_claim – Manage PnpDeviceSiteClaim objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_site_config_preview_module.html">cisco.dnac.pnp_device_site_config_preview – Manage PnpDeviceSiteConfigPreview objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_unclaim_module.html">cisco.dnac.pnp_device_unclaim – Manage PnpDeviceUnclaim objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_settings_module.html">cisco.dnac.pnp_settings – Manage PnpSettings objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_workflow_module.html">cisco.dnac.pnp_workflow – Manage PnpWorkflow objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_auth_profile_module.html">cisco.dnac.sda_auth_profile – Manage SdaAuthProfile objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_border_device_module.html">cisco.dnac.sda_border_device – Manage SdaBorderDevice objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_control_plane_device_module.html">cisco.dnac.sda_control_plane_device – Manage SdaControlPlaneDevice objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_device_module.html">cisco.dnac.sda_device – Manage SdaDevice objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_edge_device_module.html">cisco.dnac.sda_edge_device – Manage SdaEdgeDevice objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_fabric_module.html">cisco.dnac.sda_fabric – Manage SdaFabric objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_fabric_site_module.html">cisco.dnac.sda_fabric_site – Manage SdaFabricSite objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_host_onboarding_access_point_module.html">cisco.dnac.sda_host_onboarding_access_point – Manage SdaHostOnboardingAccessPoint objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_host_onboarding_user_device_module.html">cisco.dnac.sda_host_onboarding_user_device – Manage SdaHostOnboardingUserDevice objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_virtual_network_module.html">cisco.dnac.sda_virtual_network – Manage SdaVirtualNetwork objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_virtual_network_ip_pool_module.html">cisco.dnac.sda_virtual_network_ip_pool – Manage SdaVirtualNetworkIpPool objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="service_provider_module.html">cisco.dnac.service_provider – Manage ServiceProvider objects of NetworkSettings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site_module.html">cisco.dnac.site – Manage Site objects of Sites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site_device_module.html">cisco.dnac.site_device – Manage SiteDevice objects of Sites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site_health_module.html">cisco.dnac.site_health – Manage SiteHealth objects of Sites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site_membership_module.html">cisco.dnac.site_membership – Manage SiteMembership objects of Sites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="smart_virtual_account_module.html">cisco.dnac.smart_virtual_account – Manage SmartVirtualAccount objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="snmp_property_module.html">cisco.dnac.snmp_property – Manage SnmpProperty objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ssid_module.html">cisco.dnac.ssid – Manage Ssid objects of Wireless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tag_module.html">cisco.dnac.tag – Manage Tag objects of Tag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tag_member_module.html">cisco.dnac.tag_member – Manage TagMember objects of Tag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="task_module.html">cisco.dnac.task – Manage Task objects of Task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_module.html">cisco.dnac.template – Manage Template objects of ConfigurationTemplates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_deploy_module.html">cisco.dnac.template_deploy – Manage TemplateDeploy objects of ConfigurationTemplates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_preview_module.html">cisco.dnac.template_preview – Manage TemplatePreview objects of ConfigurationTemplates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_project_module.html">cisco.dnac.template_project – Manage TemplateProject objects of ConfigurationTemplates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_version_module.html">cisco.dnac.template_version – Manage TemplateVersion objects of ConfigurationTemplates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="topology_module.html">cisco.dnac.topology – Manage Topology objects of Topology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trigger_image_activation_module.html">cisco.dnac.trigger_image_activation – Manage TriggerImageActivation objects of SoftwareImageManagementSwim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trigger_image_distribution_module.html">cisco.dnac.trigger_image_distribution – Manage TriggerImageDistribution objects of SoftwareImageManagementSwim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="user_enrichment_details_module.html">cisco.dnac.user_enrichment_details – Manage UserEnrichmentDetails objects of Users</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_account_sync_module.html">cisco.dnac.virtual_account_sync – Manage VirtualAccountSync objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">cisco.dnac.wireless_ap_provision – Manage WirelessApProvision objects of Wireless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireless_profile_module.html">cisco.dnac.wireless_profile – Manage WirelessProfile objects of Wireless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireless_provision_module.html">cisco.dnac.wireless_provision – Manage WirelessProvision objects of Wireless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireless_rf_profile_module.html">cisco.dnac.wireless_rf_profile – Manage WirelessRfProfile objects of Wireless</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DNACenterAnsibleActions</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Cisco.Dnac</a> &raquo;</li>
+        
+      <li>cisco.dnac.wireless_ap_provision – Manage WirelessApProvision objects of Wireless</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/plugins/wireless_ap_provision_module.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="ansible-collections-cisco-dnac-wireless-ap-provision-module"></span><div class="section" id="cisco-dnac-wireless-ap-provision-manage-wirelessapprovision-objects-of-wireless">
+<h1>cisco.dnac.wireless_ap_provision – Manage WirelessApProvision objects of Wireless<a class="headerlink" href="#cisco-dnac-wireless-ap-provision-manage-wirelessapprovision-objects-of-wireless" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This plugin is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 2.0.7).</p>
+<p>To install it use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.</p>
+<p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">cisco.dnac.wireless_ap_provision</span></code>.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.0.0: </span>of cisco.dnac</p>
+</div>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#synopsis" id="id2">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id3">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id4">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#see-also" id="id5">See Also</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id6">Examples</a></p></li>
+<li><p><a class="reference internal" href="#return-values" id="id7">Return Values</a></p></li>
+</ul>
+</div>
+<div class="section" id="synopsis">
+<h2><a class="toc-backref" href="#id2">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Access Point Provision and ReProvision.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This module has a corresponding <a class="reference external" href="https://docs.ansible.com/ansible/latest/plugins/action.html#action-plugins" title="(in Ansible v4)"><span class="xref std std-ref">action plugin</span></a>.</p>
+</div>
+</div>
+<div class="section" id="requirements">
+<h2><a class="toc-backref" href="#id3">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>The below requirements are needed on the host that executes this module.</p>
+<ul class="simple">
+<li><p>dnacentersdk</p></li>
+</ul>
+</div>
+<div class="section" id="parameters">
+<h2><a class="toc-backref" href="#id4">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<table  border=0 cellpadding=0 class="documentation-table">
+    <tr>
+        <th colspan="2">Parameter</th>
+        <th>Choices/<font color="blue">Defaults</font></th>
+                    <th width="100%">Comments</th>
+    </tr>
+                <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-payload"></div>
+                <b>payload</b>
+                <a class="ansibleOptionLink" href="#parameter-payload" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">list</span>
+                     / <span style="color: purple">elements=dictionary</span>                         / <span style="color: red">required</span>                    </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>An object to send in the Request body.</div>
+                                                    </td>
+        </tr>
+                                    <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-payload/executionId"></div>
+                <b>executionId</b>
+                <a class="ansibleOptionLink" href="#parameter-payload/executionId" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the wireless ap provision&#x27;s executionId.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-payload/executionUrl"></div>
+                <b>executionUrl</b>
+                <a class="ansibleOptionLink" href="#parameter-payload/executionUrl" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the wireless ap provision&#x27;s executionUrl.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-payload/message"></div>
+                <b>message</b>
+                <a class="ansibleOptionLink" href="#parameter-payload/message" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the wireless ap provision&#x27;s message.</div>
+                                                    </td>
+        </tr>
+
+                    </table>
+<br/></div>
+<div class="section" id="see-also">
+<h2><a class="toc-backref" href="#id5">See Also</a><a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><span class="xref std std-ref">cisco.dnac.plugins.module_utils.definitions.wireless_ap_provision</span></dt><dd><p>The official documentation on the <strong>cisco.dnac.plugins.module_utils.definitions.wireless_ap_provision</strong> module.</p>
+</dd>
+<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/api/1-3-3-x">WirelessApProvision reference</a></dt><dd><p>Complete reference of the WirelessApProvision object model.</p>
+</dd>
+<dt><a class="reference external" href="https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary">WirelessApProvision reference</a></dt><dd><p>SDK reference.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="examples">
+<h2><a class="toc-backref" href="#id6">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ap_provision_and_re_provision</span>
+  <span class="nt">cisco.dnac.wireless_ap_provision</span><span class="p">:</span>
+    <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">create</span>  <span class="c1"># required</span>
+    <span class="nt">payload</span><span class="p">:</span>  <span class="c1"># required</span>
+    <span class="p p-Indicator">-</span> <span class="nt">executionId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">executionUrl</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">message</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="return-values">
+<h2><a class="toc-backref" href="#id7">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this headline">¶</a></h2>
+<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v4)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
+<table border=0 cellpadding=0 class="documentation-table">
+    <tr>
+        <th colspan="1">Key</th>
+        <th>Returned</th>
+        <th width="100%">Description</th>
+    </tr>
+                <tr>
+                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+                <b>dnac_response</b>
+                <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+                <div style="font-size: small">
+                  <span style="color: purple">dictionary</span>
+                                      </div>
+                                </td>
+            <td>always</td>
+            <td>
+                                        <div>A dictionary with the response returned by the DNA Center Python SDK</div>
+                                    <br/>
+                                        <div style="font-size: smaller"><b>Sample:</b></div>
+                                            <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{&#x27;response&#x27;: 29, &#x27;version&#x27;: &#x27;1.0&#x27;}</div>
+                                </td>
+        </tr>
+                            <tr>
+                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="return-missing_params"></div>
+                <b>missing_params</b>
+                <a class="ansibleOptionLink" href="#return-missing_params" title="Permalink to this return value"></a>
+                <div style="font-size: small">
+                  <span style="color: purple">list</span>
+                   / <span style="color: purple">elements=string</span>                    </div>
+                                </td>
+            <td>when the function request schema is not satisfied</td>
+            <td>
+                                        <div>Provided arguments do not comply with the schema of the DNA Center Python SDK function</div>
+                                    <br/>
+                                </td>
+        </tr>
+                            <tr>
+                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="return-sdk_function"></div>
+                <b>sdk_function</b>
+                <a class="ansibleOptionLink" href="#return-sdk_function" title="Permalink to this return value"></a>
+                <div style="font-size: small">
+                  <span style="color: purple">string</span>
+                                      </div>
+                                </td>
+            <td>always</td>
+            <td>
+                                        <div>The DNA Center SDK function used to execute the task</div>
+                                    <br/>
+                                        <div style="font-size: smaller"><b>Sample:</b></div>
+                                            <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">wireless.ap_provision_and_re_provision</div>
+                                </td>
+        </tr>
+                    </table>
+<br/><br/><div class="section" id="authors">
+<h3>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Rafael Campos (&#64;racampos)</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="wireless_profile_module.html" class="btn btn-neutral float-right" title="cisco.dnac.wireless_profile – Manage WirelessProfile objects of Wireless" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="virtual_account_sync_module.html" class="btn btn-neutral float-left" title="cisco.dnac.virtual_account_sync – Manage VirtualAccountSync objects of DeviceOnboardingPnp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright Copyright (c) 2021 Cisco Systems.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
