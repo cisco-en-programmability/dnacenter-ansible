@@ -1,0 +1,1743 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>cisco.dnac.discovery – Manage Discovery objects of Discovery &mdash; DNACenterAnsibleActions  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/ansible-basic-sphinx-ext.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="cisco.dnac.discovery_job – Manage DiscoveryJob objects of Discovery" href="discovery_job_module.html" />
+    <link rel="prev" title="cisco.dnac.device_replacement_workflow – Manage DeviceReplacementWorkflow objects of DeviceReplacement" href="device_replacement_workflow_module.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> DNACenterAnsibleActions
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">User documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Cisco.Dnac</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#plugin-index">Plugin Index</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#modules">Modules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="application_set_module.html">cisco.dnac.application_set – Manage ApplicationSet objects of ApplicationPolicy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="applications_module.html">cisco.dnac.applications – Manage Applications objects of ApplicationPolicy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="client_detail_module.html">cisco.dnac.client_detail – Manage ClientDetail objects of Clients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="client_enrichment_details_module.html">cisco.dnac.client_enrichment_details – Manage ClientEnrichmentDetails objects of Clients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="client_health_module.html">cisco.dnac.client_health – Manage ClientHealth objects of Clients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="credential_to_site_module.html">cisco.dnac.credential_to_site – Manage CredentialToSite objects of NetworkSettings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_credential_module.html">cisco.dnac.device_credential – Manage DeviceCredential objects of NetworkSettings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_detail_module.html">cisco.dnac.device_detail – Manage DeviceDetail objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_enrichment_details_module.html">cisco.dnac.device_enrichment_details – Manage DeviceEnrichmentDetails objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_replacement_module.html">cisco.dnac.device_replacement – Manage DeviceReplacement objects of DeviceReplacement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_replacement_workflow_module.html">cisco.dnac.device_replacement_workflow – Manage DeviceReplacementWorkflow objects of DeviceReplacement</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">cisco.dnac.discovery – Manage Discovery objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discovery_job_module.html">cisco.dnac.discovery_job – Manage DiscoveryJob objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discovery_network_device_module.html">cisco.dnac.discovery_network_device – Manage DiscoveryNetworkDevice objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enterprise_ssid_module.html">cisco.dnac.enterprise_ssid – Manage EnterpriseSsid objects of Wireless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="event_api_status_module.html">cisco.dnac.event_api_status – Manage EventApiStatus objects of EventManagement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="event_series_module.html">cisco.dnac.event_series – Manage EventSeries objects of EventManagement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="event_subscription_module.html">cisco.dnac.event_subscription – Manage EventSubscription objects of EventManagement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="events_module.html">cisco.dnac.events – Manage Events objects of EventManagement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="file_module.html">cisco.dnac.file – Manage File objects of File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="file_namespace_module.html">cisco.dnac.file_namespace – Manage FileNamespace objects of File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flow_analysis_module.html">cisco.dnac.flow_analysis – Manage FlowAnalysis objects of PathTrace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_module.html">cisco.dnac.global_credential – Manage GlobalCredential objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_cli_module.html">cisco.dnac.global_credential_cli – Manage GlobalCredentialCli objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_http_read_module.html">cisco.dnac.global_credential_http_read – Manage GlobalCredentialHttpRead objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_http_write_module.html">cisco.dnac.global_credential_http_write – Manage GlobalCredentialHttpWrite objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_netconf_module.html">cisco.dnac.global_credential_netconf – Manage GlobalCredentialNetconf objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_snmpv2_read_community_module.html">cisco.dnac.global_credential_snmpv2_read_community – Manage GlobalCredentialSnmpv2ReadCommunity objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_snmpv2_write_community_module.html">cisco.dnac.global_credential_snmpv2_write_community – Manage GlobalCredentialSnmpv2WriteCommunity objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_snmpv3_module.html">cisco.dnac.global_credential_snmpv3 – Manage GlobalCredentialSnmpv3 objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_pool_module.html">cisco.dnac.global_pool – Manage GlobalPool objects of NetworkSettings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="import_image_module.html">cisco.dnac.import_image – Manage ImportImage objects of SoftwareImageManagementSwim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="import_image_file_module.html">cisco.dnac.import_image_file – Manage ImportImageFile objects of SoftwareImageManagementSwim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="import_image_url_module.html">cisco.dnac.import_image_url – Manage ImportImageUrl objects of SoftwareImageManagementSwim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="integration_event_module.html">cisco.dnac.integration_event – Manage IntegrationEvent objects of Itsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="interface_module.html">cisco.dnac.interface – Manage Interface objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="issue_enrichment_details_module.html">cisco.dnac.issue_enrichment_details – Manage IssueEnrichmentDetails objects of Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_module.html">cisco.dnac.network – Manage Network objects of NetworkSettings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_module.html">cisco.dnac.network_device – Manage NetworkDevice objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_autocomplete_module.html">cisco.dnac.network_device_autocomplete – Manage NetworkDeviceAutocomplete objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_config_module.html">cisco.dnac.network_device_config – Manage NetworkDeviceConfig objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_export_list_module.html">cisco.dnac.network_device_export_list – Manage NetworkDeviceExportList objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_functional_capability_module.html">cisco.dnac.network_device_functional_capability – Manage NetworkDeviceFunctionalCapability objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_meraki_org_module.html">cisco.dnac.network_device_meraki_org – Manage NetworkDeviceMerakiOrg objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_module_module.html">cisco.dnac.network_device_module – Manage NetworkDeviceModule objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_poller_legit_reads_module.html">cisco.dnac.network_device_poller_legit_reads – Manage NetworkDevicePollerLegitReads objects of CommandRunner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_poller_read_request_module.html">cisco.dnac.network_device_poller_read_request – Manage NetworkDevicePollerReadRequest objects of CommandRunner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_polling_interval_module.html">cisco.dnac.network_device_polling_interval – Manage NetworkDevicePollingInterval objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_register_module.html">cisco.dnac.network_device_register – Manage NetworkDeviceRegister objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_sync_module.html">cisco.dnac.network_device_sync – Manage NetworkDeviceSync objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_update_role_module.html">cisco.dnac.network_device_update_role – Manage NetworkDeviceUpdateRole objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_vlan_module.html">cisco.dnac.network_device_vlan – Manage NetworkDeviceVlan objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_wireless_info_module.html">cisco.dnac.network_device_wireless_info – Manage NetworkDeviceWirelessInfo objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_health_module.html">cisco.dnac.network_health – Manage NetworkHealth objects of Topology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nfv_profile_module.html">cisco.dnac.nfv_profile – Manage NfvProfile objects of SiteDesign</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nfv_provision_module.html">cisco.dnac.nfv_provision – Manage NfvProvision objects of SiteDesign</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nfv_provision_detail_module.html">cisco.dnac.nfv_provision_detail – Manage NfvProvisionDetail objects of SiteDesign</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_module.html">cisco.dnac.pnp_device – Manage PnpDevice objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_claim_module.html">cisco.dnac.pnp_device_claim – Manage PnpDeviceClaim objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_import_module.html">cisco.dnac.pnp_device_import – Manage PnpDeviceImport objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_reset_module.html">cisco.dnac.pnp_device_reset – Manage PnpDeviceReset objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_site_claim_module.html">cisco.dnac.pnp_device_site_claim – Manage PnpDeviceSiteClaim objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_site_config_preview_module.html">cisco.dnac.pnp_device_site_config_preview – Manage PnpDeviceSiteConfigPreview objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_unclaim_module.html">cisco.dnac.pnp_device_unclaim – Manage PnpDeviceUnclaim objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_settings_module.html">cisco.dnac.pnp_settings – Manage PnpSettings objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_workflow_module.html">cisco.dnac.pnp_workflow – Manage PnpWorkflow objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_auth_profile_module.html">cisco.dnac.sda_auth_profile – Manage SdaAuthProfile objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_border_device_module.html">cisco.dnac.sda_border_device – Manage SdaBorderDevice objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_control_plane_device_module.html">cisco.dnac.sda_control_plane_device – Manage SdaControlPlaneDevice objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_device_module.html">cisco.dnac.sda_device – Manage SdaDevice objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_edge_device_module.html">cisco.dnac.sda_edge_device – Manage SdaEdgeDevice objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_fabric_module.html">cisco.dnac.sda_fabric – Manage SdaFabric objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_fabric_site_module.html">cisco.dnac.sda_fabric_site – Manage SdaFabricSite objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_host_onboarding_access_point_module.html">cisco.dnac.sda_host_onboarding_access_point – Manage SdaHostOnboardingAccessPoint objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_host_onboarding_user_device_module.html">cisco.dnac.sda_host_onboarding_user_device – Manage SdaHostOnboardingUserDevice objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_virtual_network_module.html">cisco.dnac.sda_virtual_network – Manage SdaVirtualNetwork objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_virtual_network_ip_pool_module.html">cisco.dnac.sda_virtual_network_ip_pool – Manage SdaVirtualNetworkIpPool objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="service_provider_module.html">cisco.dnac.service_provider – Manage ServiceProvider objects of NetworkSettings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site_module.html">cisco.dnac.site – Manage Site objects of Sites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site_device_module.html">cisco.dnac.site_device – Manage SiteDevice objects of Sites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site_health_module.html">cisco.dnac.site_health – Manage SiteHealth objects of Sites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site_membership_module.html">cisco.dnac.site_membership – Manage SiteMembership objects of Sites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="smart_virtual_account_module.html">cisco.dnac.smart_virtual_account – Manage SmartVirtualAccount objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="snmp_property_module.html">cisco.dnac.snmp_property – Manage SnmpProperty objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ssid_module.html">cisco.dnac.ssid – Manage Ssid objects of Wireless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tag_module.html">cisco.dnac.tag – Manage Tag objects of Tag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tag_member_module.html">cisco.dnac.tag_member – Manage TagMember objects of Tag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="task_module.html">cisco.dnac.task – Manage Task objects of Task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_module.html">cisco.dnac.template – Manage Template objects of ConfigurationTemplates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_deploy_module.html">cisco.dnac.template_deploy – Manage TemplateDeploy objects of ConfigurationTemplates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_preview_module.html">cisco.dnac.template_preview – Manage TemplatePreview objects of ConfigurationTemplates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_project_module.html">cisco.dnac.template_project – Manage TemplateProject objects of ConfigurationTemplates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_version_module.html">cisco.dnac.template_version – Manage TemplateVersion objects of ConfigurationTemplates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="topology_module.html">cisco.dnac.topology – Manage Topology objects of Topology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trigger_image_activation_module.html">cisco.dnac.trigger_image_activation – Manage TriggerImageActivation objects of SoftwareImageManagementSwim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trigger_image_distribution_module.html">cisco.dnac.trigger_image_distribution – Manage TriggerImageDistribution objects of SoftwareImageManagementSwim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="user_enrichment_details_module.html">cisco.dnac.user_enrichment_details – Manage UserEnrichmentDetails objects of Users</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_account_sync_module.html">cisco.dnac.virtual_account_sync – Manage VirtualAccountSync objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireless_ap_provision_module.html">cisco.dnac.wireless_ap_provision – Manage WirelessApProvision objects of Wireless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireless_profile_module.html">cisco.dnac.wireless_profile – Manage WirelessProfile objects of Wireless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireless_provision_module.html">cisco.dnac.wireless_provision – Manage WirelessProvision objects of Wireless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireless_rf_profile_module.html">cisco.dnac.wireless_rf_profile – Manage WirelessRfProfile objects of Wireless</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DNACenterAnsibleActions</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Cisco.Dnac</a> &raquo;</li>
+        
+      <li>cisco.dnac.discovery – Manage Discovery objects of Discovery</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/plugins/discovery_module.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="ansible-collections-cisco-dnac-discovery-module"></span><div class="section" id="cisco-dnac-discovery-manage-discovery-objects-of-discovery">
+<h1>cisco.dnac.discovery – Manage Discovery objects of Discovery<a class="headerlink" href="#cisco-dnac-discovery-manage-discovery-objects-of-discovery" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This plugin is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 2.0.7).</p>
+<p>To install it use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.</p>
+<p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">cisco.dnac.discovery</span></code>.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.0.0: </span>of cisco.dnac</p>
+</div>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#synopsis" id="id2">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id3">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id4">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#see-also" id="id5">See Also</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id6">Examples</a></p></li>
+<li><p><a class="reference internal" href="#return-values" id="id7">Return Values</a></p></li>
+</ul>
+</div>
+<div class="section" id="synopsis">
+<h2><a class="toc-backref" href="#id2">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Stops all the discoveries and removes them.</p></li>
+<li><p>Initiates Discovery with the given parameters.</p></li>
+<li><p>Stops or starts an existing Discovery.</p></li>
+<li><p>Returns the count of all available Discovery jobs.</p></li>
+<li><p>Stops the Discovery for the given Discovery ID and removes it. Discovery ID can be obtained using the “Get Discoveries by range” API.</p></li>
+<li><p>Returns Discovery by Discovery ID. Discovery ID can be obtained using the “Get Discoveries by range” API.</p></li>
+<li><p>Stops Discovery for the given range and removes them.</p></li>
+<li><p>Returns the Discovery by specified range.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This module has a corresponding <a class="reference external" href="https://docs.ansible.com/ansible/latest/plugins/action.html#action-plugins" title="(in Ansible v4)"><span class="xref std std-ref">action plugin</span></a>.</p>
+</div>
+</div>
+<div class="section" id="requirements">
+<h2><a class="toc-backref" href="#id3">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>The below requirements are needed on the host that executes this module.</p>
+<ul class="simple">
+<li><p>dnacentersdk</p></li>
+</ul>
+</div>
+<div class="section" id="parameters">
+<h2><a class="toc-backref" href="#id4">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<table  border=0 cellpadding=0 class="documentation-table">
+    <tr>
+        <th colspan="2">Parameter</th>
+        <th>Choices/<font color="blue">Defaults</font></th>
+                    <th width="100%">Comments</th>
+    </tr>
+                <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-attributeInfo"></div>
+                <b>attributeInfo</b>
+                <a class="ansibleOptionLink" href="#parameter-attributeInfo" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">dictionary</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>DiscoveryNIO&#x27;s attributeInfo.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-cdpLevel"></div>
+                <b>cdpLevel</b>
+                <a class="ansibleOptionLink" href="#parameter-cdpLevel" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">integer</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s cdpLevel.</div>
+                                        <div>DiscoveryNIO&#x27;s cdpLevel.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-count"></div>
+                <b>count</b>
+                <a class="ansibleOptionLink" href="#parameter-count" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">boolean</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                            <li>no</li>
+                                                                                                                                                                                            <li>yes</li>
+                                                                                </ul>
+                                                                        </td>
+                                                            <td>
+                                        <div>If true gets the number of objects.</div>
+                                        <div>Required for state query.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-deviceIds"></div>
+                <b>deviceIds</b>
+                <a class="ansibleOptionLink" href="#parameter-deviceIds" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>DiscoveryNIO&#x27;s deviceIds.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-discoveryCondition"></div>
+                <b>discoveryCondition</b>
+                <a class="ansibleOptionLink" href="#parameter-discoveryCondition" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>DiscoveryNIO&#x27;s DiscoveryCondition.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-discoveryStatus"></div>
+                <b>discoveryStatus</b>
+                <a class="ansibleOptionLink" href="#parameter-discoveryStatus" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>DiscoveryNIO&#x27;s DiscoveryStatus.</div>
+                                        <div>Required for state update.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-discoveryType"></div>
+                <b>discoveryType</b>
+                <a class="ansibleOptionLink" href="#parameter-discoveryType" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                             / <span style="color: red">required</span>                    </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s DiscoveryType.</div>
+                                        <div>DiscoveryNIO&#x27;s DiscoveryType.</div>
+                                        <div>Required for state create.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-enablePasswordList"></div>
+                <b>enablePasswordList</b>
+                <a class="ansibleOptionLink" href="#parameter-enablePasswordList" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">raw</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s enablePasswordList (list of strings).</div>
+                                        <div>DiscoveryNIO&#x27;s enablePasswordList.</div>
+                                        <div>Type list for state create.</div>
+                                        <div>Type str for state update.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-globalCredentialIdList"></div>
+                <b>globalCredentialIdList</b>
+                <a class="ansibleOptionLink" href="#parameter-globalCredentialIdList" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">list</span>
+                     / <span style="color: purple">elements=string</span>                                            </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s globalCredentialIdList (list of strings).</div>
+                                        <div>DiscoveryNIO&#x27;s globalCredentialIdList (list of strings).</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-httpReadCredential"></div>
+                <b>httpReadCredential</b>
+                <a class="ansibleOptionLink" href="#parameter-httpReadCredential" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">dictionary</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s httpReadCredential.</div>
+                                        <div>DiscoveryNIO&#x27;s httpReadCredential.</div>
+                                                    </td>
+        </tr>
+                                    <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/comments"></div>
+                <b>comments</b>
+                <a class="ansibleOptionLink" href="#parameter-httpReadCredential/comments" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s comments.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/credentialType"></div>
+                <b>credentialType</b>
+                <a class="ansibleOptionLink" href="#parameter-httpReadCredential/credentialType" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s credentialType.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/description"></div>
+                <b>description</b>
+                <a class="ansibleOptionLink" href="#parameter-httpReadCredential/description" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s description.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/id"></div>
+                <b>id</b>
+                <a class="ansibleOptionLink" href="#parameter-httpReadCredential/id" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s id.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/instanceTenantId"></div>
+                <b>instanceTenantId</b>
+                <a class="ansibleOptionLink" href="#parameter-httpReadCredential/instanceTenantId" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s instanceTenantId.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/instanceUuid"></div>
+                <b>instanceUuid</b>
+                <a class="ansibleOptionLink" href="#parameter-httpReadCredential/instanceUuid" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s instanceUuid.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/password"></div>
+                <b>password</b>
+                <a class="ansibleOptionLink" href="#parameter-httpReadCredential/password" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s password.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/port"></div>
+                <b>port</b>
+                <a class="ansibleOptionLink" href="#parameter-httpReadCredential/port" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">integer</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s port.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/secure"></div>
+                <b>secure</b>
+                <a class="ansibleOptionLink" href="#parameter-httpReadCredential/secure" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">boolean</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                            <li>no</li>
+                                                                                                                                                                                            <li>yes</li>
+                                                                                </ul>
+                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s secure.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/username"></div>
+                <b>username</b>
+                <a class="ansibleOptionLink" href="#parameter-httpReadCredential/username" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s username.</div>
+                                                    </td>
+        </tr>
+
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential"></div>
+                <b>httpWriteCredential</b>
+                <a class="ansibleOptionLink" href="#parameter-httpWriteCredential" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">dictionary</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s httpWriteCredential.</div>
+                                        <div>DiscoveryNIO&#x27;s httpWriteCredential.</div>
+                                                    </td>
+        </tr>
+                                    <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/comments"></div>
+                <b>comments</b>
+                <a class="ansibleOptionLink" href="#parameter-httpWriteCredential/comments" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s comments.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/credentialType"></div>
+                <b>credentialType</b>
+                <a class="ansibleOptionLink" href="#parameter-httpWriteCredential/credentialType" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s credentialType.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/description"></div>
+                <b>description</b>
+                <a class="ansibleOptionLink" href="#parameter-httpWriteCredential/description" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s description.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/id"></div>
+                <b>id</b>
+                <a class="ansibleOptionLink" href="#parameter-httpWriteCredential/id" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s id.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/instanceTenantId"></div>
+                <b>instanceTenantId</b>
+                <a class="ansibleOptionLink" href="#parameter-httpWriteCredential/instanceTenantId" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s instanceTenantId.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/instanceUuid"></div>
+                <b>instanceUuid</b>
+                <a class="ansibleOptionLink" href="#parameter-httpWriteCredential/instanceUuid" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s instanceUuid.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/password"></div>
+                <b>password</b>
+                <a class="ansibleOptionLink" href="#parameter-httpWriteCredential/password" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s password.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/port"></div>
+                <b>port</b>
+                <a class="ansibleOptionLink" href="#parameter-httpWriteCredential/port" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">integer</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s port.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/secure"></div>
+                <b>secure</b>
+                <a class="ansibleOptionLink" href="#parameter-httpWriteCredential/secure" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">boolean</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                            <li>no</li>
+                                                                                                                                                                                            <li>yes</li>
+                                                                                </ul>
+                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s secure.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                <td class="elbow-placeholder"></td>
+                                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/username"></div>
+                <b>username</b>
+                <a class="ansibleOptionLink" href="#parameter-httpWriteCredential/username" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>It is the Discovery&#x27;s username.</div>
+                                                    </td>
+        </tr>
+
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-id"></div>
+                <b>id</b>
+                <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                             / <span style="color: red">required</span>                    </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>DiscoveryNIO&#x27;s id.</div>
+                                        <div>Discovery ID.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-ipAddressList"></div>
+                <b>ipAddressList</b>
+                <a class="ansibleOptionLink" href="#parameter-ipAddressList" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                             / <span style="color: red">required</span>                    </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s ipAddressList.</div>
+                                        <div>DiscoveryNIO&#x27;s ipAddressList.</div>
+                                        <div>Required for state create.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-ipFilterList"></div>
+                <b>ipFilterList</b>
+                <a class="ansibleOptionLink" href="#parameter-ipFilterList" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">raw</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s ipFilterList (list of strings).</div>
+                                        <div>DiscoveryNIO&#x27;s ipFilterList.</div>
+                                        <div>Type list for state create.</div>
+                                        <div>Type str for state update.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-isAutoCdp"></div>
+                <b>isAutoCdp</b>
+                <a class="ansibleOptionLink" href="#parameter-isAutoCdp" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">boolean</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                            <li>no</li>
+                                                                                                                                                                                            <li>yes</li>
+                                                                                </ul>
+                                                                        </td>
+                                                            <td>
+                                        <div>DiscoveryNIO&#x27;s isAutoCdp.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-lldpLevel"></div>
+                <b>lldpLevel</b>
+                <a class="ansibleOptionLink" href="#parameter-lldpLevel" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">integer</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s lldpLevel.</div>
+                                        <div>DiscoveryNIO&#x27;s lldpLevel.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-name"></div>
+                <b>name</b>
+                <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                             / <span style="color: red">required</span>                    </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s name.</div>
+                                        <div>DiscoveryNIO&#x27;s name.</div>
+                                        <div>Required for state create.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-netconfPort"></div>
+                <b>netconfPort</b>
+                <a class="ansibleOptionLink" href="#parameter-netconfPort" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s netconfPort.</div>
+                                        <div>DiscoveryNIO&#x27;s netconfPort.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-noAddNewDevice"></div>
+                <b>noAddNewDevice</b>
+                <a class="ansibleOptionLink" href="#parameter-noAddNewDevice" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">boolean</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                            <li>no</li>
+                                                                                                                                                                                            <li>yes</li>
+                                                                                </ul>
+                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s noAddNewDevice.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-numDevices"></div>
+                <b>numDevices</b>
+                <a class="ansibleOptionLink" href="#parameter-numDevices" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">integer</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>DiscoveryNIO&#x27;s numDevices.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-parentDiscoveryId"></div>
+                <b>parentDiscoveryId</b>
+                <a class="ansibleOptionLink" href="#parameter-parentDiscoveryId" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s parentDiscoveryId.</div>
+                                        <div>DiscoveryNIO&#x27;s parentDiscoveryId.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-passwordList"></div>
+                <b>passwordList</b>
+                <a class="ansibleOptionLink" href="#parameter-passwordList" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">raw</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s passwordList (list of strings).</div>
+                                        <div>DiscoveryNIO&#x27;s passwordList.</div>
+                                        <div>Type list for state create.</div>
+                                        <div>Type str for state update.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-preferredMgmtIPMethod"></div>
+                <b>preferredMgmtIPMethod</b>
+                <a class="ansibleOptionLink" href="#parameter-preferredMgmtIPMethod" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s preferredMgmtIPMethod.</div>
+                                        <div>DiscoveryNIO&#x27;s preferredMgmtIPMethod.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-protocolOrder"></div>
+                <b>protocolOrder</b>
+                <a class="ansibleOptionLink" href="#parameter-protocolOrder" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s protocolOrder.</div>
+                                        <div>DiscoveryNIO&#x27;s protocolOrder.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-records_to_delete"></div>
+                <b>records_to_delete</b>
+                <a class="ansibleOptionLink" href="#parameter-records_to_delete" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">integer</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>Number of records to delete.</div>
+                                        <div>Required for state delete.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-records_to_return"></div>
+                <b>records_to_return</b>
+                <a class="ansibleOptionLink" href="#parameter-records_to_return" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">integer</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>Number of records to return.</div>
+                                        <div>Required for state query.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-reDiscovery"></div>
+                <b>reDiscovery</b>
+                <a class="ansibleOptionLink" href="#parameter-reDiscovery" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">boolean</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                            <li>no</li>
+                                                                                                                                                                                            <li>yes</li>
+                                                                                </ul>
+                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s reDiscovery.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-retry"></div>
+                <b>retry</b>
+                <a class="ansibleOptionLink" href="#parameter-retry" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">integer</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s retry.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-retryCount"></div>
+                <b>retryCount</b>
+                <a class="ansibleOptionLink" href="#parameter-retryCount" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">integer</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>DiscoveryNIO&#x27;s retryCount.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-snmpAuthPassphrase"></div>
+                <b>snmpAuthPassphrase</b>
+                <a class="ansibleOptionLink" href="#parameter-snmpAuthPassphrase" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s snmpAuthPassphrase.</div>
+                                        <div>DiscoveryNIO&#x27;s snmpAuthPassphrase.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-snmpAuthProtocol"></div>
+                <b>snmpAuthProtocol</b>
+                <a class="ansibleOptionLink" href="#parameter-snmpAuthProtocol" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s snmpAuthProtocol.</div>
+                                        <div>DiscoveryNIO&#x27;s snmpAuthProtocol.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-snmpMode"></div>
+                <b>snmpMode</b>
+                <a class="ansibleOptionLink" href="#parameter-snmpMode" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s snmpMode.</div>
+                                        <div>DiscoveryNIO&#x27;s snmpMode.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-snmpPrivPassphrase"></div>
+                <b>snmpPrivPassphrase</b>
+                <a class="ansibleOptionLink" href="#parameter-snmpPrivPassphrase" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s snmpPrivPassphrase.</div>
+                                        <div>DiscoveryNIO&#x27;s snmpPrivPassphrase.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-snmpPrivProtocol"></div>
+                <b>snmpPrivProtocol</b>
+                <a class="ansibleOptionLink" href="#parameter-snmpPrivProtocol" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s snmpPrivProtocol.</div>
+                                        <div>DiscoveryNIO&#x27;s snmpPrivProtocol.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-snmpROCommunity"></div>
+                <b>snmpROCommunity</b>
+                <a class="ansibleOptionLink" href="#parameter-snmpROCommunity" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s snmpROCommunity.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-snmpRoCommunity"></div>
+                <b>snmpRoCommunity</b>
+                <a class="ansibleOptionLink" href="#parameter-snmpRoCommunity" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>DiscoveryNIO&#x27;s snmpRoCommunity.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-snmpROCommunityDesc"></div>
+                <b>snmpROCommunityDesc</b>
+                <a class="ansibleOptionLink" href="#parameter-snmpROCommunityDesc" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s snmpROCommunityDesc.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-snmpRoCommunityDesc"></div>
+                <b>snmpRoCommunityDesc</b>
+                <a class="ansibleOptionLink" href="#parameter-snmpRoCommunityDesc" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>DiscoveryNIO&#x27;s snmpRoCommunityDesc.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-snmpRWCommunity"></div>
+                <b>snmpRWCommunity</b>
+                <a class="ansibleOptionLink" href="#parameter-snmpRWCommunity" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s snmpRWCommunity.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-snmpRwCommunity"></div>
+                <b>snmpRwCommunity</b>
+                <a class="ansibleOptionLink" href="#parameter-snmpRwCommunity" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>DiscoveryNIO&#x27;s snmpRwCommunity.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-snmpRWCommunityDesc"></div>
+                <b>snmpRWCommunityDesc</b>
+                <a class="ansibleOptionLink" href="#parameter-snmpRWCommunityDesc" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s snmpRWCommunityDesc.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-snmpRwCommunityDesc"></div>
+                <b>snmpRwCommunityDesc</b>
+                <a class="ansibleOptionLink" href="#parameter-snmpRwCommunityDesc" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>DiscoveryNIO&#x27;s snmpRwCommunityDesc.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-snmpUserName"></div>
+                <b>snmpUserName</b>
+                <a class="ansibleOptionLink" href="#parameter-snmpUserName" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s snmpUserName.</div>
+                                        <div>DiscoveryNIO&#x27;s snmpUserName.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-snmpVersion"></div>
+                <b>snmpVersion</b>
+                <a class="ansibleOptionLink" href="#parameter-snmpVersion" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s snmpVersion.</div>
+                                        <div>Required for state create.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-start_index"></div>
+                <b>start_index</b>
+                <a class="ansibleOptionLink" href="#parameter-start_index" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">integer</span>
+                                             / <span style="color: red">required</span>                    </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>Start index.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-timeOut"></div>
+                <b>timeOut</b>
+                <a class="ansibleOptionLink" href="#parameter-timeOut" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">integer</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>DiscoveryNIO&#x27;s timeOut.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-timeout"></div>
+                <b>timeout</b>
+                <a class="ansibleOptionLink" href="#parameter-timeout" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">integer</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s timeout.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-updateMgmtIp"></div>
+                <b>updateMgmtIp</b>
+                <a class="ansibleOptionLink" href="#parameter-updateMgmtIp" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">boolean</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                            <li>no</li>
+                                                                                                                                                                                            <li>yes</li>
+                                                                                </ul>
+                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s updateMgmtIp.</div>
+                                        <div>DiscoveryNIO&#x27;s updateMgmtIp.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-userNameList"></div>
+                <b>userNameList</b>
+                <a class="ansibleOptionLink" href="#parameter-userNameList" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">raw</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>InventoryRequest&#x27;s userNameList (list of strings).</div>
+                                        <div>DiscoveryNIO&#x27;s userNameList.</div>
+                                        <div>Type list for state create.</div>
+                                        <div>Type str for state update.</div>
+                                                    </td>
+        </tr>
+                    </table>
+<br/></div>
+<div class="section" id="see-also">
+<h2><a class="toc-backref" href="#id5">See Also</a><a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><span class="xref std std-ref">cisco.dnac.plugins.module_utils.definitions.discovery</span></dt><dd><p>The official documentation on the <strong>cisco.dnac.plugins.module_utils.definitions.discovery</strong> module.</p>
+</dd>
+<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/api/1-3-3-x">Discovery reference</a></dt><dd><p>Complete reference of the Discovery object model.</p>
+</dd>
+<dt><a class="reference external" href="https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary">Discovery reference</a></dt><dd><p>SDK reference.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="examples">
+<h2><a class="toc-backref" href="#id6">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">delete_all_discovery</span>
+  <span class="nt">cisco.dnac.discovery</span><span class="p">:</span>
+    <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">delete</span>  <span class="c1"># required</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">start_discovery</span>
+  <span class="nt">cisco.dnac.discovery</span><span class="p">:</span>
+    <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">create</span>  <span class="c1"># required</span>
+    <span class="nt">discoveryType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string, required</span>
+    <span class="nt">ipAddressList</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string, required</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string, required</span>
+    <span class="nt">snmpVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string, required</span>
+    <span class="nt">cdpLevel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>  <span class="c1">#  integer</span>
+    <span class="nt">enablePasswordList</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">globalCredentialIdList</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">httpReadCredential</span><span class="p">:</span>
+      <span class="nt">comments</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">credentialType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">description</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">instanceTenantId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">instanceUuid</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>  <span class="c1">#  integer</span>
+      <span class="nt">secure</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>  <span class="c1"># boolean</span>
+      <span class="nt">username</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">httpWriteCredential</span><span class="p">:</span>
+      <span class="nt">comments</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">credentialType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">description</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">instanceTenantId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">instanceUuid</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>  <span class="c1">#  integer</span>
+      <span class="nt">secure</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>  <span class="c1"># boolean</span>
+      <span class="nt">username</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">ipFilterList</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">lldpLevel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>  <span class="c1">#  integer</span>
+    <span class="nt">netconfPort</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">noAddNewDevice</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>  <span class="c1"># boolean</span>
+    <span class="nt">parentDiscoveryId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">passwordList</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">preferredMgmtIPMethod</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">protocolOrder</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">reDiscovery</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>  <span class="c1"># boolean</span>
+    <span class="nt">retry</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>  <span class="c1">#  integer</span>
+    <span class="nt">snmpAuthPassphrase</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpAuthProtocol</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpMode</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpPrivPassphrase</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpPrivProtocol</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpROCommunity</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpROCommunityDesc</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpRWCommunity</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpRWCommunityDesc</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpUserName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">timeout</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>  <span class="c1">#  integer</span>
+    <span class="nt">updateMgmtIp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>  <span class="c1"># boolean</span>
+    <span class="nt">userNameList</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">updates_discovery_by_id</span>
+  <span class="nt">cisco.dnac.discovery</span><span class="p">:</span>
+    <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">update</span>  <span class="c1"># required</span>
+    <span class="nt">discoveryStatus</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string, required</span>
+    <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string, required</span>
+    <span class="nt">attributeInfo</span><span class="p">:</span>
+    <span class="nt">cdpLevel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>  <span class="c1">#  integer</span>
+    <span class="nt">deviceIds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">discoveryCondition</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">discoveryType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">enablePasswordList</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">globalCredentialIdList</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">httpReadCredential</span><span class="p">:</span>
+      <span class="nt">comments</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">credentialType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">description</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">instanceTenantId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">instanceUuid</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>  <span class="c1">#  integer</span>
+      <span class="nt">secure</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>  <span class="c1"># boolean</span>
+      <span class="nt">username</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">httpWriteCredential</span><span class="p">:</span>
+      <span class="nt">comments</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">credentialType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">description</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">instanceTenantId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">instanceUuid</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+      <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>  <span class="c1">#  integer</span>
+      <span class="nt">secure</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>  <span class="c1"># boolean</span>
+      <span class="nt">username</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">ipAddressList</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">ipFilterList</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">isAutoCdp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>  <span class="c1"># boolean</span>
+    <span class="nt">lldpLevel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>  <span class="c1">#  integer</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">netconfPort</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">numDevices</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>  <span class="c1">#  integer</span>
+    <span class="nt">parentDiscoveryId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">passwordList</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">preferredMgmtIPMethod</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">protocolOrder</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">retryCount</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>  <span class="c1">#  integer</span>
+    <span class="nt">snmpAuthPassphrase</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpAuthProtocol</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpMode</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpPrivPassphrase</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpPrivProtocol</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpRoCommunity</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpRoCommunityDesc</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpRwCommunity</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpRwCommunityDesc</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">snmpUserName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+    <span class="nt">timeOut</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>  <span class="c1">#  integer</span>
+    <span class="nt">updateMgmtIp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>  <span class="c1"># boolean</span>
+    <span class="nt">userNameList</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">get_count_of_all_discovery_jobs</span>
+  <span class="nt">cisco.dnac.discovery</span><span class="p">:</span>
+    <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">query</span>  <span class="c1"># required</span>
+    <span class="nt">count</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>  <span class="c1"># boolean, required</span>
+  <span class="nt">register</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nm_get_count_of_all_discovery_jobs</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">delete_discovery_by_id</span>
+  <span class="nt">cisco.dnac.discovery</span><span class="p">:</span>
+    <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">delete</span>  <span class="c1"># required</span>
+    <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string, required</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">get_discovery_by_id</span>
+  <span class="nt">cisco.dnac.discovery</span><span class="p">:</span>
+    <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">query</span>  <span class="c1"># required</span>
+    <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SomeValue</span>  <span class="c1"># string, required</span>
+  <span class="nt">register</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nm_get_discovery_by_id</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">delete_discovery_by_specified_range</span>
+  <span class="nt">cisco.dnac.discovery</span><span class="p">:</span>
+    <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">delete</span>  <span class="c1"># required</span>
+    <span class="nt">records_to_delete</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>  <span class="c1">#  integer, required</span>
+    <span class="nt">start_index</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>  <span class="c1">#  integer, required</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">get_discoveries_by_range</span>
+  <span class="nt">cisco.dnac.discovery</span><span class="p">:</span>
+    <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">query</span>  <span class="c1"># required</span>
+    <span class="nt">records_to_return</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>  <span class="c1">#  integer, required</span>
+    <span class="nt">start_index</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>  <span class="c1">#  integer, required</span>
+  <span class="nt">register</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nm_get_discoveries_by_range</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="return-values">
+<h2><a class="toc-backref" href="#id7">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this headline">¶</a></h2>
+<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v4)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
+<table border=0 cellpadding=0 class="documentation-table">
+    <tr>
+        <th colspan="1">Key</th>
+        <th>Returned</th>
+        <th width="100%">Description</th>
+    </tr>
+                <tr>
+                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+                <b>dnac_response</b>
+                <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+                <div style="font-size: small">
+                  <span style="color: purple">dictionary</span>
+                                      </div>
+                                </td>
+            <td>always</td>
+            <td>
+                                        <div>A dictionary with the response returned by the DNA Center Python SDK</div>
+                                    <br/>
+                                        <div style="font-size: smaller"><b>Sample:</b></div>
+                                            <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{&#x27;response&#x27;: 29, &#x27;version&#x27;: &#x27;1.0&#x27;}</div>
+                                </td>
+        </tr>
+                            <tr>
+                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="return-missing_params"></div>
+                <b>missing_params</b>
+                <a class="ansibleOptionLink" href="#return-missing_params" title="Permalink to this return value"></a>
+                <div style="font-size: small">
+                  <span style="color: purple">list</span>
+                   / <span style="color: purple">elements=string</span>                    </div>
+                                </td>
+            <td>when the function request schema is not satisfied</td>
+            <td>
+                                        <div>Provided arguments do not comply with the schema of the DNA Center Python SDK function</div>
+                                    <br/>
+                                </td>
+        </tr>
+                            <tr>
+                            <td colspan="1">
+                <div class="ansibleOptionAnchor" id="return-sdk_function"></div>
+                <b>sdk_function</b>
+                <a class="ansibleOptionLink" href="#return-sdk_function" title="Permalink to this return value"></a>
+                <div style="font-size: small">
+                  <span style="color: purple">string</span>
+                                      </div>
+                                </td>
+            <td>always</td>
+            <td>
+                                        <div>The DNA Center SDK function used to execute the task</div>
+                                    <br/>
+                                        <div style="font-size: smaller"><b>Sample:</b></div>
+                                            <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">discovery.delete_all_discovery</div>
+                                </td>
+        </tr>
+                    </table>
+<br/><br/><div class="section" id="authors">
+<h3>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Rafael Campos (&#64;racampos)</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="discovery_job_module.html" class="btn btn-neutral float-right" title="cisco.dnac.discovery_job – Manage DiscoveryJob objects of Discovery" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="device_replacement_workflow_module.html" class="btn btn-neutral float-left" title="cisco.dnac.device_replacement_workflow – Manage DeviceReplacementWorkflow objects of DeviceReplacement" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright Copyright (c) 2021 Cisco Systems.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

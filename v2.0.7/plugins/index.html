@@ -1,0 +1,443 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Cisco.Dnac &mdash; DNACenterAnsibleActions  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/ansible-basic-sphinx-ext.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="cisco.dnac.application_set – Manage ApplicationSet objects of ApplicationPolicy" href="application_set_module.html" />
+    <link rel="prev" title="Welcome to DNA Center Ansible Actions’ documentation!" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> DNACenterAnsibleActions
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">User documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Cisco.Dnac</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#plugin-index">Plugin Index</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="application_set_module.html">cisco.dnac.application_set – Manage ApplicationSet objects of ApplicationPolicy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="applications_module.html">cisco.dnac.applications – Manage Applications objects of ApplicationPolicy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="client_detail_module.html">cisco.dnac.client_detail – Manage ClientDetail objects of Clients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="client_enrichment_details_module.html">cisco.dnac.client_enrichment_details – Manage ClientEnrichmentDetails objects of Clients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="client_health_module.html">cisco.dnac.client_health – Manage ClientHealth objects of Clients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="credential_to_site_module.html">cisco.dnac.credential_to_site – Manage CredentialToSite objects of NetworkSettings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_credential_module.html">cisco.dnac.device_credential – Manage DeviceCredential objects of NetworkSettings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_detail_module.html">cisco.dnac.device_detail – Manage DeviceDetail objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_enrichment_details_module.html">cisco.dnac.device_enrichment_details – Manage DeviceEnrichmentDetails objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_replacement_module.html">cisco.dnac.device_replacement – Manage DeviceReplacement objects of DeviceReplacement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="device_replacement_workflow_module.html">cisco.dnac.device_replacement_workflow – Manage DeviceReplacementWorkflow objects of DeviceReplacement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discovery_module.html">cisco.dnac.discovery – Manage Discovery objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discovery_job_module.html">cisco.dnac.discovery_job – Manage DiscoveryJob objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discovery_network_device_module.html">cisco.dnac.discovery_network_device – Manage DiscoveryNetworkDevice objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enterprise_ssid_module.html">cisco.dnac.enterprise_ssid – Manage EnterpriseSsid objects of Wireless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="event_api_status_module.html">cisco.dnac.event_api_status – Manage EventApiStatus objects of EventManagement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="event_series_module.html">cisco.dnac.event_series – Manage EventSeries objects of EventManagement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="event_subscription_module.html">cisco.dnac.event_subscription – Manage EventSubscription objects of EventManagement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="events_module.html">cisco.dnac.events – Manage Events objects of EventManagement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="file_module.html">cisco.dnac.file – Manage File objects of File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="file_namespace_module.html">cisco.dnac.file_namespace – Manage FileNamespace objects of File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flow_analysis_module.html">cisco.dnac.flow_analysis – Manage FlowAnalysis objects of PathTrace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_module.html">cisco.dnac.global_credential – Manage GlobalCredential objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_cli_module.html">cisco.dnac.global_credential_cli – Manage GlobalCredentialCli objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_http_read_module.html">cisco.dnac.global_credential_http_read – Manage GlobalCredentialHttpRead objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_http_write_module.html">cisco.dnac.global_credential_http_write – Manage GlobalCredentialHttpWrite objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_netconf_module.html">cisco.dnac.global_credential_netconf – Manage GlobalCredentialNetconf objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_snmpv2_read_community_module.html">cisco.dnac.global_credential_snmpv2_read_community – Manage GlobalCredentialSnmpv2ReadCommunity objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_snmpv2_write_community_module.html">cisco.dnac.global_credential_snmpv2_write_community – Manage GlobalCredentialSnmpv2WriteCommunity objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_credential_snmpv3_module.html">cisco.dnac.global_credential_snmpv3 – Manage GlobalCredentialSnmpv3 objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="global_pool_module.html">cisco.dnac.global_pool – Manage GlobalPool objects of NetworkSettings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="import_image_module.html">cisco.dnac.import_image – Manage ImportImage objects of SoftwareImageManagementSwim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="import_image_file_module.html">cisco.dnac.import_image_file – Manage ImportImageFile objects of SoftwareImageManagementSwim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="import_image_url_module.html">cisco.dnac.import_image_url – Manage ImportImageUrl objects of SoftwareImageManagementSwim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="integration_event_module.html">cisco.dnac.integration_event – Manage IntegrationEvent objects of Itsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="interface_module.html">cisco.dnac.interface – Manage Interface objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="issue_enrichment_details_module.html">cisco.dnac.issue_enrichment_details – Manage IssueEnrichmentDetails objects of Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_module.html">cisco.dnac.network – Manage Network objects of NetworkSettings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_module.html">cisco.dnac.network_device – Manage NetworkDevice objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_autocomplete_module.html">cisco.dnac.network_device_autocomplete – Manage NetworkDeviceAutocomplete objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_config_module.html">cisco.dnac.network_device_config – Manage NetworkDeviceConfig objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_export_list_module.html">cisco.dnac.network_device_export_list – Manage NetworkDeviceExportList objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_functional_capability_module.html">cisco.dnac.network_device_functional_capability – Manage NetworkDeviceFunctionalCapability objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_meraki_org_module.html">cisco.dnac.network_device_meraki_org – Manage NetworkDeviceMerakiOrg objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_module_module.html">cisco.dnac.network_device_module – Manage NetworkDeviceModule objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_poller_legit_reads_module.html">cisco.dnac.network_device_poller_legit_reads – Manage NetworkDevicePollerLegitReads objects of CommandRunner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_poller_read_request_module.html">cisco.dnac.network_device_poller_read_request – Manage NetworkDevicePollerReadRequest objects of CommandRunner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_polling_interval_module.html">cisco.dnac.network_device_polling_interval – Manage NetworkDevicePollingInterval objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_register_module.html">cisco.dnac.network_device_register – Manage NetworkDeviceRegister objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_sync_module.html">cisco.dnac.network_device_sync – Manage NetworkDeviceSync objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_update_role_module.html">cisco.dnac.network_device_update_role – Manage NetworkDeviceUpdateRole objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_vlan_module.html">cisco.dnac.network_device_vlan – Manage NetworkDeviceVlan objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_wireless_info_module.html">cisco.dnac.network_device_wireless_info – Manage NetworkDeviceWirelessInfo objects of Devices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_health_module.html">cisco.dnac.network_health – Manage NetworkHealth objects of Topology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nfv_profile_module.html">cisco.dnac.nfv_profile – Manage NfvProfile objects of SiteDesign</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nfv_provision_module.html">cisco.dnac.nfv_provision – Manage NfvProvision objects of SiteDesign</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nfv_provision_detail_module.html">cisco.dnac.nfv_provision_detail – Manage NfvProvisionDetail objects of SiteDesign</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_module.html">cisco.dnac.pnp_device – Manage PnpDevice objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_claim_module.html">cisco.dnac.pnp_device_claim – Manage PnpDeviceClaim objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_import_module.html">cisco.dnac.pnp_device_import – Manage PnpDeviceImport objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_reset_module.html">cisco.dnac.pnp_device_reset – Manage PnpDeviceReset objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_site_claim_module.html">cisco.dnac.pnp_device_site_claim – Manage PnpDeviceSiteClaim objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_site_config_preview_module.html">cisco.dnac.pnp_device_site_config_preview – Manage PnpDeviceSiteConfigPreview objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_device_unclaim_module.html">cisco.dnac.pnp_device_unclaim – Manage PnpDeviceUnclaim objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_settings_module.html">cisco.dnac.pnp_settings – Manage PnpSettings objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_workflow_module.html">cisco.dnac.pnp_workflow – Manage PnpWorkflow objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_auth_profile_module.html">cisco.dnac.sda_auth_profile – Manage SdaAuthProfile objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_border_device_module.html">cisco.dnac.sda_border_device – Manage SdaBorderDevice objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_control_plane_device_module.html">cisco.dnac.sda_control_plane_device – Manage SdaControlPlaneDevice objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_device_module.html">cisco.dnac.sda_device – Manage SdaDevice objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_edge_device_module.html">cisco.dnac.sda_edge_device – Manage SdaEdgeDevice objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_fabric_module.html">cisco.dnac.sda_fabric – Manage SdaFabric objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_fabric_site_module.html">cisco.dnac.sda_fabric_site – Manage SdaFabricSite objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_host_onboarding_access_point_module.html">cisco.dnac.sda_host_onboarding_access_point – Manage SdaHostOnboardingAccessPoint objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_host_onboarding_user_device_module.html">cisco.dnac.sda_host_onboarding_user_device – Manage SdaHostOnboardingUserDevice objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_virtual_network_module.html">cisco.dnac.sda_virtual_network – Manage SdaVirtualNetwork objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_virtual_network_ip_pool_module.html">cisco.dnac.sda_virtual_network_ip_pool – Manage SdaVirtualNetworkIpPool objects of Sda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="service_provider_module.html">cisco.dnac.service_provider – Manage ServiceProvider objects of NetworkSettings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site_module.html">cisco.dnac.site – Manage Site objects of Sites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site_device_module.html">cisco.dnac.site_device – Manage SiteDevice objects of Sites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site_health_module.html">cisco.dnac.site_health – Manage SiteHealth objects of Sites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site_membership_module.html">cisco.dnac.site_membership – Manage SiteMembership objects of Sites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="smart_virtual_account_module.html">cisco.dnac.smart_virtual_account – Manage SmartVirtualAccount objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="snmp_property_module.html">cisco.dnac.snmp_property – Manage SnmpProperty objects of Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ssid_module.html">cisco.dnac.ssid – Manage Ssid objects of Wireless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tag_module.html">cisco.dnac.tag – Manage Tag objects of Tag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tag_member_module.html">cisco.dnac.tag_member – Manage TagMember objects of Tag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="task_module.html">cisco.dnac.task – Manage Task objects of Task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_module.html">cisco.dnac.template – Manage Template objects of ConfigurationTemplates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_deploy_module.html">cisco.dnac.template_deploy – Manage TemplateDeploy objects of ConfigurationTemplates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_preview_module.html">cisco.dnac.template_preview – Manage TemplatePreview objects of ConfigurationTemplates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_project_module.html">cisco.dnac.template_project – Manage TemplateProject objects of ConfigurationTemplates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_version_module.html">cisco.dnac.template_version – Manage TemplateVersion objects of ConfigurationTemplates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="topology_module.html">cisco.dnac.topology – Manage Topology objects of Topology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trigger_image_activation_module.html">cisco.dnac.trigger_image_activation – Manage TriggerImageActivation objects of SoftwareImageManagementSwim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="trigger_image_distribution_module.html">cisco.dnac.trigger_image_distribution – Manage TriggerImageDistribution objects of SoftwareImageManagementSwim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="user_enrichment_details_module.html">cisco.dnac.user_enrichment_details – Manage UserEnrichmentDetails objects of Users</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_account_sync_module.html">cisco.dnac.virtual_account_sync – Manage VirtualAccountSync objects of DeviceOnboardingPnp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireless_ap_provision_module.html">cisco.dnac.wireless_ap_provision – Manage WirelessApProvision objects of Wireless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireless_profile_module.html">cisco.dnac.wireless_profile – Manage WirelessProfile objects of Wireless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireless_provision_module.html">cisco.dnac.wireless_provision – Manage WirelessProvision objects of Wireless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireless_rf_profile_module.html">cisco.dnac.wireless_rf_profile – Manage WirelessRfProfile objects of Wireless</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DNACenterAnsibleActions</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Cisco.Dnac</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/plugins/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cisco-dnac">
+<span id="plugins-in-cisco-dnac"></span><h1>Cisco.Dnac<a class="headerlink" href="#cisco-dnac" title="Permalink to this headline">¶</a></h1>
+<p>Collection version 2.0.7</p>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="plugin-index">
+<h2>Plugin Index<a class="headerlink" href="#plugin-index" title="Permalink to this headline">¶</a></h2>
+<p>These are the plugins in the cisco.dnac collection</p>
+<div class="section" id="modules">
+<h3>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><a class="reference internal" href="application_set_module.html#ansible-collections-cisco-dnac-application-set-module"><span class="std std-ref">application_set</span></a> – Manage ApplicationSet objects of ApplicationPolicy</p></li>
+<li><p><a class="reference internal" href="applications_module.html#ansible-collections-cisco-dnac-applications-module"><span class="std std-ref">applications</span></a> – Manage Applications objects of ApplicationPolicy</p></li>
+<li><p><a class="reference internal" href="client_detail_module.html#ansible-collections-cisco-dnac-client-detail-module"><span class="std std-ref">client_detail</span></a> – Manage ClientDetail objects of Clients</p></li>
+<li><p><a class="reference internal" href="client_enrichment_details_module.html#ansible-collections-cisco-dnac-client-enrichment-details-module"><span class="std std-ref">client_enrichment_details</span></a> – Manage ClientEnrichmentDetails objects of Clients</p></li>
+<li><p><a class="reference internal" href="client_health_module.html#ansible-collections-cisco-dnac-client-health-module"><span class="std std-ref">client_health</span></a> – Manage ClientHealth objects of Clients</p></li>
+<li><p><a class="reference internal" href="credential_to_site_module.html#ansible-collections-cisco-dnac-credential-to-site-module"><span class="std std-ref">credential_to_site</span></a> – Manage CredentialToSite objects of NetworkSettings</p></li>
+<li><p><a class="reference internal" href="device_credential_module.html#ansible-collections-cisco-dnac-device-credential-module"><span class="std std-ref">device_credential</span></a> – Manage DeviceCredential objects of NetworkSettings</p></li>
+<li><p><a class="reference internal" href="device_detail_module.html#ansible-collections-cisco-dnac-device-detail-module"><span class="std std-ref">device_detail</span></a> – Manage DeviceDetail objects of Devices</p></li>
+<li><p><a class="reference internal" href="device_enrichment_details_module.html#ansible-collections-cisco-dnac-device-enrichment-details-module"><span class="std std-ref">device_enrichment_details</span></a> – Manage DeviceEnrichmentDetails objects of Devices</p></li>
+<li><p><a class="reference internal" href="device_replacement_module.html#ansible-collections-cisco-dnac-device-replacement-module"><span class="std std-ref">device_replacement</span></a> – Manage DeviceReplacement objects of DeviceReplacement</p></li>
+<li><p><a class="reference internal" href="device_replacement_workflow_module.html#ansible-collections-cisco-dnac-device-replacement-workflow-module"><span class="std std-ref">device_replacement_workflow</span></a> – Manage DeviceReplacementWorkflow objects of DeviceReplacement</p></li>
+<li><p><a class="reference internal" href="discovery_module.html#ansible-collections-cisco-dnac-discovery-module"><span class="std std-ref">discovery</span></a> – Manage Discovery objects of Discovery</p></li>
+<li><p><a class="reference internal" href="discovery_job_module.html#ansible-collections-cisco-dnac-discovery-job-module"><span class="std std-ref">discovery_job</span></a> – Manage DiscoveryJob objects of Discovery</p></li>
+<li><p><a class="reference internal" href="discovery_network_device_module.html#ansible-collections-cisco-dnac-discovery-network-device-module"><span class="std std-ref">discovery_network_device</span></a> – Manage DiscoveryNetworkDevice objects of Discovery</p></li>
+<li><p><a class="reference internal" href="enterprise_ssid_module.html#ansible-collections-cisco-dnac-enterprise-ssid-module"><span class="std std-ref">enterprise_ssid</span></a> – Manage EnterpriseSsid objects of Wireless</p></li>
+<li><p><a class="reference internal" href="event_api_status_module.html#ansible-collections-cisco-dnac-event-api-status-module"><span class="std std-ref">event_api_status</span></a> – Manage EventApiStatus objects of EventManagement</p></li>
+<li><p><a class="reference internal" href="event_series_module.html#ansible-collections-cisco-dnac-event-series-module"><span class="std std-ref">event_series</span></a> – Manage EventSeries objects of EventManagement</p></li>
+<li><p><a class="reference internal" href="event_subscription_module.html#ansible-collections-cisco-dnac-event-subscription-module"><span class="std std-ref">event_subscription</span></a> – Manage EventSubscription objects of EventManagement</p></li>
+<li><p><a class="reference internal" href="events_module.html#ansible-collections-cisco-dnac-events-module"><span class="std std-ref">events</span></a> – Manage Events objects of EventManagement</p></li>
+<li><p><a class="reference internal" href="file_module.html#ansible-collections-cisco-dnac-file-module"><span class="std std-ref">file</span></a> – Manage File objects of File</p></li>
+<li><p><a class="reference internal" href="file_namespace_module.html#ansible-collections-cisco-dnac-file-namespace-module"><span class="std std-ref">file_namespace</span></a> – Manage FileNamespace objects of File</p></li>
+<li><p><a class="reference internal" href="flow_analysis_module.html#ansible-collections-cisco-dnac-flow-analysis-module"><span class="std std-ref">flow_analysis</span></a> – Manage FlowAnalysis objects of PathTrace</p></li>
+<li><p><a class="reference internal" href="global_credential_module.html#ansible-collections-cisco-dnac-global-credential-module"><span class="std std-ref">global_credential</span></a> – Manage GlobalCredential objects of Discovery</p></li>
+<li><p><a class="reference internal" href="global_credential_cli_module.html#ansible-collections-cisco-dnac-global-credential-cli-module"><span class="std std-ref">global_credential_cli</span></a> – Manage GlobalCredentialCli objects of Discovery</p></li>
+<li><p><a class="reference internal" href="global_credential_http_read_module.html#ansible-collections-cisco-dnac-global-credential-http-read-module"><span class="std std-ref">global_credential_http_read</span></a> – Manage GlobalCredentialHttpRead objects of Discovery</p></li>
+<li><p><a class="reference internal" href="global_credential_http_write_module.html#ansible-collections-cisco-dnac-global-credential-http-write-module"><span class="std std-ref">global_credential_http_write</span></a> – Manage GlobalCredentialHttpWrite objects of Discovery</p></li>
+<li><p><a class="reference internal" href="global_credential_netconf_module.html#ansible-collections-cisco-dnac-global-credential-netconf-module"><span class="std std-ref">global_credential_netconf</span></a> – Manage GlobalCredentialNetconf objects of Discovery</p></li>
+<li><p><a class="reference internal" href="global_credential_snmpv2_read_community_module.html#ansible-collections-cisco-dnac-global-credential-snmpv2-read-community-module"><span class="std std-ref">global_credential_snmpv2_read_community</span></a> – Manage GlobalCredentialSnmpv2ReadCommunity objects of Discovery</p></li>
+<li><p><a class="reference internal" href="global_credential_snmpv2_write_community_module.html#ansible-collections-cisco-dnac-global-credential-snmpv2-write-community-module"><span class="std std-ref">global_credential_snmpv2_write_community</span></a> – Manage GlobalCredentialSnmpv2WriteCommunity objects of Discovery</p></li>
+<li><p><a class="reference internal" href="global_credential_snmpv3_module.html#ansible-collections-cisco-dnac-global-credential-snmpv3-module"><span class="std std-ref">global_credential_snmpv3</span></a> – Manage GlobalCredentialSnmpv3 objects of Discovery</p></li>
+<li><p><a class="reference internal" href="global_pool_module.html#ansible-collections-cisco-dnac-global-pool-module"><span class="std std-ref">global_pool</span></a> – Manage GlobalPool objects of NetworkSettings</p></li>
+<li><p><a class="reference internal" href="import_image_module.html#ansible-collections-cisco-dnac-import-image-module"><span class="std std-ref">import_image</span></a> – Manage ImportImage objects of SoftwareImageManagementSwim</p></li>
+<li><p><a class="reference internal" href="import_image_file_module.html#ansible-collections-cisco-dnac-import-image-file-module"><span class="std std-ref">import_image_file</span></a> – Manage ImportImageFile objects of SoftwareImageManagementSwim</p></li>
+<li><p><a class="reference internal" href="import_image_url_module.html#ansible-collections-cisco-dnac-import-image-url-module"><span class="std std-ref">import_image_url</span></a> – Manage ImportImageUrl objects of SoftwareImageManagementSwim</p></li>
+<li><p><a class="reference internal" href="integration_event_module.html#ansible-collections-cisco-dnac-integration-event-module"><span class="std std-ref">integration_event</span></a> – Manage IntegrationEvent objects of Itsm</p></li>
+<li><p><a class="reference internal" href="interface_module.html#ansible-collections-cisco-dnac-interface-module"><span class="std std-ref">interface</span></a> – Manage Interface objects of Devices</p></li>
+<li><p><a class="reference internal" href="issue_enrichment_details_module.html#ansible-collections-cisco-dnac-issue-enrichment-details-module"><span class="std std-ref">issue_enrichment_details</span></a> – Manage IssueEnrichmentDetails objects of Issues</p></li>
+<li><p><a class="reference internal" href="network_module.html#ansible-collections-cisco-dnac-network-module"><span class="std std-ref">network</span></a> – Manage Network objects of NetworkSettings</p></li>
+<li><p><a class="reference internal" href="network_device_module.html#ansible-collections-cisco-dnac-network-device-module"><span class="std std-ref">network_device</span></a> – Manage NetworkDevice objects of Devices</p></li>
+<li><p><a class="reference internal" href="network_device_autocomplete_module.html#ansible-collections-cisco-dnac-network-device-autocomplete-module"><span class="std std-ref">network_device_autocomplete</span></a> – Manage NetworkDeviceAutocomplete objects of Devices</p></li>
+<li><p><a class="reference internal" href="network_device_config_module.html#ansible-collections-cisco-dnac-network-device-config-module"><span class="std std-ref">network_device_config</span></a> – Manage NetworkDeviceConfig objects of Devices</p></li>
+<li><p><a class="reference internal" href="network_device_export_list_module.html#ansible-collections-cisco-dnac-network-device-export-list-module"><span class="std std-ref">network_device_export_list</span></a> – Manage NetworkDeviceExportList objects of Devices</p></li>
+<li><p><a class="reference internal" href="network_device_functional_capability_module.html#ansible-collections-cisco-dnac-network-device-functional-capability-module"><span class="std std-ref">network_device_functional_capability</span></a> – Manage NetworkDeviceFunctionalCapability objects of Devices</p></li>
+<li><p><a class="reference internal" href="network_device_meraki_org_module.html#ansible-collections-cisco-dnac-network-device-meraki-org-module"><span class="std std-ref">network_device_meraki_org</span></a> – Manage NetworkDeviceMerakiOrg objects of Devices</p></li>
+<li><p><a class="reference internal" href="network_device_module_module.html#ansible-collections-cisco-dnac-network-device-module-module"><span class="std std-ref">network_device_module</span></a> – Manage NetworkDeviceModule objects of Devices</p></li>
+<li><p><a class="reference internal" href="network_device_poller_legit_reads_module.html#ansible-collections-cisco-dnac-network-device-poller-legit-reads-module"><span class="std std-ref">network_device_poller_legit_reads</span></a> – Manage NetworkDevicePollerLegitReads objects of CommandRunner</p></li>
+<li><p><a class="reference internal" href="network_device_poller_read_request_module.html#ansible-collections-cisco-dnac-network-device-poller-read-request-module"><span class="std std-ref">network_device_poller_read_request</span></a> – Manage NetworkDevicePollerReadRequest objects of CommandRunner</p></li>
+<li><p><a class="reference internal" href="network_device_polling_interval_module.html#ansible-collections-cisco-dnac-network-device-polling-interval-module"><span class="std std-ref">network_device_polling_interval</span></a> – Manage NetworkDevicePollingInterval objects of Devices</p></li>
+<li><p><a class="reference internal" href="network_device_register_module.html#ansible-collections-cisco-dnac-network-device-register-module"><span class="std std-ref">network_device_register</span></a> – Manage NetworkDeviceRegister objects of Devices</p></li>
+<li><p><a class="reference internal" href="network_device_sync_module.html#ansible-collections-cisco-dnac-network-device-sync-module"><span class="std std-ref">network_device_sync</span></a> – Manage NetworkDeviceSync objects of Devices</p></li>
+<li><p><a class="reference internal" href="network_device_update_role_module.html#ansible-collections-cisco-dnac-network-device-update-role-module"><span class="std std-ref">network_device_update_role</span></a> – Manage NetworkDeviceUpdateRole objects of Devices</p></li>
+<li><p><a class="reference internal" href="network_device_vlan_module.html#ansible-collections-cisco-dnac-network-device-vlan-module"><span class="std std-ref">network_device_vlan</span></a> – Manage NetworkDeviceVlan objects of Devices</p></li>
+<li><p><a class="reference internal" href="network_device_wireless_info_module.html#ansible-collections-cisco-dnac-network-device-wireless-info-module"><span class="std std-ref">network_device_wireless_info</span></a> – Manage NetworkDeviceWirelessInfo objects of Devices</p></li>
+<li><p><a class="reference internal" href="network_health_module.html#ansible-collections-cisco-dnac-network-health-module"><span class="std std-ref">network_health</span></a> – Manage NetworkHealth objects of Topology</p></li>
+<li><p><a class="reference internal" href="nfv_profile_module.html#ansible-collections-cisco-dnac-nfv-profile-module"><span class="std std-ref">nfv_profile</span></a> – Manage NfvProfile objects of SiteDesign</p></li>
+<li><p><a class="reference internal" href="nfv_provision_module.html#ansible-collections-cisco-dnac-nfv-provision-module"><span class="std std-ref">nfv_provision</span></a> – Manage NfvProvision objects of SiteDesign</p></li>
+<li><p><a class="reference internal" href="nfv_provision_detail_module.html#ansible-collections-cisco-dnac-nfv-provision-detail-module"><span class="std std-ref">nfv_provision_detail</span></a> – Manage NfvProvisionDetail objects of SiteDesign</p></li>
+<li><p><a class="reference internal" href="pnp_device_module.html#ansible-collections-cisco-dnac-pnp-device-module"><span class="std std-ref">pnp_device</span></a> – Manage PnpDevice objects of DeviceOnboardingPnp</p></li>
+<li><p><a class="reference internal" href="pnp_device_claim_module.html#ansible-collections-cisco-dnac-pnp-device-claim-module"><span class="std std-ref">pnp_device_claim</span></a> – Manage PnpDeviceClaim objects of DeviceOnboardingPnp</p></li>
+<li><p><a class="reference internal" href="pnp_device_import_module.html#ansible-collections-cisco-dnac-pnp-device-import-module"><span class="std std-ref">pnp_device_import</span></a> – Manage PnpDeviceImport objects of DeviceOnboardingPnp</p></li>
+<li><p><a class="reference internal" href="pnp_device_reset_module.html#ansible-collections-cisco-dnac-pnp-device-reset-module"><span class="std std-ref">pnp_device_reset</span></a> – Manage PnpDeviceReset objects of DeviceOnboardingPnp</p></li>
+<li><p><a class="reference internal" href="pnp_device_site_claim_module.html#ansible-collections-cisco-dnac-pnp-device-site-claim-module"><span class="std std-ref">pnp_device_site_claim</span></a> – Manage PnpDeviceSiteClaim objects of DeviceOnboardingPnp</p></li>
+<li><p><a class="reference internal" href="pnp_device_site_config_preview_module.html#ansible-collections-cisco-dnac-pnp-device-site-config-preview-module"><span class="std std-ref">pnp_device_site_config_preview</span></a> – Manage PnpDeviceSiteConfigPreview objects of DeviceOnboardingPnp</p></li>
+<li><p><a class="reference internal" href="pnp_device_unclaim_module.html#ansible-collections-cisco-dnac-pnp-device-unclaim-module"><span class="std std-ref">pnp_device_unclaim</span></a> – Manage PnpDeviceUnclaim objects of DeviceOnboardingPnp</p></li>
+<li><p><a class="reference internal" href="pnp_settings_module.html#ansible-collections-cisco-dnac-pnp-settings-module"><span class="std std-ref">pnp_settings</span></a> – Manage PnpSettings objects of DeviceOnboardingPnp</p></li>
+<li><p><a class="reference internal" href="pnp_workflow_module.html#ansible-collections-cisco-dnac-pnp-workflow-module"><span class="std std-ref">pnp_workflow</span></a> – Manage PnpWorkflow objects of DeviceOnboardingPnp</p></li>
+<li><p><a class="reference internal" href="sda_auth_profile_module.html#ansible-collections-cisco-dnac-sda-auth-profile-module"><span class="std std-ref">sda_auth_profile</span></a> – Manage SdaAuthProfile objects of Sda</p></li>
+<li><p><a class="reference internal" href="sda_border_device_module.html#ansible-collections-cisco-dnac-sda-border-device-module"><span class="std std-ref">sda_border_device</span></a> – Manage SdaBorderDevice objects of Sda</p></li>
+<li><p><a class="reference internal" href="sda_control_plane_device_module.html#ansible-collections-cisco-dnac-sda-control-plane-device-module"><span class="std std-ref">sda_control_plane_device</span></a> – Manage SdaControlPlaneDevice objects of Sda</p></li>
+<li><p><a class="reference internal" href="sda_device_module.html#ansible-collections-cisco-dnac-sda-device-module"><span class="std std-ref">sda_device</span></a> – Manage SdaDevice objects of Sda</p></li>
+<li><p><a class="reference internal" href="sda_edge_device_module.html#ansible-collections-cisco-dnac-sda-edge-device-module"><span class="std std-ref">sda_edge_device</span></a> – Manage SdaEdgeDevice objects of Sda</p></li>
+<li><p><a class="reference internal" href="sda_fabric_module.html#ansible-collections-cisco-dnac-sda-fabric-module"><span class="std std-ref">sda_fabric</span></a> – Manage SdaFabric objects of Sda</p></li>
+<li><p><a class="reference internal" href="sda_fabric_site_module.html#ansible-collections-cisco-dnac-sda-fabric-site-module"><span class="std std-ref">sda_fabric_site</span></a> – Manage SdaFabricSite objects of Sda</p></li>
+<li><p><a class="reference internal" href="sda_host_onboarding_access_point_module.html#ansible-collections-cisco-dnac-sda-host-onboarding-access-point-module"><span class="std std-ref">sda_host_onboarding_access_point</span></a> – Manage SdaHostOnboardingAccessPoint objects of Sda</p></li>
+<li><p><a class="reference internal" href="sda_host_onboarding_user_device_module.html#ansible-collections-cisco-dnac-sda-host-onboarding-user-device-module"><span class="std std-ref">sda_host_onboarding_user_device</span></a> – Manage SdaHostOnboardingUserDevice objects of Sda</p></li>
+<li><p><a class="reference internal" href="sda_virtual_network_module.html#ansible-collections-cisco-dnac-sda-virtual-network-module"><span class="std std-ref">sda_virtual_network</span></a> – Manage SdaVirtualNetwork objects of Sda</p></li>
+<li><p><a class="reference internal" href="sda_virtual_network_ip_pool_module.html#ansible-collections-cisco-dnac-sda-virtual-network-ip-pool-module"><span class="std std-ref">sda_virtual_network_ip_pool</span></a> – Manage SdaVirtualNetworkIpPool objects of Sda</p></li>
+<li><p><a class="reference internal" href="service_provider_module.html#ansible-collections-cisco-dnac-service-provider-module"><span class="std std-ref">service_provider</span></a> – Manage ServiceProvider objects of NetworkSettings</p></li>
+<li><p><a class="reference internal" href="site_module.html#ansible-collections-cisco-dnac-site-module"><span class="std std-ref">site</span></a> – Manage Site objects of Sites</p></li>
+<li><p><a class="reference internal" href="site_device_module.html#ansible-collections-cisco-dnac-site-device-module"><span class="std std-ref">site_device</span></a> – Manage SiteDevice objects of Sites</p></li>
+<li><p><a class="reference internal" href="site_health_module.html#ansible-collections-cisco-dnac-site-health-module"><span class="std std-ref">site_health</span></a> – Manage SiteHealth objects of Sites</p></li>
+<li><p><a class="reference internal" href="site_membership_module.html#ansible-collections-cisco-dnac-site-membership-module"><span class="std std-ref">site_membership</span></a> – Manage SiteMembership objects of Sites</p></li>
+<li><p><a class="reference internal" href="smart_virtual_account_module.html#ansible-collections-cisco-dnac-smart-virtual-account-module"><span class="std std-ref">smart_virtual_account</span></a> – Manage SmartVirtualAccount objects of DeviceOnboardingPnp</p></li>
+<li><p><a class="reference internal" href="snmp_property_module.html#ansible-collections-cisco-dnac-snmp-property-module"><span class="std std-ref">snmp_property</span></a> – Manage SnmpProperty objects of Discovery</p></li>
+<li><p><a class="reference internal" href="ssid_module.html#ansible-collections-cisco-dnac-ssid-module"><span class="std std-ref">ssid</span></a> – Manage Ssid objects of Wireless</p></li>
+<li><p><a class="reference internal" href="tag_module.html#ansible-collections-cisco-dnac-tag-module"><span class="std std-ref">tag</span></a> – Manage Tag objects of Tag</p></li>
+<li><p><a class="reference internal" href="tag_member_module.html#ansible-collections-cisco-dnac-tag-member-module"><span class="std std-ref">tag_member</span></a> – Manage TagMember objects of Tag</p></li>
+<li><p><a class="reference internal" href="task_module.html#ansible-collections-cisco-dnac-task-module"><span class="std std-ref">task</span></a> – Manage Task objects of Task</p></li>
+<li><p><a class="reference internal" href="template_module.html#ansible-collections-cisco-dnac-template-module"><span class="std std-ref">template</span></a> – Manage Template objects of ConfigurationTemplates</p></li>
+<li><p><a class="reference internal" href="template_deploy_module.html#ansible-collections-cisco-dnac-template-deploy-module"><span class="std std-ref">template_deploy</span></a> – Manage TemplateDeploy objects of ConfigurationTemplates</p></li>
+<li><p><a class="reference internal" href="template_preview_module.html#ansible-collections-cisco-dnac-template-preview-module"><span class="std std-ref">template_preview</span></a> – Manage TemplatePreview objects of ConfigurationTemplates</p></li>
+<li><p><a class="reference internal" href="template_project_module.html#ansible-collections-cisco-dnac-template-project-module"><span class="std std-ref">template_project</span></a> – Manage TemplateProject objects of ConfigurationTemplates</p></li>
+<li><p><a class="reference internal" href="template_version_module.html#ansible-collections-cisco-dnac-template-version-module"><span class="std std-ref">template_version</span></a> – Manage TemplateVersion objects of ConfigurationTemplates</p></li>
+<li><p><a class="reference internal" href="topology_module.html#ansible-collections-cisco-dnac-topology-module"><span class="std std-ref">topology</span></a> – Manage Topology objects of Topology</p></li>
+<li><p><a class="reference internal" href="trigger_image_activation_module.html#ansible-collections-cisco-dnac-trigger-image-activation-module"><span class="std std-ref">trigger_image_activation</span></a> – Manage TriggerImageActivation objects of SoftwareImageManagementSwim</p></li>
+<li><p><a class="reference internal" href="trigger_image_distribution_module.html#ansible-collections-cisco-dnac-trigger-image-distribution-module"><span class="std std-ref">trigger_image_distribution</span></a> – Manage TriggerImageDistribution objects of SoftwareImageManagementSwim</p></li>
+<li><p><a class="reference internal" href="user_enrichment_details_module.html#ansible-collections-cisco-dnac-user-enrichment-details-module"><span class="std std-ref">user_enrichment_details</span></a> – Manage UserEnrichmentDetails objects of Users</p></li>
+<li><p><a class="reference internal" href="virtual_account_sync_module.html#ansible-collections-cisco-dnac-virtual-account-sync-module"><span class="std std-ref">virtual_account_sync</span></a> – Manage VirtualAccountSync objects of DeviceOnboardingPnp</p></li>
+<li><p><a class="reference internal" href="wireless_ap_provision_module.html#ansible-collections-cisco-dnac-wireless-ap-provision-module"><span class="std std-ref">wireless_ap_provision</span></a> – Manage WirelessApProvision objects of Wireless</p></li>
+<li><p><a class="reference internal" href="wireless_profile_module.html#ansible-collections-cisco-dnac-wireless-profile-module"><span class="std std-ref">wireless_profile</span></a> – Manage WirelessProfile objects of Wireless</p></li>
+<li><p><a class="reference internal" href="wireless_provision_module.html#ansible-collections-cisco-dnac-wireless-provision-module"><span class="std std-ref">wireless_provision</span></a> – Manage WirelessProvision objects of Wireless</p></li>
+<li><p><a class="reference internal" href="wireless_rf_profile_module.html#ansible-collections-cisco-dnac-wireless-rf-profile-module"><span class="std std-ref">wireless_rf_profile</span></a> – Manage WirelessRfProfile objects of Wireless</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>List of <a class="reference external" href="https://docs.ansible.com/ansible/latest/collections/index.html#list-of-collections" title="(in Ansible v4)"><span class="xref std std-ref">collections</span></a> with docs hosted here.</p>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="application_set_module.html" class="btn btn-neutral float-right" title="cisco.dnac.application_set – Manage ApplicationSet objects of ApplicationPolicy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to DNA Center Ansible Actions’ documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright Copyright (c) 2021 Cisco Systems.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
