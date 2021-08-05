@@ -14,13 +14,13 @@
 
 .. Title
 
-cisco.dnac.pnp_device_unclaim -- Manage PnpDeviceUnclaim objects of DeviceOnboardingPnp
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.pnp_device_unclaim -- Resource module for Pnp Device Unclaim
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 2.0.7).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -42,7 +42,7 @@ Synopsis
 
 .. Description
 
-- Un-Claims one of more devices with specified workflow.
+- Manage operation create of the resource Pnp Device Unclaim.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +84,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>UnclaimRequest&#x27;s deviceIdList (list of strings).</div>
+                                            <div>Pnp Device Unclaim&#x27;s deviceIdList.</div>
                                                         </td>
             </tr>
                         </table>
@@ -100,12 +100,8 @@ See Also
 
 .. seealso::
 
-   :ref:`cisco.dnac.plugins.module_utils.definitions.pnp_device_unclaim <ansible_collections.cisco.dnac.plugins.module_utils.definitions.pnp_device_unclaim_module>`
-      The official documentation on the **cisco.dnac.plugins.module_utils.definitions.pnp_device_unclaim** module.
-   `PnpDeviceUnclaim reference <https://developer.cisco.com/docs/dna-center/api/1-3-3-x>`_
-       Complete reference of the PnpDeviceUnclaim object model.
-   `PnpDeviceUnclaim reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary>`_
-       SDK reference.
+   `Pnp Device Unclaim reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Pnp Device Unclaim object model.
 
 .. Examples
 
@@ -115,11 +111,17 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: un_claim_device
+    - name: Create
       cisco.dnac.pnp_device_unclaim:
-        state: create  # required
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
         deviceIdList:
-        - SomeValue  # string
+        - string
 
 
 
@@ -153,42 +155,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                     </td>
                 <td>always</td>
                 <td>
-                                            <div>A dictionary with the response returned by the DNA Center Python SDK</div>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
                                         <br/>
                                             <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{&#x27;response&#x27;: 29, &#x27;version&#x27;: &#x27;1.0&#x27;}</div>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-missing_params"></div>
-                    <b>missing_params</b>
-                    <a class="ansibleOptionLink" href="#return-missing_params" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">list</span>
-                       / <span style="color: purple">elements=string</span>                    </div>
-                                    </td>
-                <td>when the function request schema is not satisfied</td>
-                <td>
-                                            <div>Provided arguments do not comply with the schema of the DNA Center Python SDK function</div>
-                                        <br/>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-sdk_function"></div>
-                    <b>sdk_function</b>
-                    <a class="ansibleOptionLink" href="#return-sdk_function" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">string</span>
-                                          </div>
-                                    </td>
-                <td>always</td>
-                <td>
-                                            <div>The DNA Center SDK function used to execute the task</div>
-                                        <br/>
-                                            <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">device_onboarding_pnp.un_claim_device</div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;jsonArrayResponse&quot;: [
+        {}
+      ],
+      &quot;jsonResponse&quot;: {},
+      &quot;message&quot;: &quot;string&quot;,
+      &quot;statusCode&quot;: 0
+    }</div>
                                     </td>
             </tr>
                         </table>

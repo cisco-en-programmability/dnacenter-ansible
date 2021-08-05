@@ -14,13 +14,13 @@
 
 .. Title
 
-cisco.dnac.nfv_provision -- Manage NfvProvision objects of SiteDesign
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.nfv_provision -- Resource module for Nfv Provision
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 2.0.7).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -42,8 +42,7 @@ Synopsis
 
 .. Description
 
-- Design and Provision single/multi NFV device with given site/area/building/floor .
-- Returns provisioning device information for the specified IP address.
+- Manage operation create of the resource Nfv Provision.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -75,34 +74,17 @@ Parameters
         </tr>
                     <tr>
                                                                 <td colspan="5">
-                    <div class="ansibleOptionAnchor" id="parameter-device_ip"></div>
-                    <b>device_ip</b>
-                    <a class="ansibleOptionLink" href="#parameter-device_ip" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Device to which the provisioning detail has to be retrieved.</div>
-                                            <div>Required for state query.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="5">
                     <div class="ansibleOptionAnchor" id="parameter-provisioning"></div>
                     <b>provisioning</b>
                     <a class="ansibleOptionLink" href="#parameter-provisioning" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Provisioning, property of the request body (list of objects).</div>
-                                            <div>Required for state create.</div>
+                                            <div>Nfv Provision&#x27;s provisioning.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -113,12 +95,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/device" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                         / <span style="color: red">required</span>                    </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s device.</div>
+                                            <div>Nfv Provision&#x27;s device.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -130,12 +112,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/device/customNetworks" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s customNetworks.</div>
+                                            <div>Nfv Provision&#x27;s customNetworks.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -153,7 +135,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s ipAddressPool.</div>
+                                            <div>Nfv Provision&#x27;s ipAddressPool.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -166,12 +148,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/device/customNetworks/name" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s name.</div>
+                                            <div>Nfv Provision&#x27;s name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -189,7 +171,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s port.</div>
+                                            <div>Nfv Provision&#x27;s port.</div>
                                                         </td>
             </tr>
                     
@@ -207,7 +189,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s deviceSerialNumber.</div>
+                                            <div>Nfv Provision&#x27;s deviceSerialNumber.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -224,7 +206,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s ip.</div>
+                                            <div>Nfv Provision&#x27;s ip.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -236,12 +218,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/device/serviceProviders" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                         / <span style="color: red">required</span>                    </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s serviceProviders.</div>
+                                            <div>Nfv Provision&#x27;s serviceProviders.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -254,12 +236,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/device/serviceProviders/serviceProvider" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s serviceProvider.</div>
+                                            <div>Nfv Provision&#x27;s serviceProvider.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -277,7 +259,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s wanInterface.</div>
+                                            <div>Nfv Provision&#x27;s wanInterface.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -296,7 +278,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s bandwidth.</div>
+                                            <div>Nfv Provision&#x27;s bandwidth.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -315,7 +297,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s gateway.</div>
+                                            <div>Nfv Provision&#x27;s gateway.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -334,7 +316,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s interfaceName.</div>
+                                            <div>Nfv Provision&#x27;s interfaceName.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -353,7 +335,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s ipAddress.</div>
+                                            <div>Nfv Provision&#x27;s ipAddress.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -372,7 +354,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s subnetmask.</div>
+                                            <div>Nfv Provision&#x27;s subnetmask.</div>
                                                         </td>
             </tr>
                     
@@ -386,12 +368,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/device/services" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                         / <span style="color: red">required</span>                    </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s services.</div>
+                                            <div>Nfv Provision&#x27;s services.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -409,7 +391,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s adminPasswordHash.</div>
+                                            <div>Nfv Provision&#x27;s adminPasswordHash.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -427,7 +409,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s centralManagerIP.</div>
+                                            <div>Nfv Provision&#x27;s centralManagerIP.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -445,7 +427,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s centralRegistrationKey.</div>
+                                            <div>Nfv Provision&#x27;s centralRegistrationKey.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -463,7 +445,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s commonKey.</div>
+                                            <div>Nfv Provision&#x27;s commonKey.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -481,7 +463,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s disk.</div>
+                                            <div>Nfv Provision&#x27;s disk.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -499,7 +481,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s mode.</div>
+                                            <div>Nfv Provision&#x27;s mode.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -517,7 +499,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s systemIp.</div>
+                                            <div>Nfv Provision&#x27;s systemIp.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -530,12 +512,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/device/services/type" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s type.</div>
+                                            <div>Nfv Provision&#x27;s type.</div>
                                                         </td>
             </tr>
                     
@@ -548,12 +530,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/device/subPools" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                         / <span style="color: red">required</span>                    </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s subPools.</div>
+                                            <div>Nfv Provision&#x27;s subPools.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -566,12 +548,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/device/subPools/gateway" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s gateway.</div>
+                                            <div>Nfv Provision&#x27;s gateway.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -584,12 +566,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/device/subPools/ipSubnet" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s ipSubnet.</div>
+                                            <div>Nfv Provision&#x27;s ipSubnet.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -602,12 +584,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/device/subPools/name" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s name.</div>
+                                            <div>Nfv Provision&#x27;s name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -625,7 +607,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s parentPoolName.</div>
+                                            <div>Nfv Provision&#x27;s parentPoolName.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -638,12 +620,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/device/subPools/type" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s type.</div>
+                                            <div>Nfv Provision&#x27;s type.</div>
                                                         </td>
             </tr>
                     
@@ -656,12 +638,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/device/tagName" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s tagName.</div>
+                                            <div>Nfv Provision&#x27;s tagName.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -678,7 +660,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s templateParam.</div>
+                                            <div>Nfv Provision&#x27;s templateParam.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -696,7 +678,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s asav.</div>
+                                            <div>Nfv Provision&#x27;s asav.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -715,7 +697,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s var1.</div>
+                                            <div>Nfv Provision&#x27;s var1.</div>
                                                         </td>
             </tr>
                     
@@ -734,7 +716,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s nfvis.</div>
+                                            <div>Nfv Provision&#x27;s nfvis.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -753,7 +735,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s var1.</div>
+                                            <div>Nfv Provision&#x27;s var1.</div>
                                                         </td>
             </tr>
                     
@@ -767,12 +749,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/device/vlan" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s vlan.</div>
+                                            <div>Nfv Provision&#x27;s vlan.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -785,12 +767,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/device/vlan/id" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s id.</div>
+                                            <div>Nfv Provision&#x27;s id.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -803,12 +785,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/device/vlan/interfaces" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s interfaces.</div>
+                                            <div>Nfv Provision&#x27;s interfaces.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -826,7 +808,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s network.</div>
+                                            <div>Nfv Provision&#x27;s network.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -839,12 +821,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/device/vlan/type" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s type.</div>
+                                            <div>Nfv Provision&#x27;s type.</div>
                                                         </td>
             </tr>
                     
@@ -857,12 +839,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-provisioning/site" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">dictionary</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s site.</div>
+                                            <div>Nfv Provision&#x27;s site.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -879,7 +861,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s area.</div>
+                                            <div>Nfv Provision&#x27;s area.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -897,7 +879,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s name.</div>
+                                            <div>Nfv Provision&#x27;s name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -915,7 +897,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s parentName.</div>
+                                            <div>Nfv Provision&#x27;s parentName.</div>
                                                         </td>
             </tr>
                     
@@ -933,7 +915,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s building.</div>
+                                            <div>Nfv Provision&#x27;s building.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -951,7 +933,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s address.</div>
+                                            <div>Nfv Provision&#x27;s address.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -969,7 +951,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s latitude.</div>
+                                            <div>Nfv Provision&#x27;s latitude.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -987,7 +969,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s longitude.</div>
+                                            <div>Nfv Provision&#x27;s longitude.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1005,7 +987,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s name.</div>
+                                            <div>Nfv Provision&#x27;s name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1023,7 +1005,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s parentName.</div>
+                                            <div>Nfv Provision&#x27;s parentName.</div>
                                                         </td>
             </tr>
                     
@@ -1041,7 +1023,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s floor.</div>
+                                            <div>Nfv Provision&#x27;s floor.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -1059,7 +1041,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s height.</div>
+                                            <div>Nfv Provision&#x27;s height.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1077,7 +1059,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s length.</div>
+                                            <div>Nfv Provision&#x27;s length.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1095,7 +1077,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s name.</div>
+                                            <div>Nfv Provision&#x27;s name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1113,7 +1095,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s parentName.</div>
+                                            <div>Nfv Provision&#x27;s parentName.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1131,7 +1113,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s rfModel.</div>
+                                            <div>Nfv Provision&#x27;s rfModel.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1149,7 +1131,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s width.</div>
+                                            <div>Nfv Provision&#x27;s width.</div>
                                                         </td>
             </tr>
                     
@@ -1167,7 +1149,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s siteProfileName.</div>
+                                            <div>Nfv Provision&#x27;s siteProfileName.</div>
                                                         </td>
             </tr>
                     
@@ -1179,13 +1161,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Profile, property of the request body (list of objects).</div>
-                                            <div>Required for state create.</div>
+                                            <div>Nfv Provision&#x27;s siteProfile.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -1196,12 +1177,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                         / <span style="color: red">required</span>                    </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s device.</div>
+                                            <div>Nfv Provision&#x27;s device.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -1213,12 +1194,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/customNetworks" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s customNetworks.</div>
+                                            <div>Nfv Provision&#x27;s customNetworks.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -1231,12 +1212,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/customNetworks/connectionType" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s connectionType.</div>
+                                            <div>Nfv Provision&#x27;s connectionType.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1249,12 +1230,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/customNetworks/name" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s name.</div>
+                                            <div>Nfv Provision&#x27;s name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1267,12 +1248,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/customNetworks/networkMode" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s networkMode.</div>
+                                            <div>Nfv Provision&#x27;s networkMode.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1285,12 +1266,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/customNetworks/servicesToConnect" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                         / <span style="color: red">required</span>                    </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s servicesToConnect.</div>
+                                            <div>Nfv Provision&#x27;s servicesToConnect.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -1304,12 +1285,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/customNetworks/servicesToConnect/service" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s service.</div>
+                                            <div>Nfv Provision&#x27;s service.</div>
                                                         </td>
             </tr>
                     
@@ -1328,7 +1309,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s vlan.</div>
+                                            <div>Nfv Provision&#x27;s vlan.</div>
                                                         </td>
             </tr>
                     
@@ -1341,12 +1322,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/customServices" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s customServices.</div>
+                                            <div>Nfv Provision&#x27;s customServices.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -1359,12 +1340,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/customServices/applicationType" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s applicationType.</div>
+                                            <div>Nfv Provision&#x27;s applicationType.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1382,7 +1363,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s imageName.</div>
+                                            <div>Nfv Provision&#x27;s imageName.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1395,12 +1376,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/customServices/name" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s name.</div>
+                                            <div>Nfv Provision&#x27;s name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1413,12 +1394,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/customServices/profile" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s profile.</div>
+                                            <div>Nfv Provision&#x27;s profile.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1431,12 +1412,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/customServices/topology" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">dictionary</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s topology.</div>
+                                            <div>Nfv Provision&#x27;s topology.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -1455,7 +1436,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s assignIp.</div>
+                                            <div>Nfv Provision&#x27;s assignIp.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1474,7 +1455,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s name.</div>
+                                            <div>Nfv Provision&#x27;s name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1493,7 +1474,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s type.</div>
+                                            <div>Nfv Provision&#x27;s type.</div>
                                                         </td>
             </tr>
                     
@@ -1507,12 +1488,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/customTemplate" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s customTemplate.</div>
+                                            <div>Nfv Provision&#x27;s customTemplate.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -1525,12 +1506,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/customTemplate/deviceType" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s deviceType.</div>
+                                            <div>Nfv Provision&#x27;s deviceType.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1543,12 +1524,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/customTemplate/template" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s template.</div>
+                                            <div>Nfv Provision&#x27;s template.</div>
                                                         </td>
             </tr>
                     
@@ -1561,12 +1542,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/deviceType" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s deviceType.</div>
+                                            <div>Nfv Provision&#x27;s deviceType.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1578,7 +1559,7 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/dia" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">boolean</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                                         <ul style="margin: 0; padding: 0"><b>Choices:</b>
@@ -1587,7 +1568,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s dia.</div>
+                                            <div>Dia flag.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1599,12 +1580,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/serviceProviders" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                         / <span style="color: red">required</span>                    </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s serviceProviders.</div>
+                                            <div>Nfv Provision&#x27;s serviceProviders.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -1617,7 +1598,7 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/serviceProviders/connect" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">boolean</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                                         <ul style="margin: 0; padding: 0"><b>Choices:</b>
@@ -1626,7 +1607,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s connect.</div>
+                                            <div>Connect flag.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1639,7 +1620,7 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/serviceProviders/defaultGateway" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">boolean</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                                         <ul style="margin: 0; padding: 0"><b>Choices:</b>
@@ -1648,7 +1629,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s defaultGateway.</div>
+                                            <div>DefaultGateway flag.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1661,12 +1642,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/serviceProviders/linkType" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s linkType.</div>
+                                            <div>Nfv Provision&#x27;s linkType.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1679,12 +1660,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/serviceProviders/serviceProvider" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s serviceProvider.</div>
+                                            <div>Nfv Provision&#x27;s serviceProvider.</div>
                                                         </td>
             </tr>
                     
@@ -1697,12 +1678,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/services" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                         / <span style="color: red">required</span>                    </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s services.</div>
+                                            <div>Nfv Provision&#x27;s services.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -1715,12 +1696,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/services/imageName" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s imageName.</div>
+                                            <div>Nfv Provision&#x27;s imageName.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1738,7 +1719,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s mode.</div>
+                                            <div>Nfv Provision&#x27;s mode.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1751,12 +1732,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/services/name" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s name.</div>
+                                            <div>Nfv Provision&#x27;s name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1769,12 +1750,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/services/profile" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s profile.</div>
+                                            <div>Nfv Provision&#x27;s profile.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1787,12 +1768,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/services/topology" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">dictionary</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s topology.</div>
+                                            <div>Nfv Provision&#x27;s topology.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -1811,7 +1792,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s assignIp.</div>
+                                            <div>Nfv Provision&#x27;s assignIp.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1830,7 +1811,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s name.</div>
+                                            <div>Nfv Provision&#x27;s name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1849,7 +1830,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s type.</div>
+                                            <div>Nfv Provision&#x27;s type.</div>
                                                         </td>
             </tr>
                     
@@ -1863,12 +1844,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/services/type" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s type.</div>
+                                            <div>Nfv Provision&#x27;s type.</div>
                                                         </td>
             </tr>
                     
@@ -1881,12 +1862,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/tagName" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s tagName.</div>
+                                            <div>Nfv Provision&#x27;s tagName.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1898,12 +1879,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/vlan" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s vlan.</div>
+                                            <div>Nfv Provision&#x27;s vlan.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -1916,12 +1897,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/vlan/id" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s id.</div>
+                                            <div>Nfv Provision&#x27;s id.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1934,12 +1915,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/device/vlan/type" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s type.</div>
+                                            <div>Nfv Provision&#x27;s type.</div>
                                                         </td>
             </tr>
                     
@@ -1952,12 +1933,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-siteProfile/siteProfileName" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the nfv provision&#x27;s siteProfileName.</div>
+                                            <div>Nfv Provision&#x27;s siteProfileName.</div>
                                                         </td>
             </tr>
                     
@@ -1974,12 +1955,8 @@ See Also
 
 .. seealso::
 
-   :ref:`cisco.dnac.plugins.module_utils.definitions.nfv_provision <ansible_collections.cisco.dnac.plugins.module_utils.definitions.nfv_provision_module>`
-      The official documentation on the **cisco.dnac.plugins.module_utils.definitions.nfv_provision** module.
-   `NfvProvision reference <https://developer.cisco.com/docs/dna-center/api/1-3-3-x>`_
-       Complete reference of the NfvProvision object model.
-   `NfvProvision reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary>`_
-       SDK reference.
+   `Nfv Provision reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Nfv Provision object model.
 
 .. Examples
 
@@ -1989,118 +1966,118 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: provision_nfv
+    - name: Create
       cisco.dnac.nfv_provision:
-        state: create  # required
-        provisioning:  # required
-        - site:  # required
-            siteProfileName: SomeValue  # string
-            area:
-              name: SomeValue  # string
-              parentName: SomeValue  # string
-            building:
-              name: SomeValue  # string
-              address: SomeValue  # string
-              latitude: 1  #  number
-              longitude: 1  #  number
-              parentName: SomeValue  # string
-            floor:
-              name: SomeValue  # string
-              parentName: SomeValue  # string
-              rfModel: SomeValue  # string
-              width: 1  #  number
-              length: 1  #  number
-              height: 1  #  number
-          device:  # required
-          - tagName: SomeValue  # string, required
-            serviceProviders:  # required
-            - serviceProvider: SomeValue  # string, required
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        provisioning:
+        - device:
+          - customNetworks:
+            - ipAddressPool: string
+              name: string
+              port: string
+            deviceSerialNumber: string
+            ip: string
+            serviceProviders:
+            - serviceProvider: string
               wanInterface:
-                ipAddress: SomeValue  # string
-                interfaceName: SomeValue  # string
-                subnetmask: SomeValue  # string
-                bandwidth: SomeValue  # string
-                gateway: SomeValue  # string
-            services:  # required
-            - type: SomeValue  # string, required
-              mode: SomeValue  # string
-              systemIp: SomeValue  # string
-              centralManagerIP: SomeValue  # string
-              centralRegistrationKey: SomeValue  # string
-              commonKey: SomeValue  # string
-              adminPasswordHash: SomeValue  # string
-              disk: SomeValue  # string
-            subPools:  # required
-            - type: SomeValue  # string, required
-              name: SomeValue  # string, required
-              ipSubnet: SomeValue  # string, required
-              gateway: SomeValue  # string, required
-              parentPoolName: SomeValue  # string
-            ip: SomeValue  # string
-            deviceSerialNumber: SomeValue  # string
-            vlan:
-            - type: SomeValue  # string, required
-              id: SomeValue  # string, required
-              interfaces: SomeValue  # string, required
-              network: SomeValue  # string
-            customNetworks:
-            - name: SomeValue  # string, required
-              port: SomeValue  # string
-              ipAddressPool: SomeValue  # string
+                bandwidth: string
+                gateway: string
+                interfaceName: string
+                ipAddress: string
+                subnetmask: string
+            services:
+            - adminPasswordHash: string
+              centralManagerIP: string
+              centralRegistrationKey: string
+              commonKey: string
+              disk: string
+              mode: string
+              systemIp: string
+              type: string
+            subPools:
+            - gateway: string
+              ipSubnet: string
+              name: string
+              parentPoolName: string
+              type: string
+            tagName: string
             templateParam:
-              nfvis:
-                var1: SomeValue  # string
               asav:
-                var1: SomeValue  # string
-        siteProfile:  # required
-        - siteProfileName: SomeValue  # string, required
-          device:  # required
-          - deviceType: SomeValue  # string, required
-            tagName: SomeValue  # string, required
-            serviceProviders:  # required
-            - serviceProvider: SomeValue  # string, required
-              linkType: SomeValue  # string, required
-              connect: True  # boolean, required
-              defaultGateway: True  # boolean, required
-            dia: True  # boolean, required
-            services:  # required
-            - type: SomeValue  # string, required
-              profile: SomeValue  # string, required
-              name: SomeValue  # string, required
-              imageName: SomeValue  # string, required
-              topology:  # required
-                type: SomeValue  # string
-                name: SomeValue  # string
-                assignIp: SomeValue  # string
-              mode: SomeValue  # string
-            customServices:
-            - name: SomeValue  # string, required
-              applicationType: SomeValue  # string, required
-              profile: SomeValue  # string, required
-              topology:  # required
-                type: SomeValue  # string
-                name: SomeValue  # string
-                assignIp: SomeValue  # string
-              imageName: SomeValue  # string
-            customNetworks:
-            - name: SomeValue  # string, required
-              servicesToConnect:  # required
-              - service: SomeValue  # string, required
-              connectionType: SomeValue  # string, required
-              networkMode: SomeValue  # string, required
-              vlan: SomeValue  # string
+                var1: string
+              nfvis:
+                var1: string
             vlan:
-            - type: SomeValue  # string, required
-              id: SomeValue  # string, required
+            - id: string
+              interfaces: string
+              network: string
+              type: string
+          site:
+            area:
+              name: string
+              parentName: string
+            building:
+              address: string
+              latitude: 0
+              longitude: 0
+              name: string
+              parentName: string
+            floor:
+              height: 0
+              length: 0
+              name: string
+              parentName: string
+              rfModel: string
+              width: 0
+            siteProfileName: string
+        siteProfile:
+        - device:
+          - customNetworks:
+            - connectionType: string
+              name: string
+              networkMode: string
+              servicesToConnect:
+              - service: string
+              vlan: string
+            customServices:
+            - applicationType: string
+              imageName: string
+              name: string
+              profile: string
+              topology:
+                assignIp: string
+                name: string
+                type: string
             customTemplate:
-            - deviceType: SomeValue  # string, required
-              template: SomeValue  # string, required
-
-    - name: get_device_details_by_ip
-      cisco.dnac.nfv_provision:
-        state: query  # required
-        device_ip: SomeValue  # string, required
-      register: nm_get_device_details_by_ip
+            - deviceType: string
+              template: string
+            deviceType: string
+            dia: true
+            serviceProviders:
+            - connect: true
+              defaultGateway: true
+              linkType: string
+              serviceProvider: string
+            services:
+            - imageName: string
+              mode: string
+              name: string
+              profile: string
+              topology:
+                assignIp: string
+                name: string
+                type: string
+              type: string
+            tagName: string
+            vlan:
+            - id: string
+              type: string
+          siteProfileName: string
 
 
 
@@ -2134,42 +2111,14 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                     </td>
                 <td>always</td>
                 <td>
-                                            <div>A dictionary with the response returned by the DNA Center Python SDK</div>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
                                         <br/>
                                             <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{&#x27;response&#x27;: 29, &#x27;version&#x27;: &#x27;1.0&#x27;}</div>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-missing_params"></div>
-                    <b>missing_params</b>
-                    <a class="ansibleOptionLink" href="#return-missing_params" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">list</span>
-                       / <span style="color: purple">elements=string</span>                    </div>
-                                    </td>
-                <td>when the function request schema is not satisfied</td>
-                <td>
-                                            <div>Provided arguments do not comply with the schema of the DNA Center Python SDK function</div>
-                                        <br/>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-sdk_function"></div>
-                    <b>sdk_function</b>
-                    <a class="ansibleOptionLink" href="#return-sdk_function" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">string</span>
-                                          </div>
-                                    </td>
-                <td>always</td>
-                <td>
-                                            <div>The DNA Center SDK function used to execute the task</div>
-                                        <br/>
-                                            <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">site_design.get_device_details_by_ip</div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;executionId&quot;: &quot;string&quot;,
+      &quot;executionStatusUrl&quot;: &quot;string&quot;,
+      &quot;message&quot;: &quot;string&quot;
+    }</div>
                                     </td>
             </tr>
                         </table>

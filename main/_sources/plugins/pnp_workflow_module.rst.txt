@@ -14,13 +14,13 @@
 
 .. Title
 
-cisco.dnac.pnp_workflow -- Manage PnpWorkflow objects of DeviceOnboardingPnp
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.pnp_workflow -- Resource module for Pnp Workflow
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 2.0.7).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -42,13 +42,7 @@ Synopsis
 
 .. Description
 
-- Returns the list of workflows based on filter criteria. If a limit is not specified, it will default to return 50 workflows. Pagination and sorting are also supported by this endpoint.
-
-- Adds a PnP Workflow along with the relevant tasks in the workflow into the PnP database.
-- Returns a workflow specified by id.
-- Deletes a workflow specified by id.
-- Updates an existing workflow.
-- Returns the workflow count.
+- Manage operations create, update and delete of the resource Pnp Workflow.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -90,22 +84,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Workflow&#x27;s _id.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-_state"></div>
-                    <b>_state</b>
-                    <a class="ansibleOptionLink" href="#parameter-_state" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Workflow&#x27;s state.</div>
+                                            <div>Pnp Workflow&#x27;s _id.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -120,7 +99,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Workflow&#x27;s addedOn.</div>
+                                            <div>Pnp Workflow&#x27;s addedOn.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -139,7 +118,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>Workflow&#x27;s addToInventory.</div>
+                                            <div>AddToInventory flag.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -154,27 +133,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Workflow&#x27;s configId.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-count"></div>
-                    <b>count</b>
-                    <a class="ansibleOptionLink" href="#parameter-count" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>If true gets the number of objects.</div>
-                                            <div>Required for state query.</div>
+                                            <div>Pnp Workflow&#x27;s configId.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -189,7 +148,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Workflow&#x27;s currTaskIdx.</div>
+                                            <div>Pnp Workflow&#x27;s currTaskIdx.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -204,7 +163,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Workflow&#x27;s description.</div>
+                                            <div>Pnp Workflow&#x27;s description.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -219,7 +178,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Workflow&#x27;s endTime.</div>
+                                            <div>Pnp Workflow&#x27;s endTime.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -234,7 +193,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Workflow&#x27;s execTime.</div>
+                                            <div>Pnp Workflow&#x27;s execTime.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -244,7 +203,7 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
@@ -264,7 +223,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Workflow&#x27;s imageId.</div>
+                                            <div>Pnp Workflow&#x27;s imageId.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -279,7 +238,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Workflow&#x27;s instanceType.</div>
+                                            <div>Pnp Workflow&#x27;s instanceType.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -294,22 +253,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Workflow&#x27;s lastupdateOn.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-limit"></div>
-                    <b>limit</b>
-                    <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Limits number of results.</div>
+                                            <div>Pnp Workflow&#x27;s lastupdateOn.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -324,53 +268,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Workflow Name.</div>
-                                            <div>Workflow&#x27;s name.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-offset"></div>
-                    <b>offset</b>
-                    <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Index of first result.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-sort"></div>
-                    <b>sort</b>
-                    <a class="ansibleOptionLink" href="#parameter-sort" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Comma seperated lost of fields to sort on.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-sort_order"></div>
-                    <b>sort_order</b>
-                    <a class="ansibleOptionLink" href="#parameter-sort_order" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Sort Order Ascending (asc) or Descending (des).</div>
+                                            <div>Pnp Workflow&#x27;s name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -385,7 +283,22 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Workflow&#x27;s startTime.</div>
+                                            <div>Pnp Workflow&#x27;s startTime.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="3">
+                    <div class="ansibleOptionAnchor" id="parameter-state_"></div>
+                    <b>state_</b>
+                    <a class="ansibleOptionLink" href="#parameter-state_" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Pnp Workflow&#x27;s state.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -395,12 +308,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-tasks" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Workflow&#x27;s tasks (list of objects).</div>
+                                            <div>Pnp Workflow&#x27;s tasks.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -416,7 +329,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp workflow&#x27;s currWorkItemIdx.</div>
+                                            <div>Pnp Workflow&#x27;s currWorkItemIdx.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -432,7 +345,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp workflow&#x27;s endTime.</div>
+                                            <div>Pnp Workflow&#x27;s endTime.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -448,7 +361,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp workflow&#x27;s name.</div>
+                                            <div>Pnp Workflow&#x27;s name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -464,7 +377,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp workflow&#x27;s startTime.</div>
+                                            <div>Pnp Workflow&#x27;s startTime.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -480,7 +393,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp workflow&#x27;s state.</div>
+                                            <div>Pnp Workflow&#x27;s state.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -496,7 +409,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp workflow&#x27;s taskSeqNo.</div>
+                                            <div>Pnp Workflow&#x27;s taskSeqNo.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -512,7 +425,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp workflow&#x27;s timeTaken.</div>
+                                            <div>Pnp Workflow&#x27;s timeTaken.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -528,7 +441,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp workflow&#x27;s type.</div>
+                                            <div>Pnp Workflow&#x27;s type.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -539,12 +452,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-tasks/workItemList" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp workflow&#x27;s workItemList.</div>
+                                            <div>Pnp Workflow&#x27;s workItemList.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -561,7 +474,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp workflow&#x27;s command.</div>
+                                            <div>Pnp Workflow&#x27;s command.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -578,7 +491,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp workflow&#x27;s endTime.</div>
+                                            <div>Pnp Workflow&#x27;s endTime.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -595,7 +508,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp workflow&#x27;s outputStr.</div>
+                                            <div>Pnp Workflow&#x27;s outputStr.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -612,7 +525,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp workflow&#x27;s startTime.</div>
+                                            <div>Pnp Workflow&#x27;s startTime.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -629,7 +542,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp workflow&#x27;s state.</div>
+                                            <div>Pnp Workflow&#x27;s state.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -646,7 +559,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp workflow&#x27;s timeTaken.</div>
+                                            <div>Pnp Workflow&#x27;s timeTaken.</div>
                                                         </td>
             </tr>
                     
@@ -663,7 +576,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Workflow&#x27;s tenantId.</div>
+                                            <div>Pnp Workflow&#x27;s tenantId.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -678,8 +591,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Workflow Type.</div>
-                                            <div>Workflow&#x27;s type.</div>
+                                            <div>Pnp Workflow&#x27;s type.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -694,7 +606,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Workflow&#x27;s useState.</div>
+                                            <div>Pnp Workflow&#x27;s useState.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -709,7 +621,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Workflow&#x27;s version.</div>
+                                            <div>Pnp Workflow&#x27;s version.</div>
                                                         </td>
             </tr>
                         </table>
@@ -725,12 +637,8 @@ See Also
 
 .. seealso::
 
-   :ref:`cisco.dnac.plugins.module_utils.definitions.pnp_workflow <ansible_collections.cisco.dnac.plugins.module_utils.definitions.pnp_workflow_module>`
-      The official documentation on the **cisco.dnac.plugins.module_utils.definitions.pnp_workflow** module.
-   `PnpWorkflow reference <https://developer.cisco.com/docs/dna-center/api/1-3-3-x>`_
-       Complete reference of the PnpWorkflow object model.
-   `PnpWorkflow reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary>`_
-       SDK reference.
+   `Pnp Workflow reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Pnp Workflow object model.
 
 .. Examples
 
@@ -740,117 +648,108 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: get_workflows
+    - name: Update by id
       cisco.dnac.pnp_workflow:
-        state: query  # required
-        limit: 1  #  integer
-        name: SomeValue  # string
-        offset: 1  #  integer
-        sort: SomeValue  # string
-        sort_order: SomeValue  # string
-        type: SomeValue  # string
-      register: nm_get_workflows
-
-    - name: add_a_workflow
-      cisco.dnac.pnp_workflow:
-        state: create  # required
-        _id: SomeValue  # string
-        addToInventory: True  # boolean
-        addedOn: 1  #  integer
-        configId: SomeValue  # string
-        currTaskIdx: 1  #  integer
-        description: SomeValue  # string
-        endTime: 1  #  integer
-        execTime: 1  #  integer
-        imageId: SomeValue  # string
-        instanceType: # valid values are 'SystemWorkflow',
-          # 'UserWorkflow',
-          # 'SystemResetWorkflow'.
-          SomeValue  # string
-        lastupdateOn: 1  #  integer
-        name: SomeValue  # string
-        startTime: 1  #  integer
-        _state: SomeValue  # string
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        _id: string
+        addToInventory: true
+        addedOn: 0
+        configId: string
+        currTaskIdx: 0
+        description: string
+        endTime: 0
+        execTime: 0
+        id: string
+        imageId: string
+        instanceType: string
+        lastupdateOn: 0
+        name: string
+        startTime: 0
+        state_: string
         tasks:
-        - currWorkItemIdx: 1  #  integer
-          endTime: 1  #  integer
-          name: SomeValue  # string
-          startTime: 1  #  integer
-          state: SomeValue  # string
-          taskSeqNo: 1  #  integer
-          timeTaken: 1  #  integer
-          type: SomeValue  # string
+        - currWorkItemIdx: 0
+          endTime: 0
+          name: string
+          startTime: 0
+          state: string
+          taskSeqNo: 0
+          timeTaken: 0
+          type: string
           workItemList:
-          - command: SomeValue  # string
-            endTime: 1  #  integer
-            outputStr: SomeValue  # string
-            startTime: 1  #  integer
-            state: SomeValue  # string
-            timeTaken: 1  #  integer
-        tenantId: SomeValue  # string
-        type: SomeValue  # string
-        useState: SomeValue  # string
-        version: 1  #  integer
+          - command: string
+            endTime: 0
+            outputStr: string
+            startTime: 0
+            state: string
+            timeTaken: 0
+        tenantId: string
+        type: string
+        useState: string
+        version: 0
 
-    - name: get_workflow_by_id
+    - name: Delete by id
       cisco.dnac.pnp_workflow:
-        state: query  # required
-        id: SomeValue  # string, required
-      register: nm_get_workflow_by_id
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
 
-    - name: delete_workflow_by_id
+    - name: Create
       cisco.dnac.pnp_workflow:
-        state: delete  # required
-        id: SomeValue  # string, required
-
-    - name: update_workflow
-      cisco.dnac.pnp_workflow:
-        state: update  # required
-        id: SomeValue  # string, required
-        _id: SomeValue  # string
-        addToInventory: True  # boolean
-        addedOn: 1  #  integer
-        configId: SomeValue  # string
-        currTaskIdx: 1  #  integer
-        description: SomeValue  # string
-        endTime: 1  #  integer
-        execTime: 1  #  integer
-        imageId: SomeValue  # string
-        instanceType: # valid values are 'SystemWorkflow',
-          # 'UserWorkflow',
-          # 'SystemResetWorkflow'.
-          SomeValue  # string
-        lastupdateOn: 1  #  integer
-        name: SomeValue  # string
-        startTime: 1  #  integer
-        _state: SomeValue  # string
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        _id: string
+        addToInventory: true
+        addedOn: 0
+        configId: string
+        currTaskIdx: 0
+        description: string
+        endTime: 0
+        execTime: 0
+        imageId: string
+        instanceType: string
+        lastupdateOn: 0
+        name: string
+        startTime: 0
+        state_: string
         tasks:
-        - currWorkItemIdx: 1  #  integer
-          endTime: 1  #  integer
-          name: SomeValue  # string
-          startTime: 1  #  integer
-          state: SomeValue  # string
-          taskSeqNo: 1  #  integer
-          timeTaken: 1  #  integer
-          type: SomeValue  # string
+        - currWorkItemIdx: 0
+          endTime: 0
+          name: string
+          startTime: 0
+          state: string
+          taskSeqNo: 0
+          timeTaken: 0
+          type: string
           workItemList:
-          - command: SomeValue  # string
-            endTime: 1  #  integer
-            outputStr: SomeValue  # string
-            startTime: 1  #  integer
-            state: SomeValue  # string
-            timeTaken: 1  #  integer
-        tenantId: SomeValue  # string
-        type: SomeValue  # string
-        useState: SomeValue  # string
-        version: 1  #  integer
-
-    - name: get_workflow_count
-      cisco.dnac.pnp_workflow:
-        state: query  # required
-        count: True  # boolean, required
-        name: SomeValue  # string
-      register: nm_get_workflow_count
+          - command: string
+            endTime: 0
+            outputStr: string
+            startTime: 0
+            state: string
+            timeTaken: 0
+        tenantId: string
+        type: string
+        useState: string
+        version: 0
 
 
 
@@ -884,42 +783,51 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                     </td>
                 <td>always</td>
                 <td>
-                                            <div>A dictionary with the response returned by the DNA Center Python SDK</div>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
                                         <br/>
                                             <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{&#x27;response&#x27;: 29, &#x27;version&#x27;: &#x27;1.0&#x27;}</div>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-missing_params"></div>
-                    <b>missing_params</b>
-                    <a class="ansibleOptionLink" href="#return-missing_params" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">list</span>
-                       / <span style="color: purple">elements=string</span>                    </div>
-                                    </td>
-                <td>when the function request schema is not satisfied</td>
-                <td>
-                                            <div>Provided arguments do not comply with the schema of the DNA Center Python SDK function</div>
-                                        <br/>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-sdk_function"></div>
-                    <b>sdk_function</b>
-                    <a class="ansibleOptionLink" href="#return-sdk_function" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">string</span>
-                                          </div>
-                                    </td>
-                <td>always</td>
-                <td>
-                                            <div>The DNA Center SDK function used to execute the task</div>
-                                        <br/>
-                                            <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">device_onboarding_pnp.add_a_workflow</div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;_id&quot;: &quot;string&quot;,
+      &quot;state&quot;: &quot;string&quot;,
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;description&quot;: &quot;string&quot;,
+      &quot;lastupdateOn&quot;: 0,
+      &quot;imageId&quot;: &quot;string&quot;,
+      &quot;currTaskIdx&quot;: 0,
+      &quot;addedOn&quot;: 0,
+      &quot;tasks&quot;: [
+        {
+          &quot;state&quot;: &quot;string&quot;,
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;currWorkItemIdx&quot;: 0,
+          &quot;taskSeqNo&quot;: 0,
+          &quot;endTime&quot;: 0,
+          &quot;startTime&quot;: 0,
+          &quot;workItemList&quot;: [
+            {
+              &quot;state&quot;: &quot;string&quot;,
+              &quot;command&quot;: &quot;string&quot;,
+              &quot;outputStr&quot;: &quot;string&quot;,
+              &quot;endTime&quot;: 0,
+              &quot;startTime&quot;: 0,
+              &quot;timeTaken&quot;: 0
+            }
+          ],
+          &quot;timeTaken&quot;: 0,
+          &quot;name&quot;: &quot;string&quot;
+        }
+      ],
+      &quot;addToInventory&quot;: true,
+      &quot;instanceType&quot;: &quot;string&quot;,
+      &quot;endTime&quot;: 0,
+      &quot;execTime&quot;: 0,
+      &quot;startTime&quot;: 0,
+      &quot;useState&quot;: &quot;string&quot;,
+      &quot;configId&quot;: &quot;string&quot;,
+      &quot;name&quot;: &quot;string&quot;,
+      &quot;version&quot;: 0,
+      &quot;tenantId&quot;: &quot;string&quot;
+    }</div>
                                     </td>
             </tr>
                         </table>

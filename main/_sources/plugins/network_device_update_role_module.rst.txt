@@ -14,13 +14,13 @@
 
 .. Title
 
-cisco.dnac.network_device_update_role -- Manage NetworkDeviceUpdateRole objects of Devices
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_update_role -- Resource module for Network Device Update Role
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 2.0.7).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -42,7 +42,7 @@ Synopsis
 
 .. Description
 
-- Updates the role of the device as access, core, distribution, border router.
+- Manage operation update of the resource Network Device Update Role.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -79,12 +79,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>NetworkDeviceBriefNIO&#x27;s id.</div>
+                                            <div>Network Device Update Role&#x27;s id.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -94,12 +94,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-role" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>NetworkDeviceBriefNIO&#x27;s role.</div>
+                                            <div>Network Device Update Role&#x27;s role.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -109,31 +109,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-roleSource" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>NetworkDeviceBriefNIO&#x27;s roleSource.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-summary"></div>
-                    <b>summary</b>
-                    <a class="ansibleOptionLink" href="#parameter-summary" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                 / <span style="color: red">required</span>                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>If true gets the summary.</div>
+                                            <div>Network Device Update Role&#x27;s roleSource.</div>
                                                         </td>
             </tr>
                         </table>
@@ -149,12 +130,8 @@ See Also
 
 .. seealso::
 
-   :ref:`cisco.dnac.plugins.module_utils.definitions.network_device_update_role <ansible_collections.cisco.dnac.plugins.module_utils.definitions.network_device_update_role_module>`
-      The official documentation on the **cisco.dnac.plugins.module_utils.definitions.network_device_update_role** module.
-   `NetworkDeviceUpdateRole reference <https://developer.cisco.com/docs/dna-center/api/1-3-3-x>`_
-       Complete reference of the NetworkDeviceUpdateRole object model.
-   `NetworkDeviceUpdateRole reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary>`_
-       SDK reference.
+   `Network Device Update Role reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Network Device Update Role object model.
 
 .. Examples
 
@@ -164,13 +141,18 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: update_device_role
+    - name: Update all
       cisco.dnac.network_device_update_role:
-        state: update  # required
-        id: SomeValue  # string, required
-        role: SomeValue  # string, required
-        roleSource: SomeValue  # string, required
-        summary: True  # boolean, required
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        id: string
+        role: string
+        roleSource: string
 
 
 
@@ -204,42 +186,16 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                     </td>
                 <td>always</td>
                 <td>
-                                            <div>A dictionary with the response returned by the DNA Center Python SDK</div>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
                                         <br/>
                                             <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{&#x27;response&#x27;: 29, &#x27;version&#x27;: &#x27;1.0&#x27;}</div>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-missing_params"></div>
-                    <b>missing_params</b>
-                    <a class="ansibleOptionLink" href="#return-missing_params" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">list</span>
-                       / <span style="color: purple">elements=string</span>                    </div>
-                                    </td>
-                <td>when the function request schema is not satisfied</td>
-                <td>
-                                            <div>Provided arguments do not comply with the schema of the DNA Center Python SDK function</div>
-                                        <br/>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-sdk_function"></div>
-                    <b>sdk_function</b>
-                    <a class="ansibleOptionLink" href="#return-sdk_function" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">string</span>
-                                          </div>
-                                    </td>
-                <td>always</td>
-                <td>
-                                            <div>The DNA Center SDK function used to execute the task</div>
-                                        <br/>
-                                            <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">devices.update_device_role</div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;response&quot;: {
+        &quot;taskId&quot;: {},
+        &quot;url&quot;: &quot;string&quot;
+      },
+      &quot;version&quot;: &quot;string&quot;
+    }</div>
                                     </td>
             </tr>
                         </table>

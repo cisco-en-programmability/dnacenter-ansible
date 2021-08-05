@@ -14,13 +14,13 @@
 
 .. Title
 
-cisco.dnac.sda_virtual_network_ip_pool -- Manage SdaVirtualNetworkIpPool objects of Sda
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_virtual_network_ip_pool -- Resource module for Sda Virtual Network Ip Pool
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 2.0.7).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -42,9 +42,7 @@ Synopsis
 
 .. Description
 
-- Delete IP Pool from SDA Virtual Network.
-- Get IP Pool from SDA Virtual Network.
-- Add IP Pool in SDA Virtual Network.
+- Manage operations create and delete of the resource Sda Virtual Network Ip Pool.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -76,12 +74,12 @@ Parameters
         </tr>
                     <tr>
                                                                 <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-ip_pool_name"></div>
-                    <b>ip_pool_name</b>
-                    <a class="ansibleOptionLink" href="#parameter-ip_pool_name" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-ipPoolName"></div>
+                    <b>ipPoolName</b>
+                    <a class="ansibleOptionLink" href="#parameter-ipPoolName" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
@@ -96,13 +94,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-payload" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>An object to send in the Request body.</div>
-                                            <div>Required for state create.</div>
+                                            <div>Sda Virtual Network Ip Pool&#x27;s payload.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -118,7 +115,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the sda virtual network ip pool&#x27;s authenticationPolicyName.</div>
+                                            <div>Sda Virtual Network Ip Pool&#x27;s authenticationPolicyName.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -134,7 +131,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the sda virtual network ip pool&#x27;s ipPoolName.</div>
+                                            <div>Sda Virtual Network Ip Pool&#x27;s ipPoolName.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -154,7 +151,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>It is the sda virtual network ip pool&#x27;s isL2FloodingEnabled.</div>
+                                            <div>IsL2FloodingEnabled flag.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -174,7 +171,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>It is the sda virtual network ip pool&#x27;s isThisCriticalPool.</div>
+                                            <div>IsThisCriticalPool flag.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -190,7 +187,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the sda virtual network ip pool&#x27;s poolType.</div>
+                                            <div>Sda Virtual Network Ip Pool&#x27;s poolType.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -206,7 +203,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the sda virtual network ip pool&#x27;s scalableGroupName.</div>
+                                            <div>Sda Virtual Network Ip Pool&#x27;s scalableGroupName.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -222,7 +219,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the sda virtual network ip pool&#x27;s trafficType.</div>
+                                            <div>Sda Virtual Network Ip Pool&#x27;s trafficType.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -238,18 +235,18 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the sda virtual network ip pool&#x27;s virtualNetworkName.</div>
+                                            <div>Sda Virtual Network Ip Pool&#x27;s virtualNetworkName.</div>
                                                         </td>
             </tr>
                     
                                 <tr>
                                                                 <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-virtual_network_name"></div>
-                    <b>virtual_network_name</b>
-                    <a class="ansibleOptionLink" href="#parameter-virtual_network_name" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-virtualNetworkName"></div>
+                    <b>virtualNetworkName</b>
+                    <a class="ansibleOptionLink" href="#parameter-virtualNetworkName" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
@@ -270,12 +267,8 @@ See Also
 
 .. seealso::
 
-   :ref:`cisco.dnac.plugins.module_utils.definitions.sda_virtual_network_ip_pool <ansible_collections.cisco.dnac.plugins.module_utils.definitions.sda_virtual_network_ip_pool_module>`
-      The official documentation on the **cisco.dnac.plugins.module_utils.definitions.sda_virtual_network_ip_pool** module.
-   `SdaVirtualNetworkIpPool reference <https://developer.cisco.com/docs/dna-center/api/1-3-3-x>`_
-       Complete reference of the SdaVirtualNetworkIpPool object model.
-   `SdaVirtualNetworkIpPool reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary>`_
-       SDK reference.
+   `Sda Virtual Network Ip Pool reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Sda Virtual Network Ip Pool object model.
 
 .. Examples
 
@@ -285,31 +278,29 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: delete_ip_pool_from_sda_virtual_network
+    - name: Create
       cisco.dnac.sda_virtual_network_ip_pool:
-        state: delete  # required
-        ip_pool_name: SomeValue  # string, required
-        virtual_network_name: SomeValue  # string, required
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
 
-    - name: get_ip_pool_from_sda_virtual_network
+    - name: Delete all
       cisco.dnac.sda_virtual_network_ip_pool:
-        state: query  # required
-        ip_pool_name: SomeValue  # string, required
-        virtual_network_name: SomeValue  # string, required
-      register: nm_get_ip_pool_from_sda_virtual_network
-
-    - name: add_ip_pool_in_sda_virtual_network
-      cisco.dnac.sda_virtual_network_ip_pool:
-        state: create  # required
-        payload:  # required
-        - virtualNetworkName: SomeValue  # string
-          ipPoolName: SomeValue  # string
-          trafficType: SomeValue  # string
-          authenticationPolicyName: SomeValue  # string
-          scalableGroupName: SomeValue  # string
-          isL2FloodingEnabled: True  # boolean
-          isThisCriticalPool: True  # boolean
-          poolType: SomeValue  # string
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        ipPoolName: string
+        virtualNetworkName: string
 
 
 
@@ -343,42 +334,14 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                     </td>
                 <td>always</td>
                 <td>
-                                            <div>A dictionary with the response returned by the DNA Center Python SDK</div>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
                                         <br/>
                                             <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{&#x27;response&#x27;: 29, &#x27;version&#x27;: &#x27;1.0&#x27;}</div>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-missing_params"></div>
-                    <b>missing_params</b>
-                    <a class="ansibleOptionLink" href="#return-missing_params" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">list</span>
-                       / <span style="color: purple">elements=string</span>                    </div>
-                                    </td>
-                <td>when the function request schema is not satisfied</td>
-                <td>
-                                            <div>Provided arguments do not comply with the schema of the DNA Center Python SDK function</div>
-                                        <br/>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-sdk_function"></div>
-                    <b>sdk_function</b>
-                    <a class="ansibleOptionLink" href="#return-sdk_function" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">string</span>
-                                          </div>
-                                    </td>
-                <td>always</td>
-                <td>
-                                            <div>The DNA Center SDK function used to execute the task</div>
-                                        <br/>
-                                            <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">sda.add_ip_pool_in_sda_virtual_network</div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;status&quot;: &quot;string&quot;,
+      &quot;description&quot;: &quot;string&quot;,
+      &quot;executionStatusUrl&quot;: &quot;string&quot;
+    }</div>
                                     </td>
             </tr>
                         </table>
