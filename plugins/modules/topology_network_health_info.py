@@ -1,0 +1,91 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: topology_network_health_info
+short_description: Information module for Topology Network Health
+description:
+- Get all Topology Network Health.
+version_added: '1.0.0'
+author: Rafael Campos (@racampos)
+options:
+  timestamp:
+    description:
+    - Timestamp query parameter. Epoch time(in milliseconds) when the Network health data is required.
+    type: str
+requirements:
+- dnacentersdk
+seealso:
+# Reference by Internet resource
+- name: Topology Network Health reference
+  description: Complete reference of the Topology Network Health object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+"""
+
+EXAMPLES = r"""
+- name: Get all Topology Network Health
+  cisco.dnac.topology_network_health_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    timestamp: string
+  register: result
+
+"""
+
+RETURN = r"""
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": [
+        {
+          "time": "string",
+          "healthScore": 0,
+          "totalCount": 0,
+          "goodCount": 0,
+          "unmonCount": 0,
+          "fairCount": 0,
+          "badCount": 0,
+          "entity": {},
+          "timeinMillis": 0
+        }
+      ],
+      "measuredBy": "string",
+      "latestMeasuredByEntity": {},
+      "latestHealthScore": 0,
+      "monitoredDevices": 0,
+      "monitoredHealthyDevices": 0,
+      "monitoredUnHealthyDevices": 0,
+      "unMonitoredDevices": 0,
+      "healthDistirubution": [
+        {
+          "category": "string",
+          "totalCount": 0,
+          "healthScore": 0,
+          "goodPercentage": 0,
+          "badPercentage": 0,
+          "fairPercentage": 0,
+          "unmonPercentage": 0,
+          "goodCount": 0,
+          "badCount": 0,
+          "fairCount": 0,
+          "unmonCount": 0,
+          "kpiMetrics": [
+            {}
+          ]
+        }
+      ]
+    }
+"""

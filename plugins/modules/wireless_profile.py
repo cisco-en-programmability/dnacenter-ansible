@@ -1,160 +1,137 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, Cisco Systems
+# Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
 module: wireless_profile
-short_description: Manage WirelessProfile objects of Wireless
+short_description: Resource module for Wireless Profile
 description:
-- Gets either one or all the wireless network profiles if no name is provided for network-profile.
-- Creates Wireless Network Profile on DNAC and associates sites and SSIDs to it.
-- >
-   Updates the wireless Network Profile with updated details provided. All sites to be present in the network profile
-   should be provided.
-- Delete the Wireless Profile from DNAC whose name is provided.
+- Manage operations create, update and delete of the resource Wireless Profile.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  profile_name:
-    description:
-    - ProfileName query parameter.
-    type: str
   profileDetails:
-    description:
-    - Profile Details, property of the request body.
-    type: dict
-    required: True
+    description: Wireless Profile's profileDetails.
     suboptions:
       name:
-        description:
-        - It is the wireless profile's name.
+        description: Wireless Profile's name.
         type: str
       sites:
-        description:
-        - It is the wireless profile's sites.
+        description: Wireless Profile's sites.
+        elements: str
         type: list
       ssidDetails:
-        description:
-        - It is the wireless profile's ssidDetails.
-        type: list
-        elements: dict
+        description: Wireless Profile's ssidDetails.
         suboptions:
           enableFabric:
-            description:
-            - It is the wireless profile's enableFabric.
+            description: EnableFabric flag.
             type: bool
           flexConnect:
-            description:
-            - It is the wireless profile's flexConnect.
-            type: dict
+            description: Wireless Profile's flexConnect.
             suboptions:
               enableFlexConnect:
-                description:
-                - It is the wireless profile's enableFlexConnect.
+                description: EnableFlexConnect flag.
                 type: bool
               localToVlan:
-                description:
-                - It is the wireless profile's localToVlan.
+                description: Wireless Profile's localToVlan.
                 type: int
-
+            type: dict
           interfaceName:
-            description:
-            - It is the wireless profile's interfaceName.
+            description: Wireless Profile's interfaceName.
             type: str
           name:
-            description:
-            - It is the wireless profile's name.
+            description: Wireless Profile's name.
             type: str
           type:
-            description:
-            - It is the wireless profile's type.
+            description: Wireless Profile's type.
             type: str
-
-
-  wireless_profile_name:
-    description:
-    - WirelessProfileName path parameter.
-    - Required for state delete.
+        type: list
+    type: dict
+  wirelessProfileName:
+    description: WirelessProfileName path parameter.
     type: str
-
 requirements:
 - dnacentersdk
 seealso:
-# Reference by module name
-- module: cisco.dnac.plugins.module_utils.definitions.wireless_profile
 # Reference by Internet resource
-- name: WirelessProfile reference
-  description: Complete reference of the WirelessProfile object model.
-  link: https://developer.cisco.com/docs/dna-center/api/1-3-3-x
-# Reference by Internet resource
-- name: WirelessProfile reference
-  description: SDK reference.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
+- name: Wireless Profile reference
+  description: Complete reference of the Wireless Profile object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
 """
 
 EXAMPLES = r"""
-- name: get_wireless_profile
+- name: Update all
   cisco.dnac.wireless_profile:
-    state: query  # required
-    profile_name: SomeValue  # string
-  register: nm_get_wireless_profile
-
-- name: create_wireless_profile
-  cisco.dnac.wireless_profile:
-    state: create  # required
-    profileDetails:  # required
-      name: SomeValue  # string
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    profileDetails:
+      name: string
       sites:
-      - SomeValue  # string
+      - string
       ssidDetails:
-      - name: SomeValue  # string
-        type: SomeValue  # string
-        enableFabric: True  # boolean
+      - enableFabric: true
         flexConnect:
-          enableFlexConnect: True  # boolean
-          localToVlan: 1  #  integer
-        interfaceName: SomeValue  # string
+          enableFlexConnect: true
+          localToVlan: 0
+        interfaceName: string
+        name: string
+        type: string
 
-- name: update_wireless_profile
+- name: Create
   cisco.dnac.wireless_profile:
-    state: update  # required
-    profileDetails:  # required
-      name: SomeValue  # string
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    profileDetails:
+      name: string
       sites:
-      - SomeValue  # string
+      - string
       ssidDetails:
-      - name: SomeValue  # string
-        type: SomeValue  # string
-        enableFabric: True  # boolean
+      - enableFabric: true
         flexConnect:
-          enableFlexConnect: True  # boolean
-          localToVlan: 1  #  integer
-        interfaceName: SomeValue  # string
+          enableFlexConnect: true
+          localToVlan: 0
+        interfaceName: string
+        name: string
+        type: string
 
-- name: delete_wireless_profile
+- name: Delete by name
   cisco.dnac.wireless_profile:
-    state: delete  # required
-    wireless_profile_name: SomeValue  # string, required
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    wirelessProfileName: string
 
 """
 
 RETURN = r"""
 dnac_response:
-  description: A dictionary with the response returned by the DNA Center Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
-  sample: {"response": 29, "version": "1.0"}
-sdk_function:
-  description: The DNA Center SDK function used to execute the task
-  returned: always
-  type: str
-  sample: wireless.create_wireless_profile
-missing_params:
-  description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
-  returned: when the function request schema is not satisfied
-  type: list
-  sample:
+  sample: >
+    {
+      "executionId": "string",
+      "executionStatusUrl": "string",
+      "message": "string"
+    }
 """

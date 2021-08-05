@@ -87,3 +87,12 @@ releases:
     release_date: '2021-04-14'
     changes:
       release_summary: Changes the minimum supported version of Ansible to v2.9.
+  3.0.0:
+    release_date: '2021-08-05'
+    changes:
+      release_summary: Drop special `state` params. Adds info plugins and resources.
+      major_changes:
+        - Adds _info plugins to query information from database.
+        - Adds resources for modules to manage CRUD operations.
+        - Adds plugins without state that perform special operation on DNA Center.
+        - Adds plugins for resource's operations that have different structure in request/response bodies (ie. _create, _update, _delete plugins).

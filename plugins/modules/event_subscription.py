@@ -1,214 +1,121 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, Cisco Systems
+# Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
 module: event_subscription
-short_description: Manage EventSubscription objects of EventManagement
+short_description: Resource module for Event Subscription
 description:
-- Delete EventSubscriptions.
-- Gets the list of Subscriptions's based on provided offset and limit.
-- Subscribe SubscriptionEndpoint to list of registered events.
-- Update SubscriptionEndpoint to list of registered events.
-- Returns the Count of EventSubscriptions.
+- Manage operations create, update and delete of the resource Event Subscription.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  subscriptions:
-    description:
-    - List of EventSubscriptionId's for removal.
-    - Required for state delete.
-    type: str
-  event_ids:
-    description:
-    - List of subscriptions related to the respective eventIds.
-    - Required for state query.
-    type: str
-  limit:
-    description:
-    - The number of Subscriptions's to limit in the resultset whose default value 10.
-    type: int
-  offset:
-    description:
-    - The number of Subscriptions's to offset in the resultset whose default value 0.
-    type: int
-  order:
-    description:
-    - Order query parameter.
-    type: str
-  sort_by:
-    description:
-    - SortBy field name.
-    type: str
   payload:
-    description:
-    - An object to send in the Request body.
-    type: list
-    required: True
-    elements: dict
+    description: Event Subscription's payload.
     suboptions:
       description:
-        description:
-        - It is the event subscription's description.
+        description: Event Subscription's description.
         type: str
       filter:
-        description:
-        - It is the event subscription's filter.
-        type: dict
-        required: True
+        description: Event Subscription's filter.
         suboptions:
           eventIds:
-            description:
-            - It is the event subscription's eventIds.
+            description: Event Subscription's eventIds.
+            elements: str
             type: list
-
+        type: dict
       name:
-        description:
-        - It is the event subscription's name.
+        description: Event Subscription's name.
         type: str
       subscriptionEndpoints:
-        description:
-        - It is the event subscription's subscriptionEndpoints.
-        type: list
-        elements: dict
+        description: Event Subscription's subscriptionEndpoints.
         suboptions:
           instanceId:
-            description:
-            - It is the event subscription's instanceId.
+            description: Event Subscription's instanceId.
             type: str
           subscriptionDetails:
-            description:
-            - It is the event subscription's subscriptionDetails.
-            type: dict
+            description: Event Subscription's subscriptionDetails.
             suboptions:
               connectorType:
-                description:
-                - It is the event subscription's connectorType.
+                description: Event Subscription's connectorType.
                 type: str
               method:
-                description:
-                - It is the event subscription's method.
+                description: Event Subscription's method.
                 type: str
               name:
-                description:
-                - It is the event subscription's name.
+                description: Event Subscription's name.
                 type: str
               url:
-                description:
-                - It is the event subscription's url.
+                description: Event Subscription's url.
                 type: str
-
-
+            type: dict
+        type: list
       subscriptionId:
-        description:
-        - It is the event subscription's subscriptionId.
+        description: Event Subscription's subscriptionId.
         type: str
       version:
-        description:
-        - It is the event subscription's version.
+        description: Event Subscription's version.
         type: str
-
-  count:
-    description:
-    - If true gets the number of objects.
-    - Required for state query.
-    type: bool
-
+    type: list
+  subscriptions:
+    description: Subscriptions query parameter. List of EventSubscriptionId's for removal.
+    type: str
 requirements:
 - dnacentersdk
 seealso:
-# Reference by module name
-- module: cisco.dnac.plugins.module_utils.definitions.event_subscription
 # Reference by Internet resource
-- name: EventSubscription reference
-  description: Complete reference of the EventSubscription object model.
-  link: https://developer.cisco.com/docs/dna-center/api/1-3-3-x
-# Reference by Internet resource
-- name: EventSubscription reference
-  description: SDK reference.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
+- name: Event Subscription reference
+  description: Complete reference of the Event Subscription object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
 """
 
 EXAMPLES = r"""
-- name: delete_event_subscriptions
+- name: Update all
   cisco.dnac.event_subscription:
-    state: delete  # required
-    subscriptions: SomeValue  # string, required
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
 
-- name: get_event_subscriptions
+- name: Create
   cisco.dnac.event_subscription:
-    state: query  # required
-    event_ids: SomeValue  # string
-    limit: 1  #  number
-    offset: 1  #  number
-    order: SomeValue  # string
-    sort_by: SomeValue  # string
-  register: nm_get_event_subscriptions
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
 
-- name: create_event_subscriptions
+- name: Delete all
   cisco.dnac.event_subscription:
-    state: create  # required
-    payload:  # required
-    - filter:  # required
-        eventIds:
-        - SomeValue  # string
-      subscriptionId: SomeValue  # string
-      version: SomeValue  # string
-      name: SomeValue  # string
-      description: SomeValue  # string
-      subscriptionEndpoints:
-      - instanceId: SomeValue  # string
-        subscriptionDetails:
-          name: SomeValue  # string
-          url: SomeValue  # string
-          method: SomeValue  # string
-          connectorType: SomeValue  # string
-
-- name: update_event_subscriptions
-  cisco.dnac.event_subscription:
-    state: update  # required
-    payload:  # required
-    - filter:  # required
-        eventIds:
-        - SomeValue  # string
-      subscriptionId: SomeValue  # string
-      version: SomeValue  # string
-      name: SomeValue  # string
-      description: SomeValue  # string
-      subscriptionEndpoints:
-      - instanceId: SomeValue  # string
-        subscriptionDetails:
-          name: SomeValue  # string
-          url: SomeValue  # string
-          method: SomeValue  # string
-          connectorType: SomeValue  # string
-
-- name: count_of_event_subscriptions
-  cisco.dnac.event_subscription:
-    state: query  # required
-    event_ids: SomeValue  # string, required
-    count: True  # boolean, required
-  register: nm_count_of_event_subscriptions
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    subscriptions: string
 
 """
 
 RETURN = r"""
 dnac_response:
-  description: A dictionary with the response returned by the DNA Center Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
-  sample: {"response": 29, "version": "1.0"}
-sdk_function:
-  description: The DNA Center SDK function used to execute the task
-  returned: always
-  type: str
-  sample: event_management.count_of_event_subscriptions
-missing_params:
-  description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
-  returned: when the function request schema is not satisfied
-  type: list
-  sample:
+  sample: >
+    {
+      "statusUri": "string"
+    }
 """

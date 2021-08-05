@@ -1,0 +1,245 @@
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
+from ansible.plugins.action import ActionBase
+try:
+    from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
+        AnsibleArgSpecValidator,
+    )
+except ImportError:
+    ANSIBLE_UTILS_IS_INSTALLED = False
+else:
+    ANSIBLE_UTILS_IS_INSTALLED = True
+from ansible.errors import AnsibleActionFail
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    DNACSDK,
+    dnac_argument_spec,
+    dnac_compare_equality,
+    get_dict_result,
+)
+from ansible_collections.cisco.dnac.plugins.module_utils.exceptions import (
+    InconsistentParameters,
+)
+
+# Get common arguments specification
+argument_spec = dnac_argument_spec()
+# Add arguments specific for this module
+argument_spec.update(dict(
+    state=dict(type="str", default="present", choices=["present", "absent"]),
+    name=dict(type="str"),
+    securityLevel=dict(type="str"),
+    passphrase=dict(type="str"),
+    enableFastLane=dict(type="bool"),
+    enableMACFiltering=dict(type="bool"),
+    trafficType=dict(type="str"),
+    radioPolicy=dict(type="str"),
+    enableBroadcastSSID=dict(type="bool"),
+    fastTransition=dict(type="str"),
+    ssidName=dict(type="str"),
+))
+
+required_if = [
+    ("state", "present", ["name", "ssidName"], True),
+    ("state", "absent", ["name", "ssidName"], True),
+]
+required_one_of = []
+mutually_exclusive = []
+required_together = []
+
+
+class WirelessEnterpriseSsid(object):
+    def __init__(self, params, dnac):
+        self.dnac = dnac
+        self.new_object = dict(
+            name=params.get("name"),
+            securityLevel=params.get("securityLevel"),
+            passphrase=params.get("passphrase"),
+            enableFastLane=params.get("enableFastLane"),
+            enableMACFiltering=params.get("enableMACFiltering"),
+            trafficType=params.get("trafficType"),
+            radioPolicy=params.get("radioPolicy"),
+            enableBroadcastSSID=params.get("enableBroadcastSSID"),
+            fastTransition=params.get("fastTransition"),
+            ssid_name=params.get("ssidName"),
+        )
+
+    def get_all_params(self, name=None, id=None):
+        new_object_params = {}
+        new_object_params['ssid_name'] = self.new_object.get('ssid_name')
+        return new_object_params
+
+    def create_params(self):
+        new_object_params = {}
+        new_object_params['name'] = self.new_object.get('name')
+        new_object_params['securityLevel'] = self.new_object.get('securityLevel')
+        new_object_params['passphrase'] = self.new_object.get('passphrase')
+        new_object_params['enableFastLane'] = self.new_object.get('enableFastLane')
+        new_object_params['enableMACFiltering'] = self.new_object.get('enableMACFiltering')
+        new_object_params['trafficType'] = self.new_object.get('trafficType')
+        new_object_params['radioPolicy'] = self.new_object.get('radioPolicy')
+        new_object_params['enableBroadcastSSID'] = self.new_object.get('enableBroadcastSSID')
+        new_object_params['fastTransition'] = self.new_object.get('fastTransition')
+        return new_object_params
+
+    def delete_by_name_params(self):
+        new_object_params = {}
+        new_object_params['ssid_name'] = self.new_object.get('ssid_name')
+        return new_object_params
+
+    def get_object_by_name(self, name):
+        result = None
+        # NOTICE: Does not have a get by name method, using get all
+        items = self.dnac.exec(
+            family="wireless",
+            function="get_enterprise_ssid",
+            params=self.get_all_params(name=name),
+        )
+        if isinstance(items, dict):
+            if items.get('response'):
+                items = items.get('response')
+        result = get_dict_result(items, 'name', name)
+        return result
+
+    def get_object_by_id(self, id):
+        result = None
+        # NOTICE: Does not have a get by id method or it is in another action
+        return result
+
+    def exists(self):
+        prev_obj = None
+        id_exists = False
+        name_exists = False
+        o_id = self.new_object.get("id")
+        name = self.new_object.get("name")
+        name = name or self.new_object.get("ssid_name")
+        if o_id:
+            prev_obj = self.get_object_by_id(o_id)
+            id_exists = prev_obj is not None and isinstance(prev_obj, dict)
+        if not id_exists and name:
+            prev_obj = self.get_object_by_name(name)
+            name_exists = prev_obj is not None and isinstance(prev_obj, dict)
+        if id_exists:
+            _name = prev_obj.get("name")
+            _name = _name or prev_obj.get("ssidName")
+            if _name:
+                self.new_object.update(dict(ssid_name=_name))
+        if name_exists:
+            _id = prev_obj.get("id")
+            if id_exists and name_exists and o_id != _id:
+                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+            if _id:
+                self.new_object.update(dict(id=_id))
+        it_exists = prev_obj is not None and isinstance(prev_obj, dict)
+        return (it_exists, prev_obj)
+
+    def requires_update(self, current_obj):
+        requested_obj = self.new_object
+
+        obj_params = [
+            ("name", "name"),
+            ("securityLevel", "securityLevel"),
+            ("passphrase", "passphrase"),
+            ("enableFastLane", "enableFastLane"),
+            ("enableMACFiltering", "enableMACFiltering"),
+            ("trafficType", "trafficType"),
+            ("radioPolicy", "radioPolicy"),
+            ("enableBroadcastSSID", "enableBroadcastSSID"),
+            ("fastTransition", "fastTransition"),
+            ("ssidName", "ssid_name"),
+        ]
+        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
+        # If any does not have eq params, it requires update
+        return any(not dnac_compare_equality(current_obj.get(dnac_param),
+                                             requested_obj.get(ansible_param))
+                   for (dnac_param, ansible_param) in obj_params)
+
+    def create(self):
+        result = self.dnac.exec(
+            family="wireless",
+            function="create_enterprise_ssid",
+            params=self.create_params(),
+            op_modifies=True,
+        )
+        return result
+
+    def delete(self):
+        id = self.new_object.get("id")
+        name = self.new_object.get("name")
+        name = name or self.new_object.get("ssid_name")
+        result = None
+        if not name:
+            prev_obj_id = self.get_object_by_id(id)
+            name_ = None
+            if prev_obj_id:
+                name_ = prev_obj_id.get("name")
+                name_ = name_ or prev_obj_id.get("ssidName")
+            if name_:
+                self.new_object.update(dict(ssid_name=name_))
+        result = self.dnac.exec(
+            family="wireless",
+            function="delete_enterprise_ssid",
+            params=self.delete_by_name_params(),
+        )
+        return result
+
+
+class ActionModule(ActionBase):
+    def __init__(self, *args, **kwargs):
+        if not ANSIBLE_UTILS_IS_INSTALLED:
+            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+        super(ActionModule, self).__init__(*args, **kwargs)
+        self._supports_async = True
+        self._result = None
+
+    # Checks the supplied parameters against the argument spec for this module
+    def _check_argspec(self):
+        aav = AnsibleArgSpecValidator(
+            data=self._task.args,
+            schema=dict(argument_spec=argument_spec),
+            schema_format="argspec",
+            schema_conditionals=dict(
+                required_if=required_if,
+                required_one_of=required_one_of,
+                mutually_exclusive=mutually_exclusive,
+                required_together=required_together,
+            ),
+            name=self._task.action,
+        )
+        valid, errors, self._task.args = aav.validate()
+        if not valid:
+            raise AnsibleActionFail(errors)
+
+    def run(self, tmp=None, task_vars=None):
+        self._task.diff = False
+        self._result = super(ActionModule, self).run(tmp, task_vars)
+        self._result["changed"] = False
+        self._check_argspec()
+
+        dnac = DNACSDK(self._task.args)
+        obj = WirelessEnterpriseSsid(self._task.args, dnac)
+
+        state = self._task.args.get("state")
+
+        response = None
+        if state == "present":
+            (obj_exists, prev_obj) = obj.exists()
+            if obj_exists:
+                if obj.requires_update(prev_obj):
+                    response = prev_obj
+                    dnac.object_present_and_different()
+                else:
+                    response = prev_obj
+                    dnac.object_already_present()
+            else:
+                response = obj.create()
+                dnac.object_created()
+        elif state == "absent":
+            (obj_exists, prev_obj) = obj.exists()
+            if obj_exists:
+                response = obj.delete()
+                dnac.object_deleted()
+            else:
+                dnac.object_already_absent()
+
+        self._result.update(dict(dnac_response=response))
+        self._result.update(dnac.exit_json())
+        return self._result

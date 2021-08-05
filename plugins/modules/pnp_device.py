@@ -1,1796 +1,1746 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, Cisco Systems
+# Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
 module: pnp_device
-short_description: Manage PnpDevice objects of DeviceOnboardingPnp
+short_description: Resource module for Pnp Device
 description:
-- >
-   Returns list of devices based on filter crieteria. If a limit is not specified, it will default to return 50
-   devices. Pagination and sorting are also supported by this endpoint.
-- Adds a device to the PnP database.
-- Returns device details specified by device id.
-- Deletes specified device from PnP database.
-- Updates device details specified by device id in PnP database.
-- Returns the device count based on filter criteria. This is useful for pagination.
-- Returns history for a specific device. Serial number is a required parameter.
+- Manage operations create, update and delete of the resource Pnp Device.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  cm_state:
-    description:
-    - Device Connection Manager State.
-    type: str
-  last_contact:
-    description:
-    - Device Has Contacted lastContact > 0.
-    type: bool
-  limit:
-    description:
-    - Limits number of results.
-    type: int
-  name:
-    description:
-    - Device Name.
-    type: str
-  offset:
-    description:
-    - Index of first result.
-    type: int
-  onb_state:
-    description:
-    - Device Onboarding State.
-    type: str
-  pid:
-    description:
-    - Device ProductId.
-    type: str
-  project_id:
-    description:
-    - Device Project Id.
-    type: str
-  project_name:
-    description:
-    - Device Project Name.
-    type: str
-  serial_number:
-    description:
-    - Device Serial Number.
-    - Required for state query.
-    type: str
-  smart_account_id:
-    description:
-    - Device Smart Account.
-    type: str
-  sort:
-    description:
-    - Comma seperated list of fields to sort on.
-    type: str
-  sort_order:
-    description:
-    - Sort Order Ascending (asc) or Descending (des).
-    type: str
-  source:
-    description:
-    - Device Source.
-    type: str
-  _state:
-    description:
-    - Device State.
-    type: str
-  virtual_account_id:
-    description:
-    - Device Virtual Account.
-    type: str
-  workflow_id:
-    description:
-    - Device Workflow Id.
-    type: str
-  workflow_name:
-    description:
-    - Device Workflow Name.
-    type: str
   _id:
-    description:
-    - Device's _id.
+    description: Pnp Device's _id.
     type: str
-  deviceInfo:
-    description:
-    - Device's deviceInfo.
+  dayZeroConfig:
+    description: Pnp Device's dayZeroConfig.
+    suboptions:
+      config:
+        description: Pnp Device's config.
+        type: str
     type: dict
-    required: True
+  dayZeroConfigPreview:
+    description: Pnp Device's dayZeroConfigPreview.
+    type: dict
+  deviceInfo:
+    description: Pnp Device's deviceInfo.
     suboptions:
       aaaCredentials:
-        description:
-        - It is the pnp device's aaaCredentials.
-        type: dict
+        description: Pnp Device's aaaCredentials.
         suboptions:
           password:
-            description:
-            - It is the pnp device's password.
+            description: Pnp Device's password.
             type: str
           username:
-            description:
-            - It is the pnp device's username.
+            description: Pnp Device's username.
             type: str
-
+        type: dict
       addedOn:
-        description:
-        - It is the pnp device's addedOn.
+        description: Pnp Device's addedOn.
         type: int
       addnMacAddrs:
-        description:
-        - It is the pnp device's addnMacAddrs.
+        description: Pnp Device's addnMacAddrs.
+        elements: str
         type: list
       agentType:
-        description:
-        - It is the pnp device's agentType.
+        description: Pnp Device's agentType.
         type: str
       authStatus:
-        description:
-        - It is the pnp device's authStatus.
+        description: Pnp Device's authStatus.
+        type: str
+      authenticatedMicNumber:
+        description: Pnp Device's authenticatedMicNumber.
         type: str
       authenticatedSudiSerialNo:
-        description:
-        - It is the pnp device's authenticatedSudiSerialNo.
+        description: Pnp Device's authenticatedSudiSerialNo.
         type: str
       capabilitiesSupported:
-        description:
-        - It is the pnp device's capabilitiesSupported.
+        description: Pnp Device's capabilitiesSupported.
+        elements: str
         type: list
       cmState:
-        description:
-        - It is the pnp device's cmState.
+        description: Pnp Device's cmState.
         type: str
       description:
-        description:
-        - It is the pnp device's description.
+        description: Pnp Device's description.
         type: str
       deviceSudiSerialNos:
-        description:
-        - It is the pnp device's deviceSudiSerialNos.
+        description: Pnp Device's deviceSudiSerialNos.
+        elements: str
         type: list
       deviceType:
-        description:
-        - It is the pnp device's deviceType.
+        description: Pnp Device's deviceType.
         type: str
       featuresSupported:
-        description:
-        - It is the pnp device's featuresSupported.
+        description: Pnp Device's featuresSupported.
+        elements: str
         type: list
       fileSystemList:
-        description:
-        - It is the pnp device's fileSystemList.
-        type: list
-        elements: dict
+        description: Pnp Device's fileSystemList.
         suboptions:
           freespace:
-            description:
-            - It is the pnp device's freespace.
+            description: Pnp Device's freespace.
             type: int
           name:
-            description:
-            - It is the pnp device's name.
+            description: Pnp Device's name.
             type: str
           readable:
-            description:
-            - It is the pnp device's readable.
+            description: Readable flag.
             type: bool
           size:
-            description:
-            - It is the pnp device's size.
+            description: Pnp Device's size.
             type: int
           type:
-            description:
-            - It is the pnp device's type.
+            description: Pnp Device's type.
             type: str
           writeable:
-            description:
-            - It is the pnp device's writeable.
+            description: Writeable flag.
             type: bool
-
+        type: list
       firstContact:
-        description:
-        - It is the pnp device's firstContact.
+        description: Pnp Device's firstContact.
         type: int
       hostname:
-        description:
-        - It is the pnp device's hostname.
+        description: Pnp Device's hostname.
         type: str
       httpHeaders:
-        description:
-        - It is the pnp device's httpHeaders.
-        type: list
-        elements: dict
+        description: Pnp Device's httpHeaders.
         suboptions:
           key:
-            description:
-            - It is the pnp device's key.
+            description: Pnp Device's key.
             type: str
           value:
-            description:
-            - It is the pnp device's value.
+            description: Pnp Device's value.
             type: str
-
+        type: list
       imageFile:
-        description:
-        - It is the pnp device's imageFile.
+        description: Pnp Device's imageFile.
         type: str
       imageVersion:
-        description:
-        - It is the pnp device's imageVersion.
+        description: Pnp Device's imageVersion.
         type: str
       ipInterfaces:
-        description:
-        - It is the pnp device's ipInterfaces.
-        type: list
-        elements: dict
+        description: Pnp Device's ipInterfaces.
         suboptions:
           ipv4Address:
-            description:
-            - It is the pnp device's ipv4Address.
+            description: Pnp Device's ipv4Address.
             type: dict
           ipv6AddressList:
-            description:
-            - It is the pnp device's ipv6AddressList.
+            description: Pnp Device's ipv6AddressList.
+            elements: dict
             type: list
           macAddress:
-            description:
-            - It is the pnp device's macAddress.
+            description: Pnp Device's macAddress.
             type: str
           name:
-            description:
-            - It is the pnp device's name.
+            description: Pnp Device's name.
             type: str
           status:
-            description:
-            - It is the pnp device's status.
+            description: Pnp Device's status.
             type: str
-
+        type: list
       lastContact:
-        description:
-        - It is the pnp device's lastContact.
+        description: Pnp Device's lastContact.
         type: int
       lastSyncTime:
-        description:
-        - It is the pnp device's lastSyncTime.
+        description: Pnp Device's lastSyncTime.
         type: int
       lastUpdateOn:
-        description:
-        - It is the pnp device's lastUpdateOn.
+        description: Pnp Device's lastUpdateOn.
         type: int
       location:
-        description:
-        - It is the pnp device's location.
-        type: dict
+        description: Pnp Device's location.
         suboptions:
           address:
-            description:
-            - It is the pnp device's address.
+            description: Pnp Device's address.
             type: str
           altitude:
-            description:
-            - It is the pnp device's altitude.
+            description: Pnp Device's altitude.
             type: str
           latitude:
-            description:
-            - It is the pnp device's latitude.
+            description: Pnp Device's latitude.
             type: str
           longitude:
-            description:
-            - It is the pnp device's longitude.
+            description: Pnp Device's longitude.
             type: str
           siteId:
-            description:
-            - It is the pnp device's siteId.
+            description: Pnp Device's siteId.
             type: str
-
+        type: dict
       macAddress:
-        description:
-        - It is the pnp device's macAddress.
+        description: Pnp Device's macAddress.
         type: str
       mode:
-        description:
-        - It is the pnp device's mode.
+        description: Pnp Device's mode.
         type: str
       name:
-        description:
-        - It is the pnp device's name.
+        description: Pnp Device's name.
         type: str
       neighborLinks:
-        description:
-        - It is the pnp device's neighborLinks.
-        type: list
-        elements: dict
+        description: Pnp Device's neighborLinks.
         suboptions:
           localInterfaceName:
-            description:
-            - It is the pnp device's localInterfaceName.
+            description: Pnp Device's localInterfaceName.
             type: str
           localMacAddress:
-            description:
-            - It is the pnp device's localMacAddress.
+            description: Pnp Device's localMacAddress.
             type: str
           localShortInterfaceName:
-            description:
-            - It is the pnp device's localShortInterfaceName.
+            description: Pnp Device's localShortInterfaceName.
             type: str
           remoteDeviceName:
-            description:
-            - It is the pnp device's remoteDeviceName.
+            description: Pnp Device's remoteDeviceName.
             type: str
           remoteInterfaceName:
-            description:
-            - It is the pnp device's remoteInterfaceName.
+            description: Pnp Device's remoteInterfaceName.
             type: str
           remoteMacAddress:
-            description:
-            - It is the pnp device's remoteMacAddress.
+            description: Pnp Device's remoteMacAddress.
             type: str
           remotePlatform:
-            description:
-            - It is the pnp device's remotePlatform.
+            description: Pnp Device's remotePlatform.
             type: str
           remoteShortInterfaceName:
-            description:
-            - It is the pnp device's remoteShortInterfaceName.
+            description: Pnp Device's remoteShortInterfaceName.
             type: str
           remoteVersion:
-            description:
-            - It is the pnp device's remoteVersion.
+            description: Pnp Device's remoteVersion.
             type: str
-
+        type: list
       onbState:
-        description:
-        - It is the pnp device's onbState.
+        description: Pnp Device's onbState.
         type: str
       pid:
-        description:
-        - It is the pnp device's pid.
+        description: Pnp Device's pid.
         type: str
       pnpProfileList:
-        description:
-        - It is the pnp device's pnpProfileList.
-        type: list
-        elements: dict
+        description: Pnp Device's pnpProfileList.
         suboptions:
           createdBy:
-            description:
-            - It is the pnp device's createdBy.
+            description: Pnp Device's createdBy.
             type: str
           discoveryCreated:
-            description:
-            - It is the pnp device's discoveryCreated.
+            description: DiscoveryCreated flag.
             type: bool
           primaryEndpoint:
-            description:
-            - It is the pnp device's primaryEndpoint.
-            type: dict
+            description: Pnp Device's primaryEndpoint.
             suboptions:
               certificate:
-                description:
-                - It is the pnp device's certificate.
+                description: Pnp Device's certificate.
                 type: str
               fqdn:
-                description:
-                - It is the pnp device's fqdn.
+                description: Pnp Device's fqdn.
                 type: str
               ipv4Address:
-                description:
-                - It is the pnp device's ipv4Address.
+                description: Pnp Device's ipv4Address.
                 type: dict
               ipv6Address:
-                description:
-                - It is the pnp device's ipv6Address.
+                description: Pnp Device's ipv6Address.
                 type: dict
               port:
-                description:
-                - It is the pnp device's port.
+                description: Pnp Device's port.
                 type: int
               protocol:
-                description:
-                - It is the pnp device's protocol.
+                description: Pnp Device's protocol.
                 type: str
-
+            type: dict
           profileName:
-            description:
-            - It is the pnp device's profileName.
+            description: Pnp Device's profileName.
             type: str
           secondaryEndpoint:
-            description:
-            - It is the pnp device's secondaryEndpoint.
-            type: dict
+            description: Pnp Device's secondaryEndpoint.
             suboptions:
               certificate:
-                description:
-                - It is the pnp device's certificate.
+                description: Pnp Device's certificate.
                 type: str
               fqdn:
-                description:
-                - It is the pnp device's fqdn.
+                description: Pnp Device's fqdn.
                 type: str
               ipv4Address:
-                description:
-                - It is the pnp device's ipv4Address.
+                description: Pnp Device's ipv4Address.
                 type: dict
               ipv6Address:
-                description:
-                - It is the pnp device's ipv6Address.
+                description: Pnp Device's ipv6Address.
                 type: dict
               port:
-                description:
-                - It is the pnp device's port.
+                description: Pnp Device's port.
                 type: int
               protocol:
-                description:
-                - It is the pnp device's protocol.
+                description: Pnp Device's protocol.
                 type: str
-
-
+            type: dict
+        type: list
       populateInventory:
-        description:
-        - It is the pnp device's populateInventory.
+        description: PopulateInventory flag.
         type: bool
       preWorkflowCliOuputs:
-        description:
-        - It is the pnp device's preWorkflowCliOuputs.
-        type: list
-        elements: dict
+        description: Pnp Device's preWorkflowCliOuputs.
         suboptions:
           cli:
-            description:
-            - It is the pnp device's cli.
+            description: Pnp Device's cli.
             type: str
           cliOutput:
-            description:
-            - It is the pnp device's cliOutput.
+            description: Pnp Device's cliOutput.
             type: str
-
+        type: list
       projectId:
-        description:
-        - It is the pnp device's projectId.
+        description: Pnp Device's projectId.
         type: str
       projectName:
-        description:
-        - It is the pnp device's projectName.
+        description: Pnp Device's projectName.
         type: str
       reloadRequested:
-        description:
-        - It is the pnp device's reloadRequested.
+        description: ReloadRequested flag.
         type: bool
       serialNumber:
-        description:
-        - It is the pnp device's serialNumber.
+        description: Pnp Device's serialNumber.
+        type: str
+      siteId:
+        description: Pnp Device's siteId.
+        type: str
+      siteName:
+        description: Pnp Device's siteName.
         type: str
       smartAccountId:
-        description:
-        - It is the pnp device's smartAccountId.
+        description: Pnp Device's smartAccountId.
         type: str
       source:
-        description:
-        - It is the pnp device's source.
+        description: Pnp Device's source.
         type: str
       stack:
-        description:
-        - It is the pnp device's stack.
+        description: Stack flag.
         type: bool
       stackInfo:
-        description:
-        - It is the pnp device's stackInfo.
-        type: dict
+        description: Pnp Device's stackInfo.
         suboptions:
           isFullRing:
-            description:
-            - It is the pnp device's isFullRing.
+            description: IsFullRing flag.
             type: bool
           stackMemberList:
-            description:
-            - It is the pnp device's stackMemberList.
-            type: list
-            elements: dict
+            description: Pnp Device's stackMemberList.
             suboptions:
               hardwareVersion:
-                description:
-                - It is the pnp device's hardwareVersion.
+                description: Pnp Device's hardwareVersion.
                 type: str
               licenseLevel:
-                description:
-                - It is the pnp device's licenseLevel.
+                description: Pnp Device's licenseLevel.
                 type: str
               licenseType:
-                description:
-                - It is the pnp device's licenseType.
+                description: Pnp Device's licenseType.
                 type: str
               macAddress:
-                description:
-                - It is the pnp device's macAddress.
+                description: Pnp Device's macAddress.
                 type: str
               pid:
-                description:
-                - It is the pnp device's pid.
+                description: Pnp Device's pid.
                 type: str
               priority:
-                description:
-                - It is the pnp device's priority.
+                description: Pnp Device's priority.
                 type: int
               role:
-                description:
-                - It is the pnp device's role.
+                description: Pnp Device's role.
                 type: str
               serialNumber:
-                description:
-                - It is the pnp device's serialNumber.
+                description: Pnp Device's serialNumber.
                 type: str
               softwareVersion:
-                description:
-                - It is the pnp device's softwareVersion.
+                description: Pnp Device's softwareVersion.
                 type: str
               stackNumber:
-                description:
-                - It is the pnp device's stackNumber.
+                description: Pnp Device's stackNumber.
                 type: int
               state:
-                description:
-                - It is the pnp device's state.
+                description: Pnp Device's state.
                 type: str
               sudiSerialNumber:
-                description:
-                - It is the pnp device's sudiSerialNumber.
+                description: Pnp Device's sudiSerialNumber.
                 type: str
-
+            type: list
           stackRingProtocol:
-            description:
-            - It is the pnp device's stackRingProtocol.
+            description: Pnp Device's stackRingProtocol.
             type: str
           supportsStackWorkflows:
-            description:
-            - It is the pnp device's supportsStackWorkflows.
+            description: SupportsStackWorkflows flag.
             type: bool
           totalMemberCount:
-            description:
-            - It is the pnp device's totalMemberCount.
+            description: Pnp Device's totalMemberCount.
             type: int
           validLicenseLevels:
-            description:
-            - It is the pnp device's validLicenseLevels.
+            description: Pnp Device's validLicenseLevels.
+            elements: str
             type: list
-
+        type: dict
       state:
-        description:
-        - It is the pnp device's state.
+        description: Pnp Device's state.
         type: str
       sudiRequired:
-        description:
-        - It is the pnp device's sudiRequired.
+        description: SudiRequired flag.
         type: bool
       tags:
-        description:
-        - It is the pnp device's tags.
+        description: Pnp Device's tags.
         type: dict
+      userMicNumbers:
+        description: Pnp Device's userMicNumbers.
+        elements: str
+        type: list
       userSudiSerialNos:
-        description:
-        - It is the pnp device's userSudiSerialNos.
+        description: Pnp Device's userSudiSerialNos.
+        elements: str
         type: list
       virtualAccountId:
-        description:
-        - It is the pnp device's virtualAccountId.
+        description: Pnp Device's virtualAccountId.
         type: str
       workflowId:
-        description:
-        - It is the pnp device's workflowId.
+        description: Pnp Device's workflowId.
         type: str
       workflowName:
-        description:
-        - It is the pnp device's workflowName.
+        description: Pnp Device's workflowName.
         type: str
-
+    type: dict
+  id:
+    description: Id path parameter.
+    type: str
   runSummaryList:
-    description:
-    - Device's runSummaryList (list of objects).
-    type: list
-    elements: dict
+    description: Pnp Device's runSummaryList.
     suboptions:
       details:
-        description:
-        - It is the pnp device's details.
+        description: Pnp Device's details.
         type: str
       errorFlag:
-        description:
-        - It is the pnp device's errorFlag.
+        description: ErrorFlag flag.
         type: bool
       historyTaskInfo:
-        description:
-        - It is the pnp device's historyTaskInfo.
-        type: dict
+        description: Pnp Device's historyTaskInfo.
         suboptions:
           addnDetails:
-            description:
-            - It is the pnp device's addnDetails.
-            type: list
-            elements: dict
+            description: Pnp Device's addnDetails.
             suboptions:
               key:
-                description:
-                - It is the pnp device's key.
+                description: Pnp Device's key.
                 type: str
               value:
-                description:
-                - It is the pnp device's value.
+                description: Pnp Device's value.
                 type: str
-
+            type: list
           name:
-            description:
-            - It is the pnp device's name.
+            description: Pnp Device's name.
             type: str
           timeTaken:
-            description:
-            - It is the pnp device's timeTaken.
+            description: Pnp Device's timeTaken.
             type: int
           type:
-            description:
-            - It is the pnp device's type.
+            description: Pnp Device's type.
             type: str
           workItemList:
-            description:
-            - It is the pnp device's workItemList.
-            type: list
-            elements: dict
+            description: Pnp Device's workItemList.
             suboptions:
               command:
-                description:
-                - It is the pnp device's command.
+                description: Pnp Device's command.
                 type: str
               endTime:
-                description:
-                - It is the pnp device's endTime.
+                description: Pnp Device's endTime.
                 type: int
               outputStr:
-                description:
-                - It is the pnp device's outputStr.
+                description: Pnp Device's outputStr.
                 type: str
               startTime:
-                description:
-                - It is the pnp device's startTime.
+                description: Pnp Device's startTime.
                 type: int
               state:
-                description:
-                - It is the pnp device's state.
+                description: Pnp Device's state.
                 type: str
               timeTaken:
-                description:
-                - It is the pnp device's timeTaken.
+                description: Pnp Device's timeTaken.
                 type: int
-
-
+            type: list
+        type: dict
       timestamp:
-        description:
-        - It is the pnp device's timestamp.
+        description: Pnp Device's timestamp.
         type: int
-
+    type: list
   systemResetWorkflow:
-    description:
-    - Device's systemResetWorkflow.
-    type: dict
+    description: Pnp Device's systemResetWorkflow.
     suboptions:
       _id:
-        description:
-        - It is the pnp device's _id.
+        description: Pnp Device's _id.
         type: str
       addToInventory:
-        description:
-        - It is the pnp device's addToInventory.
+        description: AddToInventory flag.
         type: bool
       addedOn:
-        description:
-        - It is the pnp device's addedOn.
+        description: Pnp Device's addedOn.
         type: int
       configId:
-        description:
-        - It is the pnp device's configId.
+        description: Pnp Device's configId.
         type: str
       currTaskIdx:
-        description:
-        - It is the pnp device's currTaskIdx.
+        description: Pnp Device's currTaskIdx.
         type: int
       description:
-        description:
-        - It is the pnp device's description.
+        description: Pnp Device's description.
         type: str
       endTime:
-        description:
-        - It is the pnp device's endTime.
+        description: Pnp Device's endTime.
         type: int
       execTime:
-        description:
-        - It is the pnp device's execTime.
+        description: Pnp Device's execTime.
         type: int
       imageId:
-        description:
-        - It is the pnp device's imageId.
+        description: Pnp Device's imageId.
         type: str
       instanceType:
-        description:
-        - It is the pnp device's instanceType.
+        description: Pnp Device's instanceType.
         type: str
       lastupdateOn:
-        description:
-        - It is the pnp device's lastupdateOn.
+        description: Pnp Device's lastupdateOn.
         type: int
       name:
-        description:
-        - It is the pnp device's name.
+        description: Pnp Device's name.
         type: str
       startTime:
-        description:
-        - It is the pnp device's startTime.
+        description: Pnp Device's startTime.
         type: int
       state:
-        description:
-        - It is the pnp device's state.
+        description: Pnp Device's state.
         type: str
       tasks:
-        description:
-        - It is the pnp device's tasks.
-        type: list
-        elements: dict
+        description: Pnp Device's tasks.
         suboptions:
           currWorkItemIdx:
-            description:
-            - It is the pnp device's currWorkItemIdx.
+            description: Pnp Device's currWorkItemIdx.
             type: int
           endTime:
-            description:
-            - It is the pnp device's endTime.
+            description: Pnp Device's endTime.
             type: int
           name:
-            description:
-            - It is the pnp device's name.
+            description: Pnp Device's name.
             type: str
           startTime:
-            description:
-            - It is the pnp device's startTime.
+            description: Pnp Device's startTime.
             type: int
           state:
-            description:
-            - It is the pnp device's state.
+            description: Pnp Device's state.
             type: str
           taskSeqNo:
-            description:
-            - It is the pnp device's taskSeqNo.
+            description: Pnp Device's taskSeqNo.
             type: int
           timeTaken:
-            description:
-            - It is the pnp device's timeTaken.
+            description: Pnp Device's timeTaken.
             type: int
           type:
-            description:
-            - It is the pnp device's type.
+            description: Pnp Device's type.
             type: str
           workItemList:
-            description:
-            - It is the pnp device's workItemList.
-            type: list
-            elements: dict
+            description: Pnp Device's workItemList.
             suboptions:
               command:
-                description:
-                - It is the pnp device's command.
+                description: Pnp Device's command.
                 type: str
               endTime:
-                description:
-                - It is the pnp device's endTime.
+                description: Pnp Device's endTime.
                 type: int
               outputStr:
-                description:
-                - It is the pnp device's outputStr.
+                description: Pnp Device's outputStr.
                 type: str
               startTime:
-                description:
-                - It is the pnp device's startTime.
+                description: Pnp Device's startTime.
                 type: int
               state:
-                description:
-                - It is the pnp device's state.
+                description: Pnp Device's state.
                 type: str
               timeTaken:
-                description:
-                - It is the pnp device's timeTaken.
+                description: Pnp Device's timeTaken.
                 type: int
-
-
+            type: list
+        type: list
       tenantId:
-        description:
-        - It is the pnp device's tenantId.
+        description: Pnp Device's tenantId.
         type: str
       type:
-        description:
-        - It is the pnp device's type.
+        description: Pnp Device's type.
         type: str
       useState:
-        description:
-        - It is the pnp device's useState.
+        description: Pnp Device's useState.
         type: str
       version:
-        description:
-        - It is the pnp device's version.
+        description: Pnp Device's version.
         type: int
-
+    type: dict
   systemWorkflow:
-    description:
-    - Device's systemWorkflow.
-    type: dict
+    description: Pnp Device's systemWorkflow.
     suboptions:
       _id:
-        description:
-        - It is the pnp device's _id.
+        description: Pnp Device's _id.
         type: str
       addToInventory:
-        description:
-        - It is the pnp device's addToInventory.
+        description: AddToInventory flag.
         type: bool
       addedOn:
-        description:
-        - It is the pnp device's addedOn.
+        description: Pnp Device's addedOn.
         type: int
       configId:
-        description:
-        - It is the pnp device's configId.
+        description: Pnp Device's configId.
         type: str
       currTaskIdx:
-        description:
-        - It is the pnp device's currTaskIdx.
+        description: Pnp Device's currTaskIdx.
         type: int
       description:
-        description:
-        - It is the pnp device's description.
+        description: Pnp Device's description.
         type: str
       endTime:
-        description:
-        - It is the pnp device's endTime.
+        description: Pnp Device's endTime.
         type: int
       execTime:
-        description:
-        - It is the pnp device's execTime.
+        description: Pnp Device's execTime.
         type: int
       imageId:
-        description:
-        - It is the pnp device's imageId.
+        description: Pnp Device's imageId.
         type: str
       instanceType:
-        description:
-        - It is the pnp device's instanceType.
+        description: Pnp Device's instanceType.
         type: str
       lastupdateOn:
-        description:
-        - It is the pnp device's lastupdateOn.
+        description: Pnp Device's lastupdateOn.
         type: int
       name:
-        description:
-        - It is the pnp device's name.
+        description: Pnp Device's name.
         type: str
       startTime:
-        description:
-        - It is the pnp device's startTime.
+        description: Pnp Device's startTime.
         type: int
       state:
-        description:
-        - It is the pnp device's state.
+        description: Pnp Device's state.
         type: str
       tasks:
-        description:
-        - It is the pnp device's tasks.
-        type: list
-        elements: dict
+        description: Pnp Device's tasks.
         suboptions:
           currWorkItemIdx:
-            description:
-            - It is the pnp device's currWorkItemIdx.
+            description: Pnp Device's currWorkItemIdx.
             type: int
           endTime:
-            description:
-            - It is the pnp device's endTime.
+            description: Pnp Device's endTime.
             type: int
           name:
-            description:
-            - It is the pnp device's name.
+            description: Pnp Device's name.
             type: str
           startTime:
-            description:
-            - It is the pnp device's startTime.
+            description: Pnp Device's startTime.
             type: int
           state:
-            description:
-            - It is the pnp device's state.
+            description: Pnp Device's state.
             type: str
           taskSeqNo:
-            description:
-            - It is the pnp device's taskSeqNo.
+            description: Pnp Device's taskSeqNo.
             type: int
           timeTaken:
-            description:
-            - It is the pnp device's timeTaken.
+            description: Pnp Device's timeTaken.
             type: int
           type:
-            description:
-            - It is the pnp device's type.
+            description: Pnp Device's type.
             type: str
           workItemList:
-            description:
-            - It is the pnp device's workItemList.
-            type: list
-            elements: dict
+            description: Pnp Device's workItemList.
             suboptions:
               command:
-                description:
-                - It is the pnp device's command.
+                description: Pnp Device's command.
                 type: str
               endTime:
-                description:
-                - It is the pnp device's endTime.
+                description: Pnp Device's endTime.
                 type: int
               outputStr:
-                description:
-                - It is the pnp device's outputStr.
+                description: Pnp Device's outputStr.
                 type: str
               startTime:
-                description:
-                - It is the pnp device's startTime.
+                description: Pnp Device's startTime.
                 type: int
               state:
-                description:
-                - It is the pnp device's state.
+                description: Pnp Device's state.
                 type: str
               timeTaken:
-                description:
-                - It is the pnp device's timeTaken.
+                description: Pnp Device's timeTaken.
                 type: int
-
-
+            type: list
+        type: list
       tenantId:
-        description:
-        - It is the pnp device's tenantId.
+        description: Pnp Device's tenantId.
         type: str
       type:
-        description:
-        - It is the pnp device's type.
+        description: Pnp Device's type.
         type: str
       useState:
-        description:
-        - It is the pnp device's useState.
+        description: Pnp Device's useState.
         type: str
       version:
-        description:
-        - It is the pnp device's version.
+        description: Pnp Device's version.
         type: int
-
+    type: dict
   tenantId:
-    description:
-    - Device's tenantId.
+    description: Pnp Device's tenantId.
     type: str
   version:
-    description:
-    - Device's version.
+    description: Pnp Device's version.
     type: int
   workflow:
-    description:
-    - Device's workflow.
-    type: dict
+    description: Pnp Device's workflow.
     suboptions:
       _id:
-        description:
-        - It is the pnp device's _id.
+        description: Pnp Device's _id.
         type: str
       addToInventory:
-        description:
-        - It is the pnp device's addToInventory.
+        description: AddToInventory flag.
         type: bool
       addedOn:
-        description:
-        - It is the pnp device's addedOn.
+        description: Pnp Device's addedOn.
         type: int
       configId:
-        description:
-        - It is the pnp device's configId.
+        description: Pnp Device's configId.
         type: str
       currTaskIdx:
-        description:
-        - It is the pnp device's currTaskIdx.
+        description: Pnp Device's currTaskIdx.
         type: int
       description:
-        description:
-        - It is the pnp device's description.
+        description: Pnp Device's description.
         type: str
       endTime:
-        description:
-        - It is the pnp device's endTime.
+        description: Pnp Device's endTime.
         type: int
       execTime:
-        description:
-        - It is the pnp device's execTime.
+        description: Pnp Device's execTime.
         type: int
       imageId:
-        description:
-        - It is the pnp device's imageId.
+        description: Pnp Device's imageId.
         type: str
       instanceType:
-        description:
-        - It is the pnp device's instanceType.
+        description: Pnp Device's instanceType.
         type: str
       lastupdateOn:
-        description:
-        - It is the pnp device's lastupdateOn.
+        description: Pnp Device's lastupdateOn.
         type: int
       name:
-        description:
-        - It is the pnp device's name.
+        description: Pnp Device's name.
         type: str
       startTime:
-        description:
-        - It is the pnp device's startTime.
+        description: Pnp Device's startTime.
         type: int
       state:
-        description:
-        - It is the pnp device's state.
+        description: Pnp Device's state.
         type: str
       tasks:
-        description:
-        - It is the pnp device's tasks.
-        type: list
-        elements: dict
+        description: Pnp Device's tasks.
         suboptions:
           currWorkItemIdx:
-            description:
-            - It is the pnp device's currWorkItemIdx.
+            description: Pnp Device's currWorkItemIdx.
             type: int
           endTime:
-            description:
-            - It is the pnp device's endTime.
+            description: Pnp Device's endTime.
             type: int
           name:
-            description:
-            - It is the pnp device's name.
+            description: Pnp Device's name.
             type: str
           startTime:
-            description:
-            - It is the pnp device's startTime.
+            description: Pnp Device's startTime.
             type: int
           state:
-            description:
-            - It is the pnp device's state.
+            description: Pnp Device's state.
             type: str
           taskSeqNo:
-            description:
-            - It is the pnp device's taskSeqNo.
+            description: Pnp Device's taskSeqNo.
             type: int
           timeTaken:
-            description:
-            - It is the pnp device's timeTaken.
+            description: Pnp Device's timeTaken.
             type: int
           type:
-            description:
-            - It is the pnp device's type.
+            description: Pnp Device's type.
             type: str
           workItemList:
-            description:
-            - It is the pnp device's workItemList.
-            type: list
-            elements: dict
+            description: Pnp Device's workItemList.
             suboptions:
               command:
-                description:
-                - It is the pnp device's command.
+                description: Pnp Device's command.
                 type: str
               endTime:
-                description:
-                - It is the pnp device's endTime.
+                description: Pnp Device's endTime.
                 type: int
               outputStr:
-                description:
-                - It is the pnp device's outputStr.
+                description: Pnp Device's outputStr.
                 type: str
               startTime:
-                description:
-                - It is the pnp device's startTime.
+                description: Pnp Device's startTime.
                 type: int
               state:
-                description:
-                - It is the pnp device's state.
+                description: Pnp Device's state.
                 type: str
               timeTaken:
-                description:
-                - It is the pnp device's timeTaken.
+                description: Pnp Device's timeTaken.
                 type: int
-
-
+            type: list
+        type: list
       tenantId:
-        description:
-        - It is the pnp device's tenantId.
+        description: Pnp Device's tenantId.
         type: str
       type:
-        description:
-        - It is the pnp device's type.
+        description: Pnp Device's type.
         type: str
       useState:
-        description:
-        - It is the pnp device's useState.
+        description: Pnp Device's useState.
         type: str
       version:
-        description:
-        - It is the pnp device's version.
+        description: Pnp Device's version.
         type: int
-
-  workflowParameters:
-    description:
-    - Device's workflowParameters.
     type: dict
+  workflowParameters:
+    description: Pnp Device's workflowParameters.
     suboptions:
       configList:
-        description:
-        - It is the pnp device's configList.
-        type: list
-        elements: dict
+        description: Pnp Device's configList.
         suboptions:
           configId:
-            description:
-            - It is the pnp device's configId.
+            description: Pnp Device's configId.
             type: str
           configParameters:
-            description:
-            - It is the pnp device's configParameters.
-            type: list
-            elements: dict
+            description: Pnp Device's configParameters.
             suboptions:
               key:
-                description:
-                - It is the pnp device's key.
+                description: Pnp Device's key.
                 type: str
               value:
-                description:
-                - It is the pnp device's value.
+                description: Pnp Device's value.
                 type: str
-
-
+            type: list
+        type: list
       licenseLevel:
-        description:
-        - It is the pnp device's licenseLevel.
+        description: Pnp Device's licenseLevel.
         type: str
       licenseType:
-        description:
-        - It is the pnp device's licenseType.
+        description: Pnp Device's licenseType.
         type: str
       topOfStackSerialNumber:
-        description:
-        - It is the pnp device's topOfStackSerialNumber.
+        description: Pnp Device's topOfStackSerialNumber.
         type: str
-
-  id:
-    description:
-    - Id path parameter.
-    type: str
-    required: True
-  count:
-    description:
-    - If true gets the number of objects.
-    - Required for state query.
-    type: bool
-
+    type: dict
 requirements:
 - dnacentersdk
 seealso:
-# Reference by module name
-- module: cisco.dnac.plugins.module_utils.definitions.pnp_device
 # Reference by Internet resource
-- name: PnpDevice reference
-  description: Complete reference of the PnpDevice object model.
-  link: https://developer.cisco.com/docs/dna-center/api/1-3-3-x
-# Reference by Internet resource
-- name: PnpDevice reference
-  description: SDK reference.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
+- name: Pnp Device reference
+  description: Complete reference of the Pnp Device object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
 """
 
 EXAMPLES = r"""
-- name: get_device_list
+- name: Update by id
   cisco.dnac.pnp_device:
-    state: query  # required
-    cm_state: SomeValue  # string
-    last_contact: True  # boolean
-    limit: 1  #  integer
-    name: SomeValue  # string
-    offset: 1  #  integer
-    onb_state: SomeValue  # string
-    pid: SomeValue  # string
-    project_id: SomeValue  # string
-    project_name: SomeValue  # string
-    serial_number: SomeValue  # string
-    smart_account_id: SomeValue  # string
-    sort: SomeValue  # string
-    sort_order: SomeValue  # string
-    source: SomeValue  # string
-    _state: SomeValue  # string
-    virtual_account_id: SomeValue  # string
-    workflow_id: SomeValue  # string
-    workflow_name: SomeValue  # string
-  register: nm_get_device_list
-
-- name: add_device
-  cisco.dnac.pnp_device:
-    state: create  # required
-    deviceInfo:  # required
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    _id: string
+    dayZeroConfig:
+      config: string
+    dayZeroConfigPreview: {}
+    deviceInfo:
       aaaCredentials:
-        password: SomeValue  # string
-        username: SomeValue  # string
-      addedOn: 1  #  integer
+        password: string
+        username: string
+      addedOn: 0
       addnMacAddrs:
-      - SomeValue  # string
-      agentType: SomeValue  # string
-      authStatus: SomeValue  # string
-      authenticatedSudiSerialNo: SomeValue  # string
+      - string
+      agentType: string
+      authStatus: string
+      authenticatedMicNumber: string
+      authenticatedSudiSerialNo: string
       capabilitiesSupported:
-      - SomeValue  # string
-      cmState: SomeValue  # string
-      description: SomeValue  # string
+      - string
+      cmState: string
+      description: string
       deviceSudiSerialNos:
-      - SomeValue  # string
-      deviceType: SomeValue  # string
+      - string
+      deviceType: string
       featuresSupported:
-      - SomeValue  # string
+      - string
       fileSystemList:
-      - freespace: 1  #  integer
-        name: SomeValue  # string
-        readable: True  # boolean
-        size: 1  #  integer
-        type: SomeValue  # string
-        writeable: True  # boolean
-      firstContact: 1  #  integer
-      hostname: SomeValue  # string
+      - freespace: 0
+        name: string
+        readable: true
+        size: 0
+        type: string
+        writeable: true
+      firstContact: 0
+      hostname: string
       httpHeaders:
-      - key: SomeValue  # string
-        value: SomeValue  # string
-      imageFile: SomeValue  # string
-      imageVersion: SomeValue  # string
+      - key: string
+        value: string
+      imageFile: string
+      imageVersion: string
       ipInterfaces:
-      - ipv4Address: None
+      - ipv4Address: {}
         ipv6AddressList:
-        macAddress: SomeValue  # string
-        name: SomeValue  # string
-        status: SomeValue  # string
-      lastContact: 1  #  integer
-      lastSyncTime: 1  #  integer
-      lastUpdateOn: 1  #  integer
+        - {}
+        macAddress: string
+        name: string
+        status: string
+      lastContact: 0
+      lastSyncTime: 0
+      lastUpdateOn: 0
       location:
-        address: SomeValue  # string
-        altitude: SomeValue  # string
-        latitude: SomeValue  # string
-        longitude: SomeValue  # string
-        siteId: SomeValue  # string
-      macAddress: SomeValue  # string
-      mode: SomeValue  # string
-      name: SomeValue  # string
+        address: string
+        altitude: string
+        latitude: string
+        longitude: string
+        siteId: string
+      macAddress: string
+      mode: string
+      name: string
       neighborLinks:
-      - localInterfaceName: SomeValue  # string
-        localMacAddress: SomeValue  # string
-        localShortInterfaceName: SomeValue  # string
-        remoteDeviceName: SomeValue  # string
-        remoteInterfaceName: SomeValue  # string
-        remoteMacAddress: SomeValue  # string
-        remotePlatform: SomeValue  # string
-        remoteShortInterfaceName: SomeValue  # string
-        remoteVersion: SomeValue  # string
-      onbState: SomeValue  # string
-      pid: SomeValue  # string
+      - localInterfaceName: string
+        localMacAddress: string
+        localShortInterfaceName: string
+        remoteDeviceName: string
+        remoteInterfaceName: string
+        remoteMacAddress: string
+        remotePlatform: string
+        remoteShortInterfaceName: string
+        remoteVersion: string
+      onbState: string
+      pid: string
       pnpProfileList:
-      - createdBy: SomeValue  # string
-        discoveryCreated: True  # boolean
+      - createdBy: string
+        discoveryCreated: true
         primaryEndpoint:
-          certificate: SomeValue  # string
-          fqdn: SomeValue  # string
-          ipv4Address: None
-          ipv6Address: None
-          port: 1  #  integer
-          protocol: SomeValue  # string
-        profileName: SomeValue  # string
+          certificate: string
+          fqdn: string
+          ipv4Address: {}
+          ipv6Address: {}
+          port: 0
+          protocol: string
+        profileName: string
         secondaryEndpoint:
-          certificate: SomeValue  # string
-          fqdn: SomeValue  # string
-          ipv4Address: None
-          ipv6Address: None
-          port: 1  #  integer
-          protocol: SomeValue  # string
-      populateInventory: True  # boolean
+          certificate: string
+          fqdn: string
+          ipv4Address: {}
+          ipv6Address: {}
+          port: 0
+          protocol: string
+      populateInventory: true
       preWorkflowCliOuputs:
-      - cli: SomeValue  # string
-        cliOutput: SomeValue  # string
-      projectId: SomeValue  # string
-      projectName: SomeValue  # string
-      reloadRequested: True  # boolean
-      serialNumber: SomeValue  # string
-      smartAccountId: SomeValue  # string
-      source: SomeValue  # string
-      stack: True  # boolean
+      - cli: string
+        cliOutput: string
+      projectId: string
+      projectName: string
+      reloadRequested: true
+      serialNumber: string
+      siteId: string
+      siteName: string
+      smartAccountId: string
+      source: string
+      stack: true
       stackInfo:
-        isFullRing: True  # boolean
+        isFullRing: true
         stackMemberList:
-        - hardwareVersion: SomeValue  # string
-          licenseLevel: SomeValue  # string
-          licenseType: SomeValue  # string
-          macAddress: SomeValue  # string
-          pid: SomeValue  # string
-          priority: 1  #  integer
-          role: SomeValue  # string
-          serialNumber: SomeValue  # string
-          softwareVersion: SomeValue  # string
-          stackNumber: 1  #  integer
-          state: SomeValue  # string
-          sudiSerialNumber: SomeValue  # string
-        stackRingProtocol: SomeValue  # string
-        supportsStackWorkflows: True  # boolean
-        totalMemberCount: 1  #  integer
+        - hardwareVersion: string
+          licenseLevel: string
+          licenseType: string
+          macAddress: string
+          pid: string
+          priority: 0
+          role: string
+          serialNumber: string
+          softwareVersion: string
+          stackNumber: 0
+          state: string
+          sudiSerialNumber: string
+        stackRingProtocol: string
+        supportsStackWorkflows: true
+        totalMemberCount: 0
         validLicenseLevels:
-        - SomeValue  # string
-      state: SomeValue  # string
-      sudiRequired: True  # boolean
-      tags: None
+        - string
+      state: string
+      sudiRequired: true
+      tags: {}
+      userMicNumbers:
+      - string
       userSudiSerialNos:
-      - SomeValue  # string
-      virtualAccountId: SomeValue  # string
-      workflowId: SomeValue  # string
-      workflowName: SomeValue  # string
-    _id: SomeValue  # string
+      - string
+      virtualAccountId: string
+      workflowId: string
+      workflowName: string
+    id: string
     runSummaryList:
-    - details: SomeValue  # string
-      errorFlag: True  # boolean
+    - details: string
+      errorFlag: true
       historyTaskInfo:
         addnDetails:
-        - key: SomeValue  # string
-          value: SomeValue  # string
-        name: SomeValue  # string
-        timeTaken: 1  #  integer
-        type: SomeValue  # string
+        - key: string
+          value: string
+        name: string
+        timeTaken: 0
+        type: string
         workItemList:
-        - command: SomeValue  # string
-          endTime: 1  #  integer
-          outputStr: SomeValue  # string
-          startTime: 1  #  integer
-          state: SomeValue  # string
-          timeTaken: 1  #  integer
-      timestamp: 1  #  integer
+        - command: string
+          endTime: 0
+          outputStr: string
+          startTime: 0
+          state: string
+          timeTaken: 0
+      timestamp: 0
     systemResetWorkflow:
-      _id: SomeValue  # string
-      addToInventory: True  # boolean
-      addedOn: 1  #  integer
-      configId: SomeValue  # string
-      currTaskIdx: 1  #  integer
-      description: SomeValue  # string
-      endTime: 1  #  integer
-      execTime: 1  #  integer
-      imageId: SomeValue  # string
-      instanceType: SomeValue  # string
-      lastupdateOn: 1  #  integer
-      name: SomeValue  # string
-      startTime: 1  #  integer
-      state: SomeValue  # string
+      _id: string
+      addToInventory: true
+      addedOn: 0
+      configId: string
+      currTaskIdx: 0
+      description: string
+      endTime: 0
+      execTime: 0
+      imageId: string
+      instanceType: string
+      lastupdateOn: 0
+      name: string
+      startTime: 0
+      state: string
       tasks:
-      - currWorkItemIdx: 1  #  integer
-        endTime: 1  #  integer
-        name: SomeValue  # string
-        startTime: 1  #  integer
-        state: SomeValue  # string
-        taskSeqNo: 1  #  integer
-        timeTaken: 1  #  integer
-        type: SomeValue  # string
+      - currWorkItemIdx: 0
+        endTime: 0
+        name: string
+        startTime: 0
+        state: string
+        taskSeqNo: 0
+        timeTaken: 0
+        type: string
         workItemList:
-        - command: SomeValue  # string
-          endTime: 1  #  integer
-          outputStr: SomeValue  # string
-          startTime: 1  #  integer
-          state: SomeValue  # string
-          timeTaken: 1  #  integer
-      tenantId: SomeValue  # string
-      type: SomeValue  # string
-      useState: SomeValue  # string
-      version: 1  #  integer
+        - command: string
+          endTime: 0
+          outputStr: string
+          startTime: 0
+          state: string
+          timeTaken: 0
+      tenantId: string
+      type: string
+      useState: string
+      version: 0
     systemWorkflow:
-      _id: SomeValue  # string
-      addToInventory: True  # boolean
-      addedOn: 1  #  integer
-      configId: SomeValue  # string
-      currTaskIdx: 1  #  integer
-      description: SomeValue  # string
-      endTime: 1  #  integer
-      execTime: 1  #  integer
-      imageId: SomeValue  # string
-      instanceType: SomeValue  # string
-      lastupdateOn: 1  #  integer
-      name: SomeValue  # string
-      startTime: 1  #  integer
-      state: SomeValue  # string
+      _id: string
+      addToInventory: true
+      addedOn: 0
+      configId: string
+      currTaskIdx: 0
+      description: string
+      endTime: 0
+      execTime: 0
+      imageId: string
+      instanceType: string
+      lastupdateOn: 0
+      name: string
+      startTime: 0
+      state: string
       tasks:
-      - currWorkItemIdx: 1  #  integer
-        endTime: 1  #  integer
-        name: SomeValue  # string
-        startTime: 1  #  integer
-        state: SomeValue  # string
-        taskSeqNo: 1  #  integer
-        timeTaken: 1  #  integer
-        type: SomeValue  # string
+      - currWorkItemIdx: 0
+        endTime: 0
+        name: string
+        startTime: 0
+        state: string
+        taskSeqNo: 0
+        timeTaken: 0
+        type: string
         workItemList:
-        - command: SomeValue  # string
-          endTime: 1  #  integer
-          outputStr: SomeValue  # string
-          startTime: 1  #  integer
-          state: SomeValue  # string
-          timeTaken: 1  #  integer
-      tenantId: SomeValue  # string
-      type: SomeValue  # string
-      useState: SomeValue  # string
-      version: 1  #  integer
-    tenantId: SomeValue  # string
-    version: 1  #  integer
+        - command: string
+          endTime: 0
+          outputStr: string
+          startTime: 0
+          state: string
+          timeTaken: 0
+      tenantId: string
+      type: string
+      useState: string
+      version: 0
+    tenantId: string
+    version: 0
     workflow:
-      _id: SomeValue  # string
-      addToInventory: True  # boolean
-      addedOn: 1  #  integer
-      configId: SomeValue  # string
-      currTaskIdx: 1  #  integer
-      description: SomeValue  # string
-      endTime: 1  #  integer
-      execTime: 1  #  integer
-      imageId: SomeValue  # string
-      instanceType: SomeValue  # string
-      lastupdateOn: 1  #  integer
-      name: SomeValue  # string
-      startTime: 1  #  integer
-      state: SomeValue  # string
+      _id: string
+      addToInventory: true
+      addedOn: 0
+      configId: string
+      currTaskIdx: 0
+      description: string
+      endTime: 0
+      execTime: 0
+      imageId: string
+      instanceType: string
+      lastupdateOn: 0
+      name: string
+      startTime: 0
+      state: string
       tasks:
-      - currWorkItemIdx: 1  #  integer
-        endTime: 1  #  integer
-        name: SomeValue  # string
-        startTime: 1  #  integer
-        state: SomeValue  # string
-        taskSeqNo: 1  #  integer
-        timeTaken: 1  #  integer
-        type: SomeValue  # string
+      - currWorkItemIdx: 0
+        endTime: 0
+        name: string
+        startTime: 0
+        state: string
+        taskSeqNo: 0
+        timeTaken: 0
+        type: string
         workItemList:
-        - command: SomeValue  # string
-          endTime: 1  #  integer
-          outputStr: SomeValue  # string
-          startTime: 1  #  integer
-          state: SomeValue  # string
-          timeTaken: 1  #  integer
-      tenantId: SomeValue  # string
-      type: SomeValue  # string
-      useState: SomeValue  # string
-      version: 1  #  integer
+        - command: string
+          endTime: 0
+          outputStr: string
+          startTime: 0
+          state: string
+          timeTaken: 0
+      tenantId: string
+      type: string
+      useState: string
+      version: 0
     workflowParameters:
       configList:
-      - configId: SomeValue  # string
+      - configId: string
         configParameters:
-        - key: SomeValue  # string
-          value: SomeValue  # string
-      licenseLevel: SomeValue  # string
-      licenseType: SomeValue  # string
-      topOfStackSerialNumber: SomeValue  # string
+        - key: string
+          value: string
+      licenseLevel: string
+      licenseType: string
+      topOfStackSerialNumber: string
 
-- name: get_device_by_id
+- name: Delete by id
   cisco.dnac.pnp_device:
-    state: query  # required
-    id: SomeValue  # string, required
-  register: nm_get_device_by_id
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    id: string
 
-- name: delete_device_by_id_from_pnp
+- name: Create
   cisco.dnac.pnp_device:
-    state: delete  # required
-    id: SomeValue  # string, required
-
-- name: update_device
-  cisco.dnac.pnp_device:
-    state: update  # required
-    id: SomeValue  # string, required
-    deviceInfo:  # required
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    _id: string
+    dayZeroConfig:
+      config: string
+    dayZeroConfigPreview: {}
+    deviceInfo:
       aaaCredentials:
-        password: SomeValue  # string
-        username: SomeValue  # string
-      addedOn: 1  #  integer
+        password: string
+        username: string
+      addedOn: 0
       addnMacAddrs:
-      - SomeValue  # string
-      agentType: SomeValue  # string
-      authStatus: SomeValue  # string
-      authenticatedSudiSerialNo: SomeValue  # string
+      - string
+      agentType: string
+      authStatus: string
+      authenticatedMicNumber: string
+      authenticatedSudiSerialNo: string
       capabilitiesSupported:
-      - SomeValue  # string
-      cmState: SomeValue  # string
-      description: SomeValue  # string
+      - string
+      cmState: string
+      description: string
       deviceSudiSerialNos:
-      - SomeValue  # string
-      deviceType: SomeValue  # string
+      - string
+      deviceType: string
       featuresSupported:
-      - SomeValue  # string
+      - string
       fileSystemList:
-      - freespace: 1  #  integer
-        name: SomeValue  # string
-        readable: True  # boolean
-        size: 1  #  integer
-        type: SomeValue  # string
-        writeable: True  # boolean
-      firstContact: 1  #  integer
-      hostname: SomeValue  # string
+      - freespace: 0
+        name: string
+        readable: true
+        size: 0
+        type: string
+        writeable: true
+      firstContact: 0
+      hostname: string
       httpHeaders:
-      - key: SomeValue  # string
-        value: SomeValue  # string
-      imageFile: SomeValue  # string
-      imageVersion: SomeValue  # string
+      - key: string
+        value: string
+      imageFile: string
+      imageVersion: string
       ipInterfaces:
-      - ipv4Address: None
+      - ipv4Address: {}
         ipv6AddressList:
-        macAddress: SomeValue  # string
-        name: SomeValue  # string
-        status: SomeValue  # string
-      lastContact: 1  #  integer
-      lastSyncTime: 1  #  integer
-      lastUpdateOn: 1  #  integer
+        - {}
+        macAddress: string
+        name: string
+        status: string
+      lastContact: 0
+      lastSyncTime: 0
+      lastUpdateOn: 0
       location:
-        address: SomeValue  # string
-        altitude: SomeValue  # string
-        latitude: SomeValue  # string
-        longitude: SomeValue  # string
-        siteId: SomeValue  # string
-      macAddress: SomeValue  # string
-      mode: SomeValue  # string
-      name: SomeValue  # string
+        address: string
+        altitude: string
+        latitude: string
+        longitude: string
+        siteId: string
+      macAddress: string
+      mode: string
+      name: string
       neighborLinks:
-      - localInterfaceName: SomeValue  # string
-        localMacAddress: SomeValue  # string
-        localShortInterfaceName: SomeValue  # string
-        remoteDeviceName: SomeValue  # string
-        remoteInterfaceName: SomeValue  # string
-        remoteMacAddress: SomeValue  # string
-        remotePlatform: SomeValue  # string
-        remoteShortInterfaceName: SomeValue  # string
-        remoteVersion: SomeValue  # string
-      onbState: SomeValue  # string
-      pid: SomeValue  # string
+      - localInterfaceName: string
+        localMacAddress: string
+        localShortInterfaceName: string
+        remoteDeviceName: string
+        remoteInterfaceName: string
+        remoteMacAddress: string
+        remotePlatform: string
+        remoteShortInterfaceName: string
+        remoteVersion: string
+      onbState: string
+      pid: string
       pnpProfileList:
-      - createdBy: SomeValue  # string
-        discoveryCreated: True  # boolean
+      - createdBy: string
+        discoveryCreated: true
         primaryEndpoint:
-          certificate: SomeValue  # string
-          fqdn: SomeValue  # string
-          ipv4Address: None
-          ipv6Address: None
-          port: 1  #  integer
-          protocol: SomeValue  # string
-        profileName: SomeValue  # string
+          certificate: string
+          fqdn: string
+          ipv4Address: {}
+          ipv6Address: {}
+          port: 0
+          protocol: string
+        profileName: string
         secondaryEndpoint:
-          certificate: SomeValue  # string
-          fqdn: SomeValue  # string
-          ipv4Address: None
-          ipv6Address: None
-          port: 1  #  integer
-          protocol: SomeValue  # string
-      populateInventory: True  # boolean
+          certificate: string
+          fqdn: string
+          ipv4Address: {}
+          ipv6Address: {}
+          port: 0
+          protocol: string
+      populateInventory: true
       preWorkflowCliOuputs:
-      - cli: SomeValue  # string
-        cliOutput: SomeValue  # string
-      projectId: SomeValue  # string
-      projectName: SomeValue  # string
-      reloadRequested: True  # boolean
-      serialNumber: SomeValue  # string
-      smartAccountId: SomeValue  # string
-      source: SomeValue  # string
-      stack: True  # boolean
+      - cli: string
+        cliOutput: string
+      projectId: string
+      projectName: string
+      reloadRequested: true
+      serialNumber: string
+      siteId: string
+      siteName: string
+      smartAccountId: string
+      source: string
+      stack: true
       stackInfo:
-        isFullRing: True  # boolean
+        isFullRing: true
         stackMemberList:
-        - hardwareVersion: SomeValue  # string
-          licenseLevel: SomeValue  # string
-          licenseType: SomeValue  # string
-          macAddress: SomeValue  # string
-          pid: SomeValue  # string
-          priority: 1  #  integer
-          role: SomeValue  # string
-          serialNumber: SomeValue  # string
-          softwareVersion: SomeValue  # string
-          stackNumber: 1  #  integer
-          state: SomeValue  # string
-          sudiSerialNumber: SomeValue  # string
-        stackRingProtocol: SomeValue  # string
-        supportsStackWorkflows: True  # boolean
-        totalMemberCount: 1  #  integer
+        - hardwareVersion: string
+          licenseLevel: string
+          licenseType: string
+          macAddress: string
+          pid: string
+          priority: 0
+          role: string
+          serialNumber: string
+          softwareVersion: string
+          stackNumber: 0
+          state: string
+          sudiSerialNumber: string
+        stackRingProtocol: string
+        supportsStackWorkflows: true
+        totalMemberCount: 0
         validLicenseLevels:
-        - SomeValue  # string
-      state: SomeValue  # string
-      sudiRequired: True  # boolean
-      tags: None
+        - string
+      state: string
+      sudiRequired: true
+      tags: {}
+      userMicNumbers:
+      - string
       userSudiSerialNos:
-      - SomeValue  # string
-      virtualAccountId: SomeValue  # string
-      workflowId: SomeValue  # string
-      workflowName: SomeValue  # string
-    _id: SomeValue  # string
+      - string
+      virtualAccountId: string
+      workflowId: string
+      workflowName: string
     runSummaryList:
-    - details: SomeValue  # string
-      errorFlag: True  # boolean
+    - details: string
+      errorFlag: true
       historyTaskInfo:
         addnDetails:
-        - key: SomeValue  # string
-          value: SomeValue  # string
-        name: SomeValue  # string
-        timeTaken: 1  #  integer
-        type: SomeValue  # string
+        - key: string
+          value: string
+        name: string
+        timeTaken: 0
+        type: string
         workItemList:
-        - command: SomeValue  # string
-          endTime: 1  #  integer
-          outputStr: SomeValue  # string
-          startTime: 1  #  integer
-          state: SomeValue  # string
-          timeTaken: 1  #  integer
-      timestamp: 1  #  integer
+        - command: string
+          endTime: 0
+          outputStr: string
+          startTime: 0
+          state: string
+          timeTaken: 0
+      timestamp: 0
     systemResetWorkflow:
-      _id: SomeValue  # string
-      addToInventory: True  # boolean
-      addedOn: 1  #  integer
-      configId: SomeValue  # string
-      currTaskIdx: 1  #  integer
-      description: SomeValue  # string
-      endTime: 1  #  integer
-      execTime: 1  #  integer
-      imageId: SomeValue  # string
-      instanceType: SomeValue  # string
-      lastupdateOn: 1  #  integer
-      name: SomeValue  # string
-      startTime: 1  #  integer
-      state: SomeValue  # string
+      _id: string
+      addToInventory: true
+      addedOn: 0
+      configId: string
+      currTaskIdx: 0
+      description: string
+      endTime: 0
+      execTime: 0
+      imageId: string
+      instanceType: string
+      lastupdateOn: 0
+      name: string
+      startTime: 0
+      state: string
       tasks:
-      - currWorkItemIdx: 1  #  integer
-        endTime: 1  #  integer
-        name: SomeValue  # string
-        startTime: 1  #  integer
-        state: SomeValue  # string
-        taskSeqNo: 1  #  integer
-        timeTaken: 1  #  integer
-        type: SomeValue  # string
+      - currWorkItemIdx: 0
+        endTime: 0
+        name: string
+        startTime: 0
+        state: string
+        taskSeqNo: 0
+        timeTaken: 0
+        type: string
         workItemList:
-        - command: SomeValue  # string
-          endTime: 1  #  integer
-          outputStr: SomeValue  # string
-          startTime: 1  #  integer
-          state: SomeValue  # string
-          timeTaken: 1  #  integer
-      tenantId: SomeValue  # string
-      type: SomeValue  # string
-      useState: SomeValue  # string
-      version: 1  #  integer
+        - command: string
+          endTime: 0
+          outputStr: string
+          startTime: 0
+          state: string
+          timeTaken: 0
+      tenantId: string
+      type: string
+      useState: string
+      version: 0
     systemWorkflow:
-      _id: SomeValue  # string
-      addToInventory: True  # boolean
-      addedOn: 1  #  integer
-      configId: SomeValue  # string
-      currTaskIdx: 1  #  integer
-      description: SomeValue  # string
-      endTime: 1  #  integer
-      execTime: 1  #  integer
-      imageId: SomeValue  # string
-      instanceType: SomeValue  # string
-      lastupdateOn: 1  #  integer
-      name: SomeValue  # string
-      startTime: 1  #  integer
-      state: SomeValue  # string
+      _id: string
+      addToInventory: true
+      addedOn: 0
+      configId: string
+      currTaskIdx: 0
+      description: string
+      endTime: 0
+      execTime: 0
+      imageId: string
+      instanceType: string
+      lastupdateOn: 0
+      name: string
+      startTime: 0
+      state: string
       tasks:
-      - currWorkItemIdx: 1  #  integer
-        endTime: 1  #  integer
-        name: SomeValue  # string
-        startTime: 1  #  integer
-        state: SomeValue  # string
-        taskSeqNo: 1  #  integer
-        timeTaken: 1  #  integer
-        type: SomeValue  # string
+      - currWorkItemIdx: 0
+        endTime: 0
+        name: string
+        startTime: 0
+        state: string
+        taskSeqNo: 0
+        timeTaken: 0
+        type: string
         workItemList:
-        - command: SomeValue  # string
-          endTime: 1  #  integer
-          outputStr: SomeValue  # string
-          startTime: 1  #  integer
-          state: SomeValue  # string
-          timeTaken: 1  #  integer
-      tenantId: SomeValue  # string
-      type: SomeValue  # string
-      useState: SomeValue  # string
-      version: 1  #  integer
-    tenantId: SomeValue  # string
-    version: 1  #  integer
+        - command: string
+          endTime: 0
+          outputStr: string
+          startTime: 0
+          state: string
+          timeTaken: 0
+      tenantId: string
+      type: string
+      useState: string
+      version: 0
+    tenantId: string
+    version: 0
     workflow:
-      _id: SomeValue  # string
-      addToInventory: True  # boolean
-      addedOn: 1  #  integer
-      configId: SomeValue  # string
-      currTaskIdx: 1  #  integer
-      description: SomeValue  # string
-      endTime: 1  #  integer
-      execTime: 1  #  integer
-      imageId: SomeValue  # string
-      instanceType: SomeValue  # string
-      lastupdateOn: 1  #  integer
-      name: SomeValue  # string
-      startTime: 1  #  integer
-      state: SomeValue  # string
+      _id: string
+      addToInventory: true
+      addedOn: 0
+      configId: string
+      currTaskIdx: 0
+      description: string
+      endTime: 0
+      execTime: 0
+      imageId: string
+      instanceType: string
+      lastupdateOn: 0
+      name: string
+      startTime: 0
+      state: string
       tasks:
-      - currWorkItemIdx: 1  #  integer
-        endTime: 1  #  integer
-        name: SomeValue  # string
-        startTime: 1  #  integer
-        state: SomeValue  # string
-        taskSeqNo: 1  #  integer
-        timeTaken: 1  #  integer
-        type: SomeValue  # string
+      - currWorkItemIdx: 0
+        endTime: 0
+        name: string
+        startTime: 0
+        state: string
+        taskSeqNo: 0
+        timeTaken: 0
+        type: string
         workItemList:
-        - command: SomeValue  # string
-          endTime: 1  #  integer
-          outputStr: SomeValue  # string
-          startTime: 1  #  integer
-          state: SomeValue  # string
-          timeTaken: 1  #  integer
-      tenantId: SomeValue  # string
-      type: SomeValue  # string
-      useState: SomeValue  # string
-      version: 1  #  integer
+        - command: string
+          endTime: 0
+          outputStr: string
+          startTime: 0
+          state: string
+          timeTaken: 0
+      tenantId: string
+      type: string
+      useState: string
+      version: 0
     workflowParameters:
       configList:
-      - configId: SomeValue  # string
+      - configId: string
         configParameters:
-        - key: SomeValue  # string
-          value: SomeValue  # string
-      licenseLevel: SomeValue  # string
-      licenseType: SomeValue  # string
-      topOfStackSerialNumber: SomeValue  # string
-
-- name: get_device_count
-  cisco.dnac.pnp_device:
-    state: query  # required
-    count: True  # boolean, required
-    cm_state: SomeValue  # string
-    last_contact: True  # boolean
-    name: SomeValue  # string
-    onb_state: SomeValue  # string
-    pid: SomeValue  # string
-    project_id: SomeValue  # string
-    project_name: SomeValue  # string
-    serial_number: SomeValue  # string
-    smart_account_id: SomeValue  # string
-    source: SomeValue  # string
-    _state: SomeValue  # string
-    virtual_account_id: SomeValue  # string
-    workflow_id: SomeValue  # string
-    workflow_name: SomeValue  # string
-  register: nm_get_device_count
-
-- name: get_device_history
-  cisco.dnac.pnp_device:
-    state: query  # required
-    serial_number: SomeValue  # string, required
-    sort: SomeValue  # string
-    sort_order: SomeValue  # string
-  register: nm_get_device_history
+        - key: string
+          value: string
+      licenseLevel: string
+      licenseType: string
+      topOfStackSerialNumber: string
 
 """
 
 RETURN = r"""
 dnac_response:
-  description: A dictionary with the response returned by the DNA Center Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
-  sample: {"response": 29, "version": "1.0"}
-sdk_function:
-  description: The DNA Center SDK function used to execute the task
-  returned: always
-  type: str
-  sample: device_onboarding_pnp.add_device
-missing_params:
-  description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
-  returned: when the function request schema is not satisfied
-  type: list
-  sample:
+  sample: >
+    {
+      "_id": "string",
+      "deviceInfo": {
+        "source": "string",
+        "serialNumber": "string",
+        "stack": true,
+        "mode": "string",
+        "state": "string",
+        "location": {
+          "siteId": "string",
+          "address": "string",
+          "latitude": "string",
+          "longitude": "string",
+          "altitude": "string"
+        },
+        "description": "string",
+        "onbState": "string",
+        "authenticatedMicNumber": "string",
+        "authenticatedSudiSerialNo": "string",
+        "capabilitiesSupported": [
+          "string"
+        ],
+        "featuresSupported": [
+          "string"
+        ],
+        "cmState": "string",
+        "firstContact": 0,
+        "lastContact": 0,
+        "macAddress": "string",
+        "pid": "string",
+        "deviceSudiSerialNos": [
+          "string"
+        ],
+        "lastUpdateOn": 0,
+        "workflowId": "string",
+        "workflowName": "string",
+        "projectId": "string",
+        "projectName": "string",
+        "deviceType": "string",
+        "agentType": "string",
+        "imageVersion": "string",
+        "fileSystemList": [
+          {
+            "type": "string",
+            "writeable": true,
+            "freespace": 0,
+            "name": "string",
+            "readable": true,
+            "size": 0
+          }
+        ],
+        "pnpProfileList": [
+          {
+            "profileName": "string",
+            "discoveryCreated": true,
+            "createdBy": "string",
+            "primaryEndpoint": {
+              "port": 0,
+              "protocol": "string",
+              "ipv4Address": {},
+              "ipv6Address": {},
+              "fqdn": "string",
+              "certificate": "string"
+            },
+            "secondaryEndpoint": {
+              "port": 0,
+              "protocol": "string",
+              "ipv4Address": {},
+              "ipv6Address": {},
+              "fqdn": "string",
+              "certificate": "string"
+            }
+          }
+        ],
+        "imageFile": "string",
+        "httpHeaders": [
+          {
+            "key": "string",
+            "value": "string"
+          }
+        ],
+        "neighborLinks": [
+          {
+            "localInterfaceName": "string",
+            "localShortInterfaceName": "string",
+            "localMacAddress": "string",
+            "remoteInterfaceName": "string",
+            "remoteShortInterfaceName": "string",
+            "remoteMacAddress": "string",
+            "remoteDeviceName": "string",
+            "remotePlatform": "string",
+            "remoteVersion": "string"
+          }
+        ],
+        "lastSyncTime": 0,
+        "ipInterfaces": [
+          {
+            "status": "string",
+            "macAddress": "string",
+            "ipv4Address": {},
+            "ipv6AddressList": [
+              {}
+            ],
+            "name": "string"
+          }
+        ],
+        "hostname": "string",
+        "authStatus": "string",
+        "stackInfo": {
+          "supportsStackWorkflows": true,
+          "isFullRing": true,
+          "stackMemberList": [
+            {
+              "serialNumber": "string",
+              "state": "string",
+              "role": "string",
+              "macAddress": "string",
+              "pid": "string",
+              "licenseLevel": "string",
+              "licenseType": "string",
+              "sudiSerialNumber": "string",
+              "hardwareVersion": "string",
+              "stackNumber": 0,
+              "softwareVersion": "string",
+              "priority": 0
+            }
+          ],
+          "stackRingProtocol": "string",
+          "validLicenseLevels": [
+            "string"
+          ],
+          "totalMemberCount": 0
+        },
+        "reloadRequested": true,
+        "addedOn": 0,
+        "siteId": "string",
+        "aaaCredentials": {
+          "password": "string",
+          "username": "string"
+        },
+        "userMicNumbers": [
+          "string"
+        ],
+        "userSudiSerialNos": [
+          "string"
+        ],
+        "addnMacAddrs": [
+          "string"
+        ],
+        "preWorkflowCliOuputs": [
+          {
+            "cli": "string",
+            "cliOutput": "string"
+          }
+        ],
+        "tags": {},
+        "sudiRequired": true,
+        "smartAccountId": "string",
+        "virtualAccountId": "string",
+        "populateInventory": true,
+        "siteName": "string",
+        "name": "string"
+      },
+      "systemResetWorkflow": {
+        "_id": "string",
+        "state": "string",
+        "type": "string",
+        "description": "string",
+        "lastupdateOn": 0,
+        "imageId": "string",
+        "currTaskIdx": 0,
+        "addedOn": 0,
+        "tasks": [
+          {
+            "state": "string",
+            "type": "string",
+            "currWorkItemIdx": 0,
+            "taskSeqNo": 0,
+            "endTime": 0,
+            "startTime": 0,
+            "workItemList": [
+              {
+                "state": "string",
+                "command": "string",
+                "outputStr": "string",
+                "endTime": 0,
+                "startTime": 0,
+                "timeTaken": 0
+              }
+            ],
+            "timeTaken": 0,
+            "name": "string"
+          }
+        ],
+        "addToInventory": true,
+        "instanceType": "string",
+        "endTime": 0,
+        "execTime": 0,
+        "startTime": 0,
+        "useState": "string",
+        "configId": "string",
+        "name": "string",
+        "version": 0,
+        "tenantId": "string"
+      },
+      "systemWorkflow": {
+        "_id": "string",
+        "state": "string",
+        "type": "string",
+        "description": "string",
+        "lastupdateOn": 0,
+        "imageId": "string",
+        "currTaskIdx": 0,
+        "addedOn": 0,
+        "tasks": [
+          {
+            "state": "string",
+            "type": "string",
+            "currWorkItemIdx": 0,
+            "taskSeqNo": 0,
+            "endTime": 0,
+            "startTime": 0,
+            "workItemList": [
+              {
+                "state": "string",
+                "command": "string",
+                "outputStr": "string",
+                "endTime": 0,
+                "startTime": 0,
+                "timeTaken": 0
+              }
+            ],
+            "timeTaken": 0,
+            "name": "string"
+          }
+        ],
+        "addToInventory": true,
+        "instanceType": "string",
+        "endTime": 0,
+        "execTime": 0,
+        "startTime": 0,
+        "useState": "string",
+        "configId": "string",
+        "name": "string",
+        "version": 0,
+        "tenantId": "string"
+      },
+      "workflow": {
+        "_id": "string",
+        "state": "string",
+        "type": "string",
+        "description": "string",
+        "lastupdateOn": 0,
+        "imageId": "string",
+        "currTaskIdx": 0,
+        "addedOn": 0,
+        "tasks": [
+          {
+            "state": "string",
+            "type": "string",
+            "currWorkItemIdx": 0,
+            "taskSeqNo": 0,
+            "endTime": 0,
+            "startTime": 0,
+            "workItemList": [
+              {
+                "state": "string",
+                "command": "string",
+                "outputStr": "string",
+                "endTime": 0,
+                "startTime": 0,
+                "timeTaken": 0
+              }
+            ],
+            "timeTaken": 0,
+            "name": "string"
+          }
+        ],
+        "addToInventory": true,
+        "instanceType": "string",
+        "endTime": 0,
+        "execTime": 0,
+        "startTime": 0,
+        "useState": "string",
+        "configId": "string",
+        "name": "string",
+        "version": 0,
+        "tenantId": "string"
+      },
+      "runSummaryList": [
+        {
+          "details": "string",
+          "historyTaskInfo": {
+            "type": "string",
+            "workItemList": [
+              {
+                "state": "string",
+                "command": "string",
+                "outputStr": "string",
+                "endTime": 0,
+                "startTime": 0,
+                "timeTaken": 0
+              }
+            ],
+            "timeTaken": 0,
+            "addnDetails": [
+              {
+                "key": "string",
+                "value": "string"
+              }
+            ],
+            "name": "string"
+          },
+          "errorFlag": true,
+          "timestamp": 0
+        }
+      ],
+      "workflowParameters": {
+        "topOfStackSerialNumber": "string",
+        "licenseLevel": "string",
+        "licenseType": "string",
+        "configList": [
+          {
+            "configParameters": [
+              {
+                "key": "string",
+                "value": "string"
+              }
+            ],
+            "configId": "string"
+          }
+        ]
+      },
+      "dayZeroConfig": {
+        "config": "string"
+      },
+      "dayZeroConfigPreview": {},
+      "version": 0,
+      "tenantId": "string"
+    }
 """

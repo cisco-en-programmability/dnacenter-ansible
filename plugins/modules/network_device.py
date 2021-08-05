@@ -1,517 +1,234 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, Cisco Systems
+# Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
 module: network_device
-short_description: Manage NetworkDevice objects of Devices
+short_description: Resource module for Network Device
 description:
-- >
-   Returns list of network devices based on filter criteria such as management IP address, mac address, hostname,
-   location name and a wide variety of additional criteria. You can also use the asterisk in any value to conduct a
-   wildcard search. For example, to find all hostnames beginning with myhost in the IP address range 192.25.18.n,
-   issue the following request GET fqdnoripofdnacenterplatform/dna/intent/api/v1/network-device? hostname=myhost* &
-   managementIpAddress=192.25.18.* For a complete list of parameter names that you can use for filtering this
-   request, see the DNA Center API Reference documentation. Note If id parameter is provided, it will return the list
-   of network-devices for the given ids and ignores the other request parameters.
-- Adds the device with given credential.
-- Sync the devices provided as input.
-- Deletes the network device for the given Id.
-- Returns the network device details for the given device ID.
-- Returns brief summary of device info such as hostname, management IP address for the given device Id.
-- Returns the list of network devices for the given pagination range.
-- >
-   Returns the count of network devices based on the filter criteria by management IP address, mac address, hostname
-   and location name.
-- Returns the network device by specified IP address.
-- Returns the network device with given serial number.
+- Manage operations create, update and delete of the resource Network Device.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  associated_wlc_ip:
-    description:
-    - AssociatedWlcIp query parameter.
-    type: str
-  collection_interval:
-    description:
-    - CollectionInterval query parameter.
-    type: str
-  collection_status:
-    description:
-    - CollectionStatus query parameter.
-    type: str
-  error_code:
-    description:
-    - ErrorCode query parameter.
-    type: str
-  error_description:
-    description:
-    - ErrorDescription query parameter.
-    type: str
-  family:
-    description:
-    - Family query parameter.
-    type: str
-  hostname:
-    description:
-    - Hostname query parameter.
-    type: str
-  id:
-    description:
-    - >
-       Accepts comma separated id's and return list of network-devices for the given id's. If invalid or not-
-       found id's are provided, null entry will be returned in the list.
-    - Device ID.
-    - Required for states query and delete.
-    type: str
-  license_name:
-    description:
-    - License.name query parameter.
-    type: str
-  license_status:
-    description:
-    - License.status query parameter.
-    type: str
-  license_type:
-    description:
-    - License.type query parameter.
-    type: str
-  location:
-    description:
-    - Location query parameter.
-    type: str
-  location_name:
-    description:
-    - LocationName query parameter.
-    type: str
-  mac_address:
-    description:
-    - MacAddress query parameter.
-    type: str
-  management_ip_address:
-    description:
-    - ManagementIpAddress query parameter.
-    type: str
-  module_equpimenttype:
-    description:
-    - Module+equpimenttype query parameter.
-    type: str
-  module_name:
-    description:
-    - Module+name query parameter.
-    type: str
-  module_operationstatecode:
-    description:
-    - Module+operationstatecode query parameter.
-    type: str
-  module_partnumber:
-    description:
-    - Module+partnumber query parameter.
-    type: str
-  module_servicestate:
-    description:
-    - Module+servicestate query parameter.
-    type: str
-  module_vendorequipmenttype:
-    description:
-    - Module+vendorequipmenttype query parameter.
-    type: str
-  not_synced_for_minutes:
-    description:
-    - NotSyncedForMinutes query parameter.
-    type: str
-  platform_id:
-    description:
-    - PlatformId query parameter.
-    type: str
-  reachability_status:
-    description:
-    - ReachabilityStatus query parameter.
-    type: str
-  role:
-    description:
-    - Role query parameter.
-    type: str
-  serial_number:
-    description:
-    - SerialNumber query parameter.
-    - Device serial number.
-    - Required for state query.
-    type: str
-  series:
-    description:
-    - Series query parameter.
-    type: str
-  software_type:
-    description:
-    - SoftwareType query parameter.
-    type: str
-  software_version:
-    description:
-    - SoftwareVersion query parameter.
-    type: str
-  type:
-    description:
-    - Type query parameter.
-    - InventoryDeviceInfo's type.
-    type: str
-  up_time:
-    description:
-    - UpTime query parameter.
-    type: str
   cliTransport:
-    description:
-    - InventoryDeviceInfo's cliTransport.
+    description: Network Device's cliTransport.
     type: str
-    required: True
   computeDevice:
-    description:
-    - InventoryDeviceInfo's computeDevice.
+    description: ComputeDevice flag.
     type: bool
   enablePassword:
-    description:
-    - InventoryDeviceInfo's enablePassword.
+    description: Network Device's enablePassword.
     type: str
-    required: True
   extendedDiscoveryInfo:
-    description:
-    - InventoryDeviceInfo's extendedDiscoveryInfo.
+    description: Network Device's extendedDiscoveryInfo.
     type: str
   httpPassword:
-    description:
-    - InventoryDeviceInfo's httpPassword.
+    description: Network Device's httpPassword.
     type: str
   httpPort:
-    description:
-    - InventoryDeviceInfo's httpPort.
+    description: Network Device's httpPort.
     type: str
   httpSecure:
-    description:
-    - InventoryDeviceInfo's httpSecure.
+    description: HttpSecure flag.
     type: bool
   httpUserName:
-    description:
-    - InventoryDeviceInfo's httpUserName.
+    description: Network Device's httpUserName.
+    type: str
+  id:
+    description: Id path parameter. Device ID.
     type: str
   ipAddress:
-    description:
-    - InventoryDeviceInfo's ipAddress (list of strings).
+    description: Network Device's ipAddress.
+    elements: str
     type: list
-    required: True
+  isForceDelete:
+    description: IsForceDelete query parameter.
+    type: bool
   merakiOrgId:
-    description:
-    - InventoryDeviceInfo's merakiOrgId (list of strings).
+    description: Network Device's merakiOrgId.
+    elements: str
     type: list
   netconfPort:
-    description:
-    - InventoryDeviceInfo's netconfPort.
+    description: Network Device's netconfPort.
     type: str
   password:
-    description:
-    - InventoryDeviceInfo's password.
+    description: Network Device's password.
     type: str
-    required: True
   serialNumber:
-    description:
-    - InventoryDeviceInfo's serialNumber.
+    description: Network Device's serialNumber.
     type: str
   snmpAuthPassphrase:
-    description:
-    - InventoryDeviceInfo's snmpAuthPassphrase.
+    description: Network Device's snmpAuthPassphrase.
     type: str
-    required: True
   snmpAuthProtocol:
-    description:
-    - InventoryDeviceInfo's snmpAuthProtocol.
+    description: Network Device's snmpAuthProtocol.
     type: str
-    required: True
   snmpMode:
-    description:
-    - InventoryDeviceInfo's snmpMode.
+    description: Network Device's snmpMode.
     type: str
-    required: True
   snmpPrivPassphrase:
-    description:
-    - InventoryDeviceInfo's snmpPrivPassphrase.
+    description: Network Device's snmpPrivPassphrase.
     type: str
-    required: True
   snmpPrivProtocol:
-    description:
-    - InventoryDeviceInfo's snmpPrivProtocol.
+    description: Network Device's snmpPrivProtocol.
     type: str
-    required: True
   snmpROCommunity:
-    description:
-    - InventoryDeviceInfo's snmpROCommunity.
+    description: Network Device's snmpROCommunity.
     type: str
-    required: True
   snmpRWCommunity:
-    description:
-    - InventoryDeviceInfo's snmpRWCommunity.
+    description: Network Device's snmpRWCommunity.
     type: str
-    required: True
   snmpRetry:
-    description:
-    - InventoryDeviceInfo's snmpRetry.
+    description: Network Device's snmpRetry.
     type: int
-    required: True
   snmpTimeout:
-    description:
-    - InventoryDeviceInfo's snmpTimeout.
+    description: Network Device's snmpTimeout.
     type: int
-    required: True
   snmpUserName:
-    description:
-    - InventoryDeviceInfo's snmpUserName.
+    description: Network Device's snmpUserName.
     type: str
-    required: True
   snmpVersion:
-    description:
-    - InventoryDeviceInfo's snmpVersion.
+    description: Network Device's snmpVersion.
+    type: str
+  type:
+    description: Network Device's type.
     type: str
   updateMgmtIPaddressList:
-    description:
-    - InventoryDeviceInfo's updateMgmtIPaddressList (list of objects).
-    type: list
-    elements: dict
+    description: Network Device's updateMgmtIPaddressList.
     suboptions:
       existMgmtIpAddress:
-        description:
-        - It is the network device's existMgmtIpAddress.
+        description: Network Device's existMgmtIpAddress.
         type: str
       newMgmtIpAddress:
-        description:
-        - It is the network device's newMgmtIpAddress.
+        description: Network Device's newMgmtIpAddress.
         type: str
-
+    type: list
   userName:
-    description:
-    - InventoryDeviceInfo's userName.
+    description: Network Device's userName.
     type: str
-    required: True
-  is_force_delete:
-    description:
-    - IsForceDelete query parameter.
-    type: bool
-  summary:
-    description:
-    - If true gets the summary.
-    - Required for state query.
-    type: bool
-  records_to_return:
-    description:
-    - Number of records to return.
-    - Required for state query.
-    type: int
-  start_index:
-    description:
-    - Start index.
-    - Required for state query.
-    type: int
-  count:
-    description:
-    - If true gets the number of objects.
-    - Required for state query.
-    type: bool
-  ip_address:
-    description:
-    - Device IP address.
-    - Required for state query.
-    type: str
-
 requirements:
 - dnacentersdk
 seealso:
-# Reference by module name
-- module: cisco.dnac.plugins.module_utils.definitions.network_device
 # Reference by Internet resource
-- name: NetworkDevice reference
-  description: Complete reference of the NetworkDevice object model.
-  link: https://developer.cisco.com/docs/dna-center/api/1-3-3-x
-# Reference by Internet resource
-- name: NetworkDevice reference
-  description: SDK reference.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
+- name: Network Device reference
+  description: Complete reference of the Network Device object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
 """
 
 EXAMPLES = r"""
-- name: get_device_list
+- name: Delete by id
   cisco.dnac.network_device:
-    state: query  # required
-    associated_wlc_ip: SomeValue  # string
-    collection_interval: SomeValue  # string
-    collection_status: SomeValue  # string
-    error_code: SomeValue  # string
-    error_description: SomeValue  # string
-    family: SomeValue  # string
-    hostname: SomeValue  # string
-    id: SomeValue  # string
-    license_name: SomeValue  # string
-    license_status: SomeValue  # string
-    license_type: SomeValue  # string
-    location: SomeValue  # string
-    location_name: SomeValue  # string
-    mac_address: SomeValue  # string
-    management_ip_address: SomeValue  # string
-    module_equpimenttype: SomeValue  # string
-    module_name: SomeValue  # string
-    module_operationstatecode: SomeValue  # string
-    module_partnumber: SomeValue  # string
-    module_servicestate: SomeValue  # string
-    module_vendorequipmenttype: SomeValue  # string
-    not_synced_for_minutes: SomeValue  # string
-    platform_id: SomeValue  # string
-    reachability_status: SomeValue  # string
-    role: SomeValue  # string
-    serial_number: SomeValue  # string
-    series: SomeValue  # string
-    software_type: SomeValue  # string
-    software_version: SomeValue  # string
-    type: SomeValue  # string
-    up_time: SomeValue  # string
-  register: nm_get_device_list
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    id: string
+    isForceDelete: true
 
-- name: add_device
+- name: Update all
   cisco.dnac.network_device:
-    state: create  # required
-    cliTransport: SomeValue  # string, required
-    enablePassword: SomeValue  # string, required
-    ipAddress:  # required
-    - SomeValue  # string
-    password: SomeValue  # string, required
-    snmpAuthPassphrase: SomeValue  # string, required
-    snmpAuthProtocol: SomeValue  # string, required
-    snmpMode: SomeValue  # string, required
-    snmpPrivPassphrase: SomeValue  # string, required
-    snmpPrivProtocol: SomeValue  # string, required
-    snmpROCommunity: SomeValue  # string, required
-    snmpRWCommunity: SomeValue  # string, required
-    snmpRetry: 1  #  integer, required
-    snmpTimeout: 1  #  integer, required
-    snmpUserName: SomeValue  # string, required
-    userName: SomeValue  # string, required
-    computeDevice: True  # boolean
-    extendedDiscoveryInfo: SomeValue  # string
-    httpPassword: SomeValue  # string
-    httpPort: SomeValue  # string
-    httpSecure: True  # boolean
-    httpUserName: SomeValue  # string
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    cliTransport: string
+    computeDevice: true
+    enablePassword: string
+    extendedDiscoveryInfo: string
+    httpPassword: string
+    httpPort: string
+    httpSecure: true
+    httpUserName: string
+    ipAddress:
+    - string
     merakiOrgId:
-    - SomeValue  # string
-    netconfPort: SomeValue  # string
-    serialNumber: SomeValue  # string
-    snmpVersion: SomeValue  # string
-    type: # valid values are 'COMPUTE_DEVICE',
-      # 'MERAKI_DASHBOARD',
-      # 'NETWORK_DEVICE',
-      # 'NODATACHANGE'.
-      SomeValue  # string
+    - string
+    netconfPort: string
+    password: string
+    serialNumber: string
+    snmpAuthPassphrase: string
+    snmpAuthProtocol: string
+    snmpMode: string
+    snmpPrivPassphrase: string
+    snmpPrivProtocol: string
+    snmpROCommunity: string
+    snmpRWCommunity: string
+    snmpRetry: 0
+    snmpTimeout: 0
+    snmpUserName: string
+    snmpVersion: string
+    type: string
     updateMgmtIPaddressList:
-    - existMgmtIpAddress: SomeValue  # string
-      newMgmtIpAddress: SomeValue  # string
+    - existMgmtIpAddress: string
+      newMgmtIpAddress: string
+    userName: string
 
-- name: sync_devices
+- name: Create
   cisco.dnac.network_device:
-    state: update  # required
-    cliTransport: SomeValue  # string, required
-    enablePassword: SomeValue  # string, required
-    ipAddress:  # required
-    - SomeValue  # string
-    password: SomeValue  # string, required
-    snmpAuthPassphrase: SomeValue  # string, required
-    snmpAuthProtocol: SomeValue  # string, required
-    snmpMode: SomeValue  # string, required
-    snmpPrivPassphrase: SomeValue  # string, required
-    snmpPrivProtocol: SomeValue  # string, required
-    snmpROCommunity: SomeValue  # string, required
-    snmpRWCommunity: SomeValue  # string, required
-    snmpRetry: 1  #  integer, required
-    snmpTimeout: 1  #  integer, required
-    snmpUserName: SomeValue  # string, required
-    userName: SomeValue  # string, required
-    computeDevice: True  # boolean
-    extendedDiscoveryInfo: SomeValue  # string
-    httpPassword: SomeValue  # string
-    httpPort: SomeValue  # string
-    httpSecure: True  # boolean
-    httpUserName: SomeValue  # string
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    cliTransport: string
+    computeDevice: true
+    enablePassword: string
+    extendedDiscoveryInfo: string
+    httpPassword: string
+    httpPort: string
+    httpSecure: true
+    httpUserName: string
+    ipAddress:
+    - string
     merakiOrgId:
-    - SomeValue  # string
-    netconfPort: SomeValue  # string
-    serialNumber: SomeValue  # string
-    snmpVersion: SomeValue  # string
-    type: # valid values are 'COMPUTE_DEVICE',
-      # 'MERAKI_DASHBOARD',
-      # 'NETWORK_DEVICE',
-      # 'NODATACHANGE'.
-      SomeValue  # string
+    - string
+    netconfPort: string
+    password: string
+    serialNumber: string
+    snmpAuthPassphrase: string
+    snmpAuthProtocol: string
+    snmpMode: string
+    snmpPrivPassphrase: string
+    snmpPrivProtocol: string
+    snmpROCommunity: string
+    snmpRWCommunity: string
+    snmpRetry: 0
+    snmpTimeout: 0
+    snmpUserName: string
+    snmpVersion: string
+    type: string
     updateMgmtIPaddressList:
-    - existMgmtIpAddress: SomeValue  # string
-      newMgmtIpAddress: SomeValue  # string
-
-- name: delete_device_by_id
-  cisco.dnac.network_device:
-    state: delete  # required
-    id: SomeValue  # string, required
-    is_force_delete: True  # boolean
-
-- name: get_device_by_id
-  cisco.dnac.network_device:
-    state: query  # required
-    id: SomeValue  # string, required
-  register: nm_get_device_by_id
-
-- name: get_device_summary
-  cisco.dnac.network_device:
-    state: query  # required
-    id: SomeValue  # string, required
-    summary: True  # boolean, required
-  register: nm_get_device_summary
-
-- name: get_network_device_by_pagination_range
-  cisco.dnac.network_device:
-    state: query  # required
-    records_to_return: 1  #  integer, required
-    start_index: 1  #  integer, required
-  register: nm_get_network_device_by_pagination_range
-
-- name: get_device_count
-  cisco.dnac.network_device:
-    state: query  # required
-    count: True  # boolean, required
-  register: nm_get_device_count
-
-- name: get_network_device_by_ip
-  cisco.dnac.network_device:
-    state: query  # required
-    ip_address: SomeValue  # string, required
-  register: nm_get_network_device_by_ip
-
-- name: get_device_by_serial_number
-  cisco.dnac.network_device:
-    state: query  # required
-    serial_number: SomeValue  # string, required
-  register: nm_get_device_by_serial_number
+    - existMgmtIpAddress: string
+      newMgmtIpAddress: string
+    userName: string
 
 """
 
 RETURN = r"""
 dnac_response:
-  description: A dictionary with the response returned by the DNA Center Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
-  sample: {"response": 29, "version": "1.0"}
-sdk_function:
-  description: The DNA Center SDK function used to execute the task
-  returned: always
-  type: str
-  sample: devices.add_device
-missing_params:
-  description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
-  returned: when the function request schema is not satisfied
-  type: list
-  sample:
+  sample: >
+    {
+      "response": {
+        "taskId": {},
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

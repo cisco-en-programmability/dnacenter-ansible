@@ -1,697 +1,487 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, Cisco Systems
+# Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
 module: nfv_provision
-short_description: Manage NfvProvision objects of SiteDesign
+short_description: Resource module for Nfv Provision
 description:
-- Design and Provision single/multi NFV device with given site/area/building/floor .
-- Returns provisioning device information for the specified IP address.
+- Manage operation create of the resource Nfv Provision.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   provisioning:
-    description:
-    - Provisioning, property of the request body (list of objects).
-    - Required for state create.
-    type: list
-    elements: dict
+    description: Nfv Provision's provisioning.
     suboptions:
-      site:
-        description:
-        - It is the nfv provision's site.
-        type: dict
-        required: True
-        suboptions:
-          siteProfileName:
-            description:
-            - It is the nfv provision's siteProfileName.
-            type: str
-          area:
-            description:
-            - It is the nfv provision's area.
-            type: dict
-            suboptions:
-              name:
-                description:
-                - It is the nfv provision's name.
-                type: str
-              parentName:
-                description:
-                - It is the nfv provision's parentName.
-                type: str
-
-          building:
-            description:
-            - It is the nfv provision's building.
-            type: dict
-            suboptions:
-              name:
-                description:
-                - It is the nfv provision's name.
-                type: str
-              address:
-                description:
-                - It is the nfv provision's address.
-                type: str
-              latitude:
-                description:
-                - It is the nfv provision's latitude.
-                type: int
-              longitude:
-                description:
-                - It is the nfv provision's longitude.
-                type: int
-              parentName:
-                description:
-                - It is the nfv provision's parentName.
-                type: str
-
-          floor:
-            description:
-            - It is the nfv provision's floor.
-            type: dict
-            suboptions:
-              name:
-                description:
-                - It is the nfv provision's name.
-                type: str
-              parentName:
-                description:
-                - It is the nfv provision's parentName.
-                type: str
-              rfModel:
-                description:
-                - It is the nfv provision's rfModel.
-                type: str
-              width:
-                description:
-                - It is the nfv provision's width.
-                type: int
-              length:
-                description:
-                - It is the nfv provision's length.
-                type: int
-              height:
-                description:
-                - It is the nfv provision's height.
-                type: int
-
-
       device:
-        description:
-        - It is the nfv provision's device.
-        type: list
-        required: True
-        elements: dict
+        description: Nfv Provision's device.
         suboptions:
-          ip:
-            description:
-            - It is the nfv provision's ip.
-            type: str
-          deviceSerialNumber:
-            description:
-            - It is the nfv provision's deviceSerialNumber.
-            type: str
-          tagName:
-            description:
-            - It is the nfv provision's tagName.
-            type: str
-            required: True
-          serviceProviders:
-            description:
-            - It is the nfv provision's serviceProviders.
+          customNetworks:
+            description: Nfv Provision's customNetworks.
+            suboptions:
+              ipAddressPool:
+                description: Nfv Provision's ipAddressPool.
+                type: str
+              name:
+                description: Nfv Provision's name.
+                type: str
+              port:
+                description: Nfv Provision's port.
+                type: str
             type: list
-            required: True
-            elements: dict
+          deviceSerialNumber:
+            description: Nfv Provision's deviceSerialNumber.
+            type: str
+          ip:
+            description: Nfv Provision's ip.
+            type: str
+          serviceProviders:
+            description: Nfv Provision's serviceProviders.
             suboptions:
               serviceProvider:
-                description:
-                - It is the nfv provision's serviceProvider.
+                description: Nfv Provision's serviceProvider.
                 type: str
-                required: True
               wanInterface:
-                description:
-                - It is the nfv provision's wanInterface.
-                type: dict
+                description: Nfv Provision's wanInterface.
                 suboptions:
-                  ipAddress:
-                    description:
-                    - It is the nfv provision's ipAddress.
-                    type: str
-                  interfaceName:
-                    description:
-                    - It is the nfv provision's interfaceName.
-                    type: str
-                  subnetmask:
-                    description:
-                    - It is the nfv provision's subnetmask.
-                    type: str
                   bandwidth:
-                    description:
-                    - It is the nfv provision's bandwidth.
+                    description: Nfv Provision's bandwidth.
                     type: str
                   gateway:
-                    description:
-                    - It is the nfv provision's gateway.
+                    description: Nfv Provision's gateway.
                     type: str
-
-
-          services:
-            description:
-            - It is the nfv provision's services.
+                  interfaceName:
+                    description: Nfv Provision's interfaceName.
+                    type: str
+                  ipAddress:
+                    description: Nfv Provision's ipAddress.
+                    type: str
+                  subnetmask:
+                    description: Nfv Provision's subnetmask.
+                    type: str
+                type: dict
             type: list
-            required: True
-            elements: dict
+          services:
+            description: Nfv Provision's services.
             suboptions:
-              type:
-                description:
-                - It is the nfv provision's type.
-                type: str
-                required: True
-              mode:
-                description:
-                - It is the nfv provision's mode.
-                type: str
-              systemIp:
-                description:
-                - It is the nfv provision's systemIp.
+              adminPasswordHash:
+                description: Nfv Provision's adminPasswordHash.
                 type: str
               centralManagerIP:
-                description:
-                - It is the nfv provision's centralManagerIP.
+                description: Nfv Provision's centralManagerIP.
                 type: str
               centralRegistrationKey:
-                description:
-                - It is the nfv provision's centralRegistrationKey.
+                description: Nfv Provision's centralRegistrationKey.
                 type: str
               commonKey:
-                description:
-                - It is the nfv provision's commonKey.
-                type: str
-              adminPasswordHash:
-                description:
-                - It is the nfv provision's adminPasswordHash.
+                description: Nfv Provision's commonKey.
                 type: str
               disk:
-                description:
-                - It is the nfv provision's disk.
+                description: Nfv Provision's disk.
                 type: str
-
-          vlan:
-            description:
-            - It is the nfv provision's vlan.
-            type: list
-            elements: dict
-            suboptions:
-              type:
-                description:
-                - It is the nfv provision's type.
-                type: str
-                required: True
-              id:
-                description:
-                - It is the nfv provision's id.
-                type: str
-                required: True
-              interfaces:
-                description:
-                - It is the nfv provision's interfaces.
-                type: str
-                required: True
-              network:
-                description:
-                - It is the nfv provision's network.
-                type: str
-
-          subPools:
-            description:
-            - It is the nfv provision's subPools.
-            type: list
-            required: True
-            elements: dict
-            suboptions:
-              type:
-                description:
-                - It is the nfv provision's type.
-                type: str
-                required: True
-              name:
-                description:
-                - It is the nfv provision's name.
-                type: str
-                required: True
-              ipSubnet:
-                description:
-                - It is the nfv provision's ipSubnet.
-                type: str
-                required: True
-              gateway:
-                description:
-                - It is the nfv provision's gateway.
-                type: str
-                required: True
-              parentPoolName:
-                description:
-                - It is the nfv provision's parentPoolName.
-                type: str
-
-          customNetworks:
-            description:
-            - It is the nfv provision's customNetworks.
-            type: list
-            elements: dict
-            suboptions:
-              name:
-                description:
-                - It is the nfv provision's name.
-                type: str
-                required: True
-              port:
-                description:
-                - It is the nfv provision's port.
-                type: str
-              ipAddressPool:
-                description:
-                - It is the nfv provision's ipAddressPool.
-                type: str
-
-          templateParam:
-            description:
-            - It is the nfv provision's templateParam.
-            type: dict
-            suboptions:
-              nfvis:
-                description:
-                - It is the nfv provision's nfvis.
-                type: dict
-                suboptions:
-                  var1:
-                    description:
-                    - It is the nfv provision's var1.
-                    type: str
-
-              asav:
-                description:
-                - It is the nfv provision's asav.
-                type: dict
-                suboptions:
-                  var1:
-                    description:
-                    - It is the nfv provision's var1.
-                    type: str
-
-
-
-
-  siteProfile:
-    description:
-    - Site Profile, property of the request body (list of objects).
-    - Required for state create.
-    type: list
-    elements: dict
-    suboptions:
-      siteProfileName:
-        description:
-        - It is the nfv provision's siteProfileName.
-        type: str
-        required: True
-      device:
-        description:
-        - It is the nfv provision's device.
-        type: list
-        required: True
-        elements: dict
-        suboptions:
-          deviceType:
-            description:
-            - It is the nfv provision's deviceType.
-            type: str
-            required: True
-          tagName:
-            description:
-            - It is the nfv provision's tagName.
-            type: str
-            required: True
-          serviceProviders:
-            description:
-            - It is the nfv provision's serviceProviders.
-            type: list
-            required: True
-            elements: dict
-            suboptions:
-              serviceProvider:
-                description:
-                - It is the nfv provision's serviceProvider.
-                type: str
-                required: True
-              linkType:
-                description:
-                - It is the nfv provision's linkType.
-                type: str
-                required: True
-              connect:
-                description:
-                - It is the nfv provision's connect.
-                type: bool
-                required: True
-              defaultGateway:
-                description:
-                - It is the nfv provision's defaultGateway.
-                type: bool
-                required: True
-
-          dia:
-            description:
-            - It is the nfv provision's dia.
-            type: bool
-            required: True
-          services:
-            description:
-            - It is the nfv provision's services.
-            type: list
-            required: True
-            elements: dict
-            suboptions:
-              type:
-                description:
-                - It is the nfv provision's type.
-                type: str
-                required: True
-              profile:
-                description:
-                - It is the nfv provision's profile.
-                type: str
-                required: True
               mode:
-                description:
-                - It is the nfv provision's mode.
+                description: Nfv Provision's mode.
+                type: str
+              systemIp:
+                description: Nfv Provision's systemIp.
+                type: str
+              type:
+                description: Nfv Provision's type.
+                type: str
+            type: list
+          subPools:
+            description: Nfv Provision's subPools.
+            suboptions:
+              gateway:
+                description: Nfv Provision's gateway.
+                type: str
+              ipSubnet:
+                description: Nfv Provision's ipSubnet.
                 type: str
               name:
-                description:
-                - It is the nfv provision's name.
+                description: Nfv Provision's name.
                 type: str
-                required: True
-              imageName:
-                description:
-                - It is the nfv provision's imageName.
+              parentPoolName:
+                description: Nfv Provision's parentPoolName.
                 type: str
-                required: True
-              topology:
-                description:
-                - It is the nfv provision's topology.
-                type: dict
-                required: True
-                suboptions:
-                  type:
-                    description:
-                    - It is the nfv provision's type.
-                    type: str
-                  name:
-                    description:
-                    - It is the nfv provision's name.
-                    type: str
-                  assignIp:
-                    description:
-                    - It is the nfv provision's assignIp.
-                    type: str
-
-
-          customServices:
-            description:
-            - It is the nfv provision's customServices.
+              type:
+                description: Nfv Provision's type.
+                type: str
             type: list
-            elements: dict
+          tagName:
+            description: Nfv Provision's tagName.
+            type: str
+          templateParam:
+            description: Nfv Provision's templateParam.
+            suboptions:
+              asav:
+                description: Nfv Provision's asav.
+                suboptions:
+                  var1:
+                    description: Nfv Provision's var1.
+                    type: str
+                type: dict
+              nfvis:
+                description: Nfv Provision's nfvis.
+                suboptions:
+                  var1:
+                    description: Nfv Provision's var1.
+                    type: str
+                type: dict
+            type: dict
+          vlan:
+            description: Nfv Provision's vlan.
+            suboptions:
+              id:
+                description: Nfv Provision's id.
+                type: str
+              interfaces:
+                description: Nfv Provision's interfaces.
+                type: str
+              network:
+                description: Nfv Provision's network.
+                type: str
+              type:
+                description: Nfv Provision's type.
+                type: str
+            type: list
+        type: list
+      site:
+        description: Nfv Provision's site.
+        suboptions:
+          area:
+            description: Nfv Provision's area.
             suboptions:
               name:
-                description:
-                - It is the nfv provision's name.
+                description: Nfv Provision's name.
                 type: str
-                required: True
-              applicationType:
-                description:
-                - It is the nfv provision's applicationType.
+              parentName:
+                description: Nfv Provision's parentName.
                 type: str
-                required: True
-              profile:
-                description:
-                - It is the nfv provision's profile.
+            type: dict
+          building:
+            description: Nfv Provision's building.
+            suboptions:
+              address:
+                description: Nfv Provision's address.
                 type: str
-                required: True
-              topology:
-                description:
-                - It is the nfv provision's topology.
-                type: dict
-                required: True
-                suboptions:
-                  type:
-                    description:
-                    - It is the nfv provision's type.
-                    type: str
-                  name:
-                    description:
-                    - It is the nfv provision's name.
-                    type: str
-                  assignIp:
-                    description:
-                    - It is the nfv provision's assignIp.
-                    type: str
-
-              imageName:
-                description:
-                - It is the nfv provision's imageName.
+              latitude:
+                description: Nfv Provision's latitude.
+                type: int
+              longitude:
+                description: Nfv Provision's longitude.
+                type: int
+              name:
+                description: Nfv Provision's name.
                 type: str
-
+              parentName:
+                description: Nfv Provision's parentName.
+                type: str
+            type: dict
+          floor:
+            description: Nfv Provision's floor.
+            suboptions:
+              height:
+                description: Nfv Provision's height.
+                type: int
+              length:
+                description: Nfv Provision's length.
+                type: int
+              name:
+                description: Nfv Provision's name.
+                type: str
+              parentName:
+                description: Nfv Provision's parentName.
+                type: str
+              rfModel:
+                description: Nfv Provision's rfModel.
+                type: str
+              width:
+                description: Nfv Provision's width.
+                type: int
+            type: dict
+          siteProfileName:
+            description: Nfv Provision's siteProfileName.
+            type: str
+        type: dict
+    type: list
+  siteProfile:
+    description: Nfv Provision's siteProfile.
+    suboptions:
+      device:
+        description: Nfv Provision's device.
+        suboptions:
           customNetworks:
-            description:
-            - It is the nfv provision's customNetworks.
-            type: list
-            elements: dict
+            description: Nfv Provision's customNetworks.
             suboptions:
-              name:
-                description:
-                - It is the nfv provision's name.
+              connectionType:
+                description: Nfv Provision's connectionType.
                 type: str
-                required: True
+              name:
+                description: Nfv Provision's name.
+                type: str
+              networkMode:
+                description: Nfv Provision's networkMode.
+                type: str
               servicesToConnect:
-                description:
-                - It is the nfv provision's servicesToConnect.
-                type: list
-                required: True
-                elements: dict
+                description: Nfv Provision's servicesToConnect.
                 suboptions:
                   service:
-                    description:
-                    - It is the nfv provision's service.
+                    description: Nfv Provision's service.
                     type: str
-                    required: True
-
-              connectionType:
-                description:
-                - It is the nfv provision's connectionType.
-                type: str
-                required: True
-              networkMode:
-                description:
-                - It is the nfv provision's networkMode.
-                type: str
-                required: True
+                type: list
               vlan:
-                description:
-                - It is the nfv provision's vlan.
+                description: Nfv Provision's vlan.
                 type: str
-
-          vlan:
-            description:
-            - It is the nfv provision's vlan.
             type: list
-            elements: dict
+          customServices:
+            description: Nfv Provision's customServices.
             suboptions:
-              type:
-                description:
-                - It is the nfv provision's type.
+              applicationType:
+                description: Nfv Provision's applicationType.
                 type: str
-                required: True
-              id:
-                description:
-                - It is the nfv provision's id.
+              imageName:
+                description: Nfv Provision's imageName.
                 type: str
-                required: True
-
-          customTemplate:
-            description:
-            - It is the nfv provision's customTemplate.
+              name:
+                description: Nfv Provision's name.
+                type: str
+              profile:
+                description: Nfv Provision's profile.
+                type: str
+              topology:
+                description: Nfv Provision's topology.
+                suboptions:
+                  assignIp:
+                    description: Nfv Provision's assignIp.
+                    type: str
+                  name:
+                    description: Nfv Provision's name.
+                    type: str
+                  type:
+                    description: Nfv Provision's type.
+                    type: str
+                type: dict
             type: list
-            elements: dict
+          customTemplate:
+            description: Nfv Provision's customTemplate.
             suboptions:
               deviceType:
-                description:
-                - It is the nfv provision's deviceType.
+                description: Nfv Provision's deviceType.
                 type: str
-                required: True
               template:
-                description:
-                - It is the nfv provision's template.
+                description: Nfv Provision's template.
                 type: str
-                required: True
-
-
-
-  device_ip:
-    description:
-    - Device to which the provisioning detail has to be retrieved.
-    - Required for state query.
-    type: str
-
+            type: list
+          deviceType:
+            description: Nfv Provision's deviceType.
+            type: str
+          dia:
+            description: Dia flag.
+            type: bool
+          serviceProviders:
+            description: Nfv Provision's serviceProviders.
+            suboptions:
+              connect:
+                description: Connect flag.
+                type: bool
+              defaultGateway:
+                description: DefaultGateway flag.
+                type: bool
+              linkType:
+                description: Nfv Provision's linkType.
+                type: str
+              serviceProvider:
+                description: Nfv Provision's serviceProvider.
+                type: str
+            type: list
+          services:
+            description: Nfv Provision's services.
+            suboptions:
+              imageName:
+                description: Nfv Provision's imageName.
+                type: str
+              mode:
+                description: Nfv Provision's mode.
+                type: str
+              name:
+                description: Nfv Provision's name.
+                type: str
+              profile:
+                description: Nfv Provision's profile.
+                type: str
+              topology:
+                description: Nfv Provision's topology.
+                suboptions:
+                  assignIp:
+                    description: Nfv Provision's assignIp.
+                    type: str
+                  name:
+                    description: Nfv Provision's name.
+                    type: str
+                  type:
+                    description: Nfv Provision's type.
+                    type: str
+                type: dict
+              type:
+                description: Nfv Provision's type.
+                type: str
+            type: list
+          tagName:
+            description: Nfv Provision's tagName.
+            type: str
+          vlan:
+            description: Nfv Provision's vlan.
+            suboptions:
+              id:
+                description: Nfv Provision's id.
+                type: str
+              type:
+                description: Nfv Provision's type.
+                type: str
+            type: list
+        type: list
+      siteProfileName:
+        description: Nfv Provision's siteProfileName.
+        type: str
+    type: list
 requirements:
 - dnacentersdk
 seealso:
-# Reference by module name
-- module: cisco.dnac.plugins.module_utils.definitions.nfv_provision
 # Reference by Internet resource
-- name: NfvProvision reference
-  description: Complete reference of the NfvProvision object model.
-  link: https://developer.cisco.com/docs/dna-center/api/1-3-3-x
-# Reference by Internet resource
-- name: NfvProvision reference
-  description: SDK reference.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
+- name: Nfv Provision reference
+  description: Complete reference of the Nfv Provision object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
 """
 
 EXAMPLES = r"""
-- name: provision_nfv
+- name: Create
   cisco.dnac.nfv_provision:
-    state: create  # required
-    provisioning:  # required
-    - site:  # required
-        siteProfileName: SomeValue  # string
-        area:
-          name: SomeValue  # string
-          parentName: SomeValue  # string
-        building:
-          name: SomeValue  # string
-          address: SomeValue  # string
-          latitude: 1  #  number
-          longitude: 1  #  number
-          parentName: SomeValue  # string
-        floor:
-          name: SomeValue  # string
-          parentName: SomeValue  # string
-          rfModel: SomeValue  # string
-          width: 1  #  number
-          length: 1  #  number
-          height: 1  #  number
-      device:  # required
-      - tagName: SomeValue  # string, required
-        serviceProviders:  # required
-        - serviceProvider: SomeValue  # string, required
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    provisioning:
+    - device:
+      - customNetworks:
+        - ipAddressPool: string
+          name: string
+          port: string
+        deviceSerialNumber: string
+        ip: string
+        serviceProviders:
+        - serviceProvider: string
           wanInterface:
-            ipAddress: SomeValue  # string
-            interfaceName: SomeValue  # string
-            subnetmask: SomeValue  # string
-            bandwidth: SomeValue  # string
-            gateway: SomeValue  # string
-        services:  # required
-        - type: SomeValue  # string, required
-          mode: SomeValue  # string
-          systemIp: SomeValue  # string
-          centralManagerIP: SomeValue  # string
-          centralRegistrationKey: SomeValue  # string
-          commonKey: SomeValue  # string
-          adminPasswordHash: SomeValue  # string
-          disk: SomeValue  # string
-        subPools:  # required
-        - type: SomeValue  # string, required
-          name: SomeValue  # string, required
-          ipSubnet: SomeValue  # string, required
-          gateway: SomeValue  # string, required
-          parentPoolName: SomeValue  # string
-        ip: SomeValue  # string
-        deviceSerialNumber: SomeValue  # string
-        vlan:
-        - type: SomeValue  # string, required
-          id: SomeValue  # string, required
-          interfaces: SomeValue  # string, required
-          network: SomeValue  # string
-        customNetworks:
-        - name: SomeValue  # string, required
-          port: SomeValue  # string
-          ipAddressPool: SomeValue  # string
+            bandwidth: string
+            gateway: string
+            interfaceName: string
+            ipAddress: string
+            subnetmask: string
+        services:
+        - adminPasswordHash: string
+          centralManagerIP: string
+          centralRegistrationKey: string
+          commonKey: string
+          disk: string
+          mode: string
+          systemIp: string
+          type: string
+        subPools:
+        - gateway: string
+          ipSubnet: string
+          name: string
+          parentPoolName: string
+          type: string
+        tagName: string
         templateParam:
-          nfvis:
-            var1: SomeValue  # string
           asav:
-            var1: SomeValue  # string
-    siteProfile:  # required
-    - siteProfileName: SomeValue  # string, required
-      device:  # required
-      - deviceType: SomeValue  # string, required
-        tagName: SomeValue  # string, required
-        serviceProviders:  # required
-        - serviceProvider: SomeValue  # string, required
-          linkType: SomeValue  # string, required
-          connect: True  # boolean, required
-          defaultGateway: True  # boolean, required
-        dia: True  # boolean, required
-        services:  # required
-        - type: SomeValue  # string, required
-          profile: SomeValue  # string, required
-          name: SomeValue  # string, required
-          imageName: SomeValue  # string, required
-          topology:  # required
-            type: SomeValue  # string
-            name: SomeValue  # string
-            assignIp: SomeValue  # string
-          mode: SomeValue  # string
-        customServices:
-        - name: SomeValue  # string, required
-          applicationType: SomeValue  # string, required
-          profile: SomeValue  # string, required
-          topology:  # required
-            type: SomeValue  # string
-            name: SomeValue  # string
-            assignIp: SomeValue  # string
-          imageName: SomeValue  # string
-        customNetworks:
-        - name: SomeValue  # string, required
-          servicesToConnect:  # required
-          - service: SomeValue  # string, required
-          connectionType: SomeValue  # string, required
-          networkMode: SomeValue  # string, required
-          vlan: SomeValue  # string
+            var1: string
+          nfvis:
+            var1: string
         vlan:
-        - type: SomeValue  # string, required
-          id: SomeValue  # string, required
+        - id: string
+          interfaces: string
+          network: string
+          type: string
+      site:
+        area:
+          name: string
+          parentName: string
+        building:
+          address: string
+          latitude: 0
+          longitude: 0
+          name: string
+          parentName: string
+        floor:
+          height: 0
+          length: 0
+          name: string
+          parentName: string
+          rfModel: string
+          width: 0
+        siteProfileName: string
+    siteProfile:
+    - device:
+      - customNetworks:
+        - connectionType: string
+          name: string
+          networkMode: string
+          servicesToConnect:
+          - service: string
+          vlan: string
+        customServices:
+        - applicationType: string
+          imageName: string
+          name: string
+          profile: string
+          topology:
+            assignIp: string
+            name: string
+            type: string
         customTemplate:
-        - deviceType: SomeValue  # string, required
-          template: SomeValue  # string, required
-
-- name: get_device_details_by_ip
-  cisco.dnac.nfv_provision:
-    state: query  # required
-    device_ip: SomeValue  # string, required
-  register: nm_get_device_details_by_ip
+        - deviceType: string
+          template: string
+        deviceType: string
+        dia: true
+        serviceProviders:
+        - connect: true
+          defaultGateway: true
+          linkType: string
+          serviceProvider: string
+        services:
+        - imageName: string
+          mode: string
+          name: string
+          profile: string
+          topology:
+            assignIp: string
+            name: string
+            type: string
+          type: string
+        tagName: string
+        vlan:
+        - id: string
+          type: string
+      siteProfileName: string
 
 """
 
 RETURN = r"""
 dnac_response:
-  description: A dictionary with the response returned by the DNA Center Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
-  sample: {"response": 29, "version": "1.0"}
-sdk_function:
-  description: The DNA Center SDK function used to execute the task
-  returned: always
-  type: str
-  sample: site_design.get_device_details_by_ip
-missing_params:
-  description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
-  returned: when the function request schema is not satisfied
-  type: list
-  sample:
+  sample: >
+    {
+      "executionId": "string",
+      "executionStatusUrl": "string",
+      "message": "string"
+    }
 """
