@@ -14,21 +14,30 @@
       name: MyNewTag
     register: result
 
+  - name: Show result
+    debug:
+      msg: "{{ result }}"
+
   - name: Get task status
-    cisco.dnac.task:
+    cisco.dnac.task_info:
       dnac_host: "{{dnac_host}}"
       dnac_username: "{{dnac_username}}"
       dnac_password: "{{dnac_password}}"
       dnac_verify: "{{dnac_verify}}"
-      state: query
-      task_id: "{{ result.dnac_response.response.taskId }}"
-      tree: True
-    register: task_tree_result
+      taskId: "{{ result.dnac_response.response.taskId }}"
+    when:
+      - result.dnac_response is defined
+      - result.dnac_response.response is defined
+      - result.dnac_response.response.taskId is defined
+    register: task_result
   
   - name: Show status of create tag operation
     debug:
-      msg: "{{ task_tree_result.dnac_response.response }}"
-  
+      msg: "{{ task_result.dnac_response.response }}"
+    when:
+      - task_result is defined
+      - task_result.dnac_response is defined
+
   - name: Create the same tag
     cisco.dnac.tag:
       dnac_host: "{{dnac_host}}"
@@ -36,32 +45,36 @@
       dnac_password: "{{dnac_password}}"
       dnac_verify: "{{dnac_verify}}"
       state: present
-      description: My Tag
+      description: My Tag 1
       name: MyNewTag
     register: result
 
   - name: Get task status
-    cisco.dnac.task:
+    cisco.dnac.task_tree_info:
       dnac_host: "{{dnac_host}}"
       dnac_username: "{{dnac_username}}"
       dnac_password: "{{dnac_password}}"
       dnac_verify: "{{dnac_verify}}"
-      state: query
-      task_id: "{{ result.dnac_response.response.taskId }}"
-      tree: True
+      taskId: "{{ result.dnac_response.response.taskId }}"
+    when:
+      - result.dnac_response is defined
+      - result.dnac_response.response is defined
+      - result.dnac_response.response.taskId is defined
     register: task_tree_result
 
   - name: Show status of update tag operation
     debug:
       msg: "{{ task_tree_result.dnac_response.response }}"
+    when:
+      - task_tree_result is defined
+      - task_tree_result.dnac_response is defined
 
   - name: Get tag with name "MyNewTag"
-    cisco.dnac.tag:
+    cisco.dnac.tag_info:
       dnac_host: "{{dnac_host}}"
       dnac_username: "{{dnac_username}}"
       dnac_password: "{{dnac_password}}"
       dnac_verify: "{{dnac_verify}}"
-      state: query
       name: MyNewTag
     register: result
 
@@ -76,36 +89,42 @@
       dnac_password: "{{dnac_password}}"
       dnac_verify: "{{dnac_verify}}"
       state: absent
-      id: "{{ result.dnac_response.response[0].id }}"
+      name: MyNewTag
     register: result
 
-  - name: Get task status
-    cisco.dnac.task:
-      dnac_host: "{{dnac_host}}"
-      dnac_username: "{{dnac_username}}"
-      dnac_password: "{{dnac_password}}"
-      dnac_verify: "{{dnac_verify}}"
-      state: query
-      task_id: "{{ result.dnac_response.response.taskId }}"
-      tree: True
-    register: task_tree_result
-
-  - name: Show status of delete tag operation
+  - name: Show deleted tags with name "MyNewTag"
     debug:
-      msg: "{{ task_tree_result.dnac_response.response }}"
+      msg: "{{ result }}"
+
+  # - name: Get task status
+  #   cisco.dnac.task_info:
+  #     dnac_host: "{{dnac_host}}"
+  #     dnac_username: "{{dnac_username}}"
+  #     dnac_password: "{{dnac_password}}"
+  #     dnac_verify: "{{dnac_verify}}"
+  #     taskId: "{{ result.dnac_response.response.taskId }}"
+  #   when:
+  #     - result.dnac_response is defined
+  #     - result.dnac_response.response is defined
+  #     - result.dnac_response.response.taskId is defined
+  #   register: task_tree_result
+
+  # - name: Show status of delete tag operation
+  #   debug:
+  #     msg: "{{ task_tree_result.dnac_response.response }}"
+  #   when:
+  #     - task_tree_result is defined
+  #     - task_tree_result.dnac_response is defined
 
   - name: Get tag with name "MyNewTag"
-    cisco.dnac.tag:
+    cisco.dnac.tag_info:
       dnac_host: "{{dnac_host}}"
       dnac_username: "{{dnac_username}}"
       dnac_password: "{{dnac_password}}"
       dnac_verify: "{{dnac_verify}}"
-      state: query
       name: MyNewTag
     register: result
 
   - name: Show tags with name "MyNewTag"
     debug:
       msg: "{{ result }}"
-
-  

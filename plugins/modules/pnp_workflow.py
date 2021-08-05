@@ -1,340 +1,286 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, Cisco Systems
+# Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
 module: pnp_workflow
-short_description: Manage PnpWorkflow objects of DeviceOnboardingPnp
+short_description: Resource module for Pnp Workflow
 description:
-- >
-   Returns the list of workflows based on filter criteria. If a limit is not specified, it will default to return 50
-   workflows. Pagination and sorting are also supported by this endpoint.
-- Adds a PnP Workflow along with the relevant tasks in the workflow into the PnP database.
-- Returns a workflow specified by id.
-- Deletes a workflow specified by id.
-- Updates an existing workflow.
-- Returns the workflow count.
+- Manage operations create, update and delete of the resource Pnp Workflow.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  limit:
-    description:
-    - Limits number of results.
-    type: int
-  name:
-    description:
-    - Workflow Name.
-    - Workflow's name.
-    type: str
-  offset:
-    description:
-    - Index of first result.
-    type: int
-  sort:
-    description:
-    - Comma seperated lost of fields to sort on.
-    type: str
-  sort_order:
-    description:
-    - Sort Order Ascending (asc) or Descending (des).
-    type: str
-  type:
-    description:
-    - Workflow Type.
-    - Workflow's type.
-    type: str
   _id:
-    description:
-    - Workflow's _id.
+    description: Pnp Workflow's _id.
     type: str
   addToInventory:
-    description:
-    - Workflow's addToInventory.
+    description: AddToInventory flag.
     type: bool
   addedOn:
-    description:
-    - Workflow's addedOn.
+    description: Pnp Workflow's addedOn.
     type: int
   configId:
-    description:
-    - Workflow's configId.
+    description: Pnp Workflow's configId.
     type: str
   currTaskIdx:
-    description:
-    - Workflow's currTaskIdx.
+    description: Pnp Workflow's currTaskIdx.
     type: int
   description:
-    description:
-    - Workflow's description.
+    description: Pnp Workflow's description.
     type: str
   endTime:
-    description:
-    - Workflow's endTime.
+    description: Pnp Workflow's endTime.
     type: int
   execTime:
-    description:
-    - Workflow's execTime.
-    type: int
-  imageId:
-    description:
-    - Workflow's imageId.
-    type: str
-  instanceType:
-    description:
-    - Workflow's instanceType.
-    type: str
-  lastupdateOn:
-    description:
-    - Workflow's lastupdateOn.
-    type: int
-  startTime:
-    description:
-    - Workflow's startTime.
-    type: int
-  _state:
-    description:
-    - Workflow's state.
-    type: str
-  tasks:
-    description:
-    - Workflow's tasks (list of objects).
-    type: list
-    elements: dict
-    suboptions:
-      currWorkItemIdx:
-        description:
-        - It is the pnp workflow's currWorkItemIdx.
-        type: int
-      endTime:
-        description:
-        - It is the pnp workflow's endTime.
-        type: int
-      name:
-        description:
-        - It is the pnp workflow's name.
-        type: str
-      startTime:
-        description:
-        - It is the pnp workflow's startTime.
-        type: int
-      state:
-        description:
-        - It is the pnp workflow's state.
-        type: str
-      taskSeqNo:
-        description:
-        - It is the pnp workflow's taskSeqNo.
-        type: int
-      timeTaken:
-        description:
-        - It is the pnp workflow's timeTaken.
-        type: int
-      type:
-        description:
-        - It is the pnp workflow's type.
-        type: str
-      workItemList:
-        description:
-        - It is the pnp workflow's workItemList.
-        type: list
-        elements: dict
-        suboptions:
-          command:
-            description:
-            - It is the pnp workflow's command.
-            type: str
-          endTime:
-            description:
-            - It is the pnp workflow's endTime.
-            type: int
-          outputStr:
-            description:
-            - It is the pnp workflow's outputStr.
-            type: str
-          startTime:
-            description:
-            - It is the pnp workflow's startTime.
-            type: int
-          state:
-            description:
-            - It is the pnp workflow's state.
-            type: str
-          timeTaken:
-            description:
-            - It is the pnp workflow's timeTaken.
-            type: int
-
-
-  tenantId:
-    description:
-    - Workflow's tenantId.
-    type: str
-  useState:
-    description:
-    - Workflow's useState.
-    type: str
-  version:
-    description:
-    - Workflow's version.
+    description: Pnp Workflow's execTime.
     type: int
   id:
-    description:
-    - Id path parameter.
+    description: Id path parameter.
     type: str
-    required: True
-  count:
-    description:
-    - If true gets the number of objects.
-    - Required for state query.
-    type: bool
-
+  imageId:
+    description: Pnp Workflow's imageId.
+    type: str
+  instanceType:
+    description: Pnp Workflow's instanceType.
+    type: str
+  lastupdateOn:
+    description: Pnp Workflow's lastupdateOn.
+    type: int
+  name:
+    description: Pnp Workflow's name.
+    type: str
+  startTime:
+    description: Pnp Workflow's startTime.
+    type: int
+  state_:
+    description: Pnp Workflow's state.
+    type: str
+  tasks:
+    description: Pnp Workflow's tasks.
+    suboptions:
+      currWorkItemIdx:
+        description: Pnp Workflow's currWorkItemIdx.
+        type: int
+      endTime:
+        description: Pnp Workflow's endTime.
+        type: int
+      name:
+        description: Pnp Workflow's name.
+        type: str
+      startTime:
+        description: Pnp Workflow's startTime.
+        type: int
+      state:
+        description: Pnp Workflow's state.
+        type: str
+      taskSeqNo:
+        description: Pnp Workflow's taskSeqNo.
+        type: int
+      timeTaken:
+        description: Pnp Workflow's timeTaken.
+        type: int
+      type:
+        description: Pnp Workflow's type.
+        type: str
+      workItemList:
+        description: Pnp Workflow's workItemList.
+        suboptions:
+          command:
+            description: Pnp Workflow's command.
+            type: str
+          endTime:
+            description: Pnp Workflow's endTime.
+            type: int
+          outputStr:
+            description: Pnp Workflow's outputStr.
+            type: str
+          startTime:
+            description: Pnp Workflow's startTime.
+            type: int
+          state:
+            description: Pnp Workflow's state.
+            type: str
+          timeTaken:
+            description: Pnp Workflow's timeTaken.
+            type: int
+        type: list
+    type: list
+  tenantId:
+    description: Pnp Workflow's tenantId.
+    type: str
+  type:
+    description: Pnp Workflow's type.
+    type: str
+  useState:
+    description: Pnp Workflow's useState.
+    type: str
+  version:
+    description: Pnp Workflow's version.
+    type: int
 requirements:
 - dnacentersdk
 seealso:
-# Reference by module name
-- module: cisco.dnac.plugins.module_utils.definitions.pnp_workflow
 # Reference by Internet resource
-- name: PnpWorkflow reference
-  description: Complete reference of the PnpWorkflow object model.
-  link: https://developer.cisco.com/docs/dna-center/api/1-3-3-x
-# Reference by Internet resource
-- name: PnpWorkflow reference
-  description: SDK reference.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
+- name: Pnp Workflow reference
+  description: Complete reference of the Pnp Workflow object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
 """
 
 EXAMPLES = r"""
-- name: get_workflows
+- name: Update by id
   cisco.dnac.pnp_workflow:
-    state: query  # required
-    limit: 1  #  integer
-    name: SomeValue  # string
-    offset: 1  #  integer
-    sort: SomeValue  # string
-    sort_order: SomeValue  # string
-    type: SomeValue  # string
-  register: nm_get_workflows
-
-- name: add_a_workflow
-  cisco.dnac.pnp_workflow:
-    state: create  # required
-    _id: SomeValue  # string
-    addToInventory: True  # boolean
-    addedOn: 1  #  integer
-    configId: SomeValue  # string
-    currTaskIdx: 1  #  integer
-    description: SomeValue  # string
-    endTime: 1  #  integer
-    execTime: 1  #  integer
-    imageId: SomeValue  # string
-    instanceType: # valid values are 'SystemWorkflow',
-      # 'UserWorkflow',
-      # 'SystemResetWorkflow'.
-      SomeValue  # string
-    lastupdateOn: 1  #  integer
-    name: SomeValue  # string
-    startTime: 1  #  integer
-    _state: SomeValue  # string
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    _id: string
+    addToInventory: true
+    addedOn: 0
+    configId: string
+    currTaskIdx: 0
+    description: string
+    endTime: 0
+    execTime: 0
+    id: string
+    imageId: string
+    instanceType: string
+    lastupdateOn: 0
+    name: string
+    startTime: 0
+    state_: string
     tasks:
-    - currWorkItemIdx: 1  #  integer
-      endTime: 1  #  integer
-      name: SomeValue  # string
-      startTime: 1  #  integer
-      state: SomeValue  # string
-      taskSeqNo: 1  #  integer
-      timeTaken: 1  #  integer
-      type: SomeValue  # string
+    - currWorkItemIdx: 0
+      endTime: 0
+      name: string
+      startTime: 0
+      state: string
+      taskSeqNo: 0
+      timeTaken: 0
+      type: string
       workItemList:
-      - command: SomeValue  # string
-        endTime: 1  #  integer
-        outputStr: SomeValue  # string
-        startTime: 1  #  integer
-        state: SomeValue  # string
-        timeTaken: 1  #  integer
-    tenantId: SomeValue  # string
-    type: SomeValue  # string
-    useState: SomeValue  # string
-    version: 1  #  integer
+      - command: string
+        endTime: 0
+        outputStr: string
+        startTime: 0
+        state: string
+        timeTaken: 0
+    tenantId: string
+    type: string
+    useState: string
+    version: 0
 
-- name: get_workflow_by_id
+- name: Delete by id
   cisco.dnac.pnp_workflow:
-    state: query  # required
-    id: SomeValue  # string, required
-  register: nm_get_workflow_by_id
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    id: string
 
-- name: delete_workflow_by_id
+- name: Create
   cisco.dnac.pnp_workflow:
-    state: delete  # required
-    id: SomeValue  # string, required
-
-- name: update_workflow
-  cisco.dnac.pnp_workflow:
-    state: update  # required
-    id: SomeValue  # string, required
-    _id: SomeValue  # string
-    addToInventory: True  # boolean
-    addedOn: 1  #  integer
-    configId: SomeValue  # string
-    currTaskIdx: 1  #  integer
-    description: SomeValue  # string
-    endTime: 1  #  integer
-    execTime: 1  #  integer
-    imageId: SomeValue  # string
-    instanceType: # valid values are 'SystemWorkflow',
-      # 'UserWorkflow',
-      # 'SystemResetWorkflow'.
-      SomeValue  # string
-    lastupdateOn: 1  #  integer
-    name: SomeValue  # string
-    startTime: 1  #  integer
-    _state: SomeValue  # string
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    _id: string
+    addToInventory: true
+    addedOn: 0
+    configId: string
+    currTaskIdx: 0
+    description: string
+    endTime: 0
+    execTime: 0
+    imageId: string
+    instanceType: string
+    lastupdateOn: 0
+    name: string
+    startTime: 0
+    state_: string
     tasks:
-    - currWorkItemIdx: 1  #  integer
-      endTime: 1  #  integer
-      name: SomeValue  # string
-      startTime: 1  #  integer
-      state: SomeValue  # string
-      taskSeqNo: 1  #  integer
-      timeTaken: 1  #  integer
-      type: SomeValue  # string
+    - currWorkItemIdx: 0
+      endTime: 0
+      name: string
+      startTime: 0
+      state: string
+      taskSeqNo: 0
+      timeTaken: 0
+      type: string
       workItemList:
-      - command: SomeValue  # string
-        endTime: 1  #  integer
-        outputStr: SomeValue  # string
-        startTime: 1  #  integer
-        state: SomeValue  # string
-        timeTaken: 1  #  integer
-    tenantId: SomeValue  # string
-    type: SomeValue  # string
-    useState: SomeValue  # string
-    version: 1  #  integer
-
-- name: get_workflow_count
-  cisco.dnac.pnp_workflow:
-    state: query  # required
-    count: True  # boolean, required
-    name: SomeValue  # string
-  register: nm_get_workflow_count
+      - command: string
+        endTime: 0
+        outputStr: string
+        startTime: 0
+        state: string
+        timeTaken: 0
+    tenantId: string
+    type: string
+    useState: string
+    version: 0
 
 """
 
 RETURN = r"""
 dnac_response:
-  description: A dictionary with the response returned by the DNA Center Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
-  sample: {"response": 29, "version": "1.0"}
-sdk_function:
-  description: The DNA Center SDK function used to execute the task
-  returned: always
-  type: str
-  sample: device_onboarding_pnp.add_a_workflow
-missing_params:
-  description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
-  returned: when the function request schema is not satisfied
-  type: list
-  sample:
+  sample: >
+    {
+      "_id": "string",
+      "state": "string",
+      "type": "string",
+      "description": "string",
+      "lastupdateOn": 0,
+      "imageId": "string",
+      "currTaskIdx": 0,
+      "addedOn": 0,
+      "tasks": [
+        {
+          "state": "string",
+          "type": "string",
+          "currWorkItemIdx": 0,
+          "taskSeqNo": 0,
+          "endTime": 0,
+          "startTime": 0,
+          "workItemList": [
+            {
+              "state": "string",
+              "command": "string",
+              "outputStr": "string",
+              "endTime": 0,
+              "startTime": 0,
+              "timeTaken": 0
+            }
+          ],
+          "timeTaken": 0,
+          "name": "string"
+        }
+      ],
+      "addToInventory": true,
+      "instanceType": "string",
+      "endTime": 0,
+      "execTime": 0,
+      "startTime": 0,
+      "useState": "string",
+      "configId": "string",
+      "name": "string",
+      "version": 0,
+      "tenantId": "string"
+    }
 """

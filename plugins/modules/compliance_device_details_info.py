@@ -1,0 +1,129 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: compliance_device_details_info
+short_description: Information module for Compliance Device Details
+description:
+- Get all Compliance Device Details.
+version_added: '1.0.0'
+author: Rafael Campos (@racampos)
+options:
+  deviceUuid:
+    description:
+    - DeviceUuid path parameter.
+    type: str
+  category:
+    description:
+    - Category query parameter. ComplianceCategory can have any value among 'INTENT', 'RUNNING_CONFIG'.
+    type: str
+  complianceType:
+    description:
+    - >
+      ComplianceType query parameter. ComplianceType can have any value among 'NETWORK_DESIGN', 'NETWORK_PROFILE',
+      'FABRIC', 'POLICY', 'RUNNING_CONFIG'.
+    type: str
+  diffList:
+    description:
+    - DiffList query parameter. Diff list pass true to fetch the diff list.
+    type: bool
+  key:
+    description:
+    - Key query parameter. Extended attribute key.
+    type: str
+  value:
+    description:
+    - Value query parameter. Extended attribute value.
+    type: str
+requirements:
+- dnacentersdk
+seealso:
+# Reference by Internet resource
+- name: Compliance Device Details reference
+  description: Complete reference of the Compliance Device Details object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+"""
+
+EXAMPLES = r"""
+- name: Get all Compliance Device Details
+  cisco.dnac.compliance_device_details_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    category: string
+    complianceType: string
+    diffList: True
+    key: string
+    value: string
+    deviceUuid: string
+  register: result
+
+"""
+
+RETURN = r"""
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "deviceUuid": "string",
+      "version": "string",
+      "response": [
+        {
+          "displayName": "string",
+          "complianceType": "string",
+          "lastSyncTime": "string",
+          "additionalDataURL": "string",
+          "sourceInfoList": [
+            {
+              "count": 0,
+              "displayName": "string",
+              "diffList": [
+                {
+                  "displayName": "string",
+                  "moveFromPath": "string",
+                  "op": "string",
+                  "configuredValue": "string",
+                  "intendedValue": "string",
+                  "path": "string",
+                  "businessKey": "string",
+                  "extendedAttributes": "string"
+                }
+              ],
+              "sourceEnum": "string",
+              "licenseAppName": "string",
+              "provisioningArea": "string",
+              "networkProfileName": "string",
+              "nameWithBusinessKey": "string",
+              "appName": "string",
+              "name": "string",
+              "type": "string",
+              "businessKey": {
+                "otherAttributes": {
+                  "cfsAttributes": "string",
+                  "name": "string"
+                },
+                "resourceName": "string",
+                "businessKeyAttributes": "string"
+              }
+            }
+          ],
+          "deviceUuid": "string",
+          "message": "string",
+          "state": "string",
+          "status": "string",
+          "category": "string",
+          "lastUpdateTime": "string"
+        }
+      ]
+    }
+"""

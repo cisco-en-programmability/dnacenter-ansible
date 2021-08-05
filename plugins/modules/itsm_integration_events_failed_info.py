@@ -1,0 +1,72 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: itsm_integration_events_failed_info
+short_description: Information module for Itsm Integration Events Failed
+description:
+- Get all Itsm Integration Events Failed.
+version_added: '1.0.0'
+author: Rafael Campos (@racampos)
+options:
+  instanceId:
+    description:
+    - InstanceId query parameter. Instance Id of the failed event as in the Runtime Dashboard.
+    type: str
+requirements:
+- dnacentersdk
+seealso:
+# Reference by Internet resource
+- name: Itsm Integration Events Failed reference
+  description: Complete reference of the Itsm Integration Events Failed object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+"""
+
+EXAMPLES = r"""
+- name: Get all Itsm Integration Events Failed
+  cisco.dnac.itsm_integration_events_failed_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    instanceId: string
+  register: result
+
+"""
+
+RETURN = r"""
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "instanceId": "string",
+        "eventId": "string",
+        "name": "string",
+        "type": "string",
+        "category": "string",
+        "domain": "string",
+        "subDomain": "string",
+        "severity": "string",
+        "source": "string",
+        "timestamp": 0,
+        "enrichmentInfo": {
+          "eventStatus": "string",
+          "errorCode": "string",
+          "errorDescription": "string",
+          "responseReceivedFromITSMSystem": {}
+        },
+        "description": "string"
+      }
+    ]
+"""

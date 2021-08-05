@@ -1,69 +1,59 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, Cisco Systems
+# Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
 module: network_device_sync
-short_description: Manage NetworkDeviceSync objects of Devices
+short_description: Resource module for Network Device Sync
 description:
-- >
-   Synchronizes the devices. If forceSync param is false (default) then the sync would run in normal priority thread.
-   If forceSync param is true then the sync would run in high priority thread if available, else the sync will fail.
-   Result can be seen in the child task of each device.
+- Manage operation update of the resource Network Device Sync.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  force_sync:
-    description:
-    - ForceSync query parameter.
+  forceSync:
+    description: ForceSync query parameter.
     type: bool
   payload:
-    description:
-    - An object to send in the Request body.
+    description: Network Device Sync's payload.
+    elements: dict
     type: list
-    required: True
-
 requirements:
 - dnacentersdk
 seealso:
-# Reference by module name
-- module: cisco.dnac.plugins.module_utils.definitions.network_device_sync
 # Reference by Internet resource
-- name: NetworkDeviceSync reference
-  description: Complete reference of the NetworkDeviceSync object model.
-  link: https://developer.cisco.com/docs/dna-center/api/1-3-3-x
-# Reference by Internet resource
-- name: NetworkDeviceSync reference
-  description: SDK reference.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
+- name: Network Device Sync reference
+  description: Complete reference of the Network Device Sync object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
 """
 
 EXAMPLES = r"""
-- name: sync_devices_using_forcesync
+- name: Update all
   cisco.dnac.network_device_sync:
-    state: update  # required
-    payload: None, required
-    force_sync: True  # boolean
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    forceSync: true
 
 """
 
 RETURN = r"""
 dnac_response:
-  description: A dictionary with the response returned by the DNA Center Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
-  sample: {"response": 29, "version": "1.0"}
-sdk_function:
-  description: The DNA Center SDK function used to execute the task
-  returned: always
-  type: str
-  sample: devices.sync_devices_using_forcesync
-missing_params:
-  description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
-  returned: when the function request schema is not satisfied
-  type: list
-  sample:
+  sample: >
+    {
+      "response": {
+        "taskId": {},
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

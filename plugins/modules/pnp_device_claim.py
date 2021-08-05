@@ -1,154 +1,127 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, Cisco Systems
+# Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
 module: pnp_device_claim
-short_description: Manage PnpDeviceClaim objects of DeviceOnboardingPnp
+short_description: Resource module for Pnp Device Claim
 description:
-- Claims one of more devices with specified workflow.
+- Manage operation create of the resource Pnp Device Claim.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   configFileUrl:
-    description:
-    - ClaimDeviceRequest's configFileUrl.
+    description: Pnp Device Claim's configFileUrl.
     type: str
   configId:
-    description:
-    - ClaimDeviceRequest's configId.
+    description: Pnp Device Claim's configId.
     type: str
   deviceClaimList:
-    description:
-    - ClaimDeviceRequest's deviceClaimList (list of objects).
-    type: list
-    elements: dict
+    description: Pnp Device Claim's deviceClaimList.
     suboptions:
       configList:
-        description:
-        - It is the pnp device claim's configList.
-        type: list
-        elements: dict
+        description: Pnp Device Claim's configList.
         suboptions:
           configId:
-            description:
-            - It is the pnp device claim's configId.
+            description: Pnp Device Claim's configId.
             type: str
           configParameters:
-            description:
-            - It is the pnp device claim's configParameters.
-            type: list
-            elements: dict
+            description: Pnp Device Claim's configParameters.
             suboptions:
               key:
-                description:
-                - It is the pnp device claim's key.
+                description: Pnp Device Claim's key.
                 type: str
               value:
-                description:
-                - It is the pnp device claim's value.
+                description: Pnp Device Claim's value.
                 type: str
-
-
+            type: list
+        type: list
       deviceId:
-        description:
-        - It is the pnp device claim's deviceId.
+        description: Pnp Device Claim's deviceId.
         type: str
       licenseLevel:
-        description:
-        - It is the pnp device claim's licenseLevel.
+        description: Pnp Device Claim's licenseLevel.
         type: str
       licenseType:
-        description:
-        - It is the pnp device claim's licenseType.
+        description: Pnp Device Claim's licenseType.
         type: str
       topOfStackSerialNumber:
-        description:
-        - It is the pnp device claim's topOfStackSerialNumber.
+        description: Pnp Device Claim's topOfStackSerialNumber.
         type: str
-
+    type: list
   fileServiceId:
-    description:
-    - ClaimDeviceRequest's fileServiceId.
+    description: Pnp Device Claim's fileServiceId.
     type: str
   imageId:
-    description:
-    - ClaimDeviceRequest's imageId.
+    description: Pnp Device Claim's imageId.
     type: str
   imageUrl:
-    description:
-    - ClaimDeviceRequest's imageUrl.
+    description: Pnp Device Claim's imageUrl.
     type: str
   populateInventory:
-    description:
-    - ClaimDeviceRequest's populateInventory.
+    description: PopulateInventory flag.
     type: bool
   projectId:
-    description:
-    - ClaimDeviceRequest's projectId.
+    description: Pnp Device Claim's projectId.
     type: str
   workflowId:
-    description:
-    - ClaimDeviceRequest's workflowId.
+    description: Pnp Device Claim's workflowId.
     type: str
-
 requirements:
 - dnacentersdk
 seealso:
-# Reference by module name
-- module: cisco.dnac.plugins.module_utils.definitions.pnp_device_claim
 # Reference by Internet resource
-- name: PnpDeviceClaim reference
-  description: Complete reference of the PnpDeviceClaim object model.
-  link: https://developer.cisco.com/docs/dna-center/api/1-3-3-x
-# Reference by Internet resource
-- name: PnpDeviceClaim reference
-  description: SDK reference.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
+- name: Pnp Device Claim reference
+  description: Complete reference of the Pnp Device Claim object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
 """
 
 EXAMPLES = r"""
-- name: claim_device
+- name: Create
   cisco.dnac.pnp_device_claim:
-    state: create  # required
-    configFileUrl: SomeValue  # string
-    configId: SomeValue  # string
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    configFileUrl: string
+    configId: string
     deviceClaimList:
     - configList:
-      - configId: SomeValue  # string
+      - configId: string
         configParameters:
-        - key: SomeValue  # string
-          value: SomeValue  # string
-      deviceId: SomeValue  # string
-      licenseLevel: SomeValue  # string
-      licenseType: SomeValue  # string
-      topOfStackSerialNumber: SomeValue  # string
-    fileServiceId: SomeValue  # string
-    imageId: SomeValue  # string
-    imageUrl: SomeValue  # string
-    populateInventory: True  # boolean
-    projectId: SomeValue  # string
-    workflowId: SomeValue  # string
+        - key: string
+          value: string
+      deviceId: string
+      licenseLevel: string
+      licenseType: string
+      topOfStackSerialNumber: string
+    fileServiceId: string
+    imageId: string
+    imageUrl: string
+    populateInventory: true
+    projectId: string
+    workflowId: string
 
 """
 
 RETURN = r"""
 dnac_response:
-  description: A dictionary with the response returned by the DNA Center Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
-  sample: {"response": 29, "version": "1.0"}
-sdk_function:
-  description: The DNA Center SDK function used to execute the task
-  returned: always
-  type: str
-  sample: device_onboarding_pnp.claim_device
-missing_params:
-  description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
-  returned: when the function request schema is not satisfied
-  type: list
-  sample:
+  sample: >
+    {
+      "jsonArrayResponse": [
+        {}
+      ],
+      "jsonResponse": {},
+      "message": "string",
+      "statusCode": 0
+    }
 """

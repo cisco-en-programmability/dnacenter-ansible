@@ -1,0 +1,145 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: tag_info
+short_description: Information module for Tag
+description:
+- Get all Tag.
+- Get Tag by id.
+version_added: '1.0.0'
+author: Rafael Campos (@racampos)
+options:
+  name:
+    description:
+    - Name query parameter. Tag name is mandatory when filter operation is used.
+    type: str
+  additionalInfo_nameSpace:
+    description:
+    - AdditionalInfo.nameSpace query parameter.
+    type: str
+  additionalInfo_attributes:
+    description:
+    - AdditionalInfo.attributes query parameter.
+    type: str
+  level:
+    description:
+    - Level query parameter.
+    type: str
+  offset:
+    description:
+    - Offset query parameter.
+    type: str
+  limit:
+    description:
+    - Limit query parameter.
+    type: str
+  size:
+    description:
+    - Size query parameter. Size in kilobytes(KB).
+    type: str
+  field:
+    description:
+    - >
+      Field query parameter. Available field names are
+      'name,id,parentId,type,additionalInfo.nameSpace,additionalInfo.attributes'.
+    type: str
+  sortBy:
+    description:
+    - SortBy query parameter. Only supported attribute is name. SortyBy is mandatory when order is used.
+    type: str
+  order:
+    description:
+    - Order query parameter. Available values are asc and des.
+    type: str
+  systemTag:
+    description:
+    - SystemTag query parameter.
+    type: str
+  id:
+    description:
+    - Id path parameter. Tag ID.
+    type: str
+requirements:
+- dnacentersdk
+seealso:
+# Reference by Internet resource
+- name: Tag reference
+  description: Complete reference of the Tag object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+"""
+
+EXAMPLES = r"""
+- name: Get all Tag
+  cisco.dnac.tag_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    name: string
+    additionalInfo_nameSpace: string
+    additionalInfo_attributes: string
+    level: string
+    offset: string
+    limit: string
+    size: string
+    field: string
+    sortBy: string
+    order: string
+    systemTag: string
+  register: result
+
+- name: Get Tag by id
+  cisco.dnac.tag_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    id: string
+  register: result
+
+"""
+
+RETURN = r"""
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": {
+        "systemTag": true,
+        "description": "string",
+        "dynamicRules": [
+          {
+            "memberType": "string",
+            "rules": {
+              "values": [
+                "string"
+              ],
+              "items": [
+                "string"
+              ],
+              "operation": "string",
+              "name": "string",
+              "value": "string"
+            }
+          }
+        ],
+        "name": "string",
+        "id": "string",
+        "instanceTenantId": "string"
+      }
+    }
+"""

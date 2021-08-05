@@ -10,8 +10,8 @@ This collection has been tested and supports Cisco DNA Center 2.1.1.
 
 ## Requirements
 - Ansible >= 2.9
-- [DNA Center SDK](https://github.com/cisco-en-programmability/dnacentersdk) v2.1.1 or newer
-- Python >= 3.5, as the DNA Center SDK doesn't support Python version 2.x
+- [DNA Center SDK](https://github.com/cisco-en-programmability/dnacentersdk) v2.2.4 or newer
+- Python >= 3.6, as the DNA Center SDK doesn't support Python version 2.x
 
 ## Install
 Ansible must be installed
@@ -38,6 +38,7 @@ dnac_username: <username>
 dnac_password: <password>
 dnac_version: 2.1.1  # optional, defaults to 2.1.1
 dnac_verify: False  # optional, defaults to True
+dnac_debug: False  # optional, defaults to False
 ```
 
 Then, create a playbook `myplaybook.yml` referencing the variables in your credentials.yml file and specifying the full namespace path to the module, plugin and/or role:
@@ -47,7 +48,7 @@ Then, create a playbook `myplaybook.yml` referencing the variables in your crede
     - credentials.yml
   gather_facts: no
   tasks:
-  - name: Create tag
+  - name: Create tag with name "MyNewTag"
     cisco.dnac.tag:
       dnac_host: "{{dnac_host}}"
       dnac_username: "{{dnac_username}}"
@@ -56,6 +57,7 @@ Then, create a playbook `myplaybook.yml` referencing the variables in your crede
       state: present
       description: My Tag
       name: MyNewTag
+    register: result
 ```
 
 Execute the playbook:

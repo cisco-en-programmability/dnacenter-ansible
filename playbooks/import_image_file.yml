@@ -3,22 +3,20 @@
     - credentials.yml
   gather_facts: no
   tasks:
-  - name: Get/create/delete import image file
-    cisco.dnac.import_image_file:
+  - name: Import image file
+    cisco.dnac.swim_import_local:
       dnac_host: "{{dnac_host}}"
       dnac_username: "{{dnac_username}}"
       dnac_password: "{{dnac_password}}"
       dnac_verify: "{{dnac_verify}}"
-      state: create
-      filename: test.template  # string
-      filepath: playbooks/files/test.template  # string
-      is_third_party: True  # boolean
-      third_party_application_type: SomeValue  # string
-      third_party_image_family: SomeValue  # string
-      third_party_vendor: SomeValue  # string
-       
+      fileName: test.template  # string
+      filePath: fullpath/playbooks/files/test.template  # string
+      isThirdParty: True  # boolean
+      thirdPartyApplicationType: SomeValue  # string
+      thirdPartyImageFamily: SomeValue  # string
+      thirdPartyVendor: SomeValue  # string
     register: result
 
   - name: Show result
     debug:
-      msg: "{{ result }}"     
+      msg: "{{ result }}"

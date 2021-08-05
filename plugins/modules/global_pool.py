@@ -1,157 +1,121 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, Cisco Systems
+# Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
 module: global_pool
-short_description: Manage GlobalPool objects of NetworkSettings
+short_description: Resource module for Global Pool
 description:
-- API to get global pool.
-- API to create global pool.
-- API to update global pool.
-- API to delete global IP pool.
+- Manage operations create, update and delete of the resource Global Pool.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  limit:
-    description:
-    - No of Global Pools to be retrieved.
-    type: str
-  offset:
-    description:
-    - Offset/starting row.
+  id:
+    description: Id path parameter. Global pool id.
     type: str
   settings:
-    description:
-    - Settings, property of the request body.
-    type: dict
-    required: True
+    description: Global Pool's settings.
     suboptions:
       ippool:
-        description:
-        - It is the global pool's ippool.
-        type: list
-        elements: dict
+        description: Global Pool's ippool.
         suboptions:
-          IpAddressSpace:
-            description:
-            - It is the global pool's IpAddressSpace.
-            type: str
           dhcpServerIps:
-            description:
-            - It is the global pool's dhcpServerIps.
+            description: Global Pool's dhcpServerIps.
+            elements: str
             type: list
           dnsServerIps:
-            description:
-            - It is the global pool's dnsServerIps.
+            description: Global Pool's dnsServerIps.
+            elements: str
             type: list
           gateway:
-            description:
-            - It is the global pool's gateway.
+            description: Global Pool's gateway.
             type: str
           id:
-            description:
-            - It is the global pool's id.
+            description: Global Pool's id.
             type: str
-            required: True
-          ipPoolCidr:
-            description:
-            - It is the global pool's ipPoolCidr.
-            type: str
-            required: True
           ipPoolName:
-            description:
-            - It is the global pool's ipPoolName.
-            - Required for state create.
+            description: Global Pool's ipPoolName.
             type: str
-          type:
-            description:
-            - It is the global pool's type.
-            type: str
-            required: True
-
-
-  id:
-    description:
-    - Global pool id.
-    - Required for state delete.
-    type: str
-
+        type: list
+    type: dict
 requirements:
 - dnacentersdk
 seealso:
-# Reference by module name
-- module: cisco.dnac.plugins.module_utils.definitions.global_pool
 # Reference by Internet resource
-- name: GlobalPool reference
-  description: Complete reference of the GlobalPool object model.
-  link: https://developer.cisco.com/docs/dna-center/api/1-3-3-x
-# Reference by Internet resource
-- name: GlobalPool reference
-  description: SDK reference.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
+- name: Global Pool reference
+  description: Complete reference of the Global Pool object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
 """
 
 EXAMPLES = r"""
-- name: get_global_pool
+- name: Update all
   cisco.dnac.global_pool:
-    state: query  # required
-    limit: SomeValue  # string
-    offset: SomeValue  # string
-  register: nm_get_global_pool
-
-- name: create_global_pool
-  cisco.dnac.global_pool:
-    state: create  # required
-    settings:  # required
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    settings:
       ippool:
-      - ipPoolName: SomeValue  # string, required
-        type: SomeValue  # string, required
-        ipPoolCidr: SomeValue  # string, required
-        gateway: SomeValue  # string
-        dhcpServerIps:
-        - SomeValue  # string
+      - dhcpServerIps:
+        - string
         dnsServerIps:
-        - SomeValue  # string
-        IpAddressSpace: SomeValue  # string
+        - string
+        gateway: string
+        id: string
+        ipPoolName: string
 
-- name: update_global_pool
+- name: Create
   cisco.dnac.global_pool:
-    state: update  # required
-    settings:  # required
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    settings:
       ippool:
-      - id: SomeValue  # string, required
-        ipPoolName: SomeValue  # string
-        gateway: SomeValue  # string
+      - IpAddressSpace: string
         dhcpServerIps:
-        - SomeValue  # string
+        - string
         dnsServerIps:
-        - SomeValue  # string
+        - string
+        gateway: string
+        ipPoolCidr: string
+        ipPoolName: string
+        type: string
 
-- name: delete_global_ip_pool
+- name: Delete by id
   cisco.dnac.global_pool:
-    state: delete  # required
-    id: SomeValue  # string, required
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    id: string
 
 """
 
 RETURN = r"""
 dnac_response:
-  description: A dictionary with the response returned by the DNA Center Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
-  sample: {"response": 29, "version": "1.0"}
-sdk_function:
-  description: The DNA Center SDK function used to execute the task
-  returned: always
-  type: str
-  sample: network_settings.create_global_pool
-missing_params:
-  description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
-  returned: when the function request schema is not satisfied
-  type: list
-  sample:
+  sample: >
+    {
+      "executionId": "string",
+      "executionStatusUrl": "string",
+      "message": "string"
+    }
 """

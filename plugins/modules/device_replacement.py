@@ -1,238 +1,109 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, Cisco Systems
+# Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
 module: device_replacement
-short_description: Manage DeviceReplacement objects of DeviceReplacement
+short_description: Resource module for Device Replacement
 description:
-- >
-   Get list of replacement devices with replacement details and it can filter replacement devices based on Faulty
-   Device Name,Faulty Device Platform, Replacement Device Platform, Faulty Device Serial Number,Replacement Device
-   Serial Number, Device Replacement status, Product Family.
-- Marks device for replacement.
-- UnMarks device for replacement.
-- Get replacement devices count.
+- Manage operations create and update of the resource Device Replacement.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  family:
-    description:
-    - List of families[Routers, Switches and Hubs, AP].
-    type: str
-  faulty_device_name:
-    description:
-    - Faulty Device Name.
-    type: str
-  faulty_device_platform:
-    description:
-    - Faulty Device Platform.
-    type: str
-  faulty_device_serial_number:
-    description:
-    - Faulty Device Serial Number.
-    type: str
-  limit:
-    description:
-    - Limit query parameter.
-    type: int
-  offset:
-    description:
-    - Offset query parameter.
-    type: int
-  replacement_device_platform:
-    description:
-    - Replacement Device Platform.
-    type: str
-  replacement_device_serial_number:
-    description:
-    - Replacement Device Serial Number.
-    type: str
-  replacement_status:
-    description:
-    - >
-       Device Replacement status [READY-FOR-REPLACEMENT, REPLACEMENT-IN-PROGRESS, REPLACEMENT-SCHEDULED,
-       REPLACED, ERROR, NETWORK_READINESS_REQUESTED, NETWORK_READINESS_FAILED].
-    - >
-       Device Replacement status list[READY-FOR-REPLACEMENT, REPLACEMENT-IN-PROGRESS, REPLACEMENT-SCHEDULED,
-       REPLACED, ERROR].
-    type: str
-  sort_by:
-    description:
-    - SortBy this field. SortBy is mandatory when order is used.
-    type: str
-  sort_order:
-    description:
-    - Order on displayName[ASC,DESC].
-    type: str
   payload:
-    description:
-    - An object to send in the Request body.
-    type: list
-    required: True
-    elements: dict
+    description: Device Replacement's payload.
     suboptions:
       creationTime:
-        description:
-        - It is the device replacement's creationTime.
+        description: Device Replacement's creationTime.
         type: int
       family:
-        description:
-        - It is the device replacement's family.
+        description: Device Replacement's family.
         type: str
       faultyDeviceId:
-        description:
-        - It is the device replacement's faultyDeviceId.
-        - Required for states update and create.
+        description: Device Replacement's faultyDeviceId.
         type: str
       faultyDeviceName:
-        description:
-        - It is the device replacement's faultyDeviceName.
+        description: Device Replacement's faultyDeviceName.
         type: str
       faultyDevicePlatform:
-        description:
-        - It is the device replacement's faultyDevicePlatform.
+        description: Device Replacement's faultyDevicePlatform.
         type: str
       faultyDeviceSerialNumber:
-        description:
-        - It is the device replacement's faultyDeviceSerialNumber.
+        description: Device Replacement's faultyDeviceSerialNumber.
         type: str
       id:
-        description:
-        - It is the device replacement's id.
+        description: Device Replacement's id.
         type: str
       neighbourDeviceId:
-        description:
-        - It is the device replacement's neighbourDeviceId.
+        description: Device Replacement's neighbourDeviceId.
         type: str
       networkReadinessTaskId:
-        description:
-        - It is the device replacement's networkReadinessTaskId.
+        description: Device Replacement's networkReadinessTaskId.
         type: str
       replacementDevicePlatform:
-        description:
-        - It is the device replacement's replacementDevicePlatform.
+        description: Device Replacement's replacementDevicePlatform.
         type: str
       replacementDeviceSerialNumber:
-        description:
-        - It is the device replacement's replacementDeviceSerialNumber.
+        description: Device Replacement's replacementDeviceSerialNumber.
         type: str
       replacementStatus:
-        description:
-        - It is the device replacement's replacementStatus.
-        - Required for states update and create.
+        description: Device Replacement's replacementStatus.
         type: str
       replacementTime:
-        description:
-        - It is the device replacement's replacementTime.
+        description: Device Replacement's replacementTime.
         type: int
       workflowId:
-        description:
-        - It is the device replacement's workflowId.
+        description: Device Replacement's workflowId.
         type: str
-
-  count:
-    description:
-    - If true gets the number of objects.
-    - Required for state query.
-    type: bool
-
+    type: list
 requirements:
 - dnacentersdk
 seealso:
-# Reference by module name
-- module: cisco.dnac.plugins.module_utils.definitions.device_replacement
 # Reference by Internet resource
-- name: DeviceReplacement reference
-  description: Complete reference of the DeviceReplacement object model.
-  link: https://developer.cisco.com/docs/dna-center/api/1-3-3-x
-# Reference by Internet resource
-- name: DeviceReplacement reference
-  description: SDK reference.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
+- name: Device Replacement reference
+  description: Complete reference of the Device Replacement object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
 """
 
 EXAMPLES = r"""
-- name: return_replacement_devices_with_details
+- name: Update all
   cisco.dnac.device_replacement:
-    state: query  # required
-    family: SomeValue  # string
-    faulty_device_name: SomeValue  # string
-    faulty_device_platform: SomeValue  # string
-    faulty_device_serial_number: SomeValue  # string
-    limit: 1  #  integer
-    offset: 1  #  integer
-    replacement_device_platform: SomeValue  # string
-    replacement_device_serial_number: SomeValue  # string
-    replacement_status: SomeValue  # string
-    sort_by: SomeValue  # string
-    sort_order: SomeValue  # string
-  register: nm_return_replacement_devices_with_details
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
 
-- name: mark_device_for_replacement
+- name: Create
   cisco.dnac.device_replacement:
-    state: create  # required
-    payload:  # required
-    - faultyDeviceId: SomeValue  # string, required
-      replacementStatus: SomeValue  # string, required
-      creationTime: 1  #  integer
-      family: SomeValue  # string
-      faultyDeviceName: SomeValue  # string
-      faultyDevicePlatform: SomeValue  # string
-      faultyDeviceSerialNumber: SomeValue  # string
-      id: SomeValue  # string
-      neighbourDeviceId: SomeValue  # string
-      networkReadinessTaskId: SomeValue  # string
-      replacementDevicePlatform: SomeValue  # string
-      replacementDeviceSerialNumber: SomeValue  # string
-      replacementTime: 1  #  integer
-      workflowId: SomeValue  # string
-
-- name: unmark_device_for_replacement
-  cisco.dnac.device_replacement:
-    state: update  # required
-    payload:  # required
-    - faultyDeviceId: SomeValue  # string, required
-      replacementStatus: SomeValue  # string, required
-      creationTime: 1  #  integer
-      family: SomeValue  # string
-      faultyDeviceName: SomeValue  # string
-      faultyDevicePlatform: SomeValue  # string
-      faultyDeviceSerialNumber: SomeValue  # string
-      id: SomeValue  # string
-      neighbourDeviceId: SomeValue  # string
-      networkReadinessTaskId: SomeValue  # string
-      replacementDevicePlatform: SomeValue  # string
-      replacementDeviceSerialNumber: SomeValue  # string
-      replacementTime: 1  #  integer
-      workflowId: SomeValue  # string
-
-- name: return_replacement_devices_count
-  cisco.dnac.device_replacement:
-    state: query  # required
-    count: True  # boolean, required
-    replacement_status: SomeValue  # string
-  register: nm_return_replacement_devices_count
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
 
 """
 
 RETURN = r"""
 dnac_response:
-  description: A dictionary with the response returned by the DNA Center Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
-  sample: {"response": 29, "version": "1.0"}
-sdk_function:
-  description: The DNA Center SDK function used to execute the task
-  returned: always
-  type: str
-  sample: device_replacement.mark_device_for_replacement
-missing_params:
-  description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
-  returned: when the function request schema is not satisfied
-  type: list
-  sample:
+  sample: >
+    {
+      "response": {
+        "taskId": {},
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

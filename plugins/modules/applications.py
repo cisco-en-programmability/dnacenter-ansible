@@ -1,293 +1,172 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, Cisco Systems
+# Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
 module: applications
-short_description: Manage Applications objects of ApplicationPolicy
+short_description: Resource module for Applications
 description:
-- Get Applications by offset/limit or by name.
-- Delete existing application by its id.
-- Create new Custom application.
-- Edit the attributes of an existing application.
-- Get the number of all existing Applications.
+- Manage operations create, update and delete of the resource Applications.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  limit:
-    description:
-    - The maximum number of Applications to be returned.
-    type: int
-  name:
-    description:
-    - Application's name.
-    type: str
-  offset:
-    description:
-    - The offset of the first application to be returned.
-    type: int
   id:
-    description:
-    - Application's Id.
-    - Required for state delete.
+    description: Id query parameter. Application's Id.
     type: str
   payload:
-    description:
-    - An object to send in the Request body.
-    type: list
-    required: True
-    elements: dict
+    description: Applications's payload.
     suboptions:
       applicationSet:
-        description:
-        - It is the Applications's applicationSet.
-        type: dict
+        description: Applications's applicationSet.
         suboptions:
           idRef:
-            description:
-            - It is the Applications's idRef.
+            description: Applications's idRef.
             type: str
-
+        type: dict
       id:
-        description:
-        - It is the Applications's id.
+        description: Applications's id.
         type: str
       name:
-        description:
-        - It is the Applications's name.
+        description: Applications's name.
         type: str
       networkApplications:
-        description:
-        - It is the Applications's networkApplications.
-        type: list
-        elements: dict
+        description: Applications's networkApplications.
         suboptions:
           appProtocol:
-            description:
-            - It is the Applications's appProtocol.
+            description: Applications's appProtocol.
             type: str
           applicationSubType:
-            description:
-            - It is the Applications's applicationSubType.
+            description: Applications's applicationSubType.
             type: str
           applicationType:
-            description:
-            - It is the Applications's applicationType.
+            description: Applications's applicationType.
             type: str
           categoryId:
-            description:
-            - It is the Applications's categoryId.
+            description: Applications's categoryId.
             type: str
           displayName:
-            description:
-            - It is the Applications's displayName.
+            description: Applications's displayName.
             type: str
           dscp:
-            description:
-            - It is the Applications's dscp.
+            description: Applications's dscp.
             type: str
           engineId:
-            description:
-            - It is the Applications's engineId.
+            description: Applications's engineId.
             type: str
           helpString:
-            description:
-            - It is the Applications's helpString.
+            description: Applications's helpString.
             type: str
           id:
-            description:
-            - It is the Applications's id.
+            description: Applications's id.
             type: str
           ignoreConflict:
-            description:
-            - It is the Applications's ignoreConflict.
+            description: Applications's ignoreConflict.
             type: str
           longDescription:
-            description:
-            - It is the Applications's longDescription.
+            description: Applications's longDescription.
             type: str
           name:
-            description:
-            - It is the Applications's name.
+            description: Applications's name.
             type: str
           popularity:
-            description:
-            - It is the Applications's popularity.
+            description: Applications's popularity.
             type: str
           rank:
-            description:
-            - It is the Applications's rank.
+            description: Applications's rank.
             type: str
           serverName:
-            description:
-            - It is the Applications's serverName.
+            description: Applications's serverName.
             type: str
           trafficClass:
-            description:
-            - It is the Applications's trafficClass.
+            description: Applications's trafficClass.
             type: str
           url:
-            description:
-            - It is the Applications's url.
+            description: Applications's url.
             type: str
-
-      networkIdentity:
-        description:
-        - It is the Applications's networkIdentity.
         type: list
-        elements: dict
+      networkIdentity:
+        description: Applications's networkIdentity.
         suboptions:
           displayName:
-            description:
-            - It is the Applications's displayName.
+            description: Applications's displayName.
             type: str
           id:
-            description:
-            - It is the Applications's id.
+            description: Applications's id.
             type: str
           lowerPort:
-            description:
-            - It is the Applications's lowerPort.
+            description: Applications's lowerPort.
             type: str
           ports:
-            description:
-            - It is the Applications's ports.
+            description: Applications's ports.
             type: str
           protocol:
-            description:
-            - It is the Applications's protocol.
+            description: Applications's protocol.
             type: str
           upperPort:
-            description:
-            - It is the Applications's upperPort.
+            description: Applications's upperPort.
             type: str
-
-
-  count:
-    description:
-    - If true gets the number of objects.
-    - Required for state query.
-    type: bool
-
+        type: list
+    type: list
 requirements:
 - dnacentersdk
 seealso:
-# Reference by module name
-- module: cisco.dnac.plugins.module_utils.definitions.applications
 # Reference by Internet resource
 - name: Applications reference
   description: Complete reference of the Applications object model.
-  link: https://developer.cisco.com/docs/dna-center/api/1-3-3-x
-# Reference by Internet resource
-- name: Applications reference
-  description: SDK reference.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
 """
 
 EXAMPLES = r"""
-- name: get_applications
+- name: Update all
   cisco.dnac.applications:
-    state: query  # required
-    limit: 1  #  number
-    name: SomeValue  # string
-    offset: 1  #  number
-  register: nm_get_applications
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
 
-- name: delete_application
+- name: Create
   cisco.dnac.applications:
-    state: delete  # required
-    id: SomeValue  # string, required
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
 
-- name: create_application
+- name: Delete all
   cisco.dnac.applications:
-    state: create  # required
-    payload:  # required
-    - name: SomeValue  # string
-      networkApplications:
-      - appProtocol: SomeValue  # string
-        applicationSubType: SomeValue  # string
-        applicationType: SomeValue  # string
-        categoryId: SomeValue  # string
-        displayName: SomeValue  # string
-        engineId: SomeValue  # string
-        helpString: SomeValue  # string
-        longDescription: SomeValue  # string
-        name: SomeValue  # string
-        popularity: SomeValue  # string
-        rank: SomeValue  # string
-        trafficClass: SomeValue  # string
-        serverName: SomeValue  # string
-        url: SomeValue  # string
-        dscp: SomeValue  # string
-        ignoreConflict: SomeValue  # string
-      networkIdentity:
-      - displayName: SomeValue  # string
-        lowerPort: SomeValue  # string
-        ports: SomeValue  # string
-        protocol: SomeValue  # string
-        upperPort: SomeValue  # string
-      applicationSet:
-        idRef: SomeValue  # string
-
-- name: edit_application
-  cisco.dnac.applications:
-    state: update  # required
-    payload:  # required
-    - id: SomeValue  # string
-      name: SomeValue  # string
-      networkApplications:
-      - id: SomeValue  # string
-        appProtocol: SomeValue  # string
-        applicationSubType: SomeValue  # string
-        applicationType: SomeValue  # string
-        categoryId: SomeValue  # string
-        displayName: SomeValue  # string
-        engineId: SomeValue  # string
-        helpString: SomeValue  # string
-        longDescription: SomeValue  # string
-        name: SomeValue  # string
-        popularity: SomeValue  # string
-        rank: SomeValue  # string
-        trafficClass: SomeValue  # string
-        serverName: SomeValue  # string
-        url: SomeValue  # string
-        dscp: SomeValue  # string
-        ignoreConflict: SomeValue  # string
-      networkIdentity:
-      - id: SomeValue  # string
-        displayName: SomeValue  # string
-        lowerPort: SomeValue  # string
-        ports: SomeValue  # string
-        protocol: SomeValue  # string
-        upperPort: SomeValue  # string
-      applicationSet:
-        idRef: SomeValue  # string
-
-- name: get_applications_count
-  cisco.dnac.applications:
-    state: query  # required
-    count: True  # boolean, required
-  register: nm_get_applications_count
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    id: string
 
 """
 
 RETURN = r"""
 dnac_response:
-  description: A dictionary with the response returned by the DNA Center Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
-  sample: {"response": 29, "version": "1.0"}
-sdk_function:
-  description: The DNA Center SDK function used to execute the task
-  returned: always
-  type: str
-  sample: application_policy.create_application
-missing_params:
-  description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
-  returned: when the function request schema is not satisfied
-  type: list
-  sample:
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

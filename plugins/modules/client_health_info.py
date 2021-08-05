@@ -1,0 +1,95 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: client_health_info
+short_description: Information module for Client Health
+description:
+- Get all Client Health.
+version_added: '1.0.0'
+author: Rafael Campos (@racampos)
+options:
+  timestamp:
+    description:
+    - Timestamp query parameter. Epoch time(in milliseconds) when the Client health data is required.
+    type: str
+requirements:
+- dnacentersdk
+seealso:
+# Reference by Internet resource
+- name: Client Health reference
+  description: Complete reference of the Client Health object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+"""
+
+EXAMPLES = r"""
+- name: Get all Client Health
+  cisco.dnac.client_health_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    timestamp: string
+  register: result
+
+"""
+
+RETURN = r"""
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "siteId": "string",
+        "scoreDetail": [
+          {
+            "scoreCategory": {
+              "scoreCategory": "string",
+              "value": "string"
+            },
+            "scoreValue": 0,
+            "clientCount": 0,
+            "clientUniqueCount": 0,
+            "starttime": 0,
+            "endtime": 0,
+            "scoreList": [
+              {
+                "scoreCategory": {
+                  "scoreCategory": "string",
+                  "value": "string"
+                },
+                "scoreValue": 0,
+                "clientCount": 0,
+                "clientUniqueCount": 0,
+                "starttime": 0,
+                "endtime": 0,
+                "scoreList": [
+                  {
+                    "scoreCategory": {
+                      "scoreCategory": "string",
+                      "value": "string"
+                    },
+                    "scoreValue": 0,
+                    "clientCount": 0,
+                    "clientUniqueCount": {},
+                    "starttime": 0,
+                    "endtime": 0
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+"""

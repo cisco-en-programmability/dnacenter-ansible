@@ -1,124 +1,103 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, Cisco Systems
+# Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
 module: pnp_device_reset
-short_description: Manage PnpDeviceReset objects of DeviceOnboardingPnp
+short_description: Resource module for Pnp Device Reset
 description:
-- Recovers a device from a Workflow Execution Error state.
+- Manage operation create of the resource Pnp Device Reset.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   deviceResetList:
-    description:
-    - ResetRequest's deviceResetList (list of objects).
-    type: list
-    elements: dict
+    description: Pnp Device Reset's deviceResetList.
     suboptions:
       configList:
-        description:
-        - It is the pnp device reset's configList.
-        type: list
-        elements: dict
+        description: Pnp Device Reset's configList.
         suboptions:
           configId:
-            description:
-            - It is the pnp device reset's configId.
+            description: Pnp Device Reset's configId.
             type: str
           configParameters:
-            description:
-            - It is the pnp device reset's configParameters.
-            type: list
-            elements: dict
+            description: Pnp Device Reset's configParameters.
             suboptions:
               key:
-                description:
-                - It is the pnp device reset's key.
+                description: Pnp Device Reset's key.
                 type: str
               value:
-                description:
-                - It is the pnp device reset's value.
+                description: Pnp Device Reset's value.
                 type: str
-
-
+            type: list
+        type: list
       deviceId:
-        description:
-        - It is the pnp device reset's deviceId.
+        description: Pnp Device Reset's deviceId.
         type: str
       licenseLevel:
-        description:
-        - It is the pnp device reset's licenseLevel.
+        description: Pnp Device Reset's licenseLevel.
         type: str
       licenseType:
-        description:
-        - It is the pnp device reset's licenseType.
+        description: Pnp Device Reset's licenseType.
         type: str
       topOfStackSerialNumber:
-        description:
-        - It is the pnp device reset's topOfStackSerialNumber.
+        description: Pnp Device Reset's topOfStackSerialNumber.
         type: str
-
+    type: list
   projectId:
-    description:
-    - ResetRequest's projectId.
+    description: Pnp Device Reset's projectId.
     type: str
   workflowId:
-    description:
-    - ResetRequest's workflowId.
+    description: Pnp Device Reset's workflowId.
     type: str
-
 requirements:
 - dnacentersdk
 seealso:
-# Reference by module name
-- module: cisco.dnac.plugins.module_utils.definitions.pnp_device_reset
 # Reference by Internet resource
-- name: PnpDeviceReset reference
-  description: Complete reference of the PnpDeviceReset object model.
-  link: https://developer.cisco.com/docs/dna-center/api/1-3-3-x
-# Reference by Internet resource
-- name: PnpDeviceReset reference
-  description: SDK reference.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
+- name: Pnp Device Reset reference
+  description: Complete reference of the Pnp Device Reset object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
 """
 
 EXAMPLES = r"""
-- name: reset_device
+- name: Create
   cisco.dnac.pnp_device_reset:
-    state: create  # required
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     deviceResetList:
     - configList:
-      - configId: SomeValue  # string
+      - configId: string
         configParameters:
-        - key: SomeValue  # string
-          value: SomeValue  # string
-      deviceId: SomeValue  # string
-      licenseLevel: SomeValue  # string
-      licenseType: SomeValue  # string
-      topOfStackSerialNumber: SomeValue  # string
-    projectId: SomeValue  # string
-    workflowId: SomeValue  # string
+        - key: string
+          value: string
+      deviceId: string
+      licenseLevel: string
+      licenseType: string
+      topOfStackSerialNumber: string
+    projectId: string
+    workflowId: string
 
 """
 
 RETURN = r"""
 dnac_response:
-  description: A dictionary with the response returned by the DNA Center Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
-  sample: {"response": 29, "version": "1.0"}
-sdk_function:
-  description: The DNA Center SDK function used to execute the task
-  returned: always
-  type: str
-  sample: device_onboarding_pnp.reset_device
-missing_params:
-  description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
-  returned: when the function request schema is not satisfied
-  type: list
-  sample:
+  sample: >
+    {
+      "jsonArrayResponse": [
+        {}
+      ],
+      "jsonResponse": {},
+      "message": "string",
+      "statusCode": 0
+    }
 """

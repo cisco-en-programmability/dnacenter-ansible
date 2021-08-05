@@ -1,0 +1,122 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: reports_view_group_view_info
+short_description: Information module for Reports View Group View
+description:
+- Get Reports View Group View by id.
+version_added: '1.0.0'
+author: Rafael Campos (@racampos)
+options:
+  viewGroupId:
+    description:
+    - ViewGroupId path parameter. ViewGroupId of viewgroup.
+    type: str
+  viewId:
+    description:
+    - ViewId path parameter. View id of view.
+    type: str
+requirements:
+- dnacentersdk
+seealso:
+# Reference by Internet resource
+- name: Reports View Group View reference
+  description: Complete reference of the Reports View Group View object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+"""
+
+EXAMPLES = r"""
+- name: Get Reports View Group View by id
+  cisco.dnac.reports_view_group_view_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    viewGroupId: string
+    viewId: string
+  register: result
+
+"""
+
+RETURN = r"""
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "deliveries": [
+        {
+          "type": "string",
+          "default": true
+        }
+      ],
+      "description": "string",
+      "fieldGroups": [
+        {
+          "fieldGroupDisplayName": "string",
+          "fieldGroupName": "string",
+          "fields": [
+            {
+              "displayName": "string",
+              "name": "string"
+            }
+          ],
+          "tableId": "string"
+        }
+      ],
+      "filters": [
+        {
+          "additionalInfo": {},
+          "cacheFilter": true,
+          "dataType": "string",
+          "displayName": "string",
+          "filterSource": {
+            "dataSource": {},
+            "displayValuePath": "string",
+            "rootPath": "string",
+            "valuePath": "string"
+          },
+          "name": "string",
+          "required": true,
+          "timeOptions": [
+            {
+              "info": "string",
+              "maxValue": 0,
+              "minValue": 0,
+              "name": "string",
+              "value": "string"
+            }
+          ],
+          "type": "string"
+        }
+      ],
+      "formats": [
+        {
+          "format": "string",
+          "name": "string",
+          "default": true,
+          "template": {
+            "jsTemplateId": "string"
+          }
+        }
+      ],
+      "schedules": [
+        {
+          "type": "string",
+          "default": true
+        }
+      ],
+      "viewId": "string",
+      "viewInfo": "string",
+      "viewName": "string"
+    }
+"""

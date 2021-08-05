@@ -1,0 +1,134 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: reports_info
+short_description: Information module for Reports
+description:
+- Get all Reports.
+- Get Reports by id.
+version_added: '1.0.0'
+author: Rafael Campos (@racampos)
+options:
+  reportId:
+    description:
+    - ReportId path parameter. ReportId of report.
+    type: str
+  viewGroupId:
+    description:
+    - ViewGroupId query parameter. ViewGroupId of viewgroup for report.
+    type: str
+  viewId:
+    description:
+    - ViewId query parameter. ViewId of view for report.
+    type: str
+requirements:
+- dnacentersdk
+seealso:
+# Reference by Internet resource
+- name: Reports reference
+  description: Complete reference of the Reports object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+"""
+
+EXAMPLES = r"""
+- name: Get all Reports
+  cisco.dnac.reports_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    viewGroupId: string
+    viewId: string
+  register: result
+
+- name: Get Reports by id
+  cisco.dnac.reports_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    reportId: string
+  register: result
+
+"""
+
+RETURN = r"""
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "tags": [
+        "string"
+      ],
+      "dataCategory": "string",
+      "deliveries": [
+        {}
+      ],
+      "executionCount": 0,
+      "executions": [
+        {
+          "endTime": 0,
+          "errors": [
+            "string"
+          ],
+          "executionId": "string",
+          "processStatus": "string",
+          "requestStatus": "string",
+          "startTime": 0,
+          "warnings": [
+            "string"
+          ]
+        }
+      ],
+      "name": "string",
+      "reportId": "string",
+      "reportWasExecuted": true,
+      "schedule": {},
+      "view": {
+        "fieldGroups": [
+          {
+            "fieldGroupDisplayName": "string",
+            "fieldGroupName": "string",
+            "fields": [
+              {
+                "displayName": "string",
+                "name": "string"
+              }
+            ]
+          }
+        ],
+        "filters": [
+          {
+            "displayName": "string",
+            "name": "string",
+            "type": "string",
+            "value": {}
+          }
+        ],
+        "format": {
+          "formatType": "string",
+          "name": "string",
+          "default": true
+        },
+        "name": "string",
+        "viewId": "string",
+        "description": "string",
+        "viewInfo": "string"
+      },
+      "viewGroupId": "string",
+      "viewGroupVersion": "string"
+    }
+"""

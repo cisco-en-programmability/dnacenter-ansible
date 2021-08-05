@@ -1,541 +1,376 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2021, Cisco Systems
+# Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
 module: discovery
-short_description: Manage Discovery objects of Discovery
+short_description: Resource module for Discovery
 description:
-- Stops all the discoveries and removes them.
-- Initiates Discovery with the given parameters.
-- Stops or starts an existing Discovery.
-- Returns the count of all available Discovery jobs.
-- >
-   Stops the Discovery for the given Discovery ID and removes it. Discovery ID can be obtained using the "Get
-   Discoveries by range" API.
-- Returns Discovery by Discovery ID. Discovery ID can be obtained using the "Get Discoveries by range" API.
-- Stops Discovery for the given range and removes them.
-- Returns the Discovery by specified range.
+- Manage operations create, update and delete of the resource Discovery.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  cdpLevel:
-    description:
-    - InventoryRequest's cdpLevel.
-    - DiscoveryNIO's cdpLevel.
-    type: int
-  discoveryType:
-    description:
-    - InventoryRequest's DiscoveryType.
-    - DiscoveryNIO's DiscoveryType.
-    - Required for state create.
-    type: str
-    required: True
-  enablePasswordList:
-    description:
-    - InventoryRequest's enablePasswordList (list of strings).
-    - DiscoveryNIO's enablePasswordList.
-    - Type list for state create.
-    - Type str for state update.
-    type: raw
-  globalCredentialIdList:
-    description:
-    - InventoryRequest's globalCredentialIdList (list of strings).
-    - DiscoveryNIO's globalCredentialIdList (list of strings).
-    type: list
-  httpReadCredential:
-    description:
-    - InventoryRequest's httpReadCredential.
-    - DiscoveryNIO's httpReadCredential.
-    type: dict
-    suboptions:
-      comments:
-        description:
-        - It is the Discovery's comments.
-        type: str
-      credentialType:
-        description:
-        - It is the Discovery's credentialType.
-        type: str
-      description:
-        description:
-        - It is the Discovery's description.
-        type: str
-      id:
-        description:
-        - It is the Discovery's id.
-        type: str
-      instanceTenantId:
-        description:
-        - It is the Discovery's instanceTenantId.
-        type: str
-      instanceUuid:
-        description:
-        - It is the Discovery's instanceUuid.
-        type: str
-      password:
-        description:
-        - It is the Discovery's password.
-        type: str
-      port:
-        description:
-        - It is the Discovery's port.
-        type: int
-      secure:
-        description:
-        - It is the Discovery's secure.
-        type: bool
-      username:
-        description:
-        - It is the Discovery's username.
-        type: str
-
-  httpWriteCredential:
-    description:
-    - InventoryRequest's httpWriteCredential.
-    - DiscoveryNIO's httpWriteCredential.
-    type: dict
-    suboptions:
-      comments:
-        description:
-        - It is the Discovery's comments.
-        type: str
-      credentialType:
-        description:
-        - It is the Discovery's credentialType.
-        type: str
-      description:
-        description:
-        - It is the Discovery's description.
-        type: str
-      id:
-        description:
-        - It is the Discovery's id.
-        type: str
-      instanceTenantId:
-        description:
-        - It is the Discovery's instanceTenantId.
-        type: str
-      instanceUuid:
-        description:
-        - It is the Discovery's instanceUuid.
-        type: str
-      password:
-        description:
-        - It is the Discovery's password.
-        type: str
-      port:
-        description:
-        - It is the Discovery's port.
-        type: int
-      secure:
-        description:
-        - It is the Discovery's secure.
-        type: bool
-      username:
-        description:
-        - It is the Discovery's username.
-        type: str
-
-  ipAddressList:
-    description:
-    - InventoryRequest's ipAddressList.
-    - DiscoveryNIO's ipAddressList.
-    - Required for state create.
-    type: str
-    required: True
-  ipFilterList:
-    description:
-    - InventoryRequest's ipFilterList (list of strings).
-    - DiscoveryNIO's ipFilterList.
-    - Type list for state create.
-    - Type str for state update.
-    type: raw
-  lldpLevel:
-    description:
-    - InventoryRequest's lldpLevel.
-    - DiscoveryNIO's lldpLevel.
-    type: int
-  name:
-    description:
-    - InventoryRequest's name.
-    - DiscoveryNIO's name.
-    - Required for state create.
-    type: str
-    required: True
-  netconfPort:
-    description:
-    - InventoryRequest's netconfPort.
-    - DiscoveryNIO's netconfPort.
-    type: str
-  noAddNewDevice:
-    description:
-    - InventoryRequest's noAddNewDevice.
-    type: bool
-  parentDiscoveryId:
-    description:
-    - InventoryRequest's parentDiscoveryId.
-    - DiscoveryNIO's parentDiscoveryId.
-    type: str
-  passwordList:
-    description:
-    - InventoryRequest's passwordList (list of strings).
-    - DiscoveryNIO's passwordList.
-    - Type list for state create.
-    - Type str for state update.
-    type: raw
-  preferredMgmtIPMethod:
-    description:
-    - InventoryRequest's preferredMgmtIPMethod.
-    - DiscoveryNIO's preferredMgmtIPMethod.
-    type: str
-  protocolOrder:
-    description:
-    - InventoryRequest's protocolOrder.
-    - DiscoveryNIO's protocolOrder.
-    type: str
-  reDiscovery:
-    description:
-    - InventoryRequest's reDiscovery.
-    type: bool
-  retry:
-    description:
-    - InventoryRequest's retry.
-    type: int
-  snmpAuthPassphrase:
-    description:
-    - InventoryRequest's snmpAuthPassphrase.
-    - DiscoveryNIO's snmpAuthPassphrase.
-    type: str
-  snmpAuthProtocol:
-    description:
-    - InventoryRequest's snmpAuthProtocol.
-    - DiscoveryNIO's snmpAuthProtocol.
-    type: str
-  snmpMode:
-    description:
-    - InventoryRequest's snmpMode.
-    - DiscoveryNIO's snmpMode.
-    type: str
-  snmpPrivPassphrase:
-    description:
-    - InventoryRequest's snmpPrivPassphrase.
-    - DiscoveryNIO's snmpPrivPassphrase.
-    type: str
-  snmpPrivProtocol:
-    description:
-    - InventoryRequest's snmpPrivProtocol.
-    - DiscoveryNIO's snmpPrivProtocol.
-    type: str
-  snmpROCommunity:
-    description:
-    - InventoryRequest's snmpROCommunity.
-    type: str
-  snmpROCommunityDesc:
-    description:
-    - InventoryRequest's snmpROCommunityDesc.
-    type: str
-  snmpRWCommunity:
-    description:
-    - InventoryRequest's snmpRWCommunity.
-    type: str
-  snmpRWCommunityDesc:
-    description:
-    - InventoryRequest's snmpRWCommunityDesc.
-    type: str
-  snmpUserName:
-    description:
-    - InventoryRequest's snmpUserName.
-    - DiscoveryNIO's snmpUserName.
-    type: str
-  snmpVersion:
-    description:
-    - InventoryRequest's snmpVersion.
-    - Required for state create.
-    type: str
-  timeout:
-    description:
-    - InventoryRequest's timeout.
-    type: int
-  updateMgmtIp:
-    description:
-    - InventoryRequest's updateMgmtIp.
-    - DiscoveryNIO's updateMgmtIp.
-    type: bool
-  userNameList:
-    description:
-    - InventoryRequest's userNameList (list of strings).
-    - DiscoveryNIO's userNameList.
-    - Type list for state create.
-    - Type str for state update.
-    type: raw
   attributeInfo:
-    description:
-    - DiscoveryNIO's attributeInfo.
+    description: Discovery's attributeInfo.
     type: dict
+  cdpLevel:
+    description: Discovery's cdpLevel.
+    type: int
   deviceIds:
-    description:
-    - DiscoveryNIO's deviceIds.
+    description: Discovery's deviceIds.
     type: str
   discoveryCondition:
-    description:
-    - DiscoveryNIO's DiscoveryCondition.
+    description: Discovery's discoveryCondition.
     type: str
   discoveryStatus:
-    description:
-    - DiscoveryNIO's DiscoveryStatus.
-    - Required for state update.
+    description: Discovery's discoveryStatus.
     type: str
+  discoveryType:
+    description: Discovery's discoveryType.
+    type: str
+  enablePasswordList:
+    description: Discovery's enablePasswordList.
+    type: str
+  globalCredentialIdList:
+    description: Discovery's globalCredentialIdList.
+    elements: str
+    type: list
+  httpReadCredential:
+    description: Discovery's httpReadCredential.
+    suboptions:
+      comments:
+        description: Discovery's comments.
+        type: str
+      credentialType:
+        description: Discovery's credentialType.
+        type: str
+      description:
+        description: Discovery's description.
+        type: str
+      id:
+        description: Discovery's id.
+        type: str
+      instanceTenantId:
+        description: Discovery's instanceTenantId.
+        type: str
+      instanceUuid:
+        description: Discovery's instanceUuid.
+        type: str
+      password:
+        description: Discovery's password.
+        type: str
+      port:
+        description: Discovery's port.
+        type: int
+      secure:
+        description: Secure flag.
+        type: bool
+      username:
+        description: Discovery's username.
+        type: str
+    type: dict
+  httpWriteCredential:
+    description: Discovery's httpWriteCredential.
+    suboptions:
+      comments:
+        description: Discovery's comments.
+        type: str
+      credentialType:
+        description: Discovery's credentialType.
+        type: str
+      description:
+        description: Discovery's description.
+        type: str
+      id:
+        description: Discovery's id.
+        type: str
+      instanceTenantId:
+        description: Discovery's instanceTenantId.
+        type: str
+      instanceUuid:
+        description: Discovery's instanceUuid.
+        type: str
+      password:
+        description: Discovery's password.
+        type: str
+      port:
+        description: Discovery's port.
+        type: int
+      secure:
+        description: Secure flag.
+        type: bool
+      username:
+        description: Discovery's username.
+        type: str
+    type: dict
   id:
-    description:
-    - DiscoveryNIO's id.
-    - Discovery ID.
+    description: Id path parameter. Discovery ID.
     type: str
-    required: True
+  ipAddressList:
+    description: Discovery's ipAddressList.
+    type: str
+  ipFilterList:
+    description: Discovery's ipFilterList.
+    type: str
   isAutoCdp:
-    description:
-    - DiscoveryNIO's isAutoCdp.
+    description: IsAutoCdp flag.
     type: bool
+  lldpLevel:
+    description: Discovery's lldpLevel.
+    type: int
+  name:
+    description: Discovery's name.
+    type: str
+  netconfPort:
+    description: Discovery's netconfPort.
+    type: str
   numDevices:
-    description:
-    - DiscoveryNIO's numDevices.
+    description: Discovery's numDevices.
+    type: int
+  parentDiscoveryId:
+    description: Discovery's parentDiscoveryId.
+    type: str
+  passwordList:
+    description: Discovery's passwordList.
+    type: str
+  preferredMgmtIPMethod:
+    description: Discovery's preferredMgmtIPMethod.
+    type: str
+  protocolOrder:
+    description: Discovery's protocolOrder.
+    type: str
+  retry:
+    description: Discovery's retry.
     type: int
   retryCount:
-    description:
-    - DiscoveryNIO's retryCount.
+    description: Discovery's retryCount.
     type: int
+  snmpAuthPassphrase:
+    description: Discovery's snmpAuthPassphrase.
+    type: str
+  snmpAuthProtocol:
+    description: Discovery's snmpAuthProtocol.
+    type: str
+  snmpMode:
+    description: Discovery's snmpMode.
+    type: str
+  snmpPrivPassphrase:
+    description: Discovery's snmpPrivPassphrase.
+    type: str
+  snmpPrivProtocol:
+    description: Discovery's snmpPrivProtocol.
+    type: str
+  snmpROCommunity:
+    description: Discovery's snmpROCommunity.
+    type: str
+  snmpROCommunityDesc:
+    description: Discovery's snmpROCommunityDesc.
+    type: str
+  snmpRWCommunity:
+    description: Discovery's snmpRWCommunity.
+    type: str
+  snmpRWCommunityDesc:
+    description: Discovery's snmpRWCommunityDesc.
+    type: str
   snmpRoCommunity:
-    description:
-    - DiscoveryNIO's snmpRoCommunity.
+    description: Discovery's snmpRoCommunity.
     type: str
   snmpRoCommunityDesc:
-    description:
-    - DiscoveryNIO's snmpRoCommunityDesc.
+    description: Discovery's snmpRoCommunityDesc.
     type: str
   snmpRwCommunity:
-    description:
-    - DiscoveryNIO's snmpRwCommunity.
+    description: Discovery's snmpRwCommunity.
     type: str
   snmpRwCommunityDesc:
-    description:
-    - DiscoveryNIO's snmpRwCommunityDesc.
+    description: Discovery's snmpRwCommunityDesc.
+    type: str
+  snmpUserName:
+    description: Discovery's snmpUserName.
+    type: str
+  snmpVersion:
+    description: Discovery's snmpVersion.
     type: str
   timeOut:
-    description:
-    - DiscoveryNIO's timeOut.
+    description: Discovery's timeOut.
     type: int
-  count:
-    description:
-    - If true gets the number of objects.
-    - Required for state query.
+  timeout:
+    description: Discovery's timeout.
+    type: int
+  updateMgmtIp:
+    description: UpdateMgmtIp flag.
     type: bool
-  records_to_delete:
-    description:
-    - Number of records to delete.
-    - Required for state delete.
-    type: int
-  start_index:
-    description:
-    - Start index.
-    type: int
-    required: True
-  records_to_return:
-    description:
-    - Number of records to return.
-    - Required for state query.
-    type: int
-
+  userNameList:
+    description: Discovery's userNameList.
+    type: str
 requirements:
 - dnacentersdk
 seealso:
-# Reference by module name
-- module: cisco.dnac.plugins.module_utils.definitions.discovery
 # Reference by Internet resource
 - name: Discovery reference
   description: Complete reference of the Discovery object model.
-  link: https://developer.cisco.com/docs/dna-center/api/1-3-3-x
-# Reference by Internet resource
-- name: Discovery reference
-  description: SDK reference.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
 """
 
 EXAMPLES = r"""
-- name: delete_all_discovery
+- name: Delete by id
   cisco.dnac.discovery:
-    state: delete  # required
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    id: string
 
-- name: start_discovery
+- name: Update by id
   cisco.dnac.discovery:
-    state: create  # required
-    discoveryType: SomeValue  # string, required
-    ipAddressList: SomeValue  # string, required
-    name: SomeValue  # string, required
-    snmpVersion: SomeValue  # string, required
-    cdpLevel: 1  #  integer
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    attributeInfo: {}
+    cdpLevel: 0
+    deviceIds: string
+    discoveryCondition: string
+    discoveryStatus: string
+    discoveryType: string
+    enablePasswordList: string
+    globalCredentialIdList:
+    - string
+    httpReadCredential:
+      comments: string
+      credentialType: string
+      description: string
+      id: string
+      instanceTenantId: string
+      instanceUuid: string
+      password: string
+      port: 0
+      secure: true
+      username: string
+    httpWriteCredential:
+      comments: string
+      credentialType: string
+      description: string
+      id: string
+      instanceTenantId: string
+      instanceUuid: string
+      password: string
+      port: 0
+      secure: true
+      username: string
+    id: string
+    ipAddressList: string
+    ipFilterList: string
+    isAutoCdp: true
+    lldpLevel: 0
+    name: string
+    netconfPort: string
+    numDevices: 0
+    parentDiscoveryId: string
+    passwordList: string
+    preferredMgmtIPMethod: string
+    protocolOrder: string
+    retryCount: 0
+    snmpAuthPassphrase: string
+    snmpAuthProtocol: string
+    snmpMode: string
+    snmpPrivPassphrase: string
+    snmpPrivProtocol: string
+    snmpRoCommunity: string
+    snmpRoCommunityDesc: string
+    snmpRwCommunity: string
+    snmpRwCommunityDesc: string
+    snmpUserName: string
+    timeOut: 0
+    updateMgmtIp: true
+    userNameList: string
+
+- name: Create
+  cisco.dnac.discovery:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    cdpLevel: 0
+    discoveryType: string
     enablePasswordList:
-    - SomeValue  # string
+    - string
     globalCredentialIdList:
-    - SomeValue  # string
+    - string
     httpReadCredential:
-      comments: SomeValue  # string
-      credentialType: SomeValue  # string
-      description: SomeValue  # string
-      id: SomeValue  # string
-      instanceTenantId: SomeValue  # string
-      instanceUuid: SomeValue  # string
-      password: SomeValue  # string
-      port: 1  #  integer
-      secure: True  # boolean
-      username: SomeValue  # string
+      password: string
+      port: 0
+      secure: true
+      username: string
     httpWriteCredential:
-      comments: SomeValue  # string
-      credentialType: SomeValue  # string
-      description: SomeValue  # string
-      id: SomeValue  # string
-      instanceTenantId: SomeValue  # string
-      instanceUuid: SomeValue  # string
-      password: SomeValue  # string
-      port: 1  #  integer
-      secure: True  # boolean
-      username: SomeValue  # string
+      password: string
+      port: 0
+      secure: true
+      username: string
+    ipAddressList: string
     ipFilterList:
-    - SomeValue  # string
-    lldpLevel: 1  #  integer
-    netconfPort: SomeValue  # string
-    noAddNewDevice: True  # boolean
-    parentDiscoveryId: SomeValue  # string
+    - string
+    lldpLevel: 0
+    name: string
+    netconfPort: string
     passwordList:
-    - SomeValue  # string
-    preferredMgmtIPMethod: SomeValue  # string
-    protocolOrder: SomeValue  # string
-    reDiscovery: True  # boolean
-    retry: 1  #  integer
-    snmpAuthPassphrase: SomeValue  # string
-    snmpAuthProtocol: SomeValue  # string
-    snmpMode: SomeValue  # string
-    snmpPrivPassphrase: SomeValue  # string
-    snmpPrivProtocol: SomeValue  # string
-    snmpROCommunity: SomeValue  # string
-    snmpROCommunityDesc: SomeValue  # string
-    snmpRWCommunity: SomeValue  # string
-    snmpRWCommunityDesc: SomeValue  # string
-    snmpUserName: SomeValue  # string
-    timeout: 1  #  integer
-    updateMgmtIp: True  # boolean
+    - string
+    preferredMgmtIPMethod: string
+    protocolOrder: string
+    retry: 0
+    snmpAuthPassphrase: string
+    snmpAuthProtocol: string
+    snmpMode: string
+    snmpPrivPassphrase: string
+    snmpPrivProtocol: string
+    snmpROCommunity: string
+    snmpROCommunityDesc: string
+    snmpRWCommunity: string
+    snmpRWCommunityDesc: string
+    snmpUserName: string
+    snmpVersion: string
+    timeout: 0
     userNameList:
-    - SomeValue  # string
+    - string
 
-- name: updates_discovery_by_id
+- name: Delete all
   cisco.dnac.discovery:
-    state: update  # required
-    discoveryStatus: SomeValue  # string, required
-    id: SomeValue  # string, required
-    attributeInfo:
-    cdpLevel: 1  #  integer
-    deviceIds: SomeValue  # string
-    discoveryCondition: SomeValue  # string
-    discoveryType: SomeValue  # string
-    enablePasswordList: SomeValue  # string
-    globalCredentialIdList:
-    - SomeValue  # string
-    httpReadCredential:
-      comments: SomeValue  # string
-      credentialType: SomeValue  # string
-      description: SomeValue  # string
-      id: SomeValue  # string
-      instanceTenantId: SomeValue  # string
-      instanceUuid: SomeValue  # string
-      password: SomeValue  # string
-      port: 1  #  integer
-      secure: True  # boolean
-      username: SomeValue  # string
-    httpWriteCredential:
-      comments: SomeValue  # string
-      credentialType: SomeValue  # string
-      description: SomeValue  # string
-      id: SomeValue  # string
-      instanceTenantId: SomeValue  # string
-      instanceUuid: SomeValue  # string
-      password: SomeValue  # string
-      port: 1  #  integer
-      secure: True  # boolean
-      username: SomeValue  # string
-    ipAddressList: SomeValue  # string
-    ipFilterList: SomeValue  # string
-    isAutoCdp: True  # boolean
-    lldpLevel: 1  #  integer
-    name: SomeValue  # string
-    netconfPort: SomeValue  # string
-    numDevices: 1  #  integer
-    parentDiscoveryId: SomeValue  # string
-    passwordList: SomeValue  # string
-    preferredMgmtIPMethod: SomeValue  # string
-    protocolOrder: SomeValue  # string
-    retryCount: 1  #  integer
-    snmpAuthPassphrase: SomeValue  # string
-    snmpAuthProtocol: SomeValue  # string
-    snmpMode: SomeValue  # string
-    snmpPrivPassphrase: SomeValue  # string
-    snmpPrivProtocol: SomeValue  # string
-    snmpRoCommunity: SomeValue  # string
-    snmpRoCommunityDesc: SomeValue  # string
-    snmpRwCommunity: SomeValue  # string
-    snmpRwCommunityDesc: SomeValue  # string
-    snmpUserName: SomeValue  # string
-    timeOut: 1  #  integer
-    updateMgmtIp: True  # boolean
-    userNameList: SomeValue  # string
-
-- name: get_count_of_all_discovery_jobs
-  cisco.dnac.discovery:
-    state: query  # required
-    count: True  # boolean, required
-  register: nm_get_count_of_all_discovery_jobs
-
-- name: delete_discovery_by_id
-  cisco.dnac.discovery:
-    state: delete  # required
-    id: SomeValue  # string, required
-
-- name: get_discovery_by_id
-  cisco.dnac.discovery:
-    state: query  # required
-    id: SomeValue  # string, required
-  register: nm_get_discovery_by_id
-
-- name: delete_discovery_by_specified_range
-  cisco.dnac.discovery:
-    state: delete  # required
-    records_to_delete: 1  #  integer, required
-    start_index: 1  #  integer, required
-
-- name: get_discoveries_by_range
-  cisco.dnac.discovery:
-    state: query  # required
-    records_to_return: 1  #  integer, required
-    start_index: 1  #  integer, required
-  register: nm_get_discoveries_by_range
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
 
 """
 
 RETURN = r"""
 dnac_response:
-  description: A dictionary with the response returned by the DNA Center Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
-  sample: {"response": 29, "version": "1.0"}
-sdk_function:
-  description: The DNA Center SDK function used to execute the task
-  returned: always
-  type: str
-  sample: discovery.delete_all_discovery
-missing_params:
-  description: Provided arguments do not comply with the schema of the DNA Center Python SDK function
-  returned: when the function request schema is not satisfied
-  type: list
-  sample:
+  sample: >
+    {
+      "response": {
+        "taskId": {},
+        "url": "string"
+      },
+      "version": "string"
+    }
 """
