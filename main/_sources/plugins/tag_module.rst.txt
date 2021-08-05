@@ -14,13 +14,13 @@
 
 .. Title
 
-cisco.dnac.tag -- Manage Tag objects of Tag
-+++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.tag -- Resource module for Tag
++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 2.0.7).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -42,12 +42,7 @@ Synopsis
 
 .. Description
 
-- Returns the Tags for given filter criteria.
-- Creates Tag with specified Tag attributes.
-- Updates a Tag specified by id.
-- Deletes a Tag specified by id.
-- Returns Tag specified by Id.
-- Returns Tag count.
+- Manage operations create, update and delete of the resource Tag.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -79,71 +74,6 @@ Parameters
         </tr>
                     <tr>
                                                                 <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-additional_info_attributes"></div>
-                    <b>additional_info_attributes</b>
-                    <a class="ansibleOptionLink" href="#parameter-additional_info_attributes" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>AdditionalInfo.attributes query parameter.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-additional_info_name_space"></div>
-                    <b>additional_info_name_space</b>
-                    <a class="ansibleOptionLink" href="#parameter-additional_info_name_space" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>AdditionalInfo.nameSpace query parameter.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-attribute_name"></div>
-                    <b>attribute_name</b>
-                    <a class="ansibleOptionLink" href="#parameter-attribute_name" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>AttributeName query parameter.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-count"></div>
-                    <b>count</b>
-                    <a class="ansibleOptionLink" href="#parameter-count" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>If true gets the number of objects.</div>
-                                            <div>Required for state query.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-description"></div>
                     <b>description</b>
                     <a class="ansibleOptionLink" href="#parameter-description" title="Permalink to this option"></a>
@@ -154,7 +84,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>TagDTO&#x27;s description.</div>
+                                            <div>Tag&#x27;s description.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -164,12 +94,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-dynamicRules" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>TagDTO&#x27;s dynamicRules (list of objects).</div>
+                                            <div>Tag&#x27;s dynamicRules.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -185,7 +115,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the Tag&#x27;s memberType.</div>
+                                            <div>Tag&#x27;s memberType.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -201,7 +131,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the Tag&#x27;s rules.</div>
+                                            <div>Tag&#x27;s rules.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -218,7 +148,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the Tag&#x27;s items.</div>
+                                            <div>Tag&#x27;s items.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -235,7 +165,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the Tag&#x27;s name.</div>
+                                            <div>Tag&#x27;s name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -252,7 +182,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the Tag&#x27;s operation.</div>
+                                            <div>Tag&#x27;s operation.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -269,7 +199,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the Tag&#x27;s value.</div>
+                                            <div>Tag&#x27;s value.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -286,26 +216,11 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the Tag&#x27;s values.</div>
+                                            <div>Tag&#x27;s values.</div>
                                                         </td>
             </tr>
                     
                     
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-field"></div>
-                    <b>field</b>
-                    <a class="ansibleOptionLink" href="#parameter-field" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Available field names are &#x27;name,id,parentId,type,additionalInfo.nameSpace,additionalInfo.attributes&#x27;.</div>
-                                                        </td>
-            </tr>
                                 <tr>
                                                                 <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-id"></div>
@@ -318,9 +233,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>TagDTO&#x27;s id.</div>
-                                            <div>Tag ID.</div>
-                                            <div>Required for states query and absent.</div>
+                                            <div>Tag&#x27;s id.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -335,37 +248,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>TagDTO&#x27;s instanceTenantId.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-level"></div>
-                    <b>level</b>
-                    <a class="ansibleOptionLink" href="#parameter-level" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Level query parameter.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-limit"></div>
-                    <b>limit</b>
-                    <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Limit query parameter.</div>
+                                            <div>Tag&#x27;s instanceTenantId.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -380,99 +263,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Tag name is mandatory when filter operation is used.</div>
-                                            <div>TagDTO&#x27;s name.</div>
-                                            <div>Name query parameter.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-name_space"></div>
-                    <b>name_space</b>
-                    <a class="ansibleOptionLink" href="#parameter-name_space" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>NameSpace query parameter.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-offset"></div>
-                    <b>offset</b>
-                    <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Offset query parameter.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-order"></div>
-                    <b>order</b>
-                    <a class="ansibleOptionLink" href="#parameter-order" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Available values are asc and des.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-size"></div>
-                    <b>size</b>
-                    <a class="ansibleOptionLink" href="#parameter-size" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Size in kilobytes(KB).</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-sort_by"></div>
-                    <b>sort_by</b>
-                    <a class="ansibleOptionLink" href="#parameter-sort_by" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Only supported attribute is name. SortyBy is mandatory when order is used.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-system_tag"></div>
-                    <b>system_tag</b>
-                    <a class="ansibleOptionLink" href="#parameter-system_tag" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>SystemTag query parameter.</div>
+                                            <div>Tag&#x27;s name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -491,7 +282,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>TagDTO&#x27;s systemTag.</div>
+                                            <div>SystemTag flag.</div>
                                                         </td>
             </tr>
                         </table>
@@ -507,12 +298,8 @@ See Also
 
 .. seealso::
 
-   :ref:`cisco.dnac.plugins.module_utils.definitions.tag <ansible_collections.cisco.dnac.plugins.module_utils.definitions.tag_module>`
-      The official documentation on the **cisco.dnac.plugins.module_utils.definitions.tag** module.
-   `Tag reference <https://developer.cisco.com/docs/dna-center/api/1-3-3-x>`_
+   `Tag reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
        Complete reference of the Tag object model.
-   `Tag reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary>`_
-       SDK reference.
 
 .. Examples
 
@@ -522,80 +309,69 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: get_tag
+    - name: Update all
       cisco.dnac.tag:
-        state: query  # required
-        additional_info_attributes: SomeValue  # string
-        additional_info_name_space: SomeValue  # string
-        field: SomeValue  # string
-        level: SomeValue  # string
-        limit: SomeValue  # string
-        name: SomeValue  # string
-        offset: SomeValue  # string
-        order: SomeValue  # string
-        size: SomeValue  # string
-        sort_by: SomeValue  # string
-        system_tag: SomeValue  # string
-      register: nm_get_tag
-
-    - name: create_tag
-      cisco.dnac.tag:
-        state: present  # required
-        description: SomeValue  # string
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        description: string
         dynamicRules:
-        - memberType: SomeValue  # string
+        - memberType: string
           rules:
+            items:
+            - string
+            name: string
+            operation: string
+            value: string
             values:
-            - SomeValue  # string
-            items: None
-            operation: SomeValue  # string
-            name: SomeValue  # string
-            value: SomeValue  # string
-        id: SomeValue  # string
-        instanceTenantId: SomeValue  # string
-        name: SomeValue  # string
-        systemTag: True  # boolean
+            - string
+        id: string
+        instanceTenantId: string
+        name: string
+        systemTag: true
 
-    - name: update_tag
+    - name: Create
       cisco.dnac.tag:
-        state: present  # required
-        description: SomeValue  # string
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        description: string
         dynamicRules:
-        - memberType: SomeValue  # string
+        - memberType: string
           rules:
+            items:
+            - string
+            name: string
+            operation: string
+            value: string
             values:
-            - SomeValue  # string
-            items: None
-            operation: SomeValue  # string
-            name: SomeValue  # string
-            value: SomeValue  # string
-        id: SomeValue  # string
-        instanceTenantId: SomeValue  # string
-        name: SomeValue  # string
-        systemTag: True  # boolean
+            - string
+        id: string
+        instanceTenantId: string
+        name: string
+        systemTag: true
 
-    - name: delete_tag
+    - name: Delete by id
       cisco.dnac.tag:
-        state: absent  # required
-        id: SomeValue  # string, required
-
-    - name: get_tag_by_id
-      cisco.dnac.tag:
-        state: query  # required
-        id: SomeValue  # string, required
-      register: nm_get_tag_by_id
-
-    - name: get_tag_count
-      cisco.dnac.tag:
-        state: query  # required
-        count: True  # boolean, required
-        attribute_name: SomeValue  # string
-        level: SomeValue  # string
-        name: SomeValue  # string
-        name_space: SomeValue  # string
-        size: SomeValue  # string
-        system_tag: SomeValue  # string
-      register: nm_get_tag_count
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
 
 
 
@@ -629,42 +405,16 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                     </td>
                 <td>always</td>
                 <td>
-                                            <div>A dictionary with the response returned by the DNA Center Python SDK</div>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
                                         <br/>
                                             <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{&#x27;response&#x27;: 29, &#x27;version&#x27;: &#x27;1.0&#x27;}</div>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-missing_params"></div>
-                    <b>missing_params</b>
-                    <a class="ansibleOptionLink" href="#return-missing_params" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">list</span>
-                       / <span style="color: purple">elements=string</span>                    </div>
-                                    </td>
-                <td>when the function request schema is not satisfied</td>
-                <td>
-                                            <div>Provided arguments do not comply with the schema of the DNA Center Python SDK function</div>
-                                        <br/>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-sdk_function"></div>
-                    <b>sdk_function</b>
-                    <a class="ansibleOptionLink" href="#return-sdk_function" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">string</span>
-                                          </div>
-                                    </td>
-                <td>always</td>
-                <td>
-                                            <div>The DNA Center SDK function used to execute the task</div>
-                                        <br/>
-                                            <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">tag.create_tag</div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;response&quot;: {
+        &quot;taskId&quot;: {},
+        &quot;url&quot;: &quot;string&quot;
+      },
+      &quot;version&quot;: &quot;string&quot;
+    }</div>
                                     </td>
             </tr>
                         </table>

@@ -14,13 +14,13 @@
 
 .. Title
 
-cisco.dnac.pnp_device_claim -- Manage PnpDeviceClaim objects of DeviceOnboardingPnp
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.pnp_device_claim -- Resource module for Pnp Device Claim
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 2.0.7).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -42,7 +42,7 @@ Synopsis
 
 .. Description
 
-- Claims one of more devices with specified workflow.
+- Manage operation create of the resource Pnp Device Claim.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +84,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>ClaimDeviceRequest&#x27;s configFileUrl.</div>
+                                            <div>Pnp Device Claim&#x27;s configFileUrl.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -99,7 +99,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>ClaimDeviceRequest&#x27;s configId.</div>
+                                            <div>Pnp Device Claim&#x27;s configId.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -109,12 +109,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-deviceClaimList" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>ClaimDeviceRequest&#x27;s deviceClaimList (list of objects).</div>
+                                            <div>Pnp Device Claim&#x27;s deviceClaimList.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -125,12 +125,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-deviceClaimList/configList" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp device claim&#x27;s configList.</div>
+                                            <div>Pnp Device Claim&#x27;s configList.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -147,7 +147,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp device claim&#x27;s configId.</div>
+                                            <div>Pnp Device Claim&#x27;s configId.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -159,12 +159,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-deviceClaimList/configList/configParameters" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp device claim&#x27;s configParameters.</div>
+                                            <div>Pnp Device Claim&#x27;s configParameters.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -182,7 +182,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp device claim&#x27;s key.</div>
+                                            <div>Pnp Device Claim&#x27;s key.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -200,7 +200,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp device claim&#x27;s value.</div>
+                                            <div>Pnp Device Claim&#x27;s value.</div>
                                                         </td>
             </tr>
                     
@@ -218,7 +218,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp device claim&#x27;s deviceId.</div>
+                                            <div>Pnp Device Claim&#x27;s deviceId.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -234,7 +234,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp device claim&#x27;s licenseLevel.</div>
+                                            <div>Pnp Device Claim&#x27;s licenseLevel.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -250,7 +250,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp device claim&#x27;s licenseType.</div>
+                                            <div>Pnp Device Claim&#x27;s licenseType.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -266,7 +266,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the pnp device claim&#x27;s topOfStackSerialNumber.</div>
+                                            <div>Pnp Device Claim&#x27;s topOfStackSerialNumber.</div>
                                                         </td>
             </tr>
                     
@@ -282,7 +282,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>ClaimDeviceRequest&#x27;s fileServiceId.</div>
+                                            <div>Pnp Device Claim&#x27;s fileServiceId.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -297,7 +297,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>ClaimDeviceRequest&#x27;s imageId.</div>
+                                            <div>Pnp Device Claim&#x27;s imageId.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -312,7 +312,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>ClaimDeviceRequest&#x27;s imageUrl.</div>
+                                            <div>Pnp Device Claim&#x27;s imageUrl.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -331,7 +331,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>ClaimDeviceRequest&#x27;s populateInventory.</div>
+                                            <div>PopulateInventory flag.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -346,7 +346,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>ClaimDeviceRequest&#x27;s projectId.</div>
+                                            <div>Pnp Device Claim&#x27;s projectId.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -361,7 +361,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>ClaimDeviceRequest&#x27;s workflowId.</div>
+                                            <div>Pnp Device Claim&#x27;s workflowId.</div>
                                                         </td>
             </tr>
                         </table>
@@ -377,12 +377,8 @@ See Also
 
 .. seealso::
 
-   :ref:`cisco.dnac.plugins.module_utils.definitions.pnp_device_claim <ansible_collections.cisco.dnac.plugins.module_utils.definitions.pnp_device_claim_module>`
-      The official documentation on the **cisco.dnac.plugins.module_utils.definitions.pnp_device_claim** module.
-   `PnpDeviceClaim reference <https://developer.cisco.com/docs/dna-center/api/1-3-3-x>`_
-       Complete reference of the PnpDeviceClaim object model.
-   `PnpDeviceClaim reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary>`_
-       SDK reference.
+   `Pnp Device Claim reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Pnp Device Claim object model.
 
 .. Examples
 
@@ -392,27 +388,33 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: claim_device
+    - name: Create
       cisco.dnac.pnp_device_claim:
-        state: create  # required
-        configFileUrl: SomeValue  # string
-        configId: SomeValue  # string
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        configFileUrl: string
+        configId: string
         deviceClaimList:
         - configList:
-          - configId: SomeValue  # string
+          - configId: string
             configParameters:
-            - key: SomeValue  # string
-              value: SomeValue  # string
-          deviceId: SomeValue  # string
-          licenseLevel: SomeValue  # string
-          licenseType: SomeValue  # string
-          topOfStackSerialNumber: SomeValue  # string
-        fileServiceId: SomeValue  # string
-        imageId: SomeValue  # string
-        imageUrl: SomeValue  # string
-        populateInventory: True  # boolean
-        projectId: SomeValue  # string
-        workflowId: SomeValue  # string
+            - key: string
+              value: string
+          deviceId: string
+          licenseLevel: string
+          licenseType: string
+          topOfStackSerialNumber: string
+        fileServiceId: string
+        imageId: string
+        imageUrl: string
+        populateInventory: true
+        projectId: string
+        workflowId: string
 
 
 
@@ -446,42 +448,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                     </td>
                 <td>always</td>
                 <td>
-                                            <div>A dictionary with the response returned by the DNA Center Python SDK</div>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
                                         <br/>
                                             <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{&#x27;response&#x27;: 29, &#x27;version&#x27;: &#x27;1.0&#x27;}</div>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-missing_params"></div>
-                    <b>missing_params</b>
-                    <a class="ansibleOptionLink" href="#return-missing_params" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">list</span>
-                       / <span style="color: purple">elements=string</span>                    </div>
-                                    </td>
-                <td>when the function request schema is not satisfied</td>
-                <td>
-                                            <div>Provided arguments do not comply with the schema of the DNA Center Python SDK function</div>
-                                        <br/>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-sdk_function"></div>
-                    <b>sdk_function</b>
-                    <a class="ansibleOptionLink" href="#return-sdk_function" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">string</span>
-                                          </div>
-                                    </td>
-                <td>always</td>
-                <td>
-                                            <div>The DNA Center SDK function used to execute the task</div>
-                                        <br/>
-                                            <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">device_onboarding_pnp.claim_device</div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;jsonArrayResponse&quot;: [
+        {}
+      ],
+      &quot;jsonResponse&quot;: {},
+      &quot;message&quot;: &quot;string&quot;,
+      &quot;statusCode&quot;: 0
+    }</div>
                                     </td>
             </tr>
                         </table>

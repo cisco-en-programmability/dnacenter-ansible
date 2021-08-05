@@ -1,0 +1,351 @@
+.. Document meta
+
+:orphan:
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.wireless_enterprise_ssid -- Resource module for Wireless Enterprise Ssid
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+
+    To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.wireless_enterprise_ssid`.
+
+.. version_added
+
+.. versionadded:: 1.0.0 of cisco.dnac
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operations create and delete of the resource Wireless Enterprise Ssid.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk
+
+
+.. Options
+
+Parameters
+----------
+
+.. raw:: html
+
+    <table  border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Parameter</th>
+            <th>Choices/<font color="blue">Defaults</font></th>
+                        <th width="100%">Comments</th>
+        </tr>
+                    <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-enableBroadcastSSID"></div>
+                    <b>enableBroadcastSSID</b>
+                    <a class="ansibleOptionLink" href="#parameter-enableBroadcastSSID" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>EnableBroadcastSSID flag.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-enableFastLane"></div>
+                    <b>enableFastLane</b>
+                    <a class="ansibleOptionLink" href="#parameter-enableFastLane" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>EnableFastLane flag.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-enableMACFiltering"></div>
+                    <b>enableMACFiltering</b>
+                    <a class="ansibleOptionLink" href="#parameter-enableMACFiltering" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>EnableMACFiltering flag.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-fastTransition"></div>
+                    <b>fastTransition</b>
+                    <a class="ansibleOptionLink" href="#parameter-fastTransition" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Wireless Enterprise Ssid&#x27;s fastTransition.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-name"></div>
+                    <b>name</b>
+                    <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Wireless Enterprise Ssid&#x27;s name.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-passphrase"></div>
+                    <b>passphrase</b>
+                    <a class="ansibleOptionLink" href="#parameter-passphrase" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Wireless Enterprise Ssid&#x27;s passphrase.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-radioPolicy"></div>
+                    <b>radioPolicy</b>
+                    <a class="ansibleOptionLink" href="#parameter-radioPolicy" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Wireless Enterprise Ssid&#x27;s radioPolicy.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-securityLevel"></div>
+                    <b>securityLevel</b>
+                    <a class="ansibleOptionLink" href="#parameter-securityLevel" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Wireless Enterprise Ssid&#x27;s securityLevel.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-ssidName"></div>
+                    <b>ssidName</b>
+                    <a class="ansibleOptionLink" href="#parameter-ssidName" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>SsidName path parameter. Enter the SSID name to be deleted.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-trafficType"></div>
+                    <b>trafficType</b>
+                    <a class="ansibleOptionLink" href="#parameter-trafficType" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Wireless Enterprise Ssid&#x27;s trafficType.</div>
+                                                        </td>
+            </tr>
+                        </table>
+    <br/>
+
+.. Notes
+
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Wireless Enterprise Ssid reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Wireless Enterprise Ssid object model.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Create
+      cisco.dnac.wireless_enterprise_ssid:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        enableBroadcastSSID: true
+        enableFastLane: true
+        enableMACFiltering: true
+        fastTransition: string
+        name: string
+        passphrase: string
+        radioPolicy: string
+        securityLevel: string
+        trafficType: string
+
+    - name: Delete by name
+      cisco.dnac.wireless_enterprise_ssid:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        ssidName: string
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. raw:: html
+
+    <table border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Key</th>
+            <th>Returned</th>
+            <th width="100%">Description</th>
+        </tr>
+                    <tr>
+                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+                    <b>dnac_response</b>
+                    <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">dictionary</span>
+                                          </div>
+                                    </td>
+                <td>always</td>
+                <td>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
+                                        <br/>
+                                            <div style="font-size: smaller"><b>Sample:</b></div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;executionId&quot;: &quot;string&quot;,
+      &quot;executionStatusUrl&quot;: &quot;string&quot;,
+      &quot;message&quot;: &quot;string&quot;
+    }</div>
+                                    </td>
+            </tr>
+                        </table>
+    <br/><br/>
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Parsing errors
+

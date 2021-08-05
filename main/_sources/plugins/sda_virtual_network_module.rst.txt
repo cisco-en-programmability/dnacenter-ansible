@@ -14,13 +14,13 @@
 
 .. Title
 
-cisco.dnac.sda_virtual_network -- Manage SdaVirtualNetwork objects of Sda
+cisco.dnac.sda_virtual_network -- Resource module for Sda Virtual Network
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 2.0.7).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -42,9 +42,7 @@ Synopsis
 
 .. Description
 
-- Get virtual network (VN) from SDA Fabric.
-- Delete virtual network (VN) from SDA Fabric.
-- Add virtual network (VN) in SDA Fabric.
+- Manage operations create and delete of the resource Sda Virtual Network.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -81,13 +79,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-payload" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>An object to send in the Request body.</div>
-                                            <div>Required for state create.</div>
+                                            <div>Sda Virtual Network&#x27;s payload.</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -103,7 +100,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the sda virtual network&#x27;s siteNameHierarchy.</div>
+                                            <div>Sda Virtual Network&#x27;s siteNameHierarchy.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -119,18 +116,18 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>It is the sda virtual network&#x27;s virtualNetworkName.</div>
+                                            <div>Sda Virtual Network&#x27;s virtualNetworkName.</div>
                                                         </td>
             </tr>
                     
                                 <tr>
                                                                 <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-site_name_hierarchy"></div>
-                    <b>site_name_hierarchy</b>
-                    <a class="ansibleOptionLink" href="#parameter-site_name_hierarchy" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-siteNameHierarchy"></div>
+                    <b>siteNameHierarchy</b>
+                    <a class="ansibleOptionLink" href="#parameter-siteNameHierarchy" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
@@ -140,12 +137,12 @@ Parameters
             </tr>
                                 <tr>
                                                                 <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-virtual_network_name"></div>
-                    <b>virtual_network_name</b>
-                    <a class="ansibleOptionLink" href="#parameter-virtual_network_name" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-virtualNetworkName"></div>
+                    <b>virtualNetworkName</b>
+                    <a class="ansibleOptionLink" href="#parameter-virtualNetworkName" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
@@ -166,12 +163,8 @@ See Also
 
 .. seealso::
 
-   :ref:`cisco.dnac.plugins.module_utils.definitions.sda_virtual_network <ansible_collections.cisco.dnac.plugins.module_utils.definitions.sda_virtual_network_module>`
-      The official documentation on the **cisco.dnac.plugins.module_utils.definitions.sda_virtual_network** module.
-   `SdaVirtualNetwork reference <https://developer.cisco.com/docs/dna-center/api/1-3-3-x>`_
-       Complete reference of the SdaVirtualNetwork object model.
-   `SdaVirtualNetwork reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v2-1-1-summary>`_
-       SDK reference.
+   `Sda Virtual Network reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Sda Virtual Network object model.
 
 .. Examples
 
@@ -181,25 +174,29 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: get_vn
+    - name: Create
       cisco.dnac.sda_virtual_network:
-        state: query  # required
-        site_name_hierarchy: SomeValue  # string, required
-        virtual_network_name: SomeValue  # string, required
-      register: nm_get_vn
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
 
-    - name: delete_vn
+    - name: Delete all
       cisco.dnac.sda_virtual_network:
-        state: delete  # required
-        site_name_hierarchy: SomeValue  # string, required
-        virtual_network_name: SomeValue  # string, required
-
-    - name: add_vn
-      cisco.dnac.sda_virtual_network:
-        state: create  # required
-        payload:  # required
-        - virtualNetworkName: SomeValue  # string
-          siteNameHierarchy: SomeValue  # string
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        siteNameHierarchy: string
+        virtualNetworkName: string
 
 
 
@@ -233,42 +230,19 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                     </td>
                 <td>always</td>
                 <td>
-                                            <div>A dictionary with the response returned by the DNA Center Python SDK</div>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
                                         <br/>
                                             <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{&#x27;response&#x27;: 29, &#x27;version&#x27;: &#x27;1.0&#x27;}</div>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-missing_params"></div>
-                    <b>missing_params</b>
-                    <a class="ansibleOptionLink" href="#return-missing_params" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">list</span>
-                       / <span style="color: purple">elements=string</span>                    </div>
-                                    </td>
-                <td>when the function request schema is not satisfied</td>
-                <td>
-                                            <div>Provided arguments do not comply with the schema of the DNA Center Python SDK function</div>
-                                        <br/>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-sdk_function"></div>
-                    <b>sdk_function</b>
-                    <a class="ansibleOptionLink" href="#return-sdk_function" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">string</span>
-                                          </div>
-                                    </td>
-                <td>always</td>
-                <td>
-                                            <div>The DNA Center SDK function used to execute the task</div>
-                                        <br/>
-                                            <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">sda.add_vn</div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;status&quot;: &quot;string&quot;,
+      &quot;description&quot;: &quot;string&quot;,
+      &quot;name&quot;: &quot;string&quot;,
+      &quot;roles&quot;: [
+        &quot;string&quot;
+      ],
+      &quot;deviceManagementIpAddress&quot;: &quot;string&quot;,
+      &quot;siteHierarchy&quot;: &quot;string&quot;
+    }</div>
                                     </td>
             </tr>
                         </table>
