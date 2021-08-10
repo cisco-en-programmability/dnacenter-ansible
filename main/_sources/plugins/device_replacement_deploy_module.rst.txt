@@ -20,7 +20,7 @@ cisco.dnac.device_replacement_deploy -- Resource module for Device Replacement D
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -175,7 +175,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                             <div style="font-size: smaller"><b>Sample:</b></div>
                                                 <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
       &quot;response&quot;: {
-        &quot;taskId&quot;: {},
+        &quot;taskId&quot;: &quot;string&quot;,
         &quot;url&quot;: &quot;string&quot;
       },
       &quot;version&quot;: &quot;string&quot;

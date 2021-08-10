@@ -20,7 +20,7 @@ cisco.dnac.template_preview -- Resource module for Template Preview
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -74,6 +74,21 @@ Parameters
         </tr>
                     <tr>
                                                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-deviceId"></div>
+                    <b>deviceId</b>
+                    <a class="ansibleOptionLink" href="#parameter-deviceId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>UUID of device to get template preview.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-params"></div>
                     <b>params</b>
                     <a class="ansibleOptionLink" href="#parameter-params" title="Permalink to this option"></a>
@@ -84,7 +99,22 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Template Preview&#x27;s params.</div>
+                                            <div>Params to render preview.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-resourceParams"></div>
+                    <b>resourceParams</b>
+                    <a class="ansibleOptionLink" href="#parameter-resourceParams" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Resource params to render preview.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -99,7 +129,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Template Preview&#x27;s templateId.</div>
+                                            <div>UUID of template to get template preview.</div>
                                                         </td>
             </tr>
                         </table>
@@ -135,7 +165,9 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
+        deviceId: string
         params: {}
+        resourceParams: {}
         templateId: string
 
 
@@ -175,6 +207,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                             <div style="font-size: smaller"><b>Sample:</b></div>
                                                 <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
       &quot;cliPreview&quot;: &quot;string&quot;,
+      &quot;deviceId&quot;: &quot;string&quot;,
       &quot;templateId&quot;: &quot;string&quot;,
       &quot;validationErrors&quot;: {}
     }</div>

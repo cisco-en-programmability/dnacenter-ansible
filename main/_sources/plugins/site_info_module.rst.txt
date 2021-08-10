@@ -20,7 +20,7 @@ cisco.dnac.site_info -- Information module for Site
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -84,7 +84,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Limit query parameter. Number of sites to be retrieved.</div>
+                                            <div>Limit query parameter. Number of sites to be retrieved. The default value is 500.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -114,7 +114,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Offset query parameter. Offset/starting row.</div>
+                                            <div>Offset query parameter. Offset/starting row. The default value is 1.</div>
                                                         </td>
             </tr>
                                 <tr>

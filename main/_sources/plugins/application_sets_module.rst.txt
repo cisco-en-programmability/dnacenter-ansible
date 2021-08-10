@@ -20,7 +20,7 @@ cisco.dnac.application_sets -- Resource module for Application Sets
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -115,7 +115,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Application Sets&#x27;s name.</div>
+                                            <div>Name.</div>
                                                         </td>
             </tr>
                     
@@ -143,17 +143,6 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Create
-      cisco.dnac.application_sets:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: present
-
     - name: Delete all
       cisco.dnac.application_sets:
         dnac_host: "{{dnac_host}}"
@@ -165,6 +154,17 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         id: string
+
+    - name: Create
+      cisco.dnac.application_sets:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
 
 
 

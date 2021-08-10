@@ -20,7 +20,7 @@ cisco.dnac.sda_fabric_control_plane_device -- Resource module for Sda Fabric Con
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -115,7 +115,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Fabric Control Plane Device&#x27;s deviceManagementIpAddress.</div>
+                                            <div>Device Management Ip Address.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -131,7 +131,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Fabric Control Plane Device&#x27;s siteNameHierarchy.</div>
+                                            <div>Site Name Hierarchy.</div>
                                                         </td>
             </tr>
                     
@@ -159,17 +159,6 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Create
-      cisco.dnac.sda_fabric_control_plane_device:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: present
-
     - name: Delete all
       cisco.dnac.sda_fabric_control_plane_device:
         dnac_host: "{{dnac_host}}"
@@ -181,6 +170,17 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         deviceIPAddress: string
+
+    - name: Create
+      cisco.dnac.sda_fabric_control_plane_device:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
 
 
 

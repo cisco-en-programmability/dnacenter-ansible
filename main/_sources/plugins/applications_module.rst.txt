@@ -20,7 +20,7 @@ cisco.dnac.applications -- Resource module for Applications
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -132,26 +132,10 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s idRef.</div>
+                                            <div>Id Ref.</div>
                                                         </td>
             </tr>
                     
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-payload/id"></div>
-                    <b>id</b>
-                    <a class="ansibleOptionLink" href="#parameter-payload/id" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Applications&#x27;s id.</div>
-                                                        </td>
-            </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="2">
@@ -165,7 +149,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s name.</div>
+                                            <div>Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -198,7 +182,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s applicationSubType.</div>
+                                            <div>Application Sub Type.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -215,7 +199,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s applicationType.</div>
+                                            <div>Application Type.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -232,7 +216,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s appProtocol.</div>
+                                            <div>App Protocol.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -249,7 +233,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s categoryId.</div>
+                                            <div>Category Id.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -266,7 +250,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s displayName.</div>
+                                            <div>Display Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -283,7 +267,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s dscp.</div>
+                                            <div>Dscp.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -300,7 +284,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s engineId.</div>
+                                            <div>Engine Id.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -317,24 +301,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s helpString.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/id"></div>
-                    <b>id</b>
-                    <a class="ansibleOptionLink" href="#parameter-payload/networkApplications/id" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Applications&#x27;s id.</div>
+                                            <div>Help String.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -351,7 +318,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s ignoreConflict.</div>
+                                            <div>Ignore Conflict.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -368,7 +335,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s longDescription.</div>
+                                            <div>Long Description.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -385,7 +352,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s name.</div>
+                                            <div>Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -402,7 +369,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s popularity.</div>
+                                            <div>Popularity.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -419,7 +386,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s rank.</div>
+                                            <div>Rank.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -436,7 +403,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s serverName.</div>
+                                            <div>Server Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -453,7 +420,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s trafficClass.</div>
+                                            <div>Traffic Class.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -470,7 +437,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s url.</div>
+                                            <div>Url.</div>
                                                         </td>
             </tr>
                     
@@ -504,24 +471,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s displayName.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-payload/networkIdentity/id"></div>
-                    <b>id</b>
-                    <a class="ansibleOptionLink" href="#parameter-payload/networkIdentity/id" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Applications&#x27;s id.</div>
+                                            <div>Display Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -538,7 +488,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s lowerPort.</div>
+                                            <div>Lower Port.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -555,7 +505,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s ports.</div>
+                                            <div>Ports.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -572,7 +522,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s protocol.</div>
+                                            <div>Protocol.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -589,7 +539,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Applications&#x27;s upperPort.</div>
+                                            <div>Upper Port.</div>
                                                         </td>
             </tr>
                     
@@ -618,7 +568,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Update all
+    - name: Create
       cisco.dnac.applications:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -629,7 +579,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
 
-    - name: Create
+    - name: Update all
       cisco.dnac.applications:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

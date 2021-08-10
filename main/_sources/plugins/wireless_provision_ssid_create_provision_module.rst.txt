@@ -20,7 +20,7 @@ cisco.dnac.wireless_provision_ssid_create_provision -- Resource module for Wirel
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -88,7 +88,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>EnableFabric flag.</div>
+                                            <div>Enable SSID for Fabric.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -123,7 +123,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>EnableFlexConnect flag.</div>
+                                            <div>Enable Flex Connect.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -139,7 +139,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Ssid Create Provision&#x27;s localToVlan.</div>
+                                            <div>Local To Vlan (range is 1 to 4094).</div>
                                                         </td>
             </tr>
                     
@@ -155,7 +155,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Ssid Create Provision&#x27;s managedAPLocations.</div>
+                                            <div>Managed AP Locations (Enter entire Site(s) hierarchy).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -190,7 +190,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>EnableBroadcastSSID flag.</div>
+                                            <div>Enable Broadcast SSID.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -210,7 +210,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>EnableFastLane flag.</div>
+                                            <div>Enable Fast Lane.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -230,7 +230,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>EnableMACFiltering flag.</div>
+                                            <div>Enable MAC Filtering.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -246,7 +246,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Ssid Create Provision&#x27;s fastTransition.</div>
+                                            <div>Fast Transition.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -262,7 +262,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Ssid Create Provision&#x27;s name.</div>
+                                            <div>SSID Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -278,7 +278,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Ssid Create Provision&#x27;s passphrase.</div>
+                                            <div>Pass Phrase ( Only applicable for SSID with PERSONAL auth type ).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -294,7 +294,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Ssid Create Provision&#x27;s radioPolicy.</div>
+                                            <div>Radio Policy.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -310,7 +310,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Ssid Create Provision&#x27;s securityLevel.</div>
+                                            <div>Security Level(For guest SSID OPEN/WEB_AUTH, For Enterprise SSID ENTERPRISE/PERSONAL/OPEN).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -326,7 +326,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Ssid Create Provision&#x27;s trafficType.</div>
+                                            <div>Traffic Type.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -342,7 +342,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Ssid Create Provision&#x27;s webAuthURL.</div>
+                                            <div>Web Auth URL.</div>
                                                         </td>
             </tr>
                     
@@ -358,7 +358,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Ssid Create Provision&#x27;s ssidType.</div>
+                                            <div>SSID Type.</div>
                                                         </td>
             </tr>
                         </table>

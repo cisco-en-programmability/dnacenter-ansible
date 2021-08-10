@@ -20,7 +20,7 @@ cisco.dnac.tag_member -- Resource module for Tag Member
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -102,6 +102,21 @@ Parameters
                                             <div>MemberId path parameter. TagMember id to be removed from tag.</div>
                                                         </td>
             </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-object"></div>
+                    <b>object</b>
+                    <a class="ansibleOptionLink" href="#parameter-object" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Object.</div>
+                                                        </td>
+            </tr>
                         </table>
     <br/>
 
@@ -137,6 +152,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         id: string
+        object: string
 
     - name: Delete by id
       cisco.dnac.tag_member:
@@ -187,11 +203,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                         <br/>
                                             <div style="font-size: smaller"><b>Sample:</b></div>
                                                 <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;version&quot;: &quot;string&quot;,
       &quot;response&quot;: {
-        &quot;taskId&quot;: {},
+        &quot;taskId&quot;: &quot;string&quot;,
         &quot;url&quot;: &quot;string&quot;
-      },
-      &quot;version&quot;: &quot;string&quot;
+      }
     }</div>
                                     </td>
             </tr>

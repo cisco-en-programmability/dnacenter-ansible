@@ -20,7 +20,7 @@ cisco.dnac.sda_fabric_edge_device -- Resource module for Sda Fabric Edge Device
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -115,7 +115,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Fabric Edge Device&#x27;s deviceManagementIpAddress.</div>
+                                            <div>Device Management Ip Address.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -131,7 +131,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Fabric Edge Device&#x27;s siteNameHierarchy.</div>
+                                            <div>Site Name Hierarchy.</div>
                                                         </td>
             </tr>
                     

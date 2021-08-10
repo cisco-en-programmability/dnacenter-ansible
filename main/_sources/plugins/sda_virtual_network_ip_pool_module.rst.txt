@@ -20,7 +20,7 @@ cisco.dnac.sda_virtual_network_ip_pool -- Resource module for Sda Virtual Networ
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -115,7 +115,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Virtual Network Ip Pool&#x27;s authenticationPolicyName.</div>
+                                            <div>Authentication Policy Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -131,7 +131,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Virtual Network Ip Pool&#x27;s ipPoolName.</div>
+                                            <div>Ip Pool Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -151,7 +151,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>IsL2FloodingEnabled flag.</div>
+                                            <div>Is L2 Flooding Enabled.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -171,7 +171,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>IsThisCriticalPool flag.</div>
+                                            <div>Is This Critical Pool.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -187,7 +187,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Virtual Network Ip Pool&#x27;s poolType.</div>
+                                            <div>Pool Type.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -203,7 +203,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Virtual Network Ip Pool&#x27;s scalableGroupName.</div>
+                                            <div>Scalable Group Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -219,7 +219,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Virtual Network Ip Pool&#x27;s trafficType.</div>
+                                            <div>Traffic Type.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -235,7 +235,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Virtual Network Ip Pool&#x27;s virtualNetworkName.</div>
+                                            <div>Virtual Network Name.</div>
                                                         </td>
             </tr>
                     
@@ -278,17 +278,6 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Create
-      cisco.dnac.sda_virtual_network_ip_pool:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: present
-
     - name: Delete all
       cisco.dnac.sda_virtual_network_ip_pool:
         dnac_host: "{{dnac_host}}"
@@ -301,6 +290,17 @@ Examples
         state: absent
         ipPoolName: string
         virtualNetworkName: string
+
+    - name: Create
+      cisco.dnac.sda_virtual_network_ip_pool:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
 
 
 

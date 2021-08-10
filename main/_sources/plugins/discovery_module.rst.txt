@@ -20,7 +20,7 @@ cisco.dnac.discovery -- Resource module for Discovery
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -564,7 +564,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Id path parameter. Discovery ID.</div>
+                                            <div>Discovery&#x27;s id.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -748,7 +748,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Discovery&#x27;s retry.</div>
+                                            <div>Number of times to try establishing connection to device.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -853,7 +853,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Discovery&#x27;s snmpROCommunity.</div>
+                                            <div>Snmp RO community of the devices to be discovered.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -883,7 +883,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Discovery&#x27;s snmpROCommunityDesc.</div>
+                                            <div>Description for Snmp RO community.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -913,7 +913,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Discovery&#x27;s snmpRWCommunity.</div>
+                                            <div>Snmp RW community of the devices to be discovered.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -943,7 +943,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Discovery&#x27;s snmpRWCommunityDesc.</div>
+                                            <div>Description for Snmp RW community.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -988,7 +988,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Discovery&#x27;s snmpVersion.</div>
+                                            <div>Version of SNMP. V2 or v3.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1018,7 +1018,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Discovery&#x27;s timeout.</div>
+                                            <div>Time to wait for device response in seconds.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1079,7 +1079,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Delete by id
+    - name: Delete all
       cisco.dnac.discovery:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1089,7 +1089,6 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: absent
-        id: string
 
     - name: Update by id
       cisco.dnac.discovery:
@@ -1211,7 +1210,7 @@ Examples
         userNameList:
         - string
 
-    - name: Delete all
+    - name: Delete by id
       cisco.dnac.discovery:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1221,6 +1220,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: absent
+        id: string
 
 
 
@@ -1259,7 +1259,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                             <div style="font-size: smaller"><b>Sample:</b></div>
                                                 <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
       &quot;response&quot;: {
-        &quot;taskId&quot;: {},
+        &quot;taskId&quot;: &quot;string&quot;,
         &quot;url&quot;: &quot;string&quot;
       },
       &quot;version&quot;: &quot;string&quot;

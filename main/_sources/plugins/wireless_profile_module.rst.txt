@@ -20,7 +20,7 @@ cisco.dnac.wireless_profile -- Resource module for Wireless Profile
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -100,7 +100,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Profile&#x27;s name.</div>
+                                            <div>Profile Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -116,7 +116,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Profile&#x27;s sites.</div>
+                                            <div>Array of site name hierarchies(eg &quot;Global/aaa/zzz&quot;, &quot;Global/aaa/zzz&quot;).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -153,7 +153,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>EnableFabric flag.</div>
+                                            <div>True if ssid is fabric else false.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -192,7 +192,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>EnableFlexConnect flag.</div>
+                                            <div>True if flex connect is enabled else false.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -210,7 +210,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Profile&#x27;s localToVlan.</div>
+                                            <div>Local To Vlan Id.</div>
                                                         </td>
             </tr>
                     
@@ -228,7 +228,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Profile&#x27;s interfaceName.</div>
+                                            <div>Interface Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -245,7 +245,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Profile&#x27;s name.</div>
+                                            <div>Ssid Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -262,7 +262,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Profile&#x27;s type.</div>
+                                            <div>Ssid Type(enum Enterprise/Guest).</div>
                                                         </td>
             </tr>
                     
@@ -279,7 +279,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>WirelessProfileName path parameter.</div>
+                                            <div>WirelessProfileName path parameter. Wireless Profile Name.</div>
                                                         </td>
             </tr>
                         </table>
@@ -306,6 +306,18 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    - name: Delete by name
+      cisco.dnac.wireless_profile:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        wirelessProfileName: string
+
     - name: Update all
       cisco.dnac.wireless_profile:
         dnac_host: "{{dnac_host}}"
@@ -351,18 +363,6 @@ Examples
             interfaceName: string
             name: string
             type: string
-
-    - name: Delete by name
-      cisco.dnac.wireless_profile:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: absent
-        wirelessProfileName: string
 
 
 

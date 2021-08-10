@@ -20,7 +20,7 @@ cisco.dnac.sda_fabric_authentication_profile -- Resource module for Sda Fabric A
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -100,7 +100,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Fabric Authentication Profile&#x27;s authenticateTemplateName.</div>
+                                            <div>Authenticate Template Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -116,7 +116,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Fabric Authentication Profile&#x27;s siteNameHierarchy.</div>
+                                            <div>Site Name Hierarchy.</div>
                                                         </td>
             </tr>
                     
@@ -159,7 +159,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Update all
+    - name: Create
       cisco.dnac.sda_fabric_authentication_profile:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -170,7 +170,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
 
-    - name: Create
+    - name: Update all
       cisco.dnac.sda_fabric_authentication_profile:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

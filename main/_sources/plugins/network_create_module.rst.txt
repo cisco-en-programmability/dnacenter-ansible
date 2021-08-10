@@ -20,7 +20,7 @@ cisco.dnac.network_create -- Resource module for Network Create
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -117,7 +117,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Network Create&#x27;s additionalIp.</div>
+                                            <div>Additional IP for ISE server which is not supported by AAA server.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -134,7 +134,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Mandatory for ISE servers.</div>
+                                            <div>IP address for ISE serve (eg 1.1.1.4). Mandatory for ISE servers.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -151,7 +151,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Network Create&#x27;s network.</div>
+                                            <div>IP address for AAA or ISE server (eg 2.2.2.1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -168,7 +168,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Network Create&#x27;s protocol.</div>
+                                            <div>Protocol for AAA or ISE serve (eg RADIUS).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -185,7 +185,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Network Create&#x27;s servers.</div>
+                                            <div>Server type AAA or ISE server (eg AAA).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -202,7 +202,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Supported only by ISE servers.</div>
+                                            <div>Shared secret for ISE server. Supported only by ISE servers.</div>
                                                         </td>
             </tr>
                     
@@ -219,7 +219,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Network Create&#x27;s dhcpServer.</div>
+                                            <div>Dhcp serve Ip (eg 1.1.1.1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -252,7 +252,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Can only contain alphanumeric characters or hyphen.</div>
+                                            <div>Domain name of DHCP (eg; cisco). Can only contain alphanumeric characters or hyphen.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -269,7 +269,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Valid range 1.0.0.0 - 223.255.255.255.</div>
+                                            <div>Primary ip address for DHCP (eg 2.2.2.2). Valid range 1.0.0.0 - 223.255.255.255.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -286,7 +286,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Valid range 1.0.0.0 - 223.255.255.255.</div>
+                                            <div>Secondary ip address for DHCP (eg 3.3.3.3). Valid range 1.0.0.0 - 223.255.255.255.</div>
                                                         </td>
             </tr>
                     
@@ -320,7 +320,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Network Create&#x27;s bannerMessage.</div>
+                                            <div>Massage for banner message (eg; Good day).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -341,7 +341,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>RetainExistingBanner flag.</div>
+                                            <div>Retain existing banner message (eg true).</div>
                                                         </td>
             </tr>
                     
@@ -375,7 +375,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Network Create&#x27;s ipAddress.</div>
+                                            <div>IP address for netflow collector (eg 3.3.3.1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -392,7 +392,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Network Create&#x27;s port.</div>
+                                            <div>Port for netflow collector (eg; 443).</div>
                                                         </td>
             </tr>
                     
@@ -426,7 +426,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Network Create&#x27;s additionalIp.</div>
+                                            <div>Additional IP for ISE server which is not supported by AAA server.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -443,7 +443,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Mandatory for ISE servers and for AAA consider this as additional Ip.</div>
+                                            <div>IP address for AAA and ISE server (eg 1.1.1.1). Mandatory for ISE servers and for AAA consider this as additional Ip.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -460,7 +460,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>For AAA server consider it as primary IP and For ISE consider as Network.</div>
+                                            <div>IP address for AAA or ISE server (eg 2.2.2.2). For AAA server consider it as primary IP and For ISE consider as Network.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -477,7 +477,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Network Create&#x27;s protocol.</div>
+                                            <div>Protocol for AAA or ISE serve (eg RADIUS).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -494,7 +494,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Server type supported by ISE and AAA.</div>
+                                            <div>Server type for AAA network (eg AAA). Server type supported by ISE and AAA.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -511,7 +511,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Supported only by ISE servers.</div>
+                                            <div>Shared secret for ISE server. Supported only by ISE servers.</div>
                                                         </td>
             </tr>
                     
@@ -528,7 +528,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Network Create&#x27;s ntpServer.</div>
+                                            <div>IP address for NTP server (eg 1.1.1.2).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -565,7 +565,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>ConfigureDnacIP flag.</div>
+                                            <div>Configuration dnac ip for snmp server (eg true).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -582,7 +582,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Network Create&#x27;s ipAddresses.</div>
+                                            <div>IP address for snmp server (eg 4.4.4.1).</div>
                                                         </td>
             </tr>
                     
@@ -620,7 +620,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>ConfigureDnacIP flag.</div>
+                                            <div>Configuration dnac ip for syslog server (eg true).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -637,7 +637,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Network Create&#x27;s ipAddresses.</div>
+                                            <div>IP address for syslog server (eg 4.4.4.4).</div>
                                                         </td>
             </tr>
                     
@@ -654,7 +654,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Network Create&#x27;s timezone.</div>
+                                            <div>Input for time zone (eg Africa/Abidjan (GMT)).</div>
                                                         </td>
             </tr>
                     
@@ -670,7 +670,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>SiteId path parameter. Site id to update the network settings which is associated with the site.</div>
+                                            <div>SiteId path parameter. Site id to which site details to associate with the network settings.</div>
                                                         </td>
             </tr>
                         </table>
@@ -697,7 +697,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Update by id
+    - name: Create
       cisco.dnac.network_create:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -748,7 +748,7 @@ Examples
           timezone: string
         siteId: string
 
-    - name: Create
+    - name: Update by id
       cisco.dnac.network_create:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

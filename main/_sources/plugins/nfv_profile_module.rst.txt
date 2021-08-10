@@ -20,7 +20,7 @@ cisco.dnac.nfv_profile -- Resource module for Nfv Profile
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -90,22 +90,6 @@ Parameters
                                         <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-device/currentDeviceTag"></div>
-                    <b>currentDeviceTag</b>
-                    <a class="ansibleOptionLink" href="#parameter-device/currentDeviceTag" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Nfv Profile&#x27;s currentDeviceTag.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-device/customNetworks"></div>
                     <b>customNetworks</b>
                     <a class="ansibleOptionLink" href="#parameter-device/customNetworks" title="Permalink to this option"></a>
@@ -133,7 +117,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s connectionType.</div>
+                                            <div>Type of network connection from custom network (eg lan).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -150,7 +134,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s networkName.</div>
+                                            <div>Name of custom network (eg cust-1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -185,7 +169,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s serviceName.</div>
+                                            <div>Name of service to be connected to the custom network (eg router-1).</div>
                                                         </td>
             </tr>
                     
@@ -203,7 +187,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s vlanId.</div>
+                                            <div>Vlan id for the custom network(eg 4000).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -220,7 +204,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s vlanMode.</div>
+                                            <div>Network mode (eg Access or Trunk).</div>
                                                         </td>
             </tr>
                     
@@ -254,7 +238,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s deviceType.</div>
+                                            <div>Type of the device(eg Cisco 5400 Enterprise Network Compute System).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -271,7 +255,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s template.</div>
+                                            <div>Name of the template(eg NFVIS template).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -288,7 +272,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s templateType.</div>
+                                            <div>Name of the template type to which template is associated (eg Cloud DayN Templates).</div>
                                                         </td>
             </tr>
                     
@@ -305,7 +289,23 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s deviceTag.</div>
+                                            <div>Device Tag name(eg dev1).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="3">
+                    <div class="ansibleOptionAnchor" id="parameter-device/deviceType"></div>
+                    <b>deviceType</b>
+                    <a class="ansibleOptionLink" href="#parameter-device/deviceType" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Name of the device used in creating nfv profile.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -325,9 +325,102 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>DirectInternetAccessForFirewall flag.</div>
+                                            <div>Direct internet access value should be boolean (eg false or true).</div>
                                                         </td>
             </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="3">
+                    <div class="ansibleOptionAnchor" id="parameter-device/serviceProviderProfile"></div>
+                    <b>serviceProviderProfile</b>
+                    <a class="ansibleOptionLink" href="#parameter-device/serviceProviderProfile" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Nfv Profile&#x27;s serviceProviderProfile.</div>
+                                                        </td>
+            </tr>
+                                        <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-device/serviceProviderProfile/connect"></div>
+                    <b>connect</b>
+                    <a class="ansibleOptionLink" href="#parameter-device/serviceProviderProfile/connect" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Connection of service provider and device value should be boolean (eg true).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-device/serviceProviderProfile/connectDefaultGatewayOnWan"></div>
+                    <b>connectDefaultGatewayOnWan</b>
+                    <a class="ansibleOptionLink" href="#parameter-device/serviceProviderProfile/connectDefaultGatewayOnWan" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Connect default gateway connect value as boolean (eg true).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-device/serviceProviderProfile/linkType"></div>
+                    <b>linkType</b>
+                    <a class="ansibleOptionLink" href="#parameter-device/serviceProviderProfile/linkType" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Name of connection type(eg GigabitEthernet).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-device/serviceProviderProfile/serviceProvider"></div>
+                    <b>serviceProvider</b>
+                    <a class="ansibleOptionLink" href="#parameter-device/serviceProviderProfile/serviceProvider" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Name of the service provider(eg Airtel).</div>
+                                                        </td>
+            </tr>
+                    
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="3">
@@ -358,7 +451,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s firewallMode.</div>
+                                            <div>Firewall mode details example (routed, transparent).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -375,7 +468,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s imageName.</div>
+                                            <div>Service image name (eg isrv-universalk9.16.12.01a.tar.gz).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -392,7 +485,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s profileType.</div>
+                                            <div>Profile type of service (eg ISRv-mini).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -409,7 +502,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s serviceName.</div>
+                                            <div>Name of the service (eg Router-1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -426,7 +519,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s serviceType.</div>
+                                            <div>Service type (eg ISRV).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -461,7 +554,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s assignIpAddressToNetwork.</div>
+                                            <div>Assign ip address to network (eg true or false).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -479,7 +572,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s networkType.</div>
+                                            <div>Type of connection (eg wan, lan or internal).</div>
                                                         </td>
             </tr>
                     
@@ -514,7 +607,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s vlanDescription.</div>
+                                            <div>Vlan description(eg Access 4018).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -531,7 +624,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s vlanId.</div>
+                                            <div>Vlan id (eg 4018).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -548,7 +641,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s vlanType.</div>
+                                            <div>Vlan type(eg Access or Trunk).</div>
                                                         </td>
             </tr>
                     
@@ -595,7 +688,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Profile&#x27;s profileName.</div>
+                                            <div>Name of the profile to create NFV profile.</div>
                                                         </td>
             </tr>
                         </table>
@@ -622,6 +715,51 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    - name: Create
+      cisco.dnac.nfv_profile:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        device:
+        - customNetworks:
+          - connectionType: string
+            networkName: string
+            servicesToConnect:
+            - serviceName: string
+            vlanId: 0
+            vlanMode: string
+          customTemplate:
+          - deviceType: string
+            template: string
+            templateType: string
+          deviceTag: string
+          deviceType: string
+          directInternetAccessForFirewall: true
+          serviceProviderProfile:
+          - connect: true
+            connectDefaultGatewayOnWan: true
+            linkType: string
+            serviceProvider: string
+          services:
+          - firewallMode: string
+            imageName: string
+            profileType: string
+            serviceName: string
+            serviceType: string
+            vNicMapping:
+            - assignIpAddressToNetwork: string
+              networkType: string
+          vlanForL2:
+          - vlanDescription: string
+            vlanId: 0
+            vlanType: string
+        profileName: string
+
     - name: Update by id
       cisco.dnac.nfv_profile:
         dnac_host: "{{dnac_host}}"
@@ -675,51 +813,6 @@ Examples
         state: absent
         id: string
         name: string
-
-    - name: Create
-      cisco.dnac.nfv_profile:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: present
-        device:
-        - customNetworks:
-          - connectionType: string
-            networkName: string
-            servicesToConnect:
-            - serviceName: string
-            vlanId: 0
-            vlanMode: string
-          customTemplate:
-          - deviceType: string
-            template: string
-            templateType: string
-          deviceTag: string
-          deviceType: string
-          directInternetAccessForFirewall: true
-          serviceProviderProfile:
-          - connect: true
-            connectDefaultGatewayOnWan: true
-            linkType: string
-            serviceProvider: string
-          services:
-          - firewallMode: string
-            imageName: string
-            profileType: string
-            serviceName: string
-            serviceType: string
-            vNicMapping:
-            - assignIpAddressToNetwork: string
-              networkType: string
-          vlanForL2:
-          - vlanDescription: string
-            vlanId: 0
-            vlanType: string
-        profileName: string
 
 
 

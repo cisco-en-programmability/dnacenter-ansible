@@ -43,7 +43,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="cisco.dnac.pnp_device_claim – Resource module for Pnp Device Claim" href="pnp_device_claim_module.html" />
-    <link rel="prev" title="cisco.dnac.path_trace_info – Information module for Path Trace" href="path_trace_info_module.html" /> 
+    <link rel="prev" title="cisco.dnac.platform_release_summary_info – Information module for Platform Release Summary" href="platform_release_summary_info_module.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -100,6 +100,8 @@
 <li class="toctree-l4"><a class="reference internal" href="applications_count_info_module.html">cisco.dnac.applications_count_info – Information module for Applications Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="applications_health_info_module.html">cisco.dnac.applications_health_info – Information module for Applications Health</a></li>
 <li class="toctree-l4"><a class="reference internal" href="applications_info_module.html">cisco.dnac.applications_info – Information module for Applications</a></li>
+<li class="toctree-l4"><a class="reference internal" href="authentication_import_certificate_module.html">cisco.dnac.authentication_import_certificate – Resource module for Authentication Import Certificate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="authentication_import_certificate_p12_module.html">cisco.dnac.authentication_import_certificate_p12 – Resource module for Authentication Import Certificate P12</a></li>
 <li class="toctree-l4"><a class="reference internal" href="cli_credential_module.html">cisco.dnac.cli_credential – Resource module for Cli Credential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="client_detail_info_module.html">cisco.dnac.client_detail_info – Information module for Client Detail</a></li>
 <li class="toctree-l4"><a class="reference internal" href="client_enrichment_details_info_module.html">cisco.dnac.client_enrichment_details_info – Information module for Client Enrichment Details</a></li>
@@ -107,12 +109,20 @@
 <li class="toctree-l4"><a class="reference internal" href="client_proximity_info_module.html">cisco.dnac.client_proximity_info – Information module for Client Proximity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="command_runner_run_command_module.html">cisco.dnac.command_runner_run_command – Resource module for Command Runner Run Command</a></li>
 <li class="toctree-l4"><a class="reference internal" href="compliance_check_run_module.html">cisco.dnac.compliance_check_run – Resource module for Compliance Check Run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="compliance_device_details_count_info_module.html">cisco.dnac.compliance_device_details_count_info – Information module for Compliance Device Details Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="compliance_device_details_info_module.html">cisco.dnac.compliance_device_details_info – Information module for Compliance Device Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="compliance_device_info_module.html">cisco.dnac.compliance_device_info – Information module for Compliance Device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="compliance_device_status_count_info_module.html">cisco.dnac.compliance_device_status_count_info – Information module for Compliance Device Status Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="configuration_template_module.html">cisco.dnac.configuration_template – Resource module for Configuration Template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="configuration_template_clone_module.html">cisco.dnac.configuration_template_clone – Resource module for Configuration Template Clone</a></li>
 <li class="toctree-l4"><a class="reference internal" href="configuration_template_create_module.html">cisco.dnac.configuration_template_create – Resource module for Configuration Template Create</a></li>
 <li class="toctree-l4"><a class="reference internal" href="configuration_template_deploy_module.html">cisco.dnac.configuration_template_deploy – Resource module for Configuration Template Deploy</a></li>
 <li class="toctree-l4"><a class="reference internal" href="configuration_template_deploy_status_info_module.html">cisco.dnac.configuration_template_deploy_status_info – Information module for Configuration Template Deploy Status</a></li>
+<li class="toctree-l4"><a class="reference internal" href="configuration_template_deploy_v2_module.html">cisco.dnac.configuration_template_deploy_v2 – Resource module for Configuration Template Deploy V2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="configuration_template_export_project_module.html">cisco.dnac.configuration_template_export_project – Resource module for Configuration Template Export Project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="configuration_template_export_template_module.html">cisco.dnac.configuration_template_export_template – Resource module for Configuration Template Export Template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="configuration_template_import_project_module.html">cisco.dnac.configuration_template_import_project – Resource module for Configuration Template Import Project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="configuration_template_import_template_module.html">cisco.dnac.configuration_template_import_template – Resource module for Configuration Template Import Template</a></li>
 <li class="toctree-l4"><a class="reference internal" href="configuration_template_info_module.html">cisco.dnac.configuration_template_info – Information module for Configuration Template</a></li>
 <li class="toctree-l4"><a class="reference internal" href="configuration_template_project_module.html">cisco.dnac.configuration_template_project – Resource module for Configuration Template Project</a></li>
 <li class="toctree-l4"><a class="reference internal" href="configuration_template_project_info_module.html">cisco.dnac.configuration_template_project_info – Information module for Configuration Template Project</a></li>
@@ -186,11 +196,22 @@
 <li class="toctree-l4"><a class="reference internal" href="itsm_cmdb_sync_status_info_module.html">cisco.dnac.itsm_cmdb_sync_status_info – Information module for Itsm Cmdb Sync Status</a></li>
 <li class="toctree-l4"><a class="reference internal" href="itsm_integration_events_failed_info_module.html">cisco.dnac.itsm_integration_events_failed_info – Information module for Itsm Integration Events Failed</a></li>
 <li class="toctree-l4"><a class="reference internal" href="itsm_integration_events_retry_module.html">cisco.dnac.itsm_integration_events_retry – Resource module for Itsm Integration Events Retry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license_device_count_info_module.html">cisco.dnac.license_device_count_info – Information module for License Device Count</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license_device_deregistration_module.html">cisco.dnac.license_device_deregistration – Resource module for License Device Deregistration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license_device_license_details_info_module.html">cisco.dnac.license_device_license_details_info – Information module for License Device License Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license_device_license_summary_info_module.html">cisco.dnac.license_device_license_summary_info – Information module for License Device License Summary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license_device_registration_module.html">cisco.dnac.license_device_registration – Resource module for License Device Registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license_smart_account_details_info_module.html">cisco.dnac.license_smart_account_details_info – Information module for License Smart Account Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license_term_details_info_module.html">cisco.dnac.license_term_details_info – Information module for License Term Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license_usage_details_info_module.html">cisco.dnac.license_usage_details_info – Information module for License Usage Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license_virtual_account_change_module.html">cisco.dnac.license_virtual_account_change – Resource module for License Virtual Account Change</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license_virtual_account_details_info_module.html">cisco.dnac.license_virtual_account_details_info – Information module for License Virtual Account Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="netconf_credential_module.html">cisco.dnac.netconf_credential – Resource module for Netconf Credential</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_create_module.html">cisco.dnac.network_create – Resource module for Network Create</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_module.html">cisco.dnac.network_device – Resource module for Network Device</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_by_ip_info_module.html">cisco.dnac.network_device_by_ip_info – Information module for Network Device By Ip</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_by_serial_number_info_module.html">cisco.dnac.network_device_by_serial_number_info – Information module for Network Device By Serial Number</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_chassis_details_info_module.html">cisco.dnac.network_device_chassis_details_info – Information module for Network Device Chassis Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_config_count_info_module.html">cisco.dnac.network_device_config_count_info – Information module for Network Device Config Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_config_info_module.html">cisco.dnac.network_device_config_info – Information module for Network Device Config</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_count_info_module.html">cisco.dnac.network_device_count_info – Information module for Network Device Count</a></li>
@@ -199,7 +220,10 @@
 <li class="toctree-l4"><a class="reference internal" href="network_device_functional_capability_info_module.html">cisco.dnac.network_device_functional_capability_info – Information module for Network Device Functional Capability</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_global_polling_interval_info_module.html">cisco.dnac.network_device_global_polling_interval_info – Information module for Network Device Global Polling Interval</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_info_module.html">cisco.dnac.network_device_info – Information module for Network Device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_interface_poe_info_module.html">cisco.dnac.network_device_interface_poe_info – Information module for Network Device Interface Poe</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_inventory_insight_link_mismatch_info_module.html">cisco.dnac.network_device_inventory_insight_link_mismatch_info – Information module for Network Device Inventory Insight Link Mismatch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_lexicographically_sorted_info_module.html">cisco.dnac.network_device_lexicographically_sorted_info – Information module for Network Device Lexicographically Sorted</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_linecard_details_info_module.html">cisco.dnac.network_device_linecard_details_info – Information module for Network Device Linecard Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_meraki_organization_info_module.html">cisco.dnac.network_device_meraki_organization_info – Information module for Network Device Meraki Organization</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_module_count_info_module.html">cisco.dnac.network_device_module_count_info – Information module for Network Device Module Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_module_info_module.html">cisco.dnac.network_device_module_info – Information module for Network Device Module</a></li>
@@ -207,11 +231,14 @@
 <li class="toctree-l4"><a class="reference internal" href="network_device_polling_interval_info_module.html">cisco.dnac.network_device_polling_interval_info – Information module for Network Device Polling Interval</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_range_info_module.html">cisco.dnac.network_device_range_info – Information module for Network Device Range</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_register_for_wsa_info_module.html">cisco.dnac.network_device_register_for_wsa_info – Information module for Network Device Register For Wsa</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_stack_details_info_module.html">cisco.dnac.network_device_stack_details_info – Information module for Network Device Stack Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_summary_info_module.html">cisco.dnac.network_device_summary_info – Information module for Network Device Summary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_supervisor_card_details_info_module.html">cisco.dnac.network_device_supervisor_card_details_info – Information module for Network Device Supervisor Card Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_sync_module.html">cisco.dnac.network_device_sync – Resource module for Network Device Sync</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_update_role_module.html">cisco.dnac.network_device_update_role – Resource module for Network Device Update Role</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_vlan_info_module.html">cisco.dnac.network_device_vlan_info – Information module for Network Device Vlan</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_device_wireless_lan_info_module.html">cisco.dnac.network_device_wireless_lan_info – Information module for Network Device Wireless Lan</a></li>
+<li class="toctree-l4"><a class="reference internal" href="network_device_with_snmp_v3_des_info_module.html">cisco.dnac.network_device_with_snmp_v3_des_info – Information module for Network Device With Snmp V3 Des</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_info_module.html">cisco.dnac.network_info – Information module for Network</a></li>
 <li class="toctree-l4"><a class="reference internal" href="network_update_module.html">cisco.dnac.network_update – Resource module for Network Update</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nfv_profile_module.html">cisco.dnac.nfv_profile – Resource module for Nfv Profile</a></li>
@@ -221,6 +248,8 @@
 <li class="toctree-l4"><a class="reference internal" href="nfv_provision_details_module.html">cisco.dnac.nfv_provision_details – Resource module for Nfv Provision Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="path_trace_module.html">cisco.dnac.path_trace – Resource module for Path Trace</a></li>
 <li class="toctree-l4"><a class="reference internal" href="path_trace_info_module.html">cisco.dnac.path_trace_info – Information module for Path Trace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="platform_nodes_configuration_summary_info_module.html">cisco.dnac.platform_nodes_configuration_summary_info – Information module for Platform Nodes Configuration Summary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="platform_release_summary_info_module.html">cisco.dnac.platform_release_summary_info – Information module for Platform Release Summary</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">cisco.dnac.pnp_device – Resource module for Pnp Device</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pnp_device_claim_module.html">cisco.dnac.pnp_device_claim – Resource module for Pnp Device Claim</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pnp_device_claim_to_site_module.html">cisco.dnac.pnp_device_claim_to_site – Resource module for Pnp Device Claim To Site</a></li>
@@ -265,14 +294,20 @@
 <li class="toctree-l4"><a class="reference internal" href="sda_fabric_info_module.html">cisco.dnac.sda_fabric_info – Information module for Sda Fabric</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_fabric_site_module.html">cisco.dnac.sda_fabric_site – Resource module for Sda Fabric Site</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_fabric_site_info_module.html">cisco.dnac.sda_fabric_site_info – Information module for Sda Fabric Site</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_multicast_module.html">cisco.dnac.sda_multicast – Resource module for Sda Multicast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_multicast_info_module.html">cisco.dnac.sda_multicast_info – Information module for Sda Multicast</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_port_assignment_for_access_point_module.html">cisco.dnac.sda_port_assignment_for_access_point – Resource module for Sda Port Assignment For Access Point</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_port_assignment_for_access_point_info_module.html">cisco.dnac.sda_port_assignment_for_access_point_info – Information module for Sda Port Assignment For Access Point</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_port_assignment_for_user_device_module.html">cisco.dnac.sda_port_assignment_for_user_device – Resource module for Sda Port Assignment For User Device</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_port_assignment_for_user_device_info_module.html">cisco.dnac.sda_port_assignment_for_user_device_info – Information module for Sda Port Assignment For User Device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_provision_device_module.html">cisco.dnac.sda_provision_device – Resource module for Sda Provision Device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_provision_device_info_module.html">cisco.dnac.sda_provision_device_info – Information module for Sda Provision Device</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_virtual_network_module.html">cisco.dnac.sda_virtual_network – Resource module for Sda Virtual Network</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_virtual_network_info_module.html">cisco.dnac.sda_virtual_network_info – Information module for Sda Virtual Network</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_virtual_network_ip_pool_module.html">cisco.dnac.sda_virtual_network_ip_pool – Resource module for Sda Virtual Network Ip Pool</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sda_virtual_network_ip_pool_info_module.html">cisco.dnac.sda_virtual_network_ip_pool_info – Information module for Sda Virtual Network Ip Pool</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_virtual_network_v2_module.html">cisco.dnac.sda_virtual_network_v2 – Resource module for Sda Virtual Network V2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sda_virtual_network_v2_info_module.html">cisco.dnac.sda_virtual_network_v2_info – Information module for Sda Virtual Network V2</a></li>
 <li class="toctree-l4"><a class="reference internal" href="security_advisories_devices_info_module.html">cisco.dnac.security_advisories_devices_info – Information module for Security Advisories Devices</a></li>
 <li class="toctree-l4"><a class="reference internal" href="security_advisories_ids_per_device_info_module.html">cisco.dnac.security_advisories_ids_per_device_info – Information module for Security Advisories Ids Per Device</a></li>
 <li class="toctree-l4"><a class="reference internal" href="security_advisories_info_module.html">cisco.dnac.security_advisories_info – Information module for Security Advisories</a></li>
@@ -292,6 +327,8 @@
 <li class="toctree-l4"><a class="reference internal" href="site_count_info_module.html">cisco.dnac.site_count_info – Information module for Site Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="site_create_module.html">cisco.dnac.site_create – Resource module for Site Create</a></li>
 <li class="toctree-l4"><a class="reference internal" href="site_delete_module.html">cisco.dnac.site_delete – Resource module for Site Delete</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site_design_floormap_module.html">cisco.dnac.site_design_floormap – Resource module for Site Design Floormap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site_design_floormap_info_module.html">cisco.dnac.site_design_floormap_info – Information module for Site Design Floormap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="site_health_info_module.html">cisco.dnac.site_health_info – Information module for Site Health</a></li>
 <li class="toctree-l4"><a class="reference internal" href="site_info_module.html">cisco.dnac.site_info – Information module for Site</a></li>
 <li class="toctree-l4"><a class="reference internal" href="site_membership_info_module.html">cisco.dnac.site_membership_info – Information module for Site Membership</a></li>
@@ -306,6 +343,10 @@
 <li class="toctree-l4"><a class="reference internal" href="swim_import_via_url_module.html">cisco.dnac.swim_import_via_url – Resource module for Swim Import Via Url</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_trigger_activation_module.html">cisco.dnac.swim_trigger_activation – Resource module for Swim Trigger Activation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_trigger_distribution_module.html">cisco.dnac.swim_trigger_distribution – Resource module for Swim Trigger Distribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="system_health_count_info_module.html">cisco.dnac.system_health_count_info – Information module for System Health Count</a></li>
+<li class="toctree-l4"><a class="reference internal" href="system_health_info_module.html">cisco.dnac.system_health_info – Information module for System Health</a></li>
+<li class="toctree-l4"><a class="reference internal" href="system_performance_historical_info_module.html">cisco.dnac.system_performance_historical_info – Information module for System Performance Historical</a></li>
+<li class="toctree-l4"><a class="reference internal" href="system_performance_info_module.html">cisco.dnac.system_performance_info – Information module for System Performance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tag_module.html">cisco.dnac.tag – Resource module for Tag</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tag_count_info_module.html">cisco.dnac.tag_count_info – Information module for Tag Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tag_info_module.html">cisco.dnac.tag_info – Information module for Tag</a></li>
@@ -329,6 +370,8 @@
 <li class="toctree-l4"><a class="reference internal" href="topology_site_info_module.html">cisco.dnac.topology_site_info – Information module for Topology Site</a></li>
 <li class="toctree-l4"><a class="reference internal" href="topology_vlan_details_info_module.html">cisco.dnac.topology_vlan_details_info – Information module for Topology Vlan Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="user_enrichment_details_info_module.html">cisco.dnac.user_enrichment_details_info – Information module for User Enrichment Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireless_dynamic_interface_module.html">cisco.dnac.wireless_dynamic_interface – Resource module for Wireless Dynamic Interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireless_dynamic_interface_info_module.html">cisco.dnac.wireless_dynamic_interface_info – Information module for Wireless Dynamic Interface</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireless_enterprise_ssid_module.html">cisco.dnac.wireless_enterprise_ssid – Resource module for Wireless Enterprise Ssid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireless_enterprise_ssid_info_module.html">cisco.dnac.wireless_enterprise_ssid_info – Information module for Wireless Enterprise Ssid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireless_profile_module.html">cisco.dnac.wireless_profile – Resource module for Wireless Profile</a></li>
@@ -338,6 +381,7 @@
 <li class="toctree-l4"><a class="reference internal" href="wireless_provision_device_update_module.html">cisco.dnac.wireless_provision_device_update – Resource module for Wireless Provision Device Update</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireless_provision_ssid_create_provision_module.html">cisco.dnac.wireless_provision_ssid_create_provision – Resource module for Wireless Provision Ssid Create Provision</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireless_provision_ssid_delete_reprovision_module.html">cisco.dnac.wireless_provision_ssid_delete_reprovision – Resource module for Wireless Provision Ssid Delete Reprovision</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireless_psk_override_module.html">cisco.dnac.wireless_psk_override – Resource module for Wireless Psk Override</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireless_rf_profile_module.html">cisco.dnac.wireless_rf_profile – Resource module for Wireless Rf Profile</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireless_rf_profile_info_module.html">cisco.dnac.wireless_rf_profile_info – Information module for Wireless Rf Profile</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireless_sensor_test_results_info_module.html">cisco.dnac.wireless_sensor_test_results_info – Information module for Wireless Sensor Test Results</a></li>
@@ -420,7 +464,7 @@
 <h1>cisco.dnac.pnp_device – Resource module for Pnp Device<a class="headerlink" href="#cisco-dnac-pnp-device-resource-module-for-pnp-device" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This plugin is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 3.0.0).</p>
+<p>This plugin is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 3.1.0).</p>
 <p>To install it use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.</p>
 <p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">cisco.dnac.pnp_device</span></code>.</p>
 </div>
@@ -475,53 +519,6 @@
                                                                                                                                                         </td>
                                                             <td>
                                         <div>Pnp Device&#x27;s _id.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-dayZeroConfig"></div>
-                <b>dayZeroConfig</b>
-                <a class="ansibleOptionLink" href="#parameter-dayZeroConfig" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Pnp Device&#x27;s dayZeroConfig.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-dayZeroConfig/config"></div>
-                <b>config</b>
-                <a class="ansibleOptionLink" href="#parameter-dayZeroConfig/config" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Pnp Device&#x27;s config.</div>
-                                                    </td>
-        </tr>
-
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-dayZeroConfigPreview"></div>
-                <b>dayZeroConfigPreview</b>
-                <a class="ansibleOptionLink" href="#parameter-dayZeroConfigPreview" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Pnp Device&#x27;s dayZeroConfigPreview.</div>
                                                     </td>
         </tr>
                             <tr>
@@ -636,22 +633,6 @@
                                                                                                                                                         </td>
                                                             <td>
                                         <div>Pnp Device&#x27;s agentType.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-deviceInfo/authenticatedMicNumber"></div>
-                <b>authenticatedMicNumber</b>
-                <a class="ansibleOptionLink" href="#parameter-deviceInfo/authenticatedMicNumber" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Pnp Device&#x27;s authenticatedMicNumber.</div>
                                                     </td>
         </tr>
                             <tr>
@@ -1066,7 +1047,7 @@
                 <a class="ansibleOptionLink" href="#parameter-deviceInfo/ipInterfaces/ipv6AddressList" title="Permalink to this option"></a>
                 <div style="font-size: small">
                     <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=dictionary</span>                                            </div>
+                     / <span style="color: purple">elements=string</span>                                            </div>
                                                     </td>
                             <td>
                                                                                                                                                         </td>
@@ -1992,38 +1973,6 @@
                             <tr>
                                                 <td class="elbow-placeholder"></td>
                                             <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-deviceInfo/siteId"></div>
-                <b>siteId</b>
-                <a class="ansibleOptionLink" href="#parameter-deviceInfo/siteId" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Pnp Device&#x27;s siteId.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-deviceInfo/siteName"></div>
-                <b>siteName</b>
-                <a class="ansibleOptionLink" href="#parameter-deviceInfo/siteName" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Pnp Device&#x27;s siteName.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
                 <div class="ansibleOptionAnchor" id="parameter-deviceInfo/smartAccountId"></div>
                 <b>smartAccountId</b>
                 <a class="ansibleOptionLink" href="#parameter-deviceInfo/smartAccountId" title="Permalink to this option"></a>
@@ -2467,22 +2416,6 @@
                                                                                                                                                         </td>
                                                             <td>
                                         <div>Pnp Device&#x27;s tags.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-deviceInfo/userMicNumbers"></div>
-                <b>userMicNumbers</b>
-                <a class="ansibleOptionLink" href="#parameter-deviceInfo/userMicNumbers" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Pnp Device&#x27;s userMicNumbers.</div>
                                                     </td>
         </tr>
                             <tr>
@@ -4838,7 +4771,7 @@
 </div>
 <div class="section" id="examples">
 <h2><a class="toc-backref" href="#id5">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Update by id</span>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Create</span>
   <span class="nt">cisco.dnac.pnp_device</span><span class="p">:</span>
     <span class="nt">dnac_host</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
     <span class="nt">dnac_username</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -4849,9 +4782,6 @@
     <span class="nt">dnac_debug</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
     <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">present</span>
     <span class="nt">_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-    <span class="nt">dayZeroConfig</span><span class="p">:</span>
-      <span class="nt">config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-    <span class="nt">dayZeroConfigPreview</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
     <span class="nt">deviceInfo</span><span class="p">:</span>
       <span class="nt">aaaCredentials</span><span class="p">:</span>
         <span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
@@ -4861,7 +4791,6 @@
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
       <span class="nt">agentType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
       <span class="nt">authStatus</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">authenticatedMicNumber</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
       <span class="nt">authenticatedSudiSerialNo</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
       <span class="nt">capabilitiesSupported</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
@@ -4888,8 +4817,7 @@
       <span class="nt">imageVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
       <span class="nt">ipInterfaces</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="nt">ipv4Address</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
-        <span class="nt">ipv6AddressList</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="p p-Indicator">{}</span>
+        <span class="nt">ipv6AddressList</span><span class="p">:</span> <span class="p p-Indicator">[]</span>
         <span class="nt">macAddress</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
         <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
         <span class="nt">status</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
@@ -4943,8 +4871,6 @@
       <span class="nt">projectName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
       <span class="nt">reloadRequested</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
       <span class="nt">serialNumber</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">siteId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">siteName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
       <span class="nt">smartAccountId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
       <span class="nt">source</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
       <span class="nt">stack</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
@@ -4971,8 +4897,272 @@
       <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
       <span class="nt">sudiRequired</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
       <span class="nt">tags</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
-      <span class="nt">userMicNumbers</span><span class="p">:</span>
+      <span class="nt">userSudiSerialNos</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">virtualAccountId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">workflowId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">workflowName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+    <span class="nt">runSummaryList</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">details</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">errorFlag</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+      <span class="nt">historyTaskInfo</span><span class="p">:</span>
+        <span class="nt">addnDetails</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">value</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">timeTaken</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">workItemList</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">command</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+          <span class="nt">outputStr</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+          <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">timeTaken</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">timestamp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+    <span class="nt">systemResetWorkflow</span><span class="p">:</span>
+      <span class="nt">_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">addToInventory</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+      <span class="nt">addedOn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">configId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">currTaskIdx</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">description</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">execTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">imageId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">instanceType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">lastupdateOn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">tasks</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">currWorkItemIdx</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">taskSeqNo</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">timeTaken</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">workItemList</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">command</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+          <span class="nt">outputStr</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+          <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">timeTaken</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">tenantId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">useState</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+    <span class="nt">systemWorkflow</span><span class="p">:</span>
+      <span class="nt">_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">addToInventory</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+      <span class="nt">addedOn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">configId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">currTaskIdx</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">description</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">execTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">imageId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">instanceType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">lastupdateOn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">tasks</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">currWorkItemIdx</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">taskSeqNo</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">timeTaken</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">workItemList</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">command</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+          <span class="nt">outputStr</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+          <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">timeTaken</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">tenantId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">useState</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+    <span class="nt">tenantId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+    <span class="nt">version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+    <span class="nt">workflow</span><span class="p">:</span>
+      <span class="nt">_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">addToInventory</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+      <span class="nt">addedOn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">configId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">currTaskIdx</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">description</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">execTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">imageId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">instanceType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">lastupdateOn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">tasks</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">currWorkItemIdx</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">taskSeqNo</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">timeTaken</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">workItemList</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">command</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+          <span class="nt">outputStr</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+          <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">timeTaken</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">tenantId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">useState</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+    <span class="nt">workflowParameters</span><span class="p">:</span>
+      <span class="nt">configList</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">configId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">configParameters</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">value</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">licenseLevel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">licenseType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">topOfStackSerialNumber</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Update by id</span>
+  <span class="nt">cisco.dnac.pnp_device</span><span class="p">:</span>
+    <span class="nt">dnac_host</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+    <span class="nt">dnac_username</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+    <span class="nt">dnac_password</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+    <span class="nt">dnac_verify</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+    <span class="nt">dnac_port</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+    <span class="nt">dnac_version</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+    <span class="nt">dnac_debug</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+    <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">present</span>
+    <span class="nt">_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+    <span class="nt">deviceInfo</span><span class="p">:</span>
+      <span class="nt">aaaCredentials</span><span class="p">:</span>
+        <span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">username</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">addedOn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">addnMacAddrs</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">agentType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">authStatus</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">authenticatedSudiSerialNo</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">capabilitiesSupported</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">cmState</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">description</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">deviceSudiSerialNos</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">deviceType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">featuresSupported</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">fileSystemList</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">freespace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">readable</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+        <span class="nt">size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">writeable</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+      <span class="nt">firstContact</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">hostname</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">httpHeaders</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">value</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">imageFile</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">imageVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">ipInterfaces</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">ipv4Address</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+        <span class="nt">ipv6AddressList</span><span class="p">:</span> <span class="p p-Indicator">[]</span>
+        <span class="nt">macAddress</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">status</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">lastContact</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">lastSyncTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">lastUpdateOn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+      <span class="nt">location</span><span class="p">:</span>
+        <span class="nt">address</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">altitude</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">latitude</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">longitude</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">siteId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">macAddress</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">mode</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">neighborLinks</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">localInterfaceName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">localMacAddress</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">localShortInterfaceName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">remoteDeviceName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">remoteInterfaceName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">remoteMacAddress</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">remotePlatform</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">remoteShortInterfaceName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">remoteVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">onbState</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">pid</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">pnpProfileList</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">createdBy</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">discoveryCreated</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+        <span class="nt">primaryEndpoint</span><span class="p">:</span>
+          <span class="nt">certificate</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">fqdn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">ipv4Address</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+          <span class="nt">ipv6Address</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+          <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+          <span class="nt">protocol</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">profileName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">secondaryEndpoint</span><span class="p">:</span>
+          <span class="nt">certificate</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">fqdn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">ipv4Address</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+          <span class="nt">ipv6Address</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+          <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+          <span class="nt">protocol</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">populateInventory</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+      <span class="nt">preWorkflowCliOuputs</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">cli</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">cliOutput</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">projectId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">projectName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">reloadRequested</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+      <span class="nt">serialNumber</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">smartAccountId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">source</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">stack</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+      <span class="nt">stackInfo</span><span class="p">:</span>
+        <span class="nt">isFullRing</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+        <span class="nt">stackMemberList</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">hardwareVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">licenseLevel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">licenseType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">macAddress</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">pid</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">priority</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+          <span class="nt">role</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">serialNumber</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">softwareVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">stackNumber</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+          <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+          <span class="nt">sudiSerialNumber</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">stackRingProtocol</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+        <span class="nt">supportsStackWorkflows</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+        <span class="nt">totalMemberCount</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">validLicenseLevels</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+      <span class="nt">sudiRequired</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+      <span class="nt">tags</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
       <span class="nt">userSudiSerialNos</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
       <span class="nt">virtualAccountId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
@@ -5125,281 +5315,6 @@
     <span class="nt">dnac_debug</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
     <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">absent</span>
     <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Create</span>
-  <span class="nt">cisco.dnac.pnp_device</span><span class="p">:</span>
-    <span class="nt">dnac_host</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_username</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_password</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_verify</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_port</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_version</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_debug</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">present</span>
-    <span class="nt">_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-    <span class="nt">dayZeroConfig</span><span class="p">:</span>
-      <span class="nt">config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-    <span class="nt">dayZeroConfigPreview</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
-    <span class="nt">deviceInfo</span><span class="p">:</span>
-      <span class="nt">aaaCredentials</span><span class="p">:</span>
-        <span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">username</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">addedOn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">addnMacAddrs</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">agentType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">authStatus</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">authenticatedMicNumber</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">authenticatedSudiSerialNo</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">capabilitiesSupported</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">cmState</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">description</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">deviceSudiSerialNos</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">deviceType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">featuresSupported</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">fileSystemList</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="nt">freespace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">readable</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-        <span class="nt">size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">writeable</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="nt">firstContact</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">hostname</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">httpHeaders</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">value</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">imageFile</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">imageVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">ipInterfaces</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="nt">ipv4Address</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
-        <span class="nt">ipv6AddressList</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="p p-Indicator">{}</span>
-        <span class="nt">macAddress</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">status</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">lastContact</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">lastSyncTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">lastUpdateOn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">location</span><span class="p">:</span>
-        <span class="nt">address</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">altitude</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">latitude</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">longitude</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">siteId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">macAddress</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">mode</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">neighborLinks</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="nt">localInterfaceName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">localMacAddress</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">localShortInterfaceName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">remoteDeviceName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">remoteInterfaceName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">remoteMacAddress</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">remotePlatform</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">remoteShortInterfaceName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">remoteVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">onbState</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">pid</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">pnpProfileList</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="nt">createdBy</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">discoveryCreated</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-        <span class="nt">primaryEndpoint</span><span class="p">:</span>
-          <span class="nt">certificate</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">fqdn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">ipv4Address</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
-          <span class="nt">ipv6Address</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
-          <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-          <span class="nt">protocol</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">profileName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">secondaryEndpoint</span><span class="p">:</span>
-          <span class="nt">certificate</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">fqdn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">ipv4Address</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
-          <span class="nt">ipv6Address</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
-          <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-          <span class="nt">protocol</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">populateInventory</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="nt">preWorkflowCliOuputs</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="nt">cli</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">cliOutput</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">projectId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">projectName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">reloadRequested</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="nt">serialNumber</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">siteId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">siteName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">smartAccountId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">source</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">stack</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="nt">stackInfo</span><span class="p">:</span>
-        <span class="nt">isFullRing</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-        <span class="nt">stackMemberList</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="nt">hardwareVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">licenseLevel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">licenseType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">macAddress</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">pid</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">priority</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-          <span class="nt">role</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">serialNumber</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">softwareVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">stackNumber</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-          <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">sudiSerialNumber</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">stackRingProtocol</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">supportsStackWorkflows</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-        <span class="nt">totalMemberCount</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">validLicenseLevels</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">sudiRequired</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="nt">tags</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
-      <span class="nt">userMicNumbers</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">userSudiSerialNos</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">virtualAccountId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">workflowId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">workflowName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-    <span class="nt">runSummaryList</span><span class="p">:</span>
-    <span class="p p-Indicator">-</span> <span class="nt">details</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">errorFlag</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="nt">historyTaskInfo</span><span class="p">:</span>
-        <span class="nt">addnDetails</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">value</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">timeTaken</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">workItemList</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="nt">command</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-          <span class="nt">outputStr</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-          <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">timeTaken</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">timestamp</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-    <span class="nt">systemResetWorkflow</span><span class="p">:</span>
-      <span class="nt">_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">addToInventory</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="nt">addedOn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">configId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">currTaskIdx</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">description</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">execTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">imageId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">instanceType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">lastupdateOn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">tasks</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="nt">currWorkItemIdx</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">taskSeqNo</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">timeTaken</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">workItemList</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="nt">command</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-          <span class="nt">outputStr</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-          <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">timeTaken</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">tenantId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">useState</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-    <span class="nt">systemWorkflow</span><span class="p">:</span>
-      <span class="nt">_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">addToInventory</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="nt">addedOn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">configId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">currTaskIdx</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">description</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">execTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">imageId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">instanceType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">lastupdateOn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">tasks</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="nt">currWorkItemIdx</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">taskSeqNo</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">timeTaken</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">workItemList</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="nt">command</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-          <span class="nt">outputStr</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-          <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">timeTaken</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">tenantId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">useState</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-    <span class="nt">tenantId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-    <span class="nt">version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-    <span class="nt">workflow</span><span class="p">:</span>
-      <span class="nt">_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">addToInventory</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="nt">addedOn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">configId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">currTaskIdx</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">description</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">execTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">imageId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">instanceType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">lastupdateOn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">tasks</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="nt">currWorkItemIdx</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">taskSeqNo</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">timeTaken</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">workItemList</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="nt">command</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">endTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-          <span class="nt">outputStr</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">startTime</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-          <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">timeTaken</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">tenantId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">useState</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-    <span class="nt">workflowParameters</span><span class="p">:</span>
-      <span class="nt">configList</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="nt">configId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">configParameters</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">value</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">licenseLevel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">licenseType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">topOfStackSerialNumber</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
 </pre></div>
 </div>
 </div>
@@ -5526,9 +5441,7 @@
         &quot;status&quot;: &quot;string&quot;,
         &quot;macAddress&quot;: &quot;string&quot;,
         &quot;ipv4Address&quot;: {},
-        &quot;ipv6AddressList&quot;: [
-          {}
-        ],
+        &quot;ipv6AddressList&quot;: [],
         &quot;name&quot;: &quot;string&quot;
       }
     ],
@@ -5785,7 +5698,7 @@
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="pnp_device_claim_module.html" class="btn btn-neutral float-right" title="cisco.dnac.pnp_device_claim – Resource module for Pnp Device Claim" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="path_trace_info_module.html" class="btn btn-neutral float-left" title="cisco.dnac.path_trace_info – Information module for Path Trace" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="platform_release_summary_info_module.html" class="btn btn-neutral float-left" title="cisco.dnac.platform_release_summary_info – Information module for Platform Release Summary" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

@@ -20,7 +20,7 @@ cisco.dnac.pnp_virtual_account_add -- Resource module for Pnp Virtual Account Ad
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -496,7 +496,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Update all
+    - name: Create
       cisco.dnac.pnp_virtual_account_add:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -532,7 +532,7 @@ Examples
         token: string
         virtualAccountId: string
 
-    - name: Create
+    - name: Update all
       cisco.dnac.pnp_virtual_account_add:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -20,7 +20,7 @@ cisco.dnac.configuration_template_version_info -- Information module for Configu
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -84,7 +84,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>TemplateId path parameter.</div>
+                                            <div>TemplateId path parameter. TemplateId(UUID) to get list of versioned templates.</div>
                                                         </td>
             </tr>
                         </table>
@@ -160,18 +160,21 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                             <div style="font-size: smaller"><b>Sample:</b></div>
                                                 <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">[
       {
+        &quot;composite&quot;: true,
         &quot;name&quot;: &quot;string&quot;,
-        &quot;projectName&quot;: &quot;string&quot;,
         &quot;projectId&quot;: &quot;string&quot;,
+        &quot;projectName&quot;: &quot;string&quot;,
         &quot;templateId&quot;: &quot;string&quot;,
         &quot;versionsInfo&quot;: [
           {
-            &quot;id&quot;: &quot;string&quot;,
+            &quot;author&quot;: &quot;string&quot;,
             &quot;description&quot;: &quot;string&quot;,
+            &quot;id&quot;: &quot;string&quot;,
+            &quot;version&quot;: &quot;string&quot;,
+            &quot;versionComment&quot;: &quot;string&quot;,
             &quot;versionTime&quot;: 0
           }
-        ],
-        &quot;composite&quot;: true
+        ]
       }
     ]</div>
                                     </td>

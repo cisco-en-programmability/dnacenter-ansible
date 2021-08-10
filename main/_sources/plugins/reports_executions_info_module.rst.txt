@@ -20,7 +20,7 @@ cisco.dnac.reports_executions_info -- Information module for Reports Executions
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -75,6 +75,21 @@ Parameters
         </tr>
                     <tr>
                                                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-dirPath"></div>
+                    <b>dirPath</b>
+                    <a class="ansibleOptionLink" href="#parameter-dirPath" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Directory absolute path. Defaults to the current working directory.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-executionId"></div>
                     <b>executionId</b>
                     <a class="ansibleOptionLink" href="#parameter-executionId" title="Permalink to this option"></a>
@@ -101,6 +116,25 @@ Parameters
                                                                                                                                                             </td>
                                                                 <td>
                                             <div>ReportId path parameter. ReportId of report.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-saveFile"></div>
+                    <b>saveFile</b>
+                    <a class="ansibleOptionLink" href="#parameter-saveFile" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Enable or disable automatic file creation of raw response.</div>
                                                         </td>
             </tr>
                         </table>

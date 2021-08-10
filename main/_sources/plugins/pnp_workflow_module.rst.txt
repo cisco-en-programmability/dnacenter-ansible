@@ -20,7 +20,7 @@ cisco.dnac.pnp_workflow -- Resource module for Pnp Workflow
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -648,7 +648,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Update by id
+    - name: Create
       cisco.dnac.pnp_workflow:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -666,7 +666,6 @@ Examples
         description: string
         endTime: 0
         execTime: 0
-        id: string
         imageId: string
         instanceType: string
         lastupdateOn: 0
@@ -706,7 +705,7 @@ Examples
         state: absent
         id: string
 
-    - name: Create
+    - name: Update by id
       cisco.dnac.pnp_workflow:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -724,6 +723,7 @@ Examples
         description: string
         endTime: 0
         execTime: 0
+        id: string
         imageId: string
         instanceType: string
         lastupdateOn: 0

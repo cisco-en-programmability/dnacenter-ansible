@@ -20,7 +20,7 @@ cisco.dnac.sda_fabric_border_device -- Resource module for Sda Fabric Border Dev
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -115,7 +115,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Fabric Border Device&#x27;s borderSessionType.</div>
+                                            <div>Border Session Type.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -135,7 +135,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>ConnectedToInternet flag.</div>
+                                            <div>Connected To Internet.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -151,7 +151,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Fabric Border Device&#x27;s deviceManagementIpAddress.</div>
+                                            <div>Device Management Ip Address.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -167,7 +167,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Fabric Border Device&#x27;s externalConnectivityIpPoolName.</div>
+                                            <div>External Connectivity Ip Pool Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -200,7 +200,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Fabric Border Device&#x27;s externalAutonomouSystemNumber.</div>
+                                            <div>External Autonomou System Number.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -217,7 +217,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Fabric Border Device&#x27;s interfaceName.</div>
+                                            <div>Interface Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -271,7 +271,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Fabric Border Device&#x27;s virtualNetworkName.</div>
+                                            <div>Virtual Network Name.</div>
                                                         </td>
             </tr>
                     
@@ -290,7 +290,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Fabric Border Device&#x27;s externalDomainRoutingProtocolName.</div>
+                                            <div>External Domain Routing Protocol Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -306,7 +306,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Fabric Border Device&#x27;s internalAutonomouSystemNumber.</div>
+                                            <div>Internal Autonomou System Number.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -322,7 +322,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Fabric Border Device&#x27;s siteNameHierarchy.</div>
+                                            <div>Site Name Hierarchy.</div>
                                                         </td>
             </tr>
                     
