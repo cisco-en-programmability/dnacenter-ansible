@@ -20,7 +20,7 @@ cisco.dnac.client_enrichment_details_info -- Information module for Client Enric
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -150,17 +150,13 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
           ],
           &quot;hostMac&quot;: &quot;string&quot;,
           &quot;hostIpV4&quot;: &quot;string&quot;,
-          &quot;hostIpV6&quot;: [
-            {}
-          ],
+          &quot;hostIpV6&quot;: [],
           &quot;authType&quot;: {},
           &quot;vlanId&quot;: &quot;string&quot;,
           &quot;ssid&quot;: {},
           &quot;location&quot;: {},
           &quot;clientConnection&quot;: &quot;string&quot;,
-          &quot;connectedDevice&quot;: [
-            {}
-          ],
+          &quot;connectedDevice&quot;: [],
           &quot;issueCount&quot;: 0,
           &quot;rssi&quot;: {},
           &quot;snr&quot;: {},
@@ -234,9 +230,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                     {
                       &quot;source&quot;: &quot;string&quot;,
                       &quot;linkStatus&quot;: &quot;string&quot;,
-                      &quot;label&quot;: [
-                        {}
-                      ],
+                      &quot;label&quot;: [],
                       &quot;target&quot;: &quot;string&quot;,
                       &quot;id&quot;: {},
                       &quot;portUtilization&quot;: {}
@@ -265,9 +259,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
               &quot;suggestedActions&quot;: [
                 {
                   &quot;message&quot;: &quot;string&quot;,
-                  &quot;steps&quot;: [
-                    {}
-                  ]
+                  &quot;steps&quot;: []
                 }
               ],
               &quot;impactedHosts&quot;: [
@@ -285,9 +277,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                     &quot;area&quot;: &quot;string&quot;,
                     &quot;building&quot;: &quot;string&quot;,
                     &quot;floor&quot;: {},
-                    &quot;apsImpacted&quot;: [
-                      {}
-                    ]
+                    &quot;apsImpacted&quot;: []
                   },
                   &quot;timestamp&quot;: 0
                 }

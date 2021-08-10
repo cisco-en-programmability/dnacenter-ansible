@@ -20,7 +20,7 @@ cisco.dnac.threat_detail -- Resource module for Threat Detail
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -84,7 +84,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Threat Detail&#x27;s endTime.</div>
+                                            <div>End Time.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -103,7 +103,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>IsNewThreat flag.</div>
+                                            <div>Is New Threat.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -118,7 +118,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Threat Detail&#x27;s limit.</div>
+                                            <div>Limit.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -133,7 +133,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Threat Detail&#x27;s offset.</div>
+                                            <div>Offset.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -148,7 +148,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Threat Detail&#x27;s siteId.</div>
+                                            <div>Site Id.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -163,7 +163,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Threat Detail&#x27;s startTime.</div>
+                                            <div>Start Time.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -178,7 +178,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Threat Detail&#x27;s threatLevel.</div>
+                                            <div>Threat Level.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -193,7 +193,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Threat Detail&#x27;s threatType.</div>
+                                            <div>Threat Type.</div>
                                                         </td>
             </tr>
                         </table>
@@ -277,20 +277,20 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                         <br/>
                                             <div style="font-size: smaller"><b>Sample:</b></div>
                                                 <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
-      &quot;version&quot;: &quot;string&quot;,
-      &quot;totalCount&quot;: 0,
       &quot;response&quot;: [
         {
           &quot;macAddress&quot;: &quot;string&quot;,
           &quot;updatedTime&quot;: 0,
           &quot;vendor&quot;: &quot;string&quot;,
           &quot;threatType&quot;: &quot;string&quot;,
-          &quot;threatLevel&quot;: [],
+          &quot;threatLevel&quot;: &quot;string&quot;,
           &quot;apName&quot;: &quot;string&quot;,
           &quot;ssid&quot;: &quot;string&quot;,
           &quot;siteNameHierarchy&quot;: &quot;string&quot;
         }
-      ]
+      ],
+      &quot;totalCount&quot;: 0,
+      &quot;version&quot;: &quot;string&quot;
     }</div>
                                     </td>
             </tr>

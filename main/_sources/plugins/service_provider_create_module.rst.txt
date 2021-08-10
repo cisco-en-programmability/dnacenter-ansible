@@ -20,7 +20,7 @@ cisco.dnac.service_provider_create -- Resource module for Service Provider Creat
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -117,24 +117,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Service Provider Create&#x27;s model.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-settings/qos/oldProfileName"></div>
-                    <b>oldProfileName</b>
-                    <a class="ansibleOptionLink" href="#parameter-settings/qos/oldProfileName" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Service Provider Create&#x27;s oldProfileName.</div>
+                                            <div>Model.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -151,7 +134,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Service Provider Create&#x27;s profileName.</div>
+                                            <div>Profile Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -168,7 +151,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Service Provider Create&#x27;s wanProvider.</div>
+                                            <div>Wan Provider.</div>
                                                         </td>
             </tr>
                     
@@ -197,6 +180,21 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    - name: Create
+      cisco.dnac.service_provider_create:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        settings:
+          qos:
+          - model: string
+            profileName: string
+            wanProvider: string
+
     - name: Update all
       cisco.dnac.service_provider_create:
         dnac_host: "{{dnac_host}}"
@@ -210,21 +208,6 @@ Examples
           qos:
           - model: string
             oldProfileName: string
-            profileName: string
-            wanProvider: string
-
-    - name: Create
-      cisco.dnac.service_provider_create:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        settings:
-          qos:
-          - model: string
             profileName: string
             wanProvider: string
 

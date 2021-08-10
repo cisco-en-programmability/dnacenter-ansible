@@ -20,7 +20,7 @@ cisco.dnac.site_create -- Resource module for Site Create
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -117,7 +117,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Create&#x27;s name.</div>
+                                            <div>Name of the area (eg Area1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -134,7 +134,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Create&#x27;s parentName.</div>
+                                            <div>Parent name of the area to be created.</div>
                                                         </td>
             </tr>
                     
@@ -168,7 +168,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Create&#x27;s address.</div>
+                                            <div>Address of the building to be created.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -185,7 +185,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Create&#x27;s latitude.</div>
+                                            <div>Latitude coordinate of the building (eg 37.338).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -202,7 +202,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Create&#x27;s longitude.</div>
+                                            <div>Longitude coordinate of the building (eg -121.832).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -219,7 +219,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Create&#x27;s name.</div>
+                                            <div>Name of the building (eg building1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -236,7 +236,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Create&#x27;s parentName.</div>
+                                            <div>Parent name of building to be created.</div>
                                                         </td>
             </tr>
                     
@@ -270,7 +270,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Create&#x27;s height.</div>
+                                            <div>Height of the floor (eg 15).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -287,7 +287,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Create&#x27;s length.</div>
+                                            <div>Length of the floor (eg 100).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -304,7 +304,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Create&#x27;s name.</div>
+                                            <div>Name of the floor (eg floor-1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -321,7 +321,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Create&#x27;s parentName.</div>
+                                            <div>Parent name of the floor to be created.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -338,7 +338,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Create&#x27;s rfModel.</div>
+                                            <div>Type of floor (eg Cubes And Walled Offices0.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -355,7 +355,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Create&#x27;s width.</div>
+                                            <div>Width of the floor (eg 100).</div>
                                                         </td>
             </tr>
                     
@@ -372,7 +372,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Create&#x27;s type.</div>
+                                            <div>Type of site to create (eg area, building, floor).</div>
                                                         </td>
             </tr>
                         </table>

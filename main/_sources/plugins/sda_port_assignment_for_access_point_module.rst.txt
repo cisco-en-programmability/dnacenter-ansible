@@ -20,7 +20,7 @@ cisco.dnac.sda_port_assignment_for_access_point -- Resource module for Sda Port 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -130,7 +130,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Port Assignment For Access Point&#x27;s authenticateTemplateName.</div>
+                                            <div>Authenticate Template Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -146,7 +146,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Port Assignment For Access Point&#x27;s dataIpAddressPoolName.</div>
+                                            <div>Data Ip Address Pool Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -162,7 +162,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Port Assignment For Access Point&#x27;s deviceManagementIpAddress.</div>
+                                            <div>Device Management Ip Address.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -178,7 +178,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Port Assignment For Access Point&#x27;s interfaceName.</div>
+                                            <div>Interface Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -194,7 +194,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Port Assignment For Access Point&#x27;s siteNameHierarchy.</div>
+                                            <div>Site Name Hierarchy.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -210,7 +210,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Port Assignment For Access Point&#x27;s voiceIpAddressPoolName.</div>
+                                            <div>Voice Ip Address Pool Name.</div>
                                                         </td>
             </tr>
                     

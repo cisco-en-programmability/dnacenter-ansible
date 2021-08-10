@@ -20,7 +20,7 @@ cisco.dnac.nfv_provision -- Resource module for Nfv Provision
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -135,7 +135,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s ipAddressPool.</div>
+                                            <div>IP address pool of sub pool (eg 175.175.140.1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -153,7 +153,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s name.</div>
+                                            <div>Name of custom network (eg cust-1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -171,7 +171,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s port.</div>
+                                            <div>Port for custom network (eg 443).</div>
                                                         </td>
             </tr>
                     
@@ -189,7 +189,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s deviceSerialNumber.</div>
+                                            <div>Serial number of device (eg FGL210710QY).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -206,7 +206,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s ip.</div>
+                                            <div>IP address of the device (eg 172.20.126.90).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -241,7 +241,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s serviceProvider.</div>
+                                            <div>Name of the service provider (eg Airtel).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -278,7 +278,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s bandwidth.</div>
+                                            <div>Bandwidth limit (eg 100).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -297,7 +297,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s gateway.</div>
+                                            <div>Gateway (eg 175.175.190.1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -316,7 +316,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s interfaceName.</div>
+                                            <div>Name of the interface (eg GE0-0).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -335,7 +335,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s ipAddress.</div>
+                                            <div>IP address (eg 175.175.190.205).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -354,7 +354,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s subnetmask.</div>
+                                            <div>Subnet mask (eg 255.255.255.0).</div>
                                                         </td>
             </tr>
                     
@@ -391,7 +391,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s adminPasswordHash.</div>
+                                            <div>Admin password hash.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -409,7 +409,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s centralManagerIP.</div>
+                                            <div>WAAS Package needs to be installed to populate Central Manager IP automatically.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -427,7 +427,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s centralRegistrationKey.</div>
+                                            <div>Central registration key.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -445,7 +445,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s commonKey.</div>
+                                            <div>Common key.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -463,7 +463,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s disk.</div>
+                                            <div>Name of disk type (eg internal).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -481,7 +481,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s mode.</div>
+                                            <div>Mode of firewall (eg transparent).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -499,7 +499,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s systemIp.</div>
+                                            <div>System IP.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -517,7 +517,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s type.</div>
+                                            <div>Type of service (eg ISR).</div>
                                                         </td>
             </tr>
                     
@@ -553,7 +553,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s gateway.</div>
+                                            <div>IP address for gate way (eg 175.175.140.1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -571,7 +571,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s ipSubnet.</div>
+                                            <div>IP pool cidir (eg 175.175.140.0).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -589,7 +589,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s name.</div>
+                                            <div>Name of the ip sub pool (eg; Lan-65).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -607,7 +607,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s parentPoolName.</div>
+                                            <div>Name of parent pool (global pool name).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -625,7 +625,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s type.</div>
+                                            <div>Tyep of ip sub pool (eg Lan).</div>
                                                         </td>
             </tr>
                     
@@ -643,7 +643,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s tagName.</div>
+                                            <div>Name of device tag (eg dev1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -697,7 +697,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s var1.</div>
+                                            <div>Variable for asav template (eg &quot;test&quot; &quot;Hello asav&quot;).</div>
                                                         </td>
             </tr>
                     
@@ -735,7 +735,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s var1.</div>
+                                            <div>Variable for nfvis template (eg &quot;test&quot; &quot;Hello nfvis&quot;).</div>
                                                         </td>
             </tr>
                     
@@ -772,7 +772,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s id.</div>
+                                            <div>Vlan id(e .4018).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -790,7 +790,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s interfaces.</div>
+                                            <div>Interface (eg GigabitEathernet1/0).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -808,7 +808,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s network.</div>
+                                            <div>Network name to connect (eg lan-net).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -826,7 +826,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s type.</div>
+                                            <div>Vlan type(eg. Access or Trunk).</div>
                                                         </td>
             </tr>
                     
@@ -879,7 +879,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s name.</div>
+                                            <div>Name of the area (eg Area1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -897,7 +897,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s parentName.</div>
+                                            <div>Parent name of the area to be created.</div>
                                                         </td>
             </tr>
                     
@@ -933,7 +933,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s address.</div>
+                                            <div>Address of the building to be created.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -951,7 +951,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s latitude.</div>
+                                            <div>Latitude coordinate of the building (eg 37.338).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -969,7 +969,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s longitude.</div>
+                                            <div>Longitude coordinate of the building (eg -121.832).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -987,7 +987,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s name.</div>
+                                            <div>Name of the building (eg building1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1005,7 +1005,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s parentName.</div>
+                                            <div>Address of the building to be created.</div>
                                                         </td>
             </tr>
                     
@@ -1041,7 +1041,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s height.</div>
+                                            <div>Height of the floor (eg 15).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1059,7 +1059,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s length.</div>
+                                            <div>Length of the floor (eg 100).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1077,7 +1077,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s name.</div>
+                                            <div>Name of the floor (eg floor-1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1095,7 +1095,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s parentName.</div>
+                                            <div>Parent name of the floor to be created.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1113,7 +1113,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s rfModel.</div>
+                                            <div>Type of floor (eg Cubes And Walled Offices).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1131,7 +1131,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s width.</div>
+                                            <div>Width of the floor (eg 100).</div>
                                                         </td>
             </tr>
                     
@@ -1149,7 +1149,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s siteProfileName.</div>
+                                            <div>Name of site profile to be provision with device.</div>
                                                         </td>
             </tr>
                     
@@ -1217,7 +1217,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s connectionType.</div>
+                                            <div>Type of network connection from custom network (eg lan).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1235,7 +1235,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s name.</div>
+                                            <div>Name of custom network (eg cust-1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1253,7 +1253,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s networkMode.</div>
+                                            <div>Network mode (eg Access or Trunk).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1290,7 +1290,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s service.</div>
+                                            <div>Name of service to be connected to the custom network (eg router-1).</div>
                                                         </td>
             </tr>
                     
@@ -1309,7 +1309,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s vlan.</div>
+                                            <div>Vlan id for the custom network(eg 4000).</div>
                                                         </td>
             </tr>
                     
@@ -1345,7 +1345,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s applicationType.</div>
+                                            <div>Application type of custom service (eg LINUX).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1363,7 +1363,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s imageName.</div>
+                                            <div>Image name of custom service (eg redhat7.tar.gz.tar.gz).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1381,7 +1381,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s name.</div>
+                                            <div>Name of custom service (eg LINUX-1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1399,7 +1399,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s profile.</div>
+                                            <div>Profile type of service (eg rhel7-medium).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1436,7 +1436,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s assignIp.</div>
+                                            <div>Assign ip to network (eg true).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1455,7 +1455,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s name.</div>
+                                            <div>Name of connection from custom service(eg wan-net).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1474,7 +1474,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s type.</div>
+                                            <div>Type of connection from custom service (eg wan, lan or internal).</div>
                                                         </td>
             </tr>
                     
@@ -1511,7 +1511,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s deviceType.</div>
+                                            <div>Type of the device(eg NFVIS).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1529,7 +1529,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s template.</div>
+                                            <div>Name of the template(eg NFVIS template).</div>
                                                         </td>
             </tr>
                     
@@ -1547,7 +1547,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s deviceType.</div>
+                                            <div>Name of the device used in creating nfv profile(eg ENCS5400).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1568,7 +1568,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>Dia flag.</div>
+                                            <div>Direct internet access value should be boolean (eg false).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1607,7 +1607,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>Connect flag.</div>
+                                            <div>Connection of service provider and device value should be boolean (eg true).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1629,7 +1629,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>DefaultGateway flag.</div>
+                                            <div>Default gateway connect value as boolean (eg true).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1647,7 +1647,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s linkType.</div>
+                                            <div>Name of connection type(eg GigabitEthernet).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1665,7 +1665,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s serviceProvider.</div>
+                                            <div>Name of the service provider(eg Airtel).</div>
                                                         </td>
             </tr>
                     
@@ -1701,7 +1701,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s imageName.</div>
+                                            <div>Name of image (eg isrv-universalk9.16.06.02.tar.gz).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1719,7 +1719,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s mode.</div>
+                                            <div>Mode of firewall (eg routed, transparent).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1737,7 +1737,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s name.</div>
+                                            <div>Name of the service (eg isrv).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1755,7 +1755,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s profile.</div>
+                                            <div>Profile type of service (eg ISRv-mini).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1792,7 +1792,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s assignIp.</div>
+                                            <div>Assign ip address to network (eg true).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1811,7 +1811,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s name.</div>
+                                            <div>Name of connection (eg wan-net).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1830,7 +1830,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s type.</div>
+                                            <div>Type of connection (eg wan, lan or internal).</div>
                                                         </td>
             </tr>
                     
@@ -1849,7 +1849,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s type.</div>
+                                            <div>Service type (eg ISRV).</div>
                                                         </td>
             </tr>
                     
@@ -1867,7 +1867,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s tagName.</div>
+                                            <div>Device Tag name(eg dev1).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1902,7 +1902,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s id.</div>
+                                            <div>Vlan id(eg.4018).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -1920,7 +1920,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s type.</div>
+                                            <div>Vlan type(eg. Access or Trunk).</div>
                                                         </td>
             </tr>
                     
@@ -1938,7 +1938,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Nfv Provision&#x27;s siteProfileName.</div>
+                                            <div>Name of the profile to create site profile profile( eg profile-1).</div>
                                                         </td>
             </tr>
                     

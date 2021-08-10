@@ -20,7 +20,7 @@ cisco.dnac.wireless_provision_device_update -- Resource module for Wireless Prov
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -100,7 +100,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Device Update&#x27;s deviceName.</div>
+                                            <div>Device Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -133,7 +133,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Device Update&#x27;s interfaceGateway.</div>
+                                            <div>Interface Gateway.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -150,7 +150,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Device Update&#x27;s interfaceIPAddress.</div>
+                                            <div>Interface IP Address.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -167,7 +167,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Device Update&#x27;s interfaceName.</div>
+                                            <div>Interface Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -184,7 +184,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Device Update&#x27;s interfaceNetmaskInCIDR.</div>
+                                            <div>Interface Netmask In CIDR.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -201,7 +201,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Device Update&#x27;s lagOrPortNumber.</div>
+                                            <div>Lag Or Port Number.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -218,7 +218,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Device Update&#x27;s vlanId.</div>
+                                            <div>VLAN ID.</div>
                                                         </td>
             </tr>
                     
@@ -235,7 +235,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Provision Device Update&#x27;s managedAPLocations.</div>
+                                            <div>List of managed AP locations (Site Hierarchies).</div>
                                                         </td>
             </tr>
                     

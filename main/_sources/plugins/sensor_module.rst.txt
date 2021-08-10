@@ -20,7 +20,7 @@ cisco.dnac.sensor -- Resource module for Sensor
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -100,7 +100,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor&#x27;s bands.</div>
+                                            <div>Bands.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -116,7 +116,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor&#x27;s numberOfApsToTest.</div>
+                                            <div>Number Of Aps To Test.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -132,7 +132,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor&#x27;s rssiThreshold.</div>
+                                            <div>Rssi Threshold.</div>
                                                         </td>
             </tr>
                     
@@ -148,7 +148,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor&#x27;s connection.</div>
+                                            <div>Connection.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -163,7 +163,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor&#x27;s modelVersion.</div>
+                                            <div>Model Version.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -178,7 +178,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor&#x27;s name.</div>
+                                            <div>Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -209,7 +209,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor&#x27;s authType.</div>
+                                            <div>Auth Type.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -225,7 +225,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor&#x27;s categories.</div>
+                                            <div>Categories.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -241,7 +241,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor&#x27;s profileName.</div>
+                                            <div>Profile Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -257,7 +257,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor&#x27;s psk.</div>
+                                            <div>Psk.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -273,7 +273,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor&#x27;s qosPolicy.</div>
+                                            <div>Qos Policy.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -289,7 +289,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor&#x27;s ssid.</div>
+                                            <div>Ssid.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -317,12 +317,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-ssids/tests/config" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor&#x27;s config.</div>
+                                            <div>Config.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -339,7 +339,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor&#x27;s name.</div>
+                                            <div>Name.</div>
                                                         </td>
             </tr>
                     
@@ -377,7 +377,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>Selected flag.</div>
+                                            <div>Selected.</div>
                                                         </td>
             </tr>
                     
@@ -447,8 +447,7 @@ Examples
           qosPolicy: string
           ssid: string
           tests:
-          - config:
-            - {}
+          - config: []
             name: string
           thirdParty:
             selected: true
@@ -518,9 +517,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         &quot;rssiThreshold&quot;: 0,
         &quot;numNeighborAPThreshold&quot;: 0,
         &quot;scheduleInDays&quot;: 0,
-        &quot;wlans&quot;: [
-          {}
-        ],
+        &quot;wlans&quot;: [],
         &quot;ssids&quot;: [
           {
             &quot;bands&quot;: {},
@@ -551,9 +548,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
             &quot;whiteList&quot;: true,
             &quot;extWebAuthPortal&quot;: {},
             &quot;extWebAuthAccessUrl&quot;: {},
-            &quot;extWebAuthHtmlTag&quot;: [
-              {}
-            ],
+            &quot;extWebAuthHtmlTag&quot;: [],
             &quot;thirdParty&quot;: {
               &quot;selected&quot;: true
             },
@@ -566,9 +561,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
             &quot;tests&quot;: [
               {
                 &quot;name&quot;: &quot;string&quot;,
-                &quot;config&quot;: [
-                  {}
-                ]
+                &quot;config&quot;: []
               }
             ]
           }
@@ -578,14 +571,10 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         &quot;radioAsSensorRemoved&quot;: true,
         &quot;encryptionMode&quot;: &quot;string&quot;,
         &quot;runNow&quot;: &quot;string&quot;,
-        &quot;locationInfoList&quot;: [
-          {}
-        ],
+        &quot;locationInfoList&quot;: [],
         &quot;schedule&quot;: {},
         &quot;tests&quot;: {},
-        &quot;sensors&quot;: [
-          {}
-        ],
+        &quot;sensors&quot;: [],
         &quot;apCoverage&quot;: [
           {
             &quot;bands&quot;: &quot;string&quot;,

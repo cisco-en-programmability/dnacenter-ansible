@@ -20,7 +20,7 @@ cisco.dnac.sda_fabric_border_device_info -- Information module for Sda Fabric Bo
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -179,34 +179,20 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         &quot;namespace&quot;: &quot;string&quot;,
         &quot;provisioningState&quot;: &quot;string&quot;,
         &quot;resourceVersion&quot;: 0,
-        &quot;targetIdList&quot;: [
-          {}
-        ],
+        &quot;targetIdList&quot;: [],
         &quot;type&quot;: &quot;string&quot;,
-        &quot;cfsChangeInfo&quot;: [
-          {}
-        ],
-        &quot;customProvisions&quot;: [
-          {}
-        ],
-        &quot;configs&quot;: [
-          {}
-        ],
-        &quot;managedSites&quot;: [
-          {}
-        ],
+        &quot;cfsChangeInfo&quot;: [],
+        &quot;customProvisions&quot;: [],
+        &quot;configs&quot;: [],
+        &quot;managedSites&quot;: [],
         &quot;networkDeviceId&quot;: &quot;string&quot;,
         &quot;roles&quot;: [
           &quot;string&quot;
         ],
         &quot;saveWanConnectivityDetailsOnly&quot;: true,
         &quot;siteId&quot;: &quot;string&quot;,
-        &quot;akcSettingsCfs&quot;: [
-          {}
-        ],
-        &quot;deviceInterfaceInfo&quot;: [
-          {}
-        ],
+        &quot;akcSettingsCfs&quot;: [],
+        &quot;deviceInterfaceInfo&quot;: [],
         &quot;deviceSettings&quot;: {
           &quot;id&quot;: &quot;string&quot;,
           &quot;instanceId&quot;: 0,
@@ -214,9 +200,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
           &quot;instanceTenantId&quot;: &quot;string&quot;,
           &quot;deployPending&quot;: &quot;string&quot;,
           &quot;instanceVersion&quot;: 0,
-          &quot;connectedTo&quot;: [
-            {}
-          ],
+          &quot;connectedTo&quot;: [],
           &quot;cpu&quot;: 0,
           &quot;dhcpEnabled&quot;: true,
           &quot;externalConnectivityIpPool&quot;: &quot;string&quot;,
@@ -239,9 +223,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
               &quot;interfaceUuid&quot;: &quot;string&quot;,
               &quot;policyPropagationEnabled&quot;: true,
               &quot;policySgtTag&quot;: 0,
-              &quot;l2Handoff&quot;: [
-                {}
-              ],
+              &quot;l2Handoff&quot;: [],
               &quot;l3Handoff&quot;: [
                 {
                   &quot;id&quot;: &quot;string&quot;,
@@ -268,12 +250,8 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
           &quot;instanceTenantId&quot;: &quot;string&quot;,
           &quot;deployPending&quot;: &quot;string&quot;,
           &quot;instanceVersion&quot;: 0,
-          &quot;aaa&quot;: [
-            {}
-          ],
-          &quot;cmx&quot;: [
-            {}
-          ],
+          &quot;aaa&quot;: [],
+          &quot;cmx&quot;: [],
           &quot;dhcp&quot;: [
             {
               &quot;id&quot;: &quot;string&quot;,
@@ -297,39 +275,21 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
               }
             }
           ],
-          &quot;ldap&quot;: [
-            {}
-          ],
-          &quot;nativeVlan&quot;: [
-            {}
-          ],
-          &quot;netflow&quot;: [
-            {}
-          ],
-          &quot;ntp&quot;: [
-            {}
-          ],
-          &quot;snmp&quot;: [
-            {}
-          ],
-          &quot;syslogs&quot;: [
-            {}
-          ]
+          &quot;ldap&quot;: [],
+          &quot;nativeVlan&quot;: [],
+          &quot;netflow&quot;: [],
+          &quot;ntp&quot;: [],
+          &quot;snmp&quot;: [],
+          &quot;syslogs&quot;: []
         },
-        &quot;otherDevice&quot;: [
-          {}
-        ],
+        &quot;otherDevice&quot;: [],
         &quot;transitNetworks&quot;: [
           {
             &quot;idRef&quot;: &quot;string&quot;
           }
         ],
-        &quot;virtualNetwork&quot;: [
-          {}
-        ],
-        &quot;wlan&quot;: [
-          {}
-        ]
+        &quot;virtualNetwork&quot;: [],
+        &quot;wlan&quot;: []
       }
     }</div>
                                     </td>

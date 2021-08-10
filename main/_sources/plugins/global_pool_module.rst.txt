@@ -20,7 +20,7 @@ cisco.dnac.global_pool -- Resource module for Global Pool
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -132,7 +132,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Global Pool&#x27;s dhcpServerIps.</div>
+                                            <div>Dhcp Server Ips.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -149,7 +149,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Global Pool&#x27;s dnsServerIps.</div>
+                                            <div>Dns Server Ips.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -166,7 +166,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Global Pool&#x27;s gateway.</div>
+                                            <div>Gateway.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -183,7 +183,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Global Pool&#x27;s id.</div>
+                                            <div>Id.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -200,7 +200,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Global Pool&#x27;s ipPoolName.</div>
+                                            <div>Ip Pool Name.</div>
                                                         </td>
             </tr>
                     

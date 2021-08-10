@@ -20,7 +20,7 @@ cisco.dnac.reserve_ip_subpool -- Resource module for Reserve Ip Subpool
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -84,7 +84,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Id query parameter. Id of subpool to be associated with the site.</div>
+                                            <div>Id path parameter. Id of reserve ip subpool to be deleted.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -99,7 +99,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reserve Ip Subpool&#x27;s ipv4DhcpServers.</div>
+                                            <div>IPv4 input for dhcp server ip example 1.1.1.1.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -114,7 +114,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reserve Ip Subpool&#x27;s ipv4DnsServers.</div>
+                                            <div>IPv4 input for dns server ip example 4.4.4.4.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -129,7 +129,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reserve Ip Subpool&#x27;s ipv4GateWay.</div>
+                                            <div>Gateway ip address details, example 175.175.0.1.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -144,7 +144,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reserve Ip Subpool&#x27;s ipv4GlobalPool.</div>
+                                            <div>IP v4 Global pool address with cidr, example 175.175.0.0/16.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -163,7 +163,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>Ipv4Prefix flag.</div>
+                                            <div>IPv4 prefix value is true, the ip4 prefix length input field is enabled , if it is false ipv4 total Host input is enable.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -178,7 +178,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reserve Ip Subpool&#x27;s ipv4PrefixLength.</div>
+                                            <div>The ipv4 prefix length is required when ipv4prefix value is true.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -193,7 +193,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reserve Ip Subpool&#x27;s ipv4Subnet.</div>
+                                            <div>IPv4 Subnet address, example 175.175.0.0.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -208,7 +208,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reserve Ip Subpool&#x27;s ipv4TotalHost.</div>
+                                            <div>IPv4 total host is required when ipv4prefix value is false.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -227,7 +227,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>Ipv6AddressSpace flag.</div>
+                                            <div>If the value is false only ipv4 input are required, otherwise both ipv6 and ipv4 are required.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -242,7 +242,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reserve Ip Subpool&#x27;s ipv6DhcpServers.</div>
+                                            <div>IPv6 format dhcp server as input example 2001 db8 1234.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -257,7 +257,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reserve Ip Subpool&#x27;s ipv6DnsServers.</div>
+                                            <div>IPv6 format dns server input example 2001 db8 1234.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -272,7 +272,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reserve Ip Subpool&#x27;s ipv6GateWay.</div>
+                                            <div>Gateway ip address details, example 2001 db8 85a3 0 100 1.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -287,7 +287,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reserve Ip Subpool&#x27;s ipv6GlobalPool.</div>
+                                            <div>IPv6 Global pool address with cidr this is required when Ipv6AddressSpace value is true, example 2001 db8 85a3 /64.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -306,7 +306,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>Ipv6Prefix flag.</div>
+                                            <div>Ipv6 prefix value is true, the ip6 prefix length input field is enabled , if it is false ipv6 total Host input is enable.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -321,7 +321,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reserve Ip Subpool&#x27;s ipv6PrefixLength.</div>
+                                            <div>IPv6 prefix length is required when the ipv6prefix value is true.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -336,7 +336,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reserve Ip Subpool&#x27;s ipv6Subnet.</div>
+                                            <div>IPv6 Subnet address, example 2001 db8 85a3 0 100.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -351,7 +351,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reserve Ip Subpool&#x27;s ipv6TotalHost.</div>
+                                            <div>IPv6 total host is required when ipv6prefix value is false.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -366,7 +366,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reserve Ip Subpool&#x27;s name.</div>
+                                            <div>Name of the reserve ip sub pool.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -381,7 +381,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>SiteId path parameter. Site id of site to update sub pool.</div>
+                                            <div>SiteId path parameter. Site id to reserve the ip sub pool.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -400,7 +400,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>SlaacSupport flag.</div>
+                                            <div>Slaac Support.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -415,7 +415,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reserve Ip Subpool&#x27;s type.</div>
+                                            <div>Type of the reserve ip sub pool.</div>
                                                         </td>
             </tr>
                         </table>
@@ -442,7 +442,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Update by id
+    - name: Delete by id
       cisco.dnac.reserve_ip_subpool:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -451,26 +451,8 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        state: present
+        state: absent
         id: string
-        ipv4DhcpServers:
-        - string
-        ipv4DnsServers:
-        - string
-        ipv6AddressSpace: true
-        ipv6DhcpServers:
-        - string
-        ipv6DnsServers:
-        - string
-        ipv6GateWay: string
-        ipv6GlobalPool: string
-        ipv6Prefix: true
-        ipv6PrefixLength: 0
-        ipv6Subnet: string
-        ipv6TotalHost: 0
-        name: string
-        siteId: string
-        slaacSupport: true
 
     - name: Create
       cisco.dnac.reserve_ip_subpool:
@@ -508,7 +490,7 @@ Examples
         slaacSupport: true
         type: string
 
-    - name: Delete by id
+    - name: Update by id
       cisco.dnac.reserve_ip_subpool:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -517,8 +499,26 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        state: absent
+        state: present
         id: string
+        ipv4DhcpServers:
+        - string
+        ipv4DnsServers:
+        - string
+        ipv6AddressSpace: true
+        ipv6DhcpServers:
+        - string
+        ipv6DnsServers:
+        - string
+        ipv6GateWay: string
+        ipv6GlobalPool: string
+        ipv6Prefix: true
+        ipv6PrefixLength: 0
+        ipv6Subnet: string
+        ipv6TotalHost: 0
+        name: string
+        siteId: string
+        slaacSupport: true
 
 
 

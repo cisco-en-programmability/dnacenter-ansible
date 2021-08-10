@@ -20,7 +20,7 @@ cisco.dnac.issues_enrichment_details_info -- Information module for Issues Enric
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -146,14 +146,10 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
           &quot;suggestedActions&quot;: [
             {
               &quot;message&quot;: &quot;string&quot;,
-              &quot;steps&quot;: [
-                {}
-              ]
+              &quot;steps&quot;: []
             }
           ],
-          &quot;impactedHosts&quot;: [
-            {}
-          ]
+          &quot;impactedHosts&quot;: []
         }
       ]
     }</div>

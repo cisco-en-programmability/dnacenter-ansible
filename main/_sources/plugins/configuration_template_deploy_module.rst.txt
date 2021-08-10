@@ -20,7 +20,7 @@ cisco.dnac.configuration_template_deploy -- Resource module for Configuration Te
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -107,7 +107,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>IsComposite flag.</div>
+                                            <div>Composite template flag.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -122,7 +122,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Configuration Template Deploy&#x27;s mainTemplateId.</div>
+                                            <div>Main template UUID of versioned template.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -137,7 +137,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Configuration Template Deploy&#x27;s memberTemplateDeploymentInfo.</div>
+                                            <div>MemberTemplateDeploymentInfo.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -168,7 +168,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Configuration Template Deploy&#x27;s hostName.</div>
+                                            <div>Hostname of device is required if targetType is MANAGED_DEVICE_HOSTNAME.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -184,7 +184,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Configuration Template Deploy&#x27;s id.</div>
+                                            <div>UUID of target is required if targetType is MANAGED_DEVICE_UUID.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -200,7 +200,23 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Configuration Template Deploy&#x27;s params.</div>
+                                            <div>Template params/values to be provisioned.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-targetInfo/resourceParams"></div>
+                    <b>resourceParams</b>
+                    <a class="ansibleOptionLink" href="#parameter-targetInfo/resourceParams" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Resource params to be provisioned.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -216,7 +232,23 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Configuration Template Deploy&#x27;s type.</div>
+                                            <div>Target type of device.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-targetInfo/versionedTemplateId"></div>
+                    <b>versionedTemplateId</b>
+                    <a class="ansibleOptionLink" href="#parameter-targetInfo/versionedTemplateId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Versioned templateUUID to be provisioned.</div>
                                                         </td>
             </tr>
                     
@@ -232,7 +264,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Configuration Template Deploy&#x27;s templateId.</div>
+                                            <div>UUID of template to be provisioned.</div>
                                                         </td>
             </tr>
                         </table>
@@ -271,13 +303,14 @@ Examples
         forcePushTemplate: true
         isComposite: true
         mainTemplateId: string
-        memberTemplateDeploymentInfo:
-        - string
+        memberTemplateDeploymentInfo: []
         targetInfo:
         - hostName: string
           id: string
           params: {}
+          resourceParams: {}
           type: string
+          versionedTemplateId: string
         templateId: string
 
 
@@ -320,13 +353,16 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       &quot;deploymentName&quot;: &quot;string&quot;,
       &quot;devices&quot;: [
         {
+          &quot;detailedStatusMessage&quot;: &quot;string&quot;,
           &quot;deviceId&quot;: &quot;string&quot;,
           &quot;duration&quot;: &quot;string&quot;,
           &quot;endTime&quot;: &quot;string&quot;,
+          &quot;identifier&quot;: &quot;string&quot;,
           &quot;ipAddress&quot;: &quot;string&quot;,
           &quot;name&quot;: &quot;string&quot;,
           &quot;startTime&quot;: &quot;string&quot;,
-          &quot;status&quot;: &quot;string&quot;
+          &quot;status&quot;: &quot;string&quot;,
+          &quot;targetType&quot;: &quot;string&quot;
         }
       ],
       &quot;duration&quot;: &quot;string&quot;,
@@ -334,6 +370,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       &quot;projectName&quot;: &quot;string&quot;,
       &quot;startTime&quot;: &quot;string&quot;,
       &quot;status&quot;: &quot;string&quot;,
+      &quot;statusMessage&quot;: &quot;string&quot;,
       &quot;templateName&quot;: &quot;string&quot;,
       &quot;templateVersion&quot;: &quot;string&quot;
     }</div>

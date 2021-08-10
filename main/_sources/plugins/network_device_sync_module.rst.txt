@@ -20,7 +20,7 @@ cisco.dnac.network_device_sync -- Resource module for Network Device Sync
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -98,7 +98,7 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-payload" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
@@ -140,6 +140,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         forceSync: true
+        payload: []
 
 
 
@@ -178,7 +179,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                             <div style="font-size: smaller"><b>Sample:</b></div>
                                                 <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
       &quot;response&quot;: {
-        &quot;taskId&quot;: {},
+        &quot;taskId&quot;: &quot;string&quot;,
         &quot;url&quot;: &quot;string&quot;
       },
       &quot;version&quot;: &quot;string&quot;

@@ -20,7 +20,7 @@ cisco.dnac.wireless_rf_profile_info -- Information module for Wireless Rf Profil
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -161,28 +161,32 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                                 <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">[
       {
         &quot;name&quot;: &quot;string&quot;,
-        &quot;parentProfileA&quot;: &quot;string&quot;,
-        &quot;parentProfileB&quot;: &quot;string&quot;,
-        &quot;enableARadioType&quot;: true,
-        &quot;enableBRadioType&quot;: true,
-        &quot;channelWidth&quot;: &quot;string&quot;,
-        &quot;aRadioChannels&quot;: &quot;string&quot;,
-        &quot;bRadioChannels&quot;: &quot;string&quot;,
-        &quot;dataRatesA&quot;: &quot;string&quot;,
-        &quot;dataRatesB&quot;: &quot;string&quot;,
-        &quot;mandatoryDataRatesA&quot;: &quot;string&quot;,
-        &quot;mandatoryDataRatesB&quot;: &quot;string&quot;,
-        &quot;enableCustom&quot;: true,
-        &quot;minPowerLevelA&quot;: &quot;string&quot;,
-        &quot;minPowerLevelB&quot;: &quot;string&quot;,
-        &quot;maxPowerLevelA&quot;: &quot;string&quot;,
-        &quot;maxPowerLevelB&quot;: &quot;string&quot;,
-        &quot;powerThresholdV1A&quot;: 0,
-        &quot;powerThresholdV1B&quot;: 0,
-        &quot;rxSopThresholdA&quot;: &quot;string&quot;,
-        &quot;rxSopThresholdB&quot;: &quot;string&quot;,
         &quot;defaultRfProfile&quot;: true,
-        &quot;enableBrownField&quot;: true
+        &quot;channelWidth&quot;: &quot;string&quot;,
+        &quot;enableBrownField&quot;: true,
+        &quot;enableCustom&quot;: true,
+        &quot;enableRadioTypeA&quot;: true,
+        &quot;enableRadioTypeB&quot;: true,
+        &quot;radioTypeAProperties&quot;: {
+          &quot;parentProfile&quot;: &quot;string&quot;,
+          &quot;radioChannels&quot;: &quot;string&quot;,
+          &quot;dataRates&quot;: &quot;string&quot;,
+          &quot;mandatoryDataRates&quot;: &quot;string&quot;,
+          &quot;powerThresholdV1&quot;: 0,
+          &quot;rxSopThreshold&quot;: &quot;string&quot;,
+          &quot;minPowerLevel&quot;: 0,
+          &quot;maxPowerLevel&quot;: 0
+        },
+        &quot;radioTypeBProperties&quot;: {
+          &quot;parentProfile&quot;: &quot;string&quot;,
+          &quot;radioChannels&quot;: &quot;string&quot;,
+          &quot;dataRates&quot;: &quot;string&quot;,
+          &quot;mandatoryDataRates&quot;: &quot;string&quot;,
+          &quot;powerThresholdV1&quot;: 0,
+          &quot;rxSopThreshold&quot;: &quot;string&quot;,
+          &quot;minPowerLevel&quot;: 0,
+          &quot;maxPowerLevel&quot;: 0
+        }
       }
     ]</div>
                                     </td>

@@ -20,7 +20,7 @@ cisco.dnac.event_subscription_rest -- Resource module for Event Subscription Res
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -100,7 +100,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Rest&#x27;s description.</div>
+                                            <div>Description.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -133,7 +133,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Rest&#x27;s eventIds.</div>
+                                            <div>Event Ids (Comma separated event ids).</div>
                                                         </td>
             </tr>
                     
@@ -150,7 +150,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Rest&#x27;s name.</div>
+                                            <div>Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -183,7 +183,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Rest&#x27;s instanceId.</div>
+                                            <div>(From Get Rest/Webhook Subscription Details --&gt; pick instanceId).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -218,7 +218,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Rest&#x27;s connectorType.</div>
+                                            <div>Connector Type (Must be REST).</div>
                                                         </td>
             </tr>
                     
@@ -236,7 +236,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Rest&#x27;s subscriptionId.</div>
+                                            <div>Subscription Id (Unique UUID).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -252,7 +252,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Rest&#x27;s version.</div>
+                                            <div>Version.</div>
                                                         </td>
             </tr>
                     
@@ -280,7 +280,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Update all
+    - name: Create
       cisco.dnac.event_subscription_rest:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -291,7 +291,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
 
-    - name: Create
+    - name: Update all
       cisco.dnac.event_subscription_rest:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -20,7 +20,7 @@ cisco.dnac.wireless_enterprise_ssid -- Resource module for Wireless Enterprise S
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -42,7 +42,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create and delete of the resource Wireless Enterprise Ssid.
+- Manage operations create, update and delete of the resource Wireless Enterprise Ssid.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -74,6 +74,55 @@ Parameters
         </tr>
                     <tr>
                                                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-basicServiceSetClientIdleTimeout"></div>
+                    <b>basicServiceSetClientIdleTimeout</b>
+                    <a class="ansibleOptionLink" href="#parameter-basicServiceSetClientIdleTimeout" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Basic Service Set Client Idle Timeout.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-clientExclusionTimeout"></div>
+                    <b>clientExclusionTimeout</b>
+                    <a class="ansibleOptionLink" href="#parameter-clientExclusionTimeout" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Client Exclusion Timeout.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-enableBasicServiceSetMaxIdle"></div>
+                    <b>enableBasicServiceSetMaxIdle</b>
+                    <a class="ansibleOptionLink" href="#parameter-enableBasicServiceSetMaxIdle" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Enable Basic Service Set Max Idle.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-enableBroadcastSSID"></div>
                     <b>enableBroadcastSSID</b>
                     <a class="ansibleOptionLink" href="#parameter-enableBroadcastSSID" title="Permalink to this option"></a>
@@ -88,7 +137,45 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>EnableBroadcastSSID flag.</div>
+                                            <div>Enable Broadcast SSID.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-enableClientExclusion"></div>
+                    <b>enableClientExclusion</b>
+                    <a class="ansibleOptionLink" href="#parameter-enableClientExclusion" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Enable Client Exclusion.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-enableDirectedMulticastService"></div>
+                    <b>enableDirectedMulticastService</b>
+                    <a class="ansibleOptionLink" href="#parameter-enableDirectedMulticastService" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Enable Directed Multicast Service.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -107,7 +194,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>EnableFastLane flag.</div>
+                                            <div>Enable Fast Lane.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -126,7 +213,45 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>EnableMACFiltering flag.</div>
+                                            <div>Enable MAC Filtering.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-enableNeighborList"></div>
+                    <b>enableNeighborList</b>
+                    <a class="ansibleOptionLink" href="#parameter-enableNeighborList" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Enable Neighbor List.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-enableSessionTimeOut"></div>
+                    <b>enableSessionTimeOut</b>
+                    <a class="ansibleOptionLink" href="#parameter-enableSessionTimeOut" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Enable Session Timeout.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -141,7 +266,22 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Enterprise Ssid&#x27;s fastTransition.</div>
+                                            <div>Fast Transition.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-mfpClientProtection"></div>
+                    <b>mfpClientProtection</b>
+                    <a class="ansibleOptionLink" href="#parameter-mfpClientProtection" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Management Frame Protection Client.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -156,7 +296,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Enterprise Ssid&#x27;s name.</div>
+                                            <div>Enter SSID Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -171,7 +311,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Enterprise Ssid&#x27;s passphrase.</div>
+                                            <div>Pass Phrase (Only applicable for SSID with PERSONAL security level).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -186,7 +326,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Enterprise Ssid&#x27;s radioPolicy.</div>
+                                            <div>Radio Policy.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -201,7 +341,22 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Enterprise Ssid&#x27;s securityLevel.</div>
+                                            <div>Security Level.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-sessionTimeOut"></div>
+                    <b>sessionTimeOut</b>
+                    <a class="ansibleOptionLink" href="#parameter-sessionTimeOut" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Session Time Out.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -231,7 +386,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Wireless Enterprise Ssid&#x27;s trafficType.</div>
+                                            <div>Traffic Type.</div>
                                                         </td>
             </tr>
                         </table>
@@ -268,14 +423,52 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        basicServiceSetClientIdleTimeout: 0
+        clientExclusionTimeout: 0
+        enableBasicServiceSetMaxIdle: true
         enableBroadcastSSID: true
+        enableClientExclusion: true
+        enableDirectedMulticastService: true
         enableFastLane: true
         enableMACFiltering: true
+        enableNeighborList: true
+        enableSessionTimeOut: true
         fastTransition: string
+        mfpClientProtection: string
         name: string
         passphrase: string
         radioPolicy: string
         securityLevel: string
+        sessionTimeOut: 0
+        trafficType: string
+
+    - name: Update all
+      cisco.dnac.wireless_enterprise_ssid:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        basicServiceSetClientIdleTimeout: 0
+        clientExclusionTimeout: 0
+        enableBasicServiceSetMaxIdle: true
+        enableBroadcastSSID: true
+        enableClientExclusion: true
+        enableDirectedMulticastService: true
+        enableFastLane: true
+        enableMACFiltering: true
+        enableNeighborList: true
+        enableSessionTimeOut: true
+        fastTransition: string
+        mfpClientProtection: string
+        name: string
+        passphrase: string
+        radioPolicy: string
+        securityLevel: string
+        sessionTimeOut: 0
         trafficType: string
 
     - name: Delete by name

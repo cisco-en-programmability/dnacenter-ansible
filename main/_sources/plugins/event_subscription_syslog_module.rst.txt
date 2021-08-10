@@ -20,7 +20,7 @@ cisco.dnac.event_subscription_syslog -- Resource module for Event Subscription S
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -100,7 +100,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Syslog&#x27;s description.</div>
+                                            <div>Description.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -133,7 +133,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Syslog&#x27;s eventIds.</div>
+                                            <div>Event Ids (Comma separated event ids).</div>
                                                         </td>
             </tr>
                     
@@ -150,7 +150,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Syslog&#x27;s name.</div>
+                                            <div>Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -183,7 +183,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Syslog&#x27;s instanceId.</div>
+                                            <div>(From Get Syslog Subscription Details --&gt; pick instanceId).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -218,7 +218,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Syslog&#x27;s connectorType.</div>
+                                            <div>Connector Type (Must be SYSLOG).</div>
                                                         </td>
             </tr>
                     
@@ -236,7 +236,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Syslog&#x27;s subscriptionId.</div>
+                                            <div>Subscription Id (Unique UUID).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -252,7 +252,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Syslog&#x27;s version.</div>
+                                            <div>Version.</div>
                                                         </td>
             </tr>
                     

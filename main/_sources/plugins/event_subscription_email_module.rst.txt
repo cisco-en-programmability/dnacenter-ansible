@@ -20,7 +20,7 @@ cisco.dnac.event_subscription_email -- Resource module for Event Subscription Em
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -100,7 +100,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Email&#x27;s description.</div>
+                                            <div>Description.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -133,7 +133,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Email&#x27;s eventIds.</div>
+                                            <div>Event Ids (Comma separated event ids).</div>
                                                         </td>
             </tr>
                     
@@ -150,7 +150,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Email&#x27;s name.</div>
+                                            <div>Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -183,7 +183,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Email&#x27;s instanceId.</div>
+                                            <div>(From Get Email Subscription Details --&gt; pick InstanceId).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -218,7 +218,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Email&#x27;s connectorType.</div>
+                                            <div>Connector Type (Must be EMAIL).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -236,7 +236,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Email&#x27;s fromEmailAddress.</div>
+                                            <div>Senders Email Address.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -254,7 +254,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Email&#x27;s subject.</div>
+                                            <div>Email Subject.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -272,7 +272,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Email&#x27;s toEmailAddresses.</div>
+                                            <div>Recipient&#x27;s Email Addresses (Comma separated).</div>
                                                         </td>
             </tr>
                     
@@ -290,7 +290,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Email&#x27;s subscriptionId.</div>
+                                            <div>Subscription Id (Unique UUID).</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -306,7 +306,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription Email&#x27;s version.</div>
+                                            <div>Version.</div>
                                                         </td>
             </tr>
                     
@@ -334,7 +334,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Update all
+    - name: Create
       cisco.dnac.event_subscription_email:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -345,7 +345,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
 
-    - name: Create
+    - name: Update all
       cisco.dnac.event_subscription_email:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -20,7 +20,7 @@ cisco.dnac.configuration_template_deploy_status_info -- Information module for C
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -84,7 +84,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>DeploymentId path parameter.</div>
+                                            <div>DeploymentId path parameter. UUID of deployment to retrieve template deployment status.</div>
                                                         </td>
             </tr>
                         </table>
@@ -163,13 +163,16 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       &quot;deploymentName&quot;: &quot;string&quot;,
       &quot;devices&quot;: [
         {
+          &quot;detailedStatusMessage&quot;: &quot;string&quot;,
           &quot;deviceId&quot;: &quot;string&quot;,
           &quot;duration&quot;: &quot;string&quot;,
           &quot;endTime&quot;: &quot;string&quot;,
+          &quot;identifier&quot;: &quot;string&quot;,
           &quot;ipAddress&quot;: &quot;string&quot;,
           &quot;name&quot;: &quot;string&quot;,
           &quot;startTime&quot;: &quot;string&quot;,
-          &quot;status&quot;: &quot;string&quot;
+          &quot;status&quot;: &quot;string&quot;,
+          &quot;targetType&quot;: &quot;string&quot;
         }
       ],
       &quot;duration&quot;: &quot;string&quot;,
@@ -177,6 +180,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       &quot;projectName&quot;: &quot;string&quot;,
       &quot;startTime&quot;: &quot;string&quot;,
       &quot;status&quot;: &quot;string&quot;,
+      &quot;statusMessage&quot;: &quot;string&quot;,
       &quot;templateName&quot;: &quot;string&quot;,
       &quot;templateVersion&quot;: &quot;string&quot;
     }</div>

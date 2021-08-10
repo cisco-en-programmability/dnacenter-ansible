@@ -20,7 +20,7 @@ cisco.dnac.issues_info -- Information module for Issues
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -129,7 +129,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>IssueStatus query parameter. The issue&#x27;s status value (One of ACTIVE, IGNORED, RESOLVED) (Use only when macAddress and deviceId are not provided).</div>
+                                            <div>IssueStatus query parameter. The issue&#x27;s status value (One of ACTIVE, IGNORED, RESOLVED).</div>
                                                         </td>
             </tr>
                                 <tr>

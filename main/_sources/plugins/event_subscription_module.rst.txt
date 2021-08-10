@@ -20,7 +20,7 @@ cisco.dnac.event_subscription -- Resource module for Event Subscription
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -100,7 +100,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription&#x27;s description.</div>
+                                            <div>Description.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -133,7 +133,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription&#x27;s eventIds.</div>
+                                            <div>Event Ids.</div>
                                                         </td>
             </tr>
                     
@@ -150,7 +150,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription&#x27;s name.</div>
+                                            <div>Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -183,7 +183,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription&#x27;s instanceId.</div>
+                                            <div>Instance Id.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -218,7 +218,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription&#x27;s connectorType.</div>
+                                            <div>Connector Type.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -236,7 +236,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription&#x27;s method.</div>
+                                            <div>Method.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -254,7 +254,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription&#x27;s name.</div>
+                                            <div>Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -272,7 +272,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription&#x27;s url.</div>
+                                            <div>Url.</div>
                                                         </td>
             </tr>
                     
@@ -290,7 +290,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription&#x27;s subscriptionId.</div>
+                                            <div>Subscription Id.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -306,7 +306,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Event Subscription&#x27;s version.</div>
+                                            <div>Version.</div>
                                                         </td>
             </tr>
                     
@@ -349,6 +349,18 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    - name: Delete all
+      cisco.dnac.event_subscription:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        subscriptions: string
+
     - name: Update all
       cisco.dnac.event_subscription:
         dnac_host: "{{dnac_host}}"
@@ -370,18 +382,6 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
-
-    - name: Delete all
-      cisco.dnac.event_subscription:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: absent
-        subscriptions: string
 
 
 

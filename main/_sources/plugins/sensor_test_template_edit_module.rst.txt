@@ -20,7 +20,7 @@ cisco.dnac.sensor_test_template_edit -- Resource module for Sensor Test Template
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -104,7 +104,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>AllSensors flag.</div>
+                                            <div>All Sensors.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -120,7 +120,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor Test Template Edit&#x27;s locationId.</div>
+                                            <div>Location Id.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -136,7 +136,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor Test Template Edit&#x27;s locationType.</div>
+                                            <div>Location Type.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -152,7 +152,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor Test Template Edit&#x27;s siteHierarchy.</div>
+                                            <div>Site Hierarchy.</div>
                                                         </td>
             </tr>
                     
@@ -201,7 +201,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor Test Template Edit&#x27;s unit.</div>
+                                            <div>Unit.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -218,7 +218,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor Test Template Edit&#x27;s value.</div>
+                                            <div>Value.</div>
                                                         </td>
             </tr>
                     
@@ -252,7 +252,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor Test Template Edit&#x27;s day.</div>
+                                            <div>Day.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -306,7 +306,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor Test Template Edit&#x27;s unit.</div>
+                                            <div>Unit.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -325,7 +325,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor Test Template Edit&#x27;s value.</div>
+                                            <div>Value.</div>
                                                         </td>
             </tr>
                     
@@ -344,7 +344,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor Test Template Edit&#x27;s from.</div>
+                                            <div>From.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -362,7 +362,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor Test Template Edit&#x27;s to.</div>
+                                            <div>To.</div>
                                                         </td>
             </tr>
                     
@@ -380,7 +380,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor Test Template Edit&#x27;s testScheduleMode.</div>
+                                            <div>Test Schedule Mode.</div>
                                                         </td>
             </tr>
                     
@@ -396,7 +396,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sensor Test Template Edit&#x27;s templateName.</div>
+                                            <div>Template Name.</div>
                                                         </td>
             </tr>
                         </table>
@@ -505,9 +505,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         &quot;rssiThreshold&quot;: 0,
         &quot;numNeighborAPThreshold&quot;: 0,
         &quot;scheduleInDays&quot;: 0,
-        &quot;wlans&quot;: [
-          {}
-        ],
+        &quot;wlans&quot;: [],
         &quot;ssids&quot;: [
           {
             &quot;bands&quot;: {},
@@ -538,9 +536,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
             &quot;whiteList&quot;: true,
             &quot;extWebAuthPortal&quot;: {},
             &quot;extWebAuthAccessUrl&quot;: {},
-            &quot;extWebAuthHtmlTag&quot;: [
-              {}
-            ],
+            &quot;extWebAuthHtmlTag&quot;: [],
             &quot;thirdParty&quot;: {
               &quot;selected&quot;: true
             },
@@ -553,9 +549,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
             &quot;tests&quot;: [
               {
                 &quot;name&quot;: &quot;string&quot;,
-                &quot;config&quot;: [
-                  {}
-                ]
+                &quot;config&quot;: []
               }
             ]
           }
@@ -571,9 +565,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
             &quot;locationType&quot;: &quot;string&quot;,
             &quot;allSensors&quot;: true,
             &quot;siteHierarchy&quot;: &quot;string&quot;,
-            &quot;macAddressList&quot;: [
-              {}
-            ]
+            &quot;macAddressList&quot;: []
           }
         ],
         &quot;schedule&quot;: {
@@ -600,9 +592,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
           }
         },
         &quot;tests&quot;: {},
-        &quot;sensors&quot;: [
-          {}
-        ],
+        &quot;sensors&quot;: [],
         &quot;apCoverage&quot;: [
           {
             &quot;bands&quot;: &quot;string&quot;,

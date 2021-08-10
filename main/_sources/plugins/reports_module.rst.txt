@@ -20,7 +20,7 @@ cisco.dnac.reports -- Resource module for Reports
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -79,12 +79,12 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-deliveries" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reports&#x27;s deliveries.</div>
+                                            <div>Array of available delivery channels.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -99,7 +99,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reports&#x27;s name.</div>
+                                            <div>Report name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -144,7 +144,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reports&#x27;s tags.</div>
+                                            <div>Array of tags for report.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -192,7 +192,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reports&#x27;s fieldGroupDisplayName.</div>
+                                            <div>Field group label/displayname for user.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -209,7 +209,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reports&#x27;s fieldGroupName.</div>
+                                            <div>Field group name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -244,7 +244,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reports&#x27;s displayName.</div>
+                                            <div>Field label/displayname.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -262,7 +262,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reports&#x27;s name.</div>
+                                            <div>Field name.</div>
                                                         </td>
             </tr>
                     
@@ -297,7 +297,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reports&#x27;s displayName.</div>
+                                            <div>Filter label/displayname.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -314,7 +314,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reports&#x27;s name.</div>
+                                            <div>Filter name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -331,7 +331,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reports&#x27;s type.</div>
+                                            <div>Filter type.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -348,7 +348,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reports&#x27;s value.</div>
+                                            <div>Value of filter. Data type is based on the filter type. Use the filter definitions from the view to fetch the options for a filter.</div>
                                                         </td>
             </tr>
                     
@@ -382,7 +382,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reports&#x27;s formatType.</div>
+                                            <div>Format type of report.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -399,7 +399,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reports&#x27;s name.</div>
+                                            <div>Format name of report.</div>
                                                         </td>
             </tr>
                     
@@ -416,7 +416,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reports&#x27;s name.</div>
+                                            <div>View name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -432,7 +432,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reports&#x27;s viewId.</div>
+                                            <div>View Id.</div>
                                                         </td>
             </tr>
                     
@@ -448,7 +448,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reports&#x27;s viewGroupId.</div>
+                                            <div>ViewGroupId of the viewgroup for the report.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -463,7 +463,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Reports&#x27;s viewGroupVersion.</div>
+                                            <div>Version of viewgroup for the report.</div>
                                                         </td>
             </tr>
                         </table>
@@ -490,18 +490,6 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Delete by id
-      cisco.dnac.reports:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: absent
-        reportId: string
-
     - name: Create
       cisco.dnac.reports:
         dnac_host: "{{dnac_host}}"
@@ -512,8 +500,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
-        deliveries:
-        - {}
+        deliveries: []
         name: string
         schedule: {}
         tags:
@@ -537,6 +524,18 @@ Examples
           viewId: string
         viewGroupId: string
         viewGroupVersion: string
+
+    - name: Delete by id
+      cisco.dnac.reports:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        reportId: string
 
 
 
@@ -574,8 +573,63 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                         <br/>
                                             <div style="font-size: smaller"><b>Sample:</b></div>
                                                 <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
-      &quot;message&quot;: &quot;string&quot;,
-      &quot;status&quot;: 0
+      &quot;tags&quot;: [
+        &quot;string&quot;
+      ],
+      &quot;dataCategory&quot;: &quot;string&quot;,
+      &quot;deliveries&quot;: [],
+      &quot;executionCount&quot;: 0,
+      &quot;executions&quot;: [
+        {
+          &quot;endTime&quot;: 0,
+          &quot;errors&quot;: [
+            &quot;string&quot;
+          ],
+          &quot;executionId&quot;: &quot;string&quot;,
+          &quot;processStatus&quot;: &quot;string&quot;,
+          &quot;requestStatus&quot;: &quot;string&quot;,
+          &quot;startTime&quot;: 0,
+          &quot;warnings&quot;: [
+            &quot;string&quot;
+          ]
+        }
+      ],
+      &quot;name&quot;: &quot;string&quot;,
+      &quot;reportId&quot;: &quot;string&quot;,
+      &quot;reportWasExecuted&quot;: true,
+      &quot;schedule&quot;: {},
+      &quot;view&quot;: {
+        &quot;fieldGroups&quot;: [
+          {
+            &quot;fieldGroupDisplayName&quot;: &quot;string&quot;,
+            &quot;fieldGroupName&quot;: &quot;string&quot;,
+            &quot;fields&quot;: [
+              {
+                &quot;displayName&quot;: &quot;string&quot;,
+                &quot;name&quot;: &quot;string&quot;
+              }
+            ]
+          }
+        ],
+        &quot;filters&quot;: [
+          {
+            &quot;displayName&quot;: &quot;string&quot;,
+            &quot;name&quot;: &quot;string&quot;,
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;value&quot;: {}
+          }
+        ],
+        &quot;format&quot;: {
+          &quot;formatType&quot;: &quot;string&quot;,
+          &quot;name&quot;: &quot;string&quot;
+        },
+        &quot;name&quot;: &quot;string&quot;,
+        &quot;viewId&quot;: &quot;string&quot;,
+        &quot;description&quot;: &quot;string&quot;,
+        &quot;viewInfo&quot;: &quot;string&quot;
+      },
+      &quot;viewGroupId&quot;: &quot;string&quot;,
+      &quot;viewGroupVersion&quot;: &quot;string&quot;
     }</div>
                                     </td>
             </tr>

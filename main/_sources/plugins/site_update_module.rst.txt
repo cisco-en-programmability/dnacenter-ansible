@@ -20,7 +20,7 @@ cisco.dnac.site_update -- Resource module for Site Update
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -117,7 +117,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Update&#x27;s name.</div>
+                                            <div>Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -134,7 +134,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Update&#x27;s parentName.</div>
+                                            <div>Parent Name.</div>
                                                         </td>
             </tr>
                     
@@ -168,7 +168,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Update&#x27;s address.</div>
+                                            <div>Address.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -185,7 +185,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Update&#x27;s latitude.</div>
+                                            <div>Latitude.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -202,7 +202,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Update&#x27;s longitude.</div>
+                                            <div>Longitude.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -219,7 +219,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Update&#x27;s name.</div>
+                                            <div>Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -236,7 +236,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Update&#x27;s parentName.</div>
+                                            <div>Parent Name.</div>
                                                         </td>
             </tr>
                     
@@ -270,7 +270,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Update&#x27;s height.</div>
+                                            <div>Height.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -287,7 +287,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Update&#x27;s length.</div>
+                                            <div>Length.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -304,7 +304,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Update&#x27;s name.</div>
+                                            <div>Name.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -321,7 +321,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Update&#x27;s rfModel.</div>
+                                            <div>Rf Model.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -338,7 +338,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Update&#x27;s width.</div>
+                                            <div>Width.</div>
                                                         </td>
             </tr>
                     
@@ -370,7 +370,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Update&#x27;s type.</div>
+                                            <div>Type.</div>
                                                         </td>
             </tr>
                         </table>

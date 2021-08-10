@@ -20,7 +20,7 @@ cisco.dnac.event_series_audit_logs_parent_records_info -- Information module for
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -497,9 +497,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         &quot;severity&quot;: 0,
         &quot;source&quot;: &quot;string&quot;,
         &quot;timestamp&quot;: 0,
-        &quot;tags&quot;: [
-          {}
-        ],
+        &quot;tags&quot;: [],
         &quot;details&quot;: {},
         &quot;ciscoDnaEventLink&quot;: &quot;string&quot;,
         &quot;note&quot;: &quot;string&quot;,

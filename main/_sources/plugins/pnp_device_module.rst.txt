@@ -20,7 +20,7 @@ cisco.dnac.pnp_device -- Resource module for Pnp Device
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -85,53 +85,6 @@ Parameters
                                                                                                                                                             </td>
                                                                 <td>
                                             <div>Pnp Device&#x27;s _id.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-dayZeroConfig"></div>
-                    <b>dayZeroConfig</b>
-                    <a class="ansibleOptionLink" href="#parameter-dayZeroConfig" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Device&#x27;s dayZeroConfig.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-dayZeroConfig/config"></div>
-                    <b>config</b>
-                    <a class="ansibleOptionLink" href="#parameter-dayZeroConfig/config" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Device&#x27;s config.</div>
-                                                        </td>
-            </tr>
-                    
-                                <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-dayZeroConfigPreview"></div>
-                    <b>dayZeroConfigPreview</b>
-                    <a class="ansibleOptionLink" href="#parameter-dayZeroConfigPreview" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Device&#x27;s dayZeroConfigPreview.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -246,22 +199,6 @@ Parameters
                                                                                                                                                             </td>
                                                                 <td>
                                             <div>Pnp Device&#x27;s agentType.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-deviceInfo/authenticatedMicNumber"></div>
-                    <b>authenticatedMicNumber</b>
-                    <a class="ansibleOptionLink" href="#parameter-deviceInfo/authenticatedMicNumber" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Device&#x27;s authenticatedMicNumber.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -676,7 +613,7 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-deviceInfo/ipInterfaces/ipv6AddressList" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=dictionary</span>                                            </div>
+                         / <span style="color: purple">elements=string</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
@@ -1602,38 +1539,6 @@ Parameters
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-deviceInfo/siteId"></div>
-                    <b>siteId</b>
-                    <a class="ansibleOptionLink" href="#parameter-deviceInfo/siteId" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Device&#x27;s siteId.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-deviceInfo/siteName"></div>
-                    <b>siteName</b>
-                    <a class="ansibleOptionLink" href="#parameter-deviceInfo/siteName" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Device&#x27;s siteName.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-deviceInfo/smartAccountId"></div>
                     <b>smartAccountId</b>
                     <a class="ansibleOptionLink" href="#parameter-deviceInfo/smartAccountId" title="Permalink to this option"></a>
@@ -2077,22 +1982,6 @@ Parameters
                                                                                                                                                             </td>
                                                                 <td>
                                             <div>Pnp Device&#x27;s tags.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-deviceInfo/userMicNumbers"></div>
-                    <b>userMicNumbers</b>
-                    <a class="ansibleOptionLink" href="#parameter-deviceInfo/userMicNumbers" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>                                            </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Device&#x27;s userMicNumbers.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -4458,7 +4347,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Update by id
+    - name: Create
       cisco.dnac.pnp_device:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4469,9 +4358,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         _id: string
-        dayZeroConfig:
-          config: string
-        dayZeroConfigPreview: {}
         deviceInfo:
           aaaCredentials:
             password: string
@@ -4481,7 +4367,6 @@ Examples
           - string
           agentType: string
           authStatus: string
-          authenticatedMicNumber: string
           authenticatedSudiSerialNo: string
           capabilitiesSupported:
           - string
@@ -4508,8 +4393,7 @@ Examples
           imageVersion: string
           ipInterfaces:
           - ipv4Address: {}
-            ipv6AddressList:
-            - {}
+            ipv6AddressList: []
             macAddress: string
             name: string
             status: string
@@ -4563,8 +4447,6 @@ Examples
           projectName: string
           reloadRequested: true
           serialNumber: string
-          siteId: string
-          siteName: string
           smartAccountId: string
           source: string
           stack: true
@@ -4591,8 +4473,272 @@ Examples
           state: string
           sudiRequired: true
           tags: {}
-          userMicNumbers:
+          userSudiSerialNos:
           - string
+          virtualAccountId: string
+          workflowId: string
+          workflowName: string
+        runSummaryList:
+        - details: string
+          errorFlag: true
+          historyTaskInfo:
+            addnDetails:
+            - key: string
+              value: string
+            name: string
+            timeTaken: 0
+            type: string
+            workItemList:
+            - command: string
+              endTime: 0
+              outputStr: string
+              startTime: 0
+              state: string
+              timeTaken: 0
+          timestamp: 0
+        systemResetWorkflow:
+          _id: string
+          addToInventory: true
+          addedOn: 0
+          configId: string
+          currTaskIdx: 0
+          description: string
+          endTime: 0
+          execTime: 0
+          imageId: string
+          instanceType: string
+          lastupdateOn: 0
+          name: string
+          startTime: 0
+          state: string
+          tasks:
+          - currWorkItemIdx: 0
+            endTime: 0
+            name: string
+            startTime: 0
+            state: string
+            taskSeqNo: 0
+            timeTaken: 0
+            type: string
+            workItemList:
+            - command: string
+              endTime: 0
+              outputStr: string
+              startTime: 0
+              state: string
+              timeTaken: 0
+          tenantId: string
+          type: string
+          useState: string
+          version: 0
+        systemWorkflow:
+          _id: string
+          addToInventory: true
+          addedOn: 0
+          configId: string
+          currTaskIdx: 0
+          description: string
+          endTime: 0
+          execTime: 0
+          imageId: string
+          instanceType: string
+          lastupdateOn: 0
+          name: string
+          startTime: 0
+          state: string
+          tasks:
+          - currWorkItemIdx: 0
+            endTime: 0
+            name: string
+            startTime: 0
+            state: string
+            taskSeqNo: 0
+            timeTaken: 0
+            type: string
+            workItemList:
+            - command: string
+              endTime: 0
+              outputStr: string
+              startTime: 0
+              state: string
+              timeTaken: 0
+          tenantId: string
+          type: string
+          useState: string
+          version: 0
+        tenantId: string
+        version: 0
+        workflow:
+          _id: string
+          addToInventory: true
+          addedOn: 0
+          configId: string
+          currTaskIdx: 0
+          description: string
+          endTime: 0
+          execTime: 0
+          imageId: string
+          instanceType: string
+          lastupdateOn: 0
+          name: string
+          startTime: 0
+          state: string
+          tasks:
+          - currWorkItemIdx: 0
+            endTime: 0
+            name: string
+            startTime: 0
+            state: string
+            taskSeqNo: 0
+            timeTaken: 0
+            type: string
+            workItemList:
+            - command: string
+              endTime: 0
+              outputStr: string
+              startTime: 0
+              state: string
+              timeTaken: 0
+          tenantId: string
+          type: string
+          useState: string
+          version: 0
+        workflowParameters:
+          configList:
+          - configId: string
+            configParameters:
+            - key: string
+              value: string
+          licenseLevel: string
+          licenseType: string
+          topOfStackSerialNumber: string
+
+    - name: Update by id
+      cisco.dnac.pnp_device:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        _id: string
+        deviceInfo:
+          aaaCredentials:
+            password: string
+            username: string
+          addedOn: 0
+          addnMacAddrs:
+          - string
+          agentType: string
+          authStatus: string
+          authenticatedSudiSerialNo: string
+          capabilitiesSupported:
+          - string
+          cmState: string
+          description: string
+          deviceSudiSerialNos:
+          - string
+          deviceType: string
+          featuresSupported:
+          - string
+          fileSystemList:
+          - freespace: 0
+            name: string
+            readable: true
+            size: 0
+            type: string
+            writeable: true
+          firstContact: 0
+          hostname: string
+          httpHeaders:
+          - key: string
+            value: string
+          imageFile: string
+          imageVersion: string
+          ipInterfaces:
+          - ipv4Address: {}
+            ipv6AddressList: []
+            macAddress: string
+            name: string
+            status: string
+          lastContact: 0
+          lastSyncTime: 0
+          lastUpdateOn: 0
+          location:
+            address: string
+            altitude: string
+            latitude: string
+            longitude: string
+            siteId: string
+          macAddress: string
+          mode: string
+          name: string
+          neighborLinks:
+          - localInterfaceName: string
+            localMacAddress: string
+            localShortInterfaceName: string
+            remoteDeviceName: string
+            remoteInterfaceName: string
+            remoteMacAddress: string
+            remotePlatform: string
+            remoteShortInterfaceName: string
+            remoteVersion: string
+          onbState: string
+          pid: string
+          pnpProfileList:
+          - createdBy: string
+            discoveryCreated: true
+            primaryEndpoint:
+              certificate: string
+              fqdn: string
+              ipv4Address: {}
+              ipv6Address: {}
+              port: 0
+              protocol: string
+            profileName: string
+            secondaryEndpoint:
+              certificate: string
+              fqdn: string
+              ipv4Address: {}
+              ipv6Address: {}
+              port: 0
+              protocol: string
+          populateInventory: true
+          preWorkflowCliOuputs:
+          - cli: string
+            cliOutput: string
+          projectId: string
+          projectName: string
+          reloadRequested: true
+          serialNumber: string
+          smartAccountId: string
+          source: string
+          stack: true
+          stackInfo:
+            isFullRing: true
+            stackMemberList:
+            - hardwareVersion: string
+              licenseLevel: string
+              licenseType: string
+              macAddress: string
+              pid: string
+              priority: 0
+              role: string
+              serialNumber: string
+              softwareVersion: string
+              stackNumber: 0
+              state: string
+              sudiSerialNumber: string
+            stackRingProtocol: string
+            supportsStackWorkflows: true
+            totalMemberCount: 0
+            validLicenseLevels:
+            - string
+          state: string
+          sudiRequired: true
+          tags: {}
           userSudiSerialNos:
           - string
           virtualAccountId: string
@@ -4746,281 +4892,6 @@ Examples
         state: absent
         id: string
 
-    - name: Create
-      cisco.dnac.pnp_device:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: present
-        _id: string
-        dayZeroConfig:
-          config: string
-        dayZeroConfigPreview: {}
-        deviceInfo:
-          aaaCredentials:
-            password: string
-            username: string
-          addedOn: 0
-          addnMacAddrs:
-          - string
-          agentType: string
-          authStatus: string
-          authenticatedMicNumber: string
-          authenticatedSudiSerialNo: string
-          capabilitiesSupported:
-          - string
-          cmState: string
-          description: string
-          deviceSudiSerialNos:
-          - string
-          deviceType: string
-          featuresSupported:
-          - string
-          fileSystemList:
-          - freespace: 0
-            name: string
-            readable: true
-            size: 0
-            type: string
-            writeable: true
-          firstContact: 0
-          hostname: string
-          httpHeaders:
-          - key: string
-            value: string
-          imageFile: string
-          imageVersion: string
-          ipInterfaces:
-          - ipv4Address: {}
-            ipv6AddressList:
-            - {}
-            macAddress: string
-            name: string
-            status: string
-          lastContact: 0
-          lastSyncTime: 0
-          lastUpdateOn: 0
-          location:
-            address: string
-            altitude: string
-            latitude: string
-            longitude: string
-            siteId: string
-          macAddress: string
-          mode: string
-          name: string
-          neighborLinks:
-          - localInterfaceName: string
-            localMacAddress: string
-            localShortInterfaceName: string
-            remoteDeviceName: string
-            remoteInterfaceName: string
-            remoteMacAddress: string
-            remotePlatform: string
-            remoteShortInterfaceName: string
-            remoteVersion: string
-          onbState: string
-          pid: string
-          pnpProfileList:
-          - createdBy: string
-            discoveryCreated: true
-            primaryEndpoint:
-              certificate: string
-              fqdn: string
-              ipv4Address: {}
-              ipv6Address: {}
-              port: 0
-              protocol: string
-            profileName: string
-            secondaryEndpoint:
-              certificate: string
-              fqdn: string
-              ipv4Address: {}
-              ipv6Address: {}
-              port: 0
-              protocol: string
-          populateInventory: true
-          preWorkflowCliOuputs:
-          - cli: string
-            cliOutput: string
-          projectId: string
-          projectName: string
-          reloadRequested: true
-          serialNumber: string
-          siteId: string
-          siteName: string
-          smartAccountId: string
-          source: string
-          stack: true
-          stackInfo:
-            isFullRing: true
-            stackMemberList:
-            - hardwareVersion: string
-              licenseLevel: string
-              licenseType: string
-              macAddress: string
-              pid: string
-              priority: 0
-              role: string
-              serialNumber: string
-              softwareVersion: string
-              stackNumber: 0
-              state: string
-              sudiSerialNumber: string
-            stackRingProtocol: string
-            supportsStackWorkflows: true
-            totalMemberCount: 0
-            validLicenseLevels:
-            - string
-          state: string
-          sudiRequired: true
-          tags: {}
-          userMicNumbers:
-          - string
-          userSudiSerialNos:
-          - string
-          virtualAccountId: string
-          workflowId: string
-          workflowName: string
-        runSummaryList:
-        - details: string
-          errorFlag: true
-          historyTaskInfo:
-            addnDetails:
-            - key: string
-              value: string
-            name: string
-            timeTaken: 0
-            type: string
-            workItemList:
-            - command: string
-              endTime: 0
-              outputStr: string
-              startTime: 0
-              state: string
-              timeTaken: 0
-          timestamp: 0
-        systemResetWorkflow:
-          _id: string
-          addToInventory: true
-          addedOn: 0
-          configId: string
-          currTaskIdx: 0
-          description: string
-          endTime: 0
-          execTime: 0
-          imageId: string
-          instanceType: string
-          lastupdateOn: 0
-          name: string
-          startTime: 0
-          state: string
-          tasks:
-          - currWorkItemIdx: 0
-            endTime: 0
-            name: string
-            startTime: 0
-            state: string
-            taskSeqNo: 0
-            timeTaken: 0
-            type: string
-            workItemList:
-            - command: string
-              endTime: 0
-              outputStr: string
-              startTime: 0
-              state: string
-              timeTaken: 0
-          tenantId: string
-          type: string
-          useState: string
-          version: 0
-        systemWorkflow:
-          _id: string
-          addToInventory: true
-          addedOn: 0
-          configId: string
-          currTaskIdx: 0
-          description: string
-          endTime: 0
-          execTime: 0
-          imageId: string
-          instanceType: string
-          lastupdateOn: 0
-          name: string
-          startTime: 0
-          state: string
-          tasks:
-          - currWorkItemIdx: 0
-            endTime: 0
-            name: string
-            startTime: 0
-            state: string
-            taskSeqNo: 0
-            timeTaken: 0
-            type: string
-            workItemList:
-            - command: string
-              endTime: 0
-              outputStr: string
-              startTime: 0
-              state: string
-              timeTaken: 0
-          tenantId: string
-          type: string
-          useState: string
-          version: 0
-        tenantId: string
-        version: 0
-        workflow:
-          _id: string
-          addToInventory: true
-          addedOn: 0
-          configId: string
-          currTaskIdx: 0
-          description: string
-          endTime: 0
-          execTime: 0
-          imageId: string
-          instanceType: string
-          lastupdateOn: 0
-          name: string
-          startTime: 0
-          state: string
-          tasks:
-          - currWorkItemIdx: 0
-            endTime: 0
-            name: string
-            startTime: 0
-            state: string
-            taskSeqNo: 0
-            timeTaken: 0
-            type: string
-            workItemList:
-            - command: string
-              endTime: 0
-              outputStr: string
-              startTime: 0
-              state: string
-              timeTaken: 0
-          tenantId: string
-          type: string
-          useState: string
-          version: 0
-        workflowParameters:
-          configList:
-          - configId: string
-            configParameters:
-            - key: string
-              value: string
-          licenseLevel: string
-          licenseType: string
-          topOfStackSerialNumber: string
-
 
 
 
@@ -5156,9 +5027,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
             &quot;status&quot;: &quot;string&quot;,
             &quot;macAddress&quot;: &quot;string&quot;,
             &quot;ipv4Address&quot;: {},
-            &quot;ipv6AddressList&quot;: [
-              {}
-            ],
+            &quot;ipv6AddressList&quot;: [],
             &quot;name&quot;: &quot;string&quot;
           }
         ],

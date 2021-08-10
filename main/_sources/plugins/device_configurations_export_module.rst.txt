@@ -20,7 +20,7 @@ cisco.dnac.device_configurations_export -- Resource module for Device Configurat
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.0.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -84,7 +84,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Device Configurations Export&#x27;s deviceId.</div>
+                                            <div>Device Id.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -99,7 +99,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Device Configurations Export&#x27;s password.</div>
+                                            <div>Password.</div>
                                                         </td>
             </tr>
                         </table>
