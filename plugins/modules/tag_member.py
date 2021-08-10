@@ -19,6 +19,9 @@ options:
   memberId:
     description: MemberId path parameter. TagMember id to be removed from tag.
     type: str
+  object:
+    description: Object.
+    type: str
 requirements:
 - dnacentersdk
 seealso:
@@ -40,6 +43,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     id: string
+    object: string
 
 - name: Delete by id
   cisco.dnac.tag_member:
@@ -63,10 +67,10 @@ dnac_response:
   type: dict
   sample: >
     {
+      "version": "string",
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
-      },
-      "version": "string"
+      }
     }
 """

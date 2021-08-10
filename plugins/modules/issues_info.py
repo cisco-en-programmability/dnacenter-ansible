@@ -47,9 +47,7 @@ options:
     type: str
   issueStatus:
     description:
-    - >
-      IssueStatus query parameter. The issue's status value (One of ACTIVE, IGNORED, RESOLVED) (Use only when
-      macAddress and deviceId are not provided).
+    - IssueStatus query parameter. The issue's status value (One of ACTIVE, IGNORED, RESOLVED).
     type: str
 requirements:
 - dnacentersdk

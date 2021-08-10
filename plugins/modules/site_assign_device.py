@@ -17,7 +17,7 @@ options:
     description: Site Assign Device's device.
     suboptions:
       ip:
-        description: Site Assign Device's ip.
+        description: Device ip (eg 10.104.240.64).
         type: str
     type: list
   siteId:

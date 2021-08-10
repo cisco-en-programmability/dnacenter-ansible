@@ -19,8 +19,8 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    deviceUuid=dict(type="str"),
     complianceStatus=dict(type="str"),
+    deviceUuid=dict(type="str"),
     offset=dict(type="int"),
     limit=dict(type="int"),
 ))
@@ -59,8 +59,8 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            device_uuid=params.get("deviceUuid"),
             compliance_status=params.get("complianceStatus"),
+            device_uuid=params.get("deviceUuid"),
             offset=params.get("offset"),
             limit=params.get("limit"),
         )

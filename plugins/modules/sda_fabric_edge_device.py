@@ -20,10 +20,10 @@ options:
     description: Sda Fabric Edge Device's payload.
     suboptions:
       deviceManagementIpAddress:
-        description: Sda Fabric Edge Device's deviceManagementIpAddress.
+        description: Device Management Ip Address.
         type: str
       siteNameHierarchy:
-        description: Sda Fabric Edge Device's siteNameHierarchy.
+        description: Site Name Hierarchy.
         type: str
     type: list
 requirements:

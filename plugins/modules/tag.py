@@ -27,7 +27,6 @@ options:
         suboptions:
           items:
             description: Tag's items.
-            elements: str
             type: list
           name:
             description: Tag's name.
@@ -80,8 +79,7 @@ EXAMPLES = r"""
     dynamicRules:
     - memberType: string
       rules:
-        items:
-        - string
+        items: []
         name: string
         operation: string
         value: string
@@ -106,8 +104,7 @@ EXAMPLES = r"""
     dynamicRules:
     - memberType: string
       rules:
-        items:
-        - string
+        items: []
         name: string
         operation: string
         value: string
@@ -139,10 +136,10 @@ dnac_response:
   type: dict
   sample: >
     {
+      "version": "string",
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
-      },
-      "version": "string"
+      }
     }
 """

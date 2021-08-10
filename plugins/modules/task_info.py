@@ -14,10 +14,6 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  taskId:
-    description:
-    - TaskId path parameter. UUID of the Task.
-    type: str
   startTime:
     description:
     - StartTime query parameter. This is the epoch start time from which tasks need to be fetched.
@@ -73,6 +69,10 @@ options:
   order:
     description:
     - Order query parameter. Sort order - asc or dsc.
+    type: str
+  taskId:
+    description:
+    - TaskId path parameter. UUID of the Task.
     type: str
 requirements:
 - dnacentersdk

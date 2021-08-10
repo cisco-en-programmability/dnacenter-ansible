@@ -82,9 +82,7 @@ dnac_response:
           "badCount": 0,
           "fairCount": 0,
           "unmonCount": 0,
-          "kpiMetrics": [
-            {}
-          ]
+          "kpiMetrics": []
         }
       ]
     }

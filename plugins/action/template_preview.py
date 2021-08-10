@@ -19,7 +19,9 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
+    deviceId=dict(type="str"),
     params=dict(type="dict"),
+    resourceParams=dict(type="dict"),
     templateId=dict(type="str"),
 ))
 
@@ -57,7 +59,9 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            deviceId=params.get("deviceId"),
             params=params.get("params"),
+            resourceParams=params.get("resourceParams"),
             templateId=params.get("templateId"),
         )
         return new_object

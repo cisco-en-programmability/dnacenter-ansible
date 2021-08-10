@@ -13,6 +13,27 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  comments:
+    description: Http Read Credential's comments.
+    type: str
+  credentialType:
+    description: Http Read Credential's credentialType.
+    type: str
+  description:
+    description: Http Read Credential's description.
+    type: str
+  id:
+    description: Http Read Credential's id.
+    type: str
+  instanceTenantId:
+    description: Http Read Credential's instanceTenantId.
+    type: str
+  instanceUuid:
+    description: Http Read Credential's instanceUuid.
+    type: str
+  password:
+    description: Http Read Credential's password.
+    type: str
   payload:
     description: Http Read Credential's payload.
     suboptions:
@@ -47,6 +68,15 @@ options:
         description: Http Read Credential's username.
         type: str
     type: list
+  port:
+    description: Http Read Credential's port.
+    type: int
+  secure:
+    description: Secure flag.
+    type: bool
+  username:
+    description: Http Read Credential's username.
+    type: str
 requirements:
 - dnacentersdk
 seealso:
@@ -57,17 +87,6 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Update all
-  cisco.dnac.http_read_credential:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: present
-
 - name: Create
   cisco.dnac.http_read_credential:
     dnac_host: "{{dnac_host}}"
@@ -79,6 +98,27 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
 
+- name: Update all
+  cisco.dnac.http_read_credential:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    comments: string
+    credentialType: string
+    description: string
+    id: string
+    instanceTenantId: string
+    instanceUuid: string
+    password: string
+    port: 0
+    secure: true
+    username: string
+
 """
 
 RETURN = r"""
@@ -89,7 +129,7 @@ dnac_response:
   sample: >
     {
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       },
       "version": "string"

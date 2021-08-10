@@ -57,10 +57,10 @@ dnac_response:
   type: dict
   sample: >
     {
+      "version": "string",
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
-      },
-      "version": "string"
+      }
     }
 """

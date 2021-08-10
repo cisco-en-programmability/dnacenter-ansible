@@ -14,21 +14,21 @@ version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   endTime:
-    description: Threat Summary's endTime.
+    description: End Time.
     type: int
   siteId:
-    description: Threat Summary's siteId.
+    description: Site Id.
     elements: str
     type: list
   startTime:
-    description: Threat Summary's startTime.
+    description: Start Time.
     type: int
   threatLevel:
-    description: Threat Summary's threatLevel.
+    description: Threat Level.
     elements: str
     type: list
   threatType:
-    description: Threat Summary's threatType.
+    description: Threat Type.
     elements: str
     type: list
 requirements:
@@ -68,16 +68,18 @@ dnac_response:
   type: dict
   sample: >
     {
-      "version": "string",
-      "response": {
-        "timestamp": 0,
-        "threatData": [
-          {
-            "threatType": "string",
-            "threatLevel": "string",
-            "threatCount": 0
-          }
-        ]
-      }
+      "response": [
+        {
+          "timestamp": 0,
+          "threatData": [
+            {
+              "threatType": "string",
+              "threatLevel": "string",
+              "threatCount": 0
+            }
+          ]
+        }
+      ],
+      "version": "string"
     }
 """

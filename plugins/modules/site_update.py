@@ -20,48 +20,48 @@ options:
         description: Site Update's area.
         suboptions:
           name:
-            description: Site Update's name.
+            description: Name.
             type: str
           parentName:
-            description: Site Update's parentName.
+            description: Parent Name.
             type: str
         type: dict
       building:
         description: Site Update's building.
         suboptions:
           address:
-            description: Site Update's address.
+            description: Address.
             type: str
           latitude:
-            description: Site Update's latitude.
+            description: Latitude.
             type: int
           longitude:
-            description: Site Update's longitude.
+            description: Longitude.
             type: int
           name:
-            description: Site Update's name.
+            description: Name.
             type: str
           parentName:
-            description: Site Update's parentName.
+            description: Parent Name.
             type: str
         type: dict
       floor:
         description: Site Update's floor.
         suboptions:
           height:
-            description: Site Update's height.
+            description: Height.
             type: int
           length:
-            description: Site Update's length.
+            description: Length.
             type: int
           name:
-            description: Site Update's name.
+            description: Name.
             type: str
           rfModel:
-            description: Site Update's rfModel.
+            description: Rf Model.
             type: str
           width:
-            description: Site Update's width.
+            description: Width.
             type: int
         type: dict
     type: dict
@@ -69,7 +69,7 @@ options:
     description: SiteId path parameter. Site id to which site details to be updated.
     type: str
   type:
-    description: Site Update's type.
+    description: Type.
     type: str
 requirements:
 - dnacentersdk

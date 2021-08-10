@@ -13,6 +13,24 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  comments:
+    description: Snmpv2 Write Community Credential's comments.
+    type: str
+  credentialType:
+    description: Snmpv2 Write Community Credential's credentialType.
+    type: str
+  description:
+    description: Snmpv2 Write Community Credential's description.
+    type: str
+  id:
+    description: Snmpv2 Write Community Credential's id.
+    type: str
+  instanceTenantId:
+    description: Snmpv2 Write Community Credential's instanceTenantId.
+    type: str
+  instanceUuid:
+    description: Snmpv2 Write Community Credential's instanceUuid.
+    type: str
   payload:
     description: Snmpv2 Write Community Credential's payload.
     suboptions:
@@ -38,6 +56,9 @@ options:
         description: Snmpv2 Write Community Credential's writeCommunity.
         type: str
     type: list
+  writeCommunity:
+    description: Snmpv2 Write Community Credential's writeCommunity.
+    type: str
 requirements:
 - dnacentersdk
 seealso:
@@ -48,17 +69,6 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Update all
-  cisco.dnac.snmpv2_write_community_credential:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: present
-
 - name: Create
   cisco.dnac.snmpv2_write_community_credential:
     dnac_host: "{{dnac_host}}"
@@ -70,6 +80,24 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
 
+- name: Update all
+  cisco.dnac.snmpv2_write_community_credential:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    comments: string
+    credentialType: string
+    description: string
+    id: string
+    instanceTenantId: string
+    instanceUuid: string
+    writeCommunity: string
+
 """
 
 RETURN = r"""
@@ -80,7 +108,7 @@ dnac_response:
   sample: >
     {
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       },
       "version": "string"

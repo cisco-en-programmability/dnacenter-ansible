@@ -17,62 +17,61 @@ options:
     description: Sensor's apCoverage.
     suboptions:
       bands:
-        description: Sensor's bands.
+        description: Bands.
         type: str
       numberOfApsToTest:
-        description: Sensor's numberOfApsToTest.
+        description: Number Of Aps To Test.
         type: str
       rssiThreshold:
-        description: Sensor's rssiThreshold.
+        description: Rssi Threshold.
         type: str
     type: list
   connection:
-    description: Sensor's connection.
+    description: Connection.
     type: str
   modelVersion:
-    description: Sensor's modelVersion.
+    description: Model Version.
     type: int
   name:
-    description: Sensor's name.
+    description: Name.
     type: str
   ssids:
     description: Sensor's ssids.
     suboptions:
       authType:
-        description: Sensor's authType.
+        description: Auth Type.
         type: str
       categories:
-        description: Sensor's categories.
+        description: Categories.
         elements: str
         type: list
       profileName:
-        description: Sensor's profileName.
+        description: Profile Name.
         type: str
       psk:
-        description: Sensor's psk.
+        description: Psk.
         type: str
       qosPolicy:
-        description: Sensor's qosPolicy.
+        description: Qos Policy.
         type: str
       ssid:
-        description: Sensor's ssid.
+        description: Ssid.
         type: str
       tests:
         description: Sensor's tests.
         suboptions:
           config:
-            description: Sensor's config.
-            elements: dict
+            description: Config.
             type: list
           name:
-            description: Sensor's name.
+            description: Name.
             type: str
         type: list
       thirdParty:
         description: Sensor's thirdParty.
         suboptions:
           selected:
-            description: Selected flag.
+            description: Selected.
             type: bool
         type: dict
     type: list
@@ -115,8 +114,7 @@ EXAMPLES = r"""
       qosPolicy: string
       ssid: string
       tests:
-      - config:
-        - {}
+      - config: []
         name: string
       thirdParty:
         selected: true
@@ -159,9 +157,7 @@ dnac_response:
         "rssiThreshold": 0,
         "numNeighborAPThreshold": 0,
         "scheduleInDays": 0,
-        "wlans": [
-          {}
-        ],
+        "wlans": [],
         "ssids": [
           {
             "bands": {},
@@ -192,9 +188,7 @@ dnac_response:
             "whiteList": true,
             "extWebAuthPortal": {},
             "extWebAuthAccessUrl": {},
-            "extWebAuthHtmlTag": [
-              {}
-            ],
+            "extWebAuthHtmlTag": [],
             "thirdParty": {
               "selected": true
             },
@@ -207,9 +201,7 @@ dnac_response:
             "tests": [
               {
                 "name": "string",
-                "config": [
-                  {}
-                ]
+                "config": []
               }
             ]
           }
@@ -219,14 +211,10 @@ dnac_response:
         "radioAsSensorRemoved": true,
         "encryptionMode": "string",
         "runNow": "string",
-        "locationInfoList": [
-          {}
-        ],
+        "locationInfoList": [],
         "schedule": {},
         "tests": {},
-        "sensors": [
-          {}
-        ],
+        "sensors": [],
         "apCoverage": [
           {
             "bands": "string",

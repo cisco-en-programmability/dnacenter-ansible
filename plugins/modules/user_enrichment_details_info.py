@@ -64,9 +64,7 @@ dnac_response:
           ],
           "hostMac": "string",
           "hostIpV4": "string",
-          "hostIpV6": [
-            {}
-          ],
+          "hostIpV6": [],
           "authType": {},
           "vlanId": "string",
           "ssid": {},
@@ -75,9 +73,7 @@ dnac_response:
           "apGroup": {},
           "location": {},
           "clientConnection": "string",
-          "connectedDevice": [
-            {}
-          ],
+          "connectedDevice": [],
           "issueCount": 0,
           "rssi": {},
           "avgRssi": {},

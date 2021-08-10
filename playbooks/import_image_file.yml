@@ -9,7 +9,6 @@
       dnac_username: "{{dnac_username}}"
       dnac_password: "{{dnac_password}}"
       dnac_verify: "{{dnac_verify}}"
-      fileName: test.template  # string
       filePath: fullpath/playbooks/files/test.template  # string
       isThirdParty: True  # boolean
       thirdPartyApplicationType: SomeValue  # string

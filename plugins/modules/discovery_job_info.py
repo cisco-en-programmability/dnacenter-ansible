@@ -14,10 +14,6 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  id:
-    description:
-    - Id path parameter. Discovery ID.
-    type: str
   offset:
     description:
     - Offset query parameter.
@@ -33,6 +29,10 @@ options:
   name:
     description:
     - Name query parameter.
+    type: str
+  id:
+    description:
+    - Id path parameter. Discovery ID.
     type: str
 requirements:
 - dnacentersdk

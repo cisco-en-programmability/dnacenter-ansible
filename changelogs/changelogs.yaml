@@ -96,3 +96,10 @@ releases:
         - Adds resources for modules to manage CRUD operations.
         - Adds plugins without state that perform special operation on DNA Center.
         - Adds plugins for resource's operations that have different structure in request/response bodies (ie. _create, _update, _delete plugins).
+  3.1.0:
+    release_date: '2021-08-10'
+    changes:
+      release_summary: Updates to support DNA version 2.2.2.3
+      major_changes:
+        - Adds new plugins related to DNA version 2.2.2.3.
+        - Updates previouse plugins to follow DNA version 2.2.2.3 specification.

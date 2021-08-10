@@ -29,7 +29,7 @@ argument_spec.update(dict(
     comments=dict(type="str"),
     credentialType=dict(type="str"),
     description=dict(type="str"),
-    enablePassword=dict(type="str"),
+    enablePassword=dict(type="str", no_log=True),
     id=dict(type="str"),
     instanceTenantId=dict(type="str"),
     instanceUuid=dict(type="str"),
@@ -62,15 +62,17 @@ class CliCredential(object):
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['comments'] = self.new_object.get('comments')
-        new_object_params['credentialType'] = self.new_object.get('credentialType')
-        new_object_params['description'] = self.new_object.get('description')
-        new_object_params['enablePassword'] = self.new_object.get('enablePassword')
-        new_object_params['id'] = self.new_object.get('id')
-        new_object_params['instanceTenantId'] = self.new_object.get('instanceTenantId')
-        new_object_params['instanceUuid'] = self.new_object.get('instanceUuid')
-        new_object_params['password'] = self.new_object.get('password')
-        new_object_params['username'] = self.new_object.get('username')
+        payload = {}
+        payload['comments'] = self.new_object.get('comments')
+        payload['credentialType'] = self.new_object.get('credentialType')
+        payload['description'] = self.new_object.get('description')
+        payload['enablePassword'] = self.new_object.get('enablePassword')
+        payload['id'] = self.new_object.get('id')
+        payload['instanceTenantId'] = self.new_object.get('instanceTenantId')
+        payload['instanceUuid'] = self.new_object.get('instanceUuid')
+        payload['password'] = self.new_object.get('password')
+        payload['username'] = self.new_object.get('username')
+        new_object_params['payload'] = payload
         return new_object_params
 
     def update_all_params(self):
@@ -135,12 +137,11 @@ class CliCredential(object):
 
     def requires_update(self, current_obj):
         requested_obj = self.new_object
-
         obj_params = [
+            ("payload", "payload"),
             ("comments", "comments"),
             ("credentialType", "credentialType"),
             ("description", "description"),
-            ("enablePassword", "enablePassword"),
             ("id", "id"),
             ("instanceTenantId", "instanceTenantId"),
             ("instanceUuid", "instanceUuid"),

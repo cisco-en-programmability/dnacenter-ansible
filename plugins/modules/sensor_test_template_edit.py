@@ -17,16 +17,16 @@ options:
     description: Sensor Test Template Edit's locationInfoList.
     suboptions:
       allSensors:
-        description: AllSensors flag.
+        description: All Sensors.
         type: bool
       locationId:
-        description: Sensor Test Template Edit's locationId.
+        description: Location Id.
         type: str
       locationType:
-        description: Sensor Test Template Edit's locationType.
+        description: Location Type.
         type: str
       siteHierarchy:
-        description: Sensor Test Template Edit's siteHierarchy.
+        description: Site Hierarchy.
         type: str
     type: list
   schedule:
@@ -36,17 +36,17 @@ options:
         description: Sensor Test Template Edit's frequency.
         suboptions:
           unit:
-            description: Sensor Test Template Edit's unit.
+            description: Unit.
             type: str
           value:
-            description: Sensor Test Template Edit's value.
+            description: Value.
             type: int
         type: dict
       scheduleRange:
         description: Sensor Test Template Edit's scheduleRange.
         suboptions:
           day:
-            description: Sensor Test Template Edit's day.
+            description: Day.
             type: str
           timeRange:
             description: Sensor Test Template Edit's timeRange.
@@ -55,26 +55,26 @@ options:
                 description: Sensor Test Template Edit's frequency.
                 suboptions:
                   unit:
-                    description: Sensor Test Template Edit's unit.
+                    description: Unit.
                     type: str
                   value:
-                    description: Sensor Test Template Edit's value.
+                    description: Value.
                     type: int
                 type: dict
               from:
-                description: Sensor Test Template Edit's from.
+                description: From.
                 type: str
               to:
-                description: Sensor Test Template Edit's to.
+                description: To.
                 type: str
             type: list
         type: list
       testScheduleMode:
-        description: Sensor Test Template Edit's testScheduleMode.
+        description: Test Schedule Mode.
         type: str
     type: dict
   templateName:
-    description: Sensor Test Template Edit's templateName.
+    description: Template Name.
     type: str
 requirements:
 - dnacentersdk
@@ -141,9 +141,7 @@ dnac_response:
         "rssiThreshold": 0,
         "numNeighborAPThreshold": 0,
         "scheduleInDays": 0,
-        "wlans": [
-          {}
-        ],
+        "wlans": [],
         "ssids": [
           {
             "bands": {},
@@ -174,9 +172,7 @@ dnac_response:
             "whiteList": true,
             "extWebAuthPortal": {},
             "extWebAuthAccessUrl": {},
-            "extWebAuthHtmlTag": [
-              {}
-            ],
+            "extWebAuthHtmlTag": [],
             "thirdParty": {
               "selected": true
             },
@@ -189,9 +185,7 @@ dnac_response:
             "tests": [
               {
                 "name": "string",
-                "config": [
-                  {}
-                ]
+                "config": []
               }
             ]
           }
@@ -207,9 +201,7 @@ dnac_response:
             "locationType": "string",
             "allSensors": true,
             "siteHierarchy": "string",
-            "macAddressList": [
-              {}
-            ]
+            "macAddressList": []
           }
         ],
         "schedule": {
@@ -236,9 +228,7 @@ dnac_response:
           }
         },
         "tests": {},
-        "sensors": [
-          {}
-        ],
+        "sensors": [],
         "apCoverage": [
           {
             "bands": "string",

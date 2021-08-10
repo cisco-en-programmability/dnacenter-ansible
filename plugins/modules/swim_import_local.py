@@ -13,9 +13,6 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  fileName:
-    description: File name.
-    type: str
   filePath:
     description: File absolute path.
     type: str
@@ -51,8 +48,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    fileName: Test-242.csv
-    filePath: /tmp/uploads/Test-242.csv
+    filePath: /tmp/uploads/Test-242.bin
     isThirdParty: true
     thirdPartyApplicationType: string
     thirdPartyImageFamily: string
@@ -68,7 +64,7 @@ dnac_response:
   sample: >
     {
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       },
       "version": "string"

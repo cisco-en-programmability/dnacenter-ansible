@@ -14,9 +14,135 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  hostname:
+    description:
+    - Hostname query parameter.
+    type: list
+  managementIpAddress:
+    description:
+    - ManagementIpAddress query parameter.
+    type: list
+  macAddress:
+    description:
+    - MacAddress query parameter.
+    type: list
+  locationName:
+    description:
+    - LocationName query parameter.
+    type: list
+  serialNumber:
+    description:
+    - SerialNumber query parameter.
+    type: list
+  location:
+    description:
+    - Location query parameter.
+    type: list
+  family:
+    description:
+    - Family query parameter.
+    type: list
+  type:
+    description:
+    - Type query parameter.
+    type: list
+  series:
+    description:
+    - Series query parameter.
+    type: list
+  collectionStatus:
+    description:
+    - CollectionStatus query parameter.
+    type: list
+  collectionInterval:
+    description:
+    - CollectionInterval query parameter.
+    type: list
+  notSyncedForMinutes:
+    description:
+    - NotSyncedForMinutes query parameter.
+    type: list
+  errorCode:
+    description:
+    - ErrorCode query parameter.
+    type: list
+  errorDescription:
+    description:
+    - ErrorDescription query parameter.
+    type: list
+  softwareVersion:
+    description:
+    - SoftwareVersion query parameter.
+    type: list
+  softwareType:
+    description:
+    - SoftwareType query parameter.
+    type: list
+  platformId:
+    description:
+    - PlatformId query parameter.
+    type: list
+  role:
+    description:
+    - Role query parameter.
+    type: list
+  reachabilityStatus:
+    description:
+    - ReachabilityStatus query parameter.
+    type: list
+  upTime:
+    description:
+    - UpTime query parameter.
+    type: list
+  associatedWlcIp:
+    description:
+    - AssociatedWlcIp query parameter.
+    type: list
+  license_name:
+    description:
+    - License.name query parameter.
+    type: list
+  license_type:
+    description:
+    - License.type query parameter.
+    type: list
+  license_status:
+    description:
+    - License.status query parameter.
+    type: list
+  module_name:
+    description:
+    - Module+name query parameter.
+    type: list
+  module_equpimenttype:
+    description:
+    - Module+equpimenttype query parameter.
+    type: list
+  module_servicestate:
+    description:
+    - Module+servicestate query parameter.
+    type: list
+  module_vendorequipmenttype:
+    description:
+    - Module+vendorequipmenttype query parameter.
+    type: list
+  module_partnumber:
+    description:
+    - Module+partnumber query parameter.
+    type: list
+  module_operationstatecode:
+    description:
+    - Module+operationstatecode query parameter.
+    type: list
   id:
     description:
-    - Id path parameter. Device ID.
+    - >
+      Id query parameter. Accepts comma separated ids and return list of network-devices for the given ids. If
+      invalid or not-found ids are provided, null entry will be returned in the list.
+    type: str
+  deviceSupportLevel:
+    description:
+    - DeviceSupportLevel query parameter.
     type: str
 requirements:
 - dnacentersdk
@@ -37,6 +163,38 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    hostname: []
+    managementIpAddress: []
+    macAddress: []
+    locationName: []
+    serialNumber: []
+    location: []
+    family: []
+    type: []
+    series: []
+    collectionStatus: []
+    collectionInterval: []
+    notSyncedForMinutes: []
+    errorCode: []
+    errorDescription: []
+    softwareVersion: []
+    softwareType: []
+    platformId: []
+    role: []
+    reachabilityStatus: []
+    upTime: []
+    associatedWlcIp: []
+    license_name: []
+    license_type: []
+    license_status: []
+    module_name: []
+    module_equpimenttype: []
+    module_servicestate: []
+    module_vendorequipmenttype: []
+    module_partnumber: []
+    module_operationstatecode: []
+    id: string
+    deviceSupportLevel: string
   register: result
 
 - name: Get Network Device by id

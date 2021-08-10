@@ -23,21 +23,21 @@ options:
         description: Global Pool's ippool.
         suboptions:
           dhcpServerIps:
-            description: Global Pool's dhcpServerIps.
+            description: Dhcp Server Ips.
             elements: str
             type: list
           dnsServerIps:
-            description: Global Pool's dnsServerIps.
+            description: Dns Server Ips.
             elements: str
             type: list
           gateway:
-            description: Global Pool's gateway.
+            description: Gateway.
             type: str
           id:
-            description: Global Pool's id.
+            description: Id.
             type: str
           ipPoolName:
-            description: Global Pool's ipPoolName.
+            description: Ip Pool Name.
             type: str
         type: list
     type: dict

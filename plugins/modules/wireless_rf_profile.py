@@ -14,85 +14,82 @@ version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   channelWidth:
-    description: Wireless Rf Profile's channelWidth.
+    description: Rf-profile channel width.
     type: str
   defaultRfProfile:
-    description: DefaultRfProfile flag.
+    description: IsDefault rf-profile.
     type: bool
   enableBrownField:
-    description: EnableBrownField flag.
+    description: True if enable brown field for rf-profile else false.
     type: bool
   enableCustom:
-    description: EnableCustom flag.
+    description: True if enable custom rf-profile else false.
     type: bool
   enableRadioTypeA:
-    description: EnableRadioTypeA flag.
+    description: Tru if Enable Radio Type A else false.
     type: bool
   enableRadioTypeB:
-    description: EnableRadioTypeB flag.
+    description: True if Enable Radio Type B else false.
     type: bool
   name:
-    description: Wireless Rf Profile's name.
+    description: Custom RF profile name.
     type: str
   radioTypeAProperties:
     description: Wireless Rf Profile's radioTypeAProperties.
     suboptions:
       dataRates:
-        description: Wireless Rf Profile's dataRates.
+        description: Data Rates.
         type: str
       mandatoryDataRates:
-        description: Wireless Rf Profile's mandatoryDataRates.
+        description: Mandatory Data Rates.
         type: str
       maxPowerLevel:
-        description: Wireless Rf Profile's maxPowerLevel.
+        description: Max Power Level.
         type: int
       minPowerLevel:
-        description: Wireless Rf Profile's minPowerLevel.
+        description: Min Power Level.
         type: int
       parentProfile:
-        description: Wireless Rf Profile's parentProfile.
+        description: Parent rf-profile name.
         type: str
       powerThresholdV1:
-        description: Wireless Rf Profile's powerThresholdV1.
+        description: Power Threshold V1.
         type: int
       radioChannels:
-        description: Wireless Rf Profile's radioChannels.
+        description: Radio Channels.
         type: str
       rxSopThreshold:
-        description: Wireless Rf Profile's rxSopThreshold.
+        description: Rx Sop Threshold.
         type: str
     type: dict
   radioTypeBProperties:
     description: Wireless Rf Profile's radioTypeBProperties.
     suboptions:
       dataRates:
-        description: Wireless Rf Profile's dataRates.
+        description: Data Rates.
         type: str
       mandatoryDataRates:
-        description: Wireless Rf Profile's mandatoryDataRates.
+        description: Mandatory Data Rates.
         type: str
       maxPowerLevel:
-        description: Wireless Rf Profile's maxPowerLevel.
+        description: Max Power Level.
         type: int
       minPowerLevel:
-        description: Wireless Rf Profile's minPowerLevel.
+        description: Min Power Level.
         type: int
       parentProfile:
-        description: Wireless Rf Profile's parentProfile.
+        description: Parent rf-profile name.
         type: str
       powerThresholdV1:
-        description: Wireless Rf Profile's powerThresholdV1.
+        description: Power Threshold V1.
         type: int
       radioChannels:
-        description: Wireless Rf Profile's radioChannels.
+        description: Radio Channels.
         type: str
       rxSopThreshold:
-        description: Wireless Rf Profile's rxSopThreshold.
+        description: Rx Sop Threshold.
         type: str
     type: dict
-  rf_profile_name:
-    description: Rf-profile-name path parameter.
-    type: str
 requirements:
 - dnacentersdk
 seealso:
@@ -138,18 +135,6 @@ EXAMPLES = r"""
       powerThresholdV1: 0
       radioChannels: string
       rxSopThreshold: string
-
-- name: Delete by name
-  cisco.dnac.wireless_rf_profile:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: absent
-    rf_profile_name: string
 
 """
 

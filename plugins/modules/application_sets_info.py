@@ -44,8 +44,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    offset: 1.0
-    limit: 500.0
+    offset: 0
+    limit: 0
     name: string
   register: result
 

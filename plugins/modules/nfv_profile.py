@@ -16,77 +16,97 @@ options:
   device:
     description: Nfv Profile's device.
     suboptions:
-      currentDeviceTag:
-        description: Nfv Profile's currentDeviceTag.
-        type: str
       customNetworks:
         description: Nfv Profile's customNetworks.
         suboptions:
           connectionType:
-            description: Nfv Profile's connectionType.
+            description: Type of network connection from custom network (eg lan).
             type: str
           networkName:
-            description: Nfv Profile's networkName.
+            description: Name of custom network (eg cust-1).
             type: str
           servicesToConnect:
             description: Nfv Profile's servicesToConnect.
             suboptions:
               serviceName:
-                description: Nfv Profile's serviceName.
+                description: Name of service to be connected to the custom network (eg
+                  router-1).
                 type: str
             type: list
           vlanId:
-            description: Nfv Profile's vlanId.
+            description: Vlan id for the custom network(eg 4000).
             type: int
           vlanMode:
-            description: Nfv Profile's vlanMode.
+            description: Network mode (eg Access or Trunk).
             type: str
         type: list
       customTemplate:
         description: Nfv Profile's customTemplate.
         suboptions:
           deviceType:
-            description: Nfv Profile's deviceType.
+            description: Type of the device(eg Cisco 5400 Enterprise Network Compute
+              System).
             type: str
           template:
-            description: Nfv Profile's template.
+            description: Name of the template(eg NFVIS template).
             type: str
           templateType:
-            description: Nfv Profile's templateType.
+            description: Name of the template type to which template is associated (eg
+              Cloud DayN Templates).
             type: str
         type: list
       deviceTag:
-        description: Nfv Profile's deviceTag.
+        description: Device Tag name(eg dev1).
+        type: str
+      deviceType:
+        description: Name of the device used in creating nfv profile.
         type: str
       directInternetAccessForFirewall:
-        description: DirectInternetAccessForFirewall flag.
+        description: Direct internet access value should be boolean (eg false or true).
         type: bool
+      serviceProviderProfile:
+        description: Nfv Profile's serviceProviderProfile.
+        suboptions:
+          connect:
+            description: Connection of service provider and device value should be boolean
+              (eg true).
+            type: bool
+          connectDefaultGatewayOnWan:
+            description: Connect default gateway connect value as boolean (eg true).
+            type: bool
+          linkType:
+            description: Name of connection type(eg GigabitEthernet).
+            type: str
+          serviceProvider:
+            description: Name of the service provider(eg Airtel).
+            type: str
+        type: list
       services:
         description: Nfv Profile's services.
         suboptions:
           firewallMode:
-            description: Nfv Profile's firewallMode.
+            description: Firewall mode details example (routed, transparent).
             type: str
           imageName:
-            description: Nfv Profile's imageName.
+            description: Service image name (eg isrv-universalk9.16.12.01a.tar.gz).
             type: str
           profileType:
-            description: Nfv Profile's profileType.
+            description: Profile type of service (eg ISRv-mini).
             type: str
           serviceName:
-            description: Nfv Profile's serviceName.
+            description: Name of the service (eg Router-1).
             type: str
           serviceType:
-            description: Nfv Profile's serviceType.
+            description: Service type (eg ISRV).
             type: str
           vNicMapping:
             description: Nfv Profile's vNicMapping.
             suboptions:
               assignIpAddressToNetwork:
-                description: Nfv Profile's assignIpAddressToNetwork.
+                description: Assign ip address to network (eg true or false).
                 type: str
               networkType:
-                description: Nfv Profile's networkType.
+                description: Type of connection (eg wan, lan or internal).
                 type: str
             type: list
         type: list
@@ -94,13 +114,13 @@ options:
         description: Nfv Profile's vlanForL2.
         suboptions:
           vlanDescription:
-            description: Nfv Profile's vlanDescription.
+            description: Vlan description(eg Access 4018).
             type: str
           vlanId:
-            description: Nfv Profile's vlanId.
+            description: Vlan id (eg 4018).
             type: int
           vlanType:
-            description: Nfv Profile's vlanType.
+            description: Vlan type(eg Access or Trunk).
             type: str
         type: list
     type: list
@@ -111,7 +131,7 @@ options:
     description: Name query parameter. Name of the profile to be updated.
     type: str
   profileName:
-    description: Nfv Profile's profileName.
+    description: Name of the profile to create NFV profile.
     type: str
 requirements:
 - dnacentersdk
@@ -123,6 +143,51 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: Create
+  cisco.dnac.nfv_profile:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    device:
+    - customNetworks:
+      - connectionType: string
+        networkName: string
+        servicesToConnect:
+        - serviceName: string
+        vlanId: 0
+        vlanMode: string
+      customTemplate:
+      - deviceType: string
+        template: string
+        templateType: string
+      deviceTag: string
+      deviceType: string
+      directInternetAccessForFirewall: true
+      serviceProviderProfile:
+      - connect: true
+        connectDefaultGatewayOnWan: true
+        linkType: string
+        serviceProvider: string
+      services:
+      - firewallMode: string
+        imageName: string
+        profileType: string
+        serviceName: string
+        serviceType: string
+        vNicMapping:
+        - assignIpAddressToNetwork: string
+          networkType: string
+      vlanForL2:
+      - vlanDescription: string
+        vlanId: 0
+        vlanType: string
+    profileName: string
+
 - name: Update by id
   cisco.dnac.nfv_profile:
     dnac_host: "{{dnac_host}}"
@@ -176,51 +241,6 @@ EXAMPLES = r"""
     state: absent
     id: string
     name: string
-
-- name: Create
-  cisco.dnac.nfv_profile:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: present
-    device:
-    - customNetworks:
-      - connectionType: string
-        networkName: string
-        servicesToConnect:
-        - serviceName: string
-        vlanId: 0
-        vlanMode: string
-      customTemplate:
-      - deviceType: string
-        template: string
-        templateType: string
-      deviceTag: string
-      deviceType: string
-      directInternetAccessForFirewall: true
-      serviceProviderProfile:
-      - connect: true
-        connectDefaultGatewayOnWan: true
-        linkType: string
-        serviceProvider: string
-      services:
-      - firewallMode: string
-        imageName: string
-        profileType: string
-        serviceName: string
-        serviceType: string
-        vNicMapping:
-        - assignIpAddressToNetwork: string
-          networkType: string
-      vlanForL2:
-      - vlanDescription: string
-        vlanId: 0
-        vlanType: string
-    profileName: string
 
 """
 

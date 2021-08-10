@@ -1,1 +1,1 @@
-dnacentersdk >= 2.2.4
+dnacentersdk >= 2.3.1

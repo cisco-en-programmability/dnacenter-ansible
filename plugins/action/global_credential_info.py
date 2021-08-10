@@ -19,10 +19,10 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    id=dict(type="str"),
     credentialSubType=dict(type="str"),
     sortBy=dict(type="str"),
     order=dict(type="str"),
+    id=dict(type="str"),
 ))
 
 required_if = []
@@ -59,10 +59,10 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            id=params.get("id"),
             credential_sub_type=params.get("credentialSubType"),
             sort_by=params.get("sortBy"),
             order=params.get("order"),
+            id=params.get("id"),
         )
         return new_object
 

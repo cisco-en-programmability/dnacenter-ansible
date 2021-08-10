@@ -59,14 +59,10 @@ dnac_response:
           "suggestedActions": [
             {
               "message": "string",
-              "steps": [
-                {}
-              ]
+              "steps": []
             }
           ],
-          "impactedHosts": [
-            {}
-          ]
+          "impactedHosts": []
         }
       ]
     }

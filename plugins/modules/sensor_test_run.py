@@ -14,7 +14,7 @@ version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   templateName:
-    description: Sensor Test Run's templateName.
+    description: Template Name.
     type: str
 requirements:
 - dnacentersdk

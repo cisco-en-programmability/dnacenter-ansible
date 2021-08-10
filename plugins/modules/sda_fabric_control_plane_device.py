@@ -20,10 +20,10 @@ options:
     description: Sda Fabric Control Plane Device's payload.
     suboptions:
       deviceManagementIpAddress:
-        description: Sda Fabric Control Plane Device's deviceManagementIpAddress.
+        description: Device Management Ip Address.
         type: str
       siteNameHierarchy:
-        description: Sda Fabric Control Plane Device's siteNameHierarchy.
+        description: Site Name Hierarchy.
         type: str
     type: list
 requirements:
@@ -36,17 +36,6 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Create
-  cisco.dnac.sda_fabric_control_plane_device:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: present
-
 - name: Delete all
   cisco.dnac.sda_fabric_control_plane_device:
     dnac_host: "{{dnac_host}}"
@@ -58,6 +47,17 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     deviceIPAddress: string
+
+- name: Create
+  cisco.dnac.sda_fabric_control_plane_device:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
 
 """
 

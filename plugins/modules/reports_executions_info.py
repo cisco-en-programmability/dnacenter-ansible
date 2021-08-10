@@ -22,6 +22,14 @@ options:
     description:
     - ExecutionId path parameter. ExecutionId of report execution.
     type: str
+  dirPath:
+    description:
+    - Directory absolute path. Defaults to the current working directory.
+    type: str
+  saveFile:
+    description:
+    - Enable or disable automatic file creation of raw response.
+    type: bool
 requirements:
 - dnacentersdk
 seealso:

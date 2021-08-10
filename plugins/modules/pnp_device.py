@@ -16,16 +16,6 @@ options:
   _id:
     description: Pnp Device's _id.
     type: str
-  dayZeroConfig:
-    description: Pnp Device's dayZeroConfig.
-    suboptions:
-      config:
-        description: Pnp Device's config.
-        type: str
-    type: dict
-  dayZeroConfigPreview:
-    description: Pnp Device's dayZeroConfigPreview.
-    type: dict
   deviceInfo:
     description: Pnp Device's deviceInfo.
     suboptions:
@@ -51,9 +41,6 @@ options:
         type: str
       authStatus:
         description: Pnp Device's authStatus.
-        type: str
-      authenticatedMicNumber:
-        description: Pnp Device's authenticatedMicNumber.
         type: str
       authenticatedSudiSerialNo:
         description: Pnp Device's authenticatedSudiSerialNo.
@@ -131,7 +118,6 @@ options:
             type: dict
           ipv6AddressList:
             description: Pnp Device's ipv6AddressList.
-            elements: dict
             type: list
           macAddress:
             description: Pnp Device's macAddress.
@@ -299,12 +285,6 @@ options:
       serialNumber:
         description: Pnp Device's serialNumber.
         type: str
-      siteId:
-        description: Pnp Device's siteId.
-        type: str
-      siteName:
-        description: Pnp Device's siteName.
-        type: str
       smartAccountId:
         description: Pnp Device's smartAccountId.
         type: str
@@ -383,10 +363,6 @@ options:
       tags:
         description: Pnp Device's tags.
         type: dict
-      userMicNumbers:
-        description: Pnp Device's userMicNumbers.
-        elements: str
-        type: list
       userSudiSerialNos:
         description: Pnp Device's userSudiSerialNos.
         elements: str
@@ -832,7 +808,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Update by id
+- name: Create
   cisco.dnac.pnp_device:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -843,9 +819,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     _id: string
-    dayZeroConfig:
-      config: string
-    dayZeroConfigPreview: {}
     deviceInfo:
       aaaCredentials:
         password: string
@@ -855,7 +828,6 @@ EXAMPLES = r"""
       - string
       agentType: string
       authStatus: string
-      authenticatedMicNumber: string
       authenticatedSudiSerialNo: string
       capabilitiesSupported:
       - string
@@ -882,8 +854,7 @@ EXAMPLES = r"""
       imageVersion: string
       ipInterfaces:
       - ipv4Address: {}
-        ipv6AddressList:
-        - {}
+        ipv6AddressList: []
         macAddress: string
         name: string
         status: string
@@ -937,8 +908,6 @@ EXAMPLES = r"""
       projectName: string
       reloadRequested: true
       serialNumber: string
-      siteId: string
-      siteName: string
       smartAccountId: string
       source: string
       stack: true
@@ -965,8 +934,272 @@ EXAMPLES = r"""
       state: string
       sudiRequired: true
       tags: {}
-      userMicNumbers:
+      userSudiSerialNos:
       - string
+      virtualAccountId: string
+      workflowId: string
+      workflowName: string
+    runSummaryList:
+    - details: string
+      errorFlag: true
+      historyTaskInfo:
+        addnDetails:
+        - key: string
+          value: string
+        name: string
+        timeTaken: 0
+        type: string
+        workItemList:
+        - command: string
+          endTime: 0
+          outputStr: string
+          startTime: 0
+          state: string
+          timeTaken: 0
+      timestamp: 0
+    systemResetWorkflow:
+      _id: string
+      addToInventory: true
+      addedOn: 0
+      configId: string
+      currTaskIdx: 0
+      description: string
+      endTime: 0
+      execTime: 0
+      imageId: string
+      instanceType: string
+      lastupdateOn: 0
+      name: string
+      startTime: 0
+      state: string
+      tasks:
+      - currWorkItemIdx: 0
+        endTime: 0
+        name: string
+        startTime: 0
+        state: string
+        taskSeqNo: 0
+        timeTaken: 0
+        type: string
+        workItemList:
+        - command: string
+          endTime: 0
+          outputStr: string
+          startTime: 0
+          state: string
+          timeTaken: 0
+      tenantId: string
+      type: string
+      useState: string
+      version: 0
+    systemWorkflow:
+      _id: string
+      addToInventory: true
+      addedOn: 0
+      configId: string
+      currTaskIdx: 0
+      description: string
+      endTime: 0
+      execTime: 0
+      imageId: string
+      instanceType: string
+      lastupdateOn: 0
+      name: string
+      startTime: 0
+      state: string
+      tasks:
+      - currWorkItemIdx: 0
+        endTime: 0
+        name: string
+        startTime: 0
+        state: string
+        taskSeqNo: 0
+        timeTaken: 0
+        type: string
+        workItemList:
+        - command: string
+          endTime: 0
+          outputStr: string
+          startTime: 0
+          state: string
+          timeTaken: 0
+      tenantId: string
+      type: string
+      useState: string
+      version: 0
+    tenantId: string
+    version: 0
+    workflow:
+      _id: string
+      addToInventory: true
+      addedOn: 0
+      configId: string
+      currTaskIdx: 0
+      description: string
+      endTime: 0
+      execTime: 0
+      imageId: string
+      instanceType: string
+      lastupdateOn: 0
+      name: string
+      startTime: 0
+      state: string
+      tasks:
+      - currWorkItemIdx: 0
+        endTime: 0
+        name: string
+        startTime: 0
+        state: string
+        taskSeqNo: 0
+        timeTaken: 0
+        type: string
+        workItemList:
+        - command: string
+          endTime: 0
+          outputStr: string
+          startTime: 0
+          state: string
+          timeTaken: 0
+      tenantId: string
+      type: string
+      useState: string
+      version: 0
+    workflowParameters:
+      configList:
+      - configId: string
+        configParameters:
+        - key: string
+          value: string
+      licenseLevel: string
+      licenseType: string
+      topOfStackSerialNumber: string
+
+- name: Update by id
+  cisco.dnac.pnp_device:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    _id: string
+    deviceInfo:
+      aaaCredentials:
+        password: string
+        username: string
+      addedOn: 0
+      addnMacAddrs:
+      - string
+      agentType: string
+      authStatus: string
+      authenticatedSudiSerialNo: string
+      capabilitiesSupported:
+      - string
+      cmState: string
+      description: string
+      deviceSudiSerialNos:
+      - string
+      deviceType: string
+      featuresSupported:
+      - string
+      fileSystemList:
+      - freespace: 0
+        name: string
+        readable: true
+        size: 0
+        type: string
+        writeable: true
+      firstContact: 0
+      hostname: string
+      httpHeaders:
+      - key: string
+        value: string
+      imageFile: string
+      imageVersion: string
+      ipInterfaces:
+      - ipv4Address: {}
+        ipv6AddressList: []
+        macAddress: string
+        name: string
+        status: string
+      lastContact: 0
+      lastSyncTime: 0
+      lastUpdateOn: 0
+      location:
+        address: string
+        altitude: string
+        latitude: string
+        longitude: string
+        siteId: string
+      macAddress: string
+      mode: string
+      name: string
+      neighborLinks:
+      - localInterfaceName: string
+        localMacAddress: string
+        localShortInterfaceName: string
+        remoteDeviceName: string
+        remoteInterfaceName: string
+        remoteMacAddress: string
+        remotePlatform: string
+        remoteShortInterfaceName: string
+        remoteVersion: string
+      onbState: string
+      pid: string
+      pnpProfileList:
+      - createdBy: string
+        discoveryCreated: true
+        primaryEndpoint:
+          certificate: string
+          fqdn: string
+          ipv4Address: {}
+          ipv6Address: {}
+          port: 0
+          protocol: string
+        profileName: string
+        secondaryEndpoint:
+          certificate: string
+          fqdn: string
+          ipv4Address: {}
+          ipv6Address: {}
+          port: 0
+          protocol: string
+      populateInventory: true
+      preWorkflowCliOuputs:
+      - cli: string
+        cliOutput: string
+      projectId: string
+      projectName: string
+      reloadRequested: true
+      serialNumber: string
+      smartAccountId: string
+      source: string
+      stack: true
+      stackInfo:
+        isFullRing: true
+        stackMemberList:
+        - hardwareVersion: string
+          licenseLevel: string
+          licenseType: string
+          macAddress: string
+          pid: string
+          priority: 0
+          role: string
+          serialNumber: string
+          softwareVersion: string
+          stackNumber: 0
+          state: string
+          sudiSerialNumber: string
+        stackRingProtocol: string
+        supportsStackWorkflows: true
+        totalMemberCount: 0
+        validLicenseLevels:
+        - string
+      state: string
+      sudiRequired: true
+      tags: {}
       userSudiSerialNos:
       - string
       virtualAccountId: string
@@ -1120,281 +1353,6 @@ EXAMPLES = r"""
     state: absent
     id: string
 
-- name: Create
-  cisco.dnac.pnp_device:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: present
-    _id: string
-    dayZeroConfig:
-      config: string
-    dayZeroConfigPreview: {}
-    deviceInfo:
-      aaaCredentials:
-        password: string
-        username: string
-      addedOn: 0
-      addnMacAddrs:
-      - string
-      agentType: string
-      authStatus: string
-      authenticatedMicNumber: string
-      authenticatedSudiSerialNo: string
-      capabilitiesSupported:
-      - string
-      cmState: string
-      description: string
-      deviceSudiSerialNos:
-      - string
-      deviceType: string
-      featuresSupported:
-      - string
-      fileSystemList:
-      - freespace: 0
-        name: string
-        readable: true
-        size: 0
-        type: string
-        writeable: true
-      firstContact: 0
-      hostname: string
-      httpHeaders:
-      - key: string
-        value: string
-      imageFile: string
-      imageVersion: string
-      ipInterfaces:
-      - ipv4Address: {}
-        ipv6AddressList:
-        - {}
-        macAddress: string
-        name: string
-        status: string
-      lastContact: 0
-      lastSyncTime: 0
-      lastUpdateOn: 0
-      location:
-        address: string
-        altitude: string
-        latitude: string
-        longitude: string
-        siteId: string
-      macAddress: string
-      mode: string
-      name: string
-      neighborLinks:
-      - localInterfaceName: string
-        localMacAddress: string
-        localShortInterfaceName: string
-        remoteDeviceName: string
-        remoteInterfaceName: string
-        remoteMacAddress: string
-        remotePlatform: string
-        remoteShortInterfaceName: string
-        remoteVersion: string
-      onbState: string
-      pid: string
-      pnpProfileList:
-      - createdBy: string
-        discoveryCreated: true
-        primaryEndpoint:
-          certificate: string
-          fqdn: string
-          ipv4Address: {}
-          ipv6Address: {}
-          port: 0
-          protocol: string
-        profileName: string
-        secondaryEndpoint:
-          certificate: string
-          fqdn: string
-          ipv4Address: {}
-          ipv6Address: {}
-          port: 0
-          protocol: string
-      populateInventory: true
-      preWorkflowCliOuputs:
-      - cli: string
-        cliOutput: string
-      projectId: string
-      projectName: string
-      reloadRequested: true
-      serialNumber: string
-      siteId: string
-      siteName: string
-      smartAccountId: string
-      source: string
-      stack: true
-      stackInfo:
-        isFullRing: true
-        stackMemberList:
-        - hardwareVersion: string
-          licenseLevel: string
-          licenseType: string
-          macAddress: string
-          pid: string
-          priority: 0
-          role: string
-          serialNumber: string
-          softwareVersion: string
-          stackNumber: 0
-          state: string
-          sudiSerialNumber: string
-        stackRingProtocol: string
-        supportsStackWorkflows: true
-        totalMemberCount: 0
-        validLicenseLevels:
-        - string
-      state: string
-      sudiRequired: true
-      tags: {}
-      userMicNumbers:
-      - string
-      userSudiSerialNos:
-      - string
-      virtualAccountId: string
-      workflowId: string
-      workflowName: string
-    runSummaryList:
-    - details: string
-      errorFlag: true
-      historyTaskInfo:
-        addnDetails:
-        - key: string
-          value: string
-        name: string
-        timeTaken: 0
-        type: string
-        workItemList:
-        - command: string
-          endTime: 0
-          outputStr: string
-          startTime: 0
-          state: string
-          timeTaken: 0
-      timestamp: 0
-    systemResetWorkflow:
-      _id: string
-      addToInventory: true
-      addedOn: 0
-      configId: string
-      currTaskIdx: 0
-      description: string
-      endTime: 0
-      execTime: 0
-      imageId: string
-      instanceType: string
-      lastupdateOn: 0
-      name: string
-      startTime: 0
-      state: string
-      tasks:
-      - currWorkItemIdx: 0
-        endTime: 0
-        name: string
-        startTime: 0
-        state: string
-        taskSeqNo: 0
-        timeTaken: 0
-        type: string
-        workItemList:
-        - command: string
-          endTime: 0
-          outputStr: string
-          startTime: 0
-          state: string
-          timeTaken: 0
-      tenantId: string
-      type: string
-      useState: string
-      version: 0
-    systemWorkflow:
-      _id: string
-      addToInventory: true
-      addedOn: 0
-      configId: string
-      currTaskIdx: 0
-      description: string
-      endTime: 0
-      execTime: 0
-      imageId: string
-      instanceType: string
-      lastupdateOn: 0
-      name: string
-      startTime: 0
-      state: string
-      tasks:
-      - currWorkItemIdx: 0
-        endTime: 0
-        name: string
-        startTime: 0
-        state: string
-        taskSeqNo: 0
-        timeTaken: 0
-        type: string
-        workItemList:
-        - command: string
-          endTime: 0
-          outputStr: string
-          startTime: 0
-          state: string
-          timeTaken: 0
-      tenantId: string
-      type: string
-      useState: string
-      version: 0
-    tenantId: string
-    version: 0
-    workflow:
-      _id: string
-      addToInventory: true
-      addedOn: 0
-      configId: string
-      currTaskIdx: 0
-      description: string
-      endTime: 0
-      execTime: 0
-      imageId: string
-      instanceType: string
-      lastupdateOn: 0
-      name: string
-      startTime: 0
-      state: string
-      tasks:
-      - currWorkItemIdx: 0
-        endTime: 0
-        name: string
-        startTime: 0
-        state: string
-        taskSeqNo: 0
-        timeTaken: 0
-        type: string
-        workItemList:
-        - command: string
-          endTime: 0
-          outputStr: string
-          startTime: 0
-          state: string
-          timeTaken: 0
-      tenantId: string
-      type: string
-      useState: string
-      version: 0
-    workflowParameters:
-      configList:
-      - configId: string
-        configParameters:
-        - key: string
-          value: string
-      licenseLevel: string
-      licenseType: string
-      topOfStackSerialNumber: string
-
 """
 
 RETURN = r"""
@@ -1503,9 +1461,7 @@ dnac_response:
             "status": "string",
             "macAddress": "string",
             "ipv4Address": {},
-            "ipv6AddressList": [
-              {}
-            ],
+            "ipv6AddressList": [],
             "name": "string"
           }
         ],

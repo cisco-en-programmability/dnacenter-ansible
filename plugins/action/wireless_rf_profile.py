@@ -34,12 +34,11 @@ argument_spec.update(dict(
     enableBrownField=dict(type="bool"),
     radioTypeAProperties=dict(type="dict"),
     radioTypeBProperties=dict(type="dict"),
-    rf_profile_name=dict(type="str"),
 ))
 
 required_if = [
-    ("state", "present", ["name", "rf_profile_name"], True),
-    ("state", "absent", ["name", "rf_profile_name"], True),
+    ("state", "present", ["name"], True),
+    ("state", "absent", ["name"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -59,7 +58,6 @@ class WirelessRfProfile(object):
             enableBrownField=params.get("enableBrownField"),
             radioTypeAProperties=params.get("radioTypeAProperties"),
             radioTypeBProperties=params.get("radioTypeBProperties"),
-            rf_profile_name=params.get("rf_profile_name"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -78,11 +76,6 @@ class WirelessRfProfile(object):
         new_object_params['enableBrownField'] = self.new_object.get('enableBrownField')
         new_object_params['radioTypeAProperties'] = self.new_object.get('radioTypeAProperties')
         new_object_params['radioTypeBProperties'] = self.new_object.get('radioTypeBProperties')
-        return new_object_params
-
-    def delete_by_name_params(self):
-        new_object_params = {}
-        new_object_params['rf_profile_name'] = self.new_object.get('rf_profile_name')
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -109,18 +102,12 @@ class WirelessRfProfile(object):
         name_exists = False
         o_id = self.new_object.get("id")
         name = self.new_object.get("name")
-        name = name or self.new_object.get("rf_profile_name")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
         if not id_exists and name:
             prev_obj = self.get_object_by_name(name)
             name_exists = prev_obj is not None and isinstance(prev_obj, dict)
-        if id_exists:
-            _name = prev_obj.get("name")
-            _name = _name or prev_obj.get("rf-profile-name")
-            if _name:
-                self.new_object.update(dict(rf_profile_name=_name))
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
@@ -143,7 +130,6 @@ class WirelessRfProfile(object):
             ("enableBrownField", "enableBrownField"),
             ("radioTypeAProperties", "radioTypeAProperties"),
             ("radioTypeBProperties", "radioTypeBProperties"),
-            ("rf_profile_name", "rf_profile_name"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
@@ -157,26 +143,6 @@ class WirelessRfProfile(object):
             function="create_or_update_rf_profile",
             params=self.create_params(),
             op_modifies=True,
-        )
-        return result
-
-    def delete(self):
-        id = self.new_object.get("id")
-        name = self.new_object.get("name")
-        name = name or self.new_object.get("rf_profile_name")
-        result = None
-        if not name:
-            prev_obj_id = self.get_object_by_id(id)
-            name_ = None
-            if prev_obj_id:
-                name_ = prev_obj_id.get("name")
-                name_ = name_ or prev_obj_id.get("rf-profile-name")
-            if name_:
-                self.new_object.update(dict(rf_profile_name=name_))
-        result = self.dnac.exec(
-            family="wireless",
-            function="delete_rf_profiles",
-            params=self.delete_by_name_params(),
         )
         return result
 
@@ -231,13 +197,6 @@ class ActionModule(ActionBase):
             else:
                 response = obj.create()
                 dnac.object_created()
-        elif state == "absent":
-            (obj_exists, prev_obj) = obj.exists()
-            if obj_exists:
-                response = obj.delete()
-                dnac.object_deleted()
-            else:
-                dnac.object_already_absent()
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

@@ -119,7 +119,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Delete by id
+- name: Create
   cisco.dnac.network_device:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -128,9 +128,38 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: absent
-    id: string
-    isForceDelete: true
+    state: present
+    cliTransport: string
+    computeDevice: true
+    enablePassword: string
+    extendedDiscoveryInfo: string
+    httpPassword: string
+    httpPort: string
+    httpSecure: true
+    httpUserName: string
+    ipAddress:
+    - string
+    merakiOrgId:
+    - string
+    netconfPort: string
+    password: string
+    serialNumber: string
+    snmpAuthPassphrase: string
+    snmpAuthProtocol: string
+    snmpMode: string
+    snmpPrivPassphrase: string
+    snmpPrivProtocol: string
+    snmpROCommunity: string
+    snmpRWCommunity: string
+    snmpRetry: 0
+    snmpTimeout: 0
+    snmpUserName: string
+    snmpVersion: string
+    type: string
+    updateMgmtIPaddressList:
+    - existMgmtIpAddress: string
+      newMgmtIpAddress: string
+    userName: string
 
 - name: Update all
   cisco.dnac.network_device:
@@ -174,7 +203,7 @@ EXAMPLES = r"""
       newMgmtIpAddress: string
     userName: string
 
-- name: Create
+- name: Delete by id
   cisco.dnac.network_device:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -183,38 +212,9 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
-    cliTransport: string
-    computeDevice: true
-    enablePassword: string
-    extendedDiscoveryInfo: string
-    httpPassword: string
-    httpPort: string
-    httpSecure: true
-    httpUserName: string
-    ipAddress:
-    - string
-    merakiOrgId:
-    - string
-    netconfPort: string
-    password: string
-    serialNumber: string
-    snmpAuthPassphrase: string
-    snmpAuthProtocol: string
-    snmpMode: string
-    snmpPrivPassphrase: string
-    snmpPrivProtocol: string
-    snmpROCommunity: string
-    snmpRWCommunity: string
-    snmpRetry: 0
-    snmpTimeout: 0
-    snmpUserName: string
-    snmpVersion: string
-    type: string
-    updateMgmtIPaddressList:
-    - existMgmtIpAddress: string
-      newMgmtIpAddress: string
-    userName: string
+    state: absent
+    id: string
+    isForceDelete: true
 
 """
 
@@ -226,7 +226,7 @@ dnac_response:
   sample: >
     {
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       },
       "version": "string"

@@ -25,12 +25,12 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
+    tags=dict(type="list"),
     createTime=dict(type="int"),
     description=dict(type="str"),
     id=dict(type="str"),
     lastUpdateTime=dict(type="int"),
     name=dict(type="str"),
-    tags=dict(type="list"),
     templates=dict(type="dict"),
     projectId=dict(type="str"),
 ))
@@ -48,12 +48,12 @@ class ConfigurationTemplateProject(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
+            tags=params.get("tags"),
             createTime=params.get("createTime"),
             description=params.get("description"),
             id=params.get("id"),
             lastUpdateTime=params.get("lastUpdateTime"),
             name=params.get("name"),
-            tags=params.get("tags"),
             templates=params.get("templates"),
             project_id=params.get("projectId"),
         )
@@ -61,16 +61,17 @@ class ConfigurationTemplateProject(object):
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params['name'] = name or self.new_object.get('name')
+        new_object_params['sort_order'] = self.new_object.get('sort_order')
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
+        new_object_params['tags'] = self.new_object.get('tags')
         new_object_params['createTime'] = self.new_object.get('createTime')
         new_object_params['description'] = self.new_object.get('description')
         new_object_params['id'] = self.new_object.get('id')
         new_object_params['lastUpdateTime'] = self.new_object.get('lastUpdateTime')
         new_object_params['name'] = self.new_object.get('name')
-        new_object_params['tags'] = self.new_object.get('tags')
         new_object_params['templates'] = self.new_object.get('templates')
         return new_object_params
 
@@ -81,12 +82,12 @@ class ConfigurationTemplateProject(object):
 
     def update_all_params(self):
         new_object_params = {}
+        new_object_params['tags'] = self.new_object.get('tags')
         new_object_params['createTime'] = self.new_object.get('createTime')
         new_object_params['description'] = self.new_object.get('description')
         new_object_params['id'] = self.new_object.get('id')
         new_object_params['lastUpdateTime'] = self.new_object.get('lastUpdateTime')
         new_object_params['name'] = self.new_object.get('name')
-        new_object_params['tags'] = self.new_object.get('tags')
         new_object_params['templates'] = self.new_object.get('templates')
         return new_object_params
 
@@ -106,7 +107,18 @@ class ConfigurationTemplateProject(object):
 
     def get_object_by_id(self, id):
         result = None
-        # NOTICE: Does not have a get by id method or it is in another action
+        try:
+            items = self.dnac.exec(
+                family="configuration_templates",
+                function="get_project_details",
+                params={"project_id": id}
+            )
+            if isinstance(items, dict):
+                if items.get('response'):
+                    items = items.get('response')
+            result = get_dict_result(items, 'projectId', id)
+        except Exception:
+            result = None
         return result
 
     def exists(self):
@@ -130,6 +142,8 @@ class ConfigurationTemplateProject(object):
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(project_id=_id))
+            if _id:
+                prev_obj = self.get_object_by_id(_id)
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
         return (it_exists, prev_obj)
 
@@ -137,12 +151,12 @@ class ConfigurationTemplateProject(object):
         requested_obj = self.new_object
 
         obj_params = [
+            ("tags", "tags"),
             ("createTime", "createTime"),
             ("description", "description"),
             ("id", "id"),
             ("lastUpdateTime", "lastUpdateTime"),
             ("name", "name"),
-            ("tags", "tags"),
             ("templates", "templates"),
             ("projectId", "project_id"),
         ]
@@ -188,7 +202,7 @@ class ConfigurationTemplateProject(object):
                 self.new_object.update(dict(project_id=id_))
         result = self.dnac.exec(
             family="configuration_templates",
-            function="delete_project",
+            function="deletes_the_project",
             params=self.delete_by_id_params(),
         )
         return result

@@ -26,6 +26,10 @@ argument_spec.update(dict(
     productSeries=dict(type="str"),
     productType=dict(type="str"),
     filterConflictingTemplates=dict(type="bool"),
+    tags=dict(type="list"),
+    projectNames=dict(type="list"),
+    unCommitted=dict(type="bool"),
+    sortOrder=dict(type="str"),
     templateId=dict(type="str"),
     latestVersion=dict(type="bool"),
 ))
@@ -71,6 +75,10 @@ class ActionModule(ActionBase):
             product_series=params.get("productSeries"),
             product_type=params.get("productType"),
             filter_conflicting_templates=params.get("filterConflictingTemplates"),
+            tags=params.get("tags"),
+            project_names=params.get("projectNames"),
+            un_committed=params.get("unCommitted"),
+            sort_order=params.get("sortOrder"),
             template_id=params.get("templateId"),
             latest_version=params.get("latestVersion"),
         )

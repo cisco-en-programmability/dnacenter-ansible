@@ -20,99 +20,105 @@ options:
         description: Network Update's clientAndEndpoint_aaa.
         suboptions:
           additionalIp:
-            description: Network Update's additionalIp.
+            description: Additional IP for ISE server which is not supported by AAA
+              server.
             elements: str
             type: list
           ipAddress:
-            description: Mandatory for ISE servers.
+            description: IP address for ISE serve (eg 1.1.1.4). Mandatory for ISE servers.
             type: str
           network:
-            description: Network Update's network.
+            description: IP address for AAA or ISE server (eg 2.2.2.1).
             type: str
           protocol:
-            description: Network Update's protocol.
+            description: Protocol for AAA or ISE serve (eg RADIUS).
             type: str
           servers:
-            description: Network Update's servers.
+            description: Server type AAA or ISE server (eg AAA).
             type: str
           sharedSecret:
-            description: Supported only by ISE servers.
+            description: Shared secret for ISE server. Supported only by ISE servers.
             type: str
         type: dict
       dhcpServer:
-        description: Network Update's dhcpServer.
+        description: Dhcp serve Ip (eg 1.1.1.1).
         elements: str
         type: list
       dnsServer:
         description: Network Update's dnsServer.
         suboptions:
           domainName:
-            description: Can only contain alphanumeric characters or hyphen.
+            description: Domain name of DHCP (eg; cisco). Can only contain alphanumeric
+              characters or hyphen.
             type: str
           primaryIpAddress:
-            description: Valid range 1.0.0.0 - 223.255.255.255.
+            description: Primary ip address for DHCP (eg 2.2.2.2). Valid range 1.0.0.0
+              - 223.255.255.255.
             type: str
           secondaryIpAddress:
-            description: Valid range 1.0.0.0 - 223.255.255.255.
+            description: Secondary ip address for DHCP (eg 3.3.3.3). Valid range 1.0.0.0
+              - 223.255.255.255.
             type: str
         type: dict
       messageOfTheday:
         description: Network Update's messageOfTheday.
         suboptions:
           bannerMessage:
-            description: Network Update's bannerMessage.
+            description: Massage for banner message (eg; Good day).
             type: str
           retainExistingBanner:
-            description: RetainExistingBanner flag.
+            description: Retain existing banner message (eg true).
             type: bool
         type: dict
       netflowcollector:
         description: Network Update's netflowcollector.
         suboptions:
           ipAddress:
-            description: Network Update's ipAddress.
+            description: IP address for netflow collector (eg 3.3.3.1).
             type: str
           port:
-            description: Network Update's port.
+            description: Port for netflow collector (eg; 443).
             type: int
         type: dict
       network_aaa:
         description: Network Update's network_aaa.
         suboptions:
           additionalIp:
-            description: Network Update's additionalIp.
+            description: Additional IP for ISE server which is not supported by AAA
+              server.
             elements: str
             type: list
           ipAddress:
-            description: Mandatory for ISE servers and for AAA consider this as additional
-              Ip.
+            description: IP address for AAA and ISE server (eg 1.1.1.1). Mandatory for
+              ISE servers and for AAA consider this as additional Ip.
             type: str
           network:
-            description: For AAA server consider it as primary IP and For ISE consider
-              as Network.
+            description: IP address for AAA or ISE server (eg 2.2.2.2). For AAA server
+              consider it as primary IP and For ISE consider as Network.
             type: str
           protocol:
-            description: Network Update's protocol.
+            description: Protocol for AAA or ISE serve (eg RADIUS).
             type: str
           servers:
-            description: Server type supported by ISE and AAA.
+            description: Server type for AAA network (eg AAA). Server type supported
+              by ISE and AAA.
             type: str
           sharedSecret:
-            description: Supported only by ISE servers.
+            description: Shared secret for ISE server. Supported only by ISE servers.
             type: str
         type: dict
       ntpServer:
-        description: Network Update's ntpServer.
+        description: IP address for NTP server (eg 1.1.1.2).
         elements: str
         type: list
       snmpServer:
         description: Network Update's snmpServer.
         suboptions:
           configureDnacIP:
-            description: ConfigureDnacIP flag.
+            description: Configuration dnac ip for snmp server (eg true).
             type: bool
           ipAddresses:
-            description: Network Update's ipAddresses.
+            description: IP address for snmp server (eg 4.4.4.1).
             elements: str
             type: list
         type: dict
@@ -120,20 +126,20 @@ options:
         description: Network Update's syslogServer.
         suboptions:
           configureDnacIP:
-            description: ConfigureDnacIP flag.
+            description: Configuration dnac ip for syslog server (eg true).
             type: bool
           ipAddresses:
-            description: Network Update's ipAddresses.
+            description: IP address for syslog server (eg 4.4.4.4).
             elements: str
             type: list
         type: dict
       timezone:
-        description: Network Update's timezone.
+        description: Input for time zone (eg Africa/Abidjan (GMT)).
         type: str
     type: dict
   siteId:
-    description: SiteId path parameter. Site id to update the network settings which
-      is associated with the site.
+    description: SiteId path parameter. Site id to which site details to associate with
+      the network settings.
     type: str
 requirements:
 - dnacentersdk
@@ -145,7 +151,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Update by id
+- name: Create
   cisco.dnac.network_update:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -196,7 +202,7 @@ EXAMPLES = r"""
       timezone: string
     siteId: string
 
-- name: Create
+- name: Update by id
   cisco.dnac.network_update:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

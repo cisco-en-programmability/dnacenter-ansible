@@ -23,90 +23,81 @@ options:
         description: Applications's applicationSet.
         suboptions:
           idRef:
-            description: Applications's idRef.
+            description: Id Ref.
             type: str
         type: dict
-      id:
-        description: Applications's id.
-        type: str
       name:
-        description: Applications's name.
+        description: Name.
         type: str
       networkApplications:
         description: Applications's networkApplications.
         suboptions:
           appProtocol:
-            description: Applications's appProtocol.
+            description: App Protocol.
             type: str
           applicationSubType:
-            description: Applications's applicationSubType.
+            description: Application Sub Type.
             type: str
           applicationType:
-            description: Applications's applicationType.
+            description: Application Type.
             type: str
           categoryId:
-            description: Applications's categoryId.
+            description: Category Id.
             type: str
           displayName:
-            description: Applications's displayName.
+            description: Display Name.
             type: str
           dscp:
-            description: Applications's dscp.
+            description: Dscp.
             type: str
           engineId:
-            description: Applications's engineId.
+            description: Engine Id.
             type: str
           helpString:
-            description: Applications's helpString.
-            type: str
-          id:
-            description: Applications's id.
+            description: Help String.
             type: str
           ignoreConflict:
-            description: Applications's ignoreConflict.
+            description: Ignore Conflict.
             type: str
           longDescription:
-            description: Applications's longDescription.
+            description: Long Description.
             type: str
           name:
-            description: Applications's name.
+            description: Name.
             type: str
           popularity:
-            description: Applications's popularity.
+            description: Popularity.
             type: str
           rank:
-            description: Applications's rank.
+            description: Rank.
             type: str
           serverName:
-            description: Applications's serverName.
+            description: Server Name.
             type: str
           trafficClass:
-            description: Applications's trafficClass.
+            description: Traffic Class.
             type: str
           url:
-            description: Applications's url.
+            description: Url.
             type: str
         type: list
       networkIdentity:
         description: Applications's networkIdentity.
         suboptions:
           displayName:
-            description: Applications's displayName.
-            type: str
-          id:
-            description: Applications's id.
+            description: Display Name.
             type: str
           lowerPort:
-            description: Applications's lowerPort.
+            description: Lower Port.
             type: str
           ports:
-            description: Applications's ports.
+            description: Ports.
             type: str
           protocol:
-            description: Applications's protocol.
+            description: Protocol.
             type: str
           upperPort:
-            description: Applications's upperPort.
+            description: Upper Port.
             type: str
         type: list
     type: list
@@ -120,7 +111,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Update all
+- name: Create
   cisco.dnac.applications:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -131,7 +122,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
 
-- name: Create
+- name: Update all
   cisco.dnac.applications:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -19,17 +19,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    _id=dict(type="str"),
-    deviceInfo=dict(type="dict"),
-    systemResetWorkflow=dict(type="dict"),
-    systemWorkflow=dict(type="dict"),
-    workflow=dict(type="dict"),
-    runSummaryList=dict(type="list"),
-    workflowParameters=dict(type="dict"),
-    dayZeroConfig=dict(type="dict"),
-    dayZeroConfigPreview=dict(type="dict"),
-    version=dict(type="int"),
-    tenantId=dict(type="str"),
+    payload=dict(type="list"),
 ))
 
 required_if = []
@@ -66,17 +56,7 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            _id=params.get("_id"),
-            deviceInfo=params.get("deviceInfo"),
-            systemResetWorkflow=params.get("systemResetWorkflow"),
-            systemWorkflow=params.get("systemWorkflow"),
-            workflow=params.get("workflow"),
-            runSummaryList=params.get("runSummaryList"),
-            workflowParameters=params.get("workflowParameters"),
-            dayZeroConfig=params.get("dayZeroConfig"),
-            dayZeroConfigPreview=params.get("dayZeroConfigPreview"),
-            version=params.get("version"),
-            tenantId=params.get("tenantId"),
+            payload=params.get("payload"),
         )
         return new_object
 

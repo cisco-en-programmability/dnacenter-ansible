@@ -17,47 +17,47 @@ options:
     description: Event Subscription's payload.
     suboptions:
       description:
-        description: Event Subscription's description.
+        description: Description.
         type: str
       filter:
         description: Event Subscription's filter.
         suboptions:
           eventIds:
-            description: Event Subscription's eventIds.
+            description: Event Ids.
             elements: str
             type: list
         type: dict
       name:
-        description: Event Subscription's name.
+        description: Name.
         type: str
       subscriptionEndpoints:
         description: Event Subscription's subscriptionEndpoints.
         suboptions:
           instanceId:
-            description: Event Subscription's instanceId.
+            description: Instance Id.
             type: str
           subscriptionDetails:
             description: Event Subscription's subscriptionDetails.
             suboptions:
               connectorType:
-                description: Event Subscription's connectorType.
+                description: Connector Type.
                 type: str
               method:
-                description: Event Subscription's method.
+                description: Method.
                 type: str
               name:
-                description: Event Subscription's name.
+                description: Name.
                 type: str
               url:
-                description: Event Subscription's url.
+                description: Url.
                 type: str
             type: dict
         type: list
       subscriptionId:
-        description: Event Subscription's subscriptionId.
+        description: Subscription Id.
         type: str
       version:
-        description: Event Subscription's version.
+        description: Version.
         type: str
     type: list
   subscriptions:
@@ -73,6 +73,18 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: Delete all
+  cisco.dnac.event_subscription:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    subscriptions: string
+
 - name: Update all
   cisco.dnac.event_subscription:
     dnac_host: "{{dnac_host}}"
@@ -94,18 +106,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-
-- name: Delete all
-  cisco.dnac.event_subscription:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: absent
-    subscriptions: string
 
 """
 

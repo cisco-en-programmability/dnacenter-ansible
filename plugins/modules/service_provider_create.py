@@ -20,16 +20,13 @@ options:
         description: Service Provider Create's qos.
         suboptions:
           model:
-            description: Service Provider Create's model.
-            type: str
-          oldProfileName:
-            description: Service Provider Create's oldProfileName.
+            description: Model.
             type: str
           profileName:
-            description: Service Provider Create's profileName.
+            description: Profile Name.
             type: str
           wanProvider:
-            description: Service Provider Create's wanProvider.
+            description: Wan Provider.
             type: str
         type: list
     type: dict
@@ -43,6 +40,21 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: Create
+  cisco.dnac.service_provider_create:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    settings:
+      qos:
+      - model: string
+        profileName: string
+        wanProvider: string
+
 - name: Update all
   cisco.dnac.service_provider_create:
     dnac_host: "{{dnac_host}}"
@@ -56,21 +68,6 @@ EXAMPLES = r"""
       qos:
       - model: string
         oldProfileName: string
-        profileName: string
-        wanProvider: string
-
-- name: Create
-  cisco.dnac.service_provider_create:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    settings:
-      qos:
-      - model: string
         profileName: string
         wanProvider: string
 

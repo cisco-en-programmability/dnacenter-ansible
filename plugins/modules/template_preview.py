@@ -13,11 +13,17 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  deviceId:
+    description: UUID of device to get template preview.
+    type: str
   params:
-    description: Template Preview's params.
+    description: Params to render preview.
+    type: dict
+  resourceParams:
+    description: Resource params to render preview.
     type: dict
   templateId:
-    description: Template Preview's templateId.
+    description: UUID of template to get template preview.
     type: str
 requirements:
 - dnacentersdk
@@ -38,7 +44,9 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    deviceId: string
     params: {}
+    resourceParams: {}
     templateId: string
 
 """
@@ -51,6 +59,7 @@ dnac_response:
   sample: >
     {
       "cliPreview": "string",
+      "deviceId": "string",
       "templateId": "string",
       "validationErrors": {}
     }

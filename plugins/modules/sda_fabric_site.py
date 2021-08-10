@@ -17,10 +17,10 @@ options:
     description: Sda Fabric Site's payload.
     suboptions:
       fabricName:
-        description: Sda Fabric Site's fabricName.
+        description: Fabric Name.
         type: str
       siteNameHierarchy:
-        description: Sda Fabric Site's siteNameHierarchy.
+        description: Site Name Hierarchy.
         type: str
     type: list
   siteNameHierarchy:
@@ -36,17 +36,6 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Create
-  cisco.dnac.sda_fabric_site:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: present
-
 - name: Delete all
   cisco.dnac.sda_fabric_site:
     dnac_host: "{{dnac_host}}"
@@ -58,6 +47,17 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     siteNameHierarchy: string
+
+- name: Create
+  cisco.dnac.sda_fabric_site:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
 
 """
 

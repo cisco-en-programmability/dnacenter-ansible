@@ -19,7 +19,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    id=dict(type="str"),
     limit=dict(type="int"),
     offset=dict(type="int"),
     sort=dict(type="list"),
@@ -41,6 +40,7 @@ argument_spec.update(dict(
     macAddress=dict(type="str"),
     hostname=dict(type="str"),
     siteName=dict(type="str"),
+    id=dict(type="str"),
 ))
 
 required_if = []
@@ -77,7 +77,6 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            id=params.get("id"),
             limit=params.get("limit"),
             offset=params.get("offset"),
             sort=params.get("sort"),
@@ -99,6 +98,7 @@ class ActionModule(ActionBase):
             mac_address=params.get("macAddress"),
             hostname=params.get("hostname"),
             site_name=params.get("siteName"),
+            id=params.get("id"),
         )
         return new_object
 

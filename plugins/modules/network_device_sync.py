@@ -18,7 +18,6 @@ options:
     type: bool
   payload:
     description: Network Device Sync's payload.
-    elements: dict
     type: list
 requirements:
 - dnacentersdk
@@ -40,6 +39,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     forceSync: true
+    payload: []
 
 """
 
@@ -51,7 +51,7 @@ dnac_response:
   sample: >
     {
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       },
       "version": "string"

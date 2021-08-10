@@ -14,7 +14,7 @@ version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   device_ip:
-    description: Nfv Provision Details's device_ip.
+    description: Device Ip.
     type: str
 requirements:
 - dnacentersdk

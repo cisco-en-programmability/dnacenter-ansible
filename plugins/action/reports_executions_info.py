@@ -21,6 +21,8 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     reportId=dict(type="str"),
     executionId=dict(type="str"),
+    dirPath=dict(type="str"),
+    saveFile=dict(type="bool"),
 ))
 
 required_if = []
@@ -59,6 +61,8 @@ class ActionModule(ActionBase):
         new_object = dict(
             report_id=params.get("reportId"),
             execution_id=params.get("executionId"),
+            dirpath=params.get("dirPath"),
+            save_file=params.get("saveFile"),
         )
         return new_object
 
@@ -70,13 +74,13 @@ class ActionModule(ActionBase):
 
         dnac = DNACSDK(params=self._task.args)
 
-        id = self._task.args.get("execution_id")
+        id = self._task.args.get("executionId")
         if id:
             response = dnac.exec(
                 family="reports",
                 function='download_report_content',
                 params=self.get_object(self._task.args)
-            )
+            ).data
             self._result.update(dict(dnac_response=response))
             self._result.update(dnac.exit_json())
             return self._result

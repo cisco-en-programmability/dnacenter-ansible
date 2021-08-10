@@ -13,6 +13,24 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  comments:
+    description: Snmpv2 Read Community Credential's comments.
+    type: str
+  credentialType:
+    description: Snmpv2 Read Community Credential's credentialType.
+    type: str
+  description:
+    description: Snmpv2 Read Community Credential's description.
+    type: str
+  id:
+    description: Snmpv2 Read Community Credential's id.
+    type: str
+  instanceTenantId:
+    description: Snmpv2 Read Community Credential's instanceTenantId.
+    type: str
+  instanceUuid:
+    description: Snmpv2 Read Community Credential's instanceUuid.
+    type: str
   payload:
     description: Snmpv2 Read Community Credential's payload.
     suboptions:
@@ -38,6 +56,9 @@ options:
         description: Snmpv2 Read Community Credential's readCommunity.
         type: str
     type: list
+  readCommunity:
+    description: Snmpv2 Read Community Credential's readCommunity.
+    type: str
 requirements:
 - dnacentersdk
 seealso:
@@ -58,6 +79,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    comments: string
+    credentialType: string
+    description: string
+    id: string
+    instanceTenantId: string
+    instanceUuid: string
+    readCommunity: string
 
 - name: Create
   cisco.dnac.snmpv2_read_community_credential:
@@ -80,7 +108,7 @@ dnac_response:
   sample: >
     {
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       },
       "version": "string"

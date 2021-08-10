@@ -14,10 +14,6 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  id:
-    description:
-    - Id path parameter.
-    type: str
   limit:
     description:
     - Limit query parameter. Limits number of results.
@@ -42,6 +38,10 @@ options:
     description:
     - Name query parameter. Workflow Name.
     type: list
+  id:
+    description:
+    - Id path parameter.
+    type: str
 requirements:
 - dnacentersdk
 seealso:

@@ -14,11 +14,11 @@ version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   deviceId:
-    description: Device Configurations Export's deviceId.
+    description: Device Id.
     elements: str
     type: list
   password:
-    description: Device Configurations Export's password.
+    description: Password.
     type: str
 requirements:
 - dnacentersdk

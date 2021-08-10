@@ -17,10 +17,10 @@ options:
     description: Sda Fabric Authentication Profile's payload.
     suboptions:
       authenticateTemplateName:
-        description: Sda Fabric Authentication Profile's authenticateTemplateName.
+        description: Authenticate Template Name.
         type: str
       siteNameHierarchy:
-        description: Sda Fabric Authentication Profile's siteNameHierarchy.
+        description: Site Name Hierarchy.
         type: str
     type: list
   siteNameHierarchy:
@@ -36,7 +36,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Update all
+- name: Create
   cisco.dnac.sda_fabric_authentication_profile:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -47,7 +47,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
 
-- name: Create
+- name: Update all
   cisco.dnac.sda_fabric_authentication_profile:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

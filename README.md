@@ -10,7 +10,7 @@ This collection has been tested and supports Cisco DNA Center 2.1.1.
 
 ## Requirements
 - Ansible >= 2.9
-- [DNA Center SDK](https://github.com/cisco-en-programmability/dnacentersdk) v2.2.4 or newer
+- [DNA Center SDK](https://github.com/cisco-en-programmability/dnacentersdk) v2.3.1 or newer
 - Python >= 3.6, as the DNA Center SDK doesn't support Python version 2.x
 
 ## Install
@@ -36,7 +36,7 @@ dnac_host: <A.B.C.D>
 dnac_port: 443  # optional, defaults to 443
 dnac_username: <username>
 dnac_password: <password>
-dnac_version: 2.1.1  # optional, defaults to 2.1.1
+dnac_version: 2.2.2.3  # optional, defaults to 2.2.2.3
 dnac_verify: False  # optional, defaults to True
 dnac_debug: False  # optional, defaults to False
 ```

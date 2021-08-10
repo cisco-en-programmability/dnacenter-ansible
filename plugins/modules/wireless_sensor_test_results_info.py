@@ -51,7 +51,7 @@ EXAMPLES = r"""
     siteId: string
     startTime: 0
     endTime: 0
-    testFailureBy: area
+    testFailureBy: string
   register: result
 
 """

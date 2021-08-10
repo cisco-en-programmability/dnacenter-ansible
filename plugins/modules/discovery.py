@@ -107,7 +107,7 @@ options:
         type: str
     type: dict
   id:
-    description: Id path parameter. Discovery ID.
+    description: Discovery's id.
     type: str
   ipAddressList:
     description: Discovery's ipAddressList.
@@ -143,7 +143,7 @@ options:
     description: Discovery's protocolOrder.
     type: str
   retry:
-    description: Discovery's retry.
+    description: Number of times to try establishing connection to device.
     type: int
   retryCount:
     description: Discovery's retryCount.
@@ -164,16 +164,16 @@ options:
     description: Discovery's snmpPrivProtocol.
     type: str
   snmpROCommunity:
-    description: Discovery's snmpROCommunity.
+    description: Snmp RO community of the devices to be discovered.
     type: str
   snmpROCommunityDesc:
-    description: Discovery's snmpROCommunityDesc.
+    description: Description for Snmp RO community.
     type: str
   snmpRWCommunity:
-    description: Discovery's snmpRWCommunity.
+    description: Snmp RW community of the devices to be discovered.
     type: str
   snmpRWCommunityDesc:
-    description: Discovery's snmpRWCommunityDesc.
+    description: Description for Snmp RW community.
     type: str
   snmpRoCommunity:
     description: Discovery's snmpRoCommunity.
@@ -191,13 +191,13 @@ options:
     description: Discovery's snmpUserName.
     type: str
   snmpVersion:
-    description: Discovery's snmpVersion.
+    description: Version of SNMP. V2 or v3.
     type: str
   timeOut:
     description: Discovery's timeOut.
     type: int
   timeout:
-    description: Discovery's timeout.
+    description: Time to wait for device response in seconds.
     type: int
   updateMgmtIp:
     description: UpdateMgmtIp flag.
@@ -215,7 +215,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Delete by id
+- name: Delete all
   cisco.dnac.discovery:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -225,7 +225,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: absent
-    id: string
 
 - name: Update by id
   cisco.dnac.discovery:
@@ -347,7 +346,7 @@ EXAMPLES = r"""
     userNameList:
     - string
 
-- name: Delete all
+- name: Delete by id
   cisco.dnac.discovery:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -357,6 +356,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: absent
+    id: string
 
 """
 
@@ -368,7 +368,7 @@ dnac_response:
   sample: >
     {
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       },
       "version": "string"

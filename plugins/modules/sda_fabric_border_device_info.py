@@ -68,34 +68,20 @@ dnac_response:
         "namespace": "string",
         "provisioningState": "string",
         "resourceVersion": 0,
-        "targetIdList": [
-          {}
-        ],
+        "targetIdList": [],
         "type": "string",
-        "cfsChangeInfo": [
-          {}
-        ],
-        "customProvisions": [
-          {}
-        ],
-        "configs": [
-          {}
-        ],
-        "managedSites": [
-          {}
-        ],
+        "cfsChangeInfo": [],
+        "customProvisions": [],
+        "configs": [],
+        "managedSites": [],
         "networkDeviceId": "string",
         "roles": [
           "string"
         ],
         "saveWanConnectivityDetailsOnly": true,
         "siteId": "string",
-        "akcSettingsCfs": [
-          {}
-        ],
-        "deviceInterfaceInfo": [
-          {}
-        ],
+        "akcSettingsCfs": [],
+        "deviceInterfaceInfo": [],
         "deviceSettings": {
           "id": "string",
           "instanceId": 0,
@@ -103,9 +89,7 @@ dnac_response:
           "instanceTenantId": "string",
           "deployPending": "string",
           "instanceVersion": 0,
-          "connectedTo": [
-            {}
-          ],
+          "connectedTo": [],
           "cpu": 0,
           "dhcpEnabled": true,
           "externalConnectivityIpPool": "string",
@@ -128,9 +112,7 @@ dnac_response:
               "interfaceUuid": "string",
               "policyPropagationEnabled": true,
               "policySgtTag": 0,
-              "l2Handoff": [
-                {}
-              ],
+              "l2Handoff": [],
               "l3Handoff": [
                 {
                   "id": "string",
@@ -157,12 +139,8 @@ dnac_response:
           "instanceTenantId": "string",
           "deployPending": "string",
           "instanceVersion": 0,
-          "aaa": [
-            {}
-          ],
-          "cmx": [
-            {}
-          ],
+          "aaa": [],
+          "cmx": [],
           "dhcp": [
             {
               "id": "string",
@@ -186,39 +164,21 @@ dnac_response:
               }
             }
           ],
-          "ldap": [
-            {}
-          ],
-          "nativeVlan": [
-            {}
-          ],
-          "netflow": [
-            {}
-          ],
-          "ntp": [
-            {}
-          ],
-          "snmp": [
-            {}
-          ],
-          "syslogs": [
-            {}
-          ]
+          "ldap": [],
+          "nativeVlan": [],
+          "netflow": [],
+          "ntp": [],
+          "snmp": [],
+          "syslogs": []
         },
-        "otherDevice": [
-          {}
-        ],
+        "otherDevice": [],
         "transitNetworks": [
           {
             "idRef": "string"
           }
         ],
-        "virtualNetwork": [
-          {}
-        ],
-        "wlan": [
-          {}
-        ]
+        "virtualNetwork": [],
+        "wlan": []
       }
     }
 """

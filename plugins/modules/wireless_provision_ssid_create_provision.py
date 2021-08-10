@@ -14,58 +14,60 @@ version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   enableFabric:
-    description: EnableFabric flag.
+    description: Enable SSID for Fabric.
     type: bool
   flexConnect:
     description: Wireless Provision Ssid Create Provision's flexConnect.
     suboptions:
       enableFlexConnect:
-        description: EnableFlexConnect flag.
+        description: Enable Flex Connect.
         type: bool
       localToVlan:
-        description: Wireless Provision Ssid Create Provision's localToVlan.
+        description: Local To Vlan (range is 1 to 4094).
         type: int
     type: dict
   managedAPLocations:
-    description: Wireless Provision Ssid Create Provision's managedAPLocations.
+    description: Managed AP Locations (Enter entire Site(s) hierarchy).
     elements: str
     type: list
   ssidDetails:
     description: Wireless Provision Ssid Create Provision's ssidDetails.
     suboptions:
       enableBroadcastSSID:
-        description: EnableBroadcastSSID flag.
+        description: Enable Broadcast SSID.
         type: bool
       enableFastLane:
-        description: EnableFastLane flag.
+        description: Enable Fast Lane.
         type: bool
       enableMACFiltering:
-        description: EnableMACFiltering flag.
+        description: Enable MAC Filtering.
         type: bool
       fastTransition:
-        description: Wireless Provision Ssid Create Provision's fastTransition.
+        description: Fast Transition.
         type: str
       name:
-        description: Wireless Provision Ssid Create Provision's name.
+        description: SSID Name.
         type: str
       passphrase:
-        description: Wireless Provision Ssid Create Provision's passphrase.
+        description: Pass Phrase ( Only applicable for SSID with PERSONAL auth type
+          ).
         type: str
       radioPolicy:
-        description: Wireless Provision Ssid Create Provision's radioPolicy.
+        description: Radio Policy.
         type: str
       securityLevel:
-        description: Wireless Provision Ssid Create Provision's securityLevel.
+        description: Security Level(For guest SSID OPEN/WEB_AUTH, For Enterprise SSID
+          ENTERPRISE/PERSONAL/OPEN).
         type: str
       trafficType:
-        description: Wireless Provision Ssid Create Provision's trafficType.
+        description: Traffic Type.
         type: str
       webAuthURL:
-        description: Wireless Provision Ssid Create Provision's webAuthURL.
+        description: Web Auth URL.
         type: str
     type: dict
   ssidType:
-    description: Wireless Provision Ssid Create Provision's ssidType.
+    description: SSID Type.
     type: str
 requirements:
 - dnacentersdk

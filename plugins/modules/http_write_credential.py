@@ -34,6 +34,40 @@ options:
   password:
     description: Http Write Credential's password.
     type: str
+  payload:
+    description: Http Write Credential's payload.
+    suboptions:
+      comments:
+        description: Http Write Credential's comments.
+        type: str
+      credentialType:
+        description: Http Write Credential's credentialType.
+        type: str
+      description:
+        description: Http Write Credential's description.
+        type: str
+      id:
+        description: Http Write Credential's id.
+        type: str
+      instanceTenantId:
+        description: Http Write Credential's instanceTenantId.
+        type: str
+      instanceUuid:
+        description: Http Write Credential's instanceUuid.
+        type: str
+      password:
+        description: Http Write Credential's password.
+        type: str
+      port:
+        description: Http Write Credential's port.
+        type: int
+      secure:
+        description: Secure flag.
+        type: bool
+      username:
+        description: Http Write Credential's username.
+        type: str
+    type: list
   port:
     description: Http Write Credential's port.
     type: int
@@ -84,16 +118,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    comments: string
-    credentialType: string
-    description: string
-    id: string
-    instanceTenantId: string
-    instanceUuid: string
-    password: string
-    port: 0
-    secure: true
-    username: string
 
 """
 
@@ -105,7 +129,7 @@ dnac_response:
   sample: >
     {
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       },
       "version": "string"

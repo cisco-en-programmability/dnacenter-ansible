@@ -60,7 +60,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       }
     }
