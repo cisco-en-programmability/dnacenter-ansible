@@ -17,10 +17,10 @@ options:
     description: Sda Virtual Network's payload.
     suboptions:
       siteNameHierarchy:
-        description: Sda Virtual Network's siteNameHierarchy.
+        description: Site Name Hierarchy.
         type: str
       virtualNetworkName:
-        description: Sda Virtual Network's virtualNetworkName.
+        description: Virtual Network Name.
         type: str
     type: list
   siteNameHierarchy:
@@ -39,17 +39,6 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Create
-  cisco.dnac.sda_virtual_network:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: present
-
 - name: Delete all
   cisco.dnac.sda_virtual_network:
     dnac_host: "{{dnac_host}}"
@@ -62,6 +51,17 @@ EXAMPLES = r"""
     state: absent
     siteNameHierarchy: string
     virtualNetworkName: string
+
+- name: Create
+  cisco.dnac.sda_virtual_network:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
 
 """
 

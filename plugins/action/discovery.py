@@ -27,7 +27,7 @@ argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
     cdpLevel=dict(type="int"),
     discoveryType=dict(type="str"),
-    enablePasswordList=dict(type="list"),
+    enablePasswordList=dict(type="list", no_log=True),
     globalCredentialIdList=dict(type="list"),
     httpReadCredential=dict(type="dict"),
     httpWriteCredential=dict(type="dict"),
@@ -36,7 +36,7 @@ argument_spec.update(dict(
     lldpLevel=dict(type="int"),
     name=dict(type="str"),
     netconfPort=dict(type="str"),
-    passwordList=dict(type="list"),
+    passwordList=dict(type="list", no_log=True),
     preferredMgmtIPMethod=dict(type="str"),
     protocolOrder=dict(type="str"),
     retry=dict(type="int"),
@@ -163,10 +163,6 @@ class Discovery(object):
     def delete_by_id_params(self):
         new_object_params = {}
         new_object_params['id'] = self.new_object.get('id')
-        return new_object_params
-
-    def delete_all_params(self):
-        new_object_params = {}
         return new_object_params
 
     def convert_list_string(self, pList):

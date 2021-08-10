@@ -34,6 +34,31 @@ options:
   netconfPort:
     description: Netconf Credential's netconfPort.
     type: str
+  payload:
+    description: Netconf Credential's payload.
+    suboptions:
+      comments:
+        description: Netconf Credential's comments.
+        type: str
+      credentialType:
+        description: Netconf Credential's credentialType.
+        type: str
+      description:
+        description: Netconf Credential's description.
+        type: str
+      id:
+        description: Netconf Credential's id.
+        type: str
+      instanceTenantId:
+        description: Netconf Credential's instanceTenantId.
+        type: str
+      instanceUuid:
+        description: Netconf Credential's instanceUuid.
+        type: str
+      netconfPort:
+        description: Netconf Credential's netconfPort.
+        type: str
+    type: list
 requirements:
 - dnacentersdk
 seealso:
@@ -72,13 +97,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    comments: string
-    credentialType: string
-    description: string
-    id: string
-    instanceTenantId: string
-    instanceUuid: string
-    netconfPort: string
 
 """
 
@@ -90,7 +108,7 @@ dnac_response:
   sample: >
     {
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       },
       "version": "string"

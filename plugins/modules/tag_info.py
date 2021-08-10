@@ -128,9 +128,7 @@ dnac_response:
               "values": [
                 "string"
               ],
-              "items": [
-                "string"
-              ],
+              "items": [],
               "operation": "string",
               "name": "string",
               "value": "string"

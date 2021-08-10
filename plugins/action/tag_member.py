@@ -25,6 +25,7 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
+    object=dict(type="str"),
     id=dict(type="str"),
     memberId=dict(type="str"),
 ))
@@ -42,12 +43,14 @@ class TagMember(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
+            object=params.get("object"),
             id=params.get("id"),
             member_id=params.get("memberId"),
         )
 
     def create_params(self):
         new_object_params = {}
+        new_object_params['object'] = self.new_object.get('object')
         new_object_params['id'] = self.new_object.get('id')
         return new_object_params
 
@@ -108,6 +111,7 @@ class TagMember(object):
         requested_obj = self.new_object
 
         obj_params = [
+            ("object", "object"),
             ("id", "id"),
             ("memberId", "member_id"),
         ]

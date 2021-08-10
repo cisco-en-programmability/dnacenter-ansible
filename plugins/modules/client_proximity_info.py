@@ -49,8 +49,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     username: string
-    number_days: 14.0
-    time_resolution: 15.0
+    number_days: 0
+    time_resolution: 0
   register: result
 
 """

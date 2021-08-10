@@ -13,6 +13,30 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  authPassword:
+    description: Snmpv3 Credential's authPassword.
+    type: str
+  authType:
+    description: Snmpv3 Credential's authType.
+    type: str
+  comments:
+    description: Snmpv3 Credential's comments.
+    type: str
+  credentialType:
+    description: Snmpv3 Credential's credentialType.
+    type: str
+  description:
+    description: Snmpv3 Credential's description.
+    type: str
+  id:
+    description: Snmpv3 Credential's id.
+    type: str
+  instanceTenantId:
+    description: Snmpv3 Credential's instanceTenantId.
+    type: str
+  instanceUuid:
+    description: Snmpv3 Credential's instanceUuid.
+    type: str
   payload:
     description: Snmpv3 Credential's payload.
     suboptions:
@@ -53,6 +77,18 @@ options:
         description: Snmpv3 Credential's username.
         type: str
     type: list
+  privacyPassword:
+    description: Snmpv3 Credential's privacyPassword.
+    type: str
+  privacyType:
+    description: Snmpv3 Credential's privacyType.
+    type: str
+  snmpMode:
+    description: Snmpv3 Credential's snmpMode.
+    type: str
+  username:
+    description: Snmpv3 Credential's username.
+    type: str
 requirements:
 - dnacentersdk
 seealso:
@@ -73,6 +109,18 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    authPassword: string
+    authType: string
+    comments: string
+    credentialType: string
+    description: string
+    id: string
+    instanceTenantId: string
+    instanceUuid: string
+    privacyPassword: string
+    privacyType: string
+    snmpMode: string
+    username: string
 
 - name: Create
   cisco.dnac.snmpv3_credential:
@@ -95,7 +143,7 @@ dnac_response:
   sample: >
     {
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       },
       "version": "string"

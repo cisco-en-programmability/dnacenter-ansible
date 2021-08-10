@@ -23,22 +23,22 @@ options:
     description: Sda Port Assignment For Access Point's payload.
     suboptions:
       authenticateTemplateName:
-        description: Sda Port Assignment For Access Point's authenticateTemplateName.
+        description: Authenticate Template Name.
         type: str
       dataIpAddressPoolName:
-        description: Sda Port Assignment For Access Point's dataIpAddressPoolName.
+        description: Data Ip Address Pool Name.
         type: str
       deviceManagementIpAddress:
-        description: Sda Port Assignment For Access Point's deviceManagementIpAddress.
+        description: Device Management Ip Address.
         type: str
       interfaceName:
-        description: Sda Port Assignment For Access Point's interfaceName.
+        description: Interface Name.
         type: str
       siteNameHierarchy:
-        description: Sda Port Assignment For Access Point's siteNameHierarchy.
+        description: Site Name Hierarchy.
         type: str
       voiceIpAddressPoolName:
-        description: Sda Port Assignment For Access Point's voiceIpAddressPoolName.
+        description: Voice Ip Address Pool Name.
         type: str
     type: list
 requirements:

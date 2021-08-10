@@ -17,38 +17,38 @@ options:
     description: Event Subscription Rest's payload.
     suboptions:
       description:
-        description: Event Subscription Rest's description.
+        description: Description.
         type: str
       filter:
         description: Event Subscription Rest's filter.
         suboptions:
           eventIds:
-            description: Event Subscription Rest's eventIds.
+            description: Event Ids (Comma separated event ids).
             elements: str
             type: list
         type: dict
       name:
-        description: Event Subscription Rest's name.
+        description: Name.
         type: str
       subscriptionEndpoints:
         description: Event Subscription Rest's subscriptionEndpoints.
         suboptions:
           instanceId:
-            description: Event Subscription Rest's instanceId.
+            description: (From Get Rest/Webhook Subscription Details --> pick instanceId).
             type: str
           subscriptionDetails:
             description: Event Subscription Rest's subscriptionDetails.
             suboptions:
               connectorType:
-                description: Event Subscription Rest's connectorType.
+                description: Connector Type (Must be REST).
                 type: str
             type: dict
         type: list
       subscriptionId:
-        description: Event Subscription Rest's subscriptionId.
+        description: Subscription Id (Unique UUID).
         type: str
       version:
-        description: Event Subscription Rest's version.
+        description: Version.
         type: str
     type: list
 requirements:
@@ -61,7 +61,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Update all
+- name: Create
   cisco.dnac.event_subscription_rest:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -72,7 +72,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
 
-- name: Create
+- name: Update all
   cisco.dnac.event_subscription_rest:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

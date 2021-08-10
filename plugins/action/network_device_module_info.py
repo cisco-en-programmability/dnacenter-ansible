@@ -19,7 +19,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    id=dict(type="str"),
     deviceId=dict(type="str"),
     limit=dict(type="str"),
     offset=dict(type="str"),
@@ -27,6 +26,7 @@ argument_spec.update(dict(
     vendorEquipmentTypeList=dict(type="list"),
     partNumberList=dict(type="list"),
     operationalStateCodeList=dict(type="list"),
+    id=dict(type="str"),
 ))
 
 required_if = []
@@ -63,7 +63,6 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            id=params.get("id"),
             device_id=params.get("deviceId"),
             limit=params.get("limit"),
             offset=params.get("offset"),
@@ -71,6 +70,7 @@ class ActionModule(ActionBase):
             vendor_equipment_type_list=params.get("vendorEquipmentTypeList"),
             part_number_list=params.get("partNumberList"),
             operational_state_code_list=params.get("operationalStateCodeList"),
+            id=params.get("id"),
         )
         return new_object
 

@@ -20,7 +20,7 @@ options:
     description: Sda Fabric's payload.
     suboptions:
       fabricName:
-        description: Sda Fabric's fabricName.
+        description: Fabric Name.
         type: str
     type: list
 requirements:
@@ -33,17 +33,6 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Create
-  cisco.dnac.sda_fabric:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: present
-
 - name: Delete all
   cisco.dnac.sda_fabric:
     dnac_host: "{{dnac_host}}"
@@ -55,6 +44,17 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     fabricName: string
+
+- name: Create
+  cisco.dnac.sda_fabric:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
 
 """
 

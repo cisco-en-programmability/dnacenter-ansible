@@ -26,11 +26,22 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present"]),
-    payload=dict(type="list"),
+    authPassword=dict(type="str", no_log=True),
+    authType=dict(type="str"),
+    comments=dict(type="str"),
+    credentialType=dict(type="str"),
+    description=dict(type="str"),
+    id=dict(type="str"),
+    instanceTenantId=dict(type="str"),
+    instanceUuid=dict(type="str"),
+    privacyPassword=dict(type="str", no_log=True),
+    privacyType=dict(type="str"),
+    snmpMode=dict(type="str"),
+    username=dict(type="str"),
 ))
 
 required_if = [
-    ("state", "present", ["payload"], True),
+    ("state", "present", ["description", "id", "username"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -41,17 +52,52 @@ class Snmpv3Credential(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
-            payload=params.get("payload"),
+            authPassword=params.get("authPassword"),
+            authType=params.get("authType"),
+            comments=params.get("comments"),
+            credentialType=params.get("credentialType"),
+            description=params.get("description"),
+            id=params.get("id"),
+            instanceTenantId=params.get("instanceTenantId"),
+            instanceUuid=params.get("instanceUuid"),
+            privacyPassword=params.get("privacyPassword"),
+            privacyType=params.get("privacyType"),
+            snmpMode=params.get("snmpMode"),
+            username=params.get("username"),
         )
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['payload'] = self.new_object.get('payload')
+        payload = {}
+        payload['authPassword'] = self.new_object.get('authPassword')
+        payload['authType'] = self.new_object.get('authType')
+        payload['comments'] = self.new_object.get('comments')
+        payload['credentialType'] = self.new_object.get('credentialType')
+        payload['description'] = self.new_object.get('description')
+        payload['id'] = self.new_object.get('id')
+        payload['instanceTenantId'] = self.new_object.get('instanceTenantId')
+        payload['instanceUuid'] = self.new_object.get('instanceUuid')
+        payload['privacyPassword'] = self.new_object.get('privacyPassword')
+        payload['privacyType'] = self.new_object.get('privacyType')
+        payload['snmpMode'] = self.new_object.get('snmpMode')
+        payload['username'] = self.new_object.get('username')
+        new_object_params['payload'] = payload
         return new_object_params
 
     def update_all_params(self):
         new_object_params = {}
-        new_object_params['payload'] = self.new_object.get('payload')
+        new_object_params['authPassword'] = self.new_object.get('authPassword')
+        new_object_params['authType'] = self.new_object.get('authType')
+        new_object_params['comments'] = self.new_object.get('comments')
+        new_object_params['credentialType'] = self.new_object.get('credentialType')
+        new_object_params['description'] = self.new_object.get('description')
+        new_object_params['id'] = self.new_object.get('id')
+        new_object_params['instanceTenantId'] = self.new_object.get('instanceTenantId')
+        new_object_params['instanceUuid'] = self.new_object.get('instanceUuid')
+        new_object_params['privacyPassword'] = self.new_object.get('privacyPassword')
+        new_object_params['privacyType'] = self.new_object.get('privacyType')
+        new_object_params['snmpMode'] = self.new_object.get('snmpMode')
+        new_object_params['username'] = self.new_object.get('username')
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -84,12 +130,8 @@ class Snmpv3Credential(object):
         prev_obj = None
         id_exists = False
         name_exists = False
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-        o_id = self.new_object.get("id") or requested_obj.get("id")
+        o_id = self.new_object.get("id")
         name = self.new_object.get("description") or self.new_object.get("username")
-        name = name or requested_obj.get("description") or requested_obj.get("username")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -106,12 +148,9 @@ class Snmpv3Credential(object):
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-
+        requested_obj = self.new_object
         obj_params = [
-            ("authPassword", "authPassword"),
+            ("payload", "payload"),
             ("authType", "authType"),
             ("comments", "comments"),
             ("credentialType", "credentialType"),
@@ -119,7 +158,6 @@ class Snmpv3Credential(object):
             ("id", "id"),
             ("instanceTenantId", "instanceTenantId"),
             ("instanceUuid", "instanceUuid"),
-            ("privacyPassword", "privacyPassword"),
             ("privacyType", "privacyType"),
             ("snmpMode", "snmpMode"),
             ("username", "username"),

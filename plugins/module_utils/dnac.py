@@ -21,6 +21,7 @@ except ImportError:
     LOGGING_IN_STANDARD = False
 else:
     LOGGING_IN_STANDARD = True
+import os.path
 
 
 def is_list_complex(x):
@@ -109,7 +110,7 @@ def dnac_argument_spec(idempotent=False):
         dnac_username=dict(type="str", default="admin", aliases=["user"]),
         dnac_password=dict(type="str", no_log=True),
         dnac_verify=dict(type="bool", default=True),
-        dnac_version=dict(type="str", default="2.1.1"),
+        dnac_version=dict(type="str", default="2.2.2.3"),
         dnac_debug=dict(type="bool", default=False),
         validate_response_schema=dict(type="bool", default=True),
     )
@@ -166,7 +167,13 @@ class DNACSDK(object):
         if changed:
             self.changed()
 
-    def exec(self, family, function, params=None, op_modifies=False):
+    def is_file(self, file_path):
+        return os.path.isfile(file_path)
+
+    def extract_file_name(self, file_path):
+        return os.path.basename(file_path)
+
+    def exec(self, family, function, params=None, op_modifies=False, **kwargs):
         try:
             family = getattr(self.api, family)
             func = getattr(family, function)
@@ -175,13 +182,17 @@ class DNACSDK(object):
 
         try:
             if params:
+                file_paths_params = kwargs.get('file_paths', [])
                 # This substitution is for the import file operation
-                if params.get("file_name") and params.get("file_path"):
-                    filename = params.pop("file_name")
-                    filepath = params.pop("file_path")
-                    params.setdefault(
-                        "multipart_fields", {"file": (filename, open(filepath, "rb"))}
-                    )
+                if file_paths_params and isinstance(file_paths_params, list):
+                    multipart_fields = {}
+                    for (key, value) in file_paths_params:
+                        if isinstance(params.get(key), str) and self.is_file(params[key]):
+                            file_name = self.extract_file_name(params[key])
+                            file_path = params[key]
+                            multipart_fields[value] = (file_name, open(file_path, 'rb'))
+
+                    params.setdefault("multipart_fields", multipart_fields)
                     params.setdefault("multipart_monitor_callback", None)
 
                 if not self.validate_response_schema and op_modifies:

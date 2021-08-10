@@ -17,38 +17,38 @@ options:
     description: Event Subscription Syslog's payload.
     suboptions:
       description:
-        description: Event Subscription Syslog's description.
+        description: Description.
         type: str
       filter:
         description: Event Subscription Syslog's filter.
         suboptions:
           eventIds:
-            description: Event Subscription Syslog's eventIds.
+            description: Event Ids (Comma separated event ids).
             elements: str
             type: list
         type: dict
       name:
-        description: Event Subscription Syslog's name.
+        description: Name.
         type: str
       subscriptionEndpoints:
         description: Event Subscription Syslog's subscriptionEndpoints.
         suboptions:
           instanceId:
-            description: Event Subscription Syslog's instanceId.
+            description: (From Get Syslog Subscription Details --> pick instanceId).
             type: str
           subscriptionDetails:
             description: Event Subscription Syslog's subscriptionDetails.
             suboptions:
               connectorType:
-                description: Event Subscription Syslog's connectorType.
+                description: Connector Type (Must be SYSLOG).
                 type: str
             type: dict
         type: list
       subscriptionId:
-        description: Event Subscription Syslog's subscriptionId.
+        description: Subscription Id (Unique UUID).
         type: str
       version:
-        description: Event Subscription Syslog's version.
+        description: Version.
         type: str
     type: list
 requirements:

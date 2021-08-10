@@ -19,7 +19,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    taskId=dict(type="str"),
     startTime=dict(type="str"),
     endTime=dict(type="str"),
     data=dict(type="str"),
@@ -34,6 +33,7 @@ argument_spec.update(dict(
     limit=dict(type="str"),
     sortBy=dict(type="str"),
     order=dict(type="str"),
+    taskId=dict(type="str"),
 ))
 
 required_if = []
@@ -70,7 +70,6 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            task_id=params.get("taskId"),
             start_time=params.get("startTime"),
             end_time=params.get("endTime"),
             data=params.get("data"),
@@ -85,6 +84,7 @@ class ActionModule(ActionBase):
             limit=params.get("limit"),
             sort_by=params.get("sortBy"),
             order=params.get("order"),
+            task_id=params.get("taskId"),
         )
         return new_object
 

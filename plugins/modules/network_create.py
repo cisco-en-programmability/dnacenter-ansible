@@ -20,99 +20,105 @@ options:
         description: Network Create's clientAndEndpoint_aaa.
         suboptions:
           additionalIp:
-            description: Network Create's additionalIp.
+            description: Additional IP for ISE server which is not supported by AAA
+              server.
             elements: str
             type: list
           ipAddress:
-            description: Mandatory for ISE servers.
+            description: IP address for ISE serve (eg 1.1.1.4). Mandatory for ISE servers.
             type: str
           network:
-            description: Network Create's network.
+            description: IP address for AAA or ISE server (eg 2.2.2.1).
             type: str
           protocol:
-            description: Network Create's protocol.
+            description: Protocol for AAA or ISE serve (eg RADIUS).
             type: str
           servers:
-            description: Network Create's servers.
+            description: Server type AAA or ISE server (eg AAA).
             type: str
           sharedSecret:
-            description: Supported only by ISE servers.
+            description: Shared secret for ISE server. Supported only by ISE servers.
             type: str
         type: dict
       dhcpServer:
-        description: Network Create's dhcpServer.
+        description: Dhcp serve Ip (eg 1.1.1.1).
         elements: str
         type: list
       dnsServer:
         description: Network Create's dnsServer.
         suboptions:
           domainName:
-            description: Can only contain alphanumeric characters or hyphen.
+            description: Domain name of DHCP (eg; cisco). Can only contain alphanumeric
+              characters or hyphen.
             type: str
           primaryIpAddress:
-            description: Valid range 1.0.0.0 - 223.255.255.255.
+            description: Primary ip address for DHCP (eg 2.2.2.2). Valid range 1.0.0.0
+              - 223.255.255.255.
             type: str
           secondaryIpAddress:
-            description: Valid range 1.0.0.0 - 223.255.255.255.
+            description: Secondary ip address for DHCP (eg 3.3.3.3). Valid range 1.0.0.0
+              - 223.255.255.255.
             type: str
         type: dict
       messageOfTheday:
         description: Network Create's messageOfTheday.
         suboptions:
           bannerMessage:
-            description: Network Create's bannerMessage.
+            description: Massage for banner message (eg; Good day).
             type: str
           retainExistingBanner:
-            description: RetainExistingBanner flag.
+            description: Retain existing banner message (eg true).
             type: bool
         type: dict
       netflowcollector:
         description: Network Create's netflowcollector.
         suboptions:
           ipAddress:
-            description: Network Create's ipAddress.
+            description: IP address for netflow collector (eg 3.3.3.1).
             type: str
           port:
-            description: Network Create's port.
+            description: Port for netflow collector (eg; 443).
             type: int
         type: dict
       network_aaa:
         description: Network Create's network_aaa.
         suboptions:
           additionalIp:
-            description: Network Create's additionalIp.
+            description: Additional IP for ISE server which is not supported by AAA
+              server.
             elements: str
             type: list
           ipAddress:
-            description: Mandatory for ISE servers and for AAA consider this as additional
-              Ip.
+            description: IP address for AAA and ISE server (eg 1.1.1.1). Mandatory for
+              ISE servers and for AAA consider this as additional Ip.
             type: str
           network:
-            description: For AAA server consider it as primary IP and For ISE consider
-              as Network.
+            description: IP address for AAA or ISE server (eg 2.2.2.2). For AAA server
+              consider it as primary IP and For ISE consider as Network.
             type: str
           protocol:
-            description: Network Create's protocol.
+            description: Protocol for AAA or ISE serve (eg RADIUS).
             type: str
           servers:
-            description: Server type supported by ISE and AAA.
+            description: Server type for AAA network (eg AAA). Server type supported
+              by ISE and AAA.
             type: str
           sharedSecret:
-            description: Supported only by ISE servers.
+            description: Shared secret for ISE server. Supported only by ISE servers.
             type: str
         type: dict
       ntpServer:
-        description: Network Create's ntpServer.
+        description: IP address for NTP server (eg 1.1.1.2).
         elements: str
         type: list
       snmpServer:
         description: Network Create's snmpServer.
         suboptions:
           configureDnacIP:
-            description: ConfigureDnacIP flag.
+            description: Configuration dnac ip for snmp server (eg true).
             type: bool
           ipAddresses:
-            description: Network Create's ipAddresses.
+            description: IP address for snmp server (eg 4.4.4.1).
             elements: str
             type: list
         type: dict
@@ -120,20 +126,20 @@ options:
         description: Network Create's syslogServer.
         suboptions:
           configureDnacIP:
-            description: ConfigureDnacIP flag.
+            description: Configuration dnac ip for syslog server (eg true).
             type: bool
           ipAddresses:
-            description: Network Create's ipAddresses.
+            description: IP address for syslog server (eg 4.4.4.4).
             elements: str
             type: list
         type: dict
       timezone:
-        description: Network Create's timezone.
+        description: Input for time zone (eg Africa/Abidjan (GMT)).
         type: str
     type: dict
   siteId:
-    description: SiteId path parameter. Site id to update the network settings which
-      is associated with the site.
+    description: SiteId path parameter. Site id to which site details to associate with
+      the network settings.
     type: str
 requirements:
 - dnacentersdk
@@ -145,7 +151,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Update by id
+- name: Create
   cisco.dnac.network_create:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -196,7 +202,7 @@ EXAMPLES = r"""
       timezone: string
     siteId: string
 
-- name: Create
+- name: Update by id
   cisco.dnac.network_create:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

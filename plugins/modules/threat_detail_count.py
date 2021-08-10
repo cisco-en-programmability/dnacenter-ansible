@@ -14,30 +14,30 @@ version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   endTime:
-    description: Threat Detail Count's endTime.
+    description: End Time.
     type: int
   isNewThreat:
-    description: IsNewThreat flag.
+    description: Is New Threat.
     type: bool
   limit:
-    description: Threat Detail Count's limit.
+    description: Limit.
     type: int
   offset:
-    description: Threat Detail Count's offset.
+    description: Offset.
     type: int
   siteId:
-    description: Threat Detail Count's siteId.
+    description: Site Id.
     elements: str
     type: list
   startTime:
-    description: Threat Detail Count's startTime.
+    description: Start Time.
     type: int
   threatLevel:
-    description: Threat Detail Count's threatLevel.
+    description: Threat Level.
     elements: str
     type: list
   threatType:
-    description: Threat Detail Count's threatType.
+    description: Threat Type.
     elements: str
     type: list
 requirements:

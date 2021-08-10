@@ -59,11 +59,9 @@ dnac_response:
           "md5Checksum": "string",
           "name": "string",
           "nameSpace": "string",
-          "sftpServerList": [
-            {}
-          ],
+          "sftpServerList": [],
           "sha1Checksum": "string",
-          "taskId": {}
+          "taskId": "string"
         }
       ],
       "version": "string"

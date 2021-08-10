@@ -107,9 +107,7 @@ dnac_response:
           },
           "additionalDetails": {}
         },
-        "eventTemplates": [
-          {}
-        ],
+        "eventTemplates": [],
         "isTenantAware": "string",
         "supportedConnectorTypes": [
           "string"

@@ -19,15 +19,19 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
+    tags=dict(type="list"),
     author=dict(type="str"),
     composite=dict(type="bool"),
     containingTemplates=dict(type="list"),
     createTime=dict(type="int"),
+    customParamsOrder=dict(type="bool"),
     description=dict(type="str"),
     deviceTypes=dict(type="list"),
     failurePolicy=dict(type="str"),
     id=dict(type="str"),
+    language=dict(type="str"),
     lastUpdateTime=dict(type="int"),
+    latestVersionTime=dict(type="int"),
     name=dict(type="str"),
     parentTemplateId=dict(type="str"),
     projectId=dict(type="str"),
@@ -37,9 +41,9 @@ argument_spec.update(dict(
     softwareType=dict(type="str"),
     softwareVariant=dict(type="str"),
     softwareVersion=dict(type="str"),
-    tags=dict(type="list"),
     templateContent=dict(type="str"),
     templateParams=dict(type="list"),
+    validationErrors=dict(type="dict"),
     version=dict(type="str"),
 ))
 
@@ -77,15 +81,19 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            tags=params.get("tags"),
             author=params.get("author"),
             composite=params.get("composite"),
             containingTemplates=params.get("containingTemplates"),
             createTime=params.get("createTime"),
+            customParamsOrder=params.get("customParamsOrder"),
             description=params.get("description"),
             deviceTypes=params.get("deviceTypes"),
             failurePolicy=params.get("failurePolicy"),
             id=params.get("id"),
+            language=params.get("language"),
             lastUpdateTime=params.get("lastUpdateTime"),
+            latestVersionTime=params.get("latestVersionTime"),
             name=params.get("name"),
             parentTemplateId=params.get("parentTemplateId"),
             projectId=params.get("projectId"),
@@ -95,9 +103,9 @@ class ActionModule(ActionBase):
             softwareType=params.get("softwareType"),
             softwareVariant=params.get("softwareVariant"),
             softwareVersion=params.get("softwareVersion"),
-            tags=params.get("tags"),
             templateContent=params.get("templateContent"),
             templateParams=params.get("templateParams"),
+            validationErrors=params.get("validationErrors"),
             version=params.get("version"),
             project_id=params.get("projectId"),
         )

@@ -14,29 +14,35 @@ version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   createTime:
-    description: Configuration Template Project's createTime.
+    description: Create time of project.
     type: int
   description:
-    description: Configuration Template Project's description.
+    description: Description of project.
     type: str
   id:
-    description: Configuration Template Project's id.
+    description: UUID of project.
     type: str
   lastUpdateTime:
-    description: Configuration Template Project's lastUpdateTime.
+    description: Update time of project.
     type: int
   name:
-    description: Configuration Template Project's name.
+    description: Name of project.
     type: str
   projectId:
-    description: ProjectId path parameter.
+    description: ProjectId path parameter. ProjectId(UUID) of project to be deleted.
     type: str
   tags:
     description: Configuration Template Project's tags.
-    elements: str
+    suboptions:
+      id:
+        description: UUID of tag.
+        type: str
+      name:
+        description: Name of tag.
+        type: str
     type: list
   templates:
-    description: Configuration Template Project's templates.
+    description: List of templates within the project.
     type: dict
 requirements:
 - dnacentersdk
@@ -48,25 +54,6 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Update all
-  cisco.dnac.configuration_template_project:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: present
-    createTime: 0
-    description: string
-    id: string
-    lastUpdateTime: 0
-    name: string
-    tags:
-    - string
-    templates: {}
-
 - name: Create
   cisco.dnac.configuration_template_project:
     dnac_host: "{{dnac_host}}"
@@ -83,7 +70,28 @@ EXAMPLES = r"""
     lastUpdateTime: 0
     name: string
     tags:
-    - string
+    - id: string
+      name: string
+    templates: {}
+
+- name: Update all
+  cisco.dnac.configuration_template_project:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    createTime: 0
+    description: string
+    id: string
+    lastUpdateTime: 0
+    name: string
+    tags:
+    - id: string
+      name: string
     templates: {}
 
 - name: Delete by id
@@ -108,7 +116,7 @@ dnac_response:
   sample: >
     {
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       },
       "version": "string"

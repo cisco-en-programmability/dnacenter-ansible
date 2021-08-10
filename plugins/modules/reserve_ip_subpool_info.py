@@ -65,9 +65,7 @@ dnac_response:
           "ipPools": [
             {
               "ipPoolName": "string",
-              "dhcpServerIps": [
-                {}
-              ],
+              "dhcpServerIps": [],
               "gateways": [
                 "string"
               ],
@@ -83,9 +81,7 @@ dnac_response:
               "usedPercentage": "string",
               "clientOptions": {},
               "groupUuid": "string",
-              "dnsServerIps": [
-                {}
-              ],
+              "dnsServerIps": [],
               "context": [
                 {
                   "owner": "string",

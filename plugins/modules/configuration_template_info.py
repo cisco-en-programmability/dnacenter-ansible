@@ -16,39 +16,55 @@ author: Rafael Campos (@racampos)
 options:
   projectId:
     description:
-    - ProjectId query parameter.
+    - ProjectId query parameter. Filter template(s) based on project UUID.
     type: str
   softwareType:
     description:
-    - SoftwareType query parameter.
+    - SoftwareType query parameter. Filter template(s) based software type.
     type: str
   softwareVersion:
     description:
-    - SoftwareVersion query parameter.
+    - SoftwareVersion query parameter. Filter template(s) based softwareVersion.
     type: str
   productFamily:
     description:
-    - ProductFamily query parameter.
+    - ProductFamily query parameter. Filter template(s) based on device family.
     type: str
   productSeries:
     description:
-    - ProductSeries query parameter.
+    - ProductSeries query parameter. Filter template(s) based on device series.
     type: str
   productType:
     description:
-    - ProductType query parameter.
+    - ProductType query parameter. Filter template(s) based on device type.
     type: str
   filterConflictingTemplates:
     description:
-    - FilterConflictingTemplates query parameter.
+    - FilterConflictingTemplates query parameter. Filter template(s) based on confliting templates.
     type: bool
+  tags:
+    description:
+    - Tags query parameter. Filter template(s) based on tags.
+    type: list
+  projectNames:
+    description:
+    - ProjectNames query parameter. Filter template(s) based on project names.
+    type: list
+  unCommitted:
+    description:
+    - UnCommitted query parameter. Filter template(s) based on template commited or not.
+    type: bool
+  sortOrder:
+    description:
+    - SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).
+    type: str
   templateId:
     description:
-    - TemplateId path parameter.
+    - TemplateId path parameter. TemplateId(UUID) to get details of the template.
     type: str
   latestVersion:
     description:
-    - LatestVersion query parameter.
+    - LatestVersion query parameter. LatestVersion flag to get the latest versioned template.
     type: bool
 requirements:
 - dnacentersdk
@@ -76,6 +92,10 @@ EXAMPLES = r"""
     productSeries: string
     productType: string
     filterConflictingTemplates: True
+    tags: []
+    projectNames: []
+    unCommitted: True
+    sortOrder: string
   register: result
 
 - name: Get Configuration Template by id
@@ -100,17 +120,111 @@ dnac_response:
   type: dict
   sample: >
     {
+      "tags": [
+        {
+          "id": "string",
+          "name": "string"
+        }
+      ],
       "author": "string",
       "composite": true,
       "containingTemplates": [
         {
+          "tags": [
+            {
+              "id": "string",
+              "name": "string"
+            }
+          ],
           "composite": true,
+          "description": "string",
+          "deviceTypes": [
+            {
+              "productFamily": "string",
+              "productSeries": "string",
+              "productType": "string"
+            }
+          ],
           "id": "string",
+          "language": "string",
           "name": "string",
+          "projectName": "string",
+          "rollbackTemplateParams": [
+            {
+              "binding": "string",
+              "customOrder": 0,
+              "dataType": "string",
+              "defaultValue": "string",
+              "description": "string",
+              "displayName": "string",
+              "group": "string",
+              "id": "string",
+              "instructionText": "string",
+              "key": "string",
+              "notParam": true,
+              "order": 0,
+              "paramArray": true,
+              "parameterName": "string",
+              "provider": "string",
+              "range": [
+                {
+                  "id": "string",
+                  "maxValue": 0,
+                  "minValue": 0
+                }
+              ],
+              "required": true,
+              "selection": {
+                "defaultSelectedValues": [
+                  "string"
+                ],
+                "id": "string",
+                "selectionType": "string",
+                "selectionValues": {}
+              }
+            }
+          ],
+          "templateContent": "string",
+          "templateParams": [
+            {
+              "binding": "string",
+              "customOrder": 0,
+              "dataType": "string",
+              "defaultValue": "string",
+              "description": "string",
+              "displayName": "string",
+              "group": "string",
+              "id": "string",
+              "instructionText": "string",
+              "key": "string",
+              "notParam": true,
+              "order": 0,
+              "paramArray": true,
+              "parameterName": "string",
+              "provider": "string",
+              "range": [
+                {
+                  "id": "string",
+                  "maxValue": 0,
+                  "minValue": 0
+                }
+              ],
+              "required": true,
+              "selection": {
+                "defaultSelectedValues": [
+                  "string"
+                ],
+                "id": "string",
+                "selectionType": "string",
+                "selectionValues": {}
+              }
+            }
+          ],
           "version": "string"
         }
       ],
       "createTime": 0,
+      "customParamsOrder": true,
       "description": "string",
       "deviceTypes": [
         {
@@ -121,7 +235,9 @@ dnac_response:
       ],
       "failurePolicy": "string",
       "id": "string",
+      "language": "string",
       "lastUpdateTime": 0,
+      "latestVersionTime": 0,
       "name": "string",
       "parentTemplateId": "string",
       "projectId": "string",
@@ -130,6 +246,7 @@ dnac_response:
       "rollbackTemplateParams": [
         {
           "binding": "string",
+          "customOrder": 0,
           "dataType": "string",
           "defaultValue": "string",
           "description": "string",
@@ -152,6 +269,9 @@ dnac_response:
           ],
           "required": true,
           "selection": {
+            "defaultSelectedValues": [
+              "string"
+            ],
             "id": "string",
             "selectionType": "string",
             "selectionValues": {}
@@ -161,13 +281,11 @@ dnac_response:
       "softwareType": "string",
       "softwareVariant": "string",
       "softwareVersion": "string",
-      "tags": [
-        "string"
-      ],
       "templateContent": "string",
       "templateParams": [
         {
           "binding": "string",
+          "customOrder": 0,
           "dataType": "string",
           "defaultValue": "string",
           "description": "string",
@@ -190,12 +308,21 @@ dnac_response:
           ],
           "required": true,
           "selection": {
+            "defaultSelectedValues": [
+              "string"
+            ],
             "id": "string",
             "selectionType": "string",
             "selectionValues": {}
           }
         }
       ],
+      "validationErrors": {
+        "rollbackTemplateErrors": {},
+        "templateErrors": {},
+        "templateId": "string",
+        "templateVersion": "string"
+      },
       "version": "string"
     }
 """

@@ -14,10 +14,6 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  id:
-    description:
-    - Id path parameter.
-    type: str
   limit:
     description:
     - Limit query parameter. Limits number of results.
@@ -101,6 +97,10 @@ options:
   siteName:
     description:
     - SiteName query parameter. Device Site Name.
+    type: str
+  id:
+    description:
+    - Id path parameter.
     type: str
 requirements:
 - dnacentersdk
@@ -264,9 +264,7 @@ dnac_response:
             "status": "string",
             "macAddress": "string",
             "ipv4Address": {},
-            "ipv6AddressList": [
-              {}
-            ],
+            "ipv6AddressList": [],
             "name": "string"
           }
         ],

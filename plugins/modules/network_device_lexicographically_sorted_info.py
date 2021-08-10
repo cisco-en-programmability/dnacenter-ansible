@@ -150,7 +150,7 @@ RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: dict
-  sample:
-  - {}
+  type: str
+  sample: >
+    "string"
 """

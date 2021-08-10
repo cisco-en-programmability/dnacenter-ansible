@@ -20,6 +20,8 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     name=dict(type="str"),
+    sortOrder=dict(type="str"),
+    projectId=dict(type="str"),
 ))
 
 required_if = []
@@ -57,6 +59,8 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             name=params.get("name"),
+            sort_order=params.get("sortOrder"),
+            project_id=params.get("projectId"),
         )
         return new_object
 
@@ -68,11 +72,22 @@ class ActionModule(ActionBase):
 
         dnac = DNACSDK(params=self._task.args)
 
-        response = dnac.exec(
-            family="configuration_templates",
-            function='get_projects',
-            params=self.get_object(self._task.args),
-        )
-        self._result.update(dict(dnac_response=response))
-        self._result.update(dnac.exit_json())
-        return self._result
+        id = self._task.args.get("projectId")
+        if id:
+            response = dnac.exec(
+                family="configuration_templates",
+                function='get_project_details',
+                params=self.get_object(self._task.args)
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result
+        if not id:
+            response = dnac.exec(
+                family="configuration_templates",
+                function='get_projects',
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result

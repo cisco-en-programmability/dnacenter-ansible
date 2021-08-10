@@ -14,30 +14,30 @@ version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   endTime:
-    description: Threat Detail's endTime.
+    description: End Time.
     type: int
   isNewThreat:
-    description: IsNewThreat flag.
+    description: Is New Threat.
     type: bool
   limit:
-    description: Threat Detail's limit.
+    description: Limit.
     type: int
   offset:
-    description: Threat Detail's offset.
+    description: Offset.
     type: int
   siteId:
-    description: Threat Detail's siteId.
+    description: Site Id.
     elements: str
     type: list
   startTime:
-    description: Threat Detail's startTime.
+    description: Start Time.
     type: int
   threatLevel:
-    description: Threat Detail's threatLevel.
+    description: Threat Level.
     elements: str
     type: list
   threatType:
-    description: Threat Detail's threatType.
+    description: Threat Type.
     elements: str
     type: list
 requirements:
@@ -80,19 +80,19 @@ dnac_response:
   type: dict
   sample: >
     {
-      "version": "string",
-      "totalCount": 0,
       "response": [
         {
           "macAddress": "string",
           "updatedTime": 0,
           "vendor": "string",
           "threatType": "string",
-          "threatLevel": [],
+          "threatLevel": "string",
           "apName": "string",
           "ssid": "string",
           "siteNameHierarchy": "string"
         }
-      ]
+      ],
+      "totalCount": 0,
+      "version": "string"
     }
 """

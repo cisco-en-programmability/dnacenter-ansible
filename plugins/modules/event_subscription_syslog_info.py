@@ -111,9 +111,7 @@ dnac_response:
           "categories": [
             "string"
           ],
-          "severities": [
-            {}
-          ],
+          "severities": [],
           "sources": [
             "string"
           ]

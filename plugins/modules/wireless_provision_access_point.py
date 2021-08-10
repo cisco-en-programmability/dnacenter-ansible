@@ -17,23 +17,26 @@ options:
     description: Wireless Provision Access Point's payload.
     suboptions:
       customApGroupName:
-        description: Wireless Provision Access Point's customApGroupName.
+        description: Custom AP group name.
         type: str
       customFlexGroupName:
-        description: Wireless Provision Access Point's customFlexGroupName.
+        description: '"Custom flex group name".'
         elements: str
         type: list
       deviceName:
-        description: Wireless Provision Access Point's deviceName.
+        description: Device name.
         type: str
       rfProfile:
-        description: Wireless Provision Access Point's rfProfile.
+        description: Radio frequency profile name.
         type: str
       siteId:
-        description: Wireless Provision Access Point's siteId.
+        description: Site name hierarchy(ex Global/...).
+        type: str
+      siteNameHierarchy:
+        description: Site name hierarchy(ex Global/...).
         type: str
       type:
-        description: Wireless Provision Access Point's type.
+        description: ApWirelessConfiguration.
         type: str
     type: list
 requirements:
@@ -62,23 +65,13 @@ RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: dict
+  type: list
   sample: >
-    {
-      "executionId": "string",
-      "executionUrl": "string",
-      "provisionTasks": {
-        "success": [
-          {
-            "taskId": "string",
-            "taskUrl": "string"
-          }
-        ],
-        "failure": {
-          "taskId": "string",
-          "taskUrl": "string",
-          "failureReason": "string"
-        }
+    [
+      {
+        "executionId": "string",
+        "executionUrl": "string",
+        "message": "string"
       }
-    }
+    ]
 """

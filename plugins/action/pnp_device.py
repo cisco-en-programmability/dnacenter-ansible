@@ -27,15 +27,13 @@ argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
     _id=dict(type="str"),
     deviceInfo=dict(type="dict"),
+    runSummaryList=dict(type="list"),
     systemResetWorkflow=dict(type="dict"),
     systemWorkflow=dict(type="dict"),
-    workflow=dict(type="dict"),
-    runSummaryList=dict(type="list"),
-    workflowParameters=dict(type="dict"),
-    dayZeroConfig=dict(type="dict"),
-    dayZeroConfigPreview=dict(type="dict"),
-    version=dict(type="int"),
     tenantId=dict(type="str"),
+    version=dict(type="int"),
+    workflow=dict(type="dict"),
+    workflowParameters=dict(type="dict"),
     id=dict(type="str"),
 ))
 
@@ -54,15 +52,13 @@ class PnpDevice(object):
         self.new_object = dict(
             _id=params.get("_id"),
             deviceInfo=params.get("deviceInfo"),
+            runSummaryList=params.get("runSummaryList"),
             systemResetWorkflow=params.get("systemResetWorkflow"),
             systemWorkflow=params.get("systemWorkflow"),
-            workflow=params.get("workflow"),
-            runSummaryList=params.get("runSummaryList"),
-            workflowParameters=params.get("workflowParameters"),
-            dayZeroConfig=params.get("dayZeroConfig"),
-            dayZeroConfigPreview=params.get("dayZeroConfigPreview"),
-            version=params.get("version"),
             tenantId=params.get("tenantId"),
+            version=params.get("version"),
+            workflow=params.get("workflow"),
+            workflowParameters=params.get("workflowParameters"),
             id=params.get("id"),
         )
 
@@ -95,15 +91,13 @@ class PnpDevice(object):
         new_object_params = {}
         new_object_params['_id'] = self.new_object.get('_id')
         new_object_params['deviceInfo'] = self.new_object.get('deviceInfo')
+        new_object_params['runSummaryList'] = self.new_object.get('runSummaryList')
         new_object_params['systemResetWorkflow'] = self.new_object.get('systemResetWorkflow')
         new_object_params['systemWorkflow'] = self.new_object.get('systemWorkflow')
-        new_object_params['workflow'] = self.new_object.get('workflow')
-        new_object_params['runSummaryList'] = self.new_object.get('runSummaryList')
-        new_object_params['workflowParameters'] = self.new_object.get('workflowParameters')
-        new_object_params['dayZeroConfig'] = self.new_object.get('dayZeroConfig')
-        new_object_params['dayZeroConfigPreview'] = self.new_object.get('dayZeroConfigPreview')
-        new_object_params['version'] = self.new_object.get('version')
         new_object_params['tenantId'] = self.new_object.get('tenantId')
+        new_object_params['version'] = self.new_object.get('version')
+        new_object_params['workflow'] = self.new_object.get('workflow')
+        new_object_params['workflowParameters'] = self.new_object.get('workflowParameters')
         return new_object_params
 
     def delete_by_id_params(self):
@@ -115,15 +109,13 @@ class PnpDevice(object):
         new_object_params = {}
         new_object_params['_id'] = self.new_object.get('_id')
         new_object_params['deviceInfo'] = self.new_object.get('deviceInfo')
+        new_object_params['runSummaryList'] = self.new_object.get('runSummaryList')
         new_object_params['systemResetWorkflow'] = self.new_object.get('systemResetWorkflow')
         new_object_params['systemWorkflow'] = self.new_object.get('systemWorkflow')
-        new_object_params['workflow'] = self.new_object.get('workflow')
-        new_object_params['runSummaryList'] = self.new_object.get('runSummaryList')
-        new_object_params['workflowParameters'] = self.new_object.get('workflowParameters')
-        new_object_params['dayZeroConfig'] = self.new_object.get('dayZeroConfig')
-        new_object_params['dayZeroConfigPreview'] = self.new_object.get('dayZeroConfigPreview')
-        new_object_params['version'] = self.new_object.get('version')
         new_object_params['tenantId'] = self.new_object.get('tenantId')
+        new_object_params['version'] = self.new_object.get('version')
+        new_object_params['workflow'] = self.new_object.get('workflow')
+        new_object_params['workflowParameters'] = self.new_object.get('workflowParameters')
         new_object_params['id'] = self.new_object.get('id')
         return new_object_params
 
@@ -193,15 +185,13 @@ class PnpDevice(object):
         obj_params = [
             ("_id", "_id"),
             ("deviceInfo", "deviceInfo"),
+            ("runSummaryList", "runSummaryList"),
             ("systemResetWorkflow", "systemResetWorkflow"),
             ("systemWorkflow", "systemWorkflow"),
-            ("workflow", "workflow"),
-            ("runSummaryList", "runSummaryList"),
-            ("workflowParameters", "workflowParameters"),
-            ("dayZeroConfig", "dayZeroConfig"),
-            ("dayZeroConfigPreview", "dayZeroConfigPreview"),
-            ("version", "version"),
             ("tenantId", "tenantId"),
+            ("version", "version"),
+            ("workflow", "workflow"),
+            ("workflowParameters", "workflowParameters"),
             ("id", "id"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params

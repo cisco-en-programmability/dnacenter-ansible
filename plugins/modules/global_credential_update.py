@@ -14,7 +14,7 @@ version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   globalCredentialId:
-    description: GlobalCredentialId path parameter. Global credential Uuid.
+    description: GlobalCredentialId path parameter. ID of global-credential.
     type: str
   siteUuids:
     description: Global Credential Update's siteUuids.
@@ -30,6 +30,17 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: Delete by id
+  cisco.dnac.global_credential_update:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    globalCredentialId: string
+
 - name: Update by id
   cisco.dnac.global_credential_update:
     dnac_host: "{{dnac_host}}"
@@ -43,17 +54,6 @@ EXAMPLES = r"""
     siteUuids:
     - string
 
-- name: Delete by id
-  cisco.dnac.global_credential_update:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    globalCredentialId: string
-
 """
 
 RETURN = r"""
@@ -64,7 +64,7 @@ dnac_response:
   sample: >
     {
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       },
       "version": "string"

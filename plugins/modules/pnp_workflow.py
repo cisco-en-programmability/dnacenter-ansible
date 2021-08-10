@@ -130,7 +130,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Update by id
+- name: Create
   cisco.dnac.pnp_workflow:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -148,7 +148,6 @@ EXAMPLES = r"""
     description: string
     endTime: 0
     execTime: 0
-    id: string
     imageId: string
     instanceType: string
     lastupdateOn: 0
@@ -188,7 +187,7 @@ EXAMPLES = r"""
     state: absent
     id: string
 
-- name: Create
+- name: Update by id
   cisco.dnac.pnp_workflow:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -206,6 +205,7 @@ EXAMPLES = r"""
     description: string
     endTime: 0
     execTime: 0
+    id: string
     imageId: string
     instanceType: string
     lastupdateOn: 0

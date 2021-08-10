@@ -15,7 +15,7 @@ author: Rafael Campos (@racampos)
 options:
   profileName:
     description:
-    - ProfileName query parameter.
+    - ProfileName query parameter. Wireless Network Profile Name.
     type: str
 requirements:
 - dnacentersdk
@@ -55,18 +55,7 @@ dnac_response:
           "sites": [
             "string"
           ],
-          "ssidDetails": [
-            {
-              "name": "string",
-              "type": "string",
-              "enableFabric": true,
-              "flexConnect": {
-                "enableFlexConnect": true,
-                "localToVlan": 0
-              },
-              "interfaceName": "string"
-            }
-          ]
+          "ssidDetails": []
         }
       }
     ]

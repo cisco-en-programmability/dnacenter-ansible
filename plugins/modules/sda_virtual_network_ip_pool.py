@@ -20,28 +20,28 @@ options:
     description: Sda Virtual Network Ip Pool's payload.
     suboptions:
       authenticationPolicyName:
-        description: Sda Virtual Network Ip Pool's authenticationPolicyName.
+        description: Authentication Policy Name.
         type: str
       ipPoolName:
-        description: Sda Virtual Network Ip Pool's ipPoolName.
+        description: Ip Pool Name.
         type: str
       isL2FloodingEnabled:
-        description: IsL2FloodingEnabled flag.
+        description: Is L2 Flooding Enabled.
         type: bool
       isThisCriticalPool:
-        description: IsThisCriticalPool flag.
+        description: Is This Critical Pool.
         type: bool
       poolType:
-        description: Sda Virtual Network Ip Pool's poolType.
+        description: Pool Type.
         type: str
       scalableGroupName:
-        description: Sda Virtual Network Ip Pool's scalableGroupName.
+        description: Scalable Group Name.
         type: str
       trafficType:
-        description: Sda Virtual Network Ip Pool's trafficType.
+        description: Traffic Type.
         type: str
       virtualNetworkName:
-        description: Sda Virtual Network Ip Pool's virtualNetworkName.
+        description: Virtual Network Name.
         type: str
     type: list
   virtualNetworkName:
@@ -57,17 +57,6 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Create
-  cisco.dnac.sda_virtual_network_ip_pool:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: present
-
 - name: Delete all
   cisco.dnac.sda_virtual_network_ip_pool:
     dnac_host: "{{dnac_host}}"
@@ -80,6 +69,17 @@ EXAMPLES = r"""
     state: absent
     ipPoolName: string
     virtualNetworkName: string
+
+- name: Create
+  cisco.dnac.sda_virtual_network_ip_pool:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
 
 """
 

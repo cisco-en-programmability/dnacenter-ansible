@@ -17,33 +17,38 @@ options:
     description: ForcePushTemplate flag.
     type: bool
   isComposite:
-    description: IsComposite flag.
+    description: Composite template flag.
     type: bool
   mainTemplateId:
-    description: Configuration Template Deploy's mainTemplateId.
+    description: Main template UUID of versioned template.
     type: str
   memberTemplateDeploymentInfo:
-    description: Configuration Template Deploy's memberTemplateDeploymentInfo.
-    elements: str
+    description: MemberTemplateDeploymentInfo.
     type: list
   targetInfo:
     description: Configuration Template Deploy's targetInfo.
     suboptions:
       hostName:
-        description: Configuration Template Deploy's hostName.
+        description: Hostname of device is required if targetType is MANAGED_DEVICE_HOSTNAME.
         type: str
       id:
-        description: Configuration Template Deploy's id.
+        description: UUID of target is required if targetType is MANAGED_DEVICE_UUID.
         type: str
       params:
-        description: Configuration Template Deploy's params.
+        description: Template params/values to be provisioned.
+        type: dict
+      resourceParams:
+        description: Resource params to be provisioned.
         type: dict
       type:
-        description: Configuration Template Deploy's type.
+        description: Target type of device.
+        type: str
+      versionedTemplateId:
+        description: Versioned templateUUID to be provisioned.
         type: str
     type: list
   templateId:
-    description: Configuration Template Deploy's templateId.
+    description: UUID of template to be provisioned.
     type: str
 requirements:
 - dnacentersdk
@@ -67,13 +72,14 @@ EXAMPLES = r"""
     forcePushTemplate: true
     isComposite: true
     mainTemplateId: string
-    memberTemplateDeploymentInfo:
-    - string
+    memberTemplateDeploymentInfo: []
     targetInfo:
     - hostName: string
       id: string
       params: {}
+      resourceParams: {}
       type: string
+      versionedTemplateId: string
     templateId: string
 
 """
@@ -89,13 +95,16 @@ dnac_response:
       "deploymentName": "string",
       "devices": [
         {
+          "detailedStatusMessage": "string",
           "deviceId": "string",
           "duration": "string",
           "endTime": "string",
+          "identifier": "string",
           "ipAddress": "string",
           "name": "string",
           "startTime": "string",
-          "status": "string"
+          "status": "string",
+          "targetType": "string"
         }
       ],
       "duration": "string",
@@ -103,6 +112,7 @@ dnac_response:
       "projectName": "string",
       "startTime": "string",
       "status": "string",
+      "statusMessage": "string",
       "templateName": "string",
       "templateVersion": "string"
     }

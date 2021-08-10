@@ -14,10 +14,6 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  id:
-    description:
-    - Id path parameter. Interface ID.
-    type: str
   offset:
     description:
     - Offset query parameter.
@@ -26,6 +22,10 @@ options:
     description:
     - Limit query parameter.
     type: int
+  id:
+    description:
+    - Id path parameter. Interface ID.
+    type: str
 requirements:
 - dnacentersdk
 seealso:

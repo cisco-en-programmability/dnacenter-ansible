@@ -15,7 +15,7 @@ author: Rafael Campos (@racampos)
 options:
   deploymentId:
     description:
-    - DeploymentId path parameter.
+    - DeploymentId path parameter. UUID of deployment to retrieve template deployment status.
     type: str
 requirements:
 - dnacentersdk
@@ -52,13 +52,16 @@ dnac_response:
       "deploymentName": "string",
       "devices": [
         {
+          "detailedStatusMessage": "string",
           "deviceId": "string",
           "duration": "string",
           "endTime": "string",
+          "identifier": "string",
           "ipAddress": "string",
           "name": "string",
           "startTime": "string",
-          "status": "string"
+          "status": "string",
+          "targetType": "string"
         }
       ],
       "duration": "string",
@@ -66,6 +69,7 @@ dnac_response:
       "projectName": "string",
       "startTime": "string",
       "status": "string",
+      "statusMessage": "string",
       "templateName": "string",
       "templateVersion": "string"
     }

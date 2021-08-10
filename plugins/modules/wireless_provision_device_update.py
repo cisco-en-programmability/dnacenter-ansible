@@ -17,32 +17,32 @@ options:
     description: Wireless Provision Device Update's payload.
     suboptions:
       deviceName:
-        description: Wireless Provision Device Update's deviceName.
+        description: Device Name.
         type: str
       dynamicInterfaces:
         description: Wireless Provision Device Update's dynamicInterfaces.
         suboptions:
           interfaceGateway:
-            description: Wireless Provision Device Update's interfaceGateway.
+            description: Interface Gateway.
             type: str
           interfaceIPAddress:
-            description: Wireless Provision Device Update's interfaceIPAddress.
+            description: Interface IP Address.
             type: str
           interfaceName:
-            description: Wireless Provision Device Update's interfaceName.
+            description: Interface Name.
             type: str
           interfaceNetmaskInCIDR:
-            description: Wireless Provision Device Update's interfaceNetmaskInCIDR.
+            description: Interface Netmask In CIDR.
             type: int
           lagOrPortNumber:
-            description: Wireless Provision Device Update's lagOrPortNumber.
+            description: Lag Or Port Number.
             type: int
           vlanId:
-            description: Wireless Provision Device Update's vlanId.
+            description: VLAN ID.
             type: int
         type: list
       managedAPLocations:
-        description: Wireless Provision Device Update's managedAPLocations.
+        description: List of managed AP locations (Site Hierarchies).
         elements: str
         type: list
     type: list

@@ -17,41 +17,41 @@ options:
     description: Wireless Profile's profileDetails.
     suboptions:
       name:
-        description: Wireless Profile's name.
+        description: Profile Name.
         type: str
       sites:
-        description: Wireless Profile's sites.
+        description: Array of site name hierarchies(eg "Global/aaa/zzz", "Global/aaa/zzz").
         elements: str
         type: list
       ssidDetails:
         description: Wireless Profile's ssidDetails.
         suboptions:
           enableFabric:
-            description: EnableFabric flag.
+            description: True if ssid is fabric else false.
             type: bool
           flexConnect:
             description: Wireless Profile's flexConnect.
             suboptions:
               enableFlexConnect:
-                description: EnableFlexConnect flag.
+                description: True if flex connect is enabled else false.
                 type: bool
               localToVlan:
-                description: Wireless Profile's localToVlan.
+                description: Local To Vlan Id.
                 type: int
             type: dict
           interfaceName:
-            description: Wireless Profile's interfaceName.
+            description: Interface Name.
             type: str
           name:
-            description: Wireless Profile's name.
+            description: Ssid Name.
             type: str
           type:
-            description: Wireless Profile's type.
+            description: Ssid Type(enum Enterprise/Guest).
             type: str
         type: list
     type: dict
   wirelessProfileName:
-    description: WirelessProfileName path parameter.
+    description: WirelessProfileName path parameter. Wireless Profile Name.
     type: str
 requirements:
 - dnacentersdk
@@ -63,6 +63,18 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: Delete by name
+  cisco.dnac.wireless_profile:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    wirelessProfileName: string
+
 - name: Update all
   cisco.dnac.wireless_profile:
     dnac_host: "{{dnac_host}}"
@@ -108,18 +120,6 @@ EXAMPLES = r"""
         interfaceName: string
         name: string
         type: string
-
-- name: Delete by name
-  cisco.dnac.wireless_profile:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: absent
-    wirelessProfileName: string
 
 """
 

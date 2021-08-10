@@ -34,6 +34,15 @@ argument_spec.update(dict(
     radioPolicy=dict(type="str"),
     enableBroadcastSSID=dict(type="bool"),
     fastTransition=dict(type="str"),
+    enableSessionTimeOut=dict(type="bool"),
+    sessionTimeOut=dict(type="int"),
+    enableClientExclusion=dict(type="bool"),
+    clientExclusionTimeout=dict(type="int"),
+    enableBasicServiceSetMaxIdle=dict(type="bool"),
+    basicServiceSetClientIdleTimeout=dict(type="int"),
+    enableDirectedMulticastService=dict(type="bool"),
+    enableNeighborList=dict(type="bool"),
+    mfpClientProtection=dict(type="str"),
     ssidName=dict(type="str"),
 ))
 
@@ -59,6 +68,15 @@ class WirelessEnterpriseSsid(object):
             radioPolicy=params.get("radioPolicy"),
             enableBroadcastSSID=params.get("enableBroadcastSSID"),
             fastTransition=params.get("fastTransition"),
+            enableSessionTimeOut=params.get("enableSessionTimeOut"),
+            sessionTimeOut=params.get("sessionTimeOut"),
+            enableClientExclusion=params.get("enableClientExclusion"),
+            clientExclusionTimeout=params.get("clientExclusionTimeout"),
+            enableBasicServiceSetMaxIdle=params.get("enableBasicServiceSetMaxIdle"),
+            basicServiceSetClientIdleTimeout=params.get("basicServiceSetClientIdleTimeout"),
+            enableDirectedMulticastService=params.get("enableDirectedMulticastService"),
+            enableNeighborList=params.get("enableNeighborList"),
+            mfpClientProtection=params.get("mfpClientProtection"),
             ssid_name=params.get("ssidName"),
         )
 
@@ -78,6 +96,15 @@ class WirelessEnterpriseSsid(object):
         new_object_params['radioPolicy'] = self.new_object.get('radioPolicy')
         new_object_params['enableBroadcastSSID'] = self.new_object.get('enableBroadcastSSID')
         new_object_params['fastTransition'] = self.new_object.get('fastTransition')
+        new_object_params['enableSessionTimeOut'] = self.new_object.get('enableSessionTimeOut')
+        new_object_params['sessionTimeOut'] = self.new_object.get('sessionTimeOut')
+        new_object_params['enableClientExclusion'] = self.new_object.get('enableClientExclusion')
+        new_object_params['clientExclusionTimeout'] = self.new_object.get('clientExclusionTimeout')
+        new_object_params['enableBasicServiceSetMaxIdle'] = self.new_object.get('enableBasicServiceSetMaxIdle')
+        new_object_params['basicServiceSetClientIdleTimeout'] = self.new_object.get('basicServiceSetClientIdleTimeout')
+        new_object_params['enableDirectedMulticastService'] = self.new_object.get('enableDirectedMulticastService')
+        new_object_params['enableNeighborList'] = self.new_object.get('enableNeighborList')
+        new_object_params['mfpClientProtection'] = self.new_object.get('mfpClientProtection')
         return new_object_params
 
     def delete_by_name_params(self):
@@ -85,9 +112,31 @@ class WirelessEnterpriseSsid(object):
         new_object_params['ssid_name'] = self.new_object.get('ssid_name')
         return new_object_params
 
+    def update_all_params(self):
+        new_object_params = {}
+        new_object_params['name'] = self.new_object.get('name')
+        new_object_params['securityLevel'] = self.new_object.get('securityLevel')
+        new_object_params['passphrase'] = self.new_object.get('passphrase')
+        new_object_params['enableFastLane'] = self.new_object.get('enableFastLane')
+        new_object_params['enableMACFiltering'] = self.new_object.get('enableMACFiltering')
+        new_object_params['trafficType'] = self.new_object.get('trafficType')
+        new_object_params['radioPolicy'] = self.new_object.get('radioPolicy')
+        new_object_params['enableBroadcastSSID'] = self.new_object.get('enableBroadcastSSID')
+        new_object_params['fastTransition'] = self.new_object.get('fastTransition')
+        new_object_params['enableSessionTimeOut'] = self.new_object.get('enableSessionTimeOut')
+        new_object_params['sessionTimeOut'] = self.new_object.get('sessionTimeOut')
+        new_object_params['enableClientExclusion'] = self.new_object.get('enableClientExclusion')
+        new_object_params['clientExclusionTimeout'] = self.new_object.get('clientExclusionTimeout')
+        new_object_params['enableBasicServiceSetMaxIdle'] = self.new_object.get('enableBasicServiceSetMaxIdle')
+        new_object_params['basicServiceSetClientIdleTimeout'] = self.new_object.get('basicServiceSetClientIdleTimeout')
+        new_object_params['enableDirectedMulticastService'] = self.new_object.get('enableDirectedMulticastService')
+        new_object_params['enableNeighborList'] = self.new_object.get('enableNeighborList')
+        new_object_params['mfpClientProtection'] = self.new_object.get('mfpClientProtection')
+        return new_object_params
+
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name method, using get all
+        # NOTICE: Does not have a get by name method or it is in another action
         items = self.dnac.exec(
             family="wireless",
             function="get_enterprise_ssid",
@@ -105,9 +154,9 @@ class WirelessEnterpriseSsid(object):
         return result
 
     def exists(self):
-        prev_obj = None
         id_exists = False
         name_exists = False
+        prev_obj = None
         o_id = self.new_object.get("id")
         name = self.new_object.get("name")
         name = name or self.new_object.get("ssid_name")
@@ -144,9 +193,18 @@ class WirelessEnterpriseSsid(object):
             ("radioPolicy", "radioPolicy"),
             ("enableBroadcastSSID", "enableBroadcastSSID"),
             ("fastTransition", "fastTransition"),
+            ("enableSessionTimeOut", "enableSessionTimeOut"),
+            ("sessionTimeOut", "sessionTimeOut"),
+            ("enableClientExclusion", "enableClientExclusion"),
+            ("clientExclusionTimeout", "clientExclusionTimeout"),
+            ("enableBasicServiceSetMaxIdle", "enableBasicServiceSetMaxIdle"),
+            ("basicServiceSetClientIdleTimeout", "basicServiceSetClientIdleTimeout"),
+            ("enableDirectedMulticastService", "enableDirectedMulticastService"),
+            ("enableNeighborList", "enableNeighborList"),
+            ("mfpClientProtection", "mfpClientProtection"),
             ("ssidName", "ssid_name"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
+        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(not dnac_compare_equality(current_obj.get(dnac_param),
                                              requested_obj.get(ansible_param))
@@ -157,6 +215,18 @@ class WirelessEnterpriseSsid(object):
             family="wireless",
             function="create_enterprise_ssid",
             params=self.create_params(),
+            op_modifies=True,
+        )
+        return result
+
+    def update(self):
+        id = self.new_object.get("id")
+        name = self.new_object.get("name")
+        result = None
+        result = self.dnac.exec(
+            family="wireless",
+            function="update_enterprise_ssid",
+            params=self.update_all_params(),
             op_modifies=True,
         )
         return result
@@ -220,18 +290,20 @@ class ActionModule(ActionBase):
         state = self._task.args.get("state")
 
         response = None
+
         if state == "present":
             (obj_exists, prev_obj) = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
-                    response = prev_obj
-                    dnac.object_present_and_different()
+                    response = obj.update()
+                    dnac.object_updated()
                 else:
                     response = prev_obj
                     dnac.object_already_present()
             else:
                 response = obj.create()
                 dnac.object_created()
+
         elif state == "absent":
             (obj_exists, prev_obj) = obj.exists()
             if obj_exists:

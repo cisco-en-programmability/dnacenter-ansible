@@ -15,7 +15,7 @@ author: Rafael Campos (@racampos)
 options:
   templateId:
     description:
-    - TemplateId path parameter.
+    - TemplateId path parameter. TemplateId(UUID) to get list of versioned templates.
     type: str
 requirements:
 - dnacentersdk
@@ -50,18 +50,21 @@ dnac_response:
   sample: >
     [
       {
+        "composite": true,
         "name": "string",
-        "projectName": "string",
         "projectId": "string",
+        "projectName": "string",
         "templateId": "string",
         "versionsInfo": [
           {
-            "id": "string",
+            "author": "string",
             "description": "string",
+            "id": "string",
+            "version": "string",
+            "versionComment": "string",
             "versionTime": 0
           }
-        ],
-        "composite": true
+        ]
       }
     ]
 """

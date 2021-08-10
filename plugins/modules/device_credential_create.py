@@ -20,113 +20,95 @@ options:
         description: Device Credential Create's cliCredential.
         suboptions:
           description:
-            description: Device Credential Create's description.
+            description: Name or description for CLI credential.
             type: str
           enablePassword:
-            description: Device Credential Create's enablePassword.
-            type: str
-          id:
-            description: Device Credential Create's id.
+            description: Enable password for CLI credential.
             type: str
           password:
-            description: Device Credential Create's password.
+            description: Password for CLI credential.
             type: str
           username:
-            description: Device Credential Create's username.
+            description: User name for CLI credential.
             type: str
-        type: dict
+        type: list
       httpsRead:
         description: Device Credential Create's httpsRead.
         suboptions:
-          id:
-            description: Device Credential Create's id.
-            type: str
           name:
-            description: Device Credential Create's name.
+            description: Name or description of http read credential.
             type: str
           password:
-            description: Device Credential Create's password.
+            description: Password for http read credential.
             type: str
           port:
-            description: Device Credential Create's port.
-            type: str
+            description: Port for http read credential.
+            type: int
           username:
-            description: Device Credential Create's username.
+            description: User name of the http read credential.
             type: str
-        type: dict
+        type: list
       httpsWrite:
         description: Device Credential Create's httpsWrite.
         suboptions:
-          id:
-            description: Device Credential Create's id.
-            type: str
           name:
-            description: Device Credential Create's name.
+            description: Name or description of http write credential.
             type: str
           password:
-            description: Device Credential Create's password.
+            description: Password for http write credential.
             type: str
           port:
-            description: Device Credential Create's port.
-            type: str
+            description: Port for http write credential.
+            type: int
           username:
-            description: Device Credential Create's username.
+            description: User name of the http write credential.
             type: str
-        type: dict
+        type: list
       snmpV2cRead:
         description: Device Credential Create's snmpV2cRead.
         suboptions:
           description:
-            description: Device Credential Create's description.
-            type: str
-          id:
-            description: Device Credential Create's id.
+            description: Description for snmp v2 read.
             type: str
           readCommunity:
-            description: Device Credential Create's readCommunity.
+            description: Ready community for snmp v2 read credential.
             type: str
-        type: dict
+        type: list
       snmpV2cWrite:
         description: Device Credential Create's snmpV2cWrite.
         suboptions:
           description:
-            description: Device Credential Create's description.
-            type: str
-          id:
-            description: Device Credential Create's id.
+            description: Description for snmp v2 write.
             type: str
           writeCommunity:
-            description: Device Credential Create's writeCommunity.
+            description: Write community for snmp v2 write credential.
             type: str
-        type: dict
+        type: list
       snmpV3:
         description: Device Credential Create's snmpV3.
         suboptions:
           authPassword:
-            description: Device Credential Create's authPassword.
+            description: Authentication password for snmpv3 credential.
             type: str
           authType:
-            description: Device Credential Create's authType.
+            description: Authentication type for snmpv3 credential.
             type: str
           description:
-            description: Device Credential Create's description.
-            type: str
-          id:
-            description: Device Credential Create's id.
+            description: Name or description for SNMPV3 credential.
             type: str
           privacyPassword:
-            description: Device Credential Create's privacyPassword.
+            description: Privacy password for snmpv3 credential.
             type: str
           privacyType:
-            description: Device Credential Create's privacyType.
+            description: Privacy type for snmpv3 credential.
             type: str
           snmpMode:
-            description: Device Credential Create's snmpMode.
+            description: Mode for snmpv3 credential.
             type: str
           username:
-            description: Device Credential Create's username.
+            description: User name for SNMPv3 credential.
             type: str
-        type: dict
+        type: list
     type: dict
 requirements:
 - dnacentersdk
@@ -138,6 +120,46 @@ seealso:
 """
 
 EXAMPLES = r"""
+- name: Create
+  cisco.dnac.device_credential_create:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    settings:
+      cliCredential:
+      - description: string
+        enablePassword: string
+        password: string
+        username: string
+      httpsRead:
+      - name: string
+        password: string
+        port: 0
+        username: string
+      httpsWrite:
+      - name: string
+        password: string
+        port: 0
+        username: string
+      snmpV2cRead:
+      - description: string
+        readCommunity: string
+      snmpV2cWrite:
+      - description: string
+        writeCommunity: string
+      snmpV3:
+      - authPassword: string
+        authType: string
+        description: string
+        privacyPassword: string
+        privacyType: string
+        snmpMode: string
+        username: string
+
 - name: Update all
   cisco.dnac.device_credential_create:
     dnac_host: "{{dnac_host}}"
@@ -179,46 +201,6 @@ EXAMPLES = r"""
         authType: string
         description: string
         id: string
-        privacyPassword: string
-        privacyType: string
-        snmpMode: string
-        username: string
-
-- name: Create
-  cisco.dnac.device_credential_create:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    settings:
-      cliCredential:
-      - description: string
-        enablePassword: string
-        password: string
-        username: string
-      httpsRead:
-      - name: string
-        password: string
-        port: 0
-        username: string
-      httpsWrite:
-      - name: string
-        password: string
-        port: 0
-        username: string
-      snmpV2cRead:
-      - description: string
-        readCommunity: string
-      snmpV2cWrite:
-      - description: string
-        writeCommunity: string
-      snmpV3:
-      - authPassword: string
-        authType: string
-        description: string
         privacyPassword: string
         privacyType: string
         snmpMode: string

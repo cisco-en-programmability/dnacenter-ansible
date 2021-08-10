@@ -14,25 +14,25 @@ version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   cliId:
-    description: Site Assign Credential's cliId.
+    description: Cli Id.
     type: str
   httpRead:
-    description: Site Assign Credential's httpRead.
+    description: Http Read.
     type: str
   httpWrite:
-    description: Site Assign Credential's httpWrite.
+    description: Http Write.
     type: str
   siteId:
     description: SiteId path parameter. Site id to assign credential.
     type: str
   snmpV2ReadId:
-    description: Site Assign Credential's snmpV2ReadId.
+    description: Snmp V2 Read Id.
     type: str
   snmpV2WriteId:
-    description: Site Assign Credential's snmpV2WriteId.
+    description: Snmp V2 Write Id.
     type: str
   snmpV3Id:
-    description: Site Assign Credential's snmpV3Id.
+    description: Snmp V3 Id.
     type: str
 requirements:
 - dnacentersdk

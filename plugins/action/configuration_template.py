@@ -25,15 +25,19 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
+    tags=dict(type="list"),
     author=dict(type="str"),
     composite=dict(type="bool"),
     containingTemplates=dict(type="list"),
     createTime=dict(type="int"),
+    customParamsOrder=dict(type="bool"),
     description=dict(type="str"),
     deviceTypes=dict(type="list"),
     failurePolicy=dict(type="str"),
     id=dict(type="str"),
+    language=dict(type="str"),
     lastUpdateTime=dict(type="int"),
+    latestVersionTime=dict(type="int"),
     name=dict(type="str"),
     parentTemplateId=dict(type="str"),
     projectId=dict(type="str"),
@@ -43,9 +47,9 @@ argument_spec.update(dict(
     softwareType=dict(type="str"),
     softwareVariant=dict(type="str"),
     softwareVersion=dict(type="str"),
-    tags=dict(type="list"),
     templateContent=dict(type="str"),
     templateParams=dict(type="list"),
+    validationErrors=dict(type="dict"),
     version=dict(type="str"),
     templateId=dict(type="str"),
 ))
@@ -63,15 +67,19 @@ class ConfigurationTemplate(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
+            tags=params.get("tags"),
             author=params.get("author"),
             composite=params.get("composite"),
             containingTemplates=params.get("containingTemplates"),
             createTime=params.get("createTime"),
+            customParamsOrder=params.get("customParamsOrder"),
             description=params.get("description"),
             deviceTypes=params.get("deviceTypes"),
             failurePolicy=params.get("failurePolicy"),
             id=params.get("id"),
+            language=params.get("language"),
             lastUpdateTime=params.get("lastUpdateTime"),
+            latestVersionTime=params.get("latestVersionTime"),
             name=params.get("name"),
             parentTemplateId=params.get("parentTemplateId"),
             projectId=params.get("projectId"),
@@ -81,9 +89,9 @@ class ConfigurationTemplate(object):
             softwareType=params.get("softwareType"),
             softwareVariant=params.get("softwareVariant"),
             softwareVersion=params.get("softwareVersion"),
-            tags=params.get("tags"),
             templateContent=params.get("templateContent"),
             templateParams=params.get("templateParams"),
+            validationErrors=params.get("validationErrors"),
             version=params.get("version"),
             template_id=params.get("templateId"),
         )
@@ -97,6 +105,10 @@ class ConfigurationTemplate(object):
         new_object_params['product_series'] = self.new_object.get('product_series')
         new_object_params['product_type'] = self.new_object.get('product_type')
         new_object_params['filter_conflicting_templates'] = self.new_object.get('filter_conflicting_templates')
+        new_object_params['tags'] = self.new_object.get('tags')
+        new_object_params['project_names'] = self.new_object.get('project_names')
+        new_object_params['un_committed'] = self.new_object.get('un_committed')
+        new_object_params['sort_order'] = self.new_object.get('sort_order')
         return new_object_params
 
     def delete_by_id_params(self):
@@ -106,15 +118,19 @@ class ConfigurationTemplate(object):
 
     def update_all_params(self):
         new_object_params = {}
+        new_object_params['tags'] = self.new_object.get('tags')
         new_object_params['author'] = self.new_object.get('author')
         new_object_params['composite'] = self.new_object.get('composite')
         new_object_params['containingTemplates'] = self.new_object.get('containingTemplates')
         new_object_params['createTime'] = self.new_object.get('createTime')
+        new_object_params['customParamsOrder'] = self.new_object.get('customParamsOrder')
         new_object_params['description'] = self.new_object.get('description')
         new_object_params['deviceTypes'] = self.new_object.get('deviceTypes')
         new_object_params['failurePolicy'] = self.new_object.get('failurePolicy')
         new_object_params['id'] = self.new_object.get('id')
+        new_object_params['language'] = self.new_object.get('language')
         new_object_params['lastUpdateTime'] = self.new_object.get('lastUpdateTime')
+        new_object_params['latestVersionTime'] = self.new_object.get('latestVersionTime')
         new_object_params['name'] = self.new_object.get('name')
         new_object_params['parentTemplateId'] = self.new_object.get('parentTemplateId')
         new_object_params['projectId'] = self.new_object.get('projectId')
@@ -124,9 +140,9 @@ class ConfigurationTemplate(object):
         new_object_params['softwareType'] = self.new_object.get('softwareType')
         new_object_params['softwareVariant'] = self.new_object.get('softwareVariant')
         new_object_params['softwareVersion'] = self.new_object.get('softwareVersion')
-        new_object_params['tags'] = self.new_object.get('tags')
         new_object_params['templateContent'] = self.new_object.get('templateContent')
         new_object_params['templateParams'] = self.new_object.get('templateParams')
+        new_object_params['validationErrors'] = self.new_object.get('validationErrors')
         new_object_params['version'] = self.new_object.get('version')
         return new_object_params
 
@@ -190,15 +206,19 @@ class ConfigurationTemplate(object):
         requested_obj = self.new_object
 
         obj_params = [
+            ("tags", "tags"),
             ("author", "author"),
             ("composite", "composite"),
             ("containingTemplates", "containingTemplates"),
             ("createTime", "createTime"),
+            ("customParamsOrder", "customParamsOrder"),
             ("description", "description"),
             ("deviceTypes", "deviceTypes"),
             ("failurePolicy", "failurePolicy"),
             ("id", "id"),
+            ("language", "language"),
             ("lastUpdateTime", "lastUpdateTime"),
+            ("latestVersionTime", "latestVersionTime"),
             ("name", "name"),
             ("parentTemplateId", "parentTemplateId"),
             ("projectId", "projectId"),
@@ -208,9 +228,9 @@ class ConfigurationTemplate(object):
             ("softwareType", "softwareType"),
             ("softwareVariant", "softwareVariant"),
             ("softwareVersion", "softwareVersion"),
-            ("tags", "tags"),
             ("templateContent", "templateContent"),
             ("templateParams", "templateParams"),
+            ("validationErrors", "validationErrors"),
             ("version", "version"),
             ("templateId", "template_id"),
         ]
@@ -247,7 +267,7 @@ class ConfigurationTemplate(object):
                 self.new_object.update(dict(template_id=id_))
         result = self.dnac.exec(
             family="configuration_templates",
-            function="delete_template",
+            function="deletes_the_template",
             params=self.delete_by_id_params(),
         )
         return result

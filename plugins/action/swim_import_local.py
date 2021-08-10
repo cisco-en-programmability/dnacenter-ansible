@@ -24,7 +24,6 @@ argument_spec.update(dict(
     thirdPartyImageFamily=dict(type="str"),
     thirdPartyApplicationType=dict(type="str"),
     filePath=dict(type="str"),
-    fileName=dict(type="str"),
 ))
 
 required_if = []
@@ -66,7 +65,6 @@ class ActionModule(ActionBase):
             third_party_image_family=params.get("thirdPartyImageFamily"),
             third_party_application_type=params.get("thirdPartyApplicationType"),
             file_path=params.get("filePath"),
-            file_name=params.get("fileName"),
         )
         return new_object
 
@@ -83,6 +81,7 @@ class ActionModule(ActionBase):
             function='import_local_software_image',
             op_modifies=True,
             params=self.get_object(self._task.args),
+            file_paths=[('file_path', 'file')],
         )
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

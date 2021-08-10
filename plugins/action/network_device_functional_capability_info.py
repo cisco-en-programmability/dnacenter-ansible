@@ -19,9 +19,9 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    id=dict(type="str"),
     deviceId=dict(type="str"),
     functionName=dict(type="list"),
+    id=dict(type="str"),
 ))
 
 required_if = []
@@ -58,9 +58,9 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            id=params.get("id"),
             device_id=params.get("deviceId"),
             function_name=params.get("functionName"),
+            id=params.get("id"),
         )
         return new_object
 

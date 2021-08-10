@@ -102,7 +102,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Update all
+- name: Create
   cisco.dnac.pnp_server_profile_update:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -138,7 +138,7 @@ EXAMPLES = r"""
     token: string
     virtualAccountId: string
 
-- name: Create
+- name: Update all
   cisco.dnac.pnp_server_profile_update:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

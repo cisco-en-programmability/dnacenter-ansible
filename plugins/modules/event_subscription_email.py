@@ -17,48 +17,48 @@ options:
     description: Event Subscription Email's payload.
     suboptions:
       description:
-        description: Event Subscription Email's description.
+        description: Description.
         type: str
       filter:
         description: Event Subscription Email's filter.
         suboptions:
           eventIds:
-            description: Event Subscription Email's eventIds.
+            description: Event Ids (Comma separated event ids).
             elements: str
             type: list
         type: dict
       name:
-        description: Event Subscription Email's name.
+        description: Name.
         type: str
       subscriptionEndpoints:
         description: Event Subscription Email's subscriptionEndpoints.
         suboptions:
           instanceId:
-            description: Event Subscription Email's instanceId.
+            description: (From Get Email Subscription Details --> pick InstanceId).
             type: str
           subscriptionDetails:
             description: Event Subscription Email's subscriptionDetails.
             suboptions:
               connectorType:
-                description: Event Subscription Email's connectorType.
+                description: Connector Type (Must be EMAIL).
                 type: str
               fromEmailAddress:
-                description: Event Subscription Email's fromEmailAddress.
+                description: Senders Email Address.
                 type: str
               subject:
-                description: Event Subscription Email's subject.
+                description: Email Subject.
                 type: str
               toEmailAddresses:
-                description: Event Subscription Email's toEmailAddresses.
+                description: Recipient's Email Addresses (Comma separated).
                 elements: str
                 type: list
             type: dict
         type: list
       subscriptionId:
-        description: Event Subscription Email's subscriptionId.
+        description: Subscription Id (Unique UUID).
         type: str
       version:
-        description: Event Subscription Email's version.
+        description: Version.
         type: str
     type: list
 requirements:
@@ -71,7 +71,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Update all
+- name: Create
   cisco.dnac.event_subscription_email:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -82,7 +82,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
 
-- name: Create
+- name: Update all
   cisco.dnac.event_subscription_email:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

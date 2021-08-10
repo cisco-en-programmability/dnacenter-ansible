@@ -20,56 +20,56 @@ options:
         description: Site Create's area.
         suboptions:
           name:
-            description: Site Create's name.
+            description: Name of the area (eg Area1).
             type: str
           parentName:
-            description: Site Create's parentName.
+            description: Parent name of the area to be created.
             type: str
         type: dict
       building:
         description: Site Create's building.
         suboptions:
           address:
-            description: Site Create's address.
+            description: Address of the building to be created.
             type: str
           latitude:
-            description: Site Create's latitude.
+            description: Latitude coordinate of the building (eg 37.338).
             type: int
           longitude:
-            description: Site Create's longitude.
+            description: Longitude coordinate of the building (eg -121.832).
             type: int
           name:
-            description: Site Create's name.
+            description: Name of the building (eg building1).
             type: str
           parentName:
-            description: Site Create's parentName.
+            description: Parent name of building to be created.
             type: str
         type: dict
       floor:
         description: Site Create's floor.
         suboptions:
           height:
-            description: Site Create's height.
+            description: Height of the floor (eg 15).
             type: int
           length:
-            description: Site Create's length.
+            description: Length of the floor (eg 100).
             type: int
           name:
-            description: Site Create's name.
+            description: Name of the floor (eg floor-1).
             type: str
           parentName:
-            description: Site Create's parentName.
+            description: Parent name of the floor to be created.
             type: str
           rfModel:
-            description: Site Create's rfModel.
+            description: Type of floor (eg Cubes And Walled Offices0.
             type: str
           width:
-            description: Site Create's width.
+            description: Width of the floor (eg 100).
             type: int
         type: dict
     type: dict
   type:
-    description: Site Create's type.
+    description: Type of site to create (eg area, building, floor).
     type: str
 requirements:
 - dnacentersdk

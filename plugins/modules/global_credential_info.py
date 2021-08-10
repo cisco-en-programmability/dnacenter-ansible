@@ -14,10 +14,6 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  id:
-    description:
-    - Id path parameter. Global Credential ID.
-    type: str
   credentialSubType:
     description:
     - >
@@ -31,6 +27,10 @@ options:
   order:
     description:
     - Order query parameter.
+    type: str
+  id:
+    description:
+    - Id path parameter. Global Credential ID.
     type: str
 requirements:
 - dnacentersdk

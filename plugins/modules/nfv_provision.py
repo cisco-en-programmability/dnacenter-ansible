@@ -23,44 +23,44 @@ options:
             description: Nfv Provision's customNetworks.
             suboptions:
               ipAddressPool:
-                description: Nfv Provision's ipAddressPool.
+                description: IP address pool of sub pool (eg 175.175.140.1).
                 type: str
               name:
-                description: Nfv Provision's name.
+                description: Name of custom network (eg cust-1).
                 type: str
               port:
-                description: Nfv Provision's port.
+                description: Port for custom network (eg 443).
                 type: str
             type: list
           deviceSerialNumber:
-            description: Nfv Provision's deviceSerialNumber.
+            description: Serial number of device (eg FGL210710QY).
             type: str
           ip:
-            description: Nfv Provision's ip.
+            description: IP address of the device (eg 172.20.126.90).
             type: str
           serviceProviders:
             description: Nfv Provision's serviceProviders.
             suboptions:
               serviceProvider:
-                description: Nfv Provision's serviceProvider.
+                description: Name of the service provider (eg Airtel).
                 type: str
               wanInterface:
                 description: Nfv Provision's wanInterface.
                 suboptions:
                   bandwidth:
-                    description: Nfv Provision's bandwidth.
+                    description: Bandwidth limit (eg 100).
                     type: str
                   gateway:
-                    description: Nfv Provision's gateway.
+                    description: Gateway (eg 175.175.190.1).
                     type: str
                   interfaceName:
-                    description: Nfv Provision's interfaceName.
+                    description: Name of the interface (eg GE0-0).
                     type: str
                   ipAddress:
-                    description: Nfv Provision's ipAddress.
+                    description: IP address (eg 175.175.190.205).
                     type: str
                   subnetmask:
-                    description: Nfv Provision's subnetmask.
+                    description: Subnet mask (eg 255.255.255.0).
                     type: str
                 type: dict
             type: list
@@ -68,51 +68,52 @@ options:
             description: Nfv Provision's services.
             suboptions:
               adminPasswordHash:
-                description: Nfv Provision's adminPasswordHash.
+                description: Admin password hash.
                 type: str
               centralManagerIP:
-                description: Nfv Provision's centralManagerIP.
+                description: WAAS Package needs to be installed to populate Central
+                  Manager IP automatically.
                 type: str
               centralRegistrationKey:
-                description: Nfv Provision's centralRegistrationKey.
+                description: Central registration key.
                 type: str
               commonKey:
-                description: Nfv Provision's commonKey.
+                description: Common key.
                 type: str
               disk:
-                description: Nfv Provision's disk.
+                description: Name of disk type (eg internal).
                 type: str
               mode:
-                description: Nfv Provision's mode.
+                description: Mode of firewall (eg transparent).
                 type: str
               systemIp:
-                description: Nfv Provision's systemIp.
+                description: System IP.
                 type: str
               type:
-                description: Nfv Provision's type.
+                description: Type of service (eg ISR).
                 type: str
             type: list
           subPools:
             description: Nfv Provision's subPools.
             suboptions:
               gateway:
-                description: Nfv Provision's gateway.
+                description: IP address for gate way (eg 175.175.140.1).
                 type: str
               ipSubnet:
-                description: Nfv Provision's ipSubnet.
+                description: IP pool cidir (eg 175.175.140.0).
                 type: str
               name:
-                description: Nfv Provision's name.
+                description: Name of the ip sub pool (eg; Lan-65).
                 type: str
               parentPoolName:
-                description: Nfv Provision's parentPoolName.
+                description: Name of parent pool (global pool name).
                 type: str
               type:
-                description: Nfv Provision's type.
+                description: Tyep of ip sub pool (eg Lan).
                 type: str
             type: list
           tagName:
-            description: Nfv Provision's tagName.
+            description: Name of device tag (eg dev1).
             type: str
           templateParam:
             description: Nfv Provision's templateParam.
@@ -121,14 +122,14 @@ options:
                 description: Nfv Provision's asav.
                 suboptions:
                   var1:
-                    description: Nfv Provision's var1.
+                    description: Variable for asav template (eg "test" "Hello asav").
                     type: str
                 type: dict
               nfvis:
                 description: Nfv Provision's nfvis.
                 suboptions:
                   var1:
-                    description: Nfv Provision's var1.
+                    description: Variable for nfvis template (eg "test" "Hello nfvis").
                     type: str
                 type: dict
             type: dict
@@ -136,16 +137,16 @@ options:
             description: Nfv Provision's vlan.
             suboptions:
               id:
-                description: Nfv Provision's id.
+                description: Vlan id(e .4018).
                 type: str
               interfaces:
-                description: Nfv Provision's interfaces.
+                description: Interface (eg GigabitEathernet1/0).
                 type: str
               network:
-                description: Nfv Provision's network.
+                description: Network name to connect (eg lan-net).
                 type: str
               type:
-                description: Nfv Provision's type.
+                description: Vlan type(eg. Access or Trunk).
                 type: str
             type: list
         type: list
@@ -156,55 +157,55 @@ options:
             description: Nfv Provision's area.
             suboptions:
               name:
-                description: Nfv Provision's name.
+                description: Name of the area (eg Area1).
                 type: str
               parentName:
-                description: Nfv Provision's parentName.
+                description: Parent name of the area to be created.
                 type: str
             type: dict
           building:
             description: Nfv Provision's building.
             suboptions:
               address:
-                description: Nfv Provision's address.
+                description: Address of the building to be created.
                 type: str
               latitude:
-                description: Nfv Provision's latitude.
+                description: Latitude coordinate of the building (eg 37.338).
                 type: int
               longitude:
-                description: Nfv Provision's longitude.
+                description: Longitude coordinate of the building (eg -121.832).
                 type: int
               name:
-                description: Nfv Provision's name.
+                description: Name of the building (eg building1).
                 type: str
               parentName:
-                description: Nfv Provision's parentName.
+                description: Address of the building to be created.
                 type: str
             type: dict
           floor:
             description: Nfv Provision's floor.
             suboptions:
               height:
-                description: Nfv Provision's height.
+                description: Height of the floor (eg 15).
                 type: int
               length:
-                description: Nfv Provision's length.
+                description: Length of the floor (eg 100).
                 type: int
               name:
-                description: Nfv Provision's name.
+                description: Name of the floor (eg floor-1).
                 type: str
               parentName:
-                description: Nfv Provision's parentName.
+                description: Parent name of the floor to be created.
                 type: str
               rfModel:
-                description: Nfv Provision's rfModel.
+                description: Type of floor (eg Cubes And Walled Offices).
                 type: str
               width:
-                description: Nfv Provision's width.
+                description: Width of the floor (eg 100).
                 type: int
             type: dict
           siteProfileName:
-            description: Nfv Provision's siteProfileName.
+            description: Name of site profile to be provision with device.
             type: str
         type: dict
     type: list
@@ -218,51 +219,53 @@ options:
             description: Nfv Provision's customNetworks.
             suboptions:
               connectionType:
-                description: Nfv Provision's connectionType.
+                description: Type of network connection from custom network (eg lan).
                 type: str
               name:
-                description: Nfv Provision's name.
+                description: Name of custom network (eg cust-1).
                 type: str
               networkMode:
-                description: Nfv Provision's networkMode.
+                description: Network mode (eg Access or Trunk).
                 type: str
               servicesToConnect:
                 description: Nfv Provision's servicesToConnect.
                 suboptions:
                   service:
-                    description: Nfv Provision's service.
+                    description: Name of service to be connected to the custom network
+                      (eg router-1).
                     type: str
                 type: list
               vlan:
-                description: Nfv Provision's vlan.
+                description: Vlan id for the custom network(eg 4000).
                 type: str
             type: list
           customServices:
             description: Nfv Provision's customServices.
             suboptions:
               applicationType:
-                description: Nfv Provision's applicationType.
+                description: Application type of custom service (eg LINUX).
                 type: str
               imageName:
-                description: Nfv Provision's imageName.
+                description: Image name of custom service (eg redhat7.tar.gz.tar.gz).
                 type: str
               name:
-                description: Nfv Provision's name.
+                description: Name of custom service (eg LINUX-1).
                 type: str
               profile:
-                description: Nfv Provision's profile.
+                description: Profile type of service (eg rhel7-medium).
                 type: str
               topology:
                 description: Nfv Provision's topology.
                 suboptions:
                   assignIp:
-                    description: Nfv Provision's assignIp.
+                    description: Assign ip to network (eg true).
                     type: str
                   name:
-                    description: Nfv Provision's name.
+                    description: Name of connection from custom service(eg wan-net).
                     type: str
                   type:
-                    description: Nfv Provision's type.
+                    description: Type of connection from custom service (eg wan, lan
+                      or internal).
                     type: str
                 type: dict
             type: list
@@ -270,82 +273,83 @@ options:
             description: Nfv Provision's customTemplate.
             suboptions:
               deviceType:
-                description: Nfv Provision's deviceType.
+                description: Type of the device(eg NFVIS).
                 type: str
               template:
-                description: Nfv Provision's template.
+                description: Name of the template(eg NFVIS template).
                 type: str
             type: list
           deviceType:
-            description: Nfv Provision's deviceType.
+            description: Name of the device used in creating nfv profile(eg ENCS5400).
             type: str
           dia:
-            description: Dia flag.
+            description: Direct internet access value should be boolean (eg false).
             type: bool
           serviceProviders:
             description: Nfv Provision's serviceProviders.
             suboptions:
               connect:
-                description: Connect flag.
+                description: Connection of service provider and device value should
+                  be boolean (eg true).
                 type: bool
               defaultGateway:
-                description: DefaultGateway flag.
+                description: Default gateway connect value as boolean (eg true).
                 type: bool
               linkType:
-                description: Nfv Provision's linkType.
+                description: Name of connection type(eg GigabitEthernet).
                 type: str
               serviceProvider:
-                description: Nfv Provision's serviceProvider.
+                description: Name of the service provider(eg Airtel).
                 type: str
             type: list
           services:
             description: Nfv Provision's services.
             suboptions:
               imageName:
-                description: Nfv Provision's imageName.
+                description: Name of image (eg isrv-universalk9.16.06.02.tar.gz).
                 type: str
               mode:
-                description: Nfv Provision's mode.
+                description: Mode of firewall (eg routed, transparent).
                 type: str
               name:
-                description: Nfv Provision's name.
+                description: Name of the service (eg isrv).
                 type: str
               profile:
-                description: Nfv Provision's profile.
+                description: Profile type of service (eg ISRv-mini).
                 type: str
               topology:
                 description: Nfv Provision's topology.
                 suboptions:
                   assignIp:
-                    description: Nfv Provision's assignIp.
+                    description: Assign ip address to network (eg true).
                     type: str
                   name:
-                    description: Nfv Provision's name.
+                    description: Name of connection (eg wan-net).
                     type: str
                   type:
-                    description: Nfv Provision's type.
+                    description: Type of connection (eg wan, lan or internal).
                     type: str
                 type: dict
               type:
-                description: Nfv Provision's type.
+                description: Service type (eg ISRV).
                 type: str
             type: list
           tagName:
-            description: Nfv Provision's tagName.
+            description: Device Tag name(eg dev1).
             type: str
           vlan:
             description: Nfv Provision's vlan.
             suboptions:
               id:
-                description: Nfv Provision's id.
+                description: Vlan id(eg.4018).
                 type: str
               type:
-                description: Nfv Provision's type.
+                description: Vlan type(eg. Access or Trunk).
                 type: str
             type: list
         type: list
       siteProfileName:
-        description: Nfv Provision's siteProfileName.
+        description: Name of the profile to create site profile profile( eg profile-1).
         type: str
     type: list
 requirements:

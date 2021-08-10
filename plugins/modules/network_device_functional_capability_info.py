@@ -14,10 +14,6 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  id:
-    description:
-    - Id path parameter. Functional Capability UUID.
-    type: str
   deviceId:
     description:
     - >
@@ -28,6 +24,10 @@ options:
     description:
     - FunctionName query parameter.
     type: list
+  id:
+    description:
+    - Id path parameter. Functional Capability UUID.
+    type: str
 requirements:
 - dnacentersdk
 seealso:

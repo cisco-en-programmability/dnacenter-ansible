@@ -14,10 +14,10 @@ version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   comments:
-    description: Configuration Template Version Create's comments.
+    description: Template version comments.
     type: str
   templateId:
-    description: Configuration Template Version Create's templateId.
+    description: UUID of template.
     type: str
 requirements:
 - dnacentersdk
@@ -51,7 +51,7 @@ dnac_response:
   sample: >
     {
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       },
       "version": "string"

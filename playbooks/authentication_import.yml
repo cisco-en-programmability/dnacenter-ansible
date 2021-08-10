@@ -1,0 +1,19 @@
+- hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: no
+  tasks:
+  - name: Import certificate file
+    cisco.dnac.authentication_import_certificate:
+      dnac_host: "{{dnac_host}}"
+      dnac_username: "{{dnac_username}}"
+      dnac_password: "{{dnac_password}}"
+      dnac_verify: "{{dnac_verify}}"
+      dnac_debug: "{{dnac_debug}}"
+      certFilePath: /Users/wilhelm32/Developer/Work/GitHub/dnacenter-ansible1/playbooks/files/test.template
+      pkFilePath: /Users/wilhelm32/Developer/Work/GitHub/dnacenter-ansible1/playbooks/files/test.template
+    register: result
+
+  - name: Show result
+    debug:
+      msg: "{{ result }}"

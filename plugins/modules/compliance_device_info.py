@@ -14,15 +14,15 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  deviceUuid:
-    description:
-    - DeviceUuid path parameter.
-    type: str
   complianceStatus:
     description:
     - >
       ComplianceStatus query parameter. Compliance status can be have value among
       'COMPLIANT','NON_COMPLIANT','IN_PROGRESS', 'ERROR'.
+    type: str
+  deviceUuid:
+    description:
+    - DeviceUuid query parameter. Comma separated deviceUuids.
     type: str
   offset:
     description:

@@ -14,10 +14,10 @@ version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
   newTemplateName:
-    description: Sensor Test Template Duplicate's newTemplateName.
+    description: New Template Name.
     type: str
   templateName:
-    description: Sensor Test Template Duplicate's templateName.
+    description: Template Name.
     type: str
 requirements:
 - dnacentersdk
@@ -67,9 +67,7 @@ dnac_response:
         "rssiThreshold": 0,
         "numNeighborAPThreshold": 0,
         "scheduleInDays": 0,
-        "wlans": [
-          {}
-        ],
+        "wlans": [],
         "ssids": [
           {
             "bands": {},
@@ -100,9 +98,7 @@ dnac_response:
             "whiteList": true,
             "extWebAuthPortal": {},
             "extWebAuthAccessUrl": {},
-            "extWebAuthHtmlTag": [
-              {}
-            ],
+            "extWebAuthHtmlTag": [],
             "thirdParty": {
               "selected": true
             },
@@ -115,9 +111,7 @@ dnac_response:
             "tests": [
               {
                 "name": "string",
-                "config": [
-                  {}
-                ]
+                "config": []
               }
             ]
           }
@@ -133,9 +127,7 @@ dnac_response:
             "locationType": "string",
             "allSensors": true,
             "siteHierarchy": "string",
-            "macAddressList": [
-              {}
-            ]
+            "macAddressList": []
           }
         ],
         "schedule": {
@@ -162,9 +154,7 @@ dnac_response:
           }
         },
         "tests": {},
-        "sensors": [
-          {}
-        ],
+        "sensors": [],
         "apCoverage": [
           {
             "bands": "string",

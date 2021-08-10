@@ -9,39 +9,66 @@ DOCUMENTATION = r"""
 module: wireless_enterprise_ssid
 short_description: Resource module for Wireless Enterprise Ssid
 description:
-- Manage operations create and delete of the resource Wireless Enterprise Ssid.
+- Manage operations create, update and delete of the resource Wireless Enterprise Ssid.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  basicServiceSetClientIdleTimeout:
+    description: Basic Service Set Client Idle Timeout.
+    type: int
+  clientExclusionTimeout:
+    description: Client Exclusion Timeout.
+    type: int
+  enableBasicServiceSetMaxIdle:
+    description: Enable Basic Service Set Max Idle.
+    type: bool
   enableBroadcastSSID:
-    description: EnableBroadcastSSID flag.
+    description: Enable Broadcast SSID.
+    type: bool
+  enableClientExclusion:
+    description: Enable Client Exclusion.
+    type: bool
+  enableDirectedMulticastService:
+    description: Enable Directed Multicast Service.
     type: bool
   enableFastLane:
-    description: EnableFastLane flag.
+    description: Enable Fast Lane.
     type: bool
   enableMACFiltering:
-    description: EnableMACFiltering flag.
+    description: Enable MAC Filtering.
+    type: bool
+  enableNeighborList:
+    description: Enable Neighbor List.
+    type: bool
+  enableSessionTimeOut:
+    description: Enable Session Timeout.
     type: bool
   fastTransition:
-    description: Wireless Enterprise Ssid's fastTransition.
+    description: Fast Transition.
+    type: str
+  mfpClientProtection:
+    description: Management Frame Protection Client.
     type: str
   name:
-    description: Wireless Enterprise Ssid's name.
+    description: Enter SSID Name.
     type: str
   passphrase:
-    description: Wireless Enterprise Ssid's passphrase.
+    description: Pass Phrase (Only applicable for SSID with PERSONAL security level).
     type: str
   radioPolicy:
-    description: Wireless Enterprise Ssid's radioPolicy.
+    description: Radio Policy.
     type: str
   securityLevel:
-    description: Wireless Enterprise Ssid's securityLevel.
+    description: Security Level.
     type: str
+  sessionTimeOut:
+    description: Session Time Out.
+    type: int
   ssidName:
     description: SsidName path parameter. Enter the SSID name to be deleted.
     type: str
   trafficType:
-    description: Wireless Enterprise Ssid's trafficType.
+    description: Traffic Type.
     type: str
 requirements:
 - dnacentersdk
@@ -63,14 +90,52 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    basicServiceSetClientIdleTimeout: 0
+    clientExclusionTimeout: 0
+    enableBasicServiceSetMaxIdle: true
     enableBroadcastSSID: true
+    enableClientExclusion: true
+    enableDirectedMulticastService: true
     enableFastLane: true
     enableMACFiltering: true
+    enableNeighborList: true
+    enableSessionTimeOut: true
     fastTransition: string
+    mfpClientProtection: string
     name: string
     passphrase: string
     radioPolicy: string
     securityLevel: string
+    sessionTimeOut: 0
+    trafficType: string
+
+- name: Update all
+  cisco.dnac.wireless_enterprise_ssid:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    basicServiceSetClientIdleTimeout: 0
+    clientExclusionTimeout: 0
+    enableBasicServiceSetMaxIdle: true
+    enableBroadcastSSID: true
+    enableClientExclusion: true
+    enableDirectedMulticastService: true
+    enableFastLane: true
+    enableMACFiltering: true
+    enableNeighborList: true
+    enableSessionTimeOut: true
+    fastTransition: string
+    mfpClientProtection: string
+    name: string
+    passphrase: string
+    radioPolicy: string
+    securityLevel: string
+    sessionTimeOut: 0
     trafficType: string
 
 - name: Delete by name

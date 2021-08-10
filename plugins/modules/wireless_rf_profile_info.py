@@ -51,28 +51,32 @@ dnac_response:
     [
       {
         "name": "string",
-        "parentProfileA": "string",
-        "parentProfileB": "string",
-        "enableARadioType": true,
-        "enableBRadioType": true,
-        "channelWidth": "string",
-        "aRadioChannels": "string",
-        "bRadioChannels": "string",
-        "dataRatesA": "string",
-        "dataRatesB": "string",
-        "mandatoryDataRatesA": "string",
-        "mandatoryDataRatesB": "string",
-        "enableCustom": true,
-        "minPowerLevelA": "string",
-        "minPowerLevelB": "string",
-        "maxPowerLevelA": "string",
-        "maxPowerLevelB": "string",
-        "powerThresholdV1A": 0,
-        "powerThresholdV1B": 0,
-        "rxSopThresholdA": "string",
-        "rxSopThresholdB": "string",
         "defaultRfProfile": true,
-        "enableBrownField": true
+        "channelWidth": "string",
+        "enableBrownField": true,
+        "enableCustom": true,
+        "enableRadioTypeA": true,
+        "enableRadioTypeB": true,
+        "radioTypeAProperties": {
+          "parentProfile": "string",
+          "radioChannels": "string",
+          "dataRates": "string",
+          "mandatoryDataRates": "string",
+          "powerThresholdV1": 0,
+          "rxSopThreshold": "string",
+          "minPowerLevel": 0,
+          "maxPowerLevel": 0
+        },
+        "radioTypeBProperties": {
+          "parentProfile": "string",
+          "radioChannels": "string",
+          "dataRates": "string",
+          "mandatoryDataRates": "string",
+          "powerThresholdV1": 0,
+          "rxSopThreshold": "string",
+          "minPowerLevel": 0,
+          "maxPowerLevel": 0
+        }
       }
     ]
 """

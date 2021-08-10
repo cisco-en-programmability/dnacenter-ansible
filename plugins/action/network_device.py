@@ -27,7 +27,7 @@ argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
     cliTransport=dict(type="str"),
     computeDevice=dict(type="bool"),
-    enablePassword=dict(type="str"),
+    enablePassword=dict(type="str", no_log=True),
     extendedDiscoveryInfo=dict(type="str"),
     httpPassword=dict(type="str"),
     httpPort=dict(type="str"),
@@ -102,6 +102,38 @@ class NetworkDevice(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
+        new_object_params['hostname'] = self.new_object.get('hostname')
+        new_object_params['management_ip_address'] = self.new_object.get('management_ip_address')
+        new_object_params['mac_address'] = self.new_object.get('mac_address')
+        new_object_params['location_name'] = self.new_object.get('location_name')
+        new_object_params['serial_number'] = self.new_object.get('serial_number')
+        new_object_params['location'] = self.new_object.get('location')
+        new_object_params['family'] = self.new_object.get('family')
+        new_object_params['type'] = self.new_object.get('type')
+        new_object_params['series'] = self.new_object.get('series')
+        new_object_params['collection_status'] = self.new_object.get('collection_status')
+        new_object_params['collection_interval'] = self.new_object.get('collection_interval')
+        new_object_params['not_synced_for_minutes'] = self.new_object.get('not_synced_for_minutes')
+        new_object_params['error_code'] = self.new_object.get('error_code')
+        new_object_params['error_description'] = self.new_object.get('error_description')
+        new_object_params['software_version'] = self.new_object.get('software_version')
+        new_object_params['software_type'] = self.new_object.get('software_type')
+        new_object_params['platform_id'] = self.new_object.get('platform_id')
+        new_object_params['role'] = self.new_object.get('role')
+        new_object_params['reachability_status'] = self.new_object.get('reachability_status')
+        new_object_params['up_time'] = self.new_object.get('up_time')
+        new_object_params['associated_wlc_ip'] = self.new_object.get('associated_wlc_ip')
+        new_object_params['license_name'] = self.new_object.get('license_name')
+        new_object_params['license_type'] = self.new_object.get('license_type')
+        new_object_params['license_status'] = self.new_object.get('license_status')
+        new_object_params['module_name'] = self.new_object.get('module_name')
+        new_object_params['module_equpimenttype'] = self.new_object.get('module_equpimenttype')
+        new_object_params['module_servicestate'] = self.new_object.get('module_servicestate')
+        new_object_params['module_vendorequipmenttype'] = self.new_object.get('module_vendorequipmenttype')
+        new_object_params['module_partnumber'] = self.new_object.get('module_partnumber')
+        new_object_params['module_operationstatecode'] = self.new_object.get('module_operationstatecode')
+        new_object_params['id'] = id or self.new_object.get('id')
+        new_object_params['device_support_level'] = self.new_object.get('device_support_level')
         return new_object_params
 
     def create_params(self):

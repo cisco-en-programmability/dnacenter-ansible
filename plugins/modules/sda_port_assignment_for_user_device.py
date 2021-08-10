@@ -23,22 +23,22 @@ options:
     description: Sda Port Assignment For User Device's payload.
     suboptions:
       authenticateTemplateName:
-        description: Sda Port Assignment For User Device's authenticateTemplateName.
+        description: Authenticate Template Name.
         type: str
       dataIpAddressPoolName:
-        description: Sda Port Assignment For User Device's dataIpAddressPoolName.
+        description: Data Ip Address Pool Name.
         type: str
       deviceManagementIpAddress:
-        description: Sda Port Assignment For User Device's deviceManagementIpAddress.
+        description: Device Management Ip Address.
         type: str
       interfaceName:
-        description: Sda Port Assignment For User Device's interfaceName.
+        description: Interface Name.
         type: str
       siteNameHierarchy:
-        description: Sda Port Assignment For User Device's siteNameHierarchy.
+        description: Site Name Hierarchy.
         type: str
       voiceIpAddressPoolName:
-        description: Sda Port Assignment For User Device's voiceIpAddressPoolName.
+        description: Voice Ip Address Pool Name.
         type: str
     type: list
 requirements:
@@ -51,17 +51,6 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Create
-  cisco.dnac.sda_port_assignment_for_user_device:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: present
-
 - name: Delete all
   cisco.dnac.sda_port_assignment_for_user_device:
     dnac_host: "{{dnac_host}}"
@@ -74,6 +63,17 @@ EXAMPLES = r"""
     state: absent
     device_ip: string
     interfaceName: string
+
+- name: Create
+  cisco.dnac.sda_port_assignment_for_user_device:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
 
 """
 

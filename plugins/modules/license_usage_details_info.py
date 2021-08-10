@@ -1,0 +1,100 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: license_usage_details_info
+short_description: Information module for License Usage Details
+description:
+- Get License Usage Details by name.
+version_added: '1.0.0'
+author: Rafael Campos (@racampos)
+options:
+  smart_account_id:
+    description:
+    - Smart_account_id path parameter. Id of smart account.
+    type: str
+  virtual_account_name:
+    description:
+    - >
+      Virtual_account_name path parameter. Name of virtual account. Putting "All" will give license usage detail
+      for all virtual accounts.
+    type: str
+  device_type:
+    description:
+    - Device_type query parameter. Type of device like router, switch, wireless or ise.
+    type: str
+requirements:
+- dnacentersdk
+seealso:
+# Reference by Internet resource
+- name: License Usage Details reference
+  description: Complete reference of the License Usage Details object model.
+  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+"""
+
+EXAMPLES = r"""
+- name: Get License Usage Details by name
+  cisco.dnac.license_usage_details_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    device_type: string
+    smart_account_id: string
+    virtual_account_name: string
+  register: result
+
+"""
+
+RETURN = r"""
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "purchased_dna_license": {
+        "total_license_count": 0,
+        "license_count_by_type": [
+          {
+            "license_type": "string",
+            "license_count": 0
+          }
+        ]
+      },
+      "purchased_network_license": {
+        "total_license_count": 0,
+        "license_count_by_type": [
+          {
+            "license_type": "string",
+            "license_count": 0
+          }
+        ]
+      },
+      "used_dna_license": {
+        "total_license_count": 0,
+        "license_count_by_type": [
+          {
+            "license_type": "string",
+            "license_count": 0
+          }
+        ]
+      },
+      "used_network_license": {
+        "total_license_count": 0,
+        "license_count_by_type": [
+          {
+            "license_type": "string",
+            "license_count": 0
+          }
+        ]
+      }
+    }
+"""

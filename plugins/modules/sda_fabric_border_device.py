@@ -20,25 +20,25 @@ options:
     description: Sda Fabric Border Device's payload.
     suboptions:
       borderSessionType:
-        description: Sda Fabric Border Device's borderSessionType.
+        description: Border Session Type.
         type: str
       connectedToInternet:
-        description: ConnectedToInternet flag.
+        description: Connected To Internet.
         type: bool
       deviceManagementIpAddress:
-        description: Sda Fabric Border Device's deviceManagementIpAddress.
+        description: Device Management Ip Address.
         type: str
       externalConnectivityIpPoolName:
-        description: Sda Fabric Border Device's externalConnectivityIpPoolName.
+        description: External Connectivity Ip Pool Name.
         type: str
       externalConnectivitySettings:
         description: Sda Fabric Border Device's externalConnectivitySettings.
         suboptions:
           externalAutonomouSystemNumber:
-            description: Sda Fabric Border Device's externalAutonomouSystemNumber.
+            description: External Autonomou System Number.
             type: str
           interfaceName:
-            description: Sda Fabric Border Device's interfaceName.
+            description: Interface Name.
             type: str
           l3Handoff:
             description: Sda Fabric Border Device's l3Handoff.
@@ -47,19 +47,19 @@ options:
                 description: Sda Fabric Border Device's virtualNetwork.
                 suboptions:
                   virtualNetworkName:
-                    description: Sda Fabric Border Device's virtualNetworkName.
+                    description: Virtual Network Name.
                     type: str
                 type: dict
             type: list
         type: list
       externalDomainRoutingProtocolName:
-        description: Sda Fabric Border Device's externalDomainRoutingProtocolName.
+        description: External Domain Routing Protocol Name.
         type: str
       internalAutonomouSystemNumber:
-        description: Sda Fabric Border Device's internalAutonomouSystemNumber.
+        description: Internal Autonomou System Number.
         type: str
       siteNameHierarchy:
-        description: Sda Fabric Border Device's siteNameHierarchy.
+        description: Site Name Hierarchy.
         type: str
     type: list
 requirements:
