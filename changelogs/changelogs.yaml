@@ -103,3 +103,7 @@ releases:
       major_changes:
         - Adds new plugins related to DNA version 2.2.2.3.
         - Updates previouse plugins to follow DNA version 2.2.2.3 specification.
+  3.1.1:
+    release_date: '2021-09-03'
+    changes:
+      release_summary: Adds headers parameter to info modules.
