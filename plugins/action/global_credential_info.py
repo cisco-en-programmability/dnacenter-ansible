@@ -23,6 +23,7 @@ argument_spec.update(dict(
     sortBy=dict(type="str"),
     order=dict(type="str"),
     id=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -63,6 +64,7 @@ class ActionModule(ActionBase):
             sort_by=params.get("sortBy"),
             order=params.get("order"),
             id=params.get("id"),
+            headers=params.get("headers"),
         )
         return new_object
 

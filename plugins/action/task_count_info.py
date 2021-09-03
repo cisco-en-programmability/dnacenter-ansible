@@ -29,6 +29,7 @@ argument_spec.update(dict(
     isError=dict(type="str"),
     failureReason=dict(type="str"),
     parentId=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -75,6 +76,7 @@ class ActionModule(ActionBase):
             is_error=params.get("isError"),
             failure_reason=params.get("failureReason"),
             parent_id=params.get("parentId"),
+            headers=params.get("headers"),
         )
         return new_object
 

@@ -23,6 +23,7 @@ argument_spec.update(dict(
     deviceUuid=dict(type="str"),
     offset=dict(type="int"),
     limit=dict(type="int"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -63,6 +64,7 @@ class ActionModule(ActionBase):
             device_uuid=params.get("deviceUuid"),
             offset=params.get("offset"),
             limit=params.get("limit"),
+            headers=params.get("headers"),
         )
         return new_object
 

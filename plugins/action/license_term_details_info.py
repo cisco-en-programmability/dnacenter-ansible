@@ -22,6 +22,7 @@ argument_spec.update(dict(
     smart_account_id=dict(type="str"),
     virtual_account_name=dict(type="str"),
     device_type=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -61,6 +62,7 @@ class ActionModule(ActionBase):
             smart_account_id=params.get("smart_account_id"),
             virtual_account_name=params.get("virtual_account_name"),
             device_type=params.get("device_type"),
+            headers=params.get("headers"),
         )
         return new_object
 

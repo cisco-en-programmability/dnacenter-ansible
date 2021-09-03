@@ -21,6 +21,7 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     ipPoolName=dict(type="str"),
     virtualNetworkName=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -59,6 +60,7 @@ class ActionModule(ActionBase):
         new_object = dict(
             ip_pool_name=params.get("ipPoolName"),
             virtual_network_name=params.get("virtualNetworkName"),
+            headers=params.get("headers"),
         )
         return new_object
 

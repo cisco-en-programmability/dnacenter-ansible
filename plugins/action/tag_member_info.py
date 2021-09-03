@@ -25,6 +25,7 @@ argument_spec.update(dict(
     limit=dict(type="str"),
     memberAssociationType=dict(type="str"),
     level=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -67,6 +68,7 @@ class ActionModule(ActionBase):
             limit=params.get("limit"),
             member_association_type=params.get("memberAssociationType"),
             level=params.get("level"),
+            headers=params.get("headers"),
         )
         return new_object
 

@@ -13,6 +13,9 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   smart_account_id:
     description:
     - Smart_account_id path parameter. Id of smart account.
@@ -46,6 +49,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers:
+      custom: value
     device_type: string
     smart_account_id: string
     virtual_account_name: string

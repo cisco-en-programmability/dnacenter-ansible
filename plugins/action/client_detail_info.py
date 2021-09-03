@@ -21,6 +21,7 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     timestamp=dict(type="str"),
     macAddress=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -59,6 +60,7 @@ class ActionModule(ActionBase):
         new_object = dict(
             timestamp=params.get("timestamp"),
             mac_address=params.get("macAddress"),
+            headers=params.get("headers"),
         )
         return new_object
 

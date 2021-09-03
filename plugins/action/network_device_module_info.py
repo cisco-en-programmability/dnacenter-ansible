@@ -27,6 +27,7 @@ argument_spec.update(dict(
     partNumberList=dict(type="list"),
     operationalStateCodeList=dict(type="list"),
     id=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -71,6 +72,7 @@ class ActionModule(ActionBase):
             part_number_list=params.get("partNumberList"),
             operational_state_code_list=params.get("operationalStateCodeList"),
             id=params.get("id"),
+            headers=params.get("headers"),
         )
         return new_object
 

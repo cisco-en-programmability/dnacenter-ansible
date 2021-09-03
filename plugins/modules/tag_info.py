@@ -14,6 +14,9 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   name:
     description:
     - Name query parameter. Tag name is mandatory when filter operation is used.
@@ -83,6 +86,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers:
+      custom: value
     name: string
     additionalInfo_nameSpace: string
     additionalInfo_attributes: string
@@ -105,6 +110,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers:
+      custom: value
     id: string
   register: result
 

@@ -22,6 +22,7 @@ argument_spec.update(dict(
     deviceId=dict(type="str"),
     functionName=dict(type="list"),
     id=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -61,6 +62,7 @@ class ActionModule(ActionBase):
             device_id=params.get("deviceId"),
             function_name=params.get("functionName"),
             id=params.get("id"),
+            headers=params.get("headers"),
         )
         return new_object
 

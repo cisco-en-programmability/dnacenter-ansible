@@ -23,6 +23,7 @@ argument_spec.update(dict(
     executionId=dict(type="str"),
     dirPath=dict(type="str"),
     saveFile=dict(type="bool"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -63,6 +64,7 @@ class ActionModule(ActionBase):
             execution_id=params.get("executionId"),
             dirpath=params.get("dirPath"),
             save_file=params.get("saveFile"),
+            headers=params.get("headers"),
         )
         return new_object
 

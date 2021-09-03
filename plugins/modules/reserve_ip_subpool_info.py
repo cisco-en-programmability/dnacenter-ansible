@@ -13,6 +13,9 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   siteId:
     description:
     - SiteId query parameter. Site id to get the reserve ip associated with the site.
@@ -44,6 +47,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers:
+      custom: value
     siteId: string
     offset: string
     limit: string

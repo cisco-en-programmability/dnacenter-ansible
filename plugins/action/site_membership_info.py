@@ -24,6 +24,7 @@ argument_spec.update(dict(
     limit=dict(type="str"),
     deviceFamily=dict(type="str"),
     serialNumber=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -65,6 +66,7 @@ class ActionModule(ActionBase):
             limit=params.get("limit"),
             device_family=params.get("deviceFamily"),
             serial_number=params.get("serialNumber"),
+            headers=params.get("headers"),
         )
         return new_object
 

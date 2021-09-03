@@ -13,6 +13,9 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   id:
     description:
     - Id path parameter.
@@ -40,6 +43,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers:
+      custom: value
     interfaceType: string
     id: string
   register: result

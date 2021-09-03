@@ -21,6 +21,7 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     offset=dict(type="str"),
     limit=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -59,6 +60,7 @@ class ActionModule(ActionBase):
         new_object = dict(
             offset=params.get("offset"),
             limit=params.get("limit"),
+            headers=params.get("headers"),
         )
         return new_object
 

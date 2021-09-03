@@ -22,6 +22,7 @@ argument_spec.update(dict(
     username=dict(type="str"),
     number_days=dict(type="int"),
     time_resolution=dict(type="int"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -61,6 +62,7 @@ class ActionModule(ActionBase):
             username=params.get("username"),
             number_days=params.get("number_days"),
             time_resolution=params.get("time_resolution"),
+            headers=params.get("headers"),
         )
         return new_object
 

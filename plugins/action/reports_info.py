@@ -22,6 +22,7 @@ argument_spec.update(dict(
     viewGroupId=dict(type="str"),
     viewId=dict(type="str"),
     reportId=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -61,6 +62,7 @@ class ActionModule(ActionBase):
             view_group_id=params.get("viewGroupId"),
             view_id=params.get("viewId"),
             report_id=params.get("reportId"),
+            headers=params.get("headers"),
         )
         return new_object
 

@@ -21,6 +21,7 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     virtualNetworkName=dict(type="str"),
     siteNameHierarchy=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -59,6 +60,7 @@ class ActionModule(ActionBase):
         new_object = dict(
             virtual_network_name=params.get("virtualNetworkName"),
             site_name_hierarchy=params.get("siteNameHierarchy"),
+            headers=params.get("headers"),
         )
         return new_object
 

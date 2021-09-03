@@ -13,6 +13,9 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   templateId:
     description:
     - TemplateId path parameter. TemplateId(UUID) to get list of versioned templates.
@@ -36,6 +39,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers:
+      custom: value
     templateId: string
   register: result
 

@@ -22,6 +22,7 @@ argument_spec.update(dict(
     serialNumber=dict(type="str"),
     sort=dict(type="list"),
     sortOrder=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -61,6 +62,7 @@ class ActionModule(ActionBase):
             serial_number=params.get("serialNumber"),
             sort=params.get("sort"),
             sort_order=params.get("sortOrder"),
+            headers=params.get("headers"),
         )
         return new_object
 

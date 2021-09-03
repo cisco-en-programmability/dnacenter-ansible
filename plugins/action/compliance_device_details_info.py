@@ -25,6 +25,7 @@ argument_spec.update(dict(
     diffList=dict(type="bool"),
     key=dict(type="str"),
     value=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -67,6 +68,7 @@ class ActionModule(ActionBase):
             diff_list=params.get("diffList"),
             key=params.get("key"),
             value=params.get("value"),
+            headers=params.get("headers"),
         )
         return new_object
 

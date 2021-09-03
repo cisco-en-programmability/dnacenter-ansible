@@ -28,6 +28,7 @@ argument_spec.update(dict(
     domain=dict(type="str"),
     subDomain=dict(type="str"),
     source=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -73,6 +74,7 @@ class ActionModule(ActionBase):
             domain=params.get("domain"),
             sub_domain=params.get("subDomain"),
             source=params.get("source"),
+            headers=params.get("headers"),
         )
         return new_object
 

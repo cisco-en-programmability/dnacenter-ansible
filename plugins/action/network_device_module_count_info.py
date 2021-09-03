@@ -24,6 +24,7 @@ argument_spec.update(dict(
     vendorEquipmentTypeList=dict(type="list"),
     partNumberList=dict(type="list"),
     operationalStateCodeList=dict(type="list"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -65,6 +66,7 @@ class ActionModule(ActionBase):
             vendor_equipment_type_list=params.get("vendorEquipmentTypeList"),
             part_number_list=params.get("partNumberList"),
             operational_state_code_list=params.get("operationalStateCodeList"),
+            headers=params.get("headers"),
         )
         return new_object
 

@@ -13,6 +13,9 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   startIndex:
     description:
     - StartIndex path parameter. Start index.
@@ -40,6 +43,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers:
+      custom: value
     startIndex: 0
     recordsToReturn: 0
   register: result

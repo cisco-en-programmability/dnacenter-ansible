@@ -23,6 +23,7 @@ argument_spec.update(dict(
     startIndex=dict(type="int"),
     recordsToReturn=dict(type="int"),
     taskId=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -63,6 +64,7 @@ class ActionModule(ActionBase):
             start_index=params.get("startIndex"),
             records_to_return=params.get("recordsToReturn"),
             task_id=params.get("taskId"),
+            headers=params.get("headers"),
         )
         return new_object
 

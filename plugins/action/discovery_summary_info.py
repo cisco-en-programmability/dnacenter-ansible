@@ -29,6 +29,7 @@ argument_spec.update(dict(
     cliStatus=dict(type="list"),
     netconfStatus=dict(type="list"),
     httpStatus=dict(type="list"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -72,9 +73,10 @@ class ActionModule(ActionBase):
             ip_address=params.get("ipAddress"),
             ping_status=params.get("pingStatus"),
             snmp_status=params.get("snmpStatus"),
-            cli_status=params.get("cliStatus"),
+            clistatus=params.get("cliStatus"),
             netconf_status=params.get("netconfStatus"),
             http_status=params.get("httpStatus"),
+            headers=params.get("headers"),
         )
         return new_object
 

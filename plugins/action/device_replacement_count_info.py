@@ -20,6 +20,7 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     replacementStatus=dict(type="list"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -57,6 +58,7 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             replacement_status=params.get("replacementStatus"),
+            headers=params.get("headers"),
         )
         return new_object
 

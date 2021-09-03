@@ -26,6 +26,7 @@ argument_spec.update(dict(
     type=dict(type="list"),
     name=dict(type="list"),
     id=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -69,6 +70,7 @@ class ActionModule(ActionBase):
             type=params.get("type"),
             name=params.get("name"),
             id=params.get("id"),
+            headers=params.get("headers"),
         )
         return new_object
 

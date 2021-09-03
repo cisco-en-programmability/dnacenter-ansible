@@ -22,6 +22,7 @@ argument_spec.update(dict(
     connectorType=dict(type="str"),
     name=dict(type="str"),
     instanceId=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -61,6 +62,7 @@ class ActionModule(ActionBase):
             connector_type=params.get("connectorType"),
             name=params.get("name"),
             instance_id=params.get("instanceId"),
+            headers=params.get("headers"),
         )
         return new_object
 

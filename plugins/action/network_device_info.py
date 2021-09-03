@@ -51,6 +51,7 @@ argument_spec.update(dict(
     module_operationstatecode=dict(type="list"),
     id=dict(type="str"),
     deviceSupportLevel=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -119,6 +120,7 @@ class ActionModule(ActionBase):
             module_operationstatecode=params.get("module_operationstatecode"),
             id=params.get("id"),
             device_support_level=params.get("deviceSupportLevel"),
+            headers=params.get("headers"),
         )
         return new_object
 

@@ -21,6 +21,7 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     status=dict(type="str"),
     date=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -59,6 +60,7 @@ class ActionModule(ActionBase):
         new_object = dict(
             status=params.get("status"),
             date=params.get("date"),
+            headers=params.get("headers"),
         )
         return new_object
 

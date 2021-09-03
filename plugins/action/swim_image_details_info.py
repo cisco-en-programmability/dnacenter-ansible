@@ -37,6 +37,7 @@ argument_spec.update(dict(
     sortOrder=dict(type="str"),
     limit=dict(type="int"),
     offset=dict(type="int"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -91,6 +92,7 @@ class ActionModule(ActionBase):
             sort_order=params.get("sortOrder"),
             limit=params.get("limit"),
             offset=params.get("offset"),
+            headers=params.get("headers"),
         )
         return new_object
 

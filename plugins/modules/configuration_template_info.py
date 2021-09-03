@@ -14,6 +14,9 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   projectId:
     description:
     - ProjectId query parameter. Filter template(s) based on project UUID.
@@ -85,6 +88,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers:
+      custom: value
     projectId: string
     softwareType: string
     softwareVersion: string
@@ -107,6 +112,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers:
+      custom: value
     latestVersion: True
     templateId: string
   register: result

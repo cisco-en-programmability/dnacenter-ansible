@@ -24,6 +24,7 @@ argument_spec.update(dict(
     dna_level=dict(type="str"),
     virtual_account_name=dict(type="str"),
     smart_account_id=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -65,6 +66,7 @@ class ActionModule(ActionBase):
             dna_level=params.get("dna_level"),
             virtual_account_name=params.get("virtual_account_name"),
             smart_account_id=params.get("smart_account_id"),
+            headers=params.get("headers"),
         )
         return new_object
 
