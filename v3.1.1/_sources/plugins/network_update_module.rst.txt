@@ -1,0 +1,860 @@
+.. Document meta
+
+:orphan:
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.network_update_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.network_update -- Resource module for Network Update
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.1).
+
+    To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.network_update`.
+
+.. version_added
+
+.. versionadded:: 1.0.0 of cisco.dnac
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operation update of the resource Network Update.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk
+
+
+.. Options
+
+Parameters
+----------
+
+.. raw:: html
+
+    <table  border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="3">Parameter</th>
+            <th>Choices/<font color="blue">Defaults</font></th>
+                        <th width="100%">Comments</th>
+        </tr>
+                    <tr>
+                                                                <td colspan="3">
+                    <div class="ansibleOptionAnchor" id="parameter-settings"></div>
+                    <b>settings</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Update&#x27;s settings.</div>
+                                                        </td>
+            </tr>
+                                        <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/clientAndEndpoint_aaa"></div>
+                    <b>clientAndEndpoint_aaa</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/clientAndEndpoint_aaa" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Update&#x27;s clientAndEndpoint_aaa.</div>
+                                                        </td>
+            </tr>
+                                        <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/clientAndEndpoint_aaa/additionalIp"></div>
+                    <b>additionalIp</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/clientAndEndpoint_aaa/additionalIp" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Additional IP for ISE server which is not supported by AAA server.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/clientAndEndpoint_aaa/ipAddress"></div>
+                    <b>ipAddress</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/clientAndEndpoint_aaa/ipAddress" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>IP address for ISE serve (eg 1.1.1.4). Mandatory for ISE servers.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/clientAndEndpoint_aaa/network"></div>
+                    <b>network</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/clientAndEndpoint_aaa/network" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>IP address for AAA or ISE server (eg 2.2.2.1).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/clientAndEndpoint_aaa/protocol"></div>
+                    <b>protocol</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/clientAndEndpoint_aaa/protocol" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Protocol for AAA or ISE serve (eg RADIUS).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/clientAndEndpoint_aaa/servers"></div>
+                    <b>servers</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/clientAndEndpoint_aaa/servers" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Server type AAA or ISE server (eg AAA).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/clientAndEndpoint_aaa/sharedSecret"></div>
+                    <b>sharedSecret</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/clientAndEndpoint_aaa/sharedSecret" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Shared secret for ISE server. Supported only by ISE servers.</div>
+                                                        </td>
+            </tr>
+                    
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/dhcpServer"></div>
+                    <b>dhcpServer</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/dhcpServer" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Dhcp serve Ip (eg 1.1.1.1).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/dnsServer"></div>
+                    <b>dnsServer</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/dnsServer" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Update&#x27;s dnsServer.</div>
+                                                        </td>
+            </tr>
+                                        <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/dnsServer/domainName"></div>
+                    <b>domainName</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/dnsServer/domainName" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Domain name of DHCP (eg; cisco). Can only contain alphanumeric characters or hyphen.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/dnsServer/primaryIpAddress"></div>
+                    <b>primaryIpAddress</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/dnsServer/primaryIpAddress" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Primary ip address for DHCP (eg 2.2.2.2). Valid range 1.0.0.0 - 223.255.255.255.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/dnsServer/secondaryIpAddress"></div>
+                    <b>secondaryIpAddress</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/dnsServer/secondaryIpAddress" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Secondary ip address for DHCP (eg 3.3.3.3). Valid range 1.0.0.0 - 223.255.255.255.</div>
+                                                        </td>
+            </tr>
+                    
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/messageOfTheday"></div>
+                    <b>messageOfTheday</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/messageOfTheday" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Update&#x27;s messageOfTheday.</div>
+                                                        </td>
+            </tr>
+                                        <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/messageOfTheday/bannerMessage"></div>
+                    <b>bannerMessage</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/messageOfTheday/bannerMessage" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Massage for banner message (eg; Good day).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/messageOfTheday/retainExistingBanner"></div>
+                    <b>retainExistingBanner</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/messageOfTheday/retainExistingBanner" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Retain existing banner message (eg true).</div>
+                                                        </td>
+            </tr>
+                    
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/netflowcollector"></div>
+                    <b>netflowcollector</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/netflowcollector" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Update&#x27;s netflowcollector.</div>
+                                                        </td>
+            </tr>
+                                        <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/netflowcollector/ipAddress"></div>
+                    <b>ipAddress</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/netflowcollector/ipAddress" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>IP address for netflow collector (eg 3.3.3.1).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/netflowcollector/port"></div>
+                    <b>port</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/netflowcollector/port" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Port for netflow collector (eg; 443).</div>
+                                                        </td>
+            </tr>
+                    
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/network_aaa"></div>
+                    <b>network_aaa</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/network_aaa" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Update&#x27;s network_aaa.</div>
+                                                        </td>
+            </tr>
+                                        <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/network_aaa/additionalIp"></div>
+                    <b>additionalIp</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/network_aaa/additionalIp" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Additional IP for ISE server which is not supported by AAA server.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/network_aaa/ipAddress"></div>
+                    <b>ipAddress</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/network_aaa/ipAddress" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>IP address for AAA and ISE server (eg 1.1.1.1). Mandatory for ISE servers and for AAA consider this as additional Ip.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/network_aaa/network"></div>
+                    <b>network</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/network_aaa/network" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>IP address for AAA or ISE server (eg 2.2.2.2). For AAA server consider it as primary IP and For ISE consider as Network.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/network_aaa/protocol"></div>
+                    <b>protocol</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/network_aaa/protocol" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Protocol for AAA or ISE serve (eg RADIUS).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/network_aaa/servers"></div>
+                    <b>servers</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/network_aaa/servers" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Server type for AAA network (eg AAA). Server type supported by ISE and AAA.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/network_aaa/sharedSecret"></div>
+                    <b>sharedSecret</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/network_aaa/sharedSecret" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Shared secret for ISE server. Supported only by ISE servers.</div>
+                                                        </td>
+            </tr>
+                    
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/ntpServer"></div>
+                    <b>ntpServer</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/ntpServer" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>IP address for NTP server (eg 1.1.1.2).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/snmpServer"></div>
+                    <b>snmpServer</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/snmpServer" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Update&#x27;s snmpServer.</div>
+                                                        </td>
+            </tr>
+                                        <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/snmpServer/configureDnacIP"></div>
+                    <b>configureDnacIP</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/snmpServer/configureDnacIP" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Configuration dnac ip for snmp server (eg true).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/snmpServer/ipAddresses"></div>
+                    <b>ipAddresses</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/snmpServer/ipAddresses" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>IP address for snmp server (eg 4.4.4.1).</div>
+                                                        </td>
+            </tr>
+                    
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/syslogServer"></div>
+                    <b>syslogServer</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/syslogServer" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Update&#x27;s syslogServer.</div>
+                                                        </td>
+            </tr>
+                                        <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/syslogServer/configureDnacIP"></div>
+                    <b>configureDnacIP</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/syslogServer/configureDnacIP" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Configuration dnac ip for syslog server (eg true).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/syslogServer/ipAddresses"></div>
+                    <b>ipAddresses</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/syslogServer/ipAddresses" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>IP address for syslog server (eg 4.4.4.4).</div>
+                                                        </td>
+            </tr>
+                    
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-settings/timezone"></div>
+                    <b>timezone</b>
+                    <a class="ansibleOptionLink" href="#parameter-settings/timezone" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Input for time zone (eg Africa/Abidjan (GMT)).</div>
+                                                        </td>
+            </tr>
+                    
+                                <tr>
+                                                                <td colspan="3">
+                    <div class="ansibleOptionAnchor" id="parameter-siteId"></div>
+                    <b>siteId</b>
+                    <a class="ansibleOptionLink" href="#parameter-siteId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>SiteId path parameter. Site id to which site details to associate with the network settings.</div>
+                                                        </td>
+            </tr>
+                        </table>
+    <br/>
+
+.. Notes
+
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Network Update reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Network Update object model.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Create
+      cisco.dnac.network_update:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        settings:
+          clientAndEndpoint_aaa:
+            additionalIp:
+            - string
+            ipAddress: string
+            network: string
+            protocol: string
+            servers: string
+            sharedSecret: string
+          dhcpServer:
+          - string
+          dnsServer:
+            domainName: string
+            primaryIpAddress: string
+            secondaryIpAddress: string
+          messageOfTheday:
+            bannerMessage: string
+            retainExistingBanner: true
+          netflowcollector:
+            ipAddress: string
+            port: 0
+          network_aaa:
+            additionalIp:
+            - string
+            ipAddress: string
+            network: string
+            protocol: string
+            servers: string
+            sharedSecret: string
+          ntpServer:
+          - string
+          snmpServer:
+            configureDnacIP: true
+            ipAddresses:
+            - string
+          syslogServer:
+            configureDnacIP: true
+            ipAddresses:
+            - string
+          timezone: string
+        siteId: string
+
+    - name: Update by id
+      cisco.dnac.network_update:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        settings:
+          clientAndEndpoint_aaa:
+            additionalIp:
+            - string
+            ipAddress: string
+            network: string
+            protocol: string
+            servers: string
+            sharedSecret: string
+          dhcpServer:
+          - string
+          dnsServer:
+            domainName: string
+            primaryIpAddress: string
+            secondaryIpAddress: string
+          messageOfTheday:
+            bannerMessage: string
+            retainExistingBanner: true
+          netflowcollector:
+            ipAddress: string
+            port: 0
+          network_aaa:
+            additionalIp:
+            - string
+            ipAddress: string
+            network: string
+            protocol: string
+            servers: string
+            sharedSecret: string
+          ntpServer:
+          - string
+          snmpServer:
+            configureDnacIP: true
+            ipAddresses:
+            - string
+          syslogServer:
+            configureDnacIP: true
+            ipAddresses:
+            - string
+          timezone: string
+        siteId: string
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. raw:: html
+
+    <table border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Key</th>
+            <th>Returned</th>
+            <th width="100%">Description</th>
+        </tr>
+                    <tr>
+                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+                    <b>dnac_response</b>
+                    <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">dictionary</span>
+                                          </div>
+                                    </td>
+                <td>always</td>
+                <td>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
+                                        <br/>
+                                            <div style="font-size: smaller"><b>Sample:</b></div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;executionId&quot;: &quot;string&quot;,
+      &quot;executionStatusUrl&quot;: &quot;string&quot;,
+      &quot;message&quot;: &quot;string&quot;
+    }</div>
+                                    </td>
+            </tr>
+                        </table>
+    <br/><br/>
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Parsing errors
+
