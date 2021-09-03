@@ -31,6 +31,7 @@ argument_spec.update(dict(
     order=dict(type="str"),
     systemTag=dict(type="str"),
     id=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -79,6 +80,7 @@ class ActionModule(ActionBase):
             order=params.get("order"),
             system_tag=params.get("systemTag"),
             id=params.get("id"),
+            headers=params.get("headers"),
         )
         return new_object
 

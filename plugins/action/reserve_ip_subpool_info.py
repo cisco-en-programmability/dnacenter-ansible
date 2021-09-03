@@ -22,6 +22,7 @@ argument_spec.update(dict(
     siteId=dict(type="str"),
     offset=dict(type="str"),
     limit=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -61,6 +62,7 @@ class ActionModule(ActionBase):
             site_id=params.get("siteId"),
             offset=params.get("offset"),
             limit=params.get("limit"),
+            headers=params.get("headers"),
         )
         return new_object
 

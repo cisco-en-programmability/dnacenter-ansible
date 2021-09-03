@@ -41,6 +41,7 @@ argument_spec.update(dict(
     endTime=dict(type="int"),
     sortBy=dict(type="str"),
     order=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -99,6 +100,7 @@ class ActionModule(ActionBase):
             end_time=params.get("endTime"),
             sort_by=params.get("sortBy"),
             order=params.get("order"),
+            headers=params.get("headers"),
         )
         return new_object
 

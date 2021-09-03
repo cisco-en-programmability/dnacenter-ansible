@@ -26,6 +26,7 @@ argument_spec.update(dict(
     endTime=dict(type="int"),
     limit=dict(type="int"),
     offset=dict(type="int"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -69,6 +70,7 @@ class ActionModule(ActionBase):
             end_time=params.get("endTime"),
             limit=params.get("limit"),
             offset=params.get("offset"),
+            headers=params.get("headers"),
         )
         return new_object
 

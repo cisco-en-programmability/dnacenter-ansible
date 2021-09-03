@@ -32,6 +32,7 @@ argument_spec.update(dict(
     sortOrder=dict(type="str"),
     templateId=dict(type="str"),
     latestVersion=dict(type="bool"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -81,6 +82,7 @@ class ActionModule(ActionBase):
             sort_order=params.get("sortOrder"),
             template_id=params.get("templateId"),
             latest_version=params.get("latestVersion"),
+            headers=params.get("headers"),
         )
         return new_object
 

@@ -33,6 +33,7 @@ argument_spec.update(dict(
     smartAccountId=dict(type="list"),
     virtualAccountId=dict(type="list"),
     lastContact=dict(type="bool"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -83,6 +84,7 @@ class ActionModule(ActionBase):
             smart_account_id=params.get("smartAccountId"),
             virtual_account_id=params.get("virtualAccountId"),
             last_contact=params.get("lastContact"),
+            headers=params.get("headers"),
         )
         return new_object
 

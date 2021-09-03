@@ -22,6 +22,7 @@ argument_spec.update(dict(
     timestamp=dict(type="str"),
     searchBy=dict(type="str"),
     identifier=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -61,6 +62,7 @@ class ActionModule(ActionBase):
             timestamp=params.get("timestamp"),
             search_by=params.get("searchBy"),
             identifier=params.get("identifier"),
+            headers=params.get("headers"),
         )
         return new_object
 

@@ -13,6 +13,9 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   timestamp:
     description:
     - Timestamp query parameter. Epoch time(in milliseconds) when the Client health data is required.
@@ -40,6 +43,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers:
+      custom: value
     timestamp: string
     macAddress: string
   register: result

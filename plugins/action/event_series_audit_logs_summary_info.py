@@ -38,6 +38,7 @@ argument_spec.update(dict(
     description=dict(type="str"),
     startTime=dict(type="int"),
     endTime=dict(type="int"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -93,6 +94,7 @@ class ActionModule(ActionBase):
             description=params.get("description"),
             start_time=params.get("startTime"),
             end_time=params.get("endTime"),
+            headers=params.get("headers"),
         )
         return new_object
 

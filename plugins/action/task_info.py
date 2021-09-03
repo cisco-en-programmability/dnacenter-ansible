@@ -34,6 +34,7 @@ argument_spec.update(dict(
     sortBy=dict(type="str"),
     order=dict(type="str"),
     taskId=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -85,6 +86,7 @@ class ActionModule(ActionBase):
             sort_by=params.get("sortBy"),
             order=params.get("order"),
             task_id=params.get("taskId"),
+            headers=params.get("headers"),
         )
         return new_object
 

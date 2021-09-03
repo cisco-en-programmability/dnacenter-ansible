@@ -13,6 +13,9 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   eventIds:
     description:
     - EventIds query parameter. List of subscriptions related to the respective eventIds (Comma separated event ids).
@@ -52,6 +55,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers:
+      custom: value
     eventIds: string
     offset: 0
     limit: 0

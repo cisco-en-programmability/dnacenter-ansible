@@ -13,6 +13,9 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   kpi:
     description:
     - Kpi query parameter. Fetch historical data for this kpi. Valid values cpu,memory,network.
@@ -48,6 +51,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers:
+      custom: value
     kpi: string
     startTime: 0
     endTime: 0

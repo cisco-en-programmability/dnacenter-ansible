@@ -13,6 +13,9 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   siteId:
     description:
     - SiteId query parameter. Assurance site UUID value (Cannot be submitted together with deviceId and clientMac).
@@ -70,6 +73,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers:
+      custom: value
     siteId: string
     deviceId: string
     macAddress: string

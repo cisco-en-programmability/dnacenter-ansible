@@ -22,6 +22,7 @@ argument_spec.update(dict(
     operationId=dict(type="str"),
     offset=dict(type="int"),
     limit=dict(type="int"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -61,6 +62,7 @@ class ActionModule(ActionBase):
             operation_id=params.get("operationId"),
             offset=params.get("offset"),
             limit=params.get("limit"),
+            headers=params.get("headers"),
         )
         return new_object
 

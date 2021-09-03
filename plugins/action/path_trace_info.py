@@ -35,6 +35,7 @@ argument_spec.update(dict(
     order=dict(type="str"),
     sortBy=dict(type="str"),
     flowAnalysisId=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -87,6 +88,7 @@ class ActionModule(ActionBase):
             order=params.get("order"),
             sort_by=params.get("sortBy"),
             flow_analysis_id=params.get("flowAnalysisId"),
+            headers=params.get("headers"),
         )
         return new_object
 

@@ -25,6 +25,7 @@ argument_spec.update(dict(
     level=dict(type="str"),
     size=dict(type="str"),
     systemTag=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -67,6 +68,7 @@ class ActionModule(ActionBase):
             level=params.get("level"),
             size=params.get("size"),
             system_tag=params.get("systemTag"),
+            headers=params.get("headers"),
         )
         return new_object
 

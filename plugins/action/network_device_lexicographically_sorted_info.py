@@ -41,6 +41,7 @@ argument_spec.update(dict(
     associatedWlcIp=dict(type="str"),
     offset=dict(type="str"),
     limit=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -99,6 +100,7 @@ class ActionModule(ActionBase):
             associated_wlc_ip=params.get("associatedWlcIp"),
             offset=params.get("offset"),
             limit=params.get("limit"),
+            headers=params.get("headers"),
         )
         return new_object
 

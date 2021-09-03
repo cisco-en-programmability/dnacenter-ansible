@@ -27,6 +27,7 @@ argument_spec.update(dict(
     priority=dict(type="str"),
     aiDriven=dict(type="str"),
     issueStatus=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -71,6 +72,7 @@ class ActionModule(ActionBase):
             priority=params.get("priority"),
             ai_driven=params.get("aiDriven"),
             issue_status=params.get("issueStatus"),
+            headers=params.get("headers"),
         )
         return new_object
 

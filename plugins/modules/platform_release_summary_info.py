@@ -12,7 +12,10 @@ description:
 - Get all Platform Release Summary.
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
-options: {}
+options:
+  headers:
+    description: Additional headers.
+    type: dict
 requirements:
 - dnacentersdk
 seealso:
@@ -32,6 +35,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers:
+      custom: value
   register: result
 
 """

@@ -22,6 +22,7 @@ argument_spec.update(dict(
     name=dict(type="str"),
     sortOrder=dict(type="str"),
     projectId=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -61,6 +62,7 @@ class ActionModule(ActionBase):
             name=params.get("name"),
             sort_order=params.get("sortOrder"),
             project_id=params.get("projectId"),
+            headers=params.get("headers"),
         )
         return new_object
 

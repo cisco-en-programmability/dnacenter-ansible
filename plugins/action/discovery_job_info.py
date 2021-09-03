@@ -24,6 +24,7 @@ argument_spec.update(dict(
     ipAddress=dict(type="str"),
     name=dict(type="str"),
     id=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -65,6 +66,7 @@ class ActionModule(ActionBase):
             ip_address=params.get("ipAddress"),
             name=params.get("name"),
             id=params.get("id"),
+            headers=params.get("headers"),
         )
         return new_object
 

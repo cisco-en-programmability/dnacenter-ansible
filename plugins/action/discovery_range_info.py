@@ -21,6 +21,7 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     startIndex=dict(type="int"),
     recordsToReturn=dict(type="int"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -59,6 +60,7 @@ class ActionModule(ActionBase):
         new_object = dict(
             start_index=params.get("startIndex"),
             records_to_return=params.get("recordsToReturn"),
+            headers=params.get("headers"),
         )
         return new_object
 
