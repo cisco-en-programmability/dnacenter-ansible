@@ -46,7 +46,7 @@ Create a `hosts` ([example](playbooks/hosts)) file that uses `[dnac_servers]` wi
 dnac_server
 ```
 
-Then, create a playbook `myplaybook.yml` ([example](playbooks/tag.yml])) referencing the variables in your credentials.yml file and specifying the full namespace path to the module, plugin and/or role:
+Then, create a playbook `myplaybook.yml` ([example](playbooks/tag.yml)) referencing the variables in your credentials.yml file and specifying the full namespace path to the module, plugin and/or role:
 ```
 - hosts: dnac_servers
   vars_files:
