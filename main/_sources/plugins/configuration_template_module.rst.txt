@@ -20,7 +20,7 @@ cisco.dnac.configuration_template -- Resource module for Configuration Template
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.2).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
