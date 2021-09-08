@@ -107,3 +107,9 @@ releases:
     release_date: '2021-09-03'
     changes:
       release_summary: Adds headers parameter to info modules.
+  3.1.2:
+    release_date: '2021-09-08'
+    changes:
+      release_summary: Updates the README to reflect latest API changes.
+      bugfixes:
+        - Updates the README to reflect latest API changes.
