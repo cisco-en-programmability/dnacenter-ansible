@@ -4,7 +4,7 @@
 
 The dnacenter-ansible project provides an Ansible collection for managing and automating your Cisco DNA Center environment. It consists of a set of modules and roles for performing tasks related to DNA Center.
 
-This collection has been tested and supports Cisco DNA Center 2.1.1.
+This collection has been tested and supports Cisco DNA Center 2.2.2.3.
 
 *Note: This collection is not compatible with versions of Ansible before v2.8.*
 
