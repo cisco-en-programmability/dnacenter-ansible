@@ -1,0 +1,329 @@
+.. Document meta
+
+:orphan:
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.client_detail_info_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.client_detail_info -- Information module for Client Detail
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.2).
+
+    To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.client_detail_info`.
+
+.. version_added
+
+.. versionadded:: 1.0.0 of cisco.dnac
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Get all Client Detail.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk
+
+
+.. Options
+
+Parameters
+----------
+
+.. raw:: html
+
+    <table  border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Parameter</th>
+            <th>Choices/<font color="blue">Defaults</font></th>
+                        <th width="100%">Comments</th>
+        </tr>
+                    <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+                    <b>headers</b>
+                    <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Additional headers.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-macAddress"></div>
+                    <b>macAddress</b>
+                    <a class="ansibleOptionLink" href="#parameter-macAddress" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>MacAddress query parameter. MAC Address of the client.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-timestamp"></div>
+                    <b>timestamp</b>
+                    <a class="ansibleOptionLink" href="#parameter-timestamp" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Timestamp query parameter. Epoch time(in milliseconds) when the Client health data is required.</div>
+                                                        </td>
+            </tr>
+                        </table>
+    <br/>
+
+.. Notes
+
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Client Detail reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Client Detail object model.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Get all Client Detail
+      cisco.dnac.client_detail_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers:
+          custom: value
+        timestamp: string
+        macAddress: string
+      register: result
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. raw:: html
+
+    <table border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Key</th>
+            <th>Returned</th>
+            <th width="100%">Description</th>
+        </tr>
+                    <tr>
+                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+                    <b>dnac_response</b>
+                    <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">dictionary</span>
+                                          </div>
+                                    </td>
+                <td>always</td>
+                <td>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
+                                        <br/>
+                                            <div style="font-size: smaller"><b>Sample:</b></div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;detail&quot;: {
+        &quot;id&quot;: &quot;string&quot;,
+        &quot;connectionStatus&quot;: &quot;string&quot;,
+        &quot;hostType&quot;: &quot;string&quot;,
+        &quot;userId&quot;: {},
+        &quot;hostName&quot;: &quot;string&quot;,
+        &quot;hostOs&quot;: {},
+        &quot;hostVersion&quot;: {},
+        &quot;subType&quot;: &quot;string&quot;,
+        &quot;lastUpdated&quot;: 0,
+        &quot;healthScore&quot;: [
+          {
+            &quot;healthType&quot;: &quot;string&quot;,
+            &quot;reason&quot;: &quot;string&quot;,
+            &quot;score&quot;: 0
+          }
+        ],
+        &quot;hostMac&quot;: &quot;string&quot;,
+        &quot;hostIpV4&quot;: &quot;string&quot;,
+        &quot;hostIpV6&quot;: [
+          &quot;string&quot;
+        ],
+        &quot;authType&quot;: &quot;string&quot;,
+        &quot;vlanId&quot;: &quot;string&quot;,
+        &quot;vnid&quot;: &quot;string&quot;,
+        &quot;ssid&quot;: &quot;string&quot;,
+        &quot;frequency&quot;: &quot;string&quot;,
+        &quot;channel&quot;: &quot;string&quot;,
+        &quot;apGroup&quot;: {},
+        &quot;location&quot;: {},
+        &quot;clientConnection&quot;: &quot;string&quot;,
+        &quot;connectedDevice&quot;: [],
+        &quot;issueCount&quot;: 0,
+        &quot;rssi&quot;: &quot;string&quot;,
+        &quot;avgRssi&quot;: {},
+        &quot;snr&quot;: &quot;string&quot;,
+        &quot;avgSnr&quot;: {},
+        &quot;dataRate&quot;: &quot;string&quot;,
+        &quot;txBytes&quot;: &quot;string&quot;,
+        &quot;rxBytes&quot;: &quot;string&quot;,
+        &quot;dnsSuccess&quot;: {},
+        &quot;dnsFailure&quot;: {},
+        &quot;onboarding&quot;: {
+          &quot;averageRunDuration&quot;: {},
+          &quot;maxRunDuration&quot;: {},
+          &quot;averageAssocDuration&quot;: {},
+          &quot;maxAssocDuration&quot;: {},
+          &quot;averageAuthDuration&quot;: {},
+          &quot;maxAuthDuration&quot;: {},
+          &quot;averageDhcpDuration&quot;: {},
+          &quot;maxDhcpDuration&quot;: {},
+          &quot;aaaServerIp&quot;: &quot;string&quot;,
+          &quot;dhcpServerIp&quot;: {},
+          &quot;authDoneTime&quot;: {},
+          &quot;assocDoneTime&quot;: {},
+          &quot;dhcpDoneTime&quot;: {},
+          &quot;assocRootcauseList&quot;: [],
+          &quot;aaaRootcauseList&quot;: [],
+          &quot;dhcpRootcauseList&quot;: [],
+          &quot;otherRootcauseList&quot;: []
+        },
+        &quot;clientType&quot;: &quot;string&quot;,
+        &quot;onboardingTime&quot;: {},
+        &quot;port&quot;: {},
+        &quot;iosCapable&quot;: true
+      },
+      &quot;connectionInfo&quot;: {
+        &quot;hostType&quot;: &quot;string&quot;,
+        &quot;nwDeviceName&quot;: &quot;string&quot;,
+        &quot;nwDeviceMac&quot;: &quot;string&quot;,
+        &quot;protocol&quot;: &quot;string&quot;,
+        &quot;band&quot;: &quot;string&quot;,
+        &quot;spatialStream&quot;: &quot;string&quot;,
+        &quot;channel&quot;: &quot;string&quot;,
+        &quot;channelWidth&quot;: &quot;string&quot;,
+        &quot;wmm&quot;: &quot;string&quot;,
+        &quot;uapsd&quot;: &quot;string&quot;,
+        &quot;timestamp&quot;: 0
+      },
+      &quot;topology&quot;: {
+        &quot;nodes&quot;: [
+          {
+            &quot;role&quot;: &quot;string&quot;,
+            &quot;name&quot;: &quot;string&quot;,
+            &quot;id&quot;: &quot;string&quot;,
+            &quot;description&quot;: &quot;string&quot;,
+            &quot;deviceType&quot;: &quot;string&quot;,
+            &quot;platformId&quot;: {},
+            &quot;family&quot;: {},
+            &quot;ip&quot;: &quot;string&quot;,
+            &quot;softwareVersion&quot;: {},
+            &quot;userId&quot;: {},
+            &quot;nodeType&quot;: &quot;string&quot;,
+            &quot;radioFrequency&quot;: {},
+            &quot;clients&quot;: {},
+            &quot;count&quot;: {},
+            &quot;healthScore&quot;: 0,
+            &quot;level&quot;: 0,
+            &quot;fabricGroup&quot;: {},
+            &quot;connectedDevice&quot;: {}
+          }
+        ],
+        &quot;links&quot;: [
+          {
+            &quot;source&quot;: &quot;string&quot;,
+            &quot;linkStatus&quot;: &quot;string&quot;,
+            &quot;label&quot;: [
+              &quot;string&quot;
+            ],
+            &quot;target&quot;: &quot;string&quot;,
+            &quot;id&quot;: {},
+            &quot;portUtilization&quot;: {}
+          }
+        ]
+      }
+    }</div>
+                                    </td>
+            </tr>
+                        </table>
+    <br/><br/>
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Parsing errors
+

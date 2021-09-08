@@ -1,0 +1,279 @@
+.. Document meta
+
+:orphan:
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.reports_view_group_view_info_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.reports_view_group_view_info -- Information module for Reports View Group View
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.2).
+
+    To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.reports_view_group_view_info`.
+
+.. version_added
+
+.. versionadded:: 1.0.0 of cisco.dnac
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Get Reports View Group View by id.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk
+
+
+.. Options
+
+Parameters
+----------
+
+.. raw:: html
+
+    <table  border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Parameter</th>
+            <th>Choices/<font color="blue">Defaults</font></th>
+                        <th width="100%">Comments</th>
+        </tr>
+                    <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+                    <b>headers</b>
+                    <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Additional headers.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-viewGroupId"></div>
+                    <b>viewGroupId</b>
+                    <a class="ansibleOptionLink" href="#parameter-viewGroupId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>ViewGroupId path parameter. ViewGroupId of viewgroup.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-viewId"></div>
+                    <b>viewId</b>
+                    <a class="ansibleOptionLink" href="#parameter-viewId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>ViewId path parameter. View id of view.</div>
+                                                        </td>
+            </tr>
+                        </table>
+    <br/>
+
+.. Notes
+
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Reports View Group View reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Reports View Group View object model.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Get Reports View Group View by id
+      cisco.dnac.reports_view_group_view_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers:
+          custom: value
+        viewGroupId: string
+        viewId: string
+      register: result
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. raw:: html
+
+    <table border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Key</th>
+            <th>Returned</th>
+            <th width="100%">Description</th>
+        </tr>
+                    <tr>
+                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+                    <b>dnac_response</b>
+                    <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">dictionary</span>
+                                          </div>
+                                    </td>
+                <td>always</td>
+                <td>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
+                                        <br/>
+                                            <div style="font-size: smaller"><b>Sample:</b></div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;deliveries&quot;: [
+        {
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;default&quot;: true
+        }
+      ],
+      &quot;description&quot;: &quot;string&quot;,
+      &quot;fieldGroups&quot;: [
+        {
+          &quot;fieldGroupDisplayName&quot;: &quot;string&quot;,
+          &quot;fieldGroupName&quot;: &quot;string&quot;,
+          &quot;fields&quot;: [
+            {
+              &quot;displayName&quot;: &quot;string&quot;,
+              &quot;name&quot;: &quot;string&quot;
+            }
+          ],
+          &quot;tableId&quot;: &quot;string&quot;
+        }
+      ],
+      &quot;filters&quot;: [
+        {
+          &quot;additionalInfo&quot;: {},
+          &quot;cacheFilter&quot;: true,
+          &quot;dataType&quot;: &quot;string&quot;,
+          &quot;displayName&quot;: &quot;string&quot;,
+          &quot;filterSource&quot;: {
+            &quot;dataSource&quot;: {},
+            &quot;displayValuePath&quot;: &quot;string&quot;,
+            &quot;rootPath&quot;: &quot;string&quot;,
+            &quot;valuePath&quot;: &quot;string&quot;
+          },
+          &quot;name&quot;: &quot;string&quot;,
+          &quot;required&quot;: true,
+          &quot;timeOptions&quot;: [
+            {
+              &quot;info&quot;: &quot;string&quot;,
+              &quot;maxValue&quot;: 0,
+              &quot;minValue&quot;: 0,
+              &quot;name&quot;: &quot;string&quot;,
+              &quot;value&quot;: &quot;string&quot;
+            }
+          ],
+          &quot;type&quot;: &quot;string&quot;
+        }
+      ],
+      &quot;formats&quot;: [
+        {
+          &quot;format&quot;: &quot;string&quot;,
+          &quot;name&quot;: &quot;string&quot;,
+          &quot;default&quot;: true,
+          &quot;template&quot;: {
+            &quot;jsTemplateId&quot;: &quot;string&quot;
+          }
+        }
+      ],
+      &quot;schedules&quot;: [
+        {
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;default&quot;: true
+        }
+      ],
+      &quot;viewId&quot;: &quot;string&quot;,
+      &quot;viewInfo&quot;: &quot;string&quot;,
+      &quot;viewName&quot;: &quot;string&quot;
+    }</div>
+                                    </td>
+            </tr>
+                        </table>
+    <br/><br/>
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Parsing errors
+
