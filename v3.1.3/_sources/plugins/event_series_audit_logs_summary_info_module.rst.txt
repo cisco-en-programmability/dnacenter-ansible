@@ -1,0 +1,499 @@
+.. Document meta
+
+:orphan:
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.event_series_audit_logs_summary_info -- Information module for Event Series Audit Logs Summary
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.3).
+
+    To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.event_series_audit_logs_summary_info`.
+
+.. version_added
+
+.. versionadded:: 1.0.0 of cisco.dnac
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Get all Event Series Audit Logs Summary.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk
+
+
+.. Options
+
+Parameters
+----------
+
+.. raw:: html
+
+    <table  border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Parameter</th>
+            <th>Choices/<font color="blue">Defaults</font></th>
+                        <th width="100%">Comments</th>
+        </tr>
+                    <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-category"></div>
+                    <b>category</b>
+                    <a class="ansibleOptionLink" href="#parameter-category" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Category query parameter. Audit Log notification&#x27;s event category. Supported values INFO, WARN, ERROR, ALERT, TASK_PROGRESS, TASK_FAILURE, TASK_COMPLETE, COMMAND, QUERY, CONVERSATION.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-context"></div>
+                    <b>context</b>
+                    <a class="ansibleOptionLink" href="#parameter-context" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Context query parameter. Audit Log notification&#x27;s event correlationId.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-description"></div>
+                    <b>description</b>
+                    <a class="ansibleOptionLink" href="#parameter-description" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Description query parameter. String full/partial search - (Provided input string is case insensitively matched for records).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-deviceId"></div>
+                    <b>deviceId</b>
+                    <a class="ansibleOptionLink" href="#parameter-deviceId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>DeviceId query parameter. Audit Log notification&#x27;s deviceId.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-domain"></div>
+                    <b>domain</b>
+                    <a class="ansibleOptionLink" href="#parameter-domain" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Domain query parameter. Audit Log notification&#x27;s event domain.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-endTime"></div>
+                    <b>endTime</b>
+                    <a class="ansibleOptionLink" href="#parameter-endTime" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>EndTime query parameter. End Time in milliseconds since Epoch Eg. 1597961437211 (when provided startTime is mandatory).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-eventHierarchy"></div>
+                    <b>eventHierarchy</b>
+                    <a class="ansibleOptionLink" href="#parameter-eventHierarchy" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>EventHierarchy query parameter. Audit Log notification&#x27;s event eventHierarchy. Example &quot;US.CA.San Jose&quot; OR &quot;US.CA&quot; OR &quot;CA.San Jose&quot; - Delimiter for hierarchy separation is &quot;.&quot;.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-eventId"></div>
+                    <b>eventId</b>
+                    <a class="ansibleOptionLink" href="#parameter-eventId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>EventId query parameter. Audit Log notification&#x27;s event ID.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+                    <b>headers</b>
+                    <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Additional headers.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-instanceId"></div>
+                    <b>instanceId</b>
+                    <a class="ansibleOptionLink" href="#parameter-instanceId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>InstanceId query parameter. InstanceID of the Audit Log.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-isParentOnly"></div>
+                    <b>isParentOnly</b>
+                    <a class="ansibleOptionLink" href="#parameter-isParentOnly" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>IsParentOnly query parameter. Parameter to filter parent only audit-logs.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-isSystemEvents"></div>
+                    <b>isSystemEvents</b>
+                    <a class="ansibleOptionLink" href="#parameter-isSystemEvents" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>IsSystemEvents query parameter. Parameter to filter system generated audit-logs.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-name"></div>
+                    <b>name</b>
+                    <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Name query parameter. Audit Log notification event name.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-parentInstanceId"></div>
+                    <b>parentInstanceId</b>
+                    <a class="ansibleOptionLink" href="#parameter-parentInstanceId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>ParentInstanceId query parameter. Parent Audit Log record&#x27;s instanceID.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-severity"></div>
+                    <b>severity</b>
+                    <a class="ansibleOptionLink" href="#parameter-severity" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Severity query parameter. Audit Log notification&#x27;s event severity. Supported values 1, 2, 3, 4, 5.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-siteId"></div>
+                    <b>siteId</b>
+                    <a class="ansibleOptionLink" href="#parameter-siteId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>SiteId query parameter. Audit Log notification&#x27;s siteId.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-source"></div>
+                    <b>source</b>
+                    <a class="ansibleOptionLink" href="#parameter-source" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Source query parameter. Audit Log notification&#x27;s event source.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-startTime"></div>
+                    <b>startTime</b>
+                    <a class="ansibleOptionLink" href="#parameter-startTime" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>StartTime query parameter. Start Time in milliseconds since Epoch Eg. 1597950637211 (when provided endTime is mandatory).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-subDomain"></div>
+                    <b>subDomain</b>
+                    <a class="ansibleOptionLink" href="#parameter-subDomain" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>SubDomain query parameter. Audit Log notification&#x27;s event sub-domain.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-userId"></div>
+                    <b>userId</b>
+                    <a class="ansibleOptionLink" href="#parameter-userId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>UserId query parameter. Audit Log notification&#x27;s event userId.</div>
+                                                        </td>
+            </tr>
+                        </table>
+    <br/>
+
+.. Notes
+
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Event Series Audit Logs Summary reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Event Series Audit Logs Summary object model.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Get all Event Series Audit Logs Summary
+      cisco.dnac.event_series_audit_logs_summary_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers:
+          custom: value
+        parentInstanceId: string
+        isParentOnly: True
+        instanceId: string
+        name: string
+        eventId: string
+        category: string
+        severity: string
+        domain: string
+        subDomain: string
+        source: string
+        userId: string
+        context: string
+        eventHierarchy: string
+        siteId: string
+        deviceId: string
+        isSystemEvents: True
+        description: string
+        startTime: 0
+        endTime: 0
+      register: result
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. raw:: html
+
+    <table border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Key</th>
+            <th>Returned</th>
+            <th width="100%">Description</th>
+        </tr>
+                    <tr>
+                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+                    <b>dnac_response</b>
+                    <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">list</span>
+                       / <span style="color: purple">elements=dictionary</span>                    </div>
+                                    </td>
+                <td>always</td>
+                <td>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
+                                        <br/>
+                                            <div style="font-size: smaller"><b>Sample:</b></div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">[
+      {
+        &quot;count&quot;: 0,
+        &quot;maxTimestamp&quot;: 0,
+        &quot;minTimestamp&quot;: 0
+      }
+    ]</div>
+                                    </td>
+            </tr>
+                        </table>
+    <br/><br/>
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Parsing errors
+

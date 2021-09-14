@@ -1,0 +1,332 @@
+.. Document meta
+
+:orphan:
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.compliance_device_details_info_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.compliance_device_details_info -- Information module for Compliance Device Details
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.3).
+
+    To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.compliance_device_details_info`.
+
+.. version_added
+
+.. versionadded:: 1.0.0 of cisco.dnac
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Get all Compliance Device Details.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk
+
+
+.. Options
+
+Parameters
+----------
+
+.. raw:: html
+
+    <table  border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Parameter</th>
+            <th>Choices/<font color="blue">Defaults</font></th>
+                        <th width="100%">Comments</th>
+        </tr>
+                    <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-category"></div>
+                    <b>category</b>
+                    <a class="ansibleOptionLink" href="#parameter-category" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Category query parameter. ComplianceCategory can have any value among &#x27;INTENT&#x27;, &#x27;RUNNING_CONFIG&#x27;.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-complianceType"></div>
+                    <b>complianceType</b>
+                    <a class="ansibleOptionLink" href="#parameter-complianceType" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>ComplianceType query parameter. ComplianceType can have any value among &#x27;NETWORK_DESIGN&#x27;, &#x27;NETWORK_PROFILE&#x27;, &#x27;FABRIC&#x27;, &#x27;POLICY&#x27;, &#x27;RUNNING_CONFIG&#x27;.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-deviceUuid"></div>
+                    <b>deviceUuid</b>
+                    <a class="ansibleOptionLink" href="#parameter-deviceUuid" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>DeviceUuid path parameter.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-diffList"></div>
+                    <b>diffList</b>
+                    <a class="ansibleOptionLink" href="#parameter-diffList" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>DiffList query parameter. Diff list pass true to fetch the diff list.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+                    <b>headers</b>
+                    <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Additional headers.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-key"></div>
+                    <b>key</b>
+                    <a class="ansibleOptionLink" href="#parameter-key" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Key query parameter. Extended attribute key.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-value"></div>
+                    <b>value</b>
+                    <a class="ansibleOptionLink" href="#parameter-value" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Value query parameter. Extended attribute value.</div>
+                                                        </td>
+            </tr>
+                        </table>
+    <br/>
+
+.. Notes
+
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Compliance Device Details reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Compliance Device Details object model.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Get all Compliance Device Details
+      cisco.dnac.compliance_device_details_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers:
+          custom: value
+        category: string
+        complianceType: string
+        diffList: True
+        key: string
+        value: string
+        deviceUuid: string
+      register: result
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. raw:: html
+
+    <table border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Key</th>
+            <th>Returned</th>
+            <th width="100%">Description</th>
+        </tr>
+                    <tr>
+                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+                    <b>dnac_response</b>
+                    <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">dictionary</span>
+                                          </div>
+                                    </td>
+                <td>always</td>
+                <td>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
+                                        <br/>
+                                            <div style="font-size: smaller"><b>Sample:</b></div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;deviceUuid&quot;: &quot;string&quot;,
+      &quot;version&quot;: &quot;string&quot;,
+      &quot;response&quot;: [
+        {
+          &quot;displayName&quot;: &quot;string&quot;,
+          &quot;complianceType&quot;: &quot;string&quot;,
+          &quot;lastSyncTime&quot;: &quot;string&quot;,
+          &quot;additionalDataURL&quot;: &quot;string&quot;,
+          &quot;sourceInfoList&quot;: [
+            {
+              &quot;count&quot;: 0,
+              &quot;displayName&quot;: &quot;string&quot;,
+              &quot;diffList&quot;: [
+                {
+                  &quot;displayName&quot;: &quot;string&quot;,
+                  &quot;moveFromPath&quot;: &quot;string&quot;,
+                  &quot;op&quot;: &quot;string&quot;,
+                  &quot;configuredValue&quot;: &quot;string&quot;,
+                  &quot;intendedValue&quot;: &quot;string&quot;,
+                  &quot;path&quot;: &quot;string&quot;,
+                  &quot;businessKey&quot;: &quot;string&quot;,
+                  &quot;extendedAttributes&quot;: &quot;string&quot;
+                }
+              ],
+              &quot;sourceEnum&quot;: &quot;string&quot;,
+              &quot;licenseAppName&quot;: &quot;string&quot;,
+              &quot;provisioningArea&quot;: &quot;string&quot;,
+              &quot;networkProfileName&quot;: &quot;string&quot;,
+              &quot;nameWithBusinessKey&quot;: &quot;string&quot;,
+              &quot;appName&quot;: &quot;string&quot;,
+              &quot;name&quot;: &quot;string&quot;,
+              &quot;type&quot;: &quot;string&quot;,
+              &quot;businessKey&quot;: {
+                &quot;otherAttributes&quot;: {
+                  &quot;cfsAttributes&quot;: &quot;string&quot;,
+                  &quot;name&quot;: &quot;string&quot;
+                },
+                &quot;resourceName&quot;: &quot;string&quot;,
+                &quot;businessKeyAttributes&quot;: &quot;string&quot;
+              }
+            }
+          ],
+          &quot;deviceUuid&quot;: &quot;string&quot;,
+          &quot;message&quot;: &quot;string&quot;,
+          &quot;state&quot;: &quot;string&quot;,
+          &quot;status&quot;: &quot;string&quot;,
+          &quot;category&quot;: &quot;string&quot;,
+          &quot;lastUpdateTime&quot;: &quot;string&quot;
+        }
+      ]
+    }</div>
+                                    </td>
+            </tr>
+                        </table>
+    <br/><br/>
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Parsing errors
+

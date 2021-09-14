@@ -1,0 +1,736 @@
+.. Document meta
+
+:orphan:
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.network_device_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.network_device -- Resource module for Network Device
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.3).
+
+    To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.network_device`.
+
+.. version_added
+
+.. versionadded:: 1.0.0 of cisco.dnac
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operations create, update and delete of the resource Network Device.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk
+
+
+.. Options
+
+Parameters
+----------
+
+.. raw:: html
+
+    <table  border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="2">Parameter</th>
+            <th>Choices/<font color="blue">Defaults</font></th>
+                        <th width="100%">Comments</th>
+        </tr>
+                    <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-cliTransport"></div>
+                    <b>cliTransport</b>
+                    <a class="ansibleOptionLink" href="#parameter-cliTransport" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s cliTransport.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-computeDevice"></div>
+                    <b>computeDevice</b>
+                    <a class="ansibleOptionLink" href="#parameter-computeDevice" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>ComputeDevice flag.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-enablePassword"></div>
+                    <b>enablePassword</b>
+                    <a class="ansibleOptionLink" href="#parameter-enablePassword" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s enablePassword.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-extendedDiscoveryInfo"></div>
+                    <b>extendedDiscoveryInfo</b>
+                    <a class="ansibleOptionLink" href="#parameter-extendedDiscoveryInfo" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s extendedDiscoveryInfo.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-httpPassword"></div>
+                    <b>httpPassword</b>
+                    <a class="ansibleOptionLink" href="#parameter-httpPassword" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s httpPassword.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-httpPort"></div>
+                    <b>httpPort</b>
+                    <a class="ansibleOptionLink" href="#parameter-httpPort" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s httpPort.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-httpSecure"></div>
+                    <b>httpSecure</b>
+                    <a class="ansibleOptionLink" href="#parameter-httpSecure" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>HttpSecure flag.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-httpUserName"></div>
+                    <b>httpUserName</b>
+                    <a class="ansibleOptionLink" href="#parameter-httpUserName" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s httpUserName.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-id"></div>
+                    <b>id</b>
+                    <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Id path parameter. Device ID.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-ipAddress"></div>
+                    <b>ipAddress</b>
+                    <a class="ansibleOptionLink" href="#parameter-ipAddress" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s ipAddress.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-isForceDelete"></div>
+                    <b>isForceDelete</b>
+                    <a class="ansibleOptionLink" href="#parameter-isForceDelete" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>IsForceDelete query parameter.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-merakiOrgId"></div>
+                    <b>merakiOrgId</b>
+                    <a class="ansibleOptionLink" href="#parameter-merakiOrgId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s merakiOrgId.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-netconfPort"></div>
+                    <b>netconfPort</b>
+                    <a class="ansibleOptionLink" href="#parameter-netconfPort" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s netconfPort.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-password"></div>
+                    <b>password</b>
+                    <a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s password.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-serialNumber"></div>
+                    <b>serialNumber</b>
+                    <a class="ansibleOptionLink" href="#parameter-serialNumber" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s serialNumber.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-snmpAuthPassphrase"></div>
+                    <b>snmpAuthPassphrase</b>
+                    <a class="ansibleOptionLink" href="#parameter-snmpAuthPassphrase" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s snmpAuthPassphrase.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-snmpAuthProtocol"></div>
+                    <b>snmpAuthProtocol</b>
+                    <a class="ansibleOptionLink" href="#parameter-snmpAuthProtocol" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s snmpAuthProtocol.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-snmpMode"></div>
+                    <b>snmpMode</b>
+                    <a class="ansibleOptionLink" href="#parameter-snmpMode" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s snmpMode.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-snmpPrivPassphrase"></div>
+                    <b>snmpPrivPassphrase</b>
+                    <a class="ansibleOptionLink" href="#parameter-snmpPrivPassphrase" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s snmpPrivPassphrase.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-snmpPrivProtocol"></div>
+                    <b>snmpPrivProtocol</b>
+                    <a class="ansibleOptionLink" href="#parameter-snmpPrivProtocol" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s snmpPrivProtocol.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-snmpRetry"></div>
+                    <b>snmpRetry</b>
+                    <a class="ansibleOptionLink" href="#parameter-snmpRetry" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s snmpRetry.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-snmpROCommunity"></div>
+                    <b>snmpROCommunity</b>
+                    <a class="ansibleOptionLink" href="#parameter-snmpROCommunity" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s snmpROCommunity.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-snmpRWCommunity"></div>
+                    <b>snmpRWCommunity</b>
+                    <a class="ansibleOptionLink" href="#parameter-snmpRWCommunity" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s snmpRWCommunity.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-snmpTimeout"></div>
+                    <b>snmpTimeout</b>
+                    <a class="ansibleOptionLink" href="#parameter-snmpTimeout" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s snmpTimeout.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-snmpUserName"></div>
+                    <b>snmpUserName</b>
+                    <a class="ansibleOptionLink" href="#parameter-snmpUserName" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s snmpUserName.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-snmpVersion"></div>
+                    <b>snmpVersion</b>
+                    <a class="ansibleOptionLink" href="#parameter-snmpVersion" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s snmpVersion.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-type"></div>
+                    <b>type</b>
+                    <a class="ansibleOptionLink" href="#parameter-type" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s type.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-updateMgmtIPaddressList"></div>
+                    <b>updateMgmtIPaddressList</b>
+                    <a class="ansibleOptionLink" href="#parameter-updateMgmtIPaddressList" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s updateMgmtIPaddressList.</div>
+                                                        </td>
+            </tr>
+                                        <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-updateMgmtIPaddressList/existMgmtIpAddress"></div>
+                    <b>existMgmtIpAddress</b>
+                    <a class="ansibleOptionLink" href="#parameter-updateMgmtIPaddressList/existMgmtIpAddress" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s existMgmtIpAddress.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-updateMgmtIPaddressList/newMgmtIpAddress"></div>
+                    <b>newMgmtIpAddress</b>
+                    <a class="ansibleOptionLink" href="#parameter-updateMgmtIPaddressList/newMgmtIpAddress" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s newMgmtIpAddress.</div>
+                                                        </td>
+            </tr>
+                    
+                                <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-userName"></div>
+                    <b>userName</b>
+                    <a class="ansibleOptionLink" href="#parameter-userName" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Network Device&#x27;s userName.</div>
+                                                        </td>
+            </tr>
+                        </table>
+    <br/>
+
+.. Notes
+
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Network Device reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Network Device object model.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Create
+      cisco.dnac.network_device:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        cliTransport: string
+        computeDevice: true
+        enablePassword: string
+        extendedDiscoveryInfo: string
+        httpPassword: string
+        httpPort: string
+        httpSecure: true
+        httpUserName: string
+        ipAddress:
+        - string
+        merakiOrgId:
+        - string
+        netconfPort: string
+        password: string
+        serialNumber: string
+        snmpAuthPassphrase: string
+        snmpAuthProtocol: string
+        snmpMode: string
+        snmpPrivPassphrase: string
+        snmpPrivProtocol: string
+        snmpROCommunity: string
+        snmpRWCommunity: string
+        snmpRetry: 0
+        snmpTimeout: 0
+        snmpUserName: string
+        snmpVersion: string
+        type: string
+        updateMgmtIPaddressList:
+        - existMgmtIpAddress: string
+          newMgmtIpAddress: string
+        userName: string
+
+    - name: Update all
+      cisco.dnac.network_device:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        cliTransport: string
+        computeDevice: true
+        enablePassword: string
+        extendedDiscoveryInfo: string
+        httpPassword: string
+        httpPort: string
+        httpSecure: true
+        httpUserName: string
+        ipAddress:
+        - string
+        merakiOrgId:
+        - string
+        netconfPort: string
+        password: string
+        serialNumber: string
+        snmpAuthPassphrase: string
+        snmpAuthProtocol: string
+        snmpMode: string
+        snmpPrivPassphrase: string
+        snmpPrivProtocol: string
+        snmpROCommunity: string
+        snmpRWCommunity: string
+        snmpRetry: 0
+        snmpTimeout: 0
+        snmpUserName: string
+        snmpVersion: string
+        type: string
+        updateMgmtIPaddressList:
+        - existMgmtIpAddress: string
+          newMgmtIpAddress: string
+        userName: string
+
+    - name: Delete by id
+      cisco.dnac.network_device:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
+        isForceDelete: true
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. raw:: html
+
+    <table border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Key</th>
+            <th>Returned</th>
+            <th width="100%">Description</th>
+        </tr>
+                    <tr>
+                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+                    <b>dnac_response</b>
+                    <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">dictionary</span>
+                                          </div>
+                                    </td>
+                <td>always</td>
+                <td>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
+                                        <br/>
+                                            <div style="font-size: smaller"><b>Sample:</b></div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;response&quot;: {
+        &quot;taskId&quot;: &quot;string&quot;,
+        &quot;url&quot;: &quot;string&quot;
+      },
+      &quot;version&quot;: &quot;string&quot;
+    }</div>
+                                    </td>
+            </tr>
+                        </table>
+    <br/><br/>
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Parsing errors
+
