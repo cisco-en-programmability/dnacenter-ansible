@@ -20,7 +20,7 @@ cisco.dnac.applications -- Resource module for Applications
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.3).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -578,6 +578,33 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        payload:
+        - name: string
+          networkApplications:
+          - appProtocol: string
+            applicationSubType: string
+            applicationType: string
+            categoryId: string
+            displayName: string
+            engineId: string
+            helpString: string
+            longDescription: string
+            name: string
+            popularity: string
+            rank: string
+            trafficClass: string
+            serverName: string
+            url: string
+            dscp: string
+            ignoreConflict: string
+          networkIdentity:
+          - displayName: string
+            lowerPort: string
+            ports: string
+            protocol: string
+            upperPort: string
+          applicationSet:
+            idRef: string
 
     - name: Update all
       cisco.dnac.applications:
@@ -589,6 +616,36 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        payload:
+        - id: string
+          name: string
+          networkApplications:
+          - id: string
+            appProtocol: string
+            applicationSubType: string
+            applicationType: string
+            categoryId: string
+            displayName: string
+            engineId: string
+            helpString: string
+            longDescription: string
+            name: string
+            popularity: string
+            rank: string
+            trafficClass: string
+            serverName: string
+            url: string
+            dscp: string
+            ignoreConflict: string
+          networkIdentity:
+          - id: string
+            displayName: string
+            lowerPort: string
+            ports: string
+            protocol: string
+            upperPort: string
+          applicationSet:
+            idRef: string
 
     - name: Delete all
       cisco.dnac.applications:

@@ -20,7 +20,7 @@ cisco.dnac.pnp_virtual_accounts_info -- Information module for Pnp Virtual Accou
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.3).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
