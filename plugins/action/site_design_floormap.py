@@ -48,7 +48,7 @@ class SiteDesignFloormap(object):
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['payload'] = self.new_object.get('payload')        
+        new_object_params['payload'] = self.new_object.get('payload')
         return new_object_params
 
     def delete_by_id_params(self):
