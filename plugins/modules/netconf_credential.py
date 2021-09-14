@@ -97,6 +97,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    comments: string
+    credentialType: string
+    description: string
+    id: string
+    instanceTenantId: string
+    instanceUuid: string
+    netconfPort: string
 
 """
 

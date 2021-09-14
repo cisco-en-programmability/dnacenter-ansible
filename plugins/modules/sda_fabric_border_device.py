@@ -82,6 +82,20 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    payload:
+    - deviceManagementIpAddress: string
+      siteNameHierarchy: string
+      externalDomainRoutingProtocolName: string
+      externalConnectivityIpPoolName: string
+      internalAutonomouSystemNumber: string
+      borderSessionType: string
+      connectedToInternet: true
+      externalConnectivitySettings:
+      - interfaceName: string
+        externalAutonomouSystemNumber: string
+        l3Handoff:
+        - virtualNetwork:
+            virtualNetworkName: string
 
 - name: Delete all
   cisco.dnac.sda_fabric_border_device:

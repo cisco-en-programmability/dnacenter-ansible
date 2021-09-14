@@ -113,3 +113,10 @@ releases:
       release_summary: Updates the README to reflect latest API changes.
       bugfixes:
         - Updates the README to reflect latest API changes.
+  3.1.3:
+    release_date: '2021-09-14'
+    changes:
+      release_summary: Fixes global credentials payload
+      bugfixes:
+        - It only accepts not None keys to dictionary item
+        - It changes payload from dict to list of dict

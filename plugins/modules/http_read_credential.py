@@ -97,6 +97,16 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    comments: string
+    credentialType: string
+    description: string
+    id: string
+    instanceTenantId: string
+    instanceUuid: string
+    password: string
+    port: 0
+    secure: true
+    username: string
 
 - name: Update all
   cisco.dnac.http_read_credential:

@@ -59,14 +59,12 @@ class Snmpv2WriteCommunityCredential(object):
     def create_params(self):
         new_object_params = {}
         payload = {}
-        payload['comments'] = self.new_object.get('comments')
-        payload['credentialType'] = self.new_object.get('credentialType')
-        payload['description'] = self.new_object.get('description')
-        payload['id'] = self.new_object.get('id')
-        payload['instanceTenantId'] = self.new_object.get('instanceTenantId')
-        payload['instanceUuid'] = self.new_object.get('instanceUuid')
-        payload['writeCommunity'] = self.new_object.get('writeCommunity')
-        new_object_params['payload'] = payload
+        keys = ['comments', 'credentialType', 'description', 'id', 'instanceTenantId',
+                'instanceUuid', 'writeCommunity']
+        for key in keys:
+            if self.new_object.get(key) is not None:
+                payload[key] = self.new_object.get(key)
+        new_object_params['payload'] = [payload]
         return new_object_params
 
     def update_all_params(self):
