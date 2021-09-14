@@ -121,6 +121,33 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    payload:
+    - name: string
+      networkApplications:
+      - appProtocol: string
+        applicationSubType: string
+        applicationType: string
+        categoryId: string
+        displayName: string
+        engineId: string
+        helpString: string
+        longDescription: string
+        name: string
+        popularity: string
+        rank: string
+        trafficClass: string
+        serverName: string
+        url: string
+        dscp: string
+        ignoreConflict: string
+      networkIdentity:
+      - displayName: string
+        lowerPort: string
+        ports: string
+        protocol: string
+        upperPort: string
+      applicationSet:
+        idRef: string
 
 - name: Update all
   cisco.dnac.applications:
@@ -132,6 +159,36 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    payload:
+    - id: string
+      name: string
+      networkApplications:
+      - id: string
+        appProtocol: string
+        applicationSubType: string
+        applicationType: string
+        categoryId: string
+        displayName: string
+        engineId: string
+        helpString: string
+        longDescription: string
+        name: string
+        popularity: string
+        rank: string
+        trafficClass: string
+        serverName: string
+        url: string
+        dscp: string
+        ignoreConflict: string
+      networkIdentity:
+      - id: string
+        displayName: string
+        lowerPort: string
+        ports: string
+        protocol: string
+        upperPort: string
+      applicationSet:
+        idRef: string
 
 - name: Delete all
   cisco.dnac.applications:

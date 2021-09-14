@@ -46,6 +46,9 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    payload:
+    - siteNameHierarchy: string
+      authenticateTemplateName: string
 
 - name: Update all
   cisco.dnac.sda_fabric_authentication_profile:
@@ -57,6 +60,9 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    payload:
+    - siteNameHierarchy: string
+      authenticateTemplateName: string
 
 - name: Delete all
   cisco.dnac.sda_fabric_authentication_profile:
