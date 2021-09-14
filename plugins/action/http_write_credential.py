@@ -70,7 +70,7 @@ class HttpWriteCredential(object):
         for key in keys:
             if self.new_object.get(key) is not None:
                 payload[key] = self.new_object.get(key)
-        new_object_params['payload'] = [ payload ]
+        new_object_params['payload'] = [payload]
         return new_object_params
 
     def update_all_params(self):
