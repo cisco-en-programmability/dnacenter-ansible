@@ -64,6 +64,7 @@ EXAMPLES = r"""
     scheduleAt: string
     scheduleDesc: string
     scheduleOrigin: string
+    payload:
 
 """
 
