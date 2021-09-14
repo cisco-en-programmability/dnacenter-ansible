@@ -20,7 +20,7 @@ cisco.dnac.sda_fabric_site -- Resource module for Sda Fabric Site
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.3).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -181,6 +181,9 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        payload:
+        - fabricName: string
+          siteNameHierarchy: string
 
 
 

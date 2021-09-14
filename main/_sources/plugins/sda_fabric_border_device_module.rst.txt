@@ -20,7 +20,7 @@ cisco.dnac.sda_fabric_border_device -- Resource module for Sda Fabric Border Dev
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.3).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -360,6 +360,20 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        payload:
+        - deviceManagementIpAddress: string
+          siteNameHierarchy: string
+          externalDomainRoutingProtocolName: string
+          externalConnectivityIpPoolName: string
+          internalAutonomouSystemNumber: string
+          borderSessionType: string
+          connectedToInternet: true
+          externalConnectivitySettings:
+          - interfaceName: string
+            externalAutonomouSystemNumber: string
+            l3Handoff:
+            - virtualNetwork:
+                virtualNetworkName: string
 
     - name: Delete all
       cisco.dnac.sda_fabric_border_device:
