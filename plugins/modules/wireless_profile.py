@@ -98,9 +98,7 @@ EXAMPLES = r"""
         name: string
         type: string
 
-- name: Create
-  cisco.dnac.wireless_profile:
-    dnac_host: "{{dnac_host}}"
+: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
     dnac_verify: "{{dnac_verify}}"
