@@ -34,40 +34,6 @@ options:
   password:
     description: Http Read Credential's password.
     type: str
-  payload:
-    description: Http Read Credential's payload.
-    suboptions:
-      comments:
-        description: Http Read Credential's comments.
-        type: str
-      credentialType:
-        description: Http Read Credential's credentialType.
-        type: str
-      description:
-        description: Http Read Credential's description.
-        type: str
-      id:
-        description: Http Read Credential's id.
-        type: str
-      instanceTenantId:
-        description: Http Read Credential's instanceTenantId.
-        type: str
-      instanceUuid:
-        description: Http Read Credential's instanceUuid.
-        type: str
-      password:
-        description: Http Read Credential's password.
-        type: str
-      port:
-        description: Http Read Credential's port.
-        type: int
-      secure:
-        description: Secure flag.
-        type: bool
-      username:
-        description: Http Read Credential's username.
-        type: str
-    type: list
   port:
     description: Http Read Credential's port.
     type: int
