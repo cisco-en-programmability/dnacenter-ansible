@@ -20,7 +20,7 @@ cisco.dnac.site_design_floormap -- Resource module for Site Design Floormap
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.3).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.4).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -87,6 +87,21 @@ Parameters
                                             <div>FloorId path parameter. Group ID of floor to be deleted.</div>
                                                         </td>
             </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-payload"></div>
+                    <b>payload</b>
+                    <a class="ansibleOptionLink" href="#parameter-payload" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Site Design Floormap&#x27;s payload</div>
+                                                        </td>
+            </tr>
                         </table>
     <br/>
 
@@ -146,6 +161,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         floorId: string
+        payload:
 
 
 
