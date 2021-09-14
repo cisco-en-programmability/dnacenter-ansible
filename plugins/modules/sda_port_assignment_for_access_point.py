@@ -61,6 +61,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    payload:
+    - siteNameHierarchy: string
+      deviceManagementIpAddress: string
+      interfaceName: string
+      dataIpAddressPoolName: string
+      voiceIpAddressPoolName: string
+      authenticateTemplateName: string
 
 - name: Delete all
   cisco.dnac.sda_port_assignment_for_access_point:

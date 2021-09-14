@@ -65,17 +65,12 @@ class HttpWriteCredential(object):
     def create_params(self):
         new_object_params = {}
         payload = {}
-        payload['comments'] = self.new_object.get('comments')
-        payload['credentialType'] = self.new_object.get('credentialType')
-        payload['description'] = self.new_object.get('description')
-        payload['id'] = self.new_object.get('id')
-        payload['instanceTenantId'] = self.new_object.get('instanceTenantId')
-        payload['instanceUuid'] = self.new_object.get('instanceUuid')
-        payload['password'] = self.new_object.get('password')
-        payload['port'] = self.new_object.get('port')
-        payload['secure'] = self.new_object.get('secure')
-        payload['username'] = self.new_object.get('username')
-        new_object_params['payload'] = payload
+        keys = ['comments', 'credentialType', 'description', 'id', 'instanceTenantId',
+                'instanceUuid', 'password', 'port', 'secure', 'username']
+        for key in keys:
+            if self.new_object.get(key) is not None:
+                payload[key] = self.new_object.get(key)
+        new_object_params['payload'] = [payload]
         return new_object_params
 
     def update_all_params(self):

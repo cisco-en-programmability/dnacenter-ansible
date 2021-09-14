@@ -132,7 +132,18 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-
+    authPassword: string
+    authType: string
+    comments: string
+    credentialType: string
+    description: string
+    id: string
+    instanceTenantId: string
+    instanceUuid: string
+    privacyPassword: string
+    privacyType: string
+    snmpMode: string
+    username: string
 """
 
 RETURN = r"""

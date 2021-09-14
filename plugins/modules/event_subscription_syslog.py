@@ -71,6 +71,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    payload:
 
 - name: Create
   cisco.dnac.event_subscription_syslog:
@@ -82,6 +83,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    payload:
 
 """
 

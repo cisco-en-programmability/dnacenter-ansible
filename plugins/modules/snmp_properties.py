@@ -52,6 +52,12 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    payload:
+    - id: string
+      instanceTenantId: string
+      instanceUuid: string
+      intValue: 0
+      systemPropertyName: string
 
 """
 

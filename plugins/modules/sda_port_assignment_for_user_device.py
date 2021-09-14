@@ -74,6 +74,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    payload:
+    - siteNameHierarchy: string
+      deviceManagementIpAddress: string
+      interfaceName: string
+      dataIpAddressPoolName: string
+      voiceIpAddressPoolName: string
+      authenticateTemplateName: string
 
 """
 

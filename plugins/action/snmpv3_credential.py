@@ -69,19 +69,13 @@ class Snmpv3Credential(object):
     def create_params(self):
         new_object_params = {}
         payload = {}
-        payload['authPassword'] = self.new_object.get('authPassword')
-        payload['authType'] = self.new_object.get('authType')
-        payload['comments'] = self.new_object.get('comments')
-        payload['credentialType'] = self.new_object.get('credentialType')
-        payload['description'] = self.new_object.get('description')
-        payload['id'] = self.new_object.get('id')
-        payload['instanceTenantId'] = self.new_object.get('instanceTenantId')
-        payload['instanceUuid'] = self.new_object.get('instanceUuid')
-        payload['privacyPassword'] = self.new_object.get('privacyPassword')
-        payload['privacyType'] = self.new_object.get('privacyType')
-        payload['snmpMode'] = self.new_object.get('snmpMode')
-        payload['username'] = self.new_object.get('username')
-        new_object_params['payload'] = payload
+        keys = ['authPassword', 'authType', 'comments', 'credentialType', 'description',
+                'id', 'instanceTenantId', 'instanceUuid', 'privacyPassword', 'privacyType',
+                'snmpMode', 'username']
+        for key in keys:
+            if self.new_object.get(key) is not None:
+                payload[key] = self.new_object.get(key)
+        new_object_params['payload'] = [payload]
         return new_object_params
 
     def update_all_params(self):
@@ -150,7 +144,6 @@ class Snmpv3Credential(object):
     def requires_update(self, current_obj):
         requested_obj = self.new_object
         obj_params = [
-            ("payload", "payload"),
             ("authType", "authType"),
             ("comments", "comments"),
             ("credentialType", "credentialType"),
