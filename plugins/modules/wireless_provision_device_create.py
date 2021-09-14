@@ -66,7 +66,9 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
 
-: "{{dnac_host}}"
+- name: Create
+  cisco.dnac.wireless_provision_device_create:
+    dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
     dnac_verify: "{{dnac_verify}}"
