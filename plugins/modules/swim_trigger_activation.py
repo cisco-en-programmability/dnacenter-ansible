@@ -61,6 +61,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     scheduleValidate: true
+    payload:
 
 """
 
