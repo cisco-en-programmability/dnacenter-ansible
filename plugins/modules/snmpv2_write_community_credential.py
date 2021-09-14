@@ -31,31 +31,6 @@ options:
   instanceUuid:
     description: Snmpv2 Write Community Credential's instanceUuid.
     type: str
-  payload:
-    description: Snmpv2 Write Community Credential's payload.
-    suboptions:
-      comments:
-        description: Snmpv2 Write Community Credential's comments.
-        type: str
-      credentialType:
-        description: Snmpv2 Write Community Credential's credentialType.
-        type: str
-      description:
-        description: Snmpv2 Write Community Credential's description.
-        type: str
-      id:
-        description: Snmpv2 Write Community Credential's id.
-        type: str
-      instanceTenantId:
-        description: Snmpv2 Write Community Credential's instanceTenantId.
-        type: str
-      instanceUuid:
-        description: Snmpv2 Write Community Credential's instanceUuid.
-        type: str
-      writeCommunity:
-        description: Snmpv2 Write Community Credential's writeCommunity.
-        type: str
-    type: list
   writeCommunity:
     description: Snmpv2 Write Community Credential's writeCommunity.
     type: str

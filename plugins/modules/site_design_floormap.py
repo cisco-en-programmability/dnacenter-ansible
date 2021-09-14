@@ -16,6 +16,9 @@ options:
   floorId:
     description: FloorId path parameter. Group ID of floor to be deleted.
     type: str
+  payload:
+    description: Site Design Floormap's payload
+    type: dict
 requirements:
 - dnacentersdk
 seealso:
@@ -61,6 +64,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     floorId: string
+    payload:
 
 """
 

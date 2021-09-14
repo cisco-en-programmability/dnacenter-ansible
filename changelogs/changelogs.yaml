@@ -120,3 +120,9 @@ releases:
       bugfixes:
         - It only accepts not None keys to dictionary item
         - It changes payload from dict to list of dict
+  3.1.4:
+    release_date: '2021-09-14'
+    changes:
+      release_summary: Updates module documentation & site_design_floormap
+      bugfixes:
+        - Adds param payload to site_design_floormap module
