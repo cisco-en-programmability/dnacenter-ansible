@@ -80,7 +80,15 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-
+    payload:
+    - virtualNetworkName: string
+      ipPoolName: string
+      trafficType: string
+      authenticationPolicyName: string
+      scalableGroupName: string
+      isL2FloodingEnabled: true
+      isThisCriticalPool: true
+      poolType: string
 """
 
 RETURN = r"""

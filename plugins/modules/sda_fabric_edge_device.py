@@ -46,6 +46,9 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    payload:
+    - deviceManagementIpAddress: string
+      siteNameHierarchy: string
 
 - name: Delete all
   cisco.dnac.sda_fabric_edge_device:
