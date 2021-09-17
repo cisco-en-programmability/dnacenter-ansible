@@ -45,4 +45,3 @@
   - name: Print Reservations
     ansible.builtin.debug:
       var: ip_pool
-
