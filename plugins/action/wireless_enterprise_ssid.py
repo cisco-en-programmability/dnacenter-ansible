@@ -143,7 +143,7 @@ class WirelessEnterpriseSsid(object):
             params=self.get_all_params(name=name),
         )
         if isinstance(items, dict):
-            if items.get('response'):
+            if 'response' in items:
                 items = items.get('response')
         result = get_dict_result(items, 'name', name)
         return result

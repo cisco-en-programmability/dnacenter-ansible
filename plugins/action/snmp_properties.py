@@ -56,7 +56,7 @@ class SnmpProperties(object):
             function="get_snmp_properties"
         )
         if isinstance(items, dict):
-            if items.get('response'):
+            if 'response' in items:
                 items = items.get('response')
         result = get_dict_result(items, 'systemPropertyName', name)
         return result
