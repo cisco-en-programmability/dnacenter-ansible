@@ -126,3 +126,9 @@ releases:
       release_summary: Updates module documentation & site_design_floormap
       bugfixes:
         - Adds param payload to site_design_floormap module
+  3.1.5:
+    release_date: '2021-09-17'
+    changes:
+      release_summary: Fixes internal 'exists' comparison
+      bugfixes:
+        - Changes the comparison from value to keys
