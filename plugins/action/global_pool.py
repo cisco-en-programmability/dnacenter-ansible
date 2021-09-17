@@ -76,7 +76,7 @@ class GlobalPool(object):
             params=self.get_all_params(name=name),
         )
         if isinstance(items, dict):
-            if items.get('response'):
+            if 'response' in items:
                 items = items.get('response')
         settings = self.new_object.get('settings')
         if settings and isinstance(settings, dict) and settings.get('ippool'):

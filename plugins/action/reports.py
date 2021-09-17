@@ -89,7 +89,7 @@ class Reports(object):
             params=self.get_all_params(name=name),
         )
         if isinstance(items, dict):
-            if items.get('response'):
+            if 'response' in items:
                 items = items.get('response')
         result = get_dict_result(items, 'name', name)
         return result
@@ -103,7 +103,7 @@ class Reports(object):
                 params={"report_id": id}
             )
             if isinstance(items, dict):
-                if items.get('response'):
+                if 'response' in items:
                     items = items.get('response')
             result = get_dict_result(items, 'report_id', id)
         except Exception:

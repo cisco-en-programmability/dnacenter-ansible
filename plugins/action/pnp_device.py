@@ -145,7 +145,7 @@ class PnpDevice(object):
                 params={"id": id}
             )
             if isinstance(items, dict):
-                if items.get('response'):
+                if 'response' in items:
                     items = items.get('response')
             result = result or get_dict_result(items, 'id', id)
         except Exception:
