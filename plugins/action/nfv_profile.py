@@ -84,7 +84,7 @@ class NfvProfile(object):
                 params={"id": id}
             )
             if isinstance(items, dict):
-                if items.get('response'):
+                if 'response' in items:
                     items = items.get('response')
             result = get_dict_result(items, 'id', id)
         except Exception:

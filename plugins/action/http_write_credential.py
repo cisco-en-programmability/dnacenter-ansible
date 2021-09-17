@@ -95,7 +95,7 @@ class HttpWriteCredential(object):
             params={'credential_sub_type': 'HTTP_WRITE'},
         )
         if isinstance(items, dict):
-            if items.get('response'):
+            if 'response' in items:
                 items = items.get('response')
         result = get_dict_result(items, 'description', name) or get_dict_result(items, 'username', name)
         return result
@@ -108,7 +108,7 @@ class HttpWriteCredential(object):
             params={'credential_sub_type': 'HTTP_WRITE'},
         )
         if isinstance(items, dict):
-            if items.get('response'):
+            if 'response' in items:
                 items = items.get('response')
         result = get_dict_result(items, 'id', id)
         return result
