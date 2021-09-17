@@ -1,0 +1,888 @@
+.. Document meta
+
+:orphan:
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.pnp_device_info_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.pnp_device_info -- Information module for Pnp Device
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.5).
+
+    To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.pnp_device_info`.
+
+.. version_added
+
+.. versionadded:: 1.0.0 of cisco.dnac
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Get all Pnp Device.
+- Get Pnp Device by id.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk
+
+
+.. Options
+
+Parameters
+----------
+
+.. raw:: html
+
+    <table  border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Parameter</th>
+            <th>Choices/<font color="blue">Defaults</font></th>
+                        <th width="100%">Comments</th>
+        </tr>
+                    <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-cmState"></div>
+                    <b>cmState</b>
+                    <a class="ansibleOptionLink" href="#parameter-cmState" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>CmState query parameter. Device Connection Manager State.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+                    <b>headers</b>
+                    <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Additional headers.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-hostname"></div>
+                    <b>hostname</b>
+                    <a class="ansibleOptionLink" href="#parameter-hostname" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Hostname query parameter. Device Hostname.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-id"></div>
+                    <b>id</b>
+                    <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Id path parameter.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-lastContact"></div>
+                    <b>lastContact</b>
+                    <a class="ansibleOptionLink" href="#parameter-lastContact" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>LastContact query parameter. Device Has Contacted lastContact &gt; 0.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-limit"></div>
+                    <b>limit</b>
+                    <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Limit query parameter. Limits number of results.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-macAddress"></div>
+                    <b>macAddress</b>
+                    <a class="ansibleOptionLink" href="#parameter-macAddress" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>MacAddress query parameter. Device Mac Address.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-name"></div>
+                    <b>name</b>
+                    <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Name query parameter. Device Name.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-offset"></div>
+                    <b>offset</b>
+                    <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Offset query parameter. Index of first result.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-onbState"></div>
+                    <b>onbState</b>
+                    <a class="ansibleOptionLink" href="#parameter-onbState" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>OnbState query parameter. Device Onboarding State.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-pid"></div>
+                    <b>pid</b>
+                    <a class="ansibleOptionLink" href="#parameter-pid" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Pid query parameter. Device ProductId.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-projectId"></div>
+                    <b>projectId</b>
+                    <a class="ansibleOptionLink" href="#parameter-projectId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>ProjectId query parameter. Device Project Id.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-projectName"></div>
+                    <b>projectName</b>
+                    <a class="ansibleOptionLink" href="#parameter-projectName" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>ProjectName query parameter. Device Project Name.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-serialNumber"></div>
+                    <b>serialNumber</b>
+                    <a class="ansibleOptionLink" href="#parameter-serialNumber" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>SerialNumber query parameter. Device Serial Number.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-siteName"></div>
+                    <b>siteName</b>
+                    <a class="ansibleOptionLink" href="#parameter-siteName" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>SiteName query parameter. Device Site Name.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-smartAccountId"></div>
+                    <b>smartAccountId</b>
+                    <a class="ansibleOptionLink" href="#parameter-smartAccountId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>SmartAccountId query parameter. Device Smart Account.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-sort"></div>
+                    <b>sort</b>
+                    <a class="ansibleOptionLink" href="#parameter-sort" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Sort query parameter. Comma seperated list of fields to sort on.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-sortOrder"></div>
+                    <b>sortOrder</b>
+                    <a class="ansibleOptionLink" href="#parameter-sortOrder" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-source"></div>
+                    <b>source</b>
+                    <a class="ansibleOptionLink" href="#parameter-source" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Source query parameter. Device Source.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-state_"></div>
+                    <b>state_</b>
+                    <a class="ansibleOptionLink" href="#parameter-state_" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>State query parameter. Device State.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-virtualAccountId"></div>
+                    <b>virtualAccountId</b>
+                    <a class="ansibleOptionLink" href="#parameter-virtualAccountId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>VirtualAccountId query parameter. Device Virtual Account.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-workflowId"></div>
+                    <b>workflowId</b>
+                    <a class="ansibleOptionLink" href="#parameter-workflowId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>WorkflowId query parameter. Device Workflow Id.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-workflowName"></div>
+                    <b>workflowName</b>
+                    <a class="ansibleOptionLink" href="#parameter-workflowName" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>WorkflowName query parameter. Device Workflow Name.</div>
+                                                        </td>
+            </tr>
+                        </table>
+    <br/>
+
+.. Notes
+
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Pnp Device reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Pnp Device object model.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Get all Pnp Device
+      cisco.dnac.pnp_device_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers:
+          custom: value
+        limit: 0
+        offset: 0
+        sort: []
+        sortOrder: string
+        serialNumber: []
+        state_: []
+        onbState: []
+        cmState: []
+        name: []
+        pid: []
+        source: []
+        projectId: []
+        workflowId: []
+        projectName: []
+        workflowName: []
+        smartAccountId: []
+        virtualAccountId: []
+        lastContact: True
+        macAddress: string
+        hostname: string
+        siteName: string
+      register: result
+
+    - name: Get Pnp Device by id
+      cisco.dnac.pnp_device_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers:
+          custom: value
+        id: string
+      register: result
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. raw:: html
+
+    <table border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Key</th>
+            <th>Returned</th>
+            <th width="100%">Description</th>
+        </tr>
+                    <tr>
+                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+                    <b>dnac_response</b>
+                    <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">dictionary</span>
+                                          </div>
+                                    </td>
+                <td>always</td>
+                <td>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
+                                        <br/>
+                                            <div style="font-size: smaller"><b>Sample:</b></div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;_id&quot;: &quot;string&quot;,
+      &quot;deviceInfo&quot;: {
+        &quot;source&quot;: &quot;string&quot;,
+        &quot;serialNumber&quot;: &quot;string&quot;,
+        &quot;stack&quot;: true,
+        &quot;mode&quot;: &quot;string&quot;,
+        &quot;state&quot;: &quot;string&quot;,
+        &quot;location&quot;: {
+          &quot;siteId&quot;: &quot;string&quot;,
+          &quot;address&quot;: &quot;string&quot;,
+          &quot;latitude&quot;: &quot;string&quot;,
+          &quot;longitude&quot;: &quot;string&quot;,
+          &quot;altitude&quot;: &quot;string&quot;
+        },
+        &quot;description&quot;: &quot;string&quot;,
+        &quot;onbState&quot;: &quot;string&quot;,
+        &quot;authenticatedMicNumber&quot;: &quot;string&quot;,
+        &quot;authenticatedSudiSerialNo&quot;: &quot;string&quot;,
+        &quot;capabilitiesSupported&quot;: [
+          &quot;string&quot;
+        ],
+        &quot;featuresSupported&quot;: [
+          &quot;string&quot;
+        ],
+        &quot;cmState&quot;: &quot;string&quot;,
+        &quot;firstContact&quot;: 0,
+        &quot;lastContact&quot;: 0,
+        &quot;macAddress&quot;: &quot;string&quot;,
+        &quot;pid&quot;: &quot;string&quot;,
+        &quot;deviceSudiSerialNos&quot;: [
+          &quot;string&quot;
+        ],
+        &quot;lastUpdateOn&quot;: 0,
+        &quot;workflowId&quot;: &quot;string&quot;,
+        &quot;workflowName&quot;: &quot;string&quot;,
+        &quot;projectId&quot;: &quot;string&quot;,
+        &quot;projectName&quot;: &quot;string&quot;,
+        &quot;deviceType&quot;: &quot;string&quot;,
+        &quot;agentType&quot;: &quot;string&quot;,
+        &quot;imageVersion&quot;: &quot;string&quot;,
+        &quot;fileSystemList&quot;: [
+          {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;writeable&quot;: true,
+            &quot;freespace&quot;: 0,
+            &quot;name&quot;: &quot;string&quot;,
+            &quot;readable&quot;: true,
+            &quot;size&quot;: 0
+          }
+        ],
+        &quot;pnpProfileList&quot;: [
+          {
+            &quot;profileName&quot;: &quot;string&quot;,
+            &quot;discoveryCreated&quot;: true,
+            &quot;createdBy&quot;: &quot;string&quot;,
+            &quot;primaryEndpoint&quot;: {
+              &quot;port&quot;: 0,
+              &quot;protocol&quot;: &quot;string&quot;,
+              &quot;ipv4Address&quot;: {},
+              &quot;ipv6Address&quot;: {},
+              &quot;fqdn&quot;: &quot;string&quot;,
+              &quot;certificate&quot;: &quot;string&quot;
+            },
+            &quot;secondaryEndpoint&quot;: {
+              &quot;port&quot;: 0,
+              &quot;protocol&quot;: &quot;string&quot;,
+              &quot;ipv4Address&quot;: {},
+              &quot;ipv6Address&quot;: {},
+              &quot;fqdn&quot;: &quot;string&quot;,
+              &quot;certificate&quot;: &quot;string&quot;
+            }
+          }
+        ],
+        &quot;imageFile&quot;: &quot;string&quot;,
+        &quot;httpHeaders&quot;: [
+          {
+            &quot;key&quot;: &quot;string&quot;,
+            &quot;value&quot;: &quot;string&quot;
+          }
+        ],
+        &quot;neighborLinks&quot;: [
+          {
+            &quot;localInterfaceName&quot;: &quot;string&quot;,
+            &quot;localShortInterfaceName&quot;: &quot;string&quot;,
+            &quot;localMacAddress&quot;: &quot;string&quot;,
+            &quot;remoteInterfaceName&quot;: &quot;string&quot;,
+            &quot;remoteShortInterfaceName&quot;: &quot;string&quot;,
+            &quot;remoteMacAddress&quot;: &quot;string&quot;,
+            &quot;remoteDeviceName&quot;: &quot;string&quot;,
+            &quot;remotePlatform&quot;: &quot;string&quot;,
+            &quot;remoteVersion&quot;: &quot;string&quot;
+          }
+        ],
+        &quot;lastSyncTime&quot;: 0,
+        &quot;ipInterfaces&quot;: [
+          {
+            &quot;status&quot;: &quot;string&quot;,
+            &quot;macAddress&quot;: &quot;string&quot;,
+            &quot;ipv4Address&quot;: {},
+            &quot;ipv6AddressList&quot;: [],
+            &quot;name&quot;: &quot;string&quot;
+          }
+        ],
+        &quot;hostname&quot;: &quot;string&quot;,
+        &quot;authStatus&quot;: &quot;string&quot;,
+        &quot;stackInfo&quot;: {
+          &quot;supportsStackWorkflows&quot;: true,
+          &quot;isFullRing&quot;: true,
+          &quot;stackMemberList&quot;: [
+            {
+              &quot;serialNumber&quot;: &quot;string&quot;,
+              &quot;state&quot;: &quot;string&quot;,
+              &quot;role&quot;: &quot;string&quot;,
+              &quot;macAddress&quot;: &quot;string&quot;,
+              &quot;pid&quot;: &quot;string&quot;,
+              &quot;licenseLevel&quot;: &quot;string&quot;,
+              &quot;licenseType&quot;: &quot;string&quot;,
+              &quot;sudiSerialNumber&quot;: &quot;string&quot;,
+              &quot;hardwareVersion&quot;: &quot;string&quot;,
+              &quot;stackNumber&quot;: 0,
+              &quot;softwareVersion&quot;: &quot;string&quot;,
+              &quot;priority&quot;: 0
+            }
+          ],
+          &quot;stackRingProtocol&quot;: &quot;string&quot;,
+          &quot;validLicenseLevels&quot;: [
+            &quot;string&quot;
+          ],
+          &quot;totalMemberCount&quot;: 0
+        },
+        &quot;reloadRequested&quot;: true,
+        &quot;addedOn&quot;: 0,
+        &quot;siteId&quot;: &quot;string&quot;,
+        &quot;aaaCredentials&quot;: {
+          &quot;password&quot;: &quot;string&quot;,
+          &quot;username&quot;: &quot;string&quot;
+        },
+        &quot;userMicNumbers&quot;: [
+          &quot;string&quot;
+        ],
+        &quot;userSudiSerialNos&quot;: [
+          &quot;string&quot;
+        ],
+        &quot;addnMacAddrs&quot;: [
+          &quot;string&quot;
+        ],
+        &quot;preWorkflowCliOuputs&quot;: [
+          {
+            &quot;cli&quot;: &quot;string&quot;,
+            &quot;cliOutput&quot;: &quot;string&quot;
+          }
+        ],
+        &quot;tags&quot;: {},
+        &quot;sudiRequired&quot;: true,
+        &quot;smartAccountId&quot;: &quot;string&quot;,
+        &quot;virtualAccountId&quot;: &quot;string&quot;,
+        &quot;populateInventory&quot;: true,
+        &quot;siteName&quot;: &quot;string&quot;,
+        &quot;name&quot;: &quot;string&quot;
+      },
+      &quot;systemResetWorkflow&quot;: {
+        &quot;_id&quot;: &quot;string&quot;,
+        &quot;state&quot;: &quot;string&quot;,
+        &quot;type&quot;: &quot;string&quot;,
+        &quot;description&quot;: &quot;string&quot;,
+        &quot;lastupdateOn&quot;: 0,
+        &quot;imageId&quot;: &quot;string&quot;,
+        &quot;currTaskIdx&quot;: 0,
+        &quot;addedOn&quot;: 0,
+        &quot;tasks&quot;: [
+          {
+            &quot;state&quot;: &quot;string&quot;,
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;currWorkItemIdx&quot;: 0,
+            &quot;taskSeqNo&quot;: 0,
+            &quot;endTime&quot;: 0,
+            &quot;startTime&quot;: 0,
+            &quot;workItemList&quot;: [
+              {
+                &quot;state&quot;: &quot;string&quot;,
+                &quot;command&quot;: &quot;string&quot;,
+                &quot;outputStr&quot;: &quot;string&quot;,
+                &quot;endTime&quot;: 0,
+                &quot;startTime&quot;: 0,
+                &quot;timeTaken&quot;: 0
+              }
+            ],
+            &quot;timeTaken&quot;: 0,
+            &quot;name&quot;: &quot;string&quot;
+          }
+        ],
+        &quot;addToInventory&quot;: true,
+        &quot;instanceType&quot;: &quot;string&quot;,
+        &quot;endTime&quot;: 0,
+        &quot;execTime&quot;: 0,
+        &quot;startTime&quot;: 0,
+        &quot;useState&quot;: &quot;string&quot;,
+        &quot;configId&quot;: &quot;string&quot;,
+        &quot;name&quot;: &quot;string&quot;,
+        &quot;version&quot;: 0,
+        &quot;tenantId&quot;: &quot;string&quot;
+      },
+      &quot;systemWorkflow&quot;: {
+        &quot;_id&quot;: &quot;string&quot;,
+        &quot;state&quot;: &quot;string&quot;,
+        &quot;type&quot;: &quot;string&quot;,
+        &quot;description&quot;: &quot;string&quot;,
+        &quot;lastupdateOn&quot;: 0,
+        &quot;imageId&quot;: &quot;string&quot;,
+        &quot;currTaskIdx&quot;: 0,
+        &quot;addedOn&quot;: 0,
+        &quot;tasks&quot;: [
+          {
+            &quot;state&quot;: &quot;string&quot;,
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;currWorkItemIdx&quot;: 0,
+            &quot;taskSeqNo&quot;: 0,
+            &quot;endTime&quot;: 0,
+            &quot;startTime&quot;: 0,
+            &quot;workItemList&quot;: [
+              {
+                &quot;state&quot;: &quot;string&quot;,
+                &quot;command&quot;: &quot;string&quot;,
+                &quot;outputStr&quot;: &quot;string&quot;,
+                &quot;endTime&quot;: 0,
+                &quot;startTime&quot;: 0,
+                &quot;timeTaken&quot;: 0
+              }
+            ],
+            &quot;timeTaken&quot;: 0,
+            &quot;name&quot;: &quot;string&quot;
+          }
+        ],
+        &quot;addToInventory&quot;: true,
+        &quot;instanceType&quot;: &quot;string&quot;,
+        &quot;endTime&quot;: 0,
+        &quot;execTime&quot;: 0,
+        &quot;startTime&quot;: 0,
+        &quot;useState&quot;: &quot;string&quot;,
+        &quot;configId&quot;: &quot;string&quot;,
+        &quot;name&quot;: &quot;string&quot;,
+        &quot;version&quot;: 0,
+        &quot;tenantId&quot;: &quot;string&quot;
+      },
+      &quot;workflow&quot;: {
+        &quot;_id&quot;: &quot;string&quot;,
+        &quot;state&quot;: &quot;string&quot;,
+        &quot;type&quot;: &quot;string&quot;,
+        &quot;description&quot;: &quot;string&quot;,
+        &quot;lastupdateOn&quot;: 0,
+        &quot;imageId&quot;: &quot;string&quot;,
+        &quot;currTaskIdx&quot;: 0,
+        &quot;addedOn&quot;: 0,
+        &quot;tasks&quot;: [
+          {
+            &quot;state&quot;: &quot;string&quot;,
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;currWorkItemIdx&quot;: 0,
+            &quot;taskSeqNo&quot;: 0,
+            &quot;endTime&quot;: 0,
+            &quot;startTime&quot;: 0,
+            &quot;workItemList&quot;: [
+              {
+                &quot;state&quot;: &quot;string&quot;,
+                &quot;command&quot;: &quot;string&quot;,
+                &quot;outputStr&quot;: &quot;string&quot;,
+                &quot;endTime&quot;: 0,
+                &quot;startTime&quot;: 0,
+                &quot;timeTaken&quot;: 0
+              }
+            ],
+            &quot;timeTaken&quot;: 0,
+            &quot;name&quot;: &quot;string&quot;
+          }
+        ],
+        &quot;addToInventory&quot;: true,
+        &quot;instanceType&quot;: &quot;string&quot;,
+        &quot;endTime&quot;: 0,
+        &quot;execTime&quot;: 0,
+        &quot;startTime&quot;: 0,
+        &quot;useState&quot;: &quot;string&quot;,
+        &quot;configId&quot;: &quot;string&quot;,
+        &quot;name&quot;: &quot;string&quot;,
+        &quot;version&quot;: 0,
+        &quot;tenantId&quot;: &quot;string&quot;
+      },
+      &quot;runSummaryList&quot;: [
+        {
+          &quot;details&quot;: &quot;string&quot;,
+          &quot;historyTaskInfo&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;workItemList&quot;: [
+              {
+                &quot;state&quot;: &quot;string&quot;,
+                &quot;command&quot;: &quot;string&quot;,
+                &quot;outputStr&quot;: &quot;string&quot;,
+                &quot;endTime&quot;: 0,
+                &quot;startTime&quot;: 0,
+                &quot;timeTaken&quot;: 0
+              }
+            ],
+            &quot;timeTaken&quot;: 0,
+            &quot;addnDetails&quot;: [
+              {
+                &quot;key&quot;: &quot;string&quot;,
+                &quot;value&quot;: &quot;string&quot;
+              }
+            ],
+            &quot;name&quot;: &quot;string&quot;
+          },
+          &quot;errorFlag&quot;: true,
+          &quot;timestamp&quot;: 0
+        }
+      ],
+      &quot;workflowParameters&quot;: {
+        &quot;topOfStackSerialNumber&quot;: &quot;string&quot;,
+        &quot;licenseLevel&quot;: &quot;string&quot;,
+        &quot;licenseType&quot;: &quot;string&quot;,
+        &quot;configList&quot;: [
+          {
+            &quot;configParameters&quot;: [
+              {
+                &quot;key&quot;: &quot;string&quot;,
+                &quot;value&quot;: &quot;string&quot;
+              }
+            ],
+            &quot;configId&quot;: &quot;string&quot;
+          }
+        ]
+      },
+      &quot;dayZeroConfig&quot;: {
+        &quot;config&quot;: &quot;string&quot;
+      },
+      &quot;dayZeroConfigPreview&quot;: {},
+      &quot;version&quot;: 0,
+      &quot;tenantId&quot;: &quot;string&quot;
+    }</div>
+                                    </td>
+            </tr>
+                        </table>
+    <br/><br/>
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Parsing errors
+

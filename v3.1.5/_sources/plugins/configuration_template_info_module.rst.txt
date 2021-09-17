@@ -1,0 +1,620 @@
+.. Document meta
+
+:orphan:
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.configuration_template_info_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.configuration_template_info -- Information module for Configuration Template
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.5).
+
+    To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.configuration_template_info`.
+
+.. version_added
+
+.. versionadded:: 1.0.0 of cisco.dnac
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Get all Configuration Template.
+- Get Configuration Template by id.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk
+
+
+.. Options
+
+Parameters
+----------
+
+.. raw:: html
+
+    <table  border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Parameter</th>
+            <th>Choices/<font color="blue">Defaults</font></th>
+                        <th width="100%">Comments</th>
+        </tr>
+                    <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-filterConflictingTemplates"></div>
+                    <b>filterConflictingTemplates</b>
+                    <a class="ansibleOptionLink" href="#parameter-filterConflictingTemplates" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>FilterConflictingTemplates query parameter. Filter template(s) based on confliting templates.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+                    <b>headers</b>
+                    <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Additional headers.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-latestVersion"></div>
+                    <b>latestVersion</b>
+                    <a class="ansibleOptionLink" href="#parameter-latestVersion" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>LatestVersion query parameter. LatestVersion flag to get the latest versioned template.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-productFamily"></div>
+                    <b>productFamily</b>
+                    <a class="ansibleOptionLink" href="#parameter-productFamily" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>ProductFamily query parameter. Filter template(s) based on device family.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-productSeries"></div>
+                    <b>productSeries</b>
+                    <a class="ansibleOptionLink" href="#parameter-productSeries" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>ProductSeries query parameter. Filter template(s) based on device series.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-productType"></div>
+                    <b>productType</b>
+                    <a class="ansibleOptionLink" href="#parameter-productType" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>ProductType query parameter. Filter template(s) based on device type.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-projectId"></div>
+                    <b>projectId</b>
+                    <a class="ansibleOptionLink" href="#parameter-projectId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>ProjectId query parameter. Filter template(s) based on project UUID.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-projectNames"></div>
+                    <b>projectNames</b>
+                    <a class="ansibleOptionLink" href="#parameter-projectNames" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>ProjectNames query parameter. Filter template(s) based on project names.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-softwareType"></div>
+                    <b>softwareType</b>
+                    <a class="ansibleOptionLink" href="#parameter-softwareType" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>SoftwareType query parameter. Filter template(s) based software type.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-softwareVersion"></div>
+                    <b>softwareVersion</b>
+                    <a class="ansibleOptionLink" href="#parameter-softwareVersion" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>SoftwareVersion query parameter. Filter template(s) based softwareVersion.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-sortOrder"></div>
+                    <b>sortOrder</b>
+                    <a class="ansibleOptionLink" href="#parameter-sortOrder" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-tags"></div>
+                    <b>tags</b>
+                    <a class="ansibleOptionLink" href="#parameter-tags" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Tags query parameter. Filter template(s) based on tags.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-templateId"></div>
+                    <b>templateId</b>
+                    <a class="ansibleOptionLink" href="#parameter-templateId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>TemplateId path parameter. TemplateId(UUID) to get details of the template.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-unCommitted"></div>
+                    <b>unCommitted</b>
+                    <a class="ansibleOptionLink" href="#parameter-unCommitted" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>UnCommitted query parameter. Filter template(s) based on template commited or not.</div>
+                                                        </td>
+            </tr>
+                        </table>
+    <br/>
+
+.. Notes
+
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Configuration Template reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Configuration Template object model.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Get all Configuration Template
+      cisco.dnac.configuration_template_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers:
+          custom: value
+        projectId: string
+        softwareType: string
+        softwareVersion: string
+        productFamily: string
+        productSeries: string
+        productType: string
+        filterConflictingTemplates: True
+        tags: []
+        projectNames: []
+        unCommitted: True
+        sortOrder: string
+      register: result
+
+    - name: Get Configuration Template by id
+      cisco.dnac.configuration_template_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers:
+          custom: value
+        latestVersion: True
+        templateId: string
+      register: result
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. raw:: html
+
+    <table border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Key</th>
+            <th>Returned</th>
+            <th width="100%">Description</th>
+        </tr>
+                    <tr>
+                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+                    <b>dnac_response</b>
+                    <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">dictionary</span>
+                                          </div>
+                                    </td>
+                <td>always</td>
+                <td>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
+                                        <br/>
+                                            <div style="font-size: smaller"><b>Sample:</b></div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;tags&quot;: [
+        {
+          &quot;id&quot;: &quot;string&quot;,
+          &quot;name&quot;: &quot;string&quot;
+        }
+      ],
+      &quot;author&quot;: &quot;string&quot;,
+      &quot;composite&quot;: true,
+      &quot;containingTemplates&quot;: [
+        {
+          &quot;tags&quot;: [
+            {
+              &quot;id&quot;: &quot;string&quot;,
+              &quot;name&quot;: &quot;string&quot;
+            }
+          ],
+          &quot;composite&quot;: true,
+          &quot;description&quot;: &quot;string&quot;,
+          &quot;deviceTypes&quot;: [
+            {
+              &quot;productFamily&quot;: &quot;string&quot;,
+              &quot;productSeries&quot;: &quot;string&quot;,
+              &quot;productType&quot;: &quot;string&quot;
+            }
+          ],
+          &quot;id&quot;: &quot;string&quot;,
+          &quot;language&quot;: &quot;string&quot;,
+          &quot;name&quot;: &quot;string&quot;,
+          &quot;projectName&quot;: &quot;string&quot;,
+          &quot;rollbackTemplateParams&quot;: [
+            {
+              &quot;binding&quot;: &quot;string&quot;,
+              &quot;customOrder&quot;: 0,
+              &quot;dataType&quot;: &quot;string&quot;,
+              &quot;defaultValue&quot;: &quot;string&quot;,
+              &quot;description&quot;: &quot;string&quot;,
+              &quot;displayName&quot;: &quot;string&quot;,
+              &quot;group&quot;: &quot;string&quot;,
+              &quot;id&quot;: &quot;string&quot;,
+              &quot;instructionText&quot;: &quot;string&quot;,
+              &quot;key&quot;: &quot;string&quot;,
+              &quot;notParam&quot;: true,
+              &quot;order&quot;: 0,
+              &quot;paramArray&quot;: true,
+              &quot;parameterName&quot;: &quot;string&quot;,
+              &quot;provider&quot;: &quot;string&quot;,
+              &quot;range&quot;: [
+                {
+                  &quot;id&quot;: &quot;string&quot;,
+                  &quot;maxValue&quot;: 0,
+                  &quot;minValue&quot;: 0
+                }
+              ],
+              &quot;required&quot;: true,
+              &quot;selection&quot;: {
+                &quot;defaultSelectedValues&quot;: [
+                  &quot;string&quot;
+                ],
+                &quot;id&quot;: &quot;string&quot;,
+                &quot;selectionType&quot;: &quot;string&quot;,
+                &quot;selectionValues&quot;: {}
+              }
+            }
+          ],
+          &quot;templateContent&quot;: &quot;string&quot;,
+          &quot;templateParams&quot;: [
+            {
+              &quot;binding&quot;: &quot;string&quot;,
+              &quot;customOrder&quot;: 0,
+              &quot;dataType&quot;: &quot;string&quot;,
+              &quot;defaultValue&quot;: &quot;string&quot;,
+              &quot;description&quot;: &quot;string&quot;,
+              &quot;displayName&quot;: &quot;string&quot;,
+              &quot;group&quot;: &quot;string&quot;,
+              &quot;id&quot;: &quot;string&quot;,
+              &quot;instructionText&quot;: &quot;string&quot;,
+              &quot;key&quot;: &quot;string&quot;,
+              &quot;notParam&quot;: true,
+              &quot;order&quot;: 0,
+              &quot;paramArray&quot;: true,
+              &quot;parameterName&quot;: &quot;string&quot;,
+              &quot;provider&quot;: &quot;string&quot;,
+              &quot;range&quot;: [
+                {
+                  &quot;id&quot;: &quot;string&quot;,
+                  &quot;maxValue&quot;: 0,
+                  &quot;minValue&quot;: 0
+                }
+              ],
+              &quot;required&quot;: true,
+              &quot;selection&quot;: {
+                &quot;defaultSelectedValues&quot;: [
+                  &quot;string&quot;
+                ],
+                &quot;id&quot;: &quot;string&quot;,
+                &quot;selectionType&quot;: &quot;string&quot;,
+                &quot;selectionValues&quot;: {}
+              }
+            }
+          ],
+          &quot;version&quot;: &quot;string&quot;
+        }
+      ],
+      &quot;createTime&quot;: 0,
+      &quot;customParamsOrder&quot;: true,
+      &quot;description&quot;: &quot;string&quot;,
+      &quot;deviceTypes&quot;: [
+        {
+          &quot;productFamily&quot;: &quot;string&quot;,
+          &quot;productSeries&quot;: &quot;string&quot;,
+          &quot;productType&quot;: &quot;string&quot;
+        }
+      ],
+      &quot;failurePolicy&quot;: &quot;string&quot;,
+      &quot;id&quot;: &quot;string&quot;,
+      &quot;language&quot;: &quot;string&quot;,
+      &quot;lastUpdateTime&quot;: 0,
+      &quot;latestVersionTime&quot;: 0,
+      &quot;name&quot;: &quot;string&quot;,
+      &quot;parentTemplateId&quot;: &quot;string&quot;,
+      &quot;projectId&quot;: &quot;string&quot;,
+      &quot;projectName&quot;: &quot;string&quot;,
+      &quot;rollbackTemplateContent&quot;: &quot;string&quot;,
+      &quot;rollbackTemplateParams&quot;: [
+        {
+          &quot;binding&quot;: &quot;string&quot;,
+          &quot;customOrder&quot;: 0,
+          &quot;dataType&quot;: &quot;string&quot;,
+          &quot;defaultValue&quot;: &quot;string&quot;,
+          &quot;description&quot;: &quot;string&quot;,
+          &quot;displayName&quot;: &quot;string&quot;,
+          &quot;group&quot;: &quot;string&quot;,
+          &quot;id&quot;: &quot;string&quot;,
+          &quot;instructionText&quot;: &quot;string&quot;,
+          &quot;key&quot;: &quot;string&quot;,
+          &quot;notParam&quot;: true,
+          &quot;order&quot;: 0,
+          &quot;paramArray&quot;: true,
+          &quot;parameterName&quot;: &quot;string&quot;,
+          &quot;provider&quot;: &quot;string&quot;,
+          &quot;range&quot;: [
+            {
+              &quot;id&quot;: &quot;string&quot;,
+              &quot;maxValue&quot;: 0,
+              &quot;minValue&quot;: 0
+            }
+          ],
+          &quot;required&quot;: true,
+          &quot;selection&quot;: {
+            &quot;defaultSelectedValues&quot;: [
+              &quot;string&quot;
+            ],
+            &quot;id&quot;: &quot;string&quot;,
+            &quot;selectionType&quot;: &quot;string&quot;,
+            &quot;selectionValues&quot;: {}
+          }
+        }
+      ],
+      &quot;softwareType&quot;: &quot;string&quot;,
+      &quot;softwareVariant&quot;: &quot;string&quot;,
+      &quot;softwareVersion&quot;: &quot;string&quot;,
+      &quot;templateContent&quot;: &quot;string&quot;,
+      &quot;templateParams&quot;: [
+        {
+          &quot;binding&quot;: &quot;string&quot;,
+          &quot;customOrder&quot;: 0,
+          &quot;dataType&quot;: &quot;string&quot;,
+          &quot;defaultValue&quot;: &quot;string&quot;,
+          &quot;description&quot;: &quot;string&quot;,
+          &quot;displayName&quot;: &quot;string&quot;,
+          &quot;group&quot;: &quot;string&quot;,
+          &quot;id&quot;: &quot;string&quot;,
+          &quot;instructionText&quot;: &quot;string&quot;,
+          &quot;key&quot;: &quot;string&quot;,
+          &quot;notParam&quot;: true,
+          &quot;order&quot;: 0,
+          &quot;paramArray&quot;: true,
+          &quot;parameterName&quot;: &quot;string&quot;,
+          &quot;provider&quot;: &quot;string&quot;,
+          &quot;range&quot;: [
+            {
+              &quot;id&quot;: &quot;string&quot;,
+              &quot;maxValue&quot;: 0,
+              &quot;minValue&quot;: 0
+            }
+          ],
+          &quot;required&quot;: true,
+          &quot;selection&quot;: {
+            &quot;defaultSelectedValues&quot;: [
+              &quot;string&quot;
+            ],
+            &quot;id&quot;: &quot;string&quot;,
+            &quot;selectionType&quot;: &quot;string&quot;,
+            &quot;selectionValues&quot;: {}
+          }
+        }
+      ],
+      &quot;validationErrors&quot;: {
+        &quot;rollbackTemplateErrors&quot;: {},
+        &quot;templateErrors&quot;: {},
+        &quot;templateId&quot;: &quot;string&quot;,
+        &quot;templateVersion&quot;: &quot;string&quot;
+      },
+      &quot;version&quot;: &quot;string&quot;
+    }</div>
+                                    </td>
+            </tr>
+                        </table>
+    <br/><br/>
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Parsing errors
+
