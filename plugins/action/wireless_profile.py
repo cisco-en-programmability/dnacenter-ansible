@@ -69,18 +69,21 @@ class WirelessProfile(object):
     def get_object_by_name(self, name):
         result = None
         # NOTICE: Does not have a get by name method or it is in another action
-        items = self.dnac.exec(
-            family="wireless",
-            function="get_wireless_profile",
-            params=self.get_all_params(name=name),
-        )
-        if isinstance(items, list):
-            for i in items:
-                if isinstance(i, dict) and i.get('profileDetails'):
-                    tmp = i.get('profileDetails')
-                    if isinstance(tmp, dict) and tmp.get('name') == name:
-                        result = dict(i)
-                        break
+        try:
+            items = self.dnac.exec(
+                family="wireless",
+                function="get_wireless_profile",
+                params=self.get_all_params(name=name),
+            )
+            if isinstance(items, list):
+                for i in items:
+                    if isinstance(i, dict) and 'profileDetails' in i:
+                        tmp = i.get('profileDetails')
+                        if isinstance(tmp, dict) and tmp.get('name') == name:
+                            result = dict(i)
+                            break
+        except Exception:
+            result = None
         return result
 
     def get_object_by_id(self, id):

@@ -80,28 +80,34 @@ class NetconfCredential(object):
 
     def get_object_by_name(self, name):
         result = None
-        items = self.dnac.exec(
-            family="discovery",
-            function="get_global_credentials",
-            params={'credential_sub_type': 'NETCONF'},
-        )
-        if isinstance(items, dict):
-            if 'response' in items:
-                items = items.get('response')
-        result = get_dict_result(items, 'description', name) or get_dict_result(items, 'username', name)
+        try:
+            items = self.dnac.exec(
+                family="discovery",
+                function="get_global_credentials",
+                params={'credential_sub_type': 'NETCONF'},
+            )
+            if isinstance(items, dict):
+                if 'response' in items:
+                    items = items.get('response')
+            result = get_dict_result(items, 'description', name) or get_dict_result(items, 'username', name)
+        except Exception:
+            result = None
         return result
 
     def get_object_by_id(self, id):
         result = None
-        items = self.dnac.exec(
-            family="discovery",
-            function="get_global_credentials",
-            params={'credential_sub_type': 'NETCONF'},
-        )
-        if isinstance(items, dict):
-            if 'response' in items:
-                items = items.get('response')
-        result = get_dict_result(items, 'id', id)
+        try:
+            items = self.dnac.exec(
+                family="discovery",
+                function="get_global_credentials",
+                params={'credential_sub_type': 'NETCONF'},
+            )
+            if isinstance(items, dict):
+                if 'response' in items:
+                    items = items.get('response')
+            result = get_dict_result(items, 'id', id)
+        except Exception:
+            result = None
         return result
 
     def exists(self):

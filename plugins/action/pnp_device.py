@@ -122,18 +122,21 @@ class PnpDevice(object):
     def get_object_by_name(self, name):
         result = None
         # NOTICE: Does not have a get by name method or it is in another action
-        items = self.dnac.exec(
-            family="device_onboarding_pnp",
-            function="get_device_list",
-            params=self.get_all_params(name=name),
-        )
-        if isinstance(items, list):
-            for i in items:
-                if isinstance(i, dict) and i.get('deviceInfo'):
-                    tmp = i.get('deviceInfo')
-                    if isinstance(tmp, dict) and tmp.get('name') == name:
-                        result = dict(i)
-                        break
+        try:
+            items = self.dnac.exec(
+                family="device_onboarding_pnp",
+                function="get_device_list",
+                params=self.get_all_params(name=name),
+            )
+            if isinstance(items, list):
+                for i in items:
+                    if isinstance(i, dict) and i.get('deviceInfo'):
+                        tmp = i.get('deviceInfo')
+                        if isinstance(tmp, dict) and tmp.get('name') == name:
+                            result = dict(i)
+                            break
+        except Exception:
+            result = None
         return result
 
     def get_object_by_id(self, id):
