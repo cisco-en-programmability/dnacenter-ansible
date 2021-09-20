@@ -51,14 +51,17 @@ class SnmpProperties(object):
     def get_object_by_name(self, name):
         result = None
         # NOTICE: Does not have a get by name method, using get all
-        items = self.dnac.exec(
-            family="discovery",
-            function="get_snmp_properties"
-        )
-        if isinstance(items, dict):
-            if 'response' in items:
-                items = items.get('response')
-        result = get_dict_result(items, 'systemPropertyName', name)
+        try:
+            items = self.dnac.exec(
+                family="discovery",
+                function="get_snmp_properties"
+            )
+            if isinstance(items, dict):
+                if 'response' in items:
+                    items = items.get('response')
+            result = get_dict_result(items, 'systemPropertyName', name)
+        except Exception:
+            result = None
         return result
 
     def get_object_by_id(self, id):
