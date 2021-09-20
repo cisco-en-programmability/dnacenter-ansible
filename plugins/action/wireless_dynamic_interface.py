@@ -75,7 +75,7 @@ class WirelessDynamicInterface(object):
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
-            result = get_dict_result(items, 'name', name)
+            result = get_dict_result(items, 'interfaceName', name)
         except Exception:
             result = None
         return result
