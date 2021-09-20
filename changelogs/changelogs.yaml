@@ -132,3 +132,11 @@ releases:
       release_summary: Fixes internal 'exists' comparison
       bugfixes:
         - Changes the comparison from value to keys
+  3.1.6:
+    release_date: '2021-09-20'
+    changes:
+      release_summary: Fixes get_object_by_name issues
+      bugfixes:
+        - Add try catch/except to dnac execution
+        - Update get for wireless_dynamic_interface, change key that has name
+        - Update get for wireless_enterprise_ssid, obtain item.ssidDetails from items
