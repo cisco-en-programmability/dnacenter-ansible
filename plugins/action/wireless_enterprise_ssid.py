@@ -137,15 +137,32 @@ class WirelessEnterpriseSsid(object):
     def get_object_by_name(self, name):
         result = None
         # NOTICE: Does not have a get by name method or it is in another action
-        items = self.dnac.exec(
-            family="wireless",
-            function="get_enterprise_ssid",
-            params=self.get_all_params(name=name),
-        )
-        if isinstance(items, dict):
-            if 'response' in items:
-                items = items.get('response')
-        result = get_dict_result(items, 'name', name)
+        try:
+            items = self.dnac.exec(
+                family="wireless",
+                function="get_enterprise_ssid",
+                params=self.get_all_params(name=name),
+            )
+            if isinstance(items, list):
+                for item in items:
+                    if isinstance(item, dict):
+                        n_item = None
+                        if 'response' in item:
+                            n_item = item.get('response')
+                        if 'ssidDetails' in item:
+                            n_item = item.get('ssidDetails')
+                        n_item = get_dict_result(n_item, 'name', name)
+                        if n_item is not None:
+                            return n_item
+                return result
+            if isinstance(items, dict):
+                if 'response' in items:
+                    items = items.get('response')
+                if 'ssidDetails' in items:
+                    items = items.get('ssidDetails')
+            result = get_dict_result(items, 'name', name)
+        except Exception:
+            result = None
         return result
 
     def get_object_by_id(self, id):
