@@ -74,15 +74,18 @@ class SdaVirtualNetworkV2(object):
     def get_object_by_name(self, name):
         result = None
         # NOTICE: Does not have a get by name method or it is in another action
-        items = self.dnac.exec(
-            family="sda",
-            function="get_virtual_network_with_scalable_groups",
-            params=self.get_all_params(name=name),
-        )
-        if isinstance(items, dict):
-            if 'response' in items:
-                items = items.get('response')
-        result = get_dict_result(items, 'name', name)
+        try:
+            items = self.dnac.exec(
+                family="sda",
+                function="get_virtual_network_with_scalable_groups",
+                params=self.get_all_params(name=name),
+            )
+            if isinstance(items, dict):
+                if 'response' in items:
+                    items = items.get('response')
+            result = get_dict_result(items, 'name', name)
+        except Exception:
+            result = None
         return result
 
     def get_object_by_id(self, id):
