@@ -20,7 +20,7 @@ cisco.dnac.site_create -- Resource module for Site Create
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.5).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.6).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
