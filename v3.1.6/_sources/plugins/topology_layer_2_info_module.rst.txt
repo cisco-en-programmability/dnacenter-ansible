@@ -1,0 +1,260 @@
+.. Document meta
+
+:orphan:
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.topology_layer_2_info_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.topology_layer_2_info -- Information module for Topology Layer 2
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.6).
+
+    To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.topology_layer_2_info`.
+
+.. version_added
+
+.. versionadded:: 1.0.0 of cisco.dnac
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Get Topology Layer 2 by id.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk
+
+
+.. Options
+
+Parameters
+----------
+
+.. raw:: html
+
+    <table  border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Parameter</th>
+            <th>Choices/<font color="blue">Defaults</font></th>
+                        <th width="100%">Comments</th>
+        </tr>
+                    <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+                    <b>headers</b>
+                    <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Additional headers.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-vlanID"></div>
+                    <b>vlanID</b>
+                    <a class="ansibleOptionLink" href="#parameter-vlanID" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>VlanID path parameter. Vlan Name for e.g Vlan1, Vlan23 etc.</div>
+                                                        </td>
+            </tr>
+                        </table>
+    <br/>
+
+.. Notes
+
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Topology Layer 2 reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Topology Layer 2 object model.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Get Topology Layer 2 by id
+      cisco.dnac.topology_layer_2_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers:
+          custom: value
+        vlanID: string
+      register: result
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. raw:: html
+
+    <table border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Key</th>
+            <th>Returned</th>
+            <th width="100%">Description</th>
+        </tr>
+                    <tr>
+                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+                    <b>dnac_response</b>
+                    <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">dictionary</span>
+                                          </div>
+                                    </td>
+                <td>always</td>
+                <td>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
+                                        <br/>
+                                            <div style="font-size: smaller"><b>Sample:</b></div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;response&quot;: {
+        &quot;id&quot;: &quot;string&quot;,
+        &quot;links&quot;: [
+          {
+            &quot;additionalInfo&quot;: {},
+            &quot;endPortID&quot;: &quot;string&quot;,
+            &quot;endPortIpv4Address&quot;: &quot;string&quot;,
+            &quot;endPortIpv4Mask&quot;: &quot;string&quot;,
+            &quot;endPortName&quot;: &quot;string&quot;,
+            &quot;endPortSpeed&quot;: &quot;string&quot;,
+            &quot;greyOut&quot;: true,
+            &quot;id&quot;: &quot;string&quot;,
+            &quot;linkStatus&quot;: &quot;string&quot;,
+            &quot;source&quot;: &quot;string&quot;,
+            &quot;startPortID&quot;: &quot;string&quot;,
+            &quot;startPortIpv4Address&quot;: &quot;string&quot;,
+            &quot;startPortIpv4Mask&quot;: &quot;string&quot;,
+            &quot;startPortName&quot;: &quot;string&quot;,
+            &quot;startPortSpeed&quot;: &quot;string&quot;,
+            &quot;tag&quot;: &quot;string&quot;,
+            &quot;target&quot;: &quot;string&quot;
+          }
+        ],
+        &quot;nodes&quot;: [
+          {
+            &quot;aclApplied&quot;: true,
+            &quot;additionalInfo&quot;: {},
+            &quot;customParam&quot;: {
+              &quot;id&quot;: &quot;string&quot;,
+              &quot;label&quot;: &quot;string&quot;,
+              &quot;parentNodeId&quot;: &quot;string&quot;,
+              &quot;x&quot;: 0,
+              &quot;y&quot;: 0
+            },
+            &quot;dataPathId&quot;: &quot;string&quot;,
+            &quot;deviceType&quot;: &quot;string&quot;,
+            &quot;family&quot;: &quot;string&quot;,
+            &quot;fixed&quot;: true,
+            &quot;greyOut&quot;: true,
+            &quot;id&quot;: &quot;string&quot;,
+            &quot;ip&quot;: &quot;string&quot;,
+            &quot;label&quot;: &quot;string&quot;,
+            &quot;networkType&quot;: &quot;string&quot;,
+            &quot;nodeType&quot;: &quot;string&quot;,
+            &quot;order&quot;: 0,
+            &quot;osType&quot;: &quot;string&quot;,
+            &quot;platformId&quot;: &quot;string&quot;,
+            &quot;role&quot;: &quot;string&quot;,
+            &quot;roleSource&quot;: &quot;string&quot;,
+            &quot;softwareVersion&quot;: &quot;string&quot;,
+            &quot;tags&quot;: [
+              &quot;string&quot;
+            ],
+            &quot;upperNode&quot;: &quot;string&quot;,
+            &quot;userId&quot;: &quot;string&quot;,
+            &quot;vlanId&quot;: &quot;string&quot;,
+            &quot;x&quot;: 0,
+            &quot;y&quot;: 0
+          }
+        ]
+      },
+      &quot;version&quot;: &quot;string&quot;
+    }</div>
+                                    </td>
+            </tr>
+                        </table>
+    <br/><br/>
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Parsing errors
+
