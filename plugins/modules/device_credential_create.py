@@ -160,52 +160,6 @@ EXAMPLES = r"""
         snmpMode: string
         username: string
 
-- name: Update all
-  cisco.dnac.device_credential_create:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    settings:
-      cliCredential:
-        description: string
-        enablePassword: string
-        id: string
-        password: string
-        username: string
-      httpsRead:
-        id: string
-        name: string
-        password: string
-        port: string
-        username: string
-      httpsWrite:
-        id: string
-        name: string
-        password: string
-        port: string
-        username: string
-      snmpV2cRead:
-        description: string
-        id: string
-        readCommunity: string
-      snmpV2cWrite:
-        description: string
-        id: string
-        writeCommunity: string
-      snmpV3:
-        authPassword: string
-        authType: string
-        description: string
-        id: string
-        privacyPassword: string
-        privacyType: string
-        snmpMode: string
-        username: string
-
 """
 
 RETURN = r"""

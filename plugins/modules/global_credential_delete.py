@@ -16,10 +16,6 @@ options:
   globalCredentialId:
     description: GlobalCredentialId path parameter. ID of global-credential.
     type: str
-  siteUuids:
-    description: Global Credential Delete's siteUuids.
-    elements: str
-    type: list
 requirements:
 - dnacentersdk
 seealso:
@@ -40,20 +36,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     globalCredentialId: string
-
-- name: Update by id
-  cisco.dnac.global_credential_delete:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    globalCredentialId: string
-    siteUuids:
-    - string
-
 """
 
 RETURN = r"""
