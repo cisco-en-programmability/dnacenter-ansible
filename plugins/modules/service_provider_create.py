@@ -55,22 +55,6 @@ EXAMPLES = r"""
         profileName: string
         wanProvider: string
 
-- name: Update all
-  cisco.dnac.service_provider_create:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    settings:
-      qos:
-      - model: string
-        oldProfileName: string
-        profileName: string
-        wanProvider: string
-
 """
 
 RETURN = r"""

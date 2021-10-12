@@ -70,7 +70,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="network_settings",
-            function='create_sp_profile',
+            function='update_sp_profile',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
