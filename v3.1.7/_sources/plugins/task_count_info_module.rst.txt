@@ -1,0 +1,357 @@
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.task_count_info_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.task_count_info -- Information module for Task Count
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.7).
+
+    To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.task_count_info`.
+
+.. version_added
+
+.. versionadded:: 1.0.0 of cisco.dnac
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Get all Task Count.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk
+
+
+.. Options
+
+Parameters
+----------
+
+.. raw:: html
+
+    <table  border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Parameter</th>
+            <th>Choices/<font color="blue">Defaults</font></th>
+                        <th width="100%">Comments</th>
+        </tr>
+                    <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data"></div>
+                    <b>data</b>
+                    <a class="ansibleOptionLink" href="#parameter-data" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Data query parameter. Fetch tasks that contains this data.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-endTime"></div>
+                    <b>endTime</b>
+                    <a class="ansibleOptionLink" href="#parameter-endTime" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>EndTime query parameter. This is the epoch end time upto which audit records need to be fetched.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-errorCode"></div>
+                    <b>errorCode</b>
+                    <a class="ansibleOptionLink" href="#parameter-errorCode" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>ErrorCode query parameter. Fetch tasks that have this error code.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-failureReason"></div>
+                    <b>failureReason</b>
+                    <a class="ansibleOptionLink" href="#parameter-failureReason" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>FailureReason query parameter. Fetch tasks that contains this failure reason.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+                    <b>headers</b>
+                    <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Additional headers.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-isError"></div>
+                    <b>isError</b>
+                    <a class="ansibleOptionLink" href="#parameter-isError" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>IsError query parameter. Fetch tasks ended as success or failure. Valid values true, false.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-parentId"></div>
+                    <b>parentId</b>
+                    <a class="ansibleOptionLink" href="#parameter-parentId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>ParentId query parameter. Fetch tasks that have this parent Id.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-progress"></div>
+                    <b>progress</b>
+                    <a class="ansibleOptionLink" href="#parameter-progress" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Progress query parameter. Fetch tasks that contains this progress.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-serviceType"></div>
+                    <b>serviceType</b>
+                    <a class="ansibleOptionLink" href="#parameter-serviceType" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>ServiceType query parameter. Fetch tasks with this service type.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-startTime"></div>
+                    <b>startTime</b>
+                    <a class="ansibleOptionLink" href="#parameter-startTime" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>StartTime query parameter. This is the epoch start time from which tasks need to be fetched.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-username"></div>
+                    <b>username</b>
+                    <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Username query parameter. Fetch tasks with this username.</div>
+                                                        </td>
+            </tr>
+                        </table>
+    <br/>
+
+.. Attributes
+
+
+.. Notes
+
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Task Count reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Task Count object model.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Get all Task Count
+      cisco.dnac.task_count_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers:
+          custom: value
+        startTime: string
+        endTime: string
+        data: string
+        errorCode: string
+        serviceType: string
+        username: string
+        progress: string
+        isError: string
+        failureReason: string
+        parentId: string
+      register: result
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. raw:: html
+
+    <table border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Key</th>
+            <th>Returned</th>
+            <th width="100%">Description</th>
+        </tr>
+                    <tr>
+                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+                    <b>dnac_response</b>
+                    <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">dictionary</span>
+                                          </div>
+                                    </td>
+                <td>always</td>
+                <td>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
+                                        <br/>
+                                            <div style="font-size: smaller"><b>Sample:</b></div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
+      &quot;response&quot;: 0,
+      &quot;version&quot;: &quot;string&quot;
+    }</div>
+                                    </td>
+            </tr>
+                        </table>
+    <br/><br/>
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Parsing errors
+
