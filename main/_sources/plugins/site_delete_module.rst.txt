@@ -2,6 +2,16 @@
 
 :orphan:
 
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+
 .. Anchors
 
 .. _ansible_collections.cisco.dnac.site_delete_module:
@@ -20,7 +30,7 @@ cisco.dnac.site_delete -- Resource module for Site Delete
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.6).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.7).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -68,283 +78,12 @@ Parameters
 
     <table  border=0 cellpadding=0 class="documentation-table">
         <tr>
-            <th colspan="3">Parameter</th>
+            <th colspan="1">Parameter</th>
             <th>Choices/<font color="blue">Defaults</font></th>
                         <th width="100%">Comments</th>
         </tr>
                     <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-site"></div>
-                    <b>site</b>
-                    <a class="ansibleOptionLink" href="#parameter-site" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Site Delete&#x27;s site.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-site/area"></div>
-                    <b>area</b>
-                    <a class="ansibleOptionLink" href="#parameter-site/area" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Site Delete&#x27;s area.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-site/area/name"></div>
-                    <b>name</b>
-                    <a class="ansibleOptionLink" href="#parameter-site/area/name" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Name.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-site/area/parentName"></div>
-                    <b>parentName</b>
-                    <a class="ansibleOptionLink" href="#parameter-site/area/parentName" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Parent Name.</div>
-                                                        </td>
-            </tr>
-                    
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-site/building"></div>
-                    <b>building</b>
-                    <a class="ansibleOptionLink" href="#parameter-site/building" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Site Delete&#x27;s building.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-site/building/address"></div>
-                    <b>address</b>
-                    <a class="ansibleOptionLink" href="#parameter-site/building/address" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Address.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-site/building/latitude"></div>
-                    <b>latitude</b>
-                    <a class="ansibleOptionLink" href="#parameter-site/building/latitude" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Latitude.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-site/building/longitude"></div>
-                    <b>longitude</b>
-                    <a class="ansibleOptionLink" href="#parameter-site/building/longitude" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Longitude.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-site/building/name"></div>
-                    <b>name</b>
-                    <a class="ansibleOptionLink" href="#parameter-site/building/name" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Name.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-site/building/parentName"></div>
-                    <b>parentName</b>
-                    <a class="ansibleOptionLink" href="#parameter-site/building/parentName" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Parent Name.</div>
-                                                        </td>
-            </tr>
-                    
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-site/floor"></div>
-                    <b>floor</b>
-                    <a class="ansibleOptionLink" href="#parameter-site/floor" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Site Delete&#x27;s floor.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-site/floor/height"></div>
-                    <b>height</b>
-                    <a class="ansibleOptionLink" href="#parameter-site/floor/height" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Height.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-site/floor/length"></div>
-                    <b>length</b>
-                    <a class="ansibleOptionLink" href="#parameter-site/floor/length" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Length.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-site/floor/name"></div>
-                    <b>name</b>
-                    <a class="ansibleOptionLink" href="#parameter-site/floor/name" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Name.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-site/floor/rfModel"></div>
-                    <b>rfModel</b>
-                    <a class="ansibleOptionLink" href="#parameter-site/floor/rfModel" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Rf Model.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-site/floor/width"></div>
-                    <b>width</b>
-                    <a class="ansibleOptionLink" href="#parameter-site/floor/width" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Width.</div>
-                                                        </td>
-            </tr>
-                    
-                    
-                                <tr>
-                                                                <td colspan="3">
+                                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-siteId"></div>
                     <b>siteId</b>
                     <a class="ansibleOptionLink" href="#parameter-siteId" title="Permalink to this option"></a>
@@ -355,26 +94,14 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>SiteId path parameter. Site id to which site details to be updated.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-type"></div>
-                    <b>type</b>
-                    <a class="ansibleOptionLink" href="#parameter-type" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Type.</div>
+                                            <div>SiteId path parameter. Site id to which site details to be deleted.</div>
                                                         </td>
             </tr>
                         </table>
     <br/>
+
+.. Attributes
+
 
 .. Notes
 
@@ -397,34 +124,6 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Update by id
-      cisco.dnac.site_delete:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        site:
-          area:
-            name: string
-            parentName: string
-          building:
-            address: string
-            latitude: 0
-            longitude: 0
-            name: string
-            parentName: string
-          floor:
-            height: 0
-            length: 0
-            name: string
-            rfModel: string
-            width: 0
-        siteId: string
-        type: string
-
     - name: Delete by id
       cisco.dnac.site_delete:
         dnac_host: "{{dnac_host}}"
