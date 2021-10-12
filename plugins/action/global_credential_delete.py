@@ -19,7 +19,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    siteUuids=dict(type="list"),
     globalCredentialId=dict(type="str"),
 ))
 
@@ -57,7 +56,6 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            siteUuids=params.get("siteUuids"),
             global_credential_id=params.get("globalCredentialId"),
         )
         return new_object
@@ -72,8 +70,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="discovery",
-            function='update_global_credentials',
-            op_modifies=True,
+            function='delete_global_credentials_by_id',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

@@ -70,7 +70,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="network_settings",
-            function='create_device_credentials',
+            function='update_device_credentials',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
