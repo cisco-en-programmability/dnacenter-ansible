@@ -2,6 +2,16 @@
 
 :orphan:
 
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+
 .. Anchors
 
 .. _ansible_collections.cisco.dnac.service_provider_create_module:
@@ -20,7 +30,7 @@ cisco.dnac.service_provider_create -- Resource module for Service Provider Creat
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.6).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.7).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -159,6 +169,9 @@ Parameters
                         </table>
     <br/>
 
+.. Attributes
+
+
 .. Notes
 
 
@@ -192,22 +205,6 @@ Examples
         settings:
           qos:
           - model: string
-            profileName: string
-            wanProvider: string
-
-    - name: Update all
-      cisco.dnac.service_provider_create:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        settings:
-          qos:
-          - model: string
-            oldProfileName: string
             profileName: string
             wanProvider: string
 
