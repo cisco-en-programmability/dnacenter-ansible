@@ -140,3 +140,11 @@ releases:
         - Add try catch/except to dnac execution
         - Update get for wireless_dynamic_interface, change key that has name
         - Update get for wireless_enterprise_ssid, obtain item.ssidDetails from items
+  3.1.7:
+    release_date: '2021-10-12'
+    changes:
+      release_summary: Fixes delete/update mixups
+      bugfixes:
+        - Fixes *delete modules that were calling update operation
+        - Fixes *update modules that were calling delete operation
+        - Fixes *update modules that were calling create operation

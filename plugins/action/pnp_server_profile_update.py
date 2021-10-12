@@ -94,7 +94,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="device_onboarding_pnp",
-            function='add_virtual_account',
+            function='update_pnp_server_profile',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

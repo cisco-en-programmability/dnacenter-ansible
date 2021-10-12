@@ -72,7 +72,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="network_settings",
-            function='create_network',
+            function='update_network',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

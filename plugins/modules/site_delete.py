@@ -13,63 +13,8 @@ description:
 version_added: '1.0.0'
 author: Rafael Campos (@racampos)
 options:
-  site:
-    description: Site Delete's site.
-    suboptions:
-      area:
-        description: Site Delete's area.
-        suboptions:
-          name:
-            description: Name.
-            type: str
-          parentName:
-            description: Parent Name.
-            type: str
-        type: dict
-      building:
-        description: Site Delete's building.
-        suboptions:
-          address:
-            description: Address.
-            type: str
-          latitude:
-            description: Latitude.
-            type: int
-          longitude:
-            description: Longitude.
-            type: int
-          name:
-            description: Name.
-            type: str
-          parentName:
-            description: Parent Name.
-            type: str
-        type: dict
-      floor:
-        description: Site Delete's floor.
-        suboptions:
-          height:
-            description: Height.
-            type: int
-          length:
-            description: Length.
-            type: int
-          name:
-            description: Name.
-            type: str
-          rfModel:
-            description: Rf Model.
-            type: str
-          width:
-            description: Width.
-            type: int
-        type: dict
-    type: dict
   siteId:
-    description: SiteId path parameter. Site id to which site details to be updated.
-    type: str
-  type:
-    description: Type.
+    description: SiteId path parameter. Site id to which site details to be deleted.
     type: str
 requirements:
 - dnacentersdk
@@ -81,34 +26,6 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Update by id
-  cisco.dnac.site_delete:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    site:
-      area:
-        name: string
-        parentName: string
-      building:
-        address: string
-        latitude: 0
-        longitude: 0
-        name: string
-        parentName: string
-      floor:
-        height: 0
-        length: 0
-        name: string
-        rfModel: string
-        width: 0
-    siteId: string
-    type: string
-
 - name: Delete by id
   cisco.dnac.site_delete:
     dnac_host: "{{dnac_host}}"

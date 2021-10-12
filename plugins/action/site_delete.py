@@ -19,8 +19,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    type=dict(type="str"),
-    site=dict(type="dict"),
     siteId=dict(type="str"),
 ))
 
@@ -58,8 +56,6 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            type=params.get("type"),
-            site=params.get("site"),
             site_id=params.get("siteId"),
         )
         return new_object
@@ -74,8 +70,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="sites",
-            function='update_site',
-            op_modifies=True,
+            function='delete_site',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))
