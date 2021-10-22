@@ -10,7 +10,9 @@ module: license_device_registration
 short_description: Resource module for License Device Registration
 description:
 - Manage operation update of the resource License Device Registration.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   device_uuids:
@@ -21,7 +23,8 @@ options:
     description: Virtual_account_name path parameter. Name of virtual account.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: License Device Registration reference

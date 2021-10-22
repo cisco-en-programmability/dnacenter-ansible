@@ -10,7 +10,9 @@ module: wireless_sensor_test_results_info
 short_description: Information module for Wireless Sensor Test Results
 description:
 - Get all Wireless Sensor Test Results.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -33,7 +35,8 @@ options:
     - TestFailureBy query parameter. Obtain failure statistics group by "area", "building", or "floor".
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Wireless Sensor Test Results reference

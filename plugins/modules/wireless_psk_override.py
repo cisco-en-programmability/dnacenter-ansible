@@ -10,7 +10,9 @@ module: wireless_psk_override
 short_description: Resource module for Wireless Psk Override
 description:
 - Manage operation create of the resource Wireless Psk Override.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   payload:
@@ -27,7 +29,8 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Wireless Psk Override reference

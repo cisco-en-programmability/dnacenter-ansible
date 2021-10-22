@@ -10,7 +10,9 @@ module: event_subscription_count_info
 short_description: Information module for Event Subscription Count
 description:
 - Get all Event Subscription Count.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -21,7 +23,8 @@ options:
     - EventIds query parameter. List of subscriptions related to the respective eventIds.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Event Subscription Count reference

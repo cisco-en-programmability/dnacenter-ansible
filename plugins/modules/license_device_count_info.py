@@ -10,7 +10,9 @@ module: license_device_count_info
 short_description: Information module for License Device Count
 description:
 - Get all License Device Count.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -37,7 +39,8 @@ options:
     - Smart_account_id query parameter. Id of smart account.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: License Device Count reference

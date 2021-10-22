@@ -10,7 +10,9 @@ module: file_namespace_files_info
 short_description: Information module for File Namespace Files
 description:
 - Get File Namespace Files by name.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -21,7 +23,8 @@ options:
     - NameSpace path parameter. A listing of fileId's.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: File Namespace Files reference

@@ -10,7 +10,9 @@ module: sda_port_assignment_for_access_point_info
 short_description: Information module for Sda Port Assignment For Access Point
 description:
 - Get all Sda Port Assignment For Access Point.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -25,7 +27,8 @@ options:
     - InterfaceName query parameter.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Sda Port Assignment For Access Point reference

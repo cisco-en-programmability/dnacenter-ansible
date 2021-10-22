@@ -10,7 +10,9 @@ module: compliance_check_run
 short_description: Resource module for Compliance Check Run
 description:
 - Manage operation create of the resource Compliance Check Run.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   categories:
@@ -25,7 +27,8 @@ options:
     description: TriggerFull flag.
     type: bool
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Compliance Check Run reference

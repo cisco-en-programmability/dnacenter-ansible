@@ -10,7 +10,9 @@ module: event_subscription_syslog
 short_description: Resource module for Event Subscription Syslog
 description:
 - Manage operations create and update of the resource Event Subscription Syslog.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   payload:
@@ -52,7 +54,8 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Event Subscription Syslog reference

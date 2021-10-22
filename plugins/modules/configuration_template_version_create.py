@@ -10,7 +10,9 @@ module: configuration_template_version_create
 short_description: Resource module for Configuration Template Version Create
 description:
 - Manage operation create of the resource Configuration Template Version Create.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   comments:
@@ -20,7 +22,8 @@ options:
     description: UUID of template.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Configuration Template Version Create reference

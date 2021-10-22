@@ -10,7 +10,9 @@ module: discovery_summary_info
 short_description: Information module for Discovery Summary
 description:
 - Get all Discovery Summary.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -57,7 +59,8 @@ options:
     - HttpStatus query parameter.
     type: list
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Discovery Summary reference

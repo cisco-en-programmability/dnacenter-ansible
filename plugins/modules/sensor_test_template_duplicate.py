@@ -10,7 +10,9 @@ module: sensor_test_template_duplicate
 short_description: Resource module for Sensor Test Template Duplicate
 description:
 - Manage operation update of the resource Sensor Test Template Duplicate.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   newTemplateName:
@@ -20,7 +22,8 @@ options:
     description: Template Name.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Sensor Test Template Duplicate reference
