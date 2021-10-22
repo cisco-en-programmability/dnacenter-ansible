@@ -10,7 +10,9 @@ module: pnp_device_count_info
 short_description: Information module for Pnp Device Count
 description:
 - Get all Pnp Device Count.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -73,7 +75,8 @@ options:
     - LastContact query parameter. Device Has Contacted lastContact > 0.
     type: bool
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Pnp Device Count reference

@@ -10,7 +10,9 @@ module: pnp_server_profile_update
 short_description: Resource module for Pnp Server Profile Update
 description:
 - Manage operation update of the resource Pnp Server Profile Update.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   autoSyncPeriod:
@@ -93,7 +95,8 @@ options:
     description: Pnp Server Profile Update's virtualAccountId.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Pnp Server Profile Update reference

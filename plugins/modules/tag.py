@@ -10,7 +10,9 @@ module: tag
 short_description: Resource module for Tag
 description:
 - Manage operations create, update and delete of the resource Tag.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   description:
@@ -56,7 +58,8 @@ options:
     description: SystemTag flag.
     type: bool
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Tag reference

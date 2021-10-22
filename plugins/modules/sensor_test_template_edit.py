@@ -10,7 +10,9 @@ module: sensor_test_template_edit
 short_description: Resource module for Sensor Test Template Edit
 description:
 - Manage operation update of the resource Sensor Test Template Edit.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   locationInfoList:
@@ -77,7 +79,8 @@ options:
     description: Template Name.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Sensor Test Template Edit reference

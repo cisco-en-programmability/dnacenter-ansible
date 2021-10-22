@@ -10,7 +10,9 @@ module: sda_port_assignment_for_access_point
 short_description: Resource module for Sda Port Assignment For Access Point
 description:
 - Manage operations create and delete of the resource Sda Port Assignment For Access Point.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   device_ip:
@@ -42,7 +44,8 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Sda Port Assignment For Access Point reference

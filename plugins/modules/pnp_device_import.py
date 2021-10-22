@@ -10,7 +10,9 @@ module: pnp_device_import
 short_description: Resource module for Pnp Device Import
 description:
 - Manage operation create of the resource Pnp Device Import.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   payload:
@@ -800,7 +802,8 @@ options:
         type: dict
     type: list
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Pnp Device Import reference

@@ -10,7 +10,9 @@ module: swim_import_local
 short_description: Resource module for Swim Import Local
 description:
 - Manage operation create of the resource Swim Import Local.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   filePath:
@@ -30,7 +32,8 @@ options:
     description: ThirdPartyVendor query parameter. Third Party Vendor.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Swim Import Local reference

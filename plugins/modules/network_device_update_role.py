@@ -10,7 +10,9 @@ module: network_device_update_role
 short_description: Resource module for Network Device Update Role
 description:
 - Manage operation update of the resource Network Device Update Role.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   id:
@@ -23,7 +25,8 @@ options:
     description: Network Device Update Role's roleSource.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Network Device Update Role reference

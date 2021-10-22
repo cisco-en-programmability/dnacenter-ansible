@@ -10,7 +10,9 @@ module: swim_import_via_url
 short_description: Resource module for Swim Import Via Url
 description:
 - Manage operation create of the resource Swim Import Via Url.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   payload:
@@ -43,7 +45,8 @@ options:
     description: ScheduleOrigin query parameter. Originator of this call (Optional).
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Swim Import Via Url reference

@@ -10,14 +10,17 @@ module: service_provider_profile_delete
 short_description: Resource module for Service Provider Profile Delete
 description:
 - Manage operation delete of the resource Service Provider Profile Delete.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   sp_profile_name:
     description: Sp-profile-name path parameter. Sp profile name.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Service Provider Profile Delete reference

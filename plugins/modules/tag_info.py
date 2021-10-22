@@ -11,7 +11,9 @@ short_description: Information module for Tag
 description:
 - Get all Tag.
 - Get Tag by id.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -68,7 +70,8 @@ options:
     - Id path parameter. Tag ID.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Tag reference
