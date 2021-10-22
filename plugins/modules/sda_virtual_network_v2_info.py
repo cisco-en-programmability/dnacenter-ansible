@@ -10,7 +10,9 @@ module: sda_virtual_network_v2_info
 short_description: Information module for Sda Virtual Network V2
 description:
 - Get all Sda Virtual Network V2.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -21,7 +23,8 @@ options:
     - VirtualNetworkName query parameter.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Sda Virtual Network V2 reference

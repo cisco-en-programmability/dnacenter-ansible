@@ -10,7 +10,9 @@ module: snmpv2_read_community_credential
 short_description: Resource module for Snmpv2 Read Community Credential
 description:
 - Manage operations create and update of the resource Snmpv2 Read Community Credential.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   comments:
@@ -35,7 +37,8 @@ options:
     description: Snmpv2 Read Community Credential's readCommunity.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Snmpv2 Read Community Credential reference

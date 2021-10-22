@@ -10,14 +10,17 @@ module: configuration_template_export_project
 short_description: Resource module for Configuration Template Export Project
 description:
 - Manage operation create of the resource Configuration Template Export Project.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   payload:
     description: Configuration Template Export Project's payload.
     type: list
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Configuration Template Export Project reference

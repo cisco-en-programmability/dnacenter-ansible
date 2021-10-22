@@ -10,7 +10,9 @@ module: swim_trigger_activation
 short_description: Resource module for Swim Trigger Activation
 description:
 - Manage operation create of the resource Swim Trigger Activation.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   payload:
@@ -42,7 +44,8 @@ options:
       before schedule (Optional).
     type: bool
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Swim Trigger Activation reference

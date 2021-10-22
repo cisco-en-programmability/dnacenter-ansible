@@ -10,7 +10,9 @@ module: site_assign_device
 short_description: Resource module for Site Assign Device
 description:
 - Manage operation create of the resource Site Assign Device.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   device:
@@ -24,7 +26,8 @@ options:
     description: SiteId path parameter. Site id to which site the device to assign.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Site Assign Device reference

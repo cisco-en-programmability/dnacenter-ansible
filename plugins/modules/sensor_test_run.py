@@ -10,14 +10,17 @@ module: sensor_test_run
 short_description: Resource module for Sensor Test Run
 description:
 - Manage operation update of the resource Sensor Test Run.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   templateName:
     description: Template Name.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Sensor Test Run reference

@@ -10,7 +10,9 @@ module: issues_info
 short_description: Information module for Issues
 description:
 - Get all Issues.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -53,7 +55,8 @@ options:
     - IssueStatus query parameter. The issue's status value (One of ACTIVE, IGNORED, RESOLVED).
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Issues reference

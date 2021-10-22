@@ -10,7 +10,9 @@ module: configuration_template_import_template
 short_description: Resource module for Configuration Template Import Template
 description:
 - Manage operation create of the resource Configuration Template Import Template.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   doVersion:
@@ -506,7 +508,8 @@ options:
       project.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Configuration Template Import Template reference

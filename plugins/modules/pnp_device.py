@@ -10,7 +10,9 @@ module: pnp_device
 short_description: Resource module for Pnp Device
 description:
 - Manage operations create, update and delete of the resource Pnp Device.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   _id:
@@ -799,7 +801,8 @@ options:
         type: str
     type: dict
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Pnp Device reference

@@ -10,7 +10,9 @@ module: nfv_provision
 short_description: Resource module for Nfv Provision
 description:
 - Manage operation create of the resource Nfv Provision.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   provisioning:
@@ -353,7 +355,8 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Nfv Provision reference

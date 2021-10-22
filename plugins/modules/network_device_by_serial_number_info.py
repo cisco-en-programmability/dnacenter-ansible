@@ -10,7 +10,9 @@ module: network_device_by_serial_number_info
 short_description: Information module for Network Device By Serial Number
 description:
 - Get Network Device By Serial Number by id.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -21,7 +23,8 @@ options:
     - SerialNumber path parameter. Device serial number.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Network Device By Serial Number reference

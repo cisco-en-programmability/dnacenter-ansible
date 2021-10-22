@@ -10,7 +10,9 @@ module: license_virtual_account_change
 short_description: Resource module for License Virtual Account Change
 description:
 - Manage operation create of the resource License Virtual Account Change.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   device_uuids:
@@ -24,7 +26,8 @@ options:
     description: Virtual_account_name path parameter. Name of target virtual account.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: License Virtual Account Change reference

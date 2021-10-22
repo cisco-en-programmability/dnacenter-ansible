@@ -14,6 +14,7 @@ releases:
     changes:
       release_summary: Fixes a bug related to optional module parameters.
       bugfixes:
+        - Improve the documentation.
         - Fixes a bug that caused the task execution to fail if the optional parameters like port, dnac version and SSL verification were missing from the hosts.yml file.
   1.0.3:
     release_date: '2021-03-29'
@@ -79,14 +80,22 @@ releases:
     release_date: '2021-04-12'
     changes:
       release_summary: This release introduces no changes. Exists just to be in sync with the Ansible Galaxy release number.
+      minor_changes:
+        - sync with Ansible Galaxy release number
   2.0.6:
     release_date: '2021-04-13'
     changes:
       release_summary: Adds dnacentersdk to the requirements.txt file. Adds sanitiy checks for Ansible v2.9.
+      bugfixes:
+        - Adds dnacentersdk to requirements.
+      minor_changes:
+        - Adds sanity ignores for ansible-2.9.
   2.0.7:
     release_date: '2021-04-14'
     changes:
       release_summary: Changes the minimum supported version of Ansible to v2.9.
+      minor_changes:
+        - Changes the minimum supported version from Ansible v.2.10.5 to v2.9.10.
   3.0.0:
     release_date: '2021-08-05'
     changes:
@@ -102,11 +111,13 @@ releases:
       release_summary: Updates to support DNA version 2.2.2.3
       major_changes:
         - Adds new plugins related to DNA version 2.2.2.3.
-        - Updates previouse plugins to follow DNA version 2.2.2.3 specification.
+        - Updates previous plugins to follow DNA version 2.2.2.3 specification.
   3.1.1:
     release_date: '2021-09-03'
     changes:
       release_summary: Adds headers parameter to info modules.
+      minor_changes:
+        - Adds ``headers`` parameter to info modules.
   3.1.2:
     release_date: '2021-09-08'
     changes:
@@ -148,3 +159,11 @@ releases:
         - Fixes *delete modules that were calling update operation
         - Fixes *update modules that were calling delete operation
         - Fixes *update modules that were calling create operation
+  3.2.0:
+    release_date: '2021-10-22'
+    changes:
+      release_summary: Improves documentation and fixes check_mode behavior.
+      bugfixes:
+        - Improves the changelog.
+        - Improves the documentation of modules.
+        - Fixes check_mode behavior for non-info modules.

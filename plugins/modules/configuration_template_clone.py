@@ -10,7 +10,9 @@ module: configuration_template_clone
 short_description: Resource module for Configuration Template Clone
 description:
 - Manage operation create of the resource Configuration Template Clone.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   name:
@@ -25,7 +27,8 @@ options:
     description: TemplateId path parameter. UUID of the template to clone it.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Configuration Template Clone reference

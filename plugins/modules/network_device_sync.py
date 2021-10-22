@@ -10,7 +10,9 @@ module: network_device_sync
 short_description: Resource module for Network Device Sync
 description:
 - Manage operation update of the resource Network Device Sync.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   forceSync:
@@ -20,7 +22,8 @@ options:
     description: Network Device Sync's payload.
     type: list
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Network Device Sync reference

@@ -11,7 +11,9 @@ short_description: Information module for Configuration Template
 description:
 - Get all Configuration Template.
 - Get Configuration Template by id.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -70,7 +72,8 @@ options:
     - LatestVersion query parameter. LatestVersion flag to get the latest versioned template.
     type: bool
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Configuration Template reference

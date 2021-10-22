@@ -10,7 +10,9 @@ module: configuration_template_deploy_v2
 short_description: Resource module for Configuration Template Deploy V2
 description:
 - Manage operation create of the resource Configuration Template Deploy V2.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   forcePushTemplate:
@@ -51,7 +53,8 @@ options:
     description: UUID of template to be provisioned.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Configuration Template Deploy V2 reference

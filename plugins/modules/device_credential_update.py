@@ -10,7 +10,9 @@ module: device_credential_update
 short_description: Resource module for Device Credential Update
 description:
 - Manage operation update of the resource Device Credential Update.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   settings:
@@ -111,7 +113,8 @@ options:
         type: list
     type: dict
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Device Credential Update reference

@@ -10,7 +10,9 @@ module: license_device_deregistration
 short_description: Resource module for License Device Deregistration
 description:
 - Manage operation update of the resource License Device Deregistration.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   device_uuids:
@@ -18,7 +20,8 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: License Device Deregistration reference

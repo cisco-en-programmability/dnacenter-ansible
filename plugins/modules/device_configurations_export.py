@@ -10,7 +10,9 @@ module: device_configurations_export
 short_description: Resource module for Device Configurations Export
 description:
 - Manage operation create of the resource Device Configurations Export.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   deviceId:
@@ -21,7 +23,8 @@ options:
     description: Password.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Device Configurations Export reference

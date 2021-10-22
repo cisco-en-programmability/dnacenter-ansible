@@ -10,7 +10,9 @@ module: device_replacement_deploy
 short_description: Resource module for Device Replacement Deploy
 description:
 - Manage operation create of the resource Device Replacement Deploy.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   faultyDeviceSerialNumber:
@@ -20,7 +22,8 @@ options:
     description: Device Replacement Deploy's replacementDeviceSerialNumber.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Device Replacement Deploy reference

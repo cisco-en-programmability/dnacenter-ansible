@@ -10,7 +10,9 @@ module: network_device_chassis_details_info
 short_description: Information module for Network Device Chassis Details
 description:
 - Get all Network Device Chassis Details.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -21,7 +23,8 @@ options:
     - DeviceId path parameter. Device ID.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Network Device Chassis Details reference

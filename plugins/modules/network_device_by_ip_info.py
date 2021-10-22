@@ -10,7 +10,9 @@ module: network_device_by_ip_info
 short_description: Information module for Network Device By Ip
 description:
 - Get Network Device By Ip by id.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -21,7 +23,8 @@ options:
     - IpAddress path parameter. Device IP address.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Network Device By Ip reference

@@ -10,7 +10,9 @@ module: snmpv3_credential
 short_description: Resource module for Snmpv3 Credential
 description:
 - Manage operations create and update of the resource Snmpv3 Credential.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   authPassword:
@@ -50,7 +52,8 @@ options:
     description: Snmpv3 Credential's username.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Snmpv3 Credential reference
