@@ -30,7 +30,7 @@ cisco.dnac.configuration_template_version_info -- Information module for Configu
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.1.7).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.0).
 
     To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
 
@@ -38,7 +38,7 @@ cisco.dnac.configuration_template_version_info -- Information module for Configu
 
 .. version_added
 
-.. versionadded:: 1.0.0 of cisco.dnac
+.. versionadded:: 3.1.0 of cisco.dnac
 
 .. contents::
    :local:
@@ -66,7 +66,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 
 
 .. Options
@@ -83,6 +84,123 @@ Parameters
                         <th width="100%">Comments</th>
         </tr>
                     <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+                    <b>dnac_debug</b>
+                    <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li><div style="color: blue"><b>no</b>&nbsp;&larr;</div></li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Flag for Cisco DNA Center SDK to enable debugging.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+                    <b>dnac_host</b>
+                    <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                 / <span style="color: red">required</span>                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The Cisco DNA Center hostname.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+                    <b>dnac_password</b>
+                    <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The Cisco DNA Center password to authenticate.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+                    <b>dnac_port</b>
+                    <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">443</div>
+                                    </td>
+                                                                <td>
+                                            <div>The Cisco DNA Center port.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+                    <b>dnac_username</b>
+                    <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"admin"</div>
+                                    </td>
+                                                                <td>
+                                            <div>The Cisco DNA Center username to authenticate.</div>
+                                                                <div style="font-size: small; color: darkgreen"><br/>aliases: user</div>
+                                    </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+                    <b>dnac_verify</b>
+                    <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Flag to enable or disable SSL certificate verification.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+                    <b>dnac_version</b>
+                    <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.2.3"</div>
+                                    </td>
+                                                                <td>
+                                            <div>Informs the SDK which version of Cisco DNA Center to use.</div>
+                                                        </td>
+            </tr>
+                                <tr>
                                                                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-headers"></div>
                     <b>headers</b>
@@ -112,6 +230,25 @@ Parameters
                                             <div>TemplateId path parameter. TemplateId(UUID) to get list of versioned templates.</div>
                                                         </td>
             </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+                    <b>validate_response_schema</b>
+                    <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</div>
+                                                        </td>
+            </tr>
                         </table>
     <br/>
 
@@ -120,6 +257,11 @@ Parameters
 
 .. Notes
 
+Notes
+-----
+
+.. note::
+   - Supports ``check_mode``
 
 .. Seealso
 
