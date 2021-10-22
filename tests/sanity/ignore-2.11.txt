@@ -1,8 +1,6 @@
-plugins/module_utils/dnac.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
-plugins/module_utils/dnac.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
-plugins/module_utils/dnac.py import-2.6 # Python 2.6 is not supported by the DNA Center SDK
-plugins/module_utils/dnac.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
-plugins/module_utils/dnac.py pylint:ansible-bad-module-import # We need more information about this error in order to fix integration_event 
+plugins/plugin_utils/dnac.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
+plugins/plugin_utils/dnac.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/plugin_utils/dnac.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/application_sets.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/application_sets_count_info.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/application_sets_info.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK

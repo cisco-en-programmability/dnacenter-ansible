@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 try:
@@ -103,7 +108,7 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
     return result
 
 
-def dnac_argument_spec(idempotent=False):
+def dnac_argument_spec():
     argument_spec = dict(
         dnac_host=dict(type="str", required=True),
         dnac_port=dict(type="int", required=False, default=443),
