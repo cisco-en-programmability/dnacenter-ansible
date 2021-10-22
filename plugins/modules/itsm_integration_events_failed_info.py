@@ -10,7 +10,9 @@ module: itsm_integration_events_failed_info
 short_description: Information module for Itsm Integration Events Failed
 description:
 - Get all Itsm Integration Events Failed.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -21,7 +23,8 @@ options:
     - InstanceId query parameter. Instance Id of the failed event as in the Runtime Dashboard.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Itsm Integration Events Failed reference

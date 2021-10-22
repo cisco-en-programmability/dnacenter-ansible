@@ -10,7 +10,9 @@ module: device_replacement_info
 short_description: Information module for Device Replacement
 description:
 - Get all Device Replacement.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -63,7 +65,8 @@ options:
     - Limit query parameter.
     type: int
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Device Replacement reference

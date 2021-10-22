@@ -10,7 +10,9 @@ module: site_design_floormap
 short_description: Resource module for Site Design Floormap
 description:
 - Manage operations create, update and delete of the resource Site Design Floormap.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   floorId:
@@ -20,7 +22,8 @@ options:
     description: Site Design Floormap's payload
     type: dict
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Site Design Floormap reference

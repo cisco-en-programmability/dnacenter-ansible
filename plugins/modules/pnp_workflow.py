@@ -10,7 +10,9 @@ module: pnp_workflow
 short_description: Resource module for Pnp Workflow
 description:
 - Manage operations create, update and delete of the resource Pnp Workflow.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   _id:
@@ -121,7 +123,8 @@ options:
     description: Pnp Workflow's version.
     type: int
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Pnp Workflow reference

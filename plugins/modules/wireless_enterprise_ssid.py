@@ -10,7 +10,9 @@ module: wireless_enterprise_ssid
 short_description: Resource module for Wireless Enterprise Ssid
 description:
 - Manage operations create, update and delete of the resource Wireless Enterprise Ssid.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   basicServiceSetClientIdleTimeout:
@@ -71,7 +73,8 @@ options:
     description: Traffic Type.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Wireless Enterprise Ssid reference

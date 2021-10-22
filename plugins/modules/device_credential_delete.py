@@ -10,14 +10,17 @@ module: device_credential_delete
 short_description: Resource module for Device Credential Delete
 description:
 - Manage operation delete of the resource Device Credential Delete.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   id:
     description: Id path parameter. Global credential id.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Device Credential Delete reference

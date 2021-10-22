@@ -10,7 +10,9 @@ module: pnp_virtual_account_deregister
 short_description: Resource module for Pnp Virtual Account Deregister
 description:
 - Manage operation delete of the resource Pnp Virtual Account Deregister.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   domain:
@@ -20,7 +22,8 @@ options:
     description: Name query parameter. Virtual Account Name.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Pnp Virtual Account Deregister reference

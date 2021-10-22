@@ -10,7 +10,9 @@ module: applications_health_info
 short_description: Information module for Applications Health
 description:
 - Get all Applications Health.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -55,7 +57,8 @@ options:
       siteId only).
     type: int
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Applications Health reference

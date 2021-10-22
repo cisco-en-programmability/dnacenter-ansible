@@ -10,7 +10,9 @@ module: wireless_rf_profile_info
 short_description: Information module for Wireless Rf Profile
 description:
 - Get all Wireless Rf Profile.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -21,7 +23,8 @@ options:
     - Rf-profile-name query parameter.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Wireless Rf Profile reference

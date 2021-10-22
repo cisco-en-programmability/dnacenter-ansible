@@ -10,14 +10,17 @@ module: platform_release_summary_info
 short_description: Information module for Platform Release Summary
 description:
 - Get all Platform Release Summary.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Platform Release Summary reference

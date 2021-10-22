@@ -10,7 +10,9 @@ module: network_device_inventory_insight_link_mismatch_info
 short_description: Information module for Network Device Inventory Insight Link Mismatch
 description:
 - Get all Network Device Inventory Insight Link Mismatch.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -41,7 +43,8 @@ options:
     - Order query parameter. Order. Value can be asc or desc. Default value is asc.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Network Device Inventory Insight Link Mismatch reference

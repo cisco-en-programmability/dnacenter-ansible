@@ -10,7 +10,9 @@ module: itsm_cmdb_sync_status_info
 short_description: Information module for Itsm Cmdb Sync Status
 description:
 - Get all Itsm Cmdb Sync Status.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -27,7 +29,8 @@ options:
     - Date query parameter. Provide date in "YYYY-MM-DD" format.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Itsm Cmdb Sync Status reference

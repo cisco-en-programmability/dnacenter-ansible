@@ -10,7 +10,9 @@ module: netconf_credential
 short_description: Resource module for Netconf Credential
 description:
 - Manage operations create and update of the resource Netconf Credential.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   comments:
@@ -35,7 +37,8 @@ options:
     description: Netconf Credential's netconfPort.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Netconf Credential reference

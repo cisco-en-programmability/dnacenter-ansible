@@ -10,7 +10,9 @@ module: path_trace
 short_description: Resource module for Path Trace
 description:
 - Manage operations create and delete of the resource Path Trace.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   controlPath:
@@ -42,7 +44,8 @@ options:
     description: Path Trace's sourcePort.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Path Trace reference

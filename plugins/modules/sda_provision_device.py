@@ -10,7 +10,9 @@ module: sda_provision_device
 short_description: Resource module for Sda Provision Device
 description:
 - Manage operations create and delete of the resource Sda Provision Device.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   deviceManagementIpAddress:
@@ -21,7 +23,8 @@ options:
     description: Site Name Hierarchy.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Sda Provision Device reference

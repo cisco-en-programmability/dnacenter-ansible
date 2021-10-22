@@ -10,7 +10,9 @@ module: network_device_wireless_lan_info
 short_description: Information module for Network Device Wireless Lan
 description:
 - Get Network Device Wireless Lan by id.
-version_added: '1.0.0'
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
 options:
   headers:
@@ -21,7 +23,8 @@ options:
     - Id path parameter. Device ID.
     type: str
 requirements:
-- dnacentersdk
+- dnacentersdk >= 2.3.1
+- python >= 3.5
 seealso:
 # Reference by Internet resource
 - name: Network Device Wireless Lan reference
