@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
@@ -10,7 +16,7 @@ except ImportError:
 else:
     ANSIBLE_UTILS_IS_INSTALLED = True
 from ansible.errors import AnsibleActionFail
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     DNACSDK,
     dnac_argument_spec,
 )
@@ -70,6 +76,11 @@ class ActionModule(ActionBase):
         self._result = super(ActionModule, self).run(tmp, task_vars)
         self._result["changed"] = False
         self._check_argspec()
+
+        if self._play_context.check_mode:
+            # in --check mode, always skip this module execution
+            self._result["skipped"] = True
+            return self._result
 
         dnac = DNACSDK(params=self._task.args)
 
