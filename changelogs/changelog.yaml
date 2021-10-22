@@ -159,3 +159,11 @@ releases:
         - Fixes *delete modules that were calling update operation
         - Fixes *update modules that were calling delete operation
         - Fixes *update modules that were calling create operation
+  3.2.0:
+    release_date: '2021-10-22'
+    changes:
+      release_summary: Improves documentation and fixes check_mode behavior.
+      bugfixes:
+        - Improves the changelog.
+        - Improves the documentation of modules.
+        - Fixes check_mode behavior for non-info modules.
