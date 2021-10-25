@@ -105,10 +105,7 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        if self._play_context.check_mode:
-            self._result["changed"] = True
-            self._result.update(dict(dnac_response={}))
-            return self._result
+        self._result.update(dict(dnac_response={}))
 
         dnac = DNACSDK(params=self._task.args)
 
