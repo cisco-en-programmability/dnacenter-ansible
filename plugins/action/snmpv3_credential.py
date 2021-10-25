@@ -228,11 +228,6 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        if self._play_context.check_mode:
-            # in --check mode, always skip this module execution
-            self._result["skipped"] = True
-            return self._result
-
         dnac = DNACSDK(self._task.args)
         obj = Snmpv3Credential(self._task.args, dnac)
 
