@@ -167,3 +167,10 @@ releases:
         - Improves the changelog.
         - Improves the documentation of modules.
         - Fixes check_mode behavior for non-info modules.
+  3.2.1:
+    release_date: '2021-10-25'
+    changes:
+      release_summary: Fixes check_mode behavior
+      bugfixes:
+        - On regular modules additional comparison of check_mode was removed as Ansible already handles it.
+        - On info modules comparison was removed, because info modules should always run.
