@@ -55,4 +55,5 @@ options:
         default: true
 notes:
     - "Supports C(check_mode)"
+    - "The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from the Python dnacentersdk."
 '''
