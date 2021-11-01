@@ -30,9 +30,13 @@ cisco.dnac.discovery_info -- Information module for Discovery
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.2).
 
-    To install it use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You might already have this collection installed if you are using the ``ansible`` package.
+    It is not included in ``ansible-core``.
+    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
 
     To use it in a playbook, specify: :code:`cisco.dnac.discovery_info`.
 
@@ -262,6 +266,8 @@ Notes
 
 .. note::
    - Supports ``check_mode``
+   - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
+   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -329,7 +335,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                 <td>
                                             <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
                                         <br/>
-                                            <div style="font-size: smaller"><b>Sample:</b></div>
+                                                                <div style="font-size: smaller"><b>Sample:</b></div>
                                                 <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
       &quot;response&quot;: {
         &quot;attributeInfo&quot;: {},
