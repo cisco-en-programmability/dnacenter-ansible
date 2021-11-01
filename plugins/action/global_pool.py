@@ -119,8 +119,8 @@ class GlobalPool(object):
             if settings and isinstance(settings, dict) and settings.get('ipPoolName'):
                 name = name or settings.get('ipPoolName')
             elif settings and isinstance(settings, list) and len(settings) > 0:
-                    if settings[0].get('ipPoolName'):
-                        name = settings[0].get('ipPoolName')
+                if settings[0].get('ipPoolName'):
+                    name = settings[0].get('ipPoolName')
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
