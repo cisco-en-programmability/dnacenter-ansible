@@ -174,3 +174,11 @@ releases:
       bugfixes:
         - On regular modules additional comparison of check_mode was removed as Ansible already handles it.
         - On info modules comparison was removed, because info modules should always run.
+  3.2.2:
+    release_date: '2021-11-01'
+    changes:
+      release_summary: Fixes id required condition
+      bugfixes:
+        - global_pool - includes request param as an alternative to id 
+        - network_device - includes request param as an alternative to id 
+        - pnp_device - includes request param as an alternative to id 

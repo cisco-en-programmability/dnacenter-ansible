@@ -63,8 +63,8 @@ argument_spec.update(dict(
 ))
 
 required_if = [
-    ("state", "present", ["id"], True),
-    ("state", "absent", ["id"], True),
+    ("state", "present", ["id", "ipAddress"], True),
+    ("state", "absent", ["id", "ipAddress"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -109,13 +109,14 @@ class NetworkDevice(object):
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params['hostname'] = self.new_object.get('hostname')
-        new_object_params['management_ip_address'] = self.new_object.get('management_ip_address')
+        new_object_params['management_ip_address'] = self.new_object.get('management_ip_address') or \
+            self.new_object.get('ipAddress')
         new_object_params['mac_address'] = self.new_object.get('mac_address')
         new_object_params['location_name'] = self.new_object.get('location_name')
         new_object_params['serial_number'] = self.new_object.get('serial_number')
         new_object_params['location'] = self.new_object.get('location')
         new_object_params['family'] = self.new_object.get('family')
-        new_object_params['type'] = self.new_object.get('type')
+        # new_object_params['type'] = self.new_object.get('type')
         new_object_params['series'] = self.new_object.get('series')
         new_object_params['collection_status'] = self.new_object.get('collection_status')
         new_object_params['collection_interval'] = self.new_object.get('collection_interval')
@@ -222,7 +223,7 @@ class NetworkDevice(object):
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
-            result = get_dict_result(items, 'name', name)
+            result = get_dict_result(items, 'managementIpAddress', name)
         except Exception:
             result = None
         return result
@@ -248,7 +249,10 @@ class NetworkDevice(object):
         name_exists = False
         prev_obj = None
         o_id = self.new_object.get("id")
-        name = self.new_object.get("name")
+        name = self.new_object.get('management_ip_address') or \
+            self.new_object.get('ipAddress')
+        if isinstance(name, list) and len(name) > 0:
+            name = name[0]
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -316,7 +320,8 @@ class NetworkDevice(object):
 
     def update(self):
         id = self.new_object.get("id")
-        name = self.new_object.get("name")
+        name = self.new_object.get('management_ip_address') or \
+            self.new_object.get('ipAddress')
         result = None
         result = self.dnac.exec(
             family="devices",
@@ -328,7 +333,8 @@ class NetworkDevice(object):
 
     def delete(self):
         id = self.new_object.get("id")
-        name = self.new_object.get("name")
+        name = self.new_object.get('management_ip_address') or \
+            self.new_object.get('ipAddress')
         result = None
         if not id:
             prev_obj_name = self.get_object_by_name(name)

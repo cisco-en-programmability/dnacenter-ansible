@@ -36,8 +36,8 @@ argument_spec.update(dict(
 ))
 
 required_if = [
-    ("state", "present", ["id"], True),
-    ("state", "absent", ["id"], True),
+    ("state", "present", ["id", "settings"], True),
+    ("state", "absent", ["id", "settings"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -85,11 +85,18 @@ class GlobalPool(object):
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
+                if 'settings' in items:
+                    items = items.get('settings')
+                    if 'ippool' in items:
+                        items = items.get('ippool')
             settings = self.new_object.get('settings')
             if settings and isinstance(settings, dict) and settings.get('ippool'):
                 settings = settings.get('ippool')
                 if settings and isinstance(settings, dict) and settings.get('ipPoolName'):
                     name = settings.get('ipPoolName')
+                elif settings and isinstance(settings, list) and len(settings) > 0:
+                    if settings[0].get('ipPoolName'):
+                        name = settings[0].get('ipPoolName')
             result = get_dict_result(items, 'ipPoolName', name)
         except Exception:
             result = None
@@ -111,6 +118,9 @@ class GlobalPool(object):
             settings = settings.get('ippool')
             if settings and isinstance(settings, dict) and settings.get('ipPoolName'):
                 name = name or settings.get('ipPoolName')
+            elif settings and isinstance(settings, list) and len(settings) > 0:
+                if settings[0].get('ipPoolName'):
+                    name = settings[0].get('ipPoolName')
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
