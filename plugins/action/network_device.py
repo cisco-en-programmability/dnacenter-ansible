@@ -321,7 +321,7 @@ class NetworkDevice(object):
     def update(self):
         id = self.new_object.get("id")
         name = self.new_object.get('management_ip_address') or \
-                self.new_object.get('ipAddress')
+            self.new_object.get('ipAddress')
         result = None
         result = self.dnac.exec(
             family="devices",
@@ -334,7 +334,7 @@ class NetworkDevice(object):
     def delete(self):
         id = self.new_object.get("id")
         name = self.new_object.get('management_ip_address') or \
-                self.new_object.get('ipAddress')
+            self.new_object.get('ipAddress')
         result = None
         if not id:
             prev_obj_name = self.get_object_by_name(name)
