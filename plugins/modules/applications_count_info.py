@@ -51,7 +51,7 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": "string",
+      "response": 0,
       "version": "string"
     }
 """

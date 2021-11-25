@@ -92,6 +92,10 @@ options:
         description: Rx Sop Threshold.
         type: str
     type: dict
+  rfProfileName:
+    description: RfProfileName path parameter. RF profile name to be deleted(required)
+      non_custom RF profile cannot be deleted.
+    type: str
 requirements:
 - dnacentersdk >= 2.3.1
 - python >= 3.5
@@ -138,6 +142,18 @@ EXAMPLES = r"""
       powerThresholdV1: 0
       radioChannels: string
       rxSopThreshold: string
+
+- name: Delete by name
+  cisco.dnac.wireless_rf_profile:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    rfProfileName: string
 
 """
 

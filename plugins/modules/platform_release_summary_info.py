@@ -62,8 +62,11 @@ dnac_response:
         "name": "string",
         "installedVersion": "string",
         "systemVersion": "string",
-        "supportedDirectUpdates": [],
-        "tenantId": "string"
+        "supportedDirectUpdates": [
+          {}
+        ],
+        "tenantId": "string",
+        "modified": 0
       }
     }
 """

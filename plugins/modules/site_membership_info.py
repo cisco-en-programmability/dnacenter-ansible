@@ -77,12 +77,16 @@ dnac_response:
   sample: >
     {
       "site": {
-        "response": [],
+        "response": [
+          {}
+        ],
         "version": "string"
       },
       "device": [
         {
-          "response": [],
+          "response": [
+            {}
+          ],
           "version": "string",
           "siteId": "string"
         }

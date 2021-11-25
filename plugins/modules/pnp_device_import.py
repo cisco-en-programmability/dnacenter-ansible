@@ -123,6 +123,7 @@ options:
                 type: dict
               ipv6AddressList:
                 description: Pnp Device Import's ipv6AddressList.
+                elements: dict
                 type: list
               macAddress:
                 description: Pnp Device Import's macAddress.

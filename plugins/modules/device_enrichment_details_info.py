@@ -119,7 +119,9 @@ dnac_response:
                 {
                   "source": "string",
                   "linkStatus": "string",
-                  "label": [],
+                  "label": [
+                    {}
+                  ],
                   "target": "string",
                   "id": {},
                   "portUtilization": {}

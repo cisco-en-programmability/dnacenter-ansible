@@ -63,7 +63,9 @@ dnac_response:
           "sites": [
             "string"
           ],
-          "ssidDetails": []
+          "ssidDetails": [
+            {}
+          ]
         }
       }
     ]

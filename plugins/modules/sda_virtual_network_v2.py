@@ -15,6 +15,9 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  isGuestVirtualNetwork:
+    description: IsGuestVirtualNetwork flag.
+    type: bool
   scalableGroupNames:
     description: Scalable Group Names.
     elements: str
@@ -46,6 +49,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    isGuestVirtualNetwork: true
     scalableGroupNames:
     - string
     virtualNetworkName: string
@@ -73,6 +77,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    isGuestVirtualNetwork: true
     scalableGroupNames:
     - string
     virtualNetworkName: string

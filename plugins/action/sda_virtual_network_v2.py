@@ -34,6 +34,7 @@ argument_spec.update(dict(
     virtualNetworkName=dict(type="str"),
     virtualNetworkType=dict(type="str"),
     scalableGroupNames=dict(type="list"),
+    isGuestVirtualNetwork=dict(type="bool"),
 ))
 
 required_if = [
@@ -50,6 +51,7 @@ class SdaVirtualNetworkV2(object):
             virtualNetworkName=params.get("virtualNetworkName"),
             virtualNetworkType=params.get("virtualNetworkType"),
             scalableGroupNames=params.get("scalableGroupNames"),
+            isGuestVirtualNetwork=params.get("isGuestVirtualNetwork"),
             virtual_network_name=params.get("virtualNetworkName"),
         )
 
@@ -63,6 +65,7 @@ class SdaVirtualNetworkV2(object):
         new_object_params['virtualNetworkName'] = self.new_object.get('virtualNetworkName')
         new_object_params['virtualNetworkType'] = self.new_object.get('virtualNetworkType')
         new_object_params['scalableGroupNames'] = self.new_object.get('scalableGroupNames')
+        new_object_params['isGuestVirtualNetwork'] = self.new_object.get('isGuestVirtualNetwork')
         return new_object_params
 
     def delete_all_params(self):
@@ -75,6 +78,7 @@ class SdaVirtualNetworkV2(object):
         new_object_params['virtualNetworkName'] = self.new_object.get('virtualNetworkName')
         new_object_params['virtualNetworkType'] = self.new_object.get('virtualNetworkType')
         new_object_params['scalableGroupNames'] = self.new_object.get('scalableGroupNames')
+        new_object_params['isGuestVirtualNetwork'] = self.new_object.get('isGuestVirtualNetwork')
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -127,6 +131,7 @@ class SdaVirtualNetworkV2(object):
             ("virtualNetworkName", "virtualNetworkName"),
             ("virtualNetworkType", "virtualNetworkType"),
             ("scalableGroupNames", "scalableGroupNames"),
+            ("isGuestVirtualNetwork", "isGuestVirtualNetwork"),
             ("virtualNetworkName", "virtual_network_name"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
