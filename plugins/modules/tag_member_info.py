@@ -9,7 +9,7 @@ DOCUMENTATION = r"""
 module: tag_member_info
 short_description: Information module for Tag Member
 description:
-- Get Tag Member by id.
+- Get all Tag Member.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -59,7 +59,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Get Tag Member by id
+- name: Get all Tag Member
   cisco.dnac.tag_member_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

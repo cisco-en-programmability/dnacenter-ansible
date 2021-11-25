@@ -9,7 +9,7 @@ DOCUMENTATION = r"""
 module: discovery_device_count_info
 short_description: Information module for Discovery Device Count
 description:
-- Get Discovery Device Count by id.
+- Get all Discovery Device Count.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -37,7 +37,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Get Discovery Device Count by id
+- name: Get all Discovery Device Count
   cisco.dnac.discovery_device_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

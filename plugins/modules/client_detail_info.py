@@ -92,7 +92,9 @@ dnac_response:
         "apGroup": {},
         "location": {},
         "clientConnection": "string",
-        "connectedDevice": [],
+        "connectedDevice": [
+          {}
+        ],
         "issueCount": 0,
         "rssi": "string",
         "avgRssi": {},
@@ -117,10 +119,18 @@ dnac_response:
           "authDoneTime": {},
           "assocDoneTime": {},
           "dhcpDoneTime": {},
-          "assocRootcauseList": [],
-          "aaaRootcauseList": [],
-          "dhcpRootcauseList": [],
-          "otherRootcauseList": []
+          "assocRootcauseList": [
+            {}
+          ],
+          "aaaRootcauseList": [
+            {}
+          ],
+          "dhcpRootcauseList": [
+            {}
+          ],
+          "otherRootcauseList": [
+            {}
+          ]
         },
         "clientType": "string",
         "onboardingTime": {},

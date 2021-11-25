@@ -64,6 +64,7 @@ options:
         suboptions:
           config:
             description: Config.
+            elements: dict
             type: list
           name:
             description: Name.
@@ -117,7 +118,8 @@ EXAMPLES = r"""
       qosPolicy: string
       ssid: string
       tests:
-      - config: []
+      - config:
+        - {}
         name: string
       thirdParty:
         selected: true
@@ -160,7 +162,9 @@ dnac_response:
         "rssiThreshold": 0,
         "numNeighborAPThreshold": 0,
         "scheduleInDays": 0,
-        "wlans": [],
+        "wlans": [
+          {}
+        ],
         "ssids": [
           {
             "bands": {},
@@ -191,7 +195,9 @@ dnac_response:
             "whiteList": true,
             "extWebAuthPortal": {},
             "extWebAuthAccessUrl": {},
-            "extWebAuthHtmlTag": [],
+            "extWebAuthHtmlTag": [
+              {}
+            ],
             "thirdParty": {
               "selected": true
             },
@@ -204,7 +210,9 @@ dnac_response:
             "tests": [
               {
                 "name": "string",
-                "config": []
+                "config": [
+                  {}
+                ]
               }
             ]
           }
@@ -214,10 +222,14 @@ dnac_response:
         "radioAsSensorRemoved": true,
         "encryptionMode": "string",
         "runNow": "string",
-        "locationInfoList": [],
+        "locationInfoList": [
+          {}
+        ],
         "schedule": {},
         "tests": {},
-        "sensors": [],
+        "sensors": [
+          {}
+        ],
         "apCoverage": [
           {
             "bands": "string",

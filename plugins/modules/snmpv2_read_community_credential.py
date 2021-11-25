@@ -33,6 +33,31 @@ options:
   instanceUuid:
     description: Snmpv2 Read Community Credential's instanceUuid.
     type: str
+  payload:
+    description: Snmpv2 Read Community Credential's payload.
+    suboptions:
+      comments:
+        description: Snmpv2 Read Community Credential's comments.
+        type: str
+      credentialType:
+        description: Snmpv2 Read Community Credential's credentialType.
+        type: str
+      description:
+        description: Snmpv2 Read Community Credential's description.
+        type: str
+      id:
+        description: Snmpv2 Read Community Credential's id.
+        type: str
+      instanceTenantId:
+        description: Snmpv2 Read Community Credential's instanceTenantId.
+        type: str
+      instanceUuid:
+        description: Snmpv2 Read Community Credential's instanceUuid.
+        type: str
+      readCommunity:
+        description: Snmpv2 Read Community Credential's readCommunity.
+        type: str
+    type: list
   readCommunity:
     description: Snmpv2 Read Community Credential's readCommunity.
     type: str
@@ -75,13 +100,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    comments: string
-    credentialType: string
-    description: string
-    id: string
-    instanceTenantId: string
-    instanceUuid: string
-    readCommunity: string
+
 """
 
 RETURN = r"""

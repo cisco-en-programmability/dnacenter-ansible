@@ -141,42 +141,6 @@ EXAMPLES = r"""
     token: string
     virtualAccountId: string
 
-- name: Update all
-  cisco.dnac.pnp_virtual_account_add:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    autoSyncPeriod: 0
-    ccoUser: string
-    expiry: 0
-    lastSync: 0
-    profile:
-      addressFqdn: string
-      addressIpV4: string
-      cert: string
-      makeDefault: true
-      name: string
-      port: 0
-      profileId: string
-      proxy: true
-    smartAccountId: string
-    syncResult:
-      syncList:
-      - deviceSnList:
-        - string
-        syncType: string
-      syncMsg: string
-    syncResultStr: string
-    syncStartTime: 0
-    syncStatus: string
-    tenantId: string
-    token: string
-    virtualAccountId: string
-
 """
 
 RETURN = r"""

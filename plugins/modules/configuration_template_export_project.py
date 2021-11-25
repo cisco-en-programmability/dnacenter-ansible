@@ -17,6 +17,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Configuration Template Export Project's payload.
+    elements: dict
     type: list
 requirements:
 - dnacentersdk >= 2.3.1

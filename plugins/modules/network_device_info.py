@@ -243,7 +243,7 @@ dnac_response:
         "instanceUuid": "string",
         "interfaceCount": "string",
         "inventoryStatusDetail": "string",
-        "lastUpdateTime": "string",
+        "lastUpdateTime": 0,
         "lastUpdated": "string",
         "lineCardCount": "string",
         "lineCardId": "string",
@@ -267,7 +267,8 @@ dnac_response:
         "tunnelUdpPort": "string",
         "type": "string",
         "upTime": "string",
-        "waasDeviceMode": "string"
+        "waasDeviceMode": "string",
+        "uptimeSeconds": 0
       },
       "version": "string"
     }

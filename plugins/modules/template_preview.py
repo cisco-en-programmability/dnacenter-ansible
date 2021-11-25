@@ -23,7 +23,8 @@ options:
     type: dict
   resourceParams:
     description: Resource params to render preview.
-    type: dict
+    elements: dict
+    type: list
   templateId:
     description: UUID of template to get template preview.
     type: str
@@ -49,7 +50,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     deviceId: string
     params: {}
-    resourceParams: {}
+    resourceParams:
+    - {}
     templateId: string
 
 """
@@ -64,6 +66,8 @@ dnac_response:
       "cliPreview": "string",
       "deviceId": "string",
       "templateId": "string",
-      "validationErrors": {}
+      "validationErrors": [
+        {}
+      ]
     }
 """
