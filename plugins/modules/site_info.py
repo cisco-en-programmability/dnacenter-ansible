@@ -32,11 +32,11 @@ options:
     type: str
   offset:
     description:
-    - Offset query parameter. Offset/starting row. The default value is 1.
+    - Offset query parameter. Offset/starting row.
     type: str
   limit:
     description:
-    - Limit query parameter. Number of sites to be retrieved. The default value is 500.
+    - Limit query parameter. Number of sites to be retrieved.
     type: str
 requirements:
 - dnacentersdk >= 2.3.1

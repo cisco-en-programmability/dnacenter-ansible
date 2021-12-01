@@ -65,7 +65,6 @@ dnac_response:
       "description": "string",
       "taskId": "string",
       "taskStatusUrl": "string",
-      "executionStatusUrl": "string",
-      "executionId": "string"
+      "executionStatusUrl": "string"
     }
 """

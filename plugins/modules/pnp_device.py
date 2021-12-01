@@ -1479,22 +1479,20 @@ dnac_response:
           "supportsStackWorkflows": true,
           "isFullRing": true,
           "stackMemberList": [
-            [
-              {
-                "serialNumber": "string",
-                "state": "string",
-                "role": "string",
-                "macAddress": "string",
-                "pid": "string",
-                "licenseLevel": "string",
-                "licenseType": "string",
-                "sudiSerialNumber": "string",
-                "hardwareVersion": "string",
-                "stackNumber": 0,
-                "softwareVersion": "string",
-                "priority": 0
-              }
-            ]
+            {
+              "serialNumber": "string",
+              "state": "string",
+              "role": "string",
+              "macAddress": "string",
+              "pid": "string",
+              "licenseLevel": "string",
+              "licenseType": "string",
+              "sudiSerialNumber": "string",
+              "hardwareVersion": "string",
+              "stackNumber": 0,
+              "softwareVersion": "string",
+              "priority": 0
+            }
           ],
           "stackRingProtocol": "string",
           "validLicenseLevels": [

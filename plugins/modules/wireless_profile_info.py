@@ -64,7 +64,16 @@ dnac_response:
             "string"
           ],
           "ssidDetails": [
-            {}
+            {
+              "name": "string",
+              "type": "string",
+              "enableFabric": true,
+              "flexConnect": {
+                "enableFlexConnect": true,
+                "localToVlan": 0
+              },
+              "interfaceName": "string"
+            }
           ]
         }
       }

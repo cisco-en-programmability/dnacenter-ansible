@@ -65,8 +65,7 @@ dnac_response:
         "supportedDirectUpdates": [
           {}
         ],
-        "tenantId": "string",
-        "modified": 0
+        "tenantId": "string"
       }
     }
 """
