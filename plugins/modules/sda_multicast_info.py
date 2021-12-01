@@ -18,9 +18,9 @@ options:
   headers:
     description: Additional headers.
     type: dict
-  fabricSiteNameHierarchy:
+  siteNameHierarchy:
     description:
-    - FabricSiteNameHierarchy query parameter.
+    - SiteNameHierarchy query parameter. Fabric site name hierarchy.
     type: str
 requirements:
 - dnacentersdk >= 2.3.1
@@ -44,7 +44,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers:
       custom: value
-    fabricSiteNameHierarchy: string
+    siteNameHierarchy: string
   register: result
 
 """
@@ -56,7 +56,7 @@ dnac_response:
   type: dict
   sample: >
     {
-      "fabricSiteNameHierarchy": "string",
+      "siteNameHierarchy": "string",
       "multicastMethod": "string",
       "muticastType": "string",
       "multicastVnInfo": {

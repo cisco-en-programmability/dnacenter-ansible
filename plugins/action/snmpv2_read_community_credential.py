@@ -35,14 +35,12 @@ argument_spec.update(dict(
     comments=dict(type="str"),
     credentialType=dict(type="str"),
     description=dict(type="str"),
-    id=dict(type="str"),
-    instanceTenantId=dict(type="str"),
     instanceUuid=dict(type="str"),
     readCommunity=dict(type="str"),
 ))
 
 required_if = [
-    ("state", "present", ["description", "id"], True),
+    ("state", "present", ["description"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -56,8 +54,6 @@ class Snmpv2ReadCommunityCredential(object):
             comments=params.get("comments"),
             credentialType=params.get("credentialType"),
             description=params.get("description"),
-            id=params.get("id"),
-            instanceTenantId=params.get("instanceTenantId"),
             instanceUuid=params.get("instanceUuid"),
             readCommunity=params.get("readCommunity"),
         )
@@ -65,8 +61,8 @@ class Snmpv2ReadCommunityCredential(object):
     def create_params(self):
         new_object_params = {}
         payload = {}
-        keys = ['comments', 'credentialType', 'description', 'id', 'instanceTenantId',
-                'instanceUuid', 'readCommunity']
+        keys = ['comments', 'credentialType', 'description', 'instanceUuid', 'readCommunity',
+                'readCommunity']
         for key in keys:
             if self.new_object.get(key) is not None:
                 payload[key] = self.new_object.get(key)
@@ -78,8 +74,6 @@ class Snmpv2ReadCommunityCredential(object):
         new_object_params['comments'] = self.new_object.get('comments')
         new_object_params['credentialType'] = self.new_object.get('credentialType')
         new_object_params['description'] = self.new_object.get('description')
-        new_object_params['id'] = self.new_object.get('id')
-        new_object_params['instanceTenantId'] = self.new_object.get('instanceTenantId')
         new_object_params['instanceUuid'] = self.new_object.get('instanceUuid')
         new_object_params['readCommunity'] = self.new_object.get('readCommunity')
         return new_object_params
@@ -143,8 +137,6 @@ class Snmpv2ReadCommunityCredential(object):
             ("comments", "comments"),
             ("credentialType", "credentialType"),
             ("description", "description"),
-            ("id", "id"),
-            ("instanceTenantId", "instanceTenantId"),
             ("instanceUuid", "instanceUuid"),
             ("readCommunity", "readCommunity"),
         ]

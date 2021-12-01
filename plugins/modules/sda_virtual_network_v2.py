@@ -16,14 +16,14 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   isGuestVirtualNetwork:
-    description: IsGuestVirtualNetwork flag.
+    description: To create guest virtual network.
     type: bool
   scalableGroupNames:
-    description: Scalable Group Names.
+    description: Scalable Group to be associated to virtual network.
     elements: str
     type: list
   virtualNetworkName:
-    description: Virtual Network Name.
+    description: Virtual Network Name to be assigned global level.
     type: str
   virtualNetworkType:
     description: Virtual Network Type.
@@ -96,6 +96,7 @@ dnac_response:
       "description": "string",
       "taskId": "string",
       "taskStatusUrl": "string",
+      "executionStatusUrl": "string",
       "executionId": "string"
     }
 """

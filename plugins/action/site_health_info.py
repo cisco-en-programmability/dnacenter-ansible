@@ -26,6 +26,9 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     timestamp=dict(type="str"),
+    siteType=dict(type="str"),
+    offset=dict(type="int"),
+    limit=dict(type="int"),
     headers=dict(type="dict"),
 ))
 
@@ -65,6 +68,9 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             timestamp=params.get("timestamp"),
+            site_type=params.get("siteType"),
+            offset=params.get("offset"),
+            limit=params.get("limit"),
             headers=params.get("headers"),
         )
         return new_object

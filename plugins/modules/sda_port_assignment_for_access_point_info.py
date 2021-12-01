@@ -18,9 +18,9 @@ options:
   headers:
     description: Additional headers.
     type: dict
-  device_ip:
+  deviceManagementIpAddress:
     description:
-    - Device-ip query parameter.
+    - DeviceManagementIpAddress query parameter.
     type: str
   interfaceName:
     description:
@@ -48,7 +48,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers:
       custom: value
-    device_ip: string
+    deviceManagementIpAddress: string
     interfaceName: string
   register: result
 

@@ -26,6 +26,7 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     siteNameHierarchy=dict(type="str"),
+    authenticateTemplateName=dict(type="str"),
     headers=dict(type="dict"),
 ))
 
@@ -65,6 +66,7 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             site_name_hierarchy=params.get("siteNameHierarchy"),
+            authenticate_template_name=params.get("authenticateTemplateName"),
             headers=params.get("headers"),
         )
         return new_object

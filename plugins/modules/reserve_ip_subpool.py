@@ -163,6 +163,7 @@ EXAMPLES = r"""
     - string
     ipv4DnsServers:
     - string
+    ipv4GateWay: string
     ipv6AddressSpace: true
     ipv6DhcpServers:
     - string
