@@ -32,6 +32,7 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
     floorId=dict(type="str"),
+    payload=dict(type="dict"),
 ))
 
 required_if = [
@@ -48,10 +49,12 @@ class SiteDesignFloormap(object):
         self.dnac = dnac
         self.new_object = dict(
             floor_id=params.get("floorId"),
+            payload=params.get("payload"),
         )
 
     def create_params(self):
         new_object_params = {}
+        new_object_params['payload'] = self.new_object.get('payload')
         return new_object_params
 
     def delete_by_id_params(self):
@@ -62,6 +65,7 @@ class SiteDesignFloormap(object):
     def update_by_id_params(self):
         new_object_params = {}
         new_object_params['floor_id'] = self.new_object.get('floor_id')
+        new_object_params['payload'] = self.new_object.get('payload')
         return new_object_params
 
     def get_object_by_name(self, name):

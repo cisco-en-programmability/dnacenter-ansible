@@ -18,6 +18,9 @@ options:
   floorId:
     description: FloorId path parameter. Group ID of floor to be deleted.
     type: str
+  payload:
+    description: Site Design Floormap's payload
+    type: dict
 requirements:
 - dnacentersdk >= 2.3.1
 - python >= 3.5
@@ -39,6 +42,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    payload:
 
 - name: Delete by id
   cisco.dnac.site_design_floormap:
@@ -63,6 +67,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     floorId: string
+    payload:
 
 """
 
