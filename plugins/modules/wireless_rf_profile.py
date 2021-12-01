@@ -94,10 +94,10 @@ options:
     type: dict
   rfProfileName:
     description: RfProfileName path parameter. RF profile name to be deleted(required)
-      non_custom RF profile cannot be deleted.
+      *non-custom RF profile cannot be deleted.
     type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource

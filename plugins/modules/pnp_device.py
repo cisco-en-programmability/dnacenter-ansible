@@ -802,7 +802,7 @@ options:
         type: str
     type: dict
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -1479,22 +1479,20 @@ dnac_response:
           "supportsStackWorkflows": true,
           "isFullRing": true,
           "stackMemberList": [
-            [
-              {
-                "serialNumber": "string",
-                "state": "string",
-                "role": "string",
-                "macAddress": "string",
-                "pid": "string",
-                "licenseLevel": "string",
-                "licenseType": "string",
-                "sudiSerialNumber": "string",
-                "hardwareVersion": "string",
-                "stackNumber": 0,
-                "softwareVersion": "string",
-                "priority": 0
-              }
-            ]
+            {
+              "serialNumber": "string",
+              "state": "string",
+              "role": "string",
+              "macAddress": "string",
+              "pid": "string",
+              "licenseLevel": "string",
+              "licenseType": "string",
+              "sudiSerialNumber": "string",
+              "hardwareVersion": "string",
+              "stackNumber": 0,
+              "softwareVersion": "string",
+              "priority": 0
+            }
           ],
           "stackRingProtocol": "string",
           "validLicenseLevels": [

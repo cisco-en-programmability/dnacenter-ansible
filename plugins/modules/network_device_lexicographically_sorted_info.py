@@ -101,13 +101,13 @@ options:
   offset:
     description:
     - Offset query parameter.
-    type: str
+    type: int
   limit:
     description:
     - Limit query parameter.
-    type: str
+    type: int
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -148,8 +148,8 @@ EXAMPLES = r"""
     role: string
     roleSource: string
     associatedWlcIp: string
-    offset: string
-    limit: string
+    offset: 0
+    limit: 0
   register: result
 
 """

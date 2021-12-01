@@ -18,12 +18,12 @@ options:
   headers:
     description: Additional headers.
     type: dict
-  deviceIPAddress:
+  deviceManagementIpAddress:
     description:
-    - DeviceIPAddress query parameter. Device IP Address.
+    - DeviceManagementIpAddress query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -44,7 +44,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers:
       custom: value
-    deviceIPAddress: string
+    deviceManagementIpAddress: string
   register: result
 
 """

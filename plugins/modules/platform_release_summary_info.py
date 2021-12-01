@@ -19,7 +19,7 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -65,8 +65,7 @@ dnac_response:
         "supportedDirectUpdates": [
           {}
         ],
-        "tenantId": "string",
-        "modified": 0
+        "tenantId": "string"
       }
     }
 """

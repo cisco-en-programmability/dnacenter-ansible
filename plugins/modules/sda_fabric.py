@@ -18,15 +18,8 @@ options:
   fabricName:
     description: FabricName query parameter. Fabric Name.
     type: str
-  payload:
-    description: Sda Fabric's payload.
-    suboptions:
-      fabricName:
-        description: Fabric Name.
-        type: str
-    type: list
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -58,8 +51,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    payload:
-    - fabricName: string
+    fabricName: string
 
 """
 
@@ -72,6 +64,9 @@ dnac_response:
     {
       "status": "string",
       "description": "string",
-      "executionStatusUrl": "string"
+      "taskId": "string",
+      "taskStatusUrl": "string",
+      "executionStatusUrl": "string",
+      "executionId": "string"
     }
 """

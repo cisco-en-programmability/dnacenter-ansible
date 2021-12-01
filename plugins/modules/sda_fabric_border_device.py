@@ -15,57 +15,53 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
-  deviceIPAddress:
-    description: DeviceIPAddress query parameter. Device IP Address.
+  borderSessionType:
+    description: Border Session Type.
     type: str
-  payload:
-    description: Sda Fabric Border Device's payload.
-    suboptions:
-      borderSessionType:
-        description: Border Session Type.
-        type: str
-      connectedToInternet:
-        description: Connected To Internet.
-        type: bool
-      deviceManagementIpAddress:
-        description: Device Management Ip Address.
-        type: str
-      externalConnectivityIpPoolName:
-        description: External Connectivity Ip Pool Name.
-        type: str
-      externalConnectivitySettings:
-        description: Sda Fabric Border Device's externalConnectivitySettings.
-        suboptions:
-          externalAutonomouSystemNumber:
-            description: External Autonomou System Number.
-            type: str
-          interfaceName:
-            description: Interface Name.
-            type: str
-          l3Handoff:
-            description: Sda Fabric Border Device's l3Handoff.
-            suboptions:
-              virtualNetwork:
-                description: Sda Fabric Border Device's virtualNetwork.
-                suboptions:
-                  virtualNetworkName:
-                    description: Virtual Network Name.
-                    type: str
-                type: dict
-            type: list
-        type: list
-      externalDomainRoutingProtocolName:
-        description: External Domain Routing Protocol Name.
-        type: str
-      internalAutonomouSystemNumber:
-        description: Internal Autonomou System Number.
-        type: str
-      siteNameHierarchy:
-        description: Site Name Hierarchy.
-        type: str
-    type: list
+  connectedToInternet:
+    description: Connected to Internet.
+    type: bool
+  deviceManagementIpAddress:
+    description: Management Ip Address of the Device which is provisioned successfully.
+    type: str
+  externalAutonomouSystemNumber:
+    description: External Autonomous System Number will be used to automate IP routing
+      between Border Node and remote peer (e.g.,1-65535).
+    type: str
+  externalConnectivityIpPoolName:
+    description: IP pool to use to automate IP routing between the border node and remote
+      peer.
+    type: str
+  externalConnectivitySettings:
+    description: External Connectivity Settings information of L3 Handoff.
+    type: dict
+  externalDomainRoutingProtocolName:
+    description: External Domain Routing Protocol Name. (Example BGP).
+    type: str
+  interfaceName:
+    description: Interface Name.
+    type: str
+  internalAutonomouSystemNumber:
+    description: Internal Autonomouns System Number used by border node to communicate
+      with remote peer (e.g.,1-65535).
+    type: str
+  l3Handoff:
+    description: L3 Handoff information.
+    type: dict
+  siteNameHierarchy:
+    description: Site Name Hierarchy for device location(site should be fabric site).
+    type: str
+  virtualNetwork:
+    description: Virtual Network information of L3 Hand off.
+    type: dict
+  virtualNetworkName:
+    description: Virtual Network Name assigned to site.
+    type: str
+  vlanId:
+    description: Vlan Id (e.g.,2-4096 except for reserved VLANs (1002-1005, 2046, 4095)).
+    type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -85,20 +81,20 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    payload:
-    - deviceManagementIpAddress: string
-      siteNameHierarchy: string
-      externalDomainRoutingProtocolName: string
-      externalConnectivityIpPoolName: string
-      internalAutonomouSystemNumber: string
-      borderSessionType: string
-      connectedToInternet: true
-      externalConnectivitySettings:
-      - interfaceName: string
-        externalAutonomouSystemNumber: string
-        l3Handoff:
-        - virtualNetwork:
-            virtualNetworkName: string
+    borderSessionType: string
+    connectedToInternet: true
+    deviceManagementIpAddress: string
+    externalAutonomouSystemNumber: string
+    externalConnectivityIpPoolName: string
+    externalConnectivitySettings: {}
+    externalDomainRoutingProtocolName: string
+    interfaceName: string
+    internalAutonomouSystemNumber: string
+    l3Handoff: {}
+    siteNameHierarchy: string
+    virtualNetwork: {}
+    virtualNetworkName: string
+    vlanId: string
 
 - name: Delete all
   cisco.dnac.sda_fabric_border_device:
@@ -110,7 +106,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: absent
-    deviceIPAddress: string
+    deviceManagementIpAddress: string
 
 """
 
@@ -123,6 +119,9 @@ dnac_response:
     {
       "status": "string",
       "description": "string",
-      "executionStatusUrl": "string"
+      "taskId": "string",
+      "taskStatusUrl": "string",
+      "executionStatusUrl": "string",
+      "executionId": "string"
     }
 """

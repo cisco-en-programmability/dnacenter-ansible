@@ -54,7 +54,7 @@ class WirelessProfile(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['profile_name'] = self.new_object.get('profile_name')
+        new_object_params['profile_name'] = self.new_object.get('wireless_profile_name')
         return new_object_params
 
     def create_params(self):

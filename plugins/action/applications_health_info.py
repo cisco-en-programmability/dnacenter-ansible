@@ -33,6 +33,7 @@ argument_spec.update(dict(
     applicationHealth=dict(type="str"),
     offset=dict(type="int"),
     limit=dict(type="int"),
+    applicationName=dict(type="str"),
     headers=dict(type="dict"),
 ))
 
@@ -79,6 +80,7 @@ class ActionModule(ActionBase):
             application_health=params.get("applicationHealth"),
             offset=params.get("offset"),
             limit=params.get("limit"),
+            application_name=params.get("applicationName"),
             headers=params.get("headers"),
         )
         return new_object

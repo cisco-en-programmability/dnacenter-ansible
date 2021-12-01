@@ -32,9 +32,9 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
     virtualNetworkName=dict(type="str"),
-    virtualNetworkType=dict(type="str"),
-    scalableGroupNames=dict(type="list"),
     isGuestVirtualNetwork=dict(type="bool"),
+    scalableGroupNames=dict(type="list"),
+    virtualNetworkType=dict(type="str"),
 ))
 
 required_if = [
@@ -49,9 +49,9 @@ class SdaVirtualNetworkV2(object):
         self.dnac = dnac
         self.new_object = dict(
             virtualNetworkName=params.get("virtualNetworkName"),
-            virtualNetworkType=params.get("virtualNetworkType"),
-            scalableGroupNames=params.get("scalableGroupNames"),
             isGuestVirtualNetwork=params.get("isGuestVirtualNetwork"),
+            scalableGroupNames=params.get("scalableGroupNames"),
+            virtualNetworkType=params.get("virtualNetworkType"),
             virtual_network_name=params.get("virtualNetworkName"),
         )
 
@@ -63,9 +63,9 @@ class SdaVirtualNetworkV2(object):
     def create_params(self):
         new_object_params = {}
         new_object_params['virtualNetworkName'] = self.new_object.get('virtualNetworkName')
-        new_object_params['virtualNetworkType'] = self.new_object.get('virtualNetworkType')
-        new_object_params['scalableGroupNames'] = self.new_object.get('scalableGroupNames')
         new_object_params['isGuestVirtualNetwork'] = self.new_object.get('isGuestVirtualNetwork')
+        new_object_params['scalableGroupNames'] = self.new_object.get('scalableGroupNames')
+        new_object_params['virtualNetworkType'] = self.new_object.get('virtualNetworkType')
         return new_object_params
 
     def delete_all_params(self):
@@ -77,8 +77,8 @@ class SdaVirtualNetworkV2(object):
         new_object_params = {}
         new_object_params['virtualNetworkName'] = self.new_object.get('virtualNetworkName')
         new_object_params['virtualNetworkType'] = self.new_object.get('virtualNetworkType')
-        new_object_params['scalableGroupNames'] = self.new_object.get('scalableGroupNames')
         new_object_params['isGuestVirtualNetwork'] = self.new_object.get('isGuestVirtualNetwork')
+        new_object_params['scalableGroupNames'] = self.new_object.get('scalableGroupNames')
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -129,9 +129,9 @@ class SdaVirtualNetworkV2(object):
 
         obj_params = [
             ("virtualNetworkName", "virtualNetworkName"),
-            ("virtualNetworkType", "virtualNetworkType"),
-            ("scalableGroupNames", "scalableGroupNames"),
             ("isGuestVirtualNetwork", "isGuestVirtualNetwork"),
+            ("scalableGroupNames", "scalableGroupNames"),
+            ("virtualNetworkType", "virtualNetworkType"),
             ("virtualNetworkName", "virtual_network_name"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params

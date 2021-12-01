@@ -90,7 +90,7 @@ options:
     description: Type of the reserve ip sub pool.
     type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -163,6 +163,7 @@ EXAMPLES = r"""
     - string
     ipv4DnsServers:
     - string
+    ipv4GateWay: string
     ipv6AddressSpace: true
     ipv6DhcpServers:
     - string

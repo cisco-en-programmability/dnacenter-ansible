@@ -15,11 +15,8 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
-  fabricSiteNameHierarchy:
-    description: FabricSiteNameHierarchy.
-    type: str
   multicastMethod:
-    description: Multicast methods.
+    description: Multicast Methods.
     type: str
   multicastVnInfo:
     description: Sda Multicast's multicastVnInfo.
@@ -28,26 +25,29 @@ options:
         description: External Rp Ip Address, required for muticastType=asm_with_external_rp.
         type: str
       ipPoolName:
-        description: Ip Pool Name in fabricSiteNameHierarchy.
+        description: Ip Pool Name, that is reserved to fabricSiteNameHierarchy.
         type: str
       ssmGroupRange:
-        description: Valid ssm group range ip address.
+        description: Valid SSM group range ip address(e.g., 230.0.0.0).
         type: str
       ssmInfo:
         description: Source-specific multicast information, required if muticastType=ssm.
         type: dict
       ssmWildcardMask:
-        description: Valid ssm Wildcard Mask ip address.
+        description: Valid SSM Wildcard Mask ip address(e.g.,0.255.255.255).
         type: str
       virtualNetworkName:
-        description: Virtual network name in fabricSiteNameHierarchy.
+        description: Virtual Network Name, that is associated to fabricSiteNameHierarchy.
         type: str
     type: dict
   muticastType:
-    description: Muticast type.
+    description: Muticast Type.
+    type: str
+  siteNameHierarchy:
+    description: Full path of sda fabric siteNameHierarchy.
     type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -67,7 +67,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    fabricSiteNameHierarchy: string
     multicastMethod: string
     multicastVnInfo:
       externalRpIpAddress: string
@@ -77,6 +76,7 @@ EXAMPLES = r"""
       ssmWildcardMask: string
       virtualNetworkName: string
     muticastType: string
+    siteNameHierarchy: string
 
 - name: Delete all
   cisco.dnac.sda_multicast:
@@ -88,7 +88,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: absent
-    fabricSiteNameHierarchy: string
+    siteNameHierarchy: string
 
 """
 
@@ -103,6 +103,7 @@ dnac_response:
       "description": "string",
       "taskId": "string",
       "taskStatusUrl": "string",
+      "executionStatusUrl": "string",
       "executionId": "string"
     }
 """

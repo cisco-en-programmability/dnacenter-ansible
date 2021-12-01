@@ -31,13 +31,23 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
-    payload=dict(type="list"),
-    deviceIPAddress=dict(type="str"),
+    deviceManagementIpAddress=dict(type="str"),
+    siteNameHierarchy=dict(type="str"),
+    externalDomainRoutingProtocolName=dict(type="str"),
+    externalConnectivityIpPoolName=dict(type="str"),
+    internalAutonomouSystemNumber=dict(type="str"),
+    borderSessionType=dict(type="str"),
+    connectedToInternet=dict(type="bool"),
+    externalConnectivitySettings=dict(type="dict"),
+    interfaceName=dict(type="str"),
+    externalAutonomouSystemNumber=dict(type="str"),
+    l3Handoff=dict(type="dict"),
+    virtualNetwork=dict(type="dict"),
+    virtualNetworkName=dict(type="str"),
+    vlanId=dict(type="str"),
 ))
 
 required_if = [
-    ("state", "present", ["payload"], True),
-    ("state", "absent", ["payload"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -48,23 +58,49 @@ class SdaFabricBorderDevice(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
-            payload=params.get("payload"),
-            device_ipaddress=params.get("deviceIPAddress"),
+            deviceManagementIpAddress=params.get("deviceManagementIpAddress"),
+            siteNameHierarchy=params.get("siteNameHierarchy"),
+            externalDomainRoutingProtocolName=params.get("externalDomainRoutingProtocolName"),
+            externalConnectivityIpPoolName=params.get("externalConnectivityIpPoolName"),
+            internalAutonomouSystemNumber=params.get("internalAutonomouSystemNumber"),
+            borderSessionType=params.get("borderSessionType"),
+            connectedToInternet=params.get("connectedToInternet"),
+            externalConnectivitySettings=params.get("externalConnectivitySettings"),
+            interfaceName=params.get("interfaceName"),
+            externalAutonomouSystemNumber=params.get("externalAutonomouSystemNumber"),
+            l3Handoff=params.get("l3Handoff"),
+            virtualNetwork=params.get("virtualNetwork"),
+            virtualNetworkName=params.get("virtualNetworkName"),
+            vlanId=params.get("vlanId"),
+            device_management_ip_address=params.get("deviceManagementIpAddress"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['device_ipaddress'] = self.new_object.get('device_ipaddress')
+        new_object_params['device_management_ip_address'] = self.new_object.get('device_management_ip_address')
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['payload'] = self.new_object.get('payload')
+        new_object_params['deviceManagementIpAddress'] = self.new_object.get('deviceManagementIpAddress')
+        new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
+        new_object_params['externalDomainRoutingProtocolName'] = self.new_object.get('externalDomainRoutingProtocolName')
+        new_object_params['externalConnectivityIpPoolName'] = self.new_object.get('externalConnectivityIpPoolName')
+        new_object_params['internalAutonomouSystemNumber'] = self.new_object.get('internalAutonomouSystemNumber')
+        new_object_params['borderSessionType'] = self.new_object.get('borderSessionType')
+        new_object_params['connectedToInternet'] = self.new_object.get('connectedToInternet')
+        new_object_params['externalConnectivitySettings'] = self.new_object.get('externalConnectivitySettings')
+        new_object_params['interfaceName'] = self.new_object.get('interfaceName')
+        new_object_params['externalAutonomouSystemNumber'] = self.new_object.get('externalAutonomouSystemNumber')
+        new_object_params['l3Handoff'] = self.new_object.get('l3Handoff')
+        new_object_params['virtualNetwork'] = self.new_object.get('virtualNetwork')
+        new_object_params['virtualNetworkName'] = self.new_object.get('virtualNetworkName')
+        new_object_params['vlanId'] = self.new_object.get('vlanId')
         return new_object_params
 
     def delete_all_params(self):
         new_object_params = {}
-        new_object_params['device_ipaddress'] = self.new_object.get('device_ipaddress')
+        new_object_params['device_management_ip_address'] = self.new_object.get('device_management_ip_address')
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -93,11 +129,8 @@ class SdaFabricBorderDevice(object):
         prev_obj = None
         id_exists = False
         name_exists = False
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-        o_id = self.new_object.get("id") or requested_obj.get("id")
-        name = self.new_object.get("name") or requested_obj.get("name")
+        o_id = self.new_object.get("id")
+        name = self.new_object.get("name")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -114,9 +147,7 @@ class SdaFabricBorderDevice(object):
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
+        requested_obj = self.new_object
 
         obj_params = [
             ("deviceManagementIpAddress", "deviceManagementIpAddress"),
@@ -127,7 +158,13 @@ class SdaFabricBorderDevice(object):
             ("borderSessionType", "borderSessionType"),
             ("connectedToInternet", "connectedToInternet"),
             ("externalConnectivitySettings", "externalConnectivitySettings"),
-            ("deviceIPAddress", "device_ipaddress"),
+            ("interfaceName", "interfaceName"),
+            ("externalAutonomouSystemNumber", "externalAutonomouSystemNumber"),
+            ("l3Handoff", "l3Handoff"),
+            ("virtualNetwork", "virtualNetwork"),
+            ("virtualNetworkName", "virtualNetworkName"),
+            ("vlanId", "vlanId"),
+            ("deviceManagementIpAddress", "device_management_ip_address"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
@@ -145,11 +182,8 @@ class SdaFabricBorderDevice(object):
         return result
 
     def delete(self):
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-        id = self.new_object.get("id") or requested_obj.get("id")
-        name = self.new_object.get("name") or requested_obj.get("name")
+        id = self.new_object.get("id")
+        name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
             family="sda",

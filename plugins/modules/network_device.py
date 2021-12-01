@@ -15,6 +15,9 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  cleanConfig:
+    description: CleanConfig query parameter.
+    type: bool
   cliTransport:
     description: Network Device's cliTransport.
     type: str
@@ -46,9 +49,6 @@ options:
     description: Network Device's ipAddress.
     elements: str
     type: list
-  isForceDelete:
-    description: IsForceDelete query parameter.
-    type: bool
   merakiOrgId:
     description: Network Device's merakiOrgId.
     elements: str
@@ -112,7 +112,7 @@ options:
     description: Network Device's userName.
     type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -216,8 +216,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: absent
+    cleanConfig: true
     id: string
-    isForceDelete: true
 
 """
 

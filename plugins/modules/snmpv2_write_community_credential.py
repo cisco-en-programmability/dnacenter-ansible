@@ -16,19 +16,13 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   comments:
-    description: Snmpv2 Write Community Credential's comments.
+    description: Comments to identify the credential.
     type: str
   credentialType:
-    description: Snmpv2 Write Community Credential's credentialType.
+    description: Credential type to identify the application that uses the credential.
     type: str
   description:
-    description: Snmpv2 Write Community Credential's description.
-    type: str
-  id:
-    description: Snmpv2 Write Community Credential's id.
-    type: str
-  instanceTenantId:
-    description: Snmpv2 Write Community Credential's instanceTenantId.
+    description: Name/Description of the credential.
     type: str
   instanceUuid:
     description: Snmpv2 Write Community Credential's instanceUuid.
@@ -37,32 +31,23 @@ options:
     description: Snmpv2 Write Community Credential's payload.
     suboptions:
       comments:
-        description: Snmpv2 Write Community Credential's comments.
+        description: Comments to identify the credential.
         type: str
       credentialType:
-        description: Snmpv2 Write Community Credential's credentialType.
+        description: Credential type to identify the application that uses the credential.
         type: str
       description:
-        description: Snmpv2 Write Community Credential's description.
-        type: str
-      id:
-        description: Snmpv2 Write Community Credential's id.
-        type: str
-      instanceTenantId:
-        description: Snmpv2 Write Community Credential's instanceTenantId.
-        type: str
-      instanceUuid:
-        description: Snmpv2 Write Community Credential's instanceUuid.
+        description: Name/Description of the credential.
         type: str
       writeCommunity:
-        description: Snmpv2 Write Community Credential's writeCommunity.
+        description: SNMP write community.
         type: str
     type: list
   writeCommunity:
-    description: Snmpv2 Write Community Credential's writeCommunity.
+    description: SNMP write community. NO!$DATA!$ for no value change.
     type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -96,8 +81,6 @@ EXAMPLES = r"""
     comments: string
     credentialType: string
     description: string
-    id: string
-    instanceTenantId: string
     instanceUuid: string
     writeCommunity: string
 

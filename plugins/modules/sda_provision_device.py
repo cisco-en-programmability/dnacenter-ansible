@@ -20,10 +20,10 @@ options:
       device currently provisioned in a fabric site.
     type: str
   siteNameHierarchy:
-    description: Site Name Hierarchy.
+    description: Site Name Hierarchy for device location(only building / floor level).
     type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -71,6 +71,7 @@ dnac_response:
       "description": "string",
       "taskId": "string",
       "taskStatusUrl": "string",
+      "executionStatusUrl": "string",
       "executionId": "string"
     }
 """
