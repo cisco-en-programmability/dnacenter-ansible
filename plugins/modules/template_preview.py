@@ -66,8 +66,6 @@ dnac_response:
       "cliPreview": "string",
       "deviceId": "string",
       "templateId": "string",
-      "validationErrors": [
-        {}
-      ]
+      "validationErrors": {}
     }
 """
