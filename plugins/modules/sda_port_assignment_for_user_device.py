@@ -15,34 +15,37 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
-  device_ip:
-    description: Device-ip query parameter.
+  authenticateTemplateName:
+    description: Authenticate TemplateName associated to siteNameHierarchy. Allowed
+      values are 'Open Authentication', 'Closed Authentication', 'Low Impact', 'No Authentication',
+      ''.
+    type: str
+  dataIpAddressPoolName:
+    description: Ip Pool Name, that is assigned to virtual network with traffic type
+      as DATA(can't be empty if voiceIpAddressPoolName is empty).
+    type: str
+  deviceManagementIpAddress:
+    description: DeviceManagementIpAddress query parameter.
+    type: str
+  interfaceDescription:
+    description: Details or note of interface assignment.
     type: str
   interfaceName:
     description: InterfaceName query parameter.
     type: str
-  payload:
-    description: Sda Port Assignment For User Device's payload.
-    suboptions:
-      authenticateTemplateName:
-        description: Authenticate Template Name.
-        type: str
-      dataIpAddressPoolName:
-        description: Data Ip Address Pool Name.
-        type: str
-      deviceManagementIpAddress:
-        description: Device Management Ip Address.
-        type: str
-      interfaceName:
-        description: Interface Name.
-        type: str
-      siteNameHierarchy:
-        description: Site Name Hierarchy.
-        type: str
-      voiceIpAddressPoolName:
-        description: Voice Ip Address Pool Name.
-        type: str
-    type: list
+  scalableGroupName:
+    description: Valid name of a scalable group associated with virtual network(Scalable
+      groups are only supported on No Auth profile because the other profiles assign
+      SGTs from ISE).
+    type: str
+  siteNameHierarchy:
+    description: Site Name Hierarchy should be a valid fabric site name hierarchy. E.g
+      Global/USA/San Jose.
+    type: str
+  voiceIpAddressPoolName:
+    description: Ip Pool Name, that is assigned to virtual network with traffic type
+      as VOICE(can't be empty if dataIpAddressPoolName is emty).
+    type: str
 requirements:
 - dnacentersdk >= 2.3.1
 - python >= 3.5
@@ -64,7 +67,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: absent
-    device_ip: string
+    deviceManagementIpAddress: string
     interfaceName: string
 
 - name: Create
@@ -77,13 +80,14 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    payload:
-    - siteNameHierarchy: string
-      deviceManagementIpAddress: string
-      interfaceName: string
-      dataIpAddressPoolName: string
-      voiceIpAddressPoolName: string
-      authenticateTemplateName: string
+    authenticateTemplateName: string
+    dataIpAddressPoolName: string
+    deviceManagementIpAddress: string
+    interfaceDescription: string
+    interfaceName: string
+    scalableGroupName: string
+    siteNameHierarchy: string
+    voiceIpAddressPoolName: string
 
 """
 
@@ -96,6 +100,9 @@ dnac_response:
     {
       "status": "string",
       "description": "string",
-      "executionStatusUrl": "string"
+      "taskId": "string",
+      "taskStatusUrl": "string",
+      "executionStatusUrl": "string",
+      "executionId": "string"
     }
 """

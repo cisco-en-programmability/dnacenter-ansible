@@ -15,16 +15,9 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
-  payload:
-    description: Sda Fabric Site's payload.
-    suboptions:
-      fabricName:
-        description: Fabric Name.
-        type: str
-      siteNameHierarchy:
-        description: Site Name Hierarchy.
-        type: str
-    type: list
+  fabricName:
+    description: Fabric Name (should be existing fabric name).
+    type: str
   siteNameHierarchy:
     description: SiteNameHierarchy query parameter. Site Name Hierarchy.
     type: str
@@ -61,9 +54,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    payload:
-    - fabricName: string
-      siteNameHierarchy: string
+    fabricName: string
+    siteNameHierarchy: string
 
 """
 
@@ -76,6 +68,9 @@ dnac_response:
     {
       "status": "string",
       "description": "string",
-      "executionStatusUrl": "string"
+      "taskId": "string",
+      "taskStatusUrl": "string",
+      "executionStatusUrl": "string",
+      "executionId": "string"
     }
 """

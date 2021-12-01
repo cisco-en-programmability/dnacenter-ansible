@@ -31,14 +31,17 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
-    payload=dict(type="list"),
-    device_ip=dict(type="str"),
+    siteNameHierarchy=dict(type="str"),
+    deviceManagementIpAddress=dict(type="str"),
     interfaceName=dict(type="str"),
+    dataIpAddressPoolName=dict(type="str"),
+    voiceIpAddressPoolName=dict(type="str"),
+    authenticateTemplateName=dict(type="str"),
+    scalableGroupName=dict(type="str"),
+    interfaceDescription=dict(type="str"),
 ))
 
 required_if = [
-    ("state", "present", ["payload"], True),
-    ("state", "absent", ["payload"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -49,25 +52,39 @@ class SdaPortAssignmentForUserDevice(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
-            payload=params.get("payload"),
-            device_ip=params.get("device_ip"),
+            siteNameHierarchy=params.get("siteNameHierarchy"),
+            deviceManagementIpAddress=params.get("deviceManagementIpAddress"),
+            interfaceName=params.get("interfaceName"),
+            dataIpAddressPoolName=params.get("dataIpAddressPoolName"),
+            voiceIpAddressPoolName=params.get("voiceIpAddressPoolName"),
+            authenticateTemplateName=params.get("authenticateTemplateName"),
+            scalableGroupName=params.get("scalableGroupName"),
+            interfaceDescription=params.get("interfaceDescription"),
+            device_management_ip_address=params.get("deviceManagementIpAddress"),
             interface_name=params.get("interfaceName"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['device_ip'] = self.new_object.get('device_ip')
+        new_object_params['device_management_ip_address'] = self.new_object.get('device_management_ip_address')
         new_object_params['interface_name'] = self.new_object.get('interface_name')
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['payload'] = self.new_object.get('payload')
+        new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
+        new_object_params['deviceManagementIpAddress'] = self.new_object.get('deviceManagementIpAddress')
+        new_object_params['interfaceName'] = self.new_object.get('interfaceName')
+        new_object_params['dataIpAddressPoolName'] = self.new_object.get('dataIpAddressPoolName')
+        new_object_params['voiceIpAddressPoolName'] = self.new_object.get('voiceIpAddressPoolName')
+        new_object_params['authenticateTemplateName'] = self.new_object.get('authenticateTemplateName')
+        new_object_params['scalableGroupName'] = self.new_object.get('scalableGroupName')
+        new_object_params['interfaceDescription'] = self.new_object.get('interfaceDescription')
         return new_object_params
 
     def delete_all_params(self):
         new_object_params = {}
-        new_object_params['device_ip'] = self.new_object.get('device_ip')
+        new_object_params['device_management_ip_address'] = self.new_object.get('device_management_ip_address')
         new_object_params['interface_name'] = self.new_object.get('interface_name')
         return new_object_params
 
@@ -97,11 +114,8 @@ class SdaPortAssignmentForUserDevice(object):
         prev_obj = None
         id_exists = False
         name_exists = False
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-        o_id = self.new_object.get("id") or requested_obj.get("id")
-        name = self.new_object.get("name") or requested_obj.get("name")
+        o_id = self.new_object.get("id")
+        name = self.new_object.get("name")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -118,9 +132,7 @@ class SdaPortAssignmentForUserDevice(object):
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
+        requested_obj = self.new_object
 
         obj_params = [
             ("siteNameHierarchy", "siteNameHierarchy"),
@@ -129,7 +141,9 @@ class SdaPortAssignmentForUserDevice(object):
             ("dataIpAddressPoolName", "dataIpAddressPoolName"),
             ("voiceIpAddressPoolName", "voiceIpAddressPoolName"),
             ("authenticateTemplateName", "authenticateTemplateName"),
-            ("device_ip", "device_ip"),
+            ("scalableGroupName", "scalableGroupName"),
+            ("interfaceDescription", "interfaceDescription"),
+            ("deviceManagementIpAddress", "device_management_ip_address"),
             ("interfaceName", "interface_name"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
@@ -148,11 +162,8 @@ class SdaPortAssignmentForUserDevice(object):
         return result
 
     def delete(self):
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-        id = self.new_object.get("id") or requested_obj.get("id")
-        name = self.new_object.get("name") or requested_obj.get("name")
+        id = self.new_object.get("id")
+        name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
             family="sda",

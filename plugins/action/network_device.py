@@ -59,7 +59,7 @@ argument_spec.update(dict(
     updateMgmtIPaddressList=dict(type="list"),
     userName=dict(type="str"),
     id=dict(type="str"),
-    isForceDelete=dict(type="bool"),
+    cleanConfig=dict(type="bool"),
 ))
 
 required_if = [
@@ -103,7 +103,7 @@ class NetworkDevice(object):
             updateMgmtIPaddressList=params.get("updateMgmtIPaddressList"),
             userName=params.get("userName"),
             id=params.get("id"),
-            is_force_delete=params.get("isForceDelete"),
+            clean_config=params.get("cleanConfig"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -176,7 +176,7 @@ class NetworkDevice(object):
 
     def delete_by_id_params(self):
         new_object_params = {}
-        new_object_params['is_force_delete'] = self.new_object.get('is_force_delete')
+        new_object_params['clean_config'] = self.new_object.get('clean_config')
         new_object_params['id'] = self.new_object.get('id')
         return new_object_params
 
@@ -223,7 +223,7 @@ class NetworkDevice(object):
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
-            result = get_dict_result(items, 'managementIpAddress', name)
+            result = get_dict_result(items, 'name', name)
         except Exception:
             result = None
         return result
@@ -249,7 +249,7 @@ class NetworkDevice(object):
         name_exists = False
         prev_obj = None
         o_id = self.new_object.get("id")
-        name = self.new_object.get('management_ip_address') or \
+        name = self.new_object.get("name") or \
             self.new_object.get('ipAddress')
         if isinstance(name, list) and len(name) > 0:
             name = name[0]
@@ -301,7 +301,7 @@ class NetworkDevice(object):
             ("updateMgmtIPaddressList", "updateMgmtIPaddressList"),
             ("userName", "userName"),
             ("id", "id"),
-            ("isForceDelete", "is_force_delete"),
+            ("cleanConfig", "clean_config"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
@@ -312,7 +312,7 @@ class NetworkDevice(object):
     def create(self):
         result = self.dnac.exec(
             family="devices",
-            function="add_device",
+            function="add_device2",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -320,8 +320,10 @@ class NetworkDevice(object):
 
     def update(self):
         id = self.new_object.get("id")
-        name = self.new_object.get('management_ip_address') or \
+        name = self.new_object.get("name") or \
             self.new_object.get('ipAddress')
+        if isinstance(name, list) and len(name) > 0:
+            name = name[0]
         result = None
         result = self.dnac.exec(
             family="devices",
@@ -333,8 +335,10 @@ class NetworkDevice(object):
 
     def delete(self):
         id = self.new_object.get("id")
-        name = self.new_object.get('management_ip_address') or \
+        name = self.new_object.get("name") or \
             self.new_object.get('ipAddress')
+        if isinstance(name, list) and len(name) > 0:
+            name = name[0]
         result = None
         if not id:
             prev_obj_name = self.get_object_by_name(name)
