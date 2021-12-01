@@ -57,6 +57,7 @@ argument_spec.update(dict(
     snmpVersion=dict(type="str"),
     type=dict(type="str"),
     updateMgmtIPaddressList=dict(type="list"),
+    managementIpAddress=dict(type="str"),
     userName=dict(type="str"),
     id=dict(type="str"),
     cleanConfig=dict(type="bool"),
@@ -101,6 +102,7 @@ class NetworkDevice(object):
             snmpVersion=params.get("snmpVersion"),
             type=params.get("type"),
             updateMgmtIPaddressList=params.get("updateMgmtIPaddressList"),
+            managementIpAddress=params.get("managementIpAddress"),
             userName=params.get("userName"),
             id=params.get("id"),
             clean_config=params.get("cleanConfig"),
@@ -109,7 +111,7 @@ class NetworkDevice(object):
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params['hostname'] = self.new_object.get('hostname')
-        new_object_params['management_ip_address'] = self.new_object.get('management_ip_address') or \
+        new_object_params['management_ip_address'] = self.new_object.get('managementIpAddress') or \
             self.new_object.get('ipAddress')
         new_object_params['mac_address'] = self.new_object.get('mac_address')
         new_object_params['location_name'] = self.new_object.get('location_name')
@@ -223,7 +225,7 @@ class NetworkDevice(object):
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
-            result = get_dict_result(items, 'name', name)
+            result = get_dict_result(items, 'managementIpAddress', name)
         except Exception:
             result = None
         return result
@@ -249,7 +251,7 @@ class NetworkDevice(object):
         name_exists = False
         prev_obj = None
         o_id = self.new_object.get("id")
-        name = self.new_object.get("name") or \
+        name = self.new_object.get("managementIpAddress") or \
             self.new_object.get('ipAddress')
         if isinstance(name, list) and len(name) > 0:
             name = name[0]
@@ -320,7 +322,7 @@ class NetworkDevice(object):
 
     def update(self):
         id = self.new_object.get("id")
-        name = self.new_object.get("name") or \
+        name = self.new_object.get("managementIpAddress") or \
             self.new_object.get('ipAddress')
         if isinstance(name, list) and len(name) > 0:
             name = name[0]
@@ -335,7 +337,7 @@ class NetworkDevice(object):
 
     def delete(self):
         id = self.new_object.get("id")
-        name = self.new_object.get("name") or \
+        name = self.new_object.get("managementIpAddress") or \
             self.new_object.get('ipAddress')
         if isinstance(name, list) and len(name) > 0:
             name = name[0]
