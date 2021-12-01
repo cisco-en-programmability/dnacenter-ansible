@@ -15,34 +15,25 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
-  device_ip:
-    description: Device-ip query parameter.
+  authenticateTemplateName:
+    description: Authenticate TemplateName associated to siteNameHierarchy.
+    type: str
+  dataIpAddressPoolName:
+    description: Ip Pool Name, that is assigned to INFRA_VN.
+    type: str
+  deviceManagementIpAddress:
+    description: Management Ip Address of the edge device.
+    type: str
+  interfaceDescription:
+    description: Details or note of interface assignment.
     type: str
   interfaceName:
-    description: InterfaceName query parameter.
+    description: Interface Name of the edge device.
     type: str
-  payload:
-    description: Sda Port Assignment For Access Point's payload.
-    suboptions:
-      authenticateTemplateName:
-        description: Authenticate Template Name.
-        type: str
-      dataIpAddressPoolName:
-        description: Data Ip Address Pool Name.
-        type: str
-      deviceManagementIpAddress:
-        description: Device Management Ip Address.
-        type: str
-      interfaceName:
-        description: Interface Name.
-        type: str
-      siteNameHierarchy:
-        description: Site Name Hierarchy.
-        type: str
-      voiceIpAddressPoolName:
-        description: Voice Ip Address Pool Name.
-        type: str
-    type: list
+  siteNameHierarchy:
+    description: Site Name Hierarchy should be a valid fabric site name hierarchy. E.g
+      Global/USA/San Jose.
+    type: str
 requirements:
 - dnacentersdk >= 2.3.1
 - python >= 3.5
@@ -64,13 +55,12 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    payload:
-    - siteNameHierarchy: string
-      deviceManagementIpAddress: string
-      interfaceName: string
-      dataIpAddressPoolName: string
-      voiceIpAddressPoolName: string
-      authenticateTemplateName: string
+    authenticateTemplateName: string
+    dataIpAddressPoolName: string
+    deviceManagementIpAddress: string
+    interfaceDescription: string
+    interfaceName: string
+    siteNameHierarchy: string
 
 - name: Delete all
   cisco.dnac.sda_port_assignment_for_access_point:
@@ -82,7 +72,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: absent
-    device_ip: string
+    deviceManagementIpAddress: string
     interfaceName: string
 
 """
@@ -96,6 +86,9 @@ dnac_response:
     {
       "status": "string",
       "description": "string",
-      "executionStatusUrl": "string"
+      "taskId": "string",
+      "taskStatusUrl": "string",
+      "executionStatusUrl": "string",
+      "executionId": "string"
     }
 """

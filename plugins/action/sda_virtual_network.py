@@ -31,14 +31,11 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
-    payload=dict(type="list"),
     virtualNetworkName=dict(type="str"),
     siteNameHierarchy=dict(type="str"),
 ))
 
 required_if = [
-    ("state", "present", ["payload"], True),
-    ("state", "absent", ["payload"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -49,7 +46,8 @@ class SdaVirtualNetwork(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
-            payload=params.get("payload"),
+            virtualNetworkName=params.get("virtualNetworkName"),
+            siteNameHierarchy=params.get("siteNameHierarchy"),
             virtual_network_name=params.get("virtualNetworkName"),
             site_name_hierarchy=params.get("siteNameHierarchy"),
         )
@@ -62,7 +60,8 @@ class SdaVirtualNetwork(object):
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['payload'] = self.new_object.get('payload')
+        new_object_params['virtualNetworkName'] = self.new_object.get('virtualNetworkName')
+        new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
         return new_object_params
 
     def delete_all_params(self):
@@ -97,11 +96,8 @@ class SdaVirtualNetwork(object):
         prev_obj = None
         id_exists = False
         name_exists = False
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-        o_id = self.new_object.get("id") or requested_obj.get("id")
-        name = self.new_object.get("name") or requested_obj.get("name")
+        o_id = self.new_object.get("id")
+        name = self.new_object.get("name")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -118,9 +114,7 @@ class SdaVirtualNetwork(object):
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
+        requested_obj = self.new_object
 
         obj_params = [
             ("virtualNetworkName", "virtualNetworkName"),
@@ -144,11 +138,8 @@ class SdaVirtualNetwork(object):
         return result
 
     def delete(self):
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-        id = self.new_object.get("id") or requested_obj.get("id")
-        name = self.new_object.get("name") or requested_obj.get("name")
+        id = self.new_object.get("id")
+        name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
             family="sda",

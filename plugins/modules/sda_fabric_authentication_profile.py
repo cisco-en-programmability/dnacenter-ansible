@@ -15,19 +15,36 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
-  payload:
-    description: Sda Fabric Authentication Profile's payload.
-    suboptions:
-      authenticateTemplateName:
-        description: Authenticate Template Name.
-        type: str
-      siteNameHierarchy:
-        description: Site Name Hierarchy.
-        type: str
-    type: list
-  siteNameHierarchy:
-    description: SiteNameHierarchy query parameter.
+  authenticateTemplateName:
+    description: Authenticate Template Name. Allowed values are 'No Authentication ',
+      'Open Authentication', 'Closed Authentication', 'Low Impact'.
     type: str
+  authenticationOrder:
+    description: Authentication Order. Allowed values are 'dot1x ', 'mac'.
+    type: str
+  dot1xToMabFallbackTimeout:
+    description: In a network that includes both devices that support and devices that
+      do not support IEEE 802.1X, MAB can be deployed as a fallback, or complementary,
+      mechanism to IEEE 802.1X. If the network does not have any IEEE 802.1X-capable
+      devices, MAB can be deployed as a standalone authentication mechanism (e.g. 3-120).
+    type: str
+  numberOfHosts:
+    description: Number of hosts specifies the number of data hosts that can be connected
+      to a port. With Single selected, you can have only one data client on the port.
+      With Unlimited selected, you can have multiple data clients and one voice client
+      on the port.
+    type: str
+  siteNameHierarchy:
+    description: Site Name Hierarchy should be a valid fabric site name hierarchy. E.g
+      Global/USA/San Jose.
+    type: str
+  wakeOnLan:
+    description: The IEEE 802.1X Wake on LAN (WoL) Support feature allows dormant systems
+      to be powered up when the switch receives a specific Ethernet frame. You can use
+      this feature in cases when hosts on power save and needs to receive a magic packet
+      to turn them on. This feature works on a per subnet basis and send the subnet
+      broadcast to all hosts in the subnet.
+    type: bool
 requirements:
 - dnacentersdk >= 2.3.1
 - python >= 3.5
@@ -49,9 +66,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    payload:
-    - siteNameHierarchy: string
-      authenticateTemplateName: string
+    authenticateTemplateName: string
+    siteNameHierarchy: string
 
 - name: Update all
   cisco.dnac.sda_fabric_authentication_profile:
@@ -63,9 +79,12 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    payload:
-    - siteNameHierarchy: string
-      authenticateTemplateName: string
+    authenticateTemplateName: string
+    authenticationOrder: string
+    dot1xToMabFallbackTimeout: string
+    numberOfHosts: string
+    siteNameHierarchy: string
+    wakeOnLan: true
 
 - name: Delete all
   cisco.dnac.sda_fabric_authentication_profile:
@@ -90,6 +109,9 @@ dnac_response:
     {
       "status": "string",
       "description": "string",
-      "executionStatusUrl": "string"
+      "taskId": "string",
+      "taskStatusUrl": "string",
+      "executionStatusUrl": "string",
+      "executionId": "string"
     }
 """

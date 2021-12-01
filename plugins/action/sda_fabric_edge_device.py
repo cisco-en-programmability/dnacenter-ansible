@@ -31,13 +31,11 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
-    payload=dict(type="list"),
-    deviceIPAddress=dict(type="str"),
+    deviceManagementIpAddress=dict(type="str"),
+    siteNameHierarchy=dict(type="str"),
 ))
 
 required_if = [
-    ("state", "present", ["payload"], True),
-    ("state", "absent", ["payload"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -48,23 +46,25 @@ class SdaFabricEdgeDevice(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
-            payload=params.get("payload"),
-            device_ipaddress=params.get("deviceIPAddress"),
+            deviceManagementIpAddress=params.get("deviceManagementIpAddress"),
+            siteNameHierarchy=params.get("siteNameHierarchy"),
+            device_management_ip_address=params.get("deviceManagementIpAddress"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['device_ipaddress'] = self.new_object.get('device_ipaddress')
+        new_object_params['device_management_ip_address'] = self.new_object.get('device_management_ip_address')
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['payload'] = self.new_object.get('payload')
+        new_object_params['deviceManagementIpAddress'] = self.new_object.get('deviceManagementIpAddress')
+        new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
         return new_object_params
 
     def delete_all_params(self):
         new_object_params = {}
-        new_object_params['device_ipaddress'] = self.new_object.get('device_ipaddress')
+        new_object_params['device_management_ip_address'] = self.new_object.get('device_management_ip_address')
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -93,11 +93,8 @@ class SdaFabricEdgeDevice(object):
         prev_obj = None
         id_exists = False
         name_exists = False
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-        o_id = self.new_object.get("id") or requested_obj.get("id")
-        name = self.new_object.get("name") or requested_obj.get("name")
+        o_id = self.new_object.get("id")
+        name = self.new_object.get("name")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -114,14 +111,12 @@ class SdaFabricEdgeDevice(object):
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
+        requested_obj = self.new_object
 
         obj_params = [
             ("deviceManagementIpAddress", "deviceManagementIpAddress"),
             ("siteNameHierarchy", "siteNameHierarchy"),
-            ("deviceIPAddress", "device_ipaddress"),
+            ("deviceManagementIpAddress", "device_management_ip_address"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
@@ -139,11 +134,8 @@ class SdaFabricEdgeDevice(object):
         return result
 
     def delete(self):
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-        id = self.new_object.get("id") or requested_obj.get("id")
-        name = self.new_object.get("name") or requested_obj.get("name")
+        id = self.new_object.get("id")
+        name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
             family="sda",
