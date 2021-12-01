@@ -289,6 +289,9 @@ options:
             description: Device type.
             type: str
         type: list
+      documentDatabase:
+        description: Document Database.
+        type: bool
       failurePolicy:
         description: Define failure policy if template provisioning fails.
         type: str
@@ -310,6 +313,9 @@ options:
       parentTemplateId:
         description: Parent templateID.
         type: str
+      projectAssociated:
+        description: Project Associated.
+        type: bool
       projectId:
         description: Project UUID.
         type: str
@@ -510,10 +516,12 @@ options:
         suboptions:
           rollbackTemplateErrors:
             description: Validation or design conflicts errors of rollback template.
-            type: dict
+            elements: dict
+            type: list
           templateErrors:
             description: Validation or design conflicts errors.
-            type: dict
+            elements: dict
+            type: list
           templateId:
             description: UUID of template.
             type: str
@@ -634,6 +642,7 @@ EXAMPLES = r"""
       - productFamily: string
         productSeries: string
         productType: string
+      documentDatabase: true
       failurePolicy: string
       id: string
       language: string
@@ -641,6 +650,7 @@ EXAMPLES = r"""
       latestVersionTime: 0
       name: string
       parentTemplateId: string
+      projectAssociated: true
       projectId: string
       projectName: string
       rollbackTemplateContent: string
@@ -706,8 +716,10 @@ EXAMPLES = r"""
           selectionType: string
           selectionValues: {}
       validationErrors:
-        rollbackTemplateErrors: {}
-        templateErrors: {}
+        rollbackTemplateErrors:
+        - {}
+        templateErrors:
+        - {}
         templateId: string
         templateVersion: string
       version: string
@@ -810,6 +822,7 @@ EXAMPLES = r"""
       - productFamily: string
         productSeries: string
         productType: string
+      documentDatabase: true
       failurePolicy: string
       id: string
       language: string
@@ -817,6 +830,7 @@ EXAMPLES = r"""
       latestVersionTime: 0
       name: string
       parentTemplateId: string
+      projectAssociated: true
       projectId: string
       projectName: string
       rollbackTemplateContent: string
@@ -882,8 +896,10 @@ EXAMPLES = r"""
           selectionType: string
           selectionValues: {}
       validationErrors:
-        rollbackTemplateErrors: {}
-        templateErrors: {}
+        rollbackTemplateErrors:
+        - {}
+        templateErrors:
+        - {}
         templateId: string
         templateVersion: string
       version: string
