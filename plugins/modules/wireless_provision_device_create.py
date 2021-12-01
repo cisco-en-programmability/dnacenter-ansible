@@ -28,7 +28,7 @@ options:
             description: Interface Gateway.
             type: str
           interfaceIPAddress:
-            description: Interface IP Address.
+            description: Interface IPAddress.
             type: str
           interfaceName:
             description: Interface Name.
@@ -40,11 +40,11 @@ options:
             description: Lag Or Port Number.
             type: int
           vlanId:
-            description: VLAN ID.
+            description: Vlan Id.
             type: int
         type: list
       managedAPLocations:
-        description: List of managed AP locations (Site Hierarchies).
+        description: Managed APLocations.
         elements: str
         type: list
     type: list
@@ -68,7 +68,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    payload:
 
 """
 

@@ -89,7 +89,7 @@ dnac_response:
         {
           "displayName": "string",
           "complianceType": "string",
-          "lastSyncTime": "string",
+          "lastSyncTime": 0,
           "additionalDataURL": "string",
           "sourceInfoList": [
             {
@@ -130,7 +130,7 @@ dnac_response:
           "state": "string",
           "status": "string",
           "category": "string",
-          "lastUpdateTime": "string"
+          "lastUpdateTime": 0
         }
       ]
     }
