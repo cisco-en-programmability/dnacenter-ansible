@@ -21,14 +21,17 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     dnac_argument_spec,
 )
 
-# Get common arguements specification
+# Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    deviceId=dict(type="str"),
-    params=dict(type="dict"),
-    resourceParams=dict(type="list"),
-    templateId=dict(type="str"),
+    deviceUuid=dict(type="str"),
+    category=dict(type="str"),
+    complianceType=dict(type="str"),
+    diffList=dict(type="bool"),
+    key=dict(type="str"),
+    value=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -43,7 +46,7 @@ class ActionModule(ActionBase):
             raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
-        self._supports_check_mode = False
+        self._supports_check_mode = True
         self._result = None
 
     # Checks the supplied parameters against the argument spec for this module
@@ -66,10 +69,13 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            deviceId=params.get("deviceId"),
-            params=params.get("params"),
-            resourceParams=params.get("resourceParams"),
-            templateId=params.get("templateId"),
+            device_uuid=params.get("deviceUuid"),
+            category=params.get("category"),
+            compliance_type=params.get("complianceType"),
+            diff_list=params.get("diffList"),
+            key=params.get("key"),
+            value=params.get("value"),
+            headers=params.get("headers"),
         )
         return new_object
 
@@ -79,12 +85,13 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
+        self._result.update(dict(dnac_response={}))
+
         dnac = DNACSDK(params=self._task.args)
 
         response = dnac.exec(
-            family="configuration_templates",
-            function='preview_template',
-            op_modifies=True,
+            family="compliance",
+            function='compliance_details_of_device',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

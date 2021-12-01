@@ -181,7 +181,7 @@ class Discovery(object):
         else:
             return pList
 
-    def update_by_id_params(self):
+    def update_all_params(self):
         new_object_params = {}
         new_object_params['attributeInfo'] = self.new_object.get('attributeInfo')
         new_object_params['cdpLevel'] = self.new_object.get('cdpLevel')
@@ -353,7 +353,7 @@ class Discovery(object):
         result = self.dnac.exec(
             family="discovery",
             function="updates_discovery_by_id",
-            params=self.update_by_id_params(),
+            params=self.update_all_params(),
             op_modifies=True,
         )
         return result

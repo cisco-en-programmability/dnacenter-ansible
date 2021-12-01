@@ -29,6 +29,7 @@ options:
         suboptions:
           items:
             description: Tag's items.
+            elements: dict
             type: list
           name:
             description: Tag's name.
@@ -82,7 +83,8 @@ EXAMPLES = r"""
     dynamicRules:
     - memberType: string
       rules:
-        items: []
+        items:
+        - {}
         name: string
         operation: string
         value: string
@@ -107,7 +109,8 @@ EXAMPLES = r"""
     dynamicRules:
     - memberType: string
       rules:
-        items: []
+        items:
+        - {}
         name: string
         operation: string
         value: string

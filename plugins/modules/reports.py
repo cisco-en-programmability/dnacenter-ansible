@@ -17,6 +17,7 @@ author: Rafael Campos (@racampos)
 options:
   deliveries:
     description: Array of available delivery channels.
+    elements: dict
     type: list
   name:
     description: Report name.
@@ -115,7 +116,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    deliveries: []
+    deliveries:
+    - {}
     name: string
     schedule: {}
     tags:
@@ -165,7 +167,9 @@ dnac_response:
         "string"
       ],
       "dataCategory": "string",
-      "deliveries": [],
+      "deliveries": [
+        {}
+      ],
       "executionCount": 0,
       "executions": [
         {

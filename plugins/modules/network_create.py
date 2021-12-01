@@ -205,57 +205,6 @@ EXAMPLES = r"""
       timezone: string
     siteId: string
 
-- name: Update by id
-  cisco.dnac.network_create:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    settings:
-      clientAndEndpoint_aaa:
-        additionalIp:
-        - string
-        ipAddress: string
-        network: string
-        protocol: string
-        servers: string
-        sharedSecret: string
-      dhcpServer:
-      - string
-      dnsServer:
-        domainName: string
-        primaryIpAddress: string
-        secondaryIpAddress: string
-      messageOfTheday:
-        bannerMessage: string
-        retainExistingBanner: true
-      netflowcollector:
-        ipAddress: string
-        port: 0
-      network_aaa:
-        additionalIp:
-        - string
-        ipAddress: string
-        network: string
-        protocol: string
-        servers: string
-        sharedSecret: string
-      ntpServer:
-      - string
-      snmpServer:
-        configureDnacIP: true
-        ipAddresses:
-        - string
-      syslogServer:
-        configureDnacIP: true
-        ipAddresses:
-        - string
-      timezone: string
-    siteId: string
-
 """
 
 RETURN = r"""

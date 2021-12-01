@@ -9,7 +9,7 @@ DOCUMENTATION = r"""
 module: network_device_polling_interval_info
 short_description: Information module for Network Device Polling Interval
 description:
-- Get Network Device Polling Interval by id.
+- Get all Network Device Polling Interval.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -33,7 +33,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Get Network Device Polling Interval by id
+- name: Get all Network Device Polling Interval
   cisco.dnac.network_device_polling_interval_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

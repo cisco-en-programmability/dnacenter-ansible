@@ -30,17 +30,17 @@
               running iTunes. iTunes-video refers to all video streaming media services generated
               by iTunes such as: play movies, TV shows, videocasts, video, etc.'
             name: itunes-video
-            popularity: 10
-            rank: 65535
+            popularity: '10'
+            rank: '65535'
             selectorId: '572'
             trafficClass: MULTIMEDIA_STREAMING
           networkIdentity:
           - id: 4babbfcf-c5b7-4105-8954-1ee3a6097753
             displayName: '1461196'
-            lowerPort: 0
+            lowerPort: '0'
             ports: '80'
             protocol: TCP
-            upperPort: 0
+            upperPort: '0'
           applicationSet:
             idRef: d31b81a3-a599-4d0c-bb6d-42bbdd0e7889
     register: application_result

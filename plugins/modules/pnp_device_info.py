@@ -274,7 +274,9 @@ dnac_response:
             "status": "string",
             "macAddress": "string",
             "ipv4Address": {},
-            "ipv6AddressList": [],
+            "ipv6AddressList": [
+              {}
+            ],
             "name": "string"
           }
         ],

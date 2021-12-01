@@ -77,7 +77,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="discovery",
-            function='delete_global_credentials_by_id',
+            function="delete_global_credentials_by_id",
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

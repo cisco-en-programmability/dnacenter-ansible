@@ -120,6 +120,7 @@ options:
             type: dict
           ipv6AddressList:
             description: Pnp Device's ipv6AddressList.
+            elements: dict
             type: list
           macAddress:
             description: Pnp Device's macAddress.
@@ -857,7 +858,8 @@ EXAMPLES = r"""
       imageVersion: string
       ipInterfaces:
       - ipv4Address: {}
-        ipv6AddressList: []
+        ipv6AddressList:
+        - {}
         macAddress: string
         name: string
         status: string
@@ -1123,7 +1125,8 @@ EXAMPLES = r"""
       imageVersion: string
       ipInterfaces:
       - ipv4Address: {}
-        ipv6AddressList: []
+        ipv6AddressList:
+        - {}
         macAddress: string
         name: string
         status: string
@@ -1464,7 +1467,9 @@ dnac_response:
             "status": "string",
             "macAddress": "string",
             "ipv4Address": {},
-            "ipv6AddressList": [],
+            "ipv6AddressList": [
+              {}
+            ],
             "name": "string"
           }
         ],
@@ -1474,20 +1479,22 @@ dnac_response:
           "supportsStackWorkflows": true,
           "isFullRing": true,
           "stackMemberList": [
-            {
-              "serialNumber": "string",
-              "state": "string",
-              "role": "string",
-              "macAddress": "string",
-              "pid": "string",
-              "licenseLevel": "string",
-              "licenseType": "string",
-              "sudiSerialNumber": "string",
-              "hardwareVersion": "string",
-              "stackNumber": 0,
-              "softwareVersion": "string",
-              "priority": 0
-            }
+            [
+              {
+                "serialNumber": "string",
+                "state": "string",
+                "role": "string",
+                "macAddress": "string",
+                "pid": "string",
+                "licenseLevel": "string",
+                "licenseType": "string",
+                "sudiSerialNumber": "string",
+                "hardwareVersion": "string",
+                "stackNumber": 0,
+                "softwareVersion": "string",
+                "priority": 0
+              }
+            ]
           ],
           "stackRingProtocol": "string",
           "validLicenseLevels": [

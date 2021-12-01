@@ -77,7 +77,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="sites",
-            function='delete_site',
+            function="delete_site",
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))
