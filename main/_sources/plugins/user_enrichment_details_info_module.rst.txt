@@ -30,7 +30,7 @@ cisco.dnac.user_enrichment_details_info -- Information module for User Enrichmen
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -341,7 +341,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
           ],
           &quot;hostMac&quot;: &quot;string&quot;,
           &quot;hostIpV4&quot;: &quot;string&quot;,
-          &quot;hostIpV6&quot;: [],
+          &quot;hostIpV6&quot;: [
+            {}
+          ],
           &quot;authType&quot;: {},
           &quot;vlanId&quot;: &quot;string&quot;,
           &quot;ssid&quot;: {},
@@ -350,7 +352,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
           &quot;apGroup&quot;: {},
           &quot;location&quot;: {},
           &quot;clientConnection&quot;: &quot;string&quot;,
-          &quot;connectedDevice&quot;: [],
+          &quot;connectedDevice&quot;: [
+            {}
+          ],
           &quot;issueCount&quot;: 0,
           &quot;rssi&quot;: {},
           &quot;avgRssi&quot;: {},

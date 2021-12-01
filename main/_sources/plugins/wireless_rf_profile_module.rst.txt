@@ -30,7 +30,7 @@ cisco.dnac.wireless_rf_profile -- Resource module for Wireless Rf Profile
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -619,6 +619,21 @@ Parameters
                     
                                 <tr>
                                                                 <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-rfProfileName"></div>
+                    <b>rfProfileName</b>
+                    <a class="ansibleOptionLink" href="#parameter-rfProfileName" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>RfProfileName path parameter. RF profile name to be deleted(required) non_custom RF profile cannot be deleted.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
                     <b>validate_response_schema</b>
                     <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
@@ -705,6 +720,18 @@ Examples
           powerThresholdV1: 0
           radioChannels: string
           rxSopThreshold: string
+
+    - name: Delete by name
+      cisco.dnac.wireless_rf_profile:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        rfProfileName: string
 
 
 

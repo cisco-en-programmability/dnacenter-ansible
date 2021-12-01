@@ -59,6 +59,7 @@
 <li class="toctree-l4"><a class="reference internal" href="client_proximity_info_module.html">cisco.dnac.client_proximity_info – Information module for Client Proximity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="command_runner_run_command_module.html">cisco.dnac.command_runner_run_command – Resource module for Command Runner Run Command</a></li>
 <li class="toctree-l4"><a class="reference internal" href="compliance_check_run_module.html">cisco.dnac.compliance_check_run – Resource module for Compliance Check Run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="compliance_device_by_id_info_module.html">cisco.dnac.compliance_device_by_id_info – Information module for Compliance Device By Id</a></li>
 <li class="toctree-l4"><a class="reference internal" href="compliance_device_details_count_info_module.html">cisco.dnac.compliance_device_details_count_info – Information module for Compliance Device Details Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="compliance_device_details_info_module.html">cisco.dnac.compliance_device_details_info – Information module for Compliance Device Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="compliance_device_info_module.html">cisco.dnac.compliance_device_info – Information module for Compliance Device</a></li>
@@ -372,7 +373,7 @@
 <h1>cisco.dnac.sensor – Resource module for Sensor<a class="headerlink" href="#cisco-dnac-sensor-resource-module-for-sensor" title="Permalink to this headline"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This plugin is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 3.2.2).</p>
+<p>This plugin is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 3.2.3).</p>
 <p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
 It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
 To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
@@ -400,7 +401,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module has a corresponding <a class="reference external" href="https://docs.ansible.com/ansible/latest/plugins/action.html#action-plugins" title="(in Ansible v4)"><span class="xref std std-ref">action plugin</span></a>.</p>
+<p>This module has a corresponding <a class="reference external" href="https://docs.ansible.com/ansible/latest/plugins/action.html#action-plugins" title="(in Ansible v5)"><span class="xref std std-ref">action plugin</span></a>.</p>
 </div>
 </section>
 <section id="requirements">
@@ -781,7 +782,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
                 <a class="ansibleOptionLink" href="#parameter-ssids/tests/config" title="Permalink to this option"></a>
                 <div style="font-size: small">
                     <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
+                     / <span style="color: purple">elements=dictionary</span>                                            </div>
                                                     </td>
                             <td>
                                                                                                                                                         </td>
@@ -931,7 +932,8 @@ To check whether it is installed, run <code class="code docutils literal notrans
       <span class="nt">qosPolicy</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
       <span class="nt">ssid</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
       <span class="nt">tests</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="nt">config</span><span class="p">:</span> <span class="p p-Indicator">[]</span>
+      <span class="p p-Indicator">-</span> <span class="nt">config</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="p p-Indicator">{}</span>
         <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
       <span class="nt">thirdParty</span><span class="p">:</span>
         <span class="nt">selected</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
@@ -952,7 +954,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </section>
 <section id="return-values">
 <h2><a class="toc-backref" href="#id7">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this headline"></a></h2>
-<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v4)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
+<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v5)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table border=0 cellpadding=0 class="documentation-table">
     <tr>
         <th colspan="1">Key</th>
@@ -991,7 +993,9 @@ To check whether it is installed, run <code class="code docutils literal notrans
     &quot;rssiThreshold&quot;: 0,
     &quot;numNeighborAPThreshold&quot;: 0,
     &quot;scheduleInDays&quot;: 0,
-    &quot;wlans&quot;: [],
+    &quot;wlans&quot;: [
+      {}
+    ],
     &quot;ssids&quot;: [
       {
         &quot;bands&quot;: {},
@@ -1022,7 +1026,9 @@ To check whether it is installed, run <code class="code docutils literal notrans
         &quot;whiteList&quot;: true,
         &quot;extWebAuthPortal&quot;: {},
         &quot;extWebAuthAccessUrl&quot;: {},
-        &quot;extWebAuthHtmlTag&quot;: [],
+        &quot;extWebAuthHtmlTag&quot;: [
+          {}
+        ],
         &quot;thirdParty&quot;: {
           &quot;selected&quot;: true
         },
@@ -1035,7 +1041,9 @@ To check whether it is installed, run <code class="code docutils literal notrans
         &quot;tests&quot;: [
           {
             &quot;name&quot;: &quot;string&quot;,
-            &quot;config&quot;: []
+            &quot;config&quot;: [
+              {}
+            ]
           }
         ]
       }
@@ -1045,10 +1053,14 @@ To check whether it is installed, run <code class="code docutils literal notrans
     &quot;radioAsSensorRemoved&quot;: true,
     &quot;encryptionMode&quot;: &quot;string&quot;,
     &quot;runNow&quot;: &quot;string&quot;,
-    &quot;locationInfoList&quot;: [],
+    &quot;locationInfoList&quot;: [
+      {}
+    ],
     &quot;schedule&quot;: {},
     &quot;tests&quot;: {},
-    &quot;sensors&quot;: [],
+    &quot;sensors&quot;: [
+      {}
+    ],
     &quot;apCoverage&quot;: [
       {
         &quot;bands&quot;: &quot;string&quot;,

@@ -30,7 +30,7 @@ cisco.dnac.task_info -- Information module for Task
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -578,7 +578,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       &quot;response&quot;: {
         &quot;additionalStatusURL&quot;: &quot;string&quot;,
         &quot;data&quot;: &quot;string&quot;,
-        &quot;endTime&quot;: &quot;string&quot;,
+        &quot;endTime&quot;: 0,
         &quot;errorCode&quot;: &quot;string&quot;,
         &quot;errorKey&quot;: &quot;string&quot;,
         &quot;failureReason&quot;: &quot;string&quot;,
@@ -591,7 +591,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         &quot;progress&quot;: &quot;string&quot;,
         &quot;rootId&quot;: &quot;string&quot;,
         &quot;serviceType&quot;: &quot;string&quot;,
-        &quot;startTime&quot;: &quot;string&quot;,
+        &quot;startTime&quot;: 0,
         &quot;username&quot;: &quot;string&quot;,
         &quot;version&quot;: 0
       },

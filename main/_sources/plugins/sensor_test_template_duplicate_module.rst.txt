@@ -30,7 +30,7 @@ cisco.dnac.sensor_test_template_duplicate -- Resource module for Sensor Test Tem
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -352,7 +352,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         &quot;rssiThreshold&quot;: 0,
         &quot;numNeighborAPThreshold&quot;: 0,
         &quot;scheduleInDays&quot;: 0,
-        &quot;wlans&quot;: [],
+        &quot;wlans&quot;: [
+          {}
+        ],
         &quot;ssids&quot;: [
           {
             &quot;bands&quot;: {},
@@ -383,7 +385,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
             &quot;whiteList&quot;: true,
             &quot;extWebAuthPortal&quot;: {},
             &quot;extWebAuthAccessUrl&quot;: {},
-            &quot;extWebAuthHtmlTag&quot;: [],
+            &quot;extWebAuthHtmlTag&quot;: [
+              {}
+            ],
             &quot;thirdParty&quot;: {
               &quot;selected&quot;: true
             },
@@ -396,7 +400,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
             &quot;tests&quot;: [
               {
                 &quot;name&quot;: &quot;string&quot;,
-                &quot;config&quot;: []
+                &quot;config&quot;: [
+                  {}
+                ]
               }
             ]
           }
@@ -412,7 +418,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
             &quot;locationType&quot;: &quot;string&quot;,
             &quot;allSensors&quot;: true,
             &quot;siteHierarchy&quot;: &quot;string&quot;,
-            &quot;macAddressList&quot;: []
+            &quot;macAddressList&quot;: [
+              {}
+            ]
           }
         ],
         &quot;schedule&quot;: {
@@ -439,7 +447,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
           }
         },
         &quot;tests&quot;: {},
-        &quot;sensors&quot;: [],
+        &quot;sensors&quot;: [
+          {}
+        ],
         &quot;apCoverage&quot;: [
           {
             &quot;bands&quot;: &quot;string&quot;,
