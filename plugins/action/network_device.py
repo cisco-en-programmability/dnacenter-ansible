@@ -312,7 +312,7 @@ class NetworkDevice(object):
     def create(self):
         result = self.dnac.exec(
             family="devices",
-            function="add_device2",
+            function="add_device",
             params=self.create_params(),
             op_modifies=True,
         )
