@@ -19,7 +19,7 @@ options:
     description: SiteId path parameter. Site id to which site details to be deleted.
     type: str
 requirements:
-- dnacentersdk >= 2.3.1
+- dnacentersdk >= 2.3.3
 - python >= 3.5
 seealso:
 # Reference by Internet resource

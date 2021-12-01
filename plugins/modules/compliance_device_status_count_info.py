@@ -25,7 +25,7 @@ options:
       'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
     type: str
 requirements:
-- dnacentersdk >= 2.3.1
+- dnacentersdk >= 2.3.3
 - python >= 3.5
 seealso:
 # Reference by Internet resource

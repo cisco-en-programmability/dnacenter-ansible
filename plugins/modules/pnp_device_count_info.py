@@ -75,7 +75,7 @@ options:
     - LastContact query parameter. Device Has Contacted lastContact > 0.
     type: bool
 requirements:
-- dnacentersdk >= 2.3.1
+- dnacentersdk >= 2.3.3
 - python >= 3.5
 seealso:
 # Reference by Internet resource
