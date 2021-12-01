@@ -182,3 +182,11 @@ releases:
         - global_pool - includes request param as an alternative to id 
         - network_device - includes request param as an alternative to id 
         - pnp_device - includes request param as an alternative to id 
+  3.2.3:
+    release_date: '2021-12-01'
+    changes:
+      release_summary: Fixes internal code and update test/sanity
+      bugfixes:
+        - Updated internal code for credential and discovery
+      minor_changes:
+        - Updated test/sanity and remove duplicates
