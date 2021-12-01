@@ -30,7 +30,7 @@ cisco.dnac.platform_nodes_configuration_summary_info -- Information module for P
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -335,9 +335,13 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                 &quot;intra_cluster_link&quot;: true,
                 &quot;lacp_mode&quot;: true,
                 &quot;inet&quot;: {
-                  &quot;routes&quot;: [],
+                  &quot;routes&quot;: [
+                    {}
+                  ],
                   &quot;gateway&quot;: &quot;string&quot;,
-                  &quot;dns_servers&quot;: [],
+                  &quot;dns_servers&quot;: [
+                    {}
+                  ],
                   &quot;netmask&quot;: &quot;string&quot;,
                   &quot;host_ip&quot;: &quot;string&quot;
                 },

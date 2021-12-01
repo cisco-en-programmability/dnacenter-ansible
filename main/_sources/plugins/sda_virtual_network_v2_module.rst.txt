@@ -30,7 +30,7 @@ cisco.dnac.sda_virtual_network_v2 -- Resource module for Sda Virtual Network V2
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -206,6 +206,25 @@ Parameters
             </tr>
                                 <tr>
                                                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-isGuestVirtualNetwork"></div>
+                    <b>isGuestVirtualNetwork</b>
+                    <a class="ansibleOptionLink" href="#parameter-isGuestVirtualNetwork" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>IsGuestVirtualNetwork flag.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-scalableGroupNames"></div>
                     <b>scalableGroupNames</b>
                     <a class="ansibleOptionLink" href="#parameter-scalableGroupNames" title="Permalink to this option"></a>
@@ -312,6 +331,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        isGuestVirtualNetwork: true
         scalableGroupNames:
         - string
         virtualNetworkName: string
@@ -339,6 +359,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        isGuestVirtualNetwork: true
         scalableGroupNames:
         - string
         virtualNetworkName: string

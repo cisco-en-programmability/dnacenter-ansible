@@ -30,7 +30,7 @@ cisco.dnac.tag_member_info -- Information module for Tag Member
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -56,7 +56,7 @@ Synopsis
 
 .. Description
 
-- Get Tag Member by id.
+- Get all Tag Member.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -362,7 +362,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Tag Member by id
+    - name: Get all Tag Member
       cisco.dnac.tag_member_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

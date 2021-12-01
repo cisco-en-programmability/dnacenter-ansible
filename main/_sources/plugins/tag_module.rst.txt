@@ -30,7 +30,7 @@ cisco.dnac.tag -- Resource module for Tag
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -275,7 +275,7 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-dynamicRules/rules/items" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>                                            </div>
+                         / <span style="color: purple">elements=dictionary</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
@@ -484,7 +484,8 @@ Examples
         dynamicRules:
         - memberType: string
           rules:
-            items: []
+            items:
+            - {}
             name: string
             operation: string
             value: string
@@ -509,7 +510,8 @@ Examples
         dynamicRules:
         - memberType: string
           rules:
-            items: []
+            items:
+            - {}
             name: string
             operation: string
             value: string

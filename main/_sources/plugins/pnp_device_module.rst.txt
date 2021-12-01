@@ -30,7 +30,7 @@ cisco.dnac.pnp_device -- Resource module for Pnp Device
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -628,7 +628,7 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-deviceInfo/ipInterfaces/ipv6AddressList" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>                                            </div>
+                         / <span style="color: purple">elements=dictionary</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
@@ -4554,7 +4554,8 @@ Examples
           imageVersion: string
           ipInterfaces:
           - ipv4Address: {}
-            ipv6AddressList: []
+            ipv6AddressList:
+            - {}
             macAddress: string
             name: string
             status: string
@@ -4820,7 +4821,8 @@ Examples
           imageVersion: string
           ipInterfaces:
           - ipv4Address: {}
-            ipv6AddressList: []
+            ipv6AddressList:
+            - {}
             macAddress: string
             name: string
             status: string
@@ -5188,7 +5190,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
             &quot;status&quot;: &quot;string&quot;,
             &quot;macAddress&quot;: &quot;string&quot;,
             &quot;ipv4Address&quot;: {},
-            &quot;ipv6AddressList&quot;: [],
+            &quot;ipv6AddressList&quot;: [
+              {}
+            ],
             &quot;name&quot;: &quot;string&quot;
           }
         ],
@@ -5198,20 +5202,22 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
           &quot;supportsStackWorkflows&quot;: true,
           &quot;isFullRing&quot;: true,
           &quot;stackMemberList&quot;: [
-            {
-              &quot;serialNumber&quot;: &quot;string&quot;,
-              &quot;state&quot;: &quot;string&quot;,
-              &quot;role&quot;: &quot;string&quot;,
-              &quot;macAddress&quot;: &quot;string&quot;,
-              &quot;pid&quot;: &quot;string&quot;,
-              &quot;licenseLevel&quot;: &quot;string&quot;,
-              &quot;licenseType&quot;: &quot;string&quot;,
-              &quot;sudiSerialNumber&quot;: &quot;string&quot;,
-              &quot;hardwareVersion&quot;: &quot;string&quot;,
-              &quot;stackNumber&quot;: 0,
-              &quot;softwareVersion&quot;: &quot;string&quot;,
-              &quot;priority&quot;: 0
-            }
+            [
+              {
+                &quot;serialNumber&quot;: &quot;string&quot;,
+                &quot;state&quot;: &quot;string&quot;,
+                &quot;role&quot;: &quot;string&quot;,
+                &quot;macAddress&quot;: &quot;string&quot;,
+                &quot;pid&quot;: &quot;string&quot;,
+                &quot;licenseLevel&quot;: &quot;string&quot;,
+                &quot;licenseType&quot;: &quot;string&quot;,
+                &quot;sudiSerialNumber&quot;: &quot;string&quot;,
+                &quot;hardwareVersion&quot;: &quot;string&quot;,
+                &quot;stackNumber&quot;: 0,
+                &quot;softwareVersion&quot;: &quot;string&quot;,
+                &quot;priority&quot;: 0
+              }
+            ]
           ],
           &quot;stackRingProtocol&quot;: &quot;string&quot;,
           &quot;validLicenseLevels&quot;: [

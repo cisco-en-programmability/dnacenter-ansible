@@ -30,7 +30,7 @@ cisco.dnac.site_membership_info -- Information module for Site Membership
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -402,12 +402,16 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                                                 <div style="font-size: smaller"><b>Sample:</b></div>
                                                 <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
       &quot;site&quot;: {
-        &quot;response&quot;: [],
+        &quot;response&quot;: [
+          {}
+        ],
         &quot;version&quot;: &quot;string&quot;
       },
       &quot;device&quot;: [
         {
-          &quot;response&quot;: [],
+          &quot;response&quot;: [
+            {}
+          ],
           &quot;version&quot;: &quot;string&quot;,
           &quot;siteId&quot;: &quot;string&quot;
         }

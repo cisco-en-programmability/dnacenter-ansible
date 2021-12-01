@@ -30,7 +30,7 @@ cisco.dnac.reserve_ip_subpool_info -- Information module for Reserve Ip Subpool
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -376,7 +376,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
           &quot;ipPools&quot;: [
             {
               &quot;ipPoolName&quot;: &quot;string&quot;,
-              &quot;dhcpServerIps&quot;: [],
+              &quot;dhcpServerIps&quot;: [
+                {}
+              ],
               &quot;gateways&quot;: [
                 &quot;string&quot;
               ],
@@ -392,7 +394,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
               &quot;usedPercentage&quot;: &quot;string&quot;,
               &quot;clientOptions&quot;: {},
               &quot;groupUuid&quot;: &quot;string&quot;,
-              &quot;dnsServerIps&quot;: [],
+              &quot;dnsServerIps&quot;: [
+                {}
+              ],
               &quot;context&quot;: [
                 {
                   &quot;owner&quot;: &quot;string&quot;,

@@ -30,7 +30,7 @@ cisco.dnac.sensor -- Resource module for Sensor
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -449,7 +449,7 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-ssids/tests/config" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>                                            </div>
+                         / <span style="color: purple">elements=dictionary</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
@@ -608,7 +608,8 @@ Examples
           qosPolicy: string
           ssid: string
           tests:
-          - config: []
+          - config:
+            - {}
             name: string
           thirdParty:
             selected: true
@@ -678,7 +679,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         &quot;rssiThreshold&quot;: 0,
         &quot;numNeighborAPThreshold&quot;: 0,
         &quot;scheduleInDays&quot;: 0,
-        &quot;wlans&quot;: [],
+        &quot;wlans&quot;: [
+          {}
+        ],
         &quot;ssids&quot;: [
           {
             &quot;bands&quot;: {},
@@ -709,7 +712,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
             &quot;whiteList&quot;: true,
             &quot;extWebAuthPortal&quot;: {},
             &quot;extWebAuthAccessUrl&quot;: {},
-            &quot;extWebAuthHtmlTag&quot;: [],
+            &quot;extWebAuthHtmlTag&quot;: [
+              {}
+            ],
             &quot;thirdParty&quot;: {
               &quot;selected&quot;: true
             },
@@ -722,7 +727,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
             &quot;tests&quot;: [
               {
                 &quot;name&quot;: &quot;string&quot;,
-                &quot;config&quot;: []
+                &quot;config&quot;: [
+                  {}
+                ]
               }
             ]
           }
@@ -732,10 +739,14 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         &quot;radioAsSensorRemoved&quot;: true,
         &quot;encryptionMode&quot;: &quot;string&quot;,
         &quot;runNow&quot;: &quot;string&quot;,
-        &quot;locationInfoList&quot;: [],
+        &quot;locationInfoList&quot;: [
+          {}
+        ],
         &quot;schedule&quot;: {},
         &quot;tests&quot;: {},
-        &quot;sensors&quot;: [],
+        &quot;sensors&quot;: [
+          {}
+        ],
         &quot;apCoverage&quot;: [
           {
             &quot;bands&quot;: &quot;string&quot;,

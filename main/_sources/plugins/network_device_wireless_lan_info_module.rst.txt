@@ -30,7 +30,7 @@ cisco.dnac.network_device_wireless_lan_info -- Information module for Network De
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -56,7 +56,7 @@ Synopsis
 
 .. Description
 
-- Get Network Device Wireless Lan by id.
+- Get all Network Device Wireless Lan.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -287,7 +287,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Network Device Wireless Lan by id
+    - name: Get all Network Device Wireless Lan
       cisco.dnac.network_device_wireless_lan_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

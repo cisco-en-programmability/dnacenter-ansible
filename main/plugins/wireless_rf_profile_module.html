@@ -59,6 +59,7 @@
 <li class="toctree-l4"><a class="reference internal" href="client_proximity_info_module.html">cisco.dnac.client_proximity_info – Information module for Client Proximity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="command_runner_run_command_module.html">cisco.dnac.command_runner_run_command – Resource module for Command Runner Run Command</a></li>
 <li class="toctree-l4"><a class="reference internal" href="compliance_check_run_module.html">cisco.dnac.compliance_check_run – Resource module for Compliance Check Run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="compliance_device_by_id_info_module.html">cisco.dnac.compliance_device_by_id_info – Information module for Compliance Device By Id</a></li>
 <li class="toctree-l4"><a class="reference internal" href="compliance_device_details_count_info_module.html">cisco.dnac.compliance_device_details_count_info – Information module for Compliance Device Details Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="compliance_device_details_info_module.html">cisco.dnac.compliance_device_details_info – Information module for Compliance Device Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="compliance_device_info_module.html">cisco.dnac.compliance_device_info – Information module for Compliance Device</a></li>
@@ -372,7 +373,7 @@
 <h1>cisco.dnac.wireless_rf_profile – Resource module for Wireless Rf Profile<a class="headerlink" href="#cisco-dnac-wireless-rf-profile-resource-module-for-wireless-rf-profile" title="Permalink to this headline"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This plugin is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 3.2.2).</p>
+<p>This plugin is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 3.2.3).</p>
 <p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
 It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
 To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
@@ -400,7 +401,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module has a corresponding <a class="reference external" href="https://docs.ansible.com/ansible/latest/plugins/action.html#action-plugins" title="(in Ansible v4)"><span class="xref std std-ref">action plugin</span></a>.</p>
+<p>This module has a corresponding <a class="reference external" href="https://docs.ansible.com/ansible/latest/plugins/action.html#action-plugins" title="(in Ansible v5)"><span class="xref std std-ref">action plugin</span></a>.</p>
 </div>
 </section>
 <section id="requirements">
@@ -951,6 +952,21 @@ To check whether it is installed, run <code class="code docutils literal notrans
 
                             <tr>
                                                             <td colspan="2">
+                <div class="ansibleOptionAnchor" id="parameter-rfProfileName"></div>
+                <b>rfProfileName</b>
+                <a class="ansibleOptionLink" href="#parameter-rfProfileName" title="Permalink to this option"></a>
+                <div style="font-size: small">
+                    <span style="color: purple">string</span>
+                                                                </div>
+                                                    </td>
+                            <td>
+                                                                                                                                                        </td>
+                                                            <td>
+                                        <div>RfProfileName path parameter. RF profile name to be deleted(required) non_custom RF profile cannot be deleted.</div>
+                                                    </td>
+        </tr>
+                            <tr>
+                                                            <td colspan="2">
                 <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
                 <b>validate_response_schema</b>
                 <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
@@ -1028,12 +1044,24 @@ To check whether it is installed, run <code class="code docutils literal notrans
       <span class="nt">powerThresholdV1</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
       <span class="nt">radioChannels</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
       <span class="nt">rxSopThreshold</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Delete by name</span>
+  <span class="nt">cisco.dnac.wireless_rf_profile</span><span class="p">:</span>
+    <span class="nt">dnac_host</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+    <span class="nt">dnac_username</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+    <span class="nt">dnac_password</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+    <span class="nt">dnac_verify</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+    <span class="nt">dnac_port</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+    <span class="nt">dnac_version</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+    <span class="nt">dnac_debug</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+    <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">absent</span>
+    <span class="nt">rfProfileName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
 </pre></div>
 </div>
 </section>
 <section id="return-values">
 <h2><a class="toc-backref" href="#id7">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this headline"></a></h2>
-<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v4)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
+<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v5)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table border=0 cellpadding=0 class="documentation-table">
     <tr>
         <th colspan="1">Key</th>

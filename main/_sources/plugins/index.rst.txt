@@ -4,7 +4,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 3.2.2
+Collection version 3.2.3
 
 .. toctree::
     :maxdepth: 1
@@ -35,6 +35,7 @@ Modules
 * :ref:`client_proximity_info <ansible_collections.cisco.dnac.client_proximity_info_module>` -- Information module for Client Proximity
 * :ref:`command_runner_run_command <ansible_collections.cisco.dnac.command_runner_run_command_module>` -- Resource module for Command Runner Run Command
 * :ref:`compliance_check_run <ansible_collections.cisco.dnac.compliance_check_run_module>` -- Resource module for Compliance Check Run
+* :ref:`compliance_device_by_id_info <ansible_collections.cisco.dnac.compliance_device_by_id_info_module>` -- Information module for Compliance Device By Id
 * :ref:`compliance_device_details_count_info <ansible_collections.cisco.dnac.compliance_device_details_count_info_module>` -- Information module for Compliance Device Details Count
 * :ref:`compliance_device_details_info <ansible_collections.cisco.dnac.compliance_device_details_info_module>` -- Information module for Compliance Device Details
 * :ref:`compliance_device_info <ansible_collections.cisco.dnac.compliance_device_info_module>` -- Information module for Compliance Device
@@ -338,6 +339,7 @@ Modules
     client_proximity_info_module
     command_runner_run_command_module
     compliance_check_run_module
+    compliance_device_by_id_info_module
     compliance_device_details_count_info_module
     compliance_device_details_info_module
     compliance_device_info_module

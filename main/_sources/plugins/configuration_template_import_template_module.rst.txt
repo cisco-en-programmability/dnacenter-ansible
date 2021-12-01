@@ -30,7 +30,7 @@ cisco.dnac.configuration_template_import_template -- Resource module for Configu
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.2).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -2880,8 +2880,8 @@ Parameters
                     <b>rollbackTemplateErrors</b>
                     <a class="ansibleOptionLink" href="#parameter-payload/validationErrors/rollbackTemplateErrors" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                                                                    </div>
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=dictionary</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
@@ -2897,8 +2897,8 @@ Parameters
                     <b>templateErrors</b>
                     <a class="ansibleOptionLink" href="#parameter-payload/validationErrors/templateErrors" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                                                                    </div>
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=dictionary</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
