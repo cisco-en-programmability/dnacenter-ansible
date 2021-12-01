@@ -10,7 +10,7 @@ This collection has been tested and supports Cisco DNA Center 2.2.3.3.
 
 ## Requirements
 - Ansible >= 2.9
-- [DNA Center SDK](https://github.com/cisco-en-programmability/dnacentersdk) v2.3.1 or newer
+- [DNA Center SDK](https://github.com/cisco-en-programmability/dnacentersdk) v2.4.0 or newer
 - Python >= 3.6, as the DNA Center SDK doesn't support Python version 2.x
 
 ## Install
