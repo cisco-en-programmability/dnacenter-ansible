@@ -49,9 +49,11 @@ class BusinessSdaHostonboardingSsidIppool(object):
         self.dnac = dnac
         self.new_object = dict(
             vlanName=params.get("vlanName"),
+            vlan_name=params.get("vlanName"),
             scalableGroupName=params.get("scalableGroupName"),
             ssidNames=params.get("ssidNames"),
             siteNameHierarchy=params.get("siteNameHierarchy"),
+            site_name_hierarchy=params.get("siteNameHierarchy"),
         )
 
     def get_all_params(self, name=None, id=None):
