@@ -63,7 +63,8 @@ options:
             description: Parent name of the floor to be created.
             type: str
           rfModel:
-            description: Type of floor (eg Cubes And Walled Offices0.
+            description: Type of floor. Allowed values are 'Cubes And Walled Offices',
+              'Drywall Office Only', 'Indoor High Ceiling', 'Outdoor Open Space'.
             type: str
           width:
             description: Width of the floor (eg 100).
@@ -74,7 +75,7 @@ options:
     description: Type of site to create (eg area, building, floor).
     type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource

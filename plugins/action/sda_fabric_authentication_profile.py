@@ -31,13 +31,15 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
-    payload=dict(type="list"),
     siteNameHierarchy=dict(type="str"),
+    authenticateTemplateName=dict(type="str"),
+    authenticationOrder=dict(type="str"),
+    dot1xToMabFallbackTimeout=dict(type="str"),
+    wakeOnLan=dict(type="bool"),
+    numberOfHosts=dict(type="str"),
 ))
 
 required_if = [
-    ("state", "present", ["payload"], True),
-    ("state", "absent", ["payload"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -48,18 +50,26 @@ class SdaFabricAuthenticationProfile(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
-            payload=params.get("payload"),
+            siteNameHierarchy=params.get("siteNameHierarchy"),
+            authenticateTemplateName=params.get("authenticateTemplateName"),
+            authenticate_template_name=params.get("authenticateTemplateName"),
+            authenticationOrder=params.get("authenticationOrder"),
+            dot1xToMabFallbackTimeout=params.get("dot1xToMabFallbackTimeout"),
+            wakeOnLan=params.get("wakeOnLan"),
+            numberOfHosts=params.get("numberOfHosts"),
             site_name_hierarchy=params.get("siteNameHierarchy"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params['site_name_hierarchy'] = self.new_object.get('site_name_hierarchy')
+        new_object_params['authenticate_template_name'] = self.new_object.get('authenticate_template_name')
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['payload'] = self.new_object.get('payload')
+        new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
+        new_object_params['authenticateTemplateName'] = self.new_object.get('authenticateTemplateName')
         return new_object_params
 
     def delete_all_params(self):
@@ -69,7 +79,12 @@ class SdaFabricAuthenticationProfile(object):
 
     def update_all_params(self):
         new_object_params = {}
-        new_object_params['payload'] = self.new_object.get('payload')
+        new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
+        new_object_params['authenticateTemplateName'] = self.new_object.get('authenticateTemplateName')
+        new_object_params['authenticationOrder'] = self.new_object.get('authenticationOrder')
+        new_object_params['dot1xToMabFallbackTimeout'] = self.new_object.get('dot1xToMabFallbackTimeout')
+        new_object_params['wakeOnLan'] = self.new_object.get('wakeOnLan')
+        new_object_params['numberOfHosts'] = self.new_object.get('numberOfHosts')
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -98,11 +113,8 @@ class SdaFabricAuthenticationProfile(object):
         id_exists = False
         name_exists = False
         prev_obj = None
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-        o_id = self.new_object.get("id") or requested_obj.get("id")
-        name = self.new_object.get("name") or requested_obj.get("name")
+        o_id = self.new_object.get("id")
+        name = self.new_object.get("name")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -119,13 +131,15 @@ class SdaFabricAuthenticationProfile(object):
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
+        requested_obj = self.new_object
 
         obj_params = [
             ("siteNameHierarchy", "siteNameHierarchy"),
             ("authenticateTemplateName", "authenticateTemplateName"),
+            ("authenticationOrder", "authenticationOrder"),
+            ("dot1xToMabFallbackTimeout", "dot1xToMabFallbackTimeout"),
+            ("wakeOnLan", "wakeOnLan"),
+            ("numberOfHosts", "numberOfHosts"),
             ("siteNameHierarchy", "site_name_hierarchy"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
@@ -144,11 +158,8 @@ class SdaFabricAuthenticationProfile(object):
         return result
 
     def update(self):
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-        id = self.new_object.get("id") or requested_obj.get("id")
-        name = self.new_object.get("name") or requested_obj.get("name")
+        id = self.new_object.get("id")
+        name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
             family="sda",
@@ -159,11 +170,8 @@ class SdaFabricAuthenticationProfile(object):
         return result
 
     def delete(self):
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-        id = self.new_object.get("id") or requested_obj.get("id")
-        name = self.new_object.get("name") or requested_obj.get("name")
+        id = self.new_object.get("id")
+        name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
             family="sda",

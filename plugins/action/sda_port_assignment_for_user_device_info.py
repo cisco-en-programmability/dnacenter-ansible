@@ -25,7 +25,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    device_ip=dict(type="str"),
+    deviceManagementIpAddress=dict(type="str"),
     interfaceName=dict(type="str"),
     headers=dict(type="dict"),
 ))
@@ -65,7 +65,7 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            device_ip=params.get("device_ip"),
+            device_management_ip_address=params.get("deviceManagementIpAddress"),
             interface_name=params.get("interfaceName"),
             headers=params.get("headers"),
         )

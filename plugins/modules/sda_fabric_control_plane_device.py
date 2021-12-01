@@ -15,21 +15,14 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
-  deviceIPAddress:
-    description: DeviceIPAddress query parameter. Device IP Address.
+  deviceManagementIpAddress:
+    description: DeviceManagementIpAddress query parameter.
     type: str
-  payload:
-    description: Sda Fabric Control Plane Device's payload.
-    suboptions:
-      deviceManagementIpAddress:
-        description: Device Management Ip Address.
-        type: str
-      siteNameHierarchy:
-        description: Site Name Hierarchy.
-        type: str
-    type: list
+  siteNameHierarchy:
+    description: Site Name Hierarchy of provisioned Device(site should be fabric site).
+    type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -49,7 +42,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: absent
-    deviceIPAddress: string
+    deviceManagementIpAddress: string
 
 - name: Create
   cisco.dnac.sda_fabric_control_plane_device:
@@ -61,9 +54,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    payload:
-    - deviceManagementIpAddress: string
-      siteNameHierarchy: string
+    deviceManagementIpAddress: string
+    siteNameHierarchy: string
 
 """
 
@@ -76,6 +68,9 @@ dnac_response:
     {
       "status": "string",
       "description": "string",
-      "executionStatusUrl": "string"
+      "taskId": "string",
+      "taskStatusUrl": "string",
+      "executionStatusUrl": "string",
+      "executionId": "string"
     }
 """

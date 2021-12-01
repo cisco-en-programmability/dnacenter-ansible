@@ -289,6 +289,9 @@ options:
             description: Device type.
             type: str
         type: list
+      documentDatabase:
+        description: Document Database.
+        type: bool
       failurePolicy:
         description: Define failure policy if template provisioning fails.
         type: str
@@ -310,6 +313,9 @@ options:
       parentTemplateId:
         description: Parent templateID.
         type: str
+      projectAssociated:
+        description: Project Associated.
+        type: bool
       projectId:
         description: Project UUID.
         type: str
@@ -528,7 +534,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -636,6 +642,7 @@ EXAMPLES = r"""
       - productFamily: string
         productSeries: string
         productType: string
+      documentDatabase: true
       failurePolicy: string
       id: string
       language: string
@@ -643,6 +650,7 @@ EXAMPLES = r"""
       latestVersionTime: 0
       name: string
       parentTemplateId: string
+      projectAssociated: true
       projectId: string
       projectName: string
       rollbackTemplateContent: string
@@ -814,6 +822,7 @@ EXAMPLES = r"""
       - productFamily: string
         productSeries: string
         productType: string
+      documentDatabase: true
       failurePolicy: string
       id: string
       language: string
@@ -821,6 +830,7 @@ EXAMPLES = r"""
       latestVersionTime: 0
       name: string
       parentTemplateId: string
+      projectAssociated: true
       projectId: string
       projectName: string
       rollbackTemplateContent: string

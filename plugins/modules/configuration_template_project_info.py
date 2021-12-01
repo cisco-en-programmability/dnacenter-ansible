@@ -32,7 +32,7 @@ options:
     - ProjectId path parameter. ProjectId(UUID) of project to get project details.
     type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -206,6 +206,7 @@ dnac_response:
               "productType": "string"
             }
           ],
+          "documentDatabase": true,
           "failurePolicy": "string",
           "id": "string",
           "language": "string",
@@ -213,6 +214,7 @@ dnac_response:
           "latestVersionTime": 0,
           "name": "string",
           "parentTemplateId": "string",
+          "projectAssociated": true,
           "projectId": "string",
           "projectName": "string",
           "rollbackTemplateContent": "string",

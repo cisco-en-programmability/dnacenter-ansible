@@ -15,16 +15,6 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
-  payload:
-    description: Sda Virtual Network's payload.
-    suboptions:
-      siteNameHierarchy:
-        description: Site Name Hierarchy.
-        type: str
-      virtualNetworkName:
-        description: Virtual Network Name.
-        type: str
-    type: list
   siteNameHierarchy:
     description: SiteNameHierarchy query parameter.
     type: str
@@ -32,7 +22,7 @@ options:
     description: VirtualNetworkName query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -65,9 +55,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    payload:
-    - virtualNetworkName: string
-      siteNameHierarchy: string
+    siteNameHierarchy: string
+    virtualNetworkName: string
 
 """
 
@@ -80,11 +69,9 @@ dnac_response:
     {
       "status": "string",
       "description": "string",
-      "name": "string",
-      "roles": [
-        "string"
-      ],
-      "deviceManagementIpAddress": "string",
-      "siteHierarchy": "string"
+      "taskId": "string",
+      "taskStatusUrl": "string",
+      "executionStatusUrl": "string",
+      "executionId": "string"
     }
 """

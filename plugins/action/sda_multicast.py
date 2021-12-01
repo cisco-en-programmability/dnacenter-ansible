@@ -31,7 +31,7 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
-    fabricSiteNameHierarchy=dict(type="str"),
+    siteNameHierarchy=dict(type="str"),
     multicastMethod=dict(type="str"),
     muticastType=dict(type="str"),
     multicastVnInfo=dict(type="dict"),
@@ -48,21 +48,21 @@ class SdaMulticast(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
-            fabricSiteNameHierarchy=params.get("fabricSiteNameHierarchy"),
+            siteNameHierarchy=params.get("siteNameHierarchy"),
             multicastMethod=params.get("multicastMethod"),
             muticastType=params.get("muticastType"),
             multicastVnInfo=params.get("multicastVnInfo"),
-            fabric_site_name_hierarchy=params.get("fabricSiteNameHierarchy"),
+            site_name_hierarchy=params.get("siteNameHierarchy"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['fabric_site_name_hierarchy'] = self.new_object.get('fabric_site_name_hierarchy')
+        new_object_params['site_name_hierarchy'] = self.new_object.get('site_name_hierarchy')
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['fabricSiteNameHierarchy'] = self.new_object.get('fabricSiteNameHierarchy')
+        new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
         new_object_params['multicastMethod'] = self.new_object.get('multicastMethod')
         new_object_params['muticastType'] = self.new_object.get('muticastType')
         new_object_params['multicastVnInfo'] = self.new_object.get('multicastVnInfo')
@@ -70,7 +70,7 @@ class SdaMulticast(object):
 
     def delete_all_params(self):
         new_object_params = {}
-        new_object_params['fabric_site_name_hierarchy'] = self.new_object.get('fabric_site_name_hierarchy')
+        new_object_params['site_name_hierarchy'] = self.new_object.get('site_name_hierarchy')
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -120,11 +120,11 @@ class SdaMulticast(object):
         requested_obj = self.new_object
 
         obj_params = [
-            ("fabricSiteNameHierarchy", "fabricSiteNameHierarchy"),
+            ("siteNameHierarchy", "siteNameHierarchy"),
             ("multicastMethod", "multicastMethod"),
             ("muticastType", "muticastType"),
             ("multicastVnInfo", "multicastVnInfo"),
-            ("fabricSiteNameHierarchy", "fabric_site_name_hierarchy"),
+            ("siteNameHierarchy", "site_name_hierarchy"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update

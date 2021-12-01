@@ -45,7 +45,7 @@ options:
     - Value query parameter. Extended attribute value.
     type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -89,7 +89,7 @@ dnac_response:
         {
           "displayName": "string",
           "complianceType": "string",
-          "lastSyncTime": "string",
+          "lastSyncTime": 0,
           "additionalDataURL": "string",
           "sourceInfoList": [
             {
@@ -130,7 +130,7 @@ dnac_response:
           "state": "string",
           "status": "string",
           "category": "string",
-          "lastUpdateTime": "string"
+          "lastUpdateTime": 0
         }
       ]
     }

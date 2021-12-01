@@ -45,8 +45,8 @@ argument_spec.update(dict(
     role=dict(type="str"),
     roleSource=dict(type="str"),
     associatedWlcIp=dict(type="str"),
-    offset=dict(type="str"),
-    limit=dict(type="str"),
+    offset=dict(type="int"),
+    limit=dict(type="int"),
     headers=dict(type="dict"),
 ))
 
@@ -123,7 +123,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="devices",
-            function='retrieves_all_network_devices',
+            function='get_device_values_that_match_fully_or_partially_an_attribute',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

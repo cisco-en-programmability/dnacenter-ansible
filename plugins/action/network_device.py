@@ -57,9 +57,10 @@ argument_spec.update(dict(
     snmpVersion=dict(type="str"),
     type=dict(type="str"),
     updateMgmtIPaddressList=dict(type="list"),
+    managementIpAddress=dict(type="str"),
     userName=dict(type="str"),
     id=dict(type="str"),
-    isForceDelete=dict(type="bool"),
+    cleanConfig=dict(type="bool"),
 ))
 
 required_if = [
@@ -101,15 +102,16 @@ class NetworkDevice(object):
             snmpVersion=params.get("snmpVersion"),
             type=params.get("type"),
             updateMgmtIPaddressList=params.get("updateMgmtIPaddressList"),
+            managementIpAddress=params.get("managementIpAddress"),
             userName=params.get("userName"),
             id=params.get("id"),
-            is_force_delete=params.get("isForceDelete"),
+            clean_config=params.get("cleanConfig"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params['hostname'] = self.new_object.get('hostname')
-        new_object_params['management_ip_address'] = self.new_object.get('management_ip_address') or \
+        new_object_params['management_ip_address'] = self.new_object.get('managementIpAddress') or \
             self.new_object.get('ipAddress')
         new_object_params['mac_address'] = self.new_object.get('mac_address')
         new_object_params['location_name'] = self.new_object.get('location_name')
@@ -176,7 +178,7 @@ class NetworkDevice(object):
 
     def delete_by_id_params(self):
         new_object_params = {}
-        new_object_params['is_force_delete'] = self.new_object.get('is_force_delete')
+        new_object_params['clean_config'] = self.new_object.get('clean_config')
         new_object_params['id'] = self.new_object.get('id')
         return new_object_params
 
@@ -249,7 +251,7 @@ class NetworkDevice(object):
         name_exists = False
         prev_obj = None
         o_id = self.new_object.get("id")
-        name = self.new_object.get('management_ip_address') or \
+        name = self.new_object.get("managementIpAddress") or \
             self.new_object.get('ipAddress')
         if isinstance(name, list) and len(name) > 0:
             name = name[0]
@@ -301,7 +303,7 @@ class NetworkDevice(object):
             ("updateMgmtIPaddressList", "updateMgmtIPaddressList"),
             ("userName", "userName"),
             ("id", "id"),
-            ("isForceDelete", "is_force_delete"),
+            ("cleanConfig", "clean_config"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
@@ -320,8 +322,10 @@ class NetworkDevice(object):
 
     def update(self):
         id = self.new_object.get("id")
-        name = self.new_object.get('management_ip_address') or \
+        name = self.new_object.get("managementIpAddress") or \
             self.new_object.get('ipAddress')
+        if isinstance(name, list) and len(name) > 0:
+            name = name[0]
         result = None
         result = self.dnac.exec(
             family="devices",
@@ -333,8 +337,10 @@ class NetworkDevice(object):
 
     def delete(self):
         id = self.new_object.get("id")
-        name = self.new_object.get('management_ip_address') or \
+        name = self.new_object.get("managementIpAddress") or \
             self.new_object.get('ipAddress')
+        if isinstance(name, list) and len(name) > 0:
+            name = name[0]
         result = None
         if not id:
             prev_obj_name = self.get_object_by_name(name)

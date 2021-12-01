@@ -22,8 +22,20 @@ options:
     description:
     - Timestamp query parameter. Epoch time(in milliseconds) when the Site Hierarchy data is required.
     type: str
+  siteType:
+    description:
+    - SiteType query parameter. Type of the site to return. AREA or BUILDING. Default to AREA.
+    type: str
+  offset:
+    description:
+    - Offset query parameter. The offset value, starting from 1, of the first returned site entry. Default is 1.
+    type: int
+  limit:
+    description:
+    - Limit query parameter. The max number of sites in the returned data set. Default is 25, and max at 50.
+    type: int
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -45,6 +57,9 @@ EXAMPLES = r"""
     headers:
       custom: value
     timestamp: string
+    siteType: string
+    offset: 0
+    limit: 0
   register: result
 
 """

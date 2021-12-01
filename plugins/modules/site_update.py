@@ -60,7 +60,8 @@ options:
             description: Name.
             type: str
           rfModel:
-            description: Rf Model.
+            description: Rf Model. Allowed values are 'Cubes And Walled Offices', 'Drywall
+              Office Only', 'Indoor High Ceiling', 'Outdoor Open Space'.
             type: str
           width:
             description: Width.
@@ -74,7 +75,7 @@ options:
     description: Type.
     type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource

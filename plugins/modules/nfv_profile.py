@@ -46,22 +46,26 @@ options:
         description: Nfv Profile's customTemplate.
         suboptions:
           deviceType:
-            description: Type of the device(eg Cisco 5400 Enterprise Network Compute
-              System).
+            description: Type of the device. Allowed values are 'Cisco 5400 Enterprise
+              Network Compute System', 'Cisco Integrated Services Virtual Router', 'Cisco
+              Adaptive Security Virtual Appliance (ASAv)', 'NFVIS', 'ASAV'.
             type: str
           template:
             description: Name of the template(eg NFVIS template).
             type: str
           templateType:
             description: Name of the template type to which template is associated (eg
-              Cloud DayN Templates).
+              Cloud DayN Templates). Allowed values are 'Onboarding Template(s)' and
+              'Day-N-Template(s)'.
             type: str
         type: list
       deviceTag:
         description: Device Tag name(eg dev1).
         type: str
       deviceType:
-        description: Name of the device used in creating nfv profile.
+        description: Name of the device used in creating nfv profile. Allowed values
+          are 'Cisco 5400 Enterprise Network Compute System', 'Cisco 5100 Enterprise
+          Network Compute System'.
         type: str
       directInternetAccessForFirewall:
         description: Direct internet access value should be boolean (eg false or true).
@@ -136,7 +140,7 @@ options:
     description: Name of the profile to create NFV profile.
     type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource

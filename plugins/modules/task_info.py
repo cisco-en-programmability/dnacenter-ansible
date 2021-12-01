@@ -80,7 +80,7 @@ options:
     - TaskId path parameter. UUID of the Task.
     type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -150,7 +150,7 @@ dnac_response:
         "id": "string",
         "instanceTenantId": "string",
         "isError": true,
-        "lastUpdate": "string",
+        "lastUpdate": 0,
         "operationIdList": {},
         "parentId": "string",
         "progress": "string",

@@ -29,7 +29,7 @@ options:
         description: Wireless Profile's ssidDetails.
         suboptions:
           enableFabric:
-            description: True if ssid is fabric else false.
+            description: True is ssid is fabric else false.
             type: bool
           flexConnect:
             description: Wireless Profile's flexConnect.
@@ -38,7 +38,7 @@ options:
                 description: True if flex connect is enabled else false.
                 type: bool
               localToVlan:
-                description: Local To Vlan Id.
+                description: Local To Vlan.
                 type: int
             type: dict
           interfaceName:
@@ -56,7 +56,7 @@ options:
     description: WirelessProfileName path parameter. Wireless Profile Name.
     type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource

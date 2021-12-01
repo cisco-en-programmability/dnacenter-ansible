@@ -56,8 +56,12 @@ options:
       Limit query parameter. The max number of application entries in returned data 1, 1000 (optionally used with
       siteId only).
     type: int
+  applicationName:
+    description:
+    - ApplicationName query parameter. The name of the application to get information on.
+    type: str
 requirements:
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
 # Reference by Internet resource
@@ -86,6 +90,7 @@ EXAMPLES = r"""
     applicationHealth: string
     offset: 0
     limit: 0
+    applicationName: string
   register: result
 
 """
@@ -102,7 +107,7 @@ dnac_response:
       "response": [
         {
           "name": "string",
-          "health": {},
+          "health": 0,
           "businessRelevance": "string",
           "trafficClass": "string",
           "usageBytes": 0,
@@ -112,7 +117,26 @@ dnac_response:
           "jitter": {},
           "applicationServerLatency": {},
           "clientNetworkLatency": {},
-          "serverNetworkLatency": {}
+          "serverNetworkLatency": {},
+          "exporterIpAddress": "string",
+          "exporterName": "string",
+          "exporterUUID": "string",
+          "exporterFamily": "string",
+          "clientName": "string",
+          "clientIp": "string",
+          "location": "string",
+          "operatingSystem": "string",
+          "deviceType": "string",
+          "clientMacAddress": "string",
+          "issueId": "string",
+          "issueName": "string",
+          "application": "string",
+          "severity": "string",
+          "summary": "string",
+          "rootCause": "string",
+          "timestamp": 0,
+          "occurrences": 0,
+          "priority": "string"
         }
       ]
     }

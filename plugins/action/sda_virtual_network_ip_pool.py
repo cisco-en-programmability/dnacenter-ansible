@@ -31,14 +31,20 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
-    payload=dict(type="list"),
-    ipPoolName=dict(type="str"),
+    siteNameHierarchy=dict(type="str"),
     virtualNetworkName=dict(type="str"),
+    ipPoolName=dict(type="str"),
+    trafficType=dict(type="str"),
+    authenticationPolicyName=dict(type="str"),
+    scalableGroupName=dict(type="str"),
+    isL2FloodingEnabled=dict(type="bool"),
+    isThisCriticalPool=dict(type="bool"),
+    poolType=dict(type="str"),
+    vlanName=dict(type="str"),
+    isWirelessPool=dict(type="str"),
 ))
 
 required_if = [
-    ("state", "present", ["payload"], True),
-    ("state", "absent", ["payload"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -49,7 +55,17 @@ class SdaVirtualNetworkIpPool(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
-            payload=params.get("payload"),
+            siteNameHierarchy=params.get("siteNameHierarchy"),
+            virtualNetworkName=params.get("virtualNetworkName"),
+            ipPoolName=params.get("ipPoolName"),
+            trafficType=params.get("trafficType"),
+            authenticationPolicyName=params.get("authenticationPolicyName"),
+            scalableGroupName=params.get("scalableGroupName"),
+            isL2FloodingEnabled=params.get("isL2FloodingEnabled"),
+            isThisCriticalPool=params.get("isThisCriticalPool"),
+            poolType=params.get("poolType"),
+            vlanName=params.get("vlanName"),
+            isWirelessPool=params.get("isWirelessPool"),
             ip_pool_name=params.get("ipPoolName"),
             virtual_network_name=params.get("virtualNetworkName"),
         )
@@ -62,7 +78,17 @@ class SdaVirtualNetworkIpPool(object):
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['payload'] = self.new_object.get('payload')
+        new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
+        new_object_params['virtualNetworkName'] = self.new_object.get('virtualNetworkName')
+        new_object_params['ipPoolName'] = self.new_object.get('ipPoolName')
+        new_object_params['trafficType'] = self.new_object.get('trafficType')
+        new_object_params['authenticationPolicyName'] = self.new_object.get('authenticationPolicyName')
+        new_object_params['scalableGroupName'] = self.new_object.get('scalableGroupName')
+        new_object_params['isL2FloodingEnabled'] = self.new_object.get('isL2FloodingEnabled')
+        new_object_params['isThisCriticalPool'] = self.new_object.get('isThisCriticalPool')
+        new_object_params['poolType'] = self.new_object.get('poolType')
+        new_object_params['vlanName'] = self.new_object.get('vlanName')
+        new_object_params['isWirelessPool'] = self.new_object.get('isWirelessPool')
         return new_object_params
 
     def delete_all_params(self):
@@ -97,11 +123,8 @@ class SdaVirtualNetworkIpPool(object):
         prev_obj = None
         id_exists = False
         name_exists = False
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-        o_id = self.new_object.get("id") or requested_obj.get("id")
-        name = self.new_object.get("name") or requested_obj.get("name")
+        o_id = self.new_object.get("id")
+        name = self.new_object.get("name")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -118,11 +141,10 @@ class SdaVirtualNetworkIpPool(object):
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
+        requested_obj = self.new_object
 
         obj_params = [
+            ("siteNameHierarchy", "siteNameHierarchy"),
             ("virtualNetworkName", "virtualNetworkName"),
             ("ipPoolName", "ipPoolName"),
             ("trafficType", "trafficType"),
@@ -131,6 +153,8 @@ class SdaVirtualNetworkIpPool(object):
             ("isL2FloodingEnabled", "isL2FloodingEnabled"),
             ("isThisCriticalPool", "isThisCriticalPool"),
             ("poolType", "poolType"),
+            ("vlanName", "vlanName"),
+            ("isWirelessPool", "isWirelessPool"),
             ("ipPoolName", "ip_pool_name"),
             ("virtualNetworkName", "virtual_network_name"),
         ]
@@ -150,11 +174,8 @@ class SdaVirtualNetworkIpPool(object):
         return result
 
     def delete(self):
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-        id = self.new_object.get("id") or requested_obj.get("id")
-        name = self.new_object.get("name") or requested_obj.get("name")
+        id = self.new_object.get("id")
+        name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
             family="sda",

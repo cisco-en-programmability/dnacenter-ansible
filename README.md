@@ -4,13 +4,13 @@
 
 The dnacenter-ansible project provides an Ansible collection for managing and automating your Cisco DNA Center environment. It consists of a set of modules and roles for performing tasks related to DNA Center.
 
-This collection has been tested and supports Cisco DNA Center 2.2.2.3.
+This collection has been tested and supports Cisco DNA Center 2.2.3.3.
 
 *Note: This collection is not compatible with versions of Ansible before v2.8.*
 
 ## Requirements
 - Ansible >= 2.9
-- [DNA Center SDK](https://github.com/cisco-en-programmability/dnacentersdk) v2.3.3 or newer
+- [DNA Center SDK](https://github.com/cisco-en-programmability/dnacentersdk) v2.4.0 or newer
 - Python >= 3.6, as the DNA Center SDK doesn't support Python version 2.x
 
 ## Install
@@ -36,7 +36,7 @@ dnac_host: <A.B.C.D>
 dnac_port: 443  # optional, defaults to 443
 dnac_username: <username>
 dnac_password: <password>
-dnac_version: 2.2.2.3  # optional, defaults to 2.2.2.3
+dnac_version: 2.2.3.3  # optional, defaults to 2.2.3.3
 dnac_verify: False  # optional, defaults to True
 dnac_debug: False  # optional, defaults to False
 ```
