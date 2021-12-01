@@ -144,6 +144,7 @@ class ReserveIpSubpool(object):
         new_object_params['ipv6DnsServers'] = self.new_object.get('ipv6DnsServers')
         new_object_params['ipv6TotalHost'] = self.new_object.get('ipv6TotalHost')
         new_object_params['slaacSupport'] = self.new_object.get('slaacSupport')
+        new_object_params['ipv4GateWay'] = self.new_object.get('ipv4GateWay')
         new_object_params['id'] = self.new_object.get('id')
         new_object_params['site_id'] = self.new_object.get('site_id')
         return new_object_params

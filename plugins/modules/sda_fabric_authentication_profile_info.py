@@ -22,6 +22,10 @@ options:
     description:
     - SiteNameHierarchy query parameter.
     type: str
+  authenticateTemplateName:
+    description:
+    - AuthenticateTemplateName query parameter.
+    type: str
 requirements:
 - dnacentersdk >= 2.3.1
 - python >= 3.5
@@ -45,6 +49,7 @@ EXAMPLES = r"""
     headers:
       custom: value
     siteNameHierarchy: string
+    authenticateTemplateName: string
   register: result
 
 """
