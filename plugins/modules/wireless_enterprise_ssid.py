@@ -58,7 +58,8 @@ options:
     description: Pass Phrase (Only applicable for SSID with PERSONAL security level).
     type: str
   radioPolicy:
-    description: Radio Policy.
+    description: Radio Policy. Allowed values are 'Dual band operation (2.4GHz and 5GHz)',
+      'Dual band operation with band select', '5GHz only', '2.4GHz only'.
     type: str
   securityLevel:
     description: Security Level.

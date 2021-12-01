@@ -206,6 +206,7 @@ dnac_response:
               "productType": "string"
             }
           ],
+          "documentDatabase": true,
           "failurePolicy": "string",
           "id": "string",
           "language": "string",
@@ -213,6 +214,7 @@ dnac_response:
           "latestVersionTime": 0,
           "name": "string",
           "parentTemplateId": "string",
+          "projectAssociated": true,
           "projectId": "string",
           "projectName": "string",
           "rollbackTemplateContent": "string",
@@ -291,8 +293,12 @@ dnac_response:
             }
           ],
           "validationErrors": {
-            "rollbackTemplateErrors": {},
-            "templateErrors": {},
+            "rollbackTemplateErrors": [
+              {}
+            ],
+            "templateErrors": [
+              {}
+            ],
             "templateId": "string",
             "templateVersion": "string"
           },
