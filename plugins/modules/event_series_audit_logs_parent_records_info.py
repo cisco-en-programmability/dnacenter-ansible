@@ -185,7 +185,9 @@ dnac_response:
         "severity": 0,
         "source": "string",
         "timestamp": 0,
-        "tags": [],
+        "tags": [
+          {}
+        ],
         "details": {},
         "ciscoDnaEventLink": "string",
         "note": "string",

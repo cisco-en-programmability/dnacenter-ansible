@@ -120,7 +120,9 @@ dnac_response:
   type: dict
   sample: >
     {
-      "jsonArrayResponse": [],
+      "jsonArrayResponse": [
+        {}
+      ],
       "jsonResponse": {},
       "message": "string",
       "statusCode": 0

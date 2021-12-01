@@ -20,6 +20,7 @@ options:
     type: bool
   payload:
     description: Network Device Sync's payload.
+    elements: dict
     type: list
 requirements:
 - dnacentersdk >= 2.3.1

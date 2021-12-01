@@ -65,8 +65,8 @@ class Snmpv2ReadCommunityCredential(object):
     def create_params(self):
         new_object_params = {}
         payload = {}
-        keys = ['comments', 'credentialType', 'description', 'id',
-                'instanceTenantId', 'instanceUuid', 'readCommunity']
+        keys = ['comments', 'credentialType', 'description', 'id', 'instanceTenantId',
+                'instanceUuid', 'readCommunity']
         for key in keys:
             if self.new_object.get(key) is not None:
                 payload[key] = self.new_object.get(key)
@@ -140,7 +140,6 @@ class Snmpv2ReadCommunityCredential(object):
     def requires_update(self, current_obj):
         requested_obj = self.new_object
         obj_params = [
-            ("payload", "payload"),
             ("comments", "comments"),
             ("credentialType", "credentialType"),
             ("description", "description"),

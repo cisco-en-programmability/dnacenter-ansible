@@ -293,6 +293,7 @@ plugins/action/wireless_psk_override.py compile-2.6!skip # Python 2.6 is not sup
 plugins/action/wireless_rf_profile.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/wireless_rf_profile_info.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/wireless_sensor_test_results_info.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
+plugins/action/compliance_device_by_id_info.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/application_sets.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/application_sets_count_info.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/application_sets_info.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
@@ -585,6 +586,7 @@ plugins/action/wireless_psk_override.py compile-2.7!skip # Python 2.7 is not sup
 plugins/action/wireless_rf_profile.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/wireless_rf_profile_info.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/wireless_sensor_test_results_info.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/action/compliance_device_by_id_info.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/application_sets.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/application_sets_count_info.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/application_sets_info.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
@@ -877,3 +879,4 @@ plugins/action/wireless_psk_override.py import-2.7 # Python 2.7 is not supported
 plugins/action/wireless_rf_profile.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/wireless_rf_profile_info.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/wireless_sensor_test_results_info.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
+plugins/action/compliance_device_by_id_info.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK

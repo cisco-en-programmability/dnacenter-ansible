@@ -143,7 +143,7 @@ dnac_response:
       "response": {
         "additionalStatusURL": "string",
         "data": "string",
-        "endTime": "string",
+        "endTime": 0,
         "errorCode": "string",
         "errorKey": "string",
         "failureReason": "string",
@@ -156,7 +156,7 @@ dnac_response:
         "progress": "string",
         "rootId": "string",
         "serviceType": "string",
-        "startTime": "string",
+        "startTime": 0,
         "username": "string",
         "version": 0
       },

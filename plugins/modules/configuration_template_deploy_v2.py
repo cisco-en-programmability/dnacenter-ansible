@@ -26,6 +26,7 @@ options:
     type: str
   memberTemplateDeploymentInfo:
     description: MemberTemplateDeploymentInfo.
+    elements: dict
     type: list
   targetInfo:
     description: Configuration Template Deploy V2's targetInfo.
@@ -41,7 +42,8 @@ options:
         type: dict
       resourceParams:
         description: Resource params to be provisioned.
-        type: dict
+        elements: dict
+        type: list
       type:
         description: Target type of device.
         type: str
@@ -75,12 +77,14 @@ EXAMPLES = r"""
     forcePushTemplate: true
     isComposite: true
     mainTemplateId: string
-    memberTemplateDeploymentInfo: []
+    memberTemplateDeploymentInfo:
+    - {}
     targetInfo:
     - hostName: string
       id: string
       params: {}
-      resourceParams: {}
+      resourceParams:
+      - {}
       type: string
       versionedTemplateId: string
     templateId: string

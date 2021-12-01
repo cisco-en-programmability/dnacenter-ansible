@@ -26,6 +26,8 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     fileId=dict(type="str"),
+    dirPath=dict(type="str"),
+    saveFile=dict(type="bool"),
     headers=dict(type="dict"),
 ))
 
@@ -65,6 +67,8 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             file_id=params.get("fileId"),
+            dirpath=params.get("dirPath"),
+            save_file=params.get("saveFile"),
             headers=params.get("headers"),
         )
         return new_object

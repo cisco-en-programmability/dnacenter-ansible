@@ -18,31 +18,29 @@ options:
   headers:
     description: Additional headers.
     type: dict
-  deviceUuid:
-    description:
-    - DeviceUuid path parameter.
-    type: str
-  category:
-    description:
-    - Category query parameter. ComplianceCategory can have any value among 'INTENT', 'RUNNING_CONFIG'.
-    type: str
   complianceType:
     description:
     - >
-      ComplianceType query parameter. ComplianceType can have any value among 'NETWORK_DESIGN', 'NETWORK_PROFILE',
-      'FABRIC', 'POLICY', 'RUNNING_CONFIG'.
+      ComplianceType query parameter. ComplianceType can have any value among 'NETWORK_PROFILE', 'IMAGE',
+      'APPLICATION_VISIBILITY', 'FABRIC', 'PSIRT', 'RUNNING_CONFIG', 'WORKFLOW'.
     type: str
-  diffList:
+  complianceStatus:
     description:
-    - DiffList query parameter. Diff list pass true to fetch the diff list.
-    type: bool
-  key:
-    description:
-    - Key query parameter. Extended attribute key.
+    - >
+      ComplianceStatus query parameter. Compliance status can have value among 'COMPLIANT', 'NON_COMPLIANT',
+      'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
     type: str
-  value:
+  deviceUuid:
     description:
-    - Value query parameter. Extended attribute value.
+    - DeviceUuid query parameter. Comma separated deviceUuids.
+    type: str
+  offset:
+    description:
+    - Offset query parameter. Offset/starting row.
+    type: str
+  limit:
+    description:
+    - Limit query parameter. Number of records to be retrieved.
     type: str
 requirements:
 - dnacentersdk >= 2.3.1
@@ -66,12 +64,11 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers:
       custom: value
-    category: string
     complianceType: string
-    diffList: True
-    key: string
-    value: string
+    complianceStatus: string
     deviceUuid: string
+    offset: string
+    limit: string
   register: result
 
 """
@@ -83,54 +80,17 @@ dnac_response:
   type: dict
   sample: >
     {
-      "deviceUuid": "string",
       "version": "string",
       "response": [
         {
-          "displayName": "string",
           "complianceType": "string",
-          "lastSyncTime": "string",
-          "additionalDataURL": "string",
-          "sourceInfoList": [
-            {
-              "count": 0,
-              "displayName": "string",
-              "diffList": [
-                {
-                  "displayName": "string",
-                  "moveFromPath": "string",
-                  "op": "string",
-                  "configuredValue": "string",
-                  "intendedValue": "string",
-                  "path": "string",
-                  "businessKey": "string",
-                  "extendedAttributes": "string"
-                }
-              ],
-              "sourceEnum": "string",
-              "licenseAppName": "string",
-              "provisioningArea": "string",
-              "networkProfileName": "string",
-              "nameWithBusinessKey": "string",
-              "appName": "string",
-              "name": "string",
-              "type": "string",
-              "businessKey": {
-                "otherAttributes": {
-                  "cfsAttributes": "string",
-                  "name": "string"
-                },
-                "resourceName": "string",
-                "businessKeyAttributes": "string"
-              }
-            }
-          ],
+          "lastSyncTime": 0,
           "deviceUuid": "string",
-          "message": "string",
-          "state": "string",
+          "displayName": "string",
           "status": "string",
           "category": "string",
-          "lastUpdateTime": "string"
+          "lastUpdateTime": 0,
+          "state": "string"
         }
       ]
     }

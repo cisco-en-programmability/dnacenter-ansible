@@ -65,9 +65,13 @@ dnac_response:
                 "intra_cluster_link": true,
                 "lacp_mode": true,
                 "inet": {
-                  "routes": [],
+                  "routes": [
+                    {}
+                  ],
                   "gateway": "string",
-                  "dns_servers": [],
+                  "dns_servers": [
+                    {}
+                  ],
                   "netmask": "string",
                   "host_ip": "string"
                 },

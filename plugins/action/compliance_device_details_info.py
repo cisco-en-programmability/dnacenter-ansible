@@ -25,12 +25,11 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    deviceUuid=dict(type="str"),
-    category=dict(type="str"),
     complianceType=dict(type="str"),
-    diffList=dict(type="bool"),
-    key=dict(type="str"),
-    value=dict(type="str"),
+    complianceStatus=dict(type="str"),
+    deviceUuid=dict(type="str"),
+    offset=dict(type="str"),
+    limit=dict(type="str"),
     headers=dict(type="dict"),
 ))
 
@@ -69,12 +68,11 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            device_uuid=params.get("deviceUuid"),
-            category=params.get("category"),
             compliance_type=params.get("complianceType"),
-            diff_list=params.get("diffList"),
-            key=params.get("key"),
-            value=params.get("value"),
+            compliance_status=params.get("complianceStatus"),
+            device_uuid=params.get("deviceUuid"),
+            offset=params.get("offset"),
+            limit=params.get("limit"),
             headers=params.get("headers"),
         )
         return new_object
@@ -91,7 +89,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="compliance",
-            function='compliance_details_of_device',
+            function='get_compliance_detail',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

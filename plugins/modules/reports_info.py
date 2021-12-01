@@ -84,7 +84,9 @@ dnac_response:
         "string"
       ],
       "dataCategory": "string",
-      "deliveries": [],
+      "deliveries": [
+        {}
+      ],
       "executionCount": 0,
       "executions": [
         {

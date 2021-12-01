@@ -144,7 +144,9 @@ dnac_response:
         "rssiThreshold": 0,
         "numNeighborAPThreshold": 0,
         "scheduleInDays": 0,
-        "wlans": [],
+        "wlans": [
+          {}
+        ],
         "ssids": [
           {
             "bands": {},
@@ -175,7 +177,9 @@ dnac_response:
             "whiteList": true,
             "extWebAuthPortal": {},
             "extWebAuthAccessUrl": {},
-            "extWebAuthHtmlTag": [],
+            "extWebAuthHtmlTag": [
+              {}
+            ],
             "thirdParty": {
               "selected": true
             },
@@ -188,7 +192,9 @@ dnac_response:
             "tests": [
               {
                 "name": "string",
-                "config": []
+                "config": [
+                  {}
+                ]
               }
             ]
           }
@@ -204,7 +210,9 @@ dnac_response:
             "locationType": "string",
             "allSensors": true,
             "siteHierarchy": "string",
-            "macAddressList": []
+            "macAddressList": [
+              {}
+            ]
           }
         ],
         "schedule": {
@@ -231,7 +239,9 @@ dnac_response:
           }
         },
         "tests": {},
-        "sensors": [],
+        "sensors": [
+          {}
+        ],
         "apCoverage": [
           {
             "bands": "string",

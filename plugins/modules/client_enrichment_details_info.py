@@ -72,13 +72,17 @@ dnac_response:
           ],
           "hostMac": "string",
           "hostIpV4": "string",
-          "hostIpV6": [],
+          "hostIpV6": [
+            {}
+          ],
           "authType": {},
           "vlanId": "string",
           "ssid": {},
           "location": {},
           "clientConnection": "string",
-          "connectedDevice": [],
+          "connectedDevice": [
+            {}
+          ],
           "issueCount": 0,
           "rssi": {},
           "snr": {},
@@ -152,7 +156,9 @@ dnac_response:
                     {
                       "source": "string",
                       "linkStatus": "string",
-                      "label": [],
+                      "label": [
+                        {}
+                      ],
                       "target": "string",
                       "id": {},
                       "portUtilization": {}
@@ -181,7 +187,9 @@ dnac_response:
               "suggestedActions": [
                 {
                   "message": "string",
-                  "steps": []
+                  "steps": [
+                    {}
+                  ]
                 }
               ],
               "impactedHosts": [
@@ -199,7 +207,9 @@ dnac_response:
                     "area": "string",
                     "building": "string",
                     "floor": {},
-                    "apsImpacted": []
+                    "apsImpacted": [
+                      {}
+                    ]
                   },
                   "timestamp": 0
                 }

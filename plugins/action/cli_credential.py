@@ -146,7 +146,6 @@ class CliCredential(object):
     def requires_update(self, current_obj):
         requested_obj = self.new_object
         obj_params = [
-            ("payload", "payload"),
             ("comments", "comments"),
             ("credentialType", "credentialType"),
             ("description", "description"),

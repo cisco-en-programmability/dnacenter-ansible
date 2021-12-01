@@ -9,7 +9,7 @@ DOCUMENTATION = r"""
 module: network_device_wireless_lan_info
 short_description: Information module for Network Device Wireless Lan
 description:
-- Get Network Device Wireless Lan by id.
+- Get all Network Device Wireless Lan.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -33,7 +33,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Get Network Device Wireless Lan by id
+- name: Get all Network Device Wireless Lan
   cisco.dnac.network_device_wireless_lan_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
