@@ -482,12 +482,10 @@ options:
     suboptions:
       rollbackTemplateErrors:
         description: Validation or design conflicts errors of rollback template.
-        elements: dict
-        type: list
+        type: dict
       templateErrors:
         description: Validation or design conflicts errors.
-        elements: dict
-        type: list
+        type: dict
       templateId:
         description: UUID of template.
         type: str
@@ -670,10 +668,8 @@ EXAMPLES = r"""
         selectionType: string
         selectionValues: {}
     validationErrors:
-      rollbackTemplateErrors:
-      - {}
-      templateErrors:
-      - {}
+      rollbackTemplateErrors: {}
+      templateErrors: {}
       templateId: string
       templateVersion: string
     version: string

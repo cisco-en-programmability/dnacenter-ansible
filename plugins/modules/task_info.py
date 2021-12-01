@@ -150,7 +150,7 @@ dnac_response:
         "id": "string",
         "instanceTenantId": "string",
         "isError": true,
-        "lastUpdate": "string",
+        "lastUpdate": 0,
         "operationIdList": {},
         "parentId": "string",
         "progress": "string",

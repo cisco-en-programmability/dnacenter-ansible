@@ -42,8 +42,7 @@ options:
         type: dict
       resourceParams:
         description: Resource params to be provisioned.
-        elements: dict
-        type: list
+        type: dict
       type:
         description: Target type of device.
         type: str
@@ -83,8 +82,7 @@ EXAMPLES = r"""
     - hostName: string
       id: string
       params: {}
-      resourceParams:
-      - {}
+      resourceParams: {}
       type: string
       versionedTemplateId: string
     templateId: string
