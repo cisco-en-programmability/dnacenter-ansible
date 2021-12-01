@@ -52,6 +52,7 @@ class SdaFabricAuthenticationProfile(object):
         self.new_object = dict(
             siteNameHierarchy=params.get("siteNameHierarchy"),
             authenticateTemplateName=params.get("authenticateTemplateName"),
+            authenticate_template_name=params.get("authenticateTemplateName"),
             authenticationOrder=params.get("authenticationOrder"),
             dot1xToMabFallbackTimeout=params.get("dot1xToMabFallbackTimeout"),
             wakeOnLan=params.get("wakeOnLan"),

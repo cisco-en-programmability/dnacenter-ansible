@@ -68,21 +68,12 @@ class PathTrace(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['periodic_refresh'] = self.new_object.get('periodic_refresh')
-        new_object_params['source_ip'] = self.new_object.get('source_ip')
-        new_object_params['dest_ip'] = self.new_object.get('dest_ip')
-        new_object_params['source_port'] = self.new_object.get('source_port')
-        new_object_params['dest_port'] = self.new_object.get('dest_port')
-        new_object_params['gt_create_time'] = self.new_object.get('gt_create_time')
-        new_object_params['lt_create_time'] = self.new_object.get('lt_create_time')
+        new_object_params['periodic_refresh'] = self.new_object.get('periodicRefresh')
+        new_object_params['source_ip'] = self.new_object.get('sourceIP')
+        new_object_params['dest_ip'] = self.new_object.get('destIP')
+        new_object_params['source_port'] = self.new_object.get('sourcePort')
+        new_object_params['dest_port'] = self.new_object.get('destPort')
         new_object_params['protocol'] = self.new_object.get('protocol')
-        new_object_params['status'] = self.new_object.get('status')
-        new_object_params['task_id'] = self.new_object.get('task_id')
-        new_object_params['last_update_time'] = self.new_object.get('last_update_time')
-        new_object_params['limit'] = self.new_object.get('limit')
-        new_object_params['offset'] = self.new_object.get('offset')
-        new_object_params['order'] = self.new_object.get('order')
-        new_object_params['sort_by'] = self.new_object.get('sort_by')
         return new_object_params
 
     def create_params(self):
@@ -114,7 +105,7 @@ class PathTrace(object):
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
-            result = get_dict_result(items, 'name', name)
+            result = items
         except Exception:
             result = None
         return result
@@ -130,7 +121,9 @@ class PathTrace(object):
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
-            result = get_dict_result(items, 'flow_analysis_id', id)
+                if 'request' in items:
+                    items = items.get('request')
+            result = items
         except Exception:
             result = None
         return result
