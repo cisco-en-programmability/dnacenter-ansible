@@ -23,6 +23,7 @@ options:
     - Timestamp query parameter. Epoch time(in milliseconds) when the Site Hierarchy data is required.
     type: str
   siteType:
+    version_added: "4.0.0"
     description:
     - SiteType query parameter. Type of the site to return. AREA or BUILDING. Default to AREA.
     type: str
