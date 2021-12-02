@@ -30,7 +30,7 @@ cisco.dnac.nfv_profile -- Resource module for Nfv Profile
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -70,7 +70,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 
 
@@ -253,7 +253,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Type of the device(eg Cisco 5400 Enterprise Network Compute System).</div>
+                                            <div>Type of the device. Allowed values are &#x27;Cisco 5400 Enterprise Network Compute System&#x27;, &#x27;Cisco Integrated Services Virtual Router&#x27;, &#x27;Cisco Adaptive Security Virtual Appliance (ASAv)&#x27;, &#x27;NFVIS&#x27;, &#x27;ASAV&#x27;.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -287,7 +287,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Name of the template type to which template is associated (eg Cloud DayN Templates).</div>
+                                            <div>Name of the template type to which template is associated (eg Cloud DayN Templates). Allowed values are &#x27;Onboarding Template(s)&#x27; and &#x27;Day-N-Template(s)&#x27;.</div>
                                                         </td>
             </tr>
                     
@@ -320,7 +320,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Name of the device used in creating nfv profile.</div>
+                                            <div>Name of the device used in creating nfv profile. Allowed values are &#x27;Cisco 5400 Enterprise Network Compute System&#x27;, &#x27;Cisco 5100 Enterprise Network Compute System&#x27;.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -772,7 +772,7 @@ Parameters
                                                                     </div>
                                                         </td>
                                 <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.2.3"</div>
+                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.3.3"</div>
                                     </td>
                                                                 <td>
                                             <div>Informs the SDK which version of Cisco DNA Center to use.</div>

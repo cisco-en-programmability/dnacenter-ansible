@@ -30,7 +30,7 @@ cisco.dnac.sda_fabric_border_device -- Resource module for Sda Fabric Border Dev
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -70,7 +70,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 
 
@@ -83,15 +83,15 @@ Parameters
 
     <table  border=0 cellpadding=0 class="documentation-table">
         <tr>
-            <th colspan="5">Parameter</th>
+            <th colspan="1">Parameter</th>
             <th>Choices/<font color="blue">Defaults</font></th>
                         <th width="100%">Comments</th>
         </tr>
                     <tr>
-                                                                <td colspan="5">
-                    <div class="ansibleOptionAnchor" id="parameter-deviceIPAddress"></div>
-                    <b>deviceIPAddress</b>
-                    <a class="ansibleOptionLink" href="#parameter-deviceIPAddress" title="Permalink to this option"></a>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-borderSessionType"></div>
+                    <b>borderSessionType</b>
+                    <a class="ansibleOptionLink" href="#parameter-borderSessionType" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
                                                                     </div>
@@ -99,11 +99,45 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>DeviceIPAddress query parameter. Device IP Address.</div>
+                                            <div>Border Session Type.</div>
                                                         </td>
             </tr>
                                 <tr>
-                                                                <td colspan="5">
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-connectedToInternet"></div>
+                    <b>connectedToInternet</b>
+                    <a class="ansibleOptionLink" href="#parameter-connectedToInternet" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Connected to Internet.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-deviceManagementIpAddress"></div>
+                    <b>deviceManagementIpAddress</b>
+                    <a class="ansibleOptionLink" href="#parameter-deviceManagementIpAddress" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Management Ip Address of the Device which is provisioned successfully.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
                     <b>dnac_debug</b>
                     <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
@@ -122,7 +156,7 @@ Parameters
                                                         </td>
             </tr>
                                 <tr>
-                                                                <td colspan="5">
+                                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
                     <b>dnac_host</b>
                     <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
@@ -137,7 +171,7 @@ Parameters
                                                         </td>
             </tr>
                                 <tr>
-                                                                <td colspan="5">
+                                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
                     <b>dnac_password</b>
                     <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
@@ -152,7 +186,7 @@ Parameters
                                                         </td>
             </tr>
                                 <tr>
-                                                                <td colspan="5">
+                                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
                     <b>dnac_port</b>
                     <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
@@ -168,7 +202,7 @@ Parameters
                                                         </td>
             </tr>
                                 <tr>
-                                                                <td colspan="5">
+                                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
                     <b>dnac_username</b>
                     <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
@@ -185,7 +219,7 @@ Parameters
                                     </td>
             </tr>
                                 <tr>
-                                                                <td colspan="5">
+                                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
                     <b>dnac_verify</b>
                     <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
@@ -204,7 +238,7 @@ Parameters
                                                         </td>
             </tr>
                                 <tr>
-                                                                <td colspan="5">
+                                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
                     <b>dnac_version</b>
                     <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
@@ -213,118 +247,17 @@ Parameters
                                                                     </div>
                                                         </td>
                                 <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.2.3"</div>
+                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.3.3"</div>
                                     </td>
                                                                 <td>
                                             <div>Informs the SDK which version of Cisco DNA Center to use.</div>
                                                         </td>
             </tr>
                                 <tr>
-                                                                <td colspan="5">
-                    <div class="ansibleOptionAnchor" id="parameter-payload"></div>
-                    <b>payload</b>
-                    <a class="ansibleOptionLink" href="#parameter-payload" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>                                            </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Sda Fabric Border Device&#x27;s payload.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-payload/borderSessionType"></div>
-                    <b>borderSessionType</b>
-                    <a class="ansibleOptionLink" href="#parameter-payload/borderSessionType" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Border Session Type.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-payload/connectedToInternet"></div>
-                    <b>connectedToInternet</b>
-                    <a class="ansibleOptionLink" href="#parameter-payload/connectedToInternet" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>Connected To Internet.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-payload/deviceManagementIpAddress"></div>
-                    <b>deviceManagementIpAddress</b>
-                    <a class="ansibleOptionLink" href="#parameter-payload/deviceManagementIpAddress" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Device Management Ip Address.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-payload/externalConnectivityIpPoolName"></div>
-                    <b>externalConnectivityIpPoolName</b>
-                    <a class="ansibleOptionLink" href="#parameter-payload/externalConnectivityIpPoolName" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>External Connectivity Ip Pool Name.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-payload/externalConnectivitySettings"></div>
-                    <b>externalConnectivitySettings</b>
-                    <a class="ansibleOptionLink" href="#parameter-payload/externalConnectivitySettings" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>                                            </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Sda Fabric Border Device&#x27;s externalConnectivitySettings.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-payload/externalConnectivitySettings/externalAutonomouSystemNumber"></div>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-externalAutonomouSystemNumber"></div>
                     <b>externalAutonomouSystemNumber</b>
-                    <a class="ansibleOptionLink" href="#parameter-payload/externalConnectivitySettings/externalAutonomouSystemNumber" title="Permalink to this option"></a>
+                    <a class="ansibleOptionLink" href="#parameter-externalAutonomouSystemNumber" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
                                                                     </div>
@@ -332,16 +265,59 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>External Autonomou System Number.</div>
+                                            <div>External Autonomous System Number will be used to automate IP routing between Border Node and remote peer (e.g.,1-65535).</div>
                                                         </td>
             </tr>
                                 <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-payload/externalConnectivitySettings/interfaceName"></div>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-externalConnectivityIpPoolName"></div>
+                    <b>externalConnectivityIpPoolName</b>
+                    <a class="ansibleOptionLink" href="#parameter-externalConnectivityIpPoolName" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>IP pool to use to automate IP routing between the border node and remote peer.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-externalConnectivitySettings"></div>
+                    <b>externalConnectivitySettings</b>
+                    <a class="ansibleOptionLink" href="#parameter-externalConnectivitySettings" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>External Connectivity Settings information of L3 Handoff.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-externalDomainRoutingProtocolName"></div>
+                    <b>externalDomainRoutingProtocolName</b>
+                    <a class="ansibleOptionLink" href="#parameter-externalDomainRoutingProtocolName" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>External Domain Routing Protocol Name. (Example BGP).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-interfaceName"></div>
                     <b>interfaceName</b>
-                    <a class="ansibleOptionLink" href="#parameter-payload/externalConnectivitySettings/interfaceName" title="Permalink to this option"></a>
+                    <a class="ansibleOptionLink" href="#parameter-interfaceName" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
                                                                     </div>
@@ -353,30 +329,25 @@ Parameters
                                                         </td>
             </tr>
                                 <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-payload/externalConnectivitySettings/l3Handoff"></div>
-                    <b>l3Handoff</b>
-                    <a class="ansibleOptionLink" href="#parameter-payload/externalConnectivitySettings/l3Handoff" title="Permalink to this option"></a>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-internalAutonomouSystemNumber"></div>
+                    <b>internalAutonomouSystemNumber</b>
+                    <a class="ansibleOptionLink" href="#parameter-internalAutonomouSystemNumber" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>                                            </div>
+                        <span style="color: purple">string</span>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Fabric Border Device&#x27;s l3Handoff.</div>
+                                            <div>Internal Autonomouns System Number used by border node to communicate with remote peer (e.g.,1-65535).</div>
                                                         </td>
             </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-payload/externalConnectivitySettings/l3Handoff/virtualNetwork"></div>
-                    <b>virtualNetwork</b>
-                    <a class="ansibleOptionLink" href="#parameter-payload/externalConnectivitySettings/l3Handoff/virtualNetwork" title="Permalink to this option"></a>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-l3Handoff"></div>
+                    <b>l3Handoff</b>
+                    <a class="ansibleOptionLink" href="#parameter-l3Handoff" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">dictionary</span>
                                                                     </div>
@@ -384,69 +355,14 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Sda Fabric Border Device&#x27;s virtualNetwork.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-payload/externalConnectivitySettings/l3Handoff/virtualNetwork/virtualNetworkName"></div>
-                    <b>virtualNetworkName</b>
-                    <a class="ansibleOptionLink" href="#parameter-payload/externalConnectivitySettings/l3Handoff/virtualNetwork/virtualNetworkName" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Virtual Network Name.</div>
-                                                        </td>
-            </tr>
-                    
-                    
-                    
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-payload/externalDomainRoutingProtocolName"></div>
-                    <b>externalDomainRoutingProtocolName</b>
-                    <a class="ansibleOptionLink" href="#parameter-payload/externalDomainRoutingProtocolName" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>External Domain Routing Protocol Name.</div>
+                                            <div>L3 Handoff information.</div>
                                                         </td>
             </tr>
                                 <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-payload/internalAutonomouSystemNumber"></div>
-                    <b>internalAutonomouSystemNumber</b>
-                    <a class="ansibleOptionLink" href="#parameter-payload/internalAutonomouSystemNumber" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Internal Autonomou System Number.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-payload/siteNameHierarchy"></div>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-siteNameHierarchy"></div>
                     <b>siteNameHierarchy</b>
-                    <a class="ansibleOptionLink" href="#parameter-payload/siteNameHierarchy" title="Permalink to this option"></a>
+                    <a class="ansibleOptionLink" href="#parameter-siteNameHierarchy" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
                                                                     </div>
@@ -454,12 +370,11 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Site Name Hierarchy.</div>
+                                            <div>Site Name Hierarchy for device location(site should be fabric site).</div>
                                                         </td>
             </tr>
-                    
                                 <tr>
-                                                                <td colspan="5">
+                                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
                     <b>validate_response_schema</b>
                     <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
@@ -475,6 +390,51 @@ Parameters
                                                                             </td>
                                                                 <td>
                                             <div>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-virtualNetwork"></div>
+                    <b>virtualNetwork</b>
+                    <a class="ansibleOptionLink" href="#parameter-virtualNetwork" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Virtual Network information of L3 Hand off.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-virtualNetworkName"></div>
+                    <b>virtualNetworkName</b>
+                    <a class="ansibleOptionLink" href="#parameter-virtualNetworkName" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Virtual Network Name assigned to site.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-vlanId"></div>
+                    <b>vlanId</b>
+                    <a class="ansibleOptionLink" href="#parameter-vlanId" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Vlan Id (e.g.,2-4096 except for reserved VLANs (1002-1005, 2046, 4095)).</div>
                                                         </td>
             </tr>
                         </table>
@@ -521,20 +481,20 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
-        payload:
-        - deviceManagementIpAddress: string
-          siteNameHierarchy: string
-          externalDomainRoutingProtocolName: string
-          externalConnectivityIpPoolName: string
-          internalAutonomouSystemNumber: string
-          borderSessionType: string
-          connectedToInternet: true
-          externalConnectivitySettings:
-          - interfaceName: string
-            externalAutonomouSystemNumber: string
-            l3Handoff:
-            - virtualNetwork:
-                virtualNetworkName: string
+        borderSessionType: string
+        connectedToInternet: true
+        deviceManagementIpAddress: string
+        externalAutonomouSystemNumber: string
+        externalConnectivityIpPoolName: string
+        externalConnectivitySettings: {}
+        externalDomainRoutingProtocolName: string
+        interfaceName: string
+        internalAutonomouSystemNumber: string
+        l3Handoff: {}
+        siteNameHierarchy: string
+        virtualNetwork: {}
+        virtualNetworkName: string
+        vlanId: string
 
     - name: Delete all
       cisco.dnac.sda_fabric_border_device:
@@ -546,7 +506,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: absent
-        deviceIPAddress: string
+        deviceManagementIpAddress: string
 
 
 
@@ -586,7 +546,10 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                                 <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
       &quot;status&quot;: &quot;string&quot;,
       &quot;description&quot;: &quot;string&quot;,
-      &quot;executionStatusUrl&quot;: &quot;string&quot;
+      &quot;taskId&quot;: &quot;string&quot;,
+      &quot;taskStatusUrl&quot;: &quot;string&quot;,
+      &quot;executionStatusUrl&quot;: &quot;string&quot;,
+      &quot;executionId&quot;: &quot;string&quot;
     }</div>
                                     </td>
             </tr>

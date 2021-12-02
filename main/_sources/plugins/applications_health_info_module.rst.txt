@@ -30,7 +30,7 @@ cisco.dnac.applications_health_info -- Information module for Applications Healt
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -70,7 +70,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 
 
@@ -100,6 +100,24 @@ Parameters
                                                                                                                                                             </td>
                                                                 <td>
                                             <div>ApplicationHealth query parameter. Application health category (POOR, FAIR, or GOOD. Optionally use with siteId only).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-applicationName"></div>
+                    <b>applicationName</b>
+                    <a class="ansibleOptionLink" href="#parameter-applicationName" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                          <div style="font-style: italic; font-size: small; color: darkgreen">
+                        added in 4.0.0 of cisco.dnac
+                      </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>ApplicationName query parameter. The name of the application to get information on.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -228,7 +246,7 @@ Parameters
                                                                     </div>
                                                         </td>
                                 <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.2.3"</div>
+                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.3.3"</div>
                                     </td>
                                                                 <td>
                                             <div>Informs the SDK which version of Cisco DNA Center to use.</div>
@@ -411,6 +429,7 @@ Examples
         applicationHealth: string
         offset: 0
         limit: 0
+        applicationName: string
       register: result
 
 
@@ -454,7 +473,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       &quot;response&quot;: [
         {
           &quot;name&quot;: &quot;string&quot;,
-          &quot;health&quot;: {},
+          &quot;health&quot;: 0,
           &quot;businessRelevance&quot;: &quot;string&quot;,
           &quot;trafficClass&quot;: &quot;string&quot;,
           &quot;usageBytes&quot;: 0,
@@ -464,7 +483,26 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
           &quot;jitter&quot;: {},
           &quot;applicationServerLatency&quot;: {},
           &quot;clientNetworkLatency&quot;: {},
-          &quot;serverNetworkLatency&quot;: {}
+          &quot;serverNetworkLatency&quot;: {},
+          &quot;exporterIpAddress&quot;: &quot;string&quot;,
+          &quot;exporterName&quot;: &quot;string&quot;,
+          &quot;exporterUUID&quot;: &quot;string&quot;,
+          &quot;exporterFamily&quot;: &quot;string&quot;,
+          &quot;clientName&quot;: &quot;string&quot;,
+          &quot;clientIp&quot;: &quot;string&quot;,
+          &quot;location&quot;: &quot;string&quot;,
+          &quot;operatingSystem&quot;: &quot;string&quot;,
+          &quot;deviceType&quot;: &quot;string&quot;,
+          &quot;clientMacAddress&quot;: &quot;string&quot;,
+          &quot;issueId&quot;: &quot;string&quot;,
+          &quot;issueName&quot;: &quot;string&quot;,
+          &quot;application&quot;: &quot;string&quot;,
+          &quot;severity&quot;: &quot;string&quot;,
+          &quot;summary&quot;: &quot;string&quot;,
+          &quot;rootCause&quot;: &quot;string&quot;,
+          &quot;timestamp&quot;: 0,
+          &quot;occurrences&quot;: 0,
+          &quot;priority&quot;: &quot;string&quot;
         }
       ]
     }</div>

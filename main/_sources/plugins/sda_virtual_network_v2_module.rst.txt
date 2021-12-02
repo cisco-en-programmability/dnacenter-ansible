@@ -30,7 +30,7 @@ cisco.dnac.sda_virtual_network_v2 -- Resource module for Sda Virtual Network V2
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -70,7 +70,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 
 
@@ -198,7 +198,7 @@ Parameters
                                                                     </div>
                                                         </td>
                                 <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.2.3"</div>
+                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.3.3"</div>
                                     </td>
                                                                 <td>
                                             <div>Informs the SDK which version of Cisco DNA Center to use.</div>
@@ -220,7 +220,7 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>IsGuestVirtualNetwork flag.</div>
+                                            <div>To create guest virtual network.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -235,7 +235,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Scalable Group Names.</div>
+                                            <div>Scalable Group to be associated to virtual network.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -269,7 +269,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Virtual Network Name.</div>
+                                            <div>Virtual Network Name to be assigned global level.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -405,6 +405,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       &quot;description&quot;: &quot;string&quot;,
       &quot;taskId&quot;: &quot;string&quot;,
       &quot;taskStatusUrl&quot;: &quot;string&quot;,
+      &quot;executionStatusUrl&quot;: &quot;string&quot;,
       &quot;executionId&quot;: &quot;string&quot;
     }</div>
                                     </td>
