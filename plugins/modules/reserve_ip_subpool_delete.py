@@ -10,7 +10,7 @@ module: reserve_ip_subpool_delete
 short_description: Resource module for Reserve Ip Subpool Delete
 description:
 - Manage operation delete of the resource Reserve Ip Subpool Delete.
-version_added: '3.1.0'
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)

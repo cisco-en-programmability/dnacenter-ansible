@@ -10,7 +10,7 @@ module: golden_tag_image_delete
 short_description: Resource module for Golden Tag Image Delete
 description:
 - Manage operation delete of the resource Golden Tag Image Delete.
-version_added: '3.1.0'
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)

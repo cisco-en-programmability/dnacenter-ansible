@@ -10,7 +10,7 @@ module: golden_image_create
 short_description: Resource module for Golden Image Create
 description:
 - Manage operation create of the resource Golden Image Create.
-version_added: '3.1.0'
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)

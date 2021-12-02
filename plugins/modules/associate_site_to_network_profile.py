@@ -10,7 +10,7 @@ module: associate_site_to_network_profile
 short_description: Resource module for Associate Site To Network Profile
 description:
 - Manage operation create of the resource Associate Site To Network Profile.
-version_added: '3.1.0'
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)

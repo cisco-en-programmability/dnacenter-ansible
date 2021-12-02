@@ -10,7 +10,7 @@ module: qos_device_interface_info_count_info
 short_description: Information module for Qos Device Interface Info Count
 description:
 - Get all Qos Device Interface Info Count.
-version_added: '3.1.0'
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)

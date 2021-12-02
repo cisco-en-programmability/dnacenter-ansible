@@ -10,7 +10,7 @@ module: disassociate_site_to_network_profile
 short_description: Resource module for Disassociate Site To Network Profile
 description:
 - Manage operation delete of the resource Disassociate Site To Network Profile.
-version_added: '3.1.0'
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)

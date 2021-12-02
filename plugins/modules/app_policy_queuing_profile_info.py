@@ -10,7 +10,7 @@ module: app_policy_queuing_profile_info
 short_description: Information module for App Policy Queuing Profile
 description:
 - Get all App Policy Queuing Profile.
-version_added: '3.1.0'
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)

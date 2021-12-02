@@ -10,7 +10,7 @@ module: app_policy_intent_create
 short_description: Resource module for App Policy Intent Create
 description:
 - Manage operation create of the resource App Policy Intent Create.
-version_added: '3.1.0'
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)

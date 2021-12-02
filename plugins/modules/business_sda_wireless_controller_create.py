@@ -10,7 +10,7 @@ module: business_sda_wireless_controller_create
 short_description: Resource module for Business Sda Wireless Controller Create
 description:
 - Manage operation create of the resource Business Sda Wireless Controller Create.
-version_added: '3.1.0'
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)

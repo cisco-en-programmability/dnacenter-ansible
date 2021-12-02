@@ -10,7 +10,7 @@ module: endpoint_analytics_profiling_rules
 short_description: Resource module for Endpoint Analytics Profiling Rules
 description:
 - Manage operations create, update and delete of the resource Endpoint Analytics Profiling Rules.
-version_added: '3.1.0'
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
