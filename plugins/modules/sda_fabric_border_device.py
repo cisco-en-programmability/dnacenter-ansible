@@ -16,48 +16,62 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   borderSessionType:
+    version_added: "4.0.0"
     description: Border Session Type.
     type: str
   connectedToInternet:
+    version_added: "4.0.0"
     description: Connected to Internet.
     type: bool
   deviceManagementIpAddress:
+    version_added: "4.0.0"
     description: Management Ip Address of the Device which is provisioned successfully.
     type: str
   externalAutonomouSystemNumber:
+    version_added: "4.0.0"
     description: External Autonomous System Number will be used to automate IP routing
       between Border Node and remote peer (e.g.,1-65535).
     type: str
   externalConnectivityIpPoolName:
+    version_added: "4.0.0"
     description: IP pool to use to automate IP routing between the border node and remote
       peer.
     type: str
   externalConnectivitySettings:
+    version_added: "4.0.0"
     description: External Connectivity Settings information of L3 Handoff.
     type: dict
   externalDomainRoutingProtocolName:
+    version_added: "4.0.0"
     description: External Domain Routing Protocol Name. (Example BGP).
     type: str
   interfaceName:
+    version_added: "4.0.0"
     description: Interface Name.
     type: str
   internalAutonomouSystemNumber:
+    version_added: "4.0.0"
     description: Internal Autonomouns System Number used by border node to communicate
       with remote peer (e.g.,1-65535).
     type: str
   l3Handoff:
+    version_added: "4.0.0"
     description: L3 Handoff information.
     type: dict
   siteNameHierarchy:
+    version_added: "4.0.0"
     description: Site Name Hierarchy for device location(site should be fabric site).
     type: str
   virtualNetwork:
+    version_added: "4.0.0"
     description: Virtual Network information of L3 Hand off.
     type: dict
   virtualNetworkName:
+    version_added: "4.0.0"
     description: Virtual Network Name assigned to site.
     type: str
   vlanId:
+    version_added: "4.0.0"
     description: Vlan Id (e.g.,2-4096 except for reserved VLANs (1002-1005, 2046, 4095)).
     type: str
 requirements:

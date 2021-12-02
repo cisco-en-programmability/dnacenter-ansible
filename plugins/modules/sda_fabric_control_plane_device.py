@@ -16,9 +16,11 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   deviceManagementIpAddress:
+    version_added: "4.0.0"
     description: DeviceManagementIpAddress query parameter.
     type: str
   siteNameHierarchy:
+    version_added: "4.0.0"
     description: Site Name Hierarchy of provisioned Device(site should be fabric site).
     type: str
 requirements:

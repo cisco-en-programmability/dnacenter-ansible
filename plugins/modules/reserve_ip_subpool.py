@@ -27,6 +27,7 @@ options:
     elements: str
     type: list
   ipv4GateWay:
+    version_added: "4.0.0"
     description: Gateway ip address details, example 175.175.0.1.
     type: str
   ipv4GlobalPool:

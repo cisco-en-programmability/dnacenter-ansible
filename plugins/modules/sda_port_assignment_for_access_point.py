@@ -16,21 +16,26 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   authenticateTemplateName:
+    version_added: "4.0.0"
     description: Authenticate TemplateName associated to siteNameHierarchy.
     type: str
   dataIpAddressPoolName:
+    version_added: "4.0.0"
     description: Ip Pool Name, that is assigned to INFRA_VN.
     type: str
   deviceManagementIpAddress:
+    version_added: "4.0.0"
     description: Management Ip Address of the edge device.
     type: str
   interfaceDescription:
+    version_added: "4.0.0"
     description: Details or note of interface assignment.
     type: str
   interfaceName:
     description: Interface Name of the edge device.
     type: str
   siteNameHierarchy:
+    version_added: "4.0.0"
     description: Site Name Hierarchy should be a valid fabric site name hierarchy. E.g
       Global/USA/San Jose.
     type: str

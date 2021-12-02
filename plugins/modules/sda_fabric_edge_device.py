@@ -19,6 +19,7 @@ options:
     description: Management Ip Address of the Device which is provisioned successfully.
     type: str
   siteNameHierarchy:
+    version_added: "4.0.0"
     description: Site Name Hierarchy of provisioned Device.
     type: str
 requirements:

@@ -19,6 +19,7 @@ options:
     description: Additional headers.
     type: dict
   deviceManagementIpAddress:
+    version_added: "4.0.0"
     description:
     - DeviceManagementIpAddress query parameter.
     type: str

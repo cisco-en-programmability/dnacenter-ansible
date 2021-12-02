@@ -16,6 +16,7 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   cleanConfig:
+    version_added: "4.0.0"
     description: CleanConfig query parameter.
     type: bool
   cliTransport:

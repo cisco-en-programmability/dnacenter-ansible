@@ -23,6 +23,7 @@ options:
     - SiteNameHierarchy query parameter.
     type: str
   authenticateTemplateName:
+    version_added: "4.0.0"
     description:
     - AuthenticateTemplateName query parameter.
     type: str
