@@ -30,7 +30,7 @@ cisco.dnac.site_health_info -- Information module for Site Health
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -70,7 +70,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 
 
@@ -198,7 +198,7 @@ Parameters
                                                                     </div>
                                                         </td>
                                 <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.2.3"</div>
+                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.3.3"</div>
                                     </td>
                                                                 <td>
                                             <div>Informs the SDK which version of Cisco DNA Center to use.</div>
@@ -217,6 +217,51 @@ Parameters
                                                                                                                                                             </td>
                                                                 <td>
                                             <div>Additional headers.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-limit"></div>
+                    <b>limit</b>
+                    <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Limit query parameter. The max number of sites in the returned data set. Default is 25, and max at 50.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-offset"></div>
+                    <b>offset</b>
+                    <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Offset query parameter. The offset value, starting from 1, of the first returned site entry. Default is 1.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-siteType"></div>
+                    <b>siteType</b>
+                    <a class="ansibleOptionLink" href="#parameter-siteType" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>SiteType query parameter. Type of the site to return. AREA or BUILDING. Default to AREA.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -299,6 +344,9 @@ Examples
         headers:
           custom: value
         timestamp: string
+        siteType: string
+        offset: 0
+        limit: 0
       register: result
 
 

@@ -30,7 +30,7 @@ cisco.dnac.sda_fabric_border_device_info -- Information module for Sda Fabric Bo
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 3.2.3).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -70,7 +70,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.3.3
+- dnacentersdk >= 2.4.0
 - python >= 3.5
 
 
@@ -89,9 +89,9 @@ Parameters
         </tr>
                     <tr>
                                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-deviceIPAddress"></div>
-                    <b>deviceIPAddress</b>
-                    <a class="ansibleOptionLink" href="#parameter-deviceIPAddress" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-deviceManagementIpAddress"></div>
+                    <b>deviceManagementIpAddress</b>
+                    <a class="ansibleOptionLink" href="#parameter-deviceManagementIpAddress" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
                                                                     </div>
@@ -99,7 +99,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>DeviceIPAddress query parameter. Device IP Address.</div>
+                                            <div>DeviceManagementIpAddress query parameter.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -213,7 +213,7 @@ Parameters
                                                                     </div>
                                                         </td>
                                 <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.2.3"</div>
+                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.3.3"</div>
                                     </td>
                                                                 <td>
                                             <div>Informs the SDK which version of Cisco DNA Center to use.</div>
@@ -298,7 +298,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         headers:
           custom: value
-        deviceIPAddress: string
+        deviceManagementIpAddress: string
       register: result
 
 
