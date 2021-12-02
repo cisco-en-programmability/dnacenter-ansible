@@ -10,7 +10,7 @@ module: business_sda_hostonboarding_ssid_ippool
 short_description: Resource module for Business Sda Hostonboarding Ssid Ippool
 description:
 - Manage operations create and update of the resource Business Sda Hostonboarding Ssid Ippool.
-version_added: '3.1.0'
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)

@@ -11,7 +11,7 @@ short_description: Information module for Endpoint Analytics Profiling Rules
 description:
 - Get all Endpoint Analytics Profiling Rules.
 - Get Endpoint Analytics Profiling Rules by id.
-version_added: '3.1.0'
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)

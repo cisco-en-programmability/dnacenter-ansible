@@ -57,6 +57,7 @@ options:
       siteId only).
     type: int
   applicationName:
+    version_added: "4.0.0"
     description:
     - ApplicationName query parameter. The name of the application to get information on.
     type: str

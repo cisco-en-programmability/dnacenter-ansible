@@ -10,7 +10,7 @@ module: golden_tag_image_details_info
 short_description: Information module for Golden Tag Image Details
 description:
 - Get Golden Tag Image Details by id.
-version_added: '3.1.0'
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)

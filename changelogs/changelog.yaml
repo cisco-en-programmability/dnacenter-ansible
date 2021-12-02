@@ -190,3 +190,112 @@ releases:
         - Updated internal code for credential and discovery
       minor_changes:
         - Updated test/sanity and remove duplicates
+  4.0.0:
+    release_date: '2021-12-01'
+    changes:
+      release_summary: Update to use DNAC v2.2.3.3
+      minor_changes:
+        - app_policy_default_info - new module.
+        - app_policy_info - new module.
+        - app_policy_intent_create - new module.
+        - app_policy_queuing_profile - new module.
+        - app_policy_queuing_profile_count_info - new module.
+        - app_policy_queuing_profile_info - new module.
+        - associate_site_to_network_profile - new module.
+        - business_sda_hostonboarding_ssid_ippool - new module.
+        - business_sda_hostonboarding_ssid_ippool_info - new module.
+        - business_sda_wireless_controller_create - new module.
+        - business_sda_wireless_controller_delete - new module.
+        - device_family_identifiers_details_info - new module.
+        - disassociate_site_to_network_profile - new module.
+        - disasterrecovery_system_operationstatus_info - new module.
+        - disasterrecovery_system_status_info - new module.
+        - dnacaap_management_execution_status_info - new module.
+        - endpoint_analytics_profiling_rules - new module.
+        - endpoint_analytics_profiling_rules_info - new module.
+        - golden_image_create - new module.
+        - golden_tag_image_delete - new module.
+        - golden_tag_image_details_info - new module.
+        - profiling_rules_count_info - new module.
+        - profiling_rules_in_bulk_create - new module.
+        - projects_details_info - new module.
+        - qos_device_interface_info_count_info - new module.
+        - reserve_ip_subpool_create - new module.
+        - reserve_ip_subpool_delete - new module.
+        - reserve_ip_subpool_update - new module.
+        - templates_details_info - new module.
+      bugfixes:
+        - configuration_template - update module logic.
+        - configuration_template_project - update module logic.
+        - path_trace - update module logic.
+        - pnp_device - update module logic.
+        - reports - update module logic.
+        - wireless_profile - update module logic.
+      major_changes:
+        - applications_health_info - new `applicationName` parameter.
+        - network_device - change `isForceDelete` parameter to `cleanConfig` parameter.
+        - network_device - new `cleanConfig` parameter.
+        - network_device_lexicographically_sorted_info - change `offset` param type from str to int
+        - network_device_lexicographically_sorted_info - change `limit` param type from str to int
+        - reserve_ip_subpool - new `ipv4GateWay` parameter.
+        - sda_fabric - remove `payload` parameter.
+        - sda_fabric_authentication_profile_info - add `authenticateTemplateName` parameter.
+        - sda_fabric_authentication_profile - remove `payload` parameter.
+        - sda_fabric_authentication_profile - add `authenticateTemplateName` parameter.
+        - sda_fabric_authentication_profile - add `authenticationOrder` parameter.
+        - sda_fabric_authentication_profile - add `dot1xToMabFallbackTimeout` parameter.
+        - sda_fabric_authentication_profile - add `wakeOnLan` parameter.
+        - sda_fabric_authentication_profile - add `numberOfHosts` parameter.
+        - sda_device_info - change `deviceIPAddress` to `deviceManagementIpAddress` parameter.
+        - sda_fabric_border_device - change `deviceIPAddress` to `deviceManagementIpAddress` parameter.
+        - sda_fabric_border_device - remove `payload` parameter.
+        - sda_fabric_border_device - add `deviceManagementIpAddress` parameter.
+        - sda_fabric_border_device - add `siteNameHierarchy` parameter.
+        - sda_fabric_border_device - add `externalDomainRoutingProtocolName` parameter.
+        - sda_fabric_border_device - add `externalConnectivityIpPoolName` parameter.
+        - sda_fabric_border_device - add `internalAutonomouSystemNumber` parameter.
+        - sda_fabric_border_device - add `borderSessionType` parameter.
+        - sda_fabric_border_device - add `connectedToInternet` parameter.
+        - sda_fabric_border_device - add `externalConnectivitySettings` parameter.
+        - sda_fabric_border_device - add `interfaceName` parameter.
+        - sda_fabric_border_device - add `externalAutonomouSystemNumber` parameter.
+        - sda_fabric_border_device - add `l3Handoff` parameter.
+        - sda_fabric_border_device - add `virtualNetwork` parameter.
+        - sda_fabric_border_device - add `virtualNetworkName` parameter.
+        - sda_fabric_border_device - add `vlanId parameter.`
+        - sda_fabric_border_device_info - change `deviceIPAddress` to `deviceManagementIpAddress` parameter.
+        - sda_fabric_control_plane_device - change `deviceIPAddress` to `deviceManagementIpAddress` parameter.
+        - sda_fabric_control_plane_device - remove `payload` parameter.
+        - sda_fabric_control_plane_device - add `siteNameHierarchy` parameter.
+        - sda_fabric_control_plane_device_info - change `deviceIPAddress` to `deviceManagementIpAddress` parameter.
+        - sda_fabric_edge_device - change `deviceIPAddress` to `deviceManagementIpAddress` parameter.
+        - sda_fabric_edge_device - remove `payload` parameter.
+        - sda_fabric_edge_device - add `siteNameHierarchy` parameter.
+        - sda_fabric_edge_device_info - change `deviceIPAddress` to `deviceManagementIpAddress` parameter.
+        - sda_fabric_site - remove `payload` parameter.
+        - sda_fabric_site - add `fabricName` parameter.
+        - sda_multicast - change `fabricSiteNameHierarchy` to `siteNameHierarchy` parameter.
+        - sda_multicast_info - change `fabricSiteNameHierarchy` to `siteNameHierarchy` parameter.
+        - sda_port_assignment_for_access_point - remove `payload` parameter.
+        - sda_port_assignment_for_access_point - change `device_ip` to `deviceManagementIpAddress` parameter.
+        - sda_port_assignment_for_access_point - add `siteNameHierarchy` parameter.
+        - sda_port_assignment_for_access_point - add `deviceManagementIpAddress` parameter.
+        - sda_port_assignment_for_access_point - add `dataIpAddressPoolName` parameter.
+        - sda_port_assignment_for_access_point - add `authenticateTemplateName` parameter.
+        - sda_port_assignment_for_access_point - add `interfaceDescription` parameter.
+        - sda_port_assignment_for_access_point_info - change `device_ip` to `deviceManagementIpAddress` parameter.
+        - sda_port_assignment_for_user_device - remove `payload` parameter.
+        - sda_port_assignment_for_user_device - change `device_ip` to `deviceManagementIpAddress` parameter.
+        - sda_port_assignment_for_user_device - add `siteNameHierarchy` parameter.
+        - sda_port_assignment_for_user_device - add `voiceIpAddressPoolName` parameter.
+        - sda_port_assignment_for_user_device - add `dataIpAddressPoolName` parameter.
+        - sda_port_assignment_for_user_device - add `authenticateTemplateName` parameter.
+        - sda_port_assignment_for_user_device - add `scalableGroupName` parameter.
+        - sda_port_assignment_for_user_device - add `interfaceDescription` parameter.
+        - sda_port_assignment_for_user_device_info - change `device_ip` to `deviceManagementIpAddress` parameter.
+        - sda_virtual_network - remove `payload` parameter.
+        - snmpv2_read_community_credential - remove `id` and `instanceTenantId` parameter.
+        - snmpv2_write_community_credential - remove `id` and `instanceTenantId` parameter.
+        - site_health_info - add `siteType`, `offset`, `limit` parameters
+        - sda_virtual_network_ip_pool - remove `payload` and `ipPoolName` parameter.
+        - sda_virtual_network_ip_pool - add `siteNameHierarchy`, `ipPoolName`, `trafficType`, `authenticationPolicyName`, `scalableGroupName`, `isL2FloodingEnabled`, `isThisCriticalPool`, `poolType`, `vlanName`, `isWirelessPool` parameters.

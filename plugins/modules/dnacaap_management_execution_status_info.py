@@ -10,7 +10,7 @@ module: dnacaap_management_execution_status_info
 short_description: Information module for Dnacaap Management Execution Status
 description:
 - Get Dnacaap Management Execution Status by id.
-version_added: '3.1.0'
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)

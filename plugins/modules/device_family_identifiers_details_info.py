@@ -10,7 +10,7 @@ module: device_family_identifiers_details_info
 short_description: Information module for Device Family Identifiers Details
 description:
 - Get all Device Family Identifiers Details.
-version_added: '3.1.0'
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)

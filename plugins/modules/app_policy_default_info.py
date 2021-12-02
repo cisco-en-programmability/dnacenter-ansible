@@ -10,7 +10,7 @@ module: app_policy_default_info
 short_description: Information module for App Policy Default
 description:
 - Get all App Policy Default.
-version_added: '3.1.0'
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
