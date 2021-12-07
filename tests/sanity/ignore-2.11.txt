@@ -319,6 +319,8 @@ plugins/action/profiling_rules_count_info.py compile-2.6!skip # Python 2.6 is no
 plugins/action/profiling_rules_in_bulk_create.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/projects_details_info.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/qos_device_interface_info_count_info.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
+plugins/action/qos_device_interface_info.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
+plugins/action/qos_device_interface.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/reserve_ip_subpool_create.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/reserve_ip_subpool_delete.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/reserve_ip_subpool_update.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
@@ -641,6 +643,8 @@ plugins/action/profiling_rules_count_info.py compile-2.7!skip # Python 2.7 is no
 plugins/action/profiling_rules_in_bulk_create.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/projects_details_info.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/qos_device_interface_info_count_info.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/action/qos_device_interface_info.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/action/qos_device_interface.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/reserve_ip_subpool_create.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/reserve_ip_subpool_delete.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/reserve_ip_subpool_update.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
@@ -963,6 +967,8 @@ plugins/action/profiling_rules_count_info.py import-2.7 # Python 2.7 is not supp
 plugins/action/profiling_rules_in_bulk_create.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/projects_details_info.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/qos_device_interface_info_count_info.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
+plugins/action/qos_device_interface_info.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
+plugins/action/qos_device_interface.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/reserve_ip_subpool_create.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/reserve_ip_subpool_delete.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/reserve_ip_subpool_update.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
