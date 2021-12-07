@@ -4,7 +4,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 4.0.0
+Collection version 4.1.0
 
 .. toctree::
     :maxdepth: 1
@@ -223,6 +223,8 @@ Modules
 * :ref:`profiling_rules_count_info <ansible_collections.cisco.dnac.profiling_rules_count_info_module>` -- Information module for Profiling Rules Count
 * :ref:`profiling_rules_in_bulk_create <ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module>` -- Resource module for Profiling Rules In Bulk Create
 * :ref:`projects_details_info <ansible_collections.cisco.dnac.projects_details_info_module>` -- Information module for Projects Details
+* :ref:`qos_device_interface <ansible_collections.cisco.dnac.qos_device_interface_module>` -- Resource module for Qos Device Interface
+* :ref:`qos_device_interface_info <ansible_collections.cisco.dnac.qos_device_interface_info_module>` -- Information module for Qos Device Interface
 * :ref:`qos_device_interface_info_count_info <ansible_collections.cisco.dnac.qos_device_interface_info_count_info_module>` -- Information module for Qos Device Interface Info Count
 * :ref:`reports <ansible_collections.cisco.dnac.reports_module>` -- Resource module for Reports
 * :ref:`reports_executions_info <ansible_collections.cisco.dnac.reports_executions_info_module>` -- Information module for Reports Executions
@@ -556,6 +558,8 @@ Modules
     profiling_rules_count_info_module
     profiling_rules_in_bulk_create_module
     projects_details_info_module
+    qos_device_interface_module
+    qos_device_interface_info_module
     qos_device_interface_info_count_info_module
     reports_module
     reports_executions_info_module
