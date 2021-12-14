@@ -1,0 +1,509 @@
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.client_enrichment_details_info_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.client_enrichment_details_info -- Information module for Client Enrichment Details
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.0).
+
+    You might already have this collection installed if you are using the ``ansible`` package.
+    It is not included in ``ansible-core``.
+    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.client_enrichment_details_info`.
+
+.. version_added
+
+.. versionadded:: 3.1.0 of cisco.dnac
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Get all Client Enrichment Details.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk >= 2.4.0
+- python >= 3.5
+
+
+.. Options
+
+Parameters
+----------
+
+.. raw:: html
+
+    <table  border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Parameter</th>
+            <th>Choices/<font color="blue">Defaults</font></th>
+                        <th width="100%">Comments</th>
+        </tr>
+                    <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+                    <b>dnac_debug</b>
+                    <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li><div style="color: blue"><b>no</b>&nbsp;&larr;</div></li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Flag for Cisco DNA Center SDK to enable debugging.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+                    <b>dnac_host</b>
+                    <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                 / <span style="color: red">required</span>                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The Cisco DNA Center hostname.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+                    <b>dnac_password</b>
+                    <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The Cisco DNA Center password to authenticate.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+                    <b>dnac_port</b>
+                    <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">443</div>
+                                    </td>
+                                                                <td>
+                                            <div>The Cisco DNA Center port.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+                    <b>dnac_username</b>
+                    <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"admin"</div>
+                                    </td>
+                                                                <td>
+                                            <div>The Cisco DNA Center username to authenticate.</div>
+                                                                <div style="font-size: small; color: darkgreen"><br/>aliases: user</div>
+                                    </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+                    <b>dnac_verify</b>
+                    <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Flag to enable or disable SSL certificate verification.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+                    <b>dnac_version</b>
+                    <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.3.3"</div>
+                                    </td>
+                                                                <td>
+                                            <div>Informs the SDK which version of Cisco DNA Center to use.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+                    <b>headers</b>
+                    <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Additional headers.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+                    <b>validate_response_schema</b>
+                    <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</div>
+                                                        </td>
+            </tr>
+                        </table>
+    <br/>
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - Supports ``check_mode``
+   - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
+   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Client Enrichment Details reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
+       Complete reference of the Client Enrichment Details object model.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Get all Client Enrichment Details
+      cisco.dnac.client_enrichment_details_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers:
+          custom: value
+      register: result
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. raw:: html
+
+    <table border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Key</th>
+            <th>Returned</th>
+            <th width="100%">Description</th>
+        </tr>
+                    <tr>
+                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+                    <b>dnac_response</b>
+                    <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">list</span>
+                       / <span style="color: purple">elements=dictionary</span>                    </div>
+                                    </td>
+                <td>always</td>
+                <td>
+                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
+                                        <br/>
+                                                                <div style="font-size: smaller"><b>Sample:</b></div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">[
+      {
+        &quot;userDetails&quot;: {
+          &quot;id&quot;: &quot;string&quot;,
+          &quot;connectionStatus&quot;: &quot;string&quot;,
+          &quot;hostType&quot;: &quot;string&quot;,
+          &quot;userId&quot;: &quot;string&quot;,
+          &quot;hostName&quot;: {},
+          &quot;hostOs&quot;: {},
+          &quot;hostVersion&quot;: {},
+          &quot;subType&quot;: {},
+          &quot;lastUpdated&quot;: 0,
+          &quot;healthScore&quot;: [
+            {
+              &quot;healthType&quot;: &quot;string&quot;,
+              &quot;reason&quot;: &quot;string&quot;,
+              &quot;score&quot;: 0
+            }
+          ],
+          &quot;hostMac&quot;: &quot;string&quot;,
+          &quot;hostIpV4&quot;: &quot;string&quot;,
+          &quot;hostIpV6&quot;: [
+            {}
+          ],
+          &quot;authType&quot;: {},
+          &quot;vlanId&quot;: &quot;string&quot;,
+          &quot;ssid&quot;: {},
+          &quot;location&quot;: {},
+          &quot;clientConnection&quot;: &quot;string&quot;,
+          &quot;connectedDevice&quot;: [
+            {}
+          ],
+          &quot;issueCount&quot;: 0,
+          &quot;rssi&quot;: {},
+          &quot;snr&quot;: {},
+          &quot;dataRate&quot;: {},
+          &quot;port&quot;: {}
+        },
+        &quot;connectedDevice&quot;: [
+          {
+            &quot;deviceDetails&quot;: {
+              &quot;family&quot;: &quot;string&quot;,
+              &quot;type&quot;: &quot;string&quot;,
+              &quot;location&quot;: {},
+              &quot;errorCode&quot;: &quot;string&quot;,
+              &quot;macAddress&quot;: &quot;string&quot;,
+              &quot;role&quot;: &quot;string&quot;,
+              &quot;apManagerInterfaceIp&quot;: &quot;string&quot;,
+              &quot;associatedWlcIp&quot;: &quot;string&quot;,
+              &quot;bootDateTime&quot;: {},
+              &quot;collectionStatus&quot;: &quot;string&quot;,
+              &quot;interfaceCount&quot;: {},
+              &quot;lineCardCount&quot;: {},
+              &quot;lineCardId&quot;: {},
+              &quot;managementIpAddress&quot;: &quot;string&quot;,
+              &quot;memorySize&quot;: &quot;string&quot;,
+              &quot;platformId&quot;: &quot;string&quot;,
+              &quot;reachabilityFailureReason&quot;: &quot;string&quot;,
+              &quot;reachabilityStatus&quot;: &quot;string&quot;,
+              &quot;snmpContact&quot;: &quot;string&quot;,
+              &quot;snmpLocation&quot;: &quot;string&quot;,
+              &quot;tunnelUdpPort&quot;: &quot;string&quot;,
+              &quot;waasDeviceMode&quot;: {},
+              &quot;series&quot;: &quot;string&quot;,
+              &quot;inventoryStatusDetail&quot;: &quot;string&quot;,
+              &quot;collectionInterval&quot;: &quot;string&quot;,
+              &quot;serialNumber&quot;: &quot;string&quot;,
+              &quot;softwareVersion&quot;: &quot;string&quot;,
+              &quot;roleSource&quot;: &quot;string&quot;,
+              &quot;hostname&quot;: &quot;string&quot;,
+              &quot;upTime&quot;: &quot;string&quot;,
+              &quot;lastUpdateTime&quot;: 0,
+              &quot;errorDescription&quot;: {},
+              &quot;locationName&quot;: {},
+              &quot;tagCount&quot;: &quot;string&quot;,
+              &quot;lastUpdated&quot;: &quot;string&quot;,
+              &quot;instanceUuid&quot;: &quot;string&quot;,
+              &quot;id&quot;: &quot;string&quot;,
+              &quot;neighborTopology&quot;: [
+                {
+                  &quot;nodes&quot;: [
+                    {
+                      &quot;role&quot;: &quot;string&quot;,
+                      &quot;name&quot;: &quot;string&quot;,
+                      &quot;id&quot;: &quot;string&quot;,
+                      &quot;description&quot;: &quot;string&quot;,
+                      &quot;deviceType&quot;: {},
+                      &quot;platformId&quot;: {},
+                      &quot;family&quot;: {},
+                      &quot;ip&quot;: {},
+                      &quot;softwareVersion&quot;: {},
+                      &quot;userId&quot;: {},
+                      &quot;nodeType&quot;: {},
+                      &quot;radioFrequency&quot;: {},
+                      &quot;clients&quot;: 0,
+                      &quot;count&quot;: {},
+                      &quot;healthScore&quot;: {},
+                      &quot;level&quot;: 0,
+                      &quot;fabricGroup&quot;: {}
+                    }
+                  ],
+                  &quot;links&quot;: [
+                    {
+                      &quot;source&quot;: &quot;string&quot;,
+                      &quot;linkStatus&quot;: &quot;string&quot;,
+                      &quot;label&quot;: [
+                        {}
+                      ],
+                      &quot;target&quot;: &quot;string&quot;,
+                      &quot;id&quot;: {},
+                      &quot;portUtilization&quot;: {}
+                    }
+                  ]
+                }
+              ],
+              &quot;cisco360view&quot;: &quot;string&quot;
+            }
+          }
+        ],
+        &quot;issueDetails&quot;: {
+          &quot;issue&quot;: [
+            {
+              &quot;issueId&quot;: &quot;string&quot;,
+              &quot;issueSource&quot;: &quot;string&quot;,
+              &quot;issueCategory&quot;: &quot;string&quot;,
+              &quot;issueName&quot;: &quot;string&quot;,
+              &quot;issueDescription&quot;: &quot;string&quot;,
+              &quot;issueEntity&quot;: &quot;string&quot;,
+              &quot;issueEntityValue&quot;: &quot;string&quot;,
+              &quot;issueSeverity&quot;: &quot;string&quot;,
+              &quot;issuePriority&quot;: &quot;string&quot;,
+              &quot;issueSummary&quot;: &quot;string&quot;,
+              &quot;issueTimestamp&quot;: 0,
+              &quot;suggestedActions&quot;: [
+                {
+                  &quot;message&quot;: &quot;string&quot;,
+                  &quot;steps&quot;: [
+                    {}
+                  ]
+                }
+              ],
+              &quot;impactedHosts&quot;: [
+                {
+                  &quot;hostType&quot;: &quot;string&quot;,
+                  &quot;hostName&quot;: &quot;string&quot;,
+                  &quot;hostOs&quot;: &quot;string&quot;,
+                  &quot;ssid&quot;: &quot;string&quot;,
+                  &quot;connectedInterface&quot;: &quot;string&quot;,
+                  &quot;macAddress&quot;: &quot;string&quot;,
+                  &quot;failedAttempts&quot;: 0,
+                  &quot;location&quot;: {
+                    &quot;siteId&quot;: &quot;string&quot;,
+                    &quot;siteType&quot;: &quot;string&quot;,
+                    &quot;area&quot;: &quot;string&quot;,
+                    &quot;building&quot;: &quot;string&quot;,
+                    &quot;floor&quot;: {},
+                    &quot;apsImpacted&quot;: [
+                      {}
+                    ]
+                  },
+                  &quot;timestamp&quot;: 0
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]</div>
+                                    </td>
+            </tr>
+                        </table>
+    <br/><br/>
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Parsing errors
+
