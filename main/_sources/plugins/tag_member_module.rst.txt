@@ -236,17 +236,17 @@ Parameters
             </tr>
                                 <tr>
                                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-object"></div>
-                    <b>object</b>
-                    <a class="ansibleOptionLink" href="#parameter-object" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-payload"></div>
+                    <b>payload</b>
+                    <a class="ansibleOptionLink" href="#parameter-payload" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">string</span>
+                        <span style="color: purple">dictionary</span>
                                                                     </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Object.</div>
+                                            <div>Map of member type and member ids.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -313,7 +313,8 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         id: string
-        object: string
+        payload:
+          networkinterface: ["string"]
 
     - name: Delete by id
       cisco.dnac.tag_member:
