@@ -21,9 +21,9 @@ options:
   memberId:
     description: MemberId path parameter. TagMember id to be removed from tag.
     type: str
-  object:
-    description: Object.
-    type: str
+  payload:
+    description: Map of member type and member ids.
+    type: dict
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
@@ -46,7 +46,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     id: string
-    object: string
+    payload:
+      networkinterface: ["string"]
 
 - name: Delete by id
   cisco.dnac.tag_member:

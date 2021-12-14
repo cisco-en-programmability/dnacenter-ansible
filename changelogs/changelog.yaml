@@ -300,9 +300,12 @@ releases:
         - sda_virtual_network_ip_pool - remove `payload` and `ipPoolName` parameter.
         - sda_virtual_network_ip_pool - add `siteNameHierarchy`, `ipPoolName`, `trafficType`, `authenticationPolicyName`, `scalableGroupName`, `isL2FloodingEnabled`, `isThisCriticalPool`, `poolType`, `vlanName`, `isWirelessPool` parameters.
   4.1.0:
-    release_date: '2021-12-07'
+    release_date: '2021-12-14'
     changes:
-      release_summary: Add qos_device_interface
+      release_summary: Add qos_device_interface and fixes tag_member
       minor_changes:
         - qos_device_interface - new module.
         - qos_device_interface_info - new module.
+      bugfixes:
+        - tag_member - change object param to use payload.
+        - tag_member - update module documentation.
