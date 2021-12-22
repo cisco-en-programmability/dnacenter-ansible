@@ -309,3 +309,13 @@ releases:
       bugfixes:
         - tag_member - change object param to use payload.
         - tag_member - update module documentation.
+  4.1.1:
+    release_date: '2021-12-'
+    changes:
+      release_summary: Update module documentation and add 'update' capability to sda_provision_device
+      bugfixes:
+        - sda_provision_device - add 'update' capability to module.
+        - network_create - update module DOCUMENTATION block.
+        - network_device_lexicographically_sorted_info - update module RETURN block.
+        - network_update - update module DOCUMENTATION block.
+        - sda_provision_device - update module description and EXAMPLES block.

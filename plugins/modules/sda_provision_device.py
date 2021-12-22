@@ -9,7 +9,7 @@ DOCUMENTATION = r"""
 module: sda_provision_device
 short_description: Resource module for Sda Provision Device
 description:
-- Manage operations create and delete of the resource Sda Provision Device.
+- Manage operations create, update and delete of the resource Sda Provision Device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -44,6 +44,19 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     deviceManagementIpAddress: string
+
+- name: Update all
+  cisco.dnac.sda_provision_device:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    deviceManagementIpAddress: string
+    siteNameHierarchy: string
 
 - name: Create
   cisco.dnac.sda_provision_device:
