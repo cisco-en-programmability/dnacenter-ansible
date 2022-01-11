@@ -8,11 +8,11 @@ This collection has been tested and supports Cisco DNA Center 2.2.3.3.
 
 *Note: This collection is not compatible with versions of Ansible before v2.8.*
 
-Other versions of this collection have support for previous Cisco DNA Center versions. The recommended versions are listed below on the compatibility matrix.
+Other versions of this collection have support for previous Cisco DNA Center versions. The recommended versions are listed below on the [Compatibility matrix](#compatibility-matrix).
 
 ## Compatibility matrix
 
-| Cisco DNA Center version | ansible cisco.dnac version | dnacentersdk version |
+| Cisco DNA Center version | Ansible cisco.dnac version | dnacentersdk version |
 |--------------------------|----------------------------|----------------------|
 | 2.1.1                    | 3.0.0                      | 2.2.5                |
 | 2.2.2.3                  | 3.2.3                      | 2.3.3                |
@@ -20,8 +20,22 @@ Other versions of this collection have support for previous Cisco DNA Center ver
 
 *Notes*:
 
-1. The "dnacentersdk version" column has the minimum recommended version used when testing the ansible collection. This means you could use later versions of the "dnacentersdk" than those listed.
-2. The "Cisco DNA Center version" column has the value of the `dnac_version` you should use for the ansible collection.
+1. The "dnacentersdk version" column has the minimum recommended version used when testing the Ansible collection. This means you could use later versions of the "dnacentersdk" than those listed.
+2. The "Cisco DNA Center version" column has the value of the `dnac_version` you should use for the Ansible collection.
+
+## Installing according to Compatibility Matrix
+
+For example, for Cisco DNA Center 2.2.2.3, it is recommended to use Ansible cisco.dnac v3.2.3 and dnacentersdk v2.3.3.
+
+To get DNA Center SDK v2.3.3 in a fresh development environment:
+```
+sudo pip install dnacentersdk==2.3.3
+```
+
+To get the Ansible collection v3.2.3 in a fresh development environment:
+```
+ansible-galaxy collection install cisco.dnac:3.2.3
+```
 
 ## Requirements
 - Ansible >= 2.9
@@ -44,7 +58,7 @@ Install the collection ([Galaxy link](https://galaxy.ansible.com/cisco/dnac))
 ansible-galaxy collection install cisco.dnac
 ```
 ## Use
-First, define a `credentials.yml` ([example](playbooks/credentials.template)) file where you specify your DNA Center credentials as ansible variables:
+First, define a `credentials.yml` ([example](playbooks/credentials.template)) file where you specify your DNA Center credentials as Ansible variables:
 ```
 ---
 dnac_host: <A.B.C.D>
