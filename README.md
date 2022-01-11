@@ -12,18 +12,15 @@ Other versions of this collection have support for previous Cisco DNA Center ver
 
 ## Compatibility matrix
 
-| Cisco DNA Center version | ansible cisco.dnac version | dnacentersdk min. versions |
-|--------------------------|----------------------------|----------------------------|
-| 2.1.1                    | 1.0.0 to 1.0.4             | 2.0.1 or 2.0.2             |
-| 2.1.1                    | 2.0.0 to 2.0.7             | 2.0.2                      |
-| 2.1.1                    | 3.0.0                      | 2.2.4 to 2.2.5             |
-| 2.2.2.3                  | 3.1.0 to 3.1.7             | 2.3.1 or 2.3.2             |
-| 2.2.2.3                  | 3.2.0 to 3.2.3             | 2.3.1 to 2.3.3             |
-| 2.2.3.3                  | 4.0.0 or 4.1.0             | 2.4.0 to 2.4.2             |
+| Cisco DNA Center version | ansible cisco.dnac version | dnacentersdk version |
+|--------------------------|----------------------------|----------------------|
+| 2.1.1                    | 3.0.0                      | 2.2.5                |
+| 2.2.2.3                  | 3.2.3                      | 2.3.3                |
+| 2.2.3.3                  | 4.1.0                      | 2.4.2                |
 
 *Notes*:
 
-1. The "dnacentersdk min. versions" column has the minimum versions used when testing the ansible collection. This means you could use later versions of the "dnacentersdk" than those listed.
+1. The "dnacentersdk version" column has the minimum recommended version used when testing the ansible collection. This means you could use later versions of the "dnacentersdk" than those listed.
 2. The "Cisco DNA Center version" column has the value of the `dnac_version` you should use for the ansible collection.
 
 ## Requirements
