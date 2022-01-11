@@ -8,6 +8,24 @@ This collection has been tested and supports Cisco DNA Center 2.2.3.3.
 
 *Note: This collection is not compatible with versions of Ansible before v2.8.*
 
+Other versions of this collection have support for previous Cisco DNA Center versions. The recommended versions are listed below on the compatibility matrix.
+
+## Compatibility matrix
+
+| Cisco DNA Center version | ansible cisco.dnac version | dnacentersdk min. versions |
+|--------------------------|----------------------------|----------------------------|
+| 2.1.1                    | 1.0.0 to 1.0.4             | 2.0.1 or 2.0.2             |
+| 2.1.1                    | 2.0.0 to 2.0.7             | 2.0.2                      |
+| 2.1.1                    | 3.0.0                      | 2.2.4 to 2.2.5             |
+| 2.2.2.3                  | 3.1.0 to 3.1.7             | 2.3.1 or 2.3.2             |
+| 2.2.2.3                  | 3.2.0 to 3.2.3             | 2.3.1 to 2.3.3             |
+| 2.2.3.3                  | 4.0.0 or 4.1.0             | 2.4.0 to 2.4.2             |
+
+*Notes*:
+
+1. The "dnacentersdk min. versions" column has the minimum versions used when testing the ansible collection. This means you could use later versions of the "dnacentersdk" than those listed.
+2. The "Cisco DNA Center version" column has the value of the `dnac_version` you should use for the ansible collection.
+
 ## Requirements
 - Ansible >= 2.9
 - [DNA Center SDK](https://github.com/cisco-en-programmability/dnacentersdk) v2.4.0 or newer
@@ -36,7 +54,7 @@ dnac_host: <A.B.C.D>
 dnac_port: 443  # optional, defaults to 443
 dnac_username: <username>
 dnac_password: <password>
-dnac_version: 2.2.3.3  # optional, defaults to 2.2.3.3
+dnac_version: 2.2.3.3  # optional, defaults to 2.2.3.3. See the Compatibility matrix
 dnac_verify: False  # optional, defaults to True
 dnac_debug: False  # optional, defaults to False
 ```
