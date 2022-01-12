@@ -310,13 +310,59 @@ releases:
         - tag_member - change object param to use payload.
         - tag_member - update module documentation.
   4.1.1:
-    release_date: '2022-01-11'
+    release_date: '2022-01-12'
     changes:
-      release_summary: Update module documentation and add 'update' capability to sda_provision_device
+      release_summary: Update module doc and fix issues 31 & 32
       bugfixes:
         - Updates the README to map versions (dnacentersdk and Cisco DNA Center with the ansible collection)
-        - sda_provision_device - add 'update' capability to module.
+        - app_policy_queuing_profile - fix get_object_by_id (issue 32), which helps deletion.
+        - application_sets - fix get_object_by_id (issue 32), which helps deletion.
+        - applications - fix get_object_by_id (issue 32), which helps deletion.
+        - business_sda_hostonboarding_ssid_ippool - fix exists check (issue 31).
+        - business_sda_hostonboarding_ssid_ippool - fix get_object_by_id (issue 32), which helps deletion.
+        - device_replacement - fix get_object_by_id (issue 32), which helps deletion.
+        - event_subscription - fix get_object_by_id (issue 32), which helps deletion.
+        - event_subscription_email - fix get_object_by_id (issue 32), which helps deletion.
+        - event_subscription_rest - fix get_object_by_id (issue 32), which helps deletion.
+        - event_subscription_syslog - fix get_object_by_id (issue 32), which helps deletion.
         - network_create - update module DOCUMENTATION block.
         - network_device_lexicographically_sorted_info - update module RETURN block.
         - network_update - update module DOCUMENTATION block.
+        - pnp_global_settings - fix get_object_by_id (issue 32), which helps deletion.
+        - qos_device_interface - fix get_object_by_id (issue 32), which helps deletion.
+        - reserve_ip_subpool - fix get_object_by_id (issue 32), which helps deletion.
+        - sda_fabric - fix get_object_by_id (issue 32), which helps deletion.
+        - sda_fabric_authentication_profile - fix exists check (issue 31).
+        - sda_fabric_authentication_profile - fix get_object_by_id (issue 32), which helps deletion.
+        - sda_fabric_border_device - fix exists check (issue 31).
+        - sda_fabric_border_device - fix get_object_by_id (issue 32), which helps deletion.
+        - sda_fabric_control_plane_device - fix exists check (issue 31).
+        - sda_fabric_control_plane_device - fix get_object_by_id (issue 32), which helps deletion.
+        - sda_fabric_edge_device - fix exists check (issue 31).
+        - sda_fabric_edge_device - fix get_object_by_id (issue 32), which helps deletion.
+        - sda_fabric_site - add playbook
+        - sda_fabric_site - fix exists check (issue 31).
+        - sda_fabric_site - fix get_object_by_id (issue 32), which helps deletion.
+        - sda_multicast - fix exists check (issue 31).
+        - sda_multicast - fix get_object_by_id (issue 32), which helps deletion.
+        - sda_port_assignment_for_access_point - fix exists check (issue 31).
+        - sda_port_assignment_for_access_point - fix get_object_by_id (issue 32), which helps deletion.
+        - sda_port_assignment_for_user_device - fix exists check (issue 31).
+        - sda_port_assignment_for_user_device - fix get_object_by_id (issue 32), which helps deletion.
+        - sda_provision_device - add 'update' capability to module.
+        - sda_provision_device - fix exists check (issue 31).
+        - sda_provision_device - fix get_object_by_id (issue 32), which helps deletion.
         - sda_provision_device - update module description and EXAMPLES block.
+        - sda_virtual_network - add playbook
+        - sda_virtual_network - fix exists check (issue 31).
+        - sda_virtual_network - fix get_object_by_id (issue 32), which helps deletion.
+        - sda_virtual_network_ip_pool - fix exists check (issue 31).
+        - sda_virtual_network_ip_pool - fix get_object_by_id (issue 32), which helps deletion.
+        - sda_virtual_network_v2 - fix exists check (issue 31).
+        - sda_virtual_network_v2 - fix get_object_by_id (issue 32), which helps deletion.
+        - sensor - fix get_object_by_id (issue 32), which helps deletion.
+        - snmp_properties - fix get_object_by_id (issue 32), which helps deletion.
+        - wireless_dynamic_interface - fix get_object_by_id (issue 32), which helps deletion.
+        - wireless_enterprise_ssid - fix get_object_by_id (issue 32), which helps deletion.
+        - wireless_profile - fix get_object_by_id (issue 32), which helps deletion.
+        - wireless_rf_profile - fix get_object_by_id (issue 32), which helps deletion.
