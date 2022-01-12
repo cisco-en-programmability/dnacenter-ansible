@@ -67,9 +67,15 @@ class SdaProvisionDevice(object):
         new_object_params['device_management_ip_address'] = self.new_object.get('device_management_ip_address')
         return new_object_params
 
+    def update_all_params(self):
+        new_object_params = {}
+        new_object_params['deviceManagementIpAddress'] = self.new_object.get('deviceManagementIpAddress')
+        new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
+        return new_object_params
+
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name method, using get all
+        # NOTICE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
                 family="sda",
@@ -86,28 +92,13 @@ class SdaProvisionDevice(object):
 
     def get_object_by_id(self, id):
         result = None
-        # NOTICE: Does not have a get by id method or it is in another action
+        # NOTE: Does not have a get by id method or it is in another action
         return result
 
     def exists(self):
-        prev_obj = None
-        id_exists = False
-        name_exists = False
-        o_id = self.new_object.get("id")
         name = self.new_object.get("name")
-        if o_id:
-            prev_obj = self.get_object_by_id(o_id)
-            id_exists = prev_obj is not None and isinstance(prev_obj, dict)
-        if not id_exists and name:
-            prev_obj = self.get_object_by_name(name)
-            name_exists = prev_obj is not None and isinstance(prev_obj, dict)
-        if name_exists:
-            _id = prev_obj.get("id")
-            if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
-            if _id:
-                self.new_object.update(dict(id=_id))
-        it_exists = prev_obj is not None and isinstance(prev_obj, dict)
+        prev_obj = self.get_object_by_name(name)
+        it_exists = prev_obj is not None and isinstance(prev_obj, dict) and prev_obj.get("status") != "failed"
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
@@ -118,7 +109,7 @@ class SdaProvisionDevice(object):
             ("siteNameHierarchy", "siteNameHierarchy"),
             ("deviceManagementIpAddress", "device_management_ip_address"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
+        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(not dnac_compare_equality(current_obj.get(dnac_param),
                                              requested_obj.get(ansible_param))
@@ -129,6 +120,18 @@ class SdaProvisionDevice(object):
             family="sda",
             function="provision_wired_device",
             params=self.create_params(),
+            op_modifies=True,
+        )
+        return result
+
+    def update(self):
+        id = self.new_object.get("id")
+        name = self.new_object.get("name")
+        result = None
+        result = self.dnac.exec(
+            family="sda",
+            function="re_provision_wired_device",
+            params=self.update_all_params(),
             op_modifies=True,
         )
         return result
@@ -184,18 +187,20 @@ class ActionModule(ActionBase):
         state = self._task.args.get("state")
 
         response = None
+
         if state == "present":
             (obj_exists, prev_obj) = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
-                    response = prev_obj
-                    dnac.object_present_and_different()
+                    response = obj.update()
+                    dnac.object_updated()
                 else:
                     response = prev_obj
                     dnac.object_already_present()
             else:
                 response = obj.create()
                 dnac.object_created()
+
         elif state == "absent":
             (obj_exists, prev_obj) = obj.exists()
             if obj_exists:

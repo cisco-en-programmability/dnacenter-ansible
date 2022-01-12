@@ -21,11 +21,6 @@ options:
       clientAndEndpoint_aaa:
         description: Network Create's clientAndEndpoint_aaa.
         suboptions:
-          additionalIp:
-            description: Additional IP for ISE server which is not supported by AAA
-              server.
-            elements: str
-            type: list
           ipAddress:
             description: IP address for ISE serve (eg 1.1.1.4). Mandatory for ISE servers.
             type: str
@@ -50,7 +45,7 @@ options:
         description: Network Create's dnsServer.
         suboptions:
           domainName:
-            description: Domain name of DHCP (eg; cisco). Can only contain alphanumeric
+            description: Domain name of DHCP (eg; cisco). It can only contain alphanumeric
               characters or hyphen.
             type: str
           primaryIpAddress:
@@ -69,8 +64,8 @@ options:
             description: Massage for banner message (eg; Good day).
             type: str
           retainExistingBanner:
-            description: Retain existing banner message (eg true).
-            type: bool
+            description: Retain existing banner message (eg "true" or "false").
+            type: str
         type: dict
       netflowcollector:
         description: Network Create's netflowcollector.
@@ -85,11 +80,6 @@ options:
       network_aaa:
         description: Network Create's network_aaa.
         suboptions:
-          additionalIp:
-            description: Additional IP for ISE server which is not supported by AAA
-              server.
-            elements: str
-            type: list
           ipAddress:
             description: IP address for AAA and ISE server (eg 1.1.1.1). Mandatory for
               ISE servers and for AAA consider this as additional Ip.
@@ -102,8 +92,7 @@ options:
             description: Protocol for AAA or ISE serve (eg RADIUS).
             type: str
           servers:
-            description: Server type for AAA network (eg AAA). Server type supported
-              by ISE and AAA.
+            description: Server type for AAA network (eg AAA).
             type: str
           sharedSecret:
             description: Shared secret for ISE server. Supported only by ISE servers.
@@ -136,7 +125,7 @@ options:
             type: list
         type: dict
       timezone:
-        description: Input for time zone (eg Africa/Abidjan (GMT)).
+        description: Input for time zone (eg Africa/Abidjan).
         type: str
     type: dict
   siteId:
@@ -165,8 +154,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     settings:
       clientAndEndpoint_aaa:
-        additionalIp:
-        - string
         ipAddress: string
         network: string
         protocol: string
@@ -180,13 +167,11 @@ EXAMPLES = r"""
         secondaryIpAddress: string
       messageOfTheday:
         bannerMessage: string
-        retainExistingBanner: true
+        retainExistingBanner: string
       netflowcollector:
         ipAddress: string
         port: 0
       network_aaa:
-        additionalIp:
-        - string
         ipAddress: string
         network: string
         protocol: string

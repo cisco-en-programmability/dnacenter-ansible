@@ -101,28 +101,13 @@ class SdaPortAssignmentForAccessPoint(object):
 
     def get_object_by_id(self, id):
         result = None
-        # NOTICE: Does not have a get by id method or it is in another action
+        # NOTE: Does not have a get by id method or it is in another action
         return result
 
     def exists(self):
-        prev_obj = None
-        id_exists = False
-        name_exists = False
-        o_id = self.new_object.get("id")
         name = self.new_object.get("name")
-        if o_id:
-            prev_obj = self.get_object_by_id(o_id)
-            id_exists = prev_obj is not None and isinstance(prev_obj, dict)
-        if not id_exists and name:
-            prev_obj = self.get_object_by_name(name)
-            name_exists = prev_obj is not None and isinstance(prev_obj, dict)
-        if name_exists:
-            _id = prev_obj.get("id")
-            if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
-            if _id:
-                self.new_object.update(dict(id=_id))
-        it_exists = prev_obj is not None and isinstance(prev_obj, dict)
+        prev_obj = self.get_object_by_name(name)
+        it_exists = prev_obj is not None and isinstance(prev_obj, dict) and prev_obj.get("status") != "failed"
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):

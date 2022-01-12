@@ -88,7 +88,7 @@ class WirelessDynamicInterface(object):
 
     def get_object_by_id(self, id):
         result = None
-        # NOTICE: Does not have a get by id method or it is in another action
+        # NOTE: Does not have a get by id method or it is in another action
         return result
 
     def exists(self):

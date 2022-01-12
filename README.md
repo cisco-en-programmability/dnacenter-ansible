@@ -8,9 +8,38 @@ This collection has been tested and supports Cisco DNA Center 2.2.3.3.
 
 *Note: This collection is not compatible with versions of Ansible before v2.8.*
 
+Other versions of this collection have support for previous Cisco DNA Center versions. The recommended versions are listed below on the [Compatibility matrix](#compatibility-matrix).
+
+## Compatibility matrix
+
+| Cisco DNA Center version | Ansible "cisco.dnac" version | Python "dnacentersdk" version |
+|--------------------------|------------------------------|-------------------------------|
+| 2.1.1                    | 3.0.0                        | 2.2.5                         |
+| 2.2.2.3                  | 3.2.3                        | 2.3.3                         |
+| 2.2.3.3                  | 4.1.0                        | 2.4.2                         |
+
+*Notes*:
+
+1. The "Python 'dnacentersdk' version" column has the minimum recommended version used when testing the Ansible collection. This means you could use later versions of the Python "dnacentersdk" than those listed.
+2. The "Cisco DNA Center version" column has the value of the `dnac_version` you should use for the Ansible collection.
+
+## Installing according to Compatibility Matrix
+
+For example, for Cisco DNA Center 2.2.2.3, it is recommended to use Ansible "cisco.dnac" v3.2.3 and Python "dnacentersdk" v2.3.3.
+
+To get the Python DNA Center SDK v2.3.3 in a fresh development environment:
+```
+sudo pip install dnacentersdk==2.3.3
+```
+
+To get the Ansible collection v3.2.3 in a fresh development environment:
+```
+ansible-galaxy collection install cisco.dnac:3.2.3
+```
+
 ## Requirements
 - Ansible >= 2.9
-- [DNA Center SDK](https://github.com/cisco-en-programmability/dnacentersdk) v2.4.0 or newer
+- [Python DNA Center SDK](https://github.com/cisco-en-programmability/dnacentersdk) v2.4.0 or newer
 - Python >= 3.6, as the DNA Center SDK doesn't support Python version 2.x
 
 ## Install
@@ -19,7 +48,7 @@ Ansible must be installed ([Install guide](https://docs.ansible.com/ansible/late
 sudo pip install ansible
 ```
 
-DNA Center SDK must be installed
+Python DNA Center SDK must be installed
 ```
 sudo pip install dnacentersdk
 ```
@@ -29,14 +58,14 @@ Install the collection ([Galaxy link](https://galaxy.ansible.com/cisco/dnac))
 ansible-galaxy collection install cisco.dnac
 ```
 ## Use
-First, define a `credentials.yml` ([example](playbooks/credentials.template)) file where you specify your DNA Center credentials as ansible variables:
+First, define a `credentials.yml` ([example](playbooks/credentials.template)) file where you specify your DNA Center credentials as Ansible variables:
 ```
 ---
 dnac_host: <A.B.C.D>
 dnac_port: 443  # optional, defaults to 443
 dnac_username: <username>
 dnac_password: <password>
-dnac_version: 2.2.3.3  # optional, defaults to 2.2.3.3
+dnac_version: 2.2.3.3  # optional, defaults to 2.2.3.3. See the Compatibility matrix
 dnac_verify: False  # optional, defaults to True
 dnac_debug: False  # optional, defaults to False
 ```
