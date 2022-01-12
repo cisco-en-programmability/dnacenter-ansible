@@ -11,6 +11,18 @@
 .. role:: ansible-attribute-support-partial
 .. role:: ansible-attribute-support-none
 .. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-entry
+.. role:: ansible-option-default
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
 
 .. Anchors
 
@@ -30,7 +42,7 @@ cisco.dnac.pnp_workflow -- Resource module for Pnp Workflow
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -79,704 +91,1526 @@ The below requirements are needed on the host that executes this module.
 Parameters
 ----------
 
-.. raw:: html
+.. rst-class:: ansible-option-table
 
-    <table  border=0 cellpadding=0 class="documentation-table">
-        <tr>
-            <th colspan="3">Parameter</th>
-            <th>Choices/<font color="blue">Defaults</font></th>
-                        <th width="100%">Comments</th>
-        </tr>
-                    <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-_id"></div>
-                    <b>_id</b>
-                    <a class="ansibleOptionLink" href="#parameter-_id" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s _id.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-addedOn"></div>
-                    <b>addedOn</b>
-                    <a class="ansibleOptionLink" href="#parameter-addedOn" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s addedOn.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-addToInventory"></div>
-                    <b>addToInventory</b>
-                    <a class="ansibleOptionLink" href="#parameter-addToInventory" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>AddToInventory flag.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-configId"></div>
-                    <b>configId</b>
-                    <a class="ansibleOptionLink" href="#parameter-configId" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s configId.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-currTaskIdx"></div>
-                    <b>currTaskIdx</b>
-                    <a class="ansibleOptionLink" href="#parameter-currTaskIdx" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s currTaskIdx.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-description"></div>
-                    <b>description</b>
-                    <a class="ansibleOptionLink" href="#parameter-description" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s description.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
-                    <b>dnac_debug</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li><div style="color: blue"><b>no</b>&nbsp;&larr;</div></li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>Flag for Cisco DNA Center SDK to enable debugging.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
-                    <b>dnac_host</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>The Cisco DNA Center hostname.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
-                    <b>dnac_password</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>The Cisco DNA Center password to authenticate.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
-                    <b>dnac_port</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">443</div>
-                                    </td>
-                                                                <td>
-                                            <div>The Cisco DNA Center port.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
-                    <b>dnac_username</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"admin"</div>
-                                    </td>
-                                                                <td>
-                                            <div>The Cisco DNA Center username to authenticate.</div>
-                                                                <div style="font-size: small; color: darkgreen"><br/>aliases: user</div>
-                                    </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
-                    <b>dnac_verify</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>Flag to enable or disable SSL certificate verification.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
-                    <b>dnac_version</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.3.3"</div>
-                                    </td>
-                                                                <td>
-                                            <div>Informs the SDK which version of Cisco DNA Center to use.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-endTime"></div>
-                    <b>endTime</b>
-                    <a class="ansibleOptionLink" href="#parameter-endTime" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s endTime.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-execTime"></div>
-                    <b>execTime</b>
-                    <a class="ansibleOptionLink" href="#parameter-execTime" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s execTime.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-id"></div>
-                    <b>id</b>
-                    <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Id path parameter.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-imageId"></div>
-                    <b>imageId</b>
-                    <a class="ansibleOptionLink" href="#parameter-imageId" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s imageId.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-instanceType"></div>
-                    <b>instanceType</b>
-                    <a class="ansibleOptionLink" href="#parameter-instanceType" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s instanceType.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-lastupdateOn"></div>
-                    <b>lastupdateOn</b>
-                    <a class="ansibleOptionLink" href="#parameter-lastupdateOn" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s lastupdateOn.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-name"></div>
-                    <b>name</b>
-                    <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s name.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-startTime"></div>
-                    <b>startTime</b>
-                    <a class="ansibleOptionLink" href="#parameter-startTime" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s startTime.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-state_"></div>
-                    <b>state_</b>
-                    <a class="ansibleOptionLink" href="#parameter-state_" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s state.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-tasks"></div>
-                    <b>tasks</b>
-                    <a class="ansibleOptionLink" href="#parameter-tasks" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>                                            </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s tasks.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-tasks/currWorkItemIdx"></div>
-                    <b>currWorkItemIdx</b>
-                    <a class="ansibleOptionLink" href="#parameter-tasks/currWorkItemIdx" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s currWorkItemIdx.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-tasks/endTime"></div>
-                    <b>endTime</b>
-                    <a class="ansibleOptionLink" href="#parameter-tasks/endTime" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s endTime.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-tasks/name"></div>
-                    <b>name</b>
-                    <a class="ansibleOptionLink" href="#parameter-tasks/name" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s name.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-tasks/startTime"></div>
-                    <b>startTime</b>
-                    <a class="ansibleOptionLink" href="#parameter-tasks/startTime" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s startTime.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-tasks/state"></div>
-                    <b>state</b>
-                    <a class="ansibleOptionLink" href="#parameter-tasks/state" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s state.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-tasks/taskSeqNo"></div>
-                    <b>taskSeqNo</b>
-                    <a class="ansibleOptionLink" href="#parameter-tasks/taskSeqNo" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s taskSeqNo.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-tasks/timeTaken"></div>
-                    <b>timeTaken</b>
-                    <a class="ansibleOptionLink" href="#parameter-tasks/timeTaken" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s timeTaken.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-tasks/type"></div>
-                    <b>type</b>
-                    <a class="ansibleOptionLink" href="#parameter-tasks/type" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s type.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList"></div>
-                    <b>workItemList</b>
-                    <a class="ansibleOptionLink" href="#parameter-tasks/workItemList" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>                                            </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s workItemList.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/command"></div>
-                    <b>command</b>
-                    <a class="ansibleOptionLink" href="#parameter-tasks/workItemList/command" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s command.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/endTime"></div>
-                    <b>endTime</b>
-                    <a class="ansibleOptionLink" href="#parameter-tasks/workItemList/endTime" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s endTime.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/outputStr"></div>
-                    <b>outputStr</b>
-                    <a class="ansibleOptionLink" href="#parameter-tasks/workItemList/outputStr" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s outputStr.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/startTime"></div>
-                    <b>startTime</b>
-                    <a class="ansibleOptionLink" href="#parameter-tasks/workItemList/startTime" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s startTime.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/state"></div>
-                    <b>state</b>
-                    <a class="ansibleOptionLink" href="#parameter-tasks/workItemList/state" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s state.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/timeTaken"></div>
-                    <b>timeTaken</b>
-                    <a class="ansibleOptionLink" href="#parameter-tasks/workItemList/timeTaken" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s timeTaken.</div>
-                                                        </td>
-            </tr>
-                    
-                    
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-tenantId"></div>
-                    <b>tenantId</b>
-                    <a class="ansibleOptionLink" href="#parameter-tenantId" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s tenantId.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-type"></div>
-                    <b>type</b>
-                    <a class="ansibleOptionLink" href="#parameter-type" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s type.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-useState"></div>
-                    <b>useState</b>
-                    <a class="ansibleOptionLink" href="#parameter-useState" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s useState.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
-                    <b>validate_response_schema</b>
-                    <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-version"></div>
-                    <b>version</b>
-                    <a class="ansibleOptionLink" href="#parameter-version" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Workflow&#x27;s version.</div>
-                                                        </td>
-            </tr>
-                        </table>
-    <br/>
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_id"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-_id:
+
+      .. rst-class:: ansible-option-title
+
+      **_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's _id.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-addedOn"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-addedOn:
+
+      .. rst-class:: ansible-option-title
+
+      **addedOn**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-addedOn" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's addedOn.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-addToInventory"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-addToInventory:
+
+      .. rst-class:: ansible-option-title
+
+      **addToInventory**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-addToInventory" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      AddToInventory flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-configId"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-configId:
+
+      .. rst-class:: ansible-option-title
+
+      **configId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-configId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's configId.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-currTaskIdx"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-currTaskIdx:
+
+      .. rst-class:: ansible-option-title
+
+      **currTaskIdx**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-currTaskIdx" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's currTaskIdx.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-description"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's description.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-endTime"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-endTime:
+
+      .. rst-class:: ansible-option-title
+
+      **endTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-endTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's endTime.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-execTime"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-execTime:
+
+      .. rst-class:: ansible-option-title
+
+      **execTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-execTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's execTime.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-imageId"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-imageId:
+
+      .. rst-class:: ansible-option-title
+
+      **imageId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-imageId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's imageId.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-instanceType"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-instanceType:
+
+      .. rst-class:: ansible-option-title
+
+      **instanceType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-instanceType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's instanceType.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lastupdateOn"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-lastupdateOn:
+
+      .. rst-class:: ansible-option-title
+
+      **lastupdateOn**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lastupdateOn" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's lastupdateOn.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-name"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-startTime"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-startTime:
+
+      .. rst-class:: ansible-option-title
+
+      **startTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-startTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's startTime.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state_"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-state_:
+
+      .. rst-class:: ansible-option-title
+
+      **state_**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state_" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's state.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tasks"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks:
+
+      .. rst-class:: ansible-option-title
+
+      **tasks**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tasks" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's tasks.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tasks/currWorkItemIdx"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/currWorkItemIdx:
+
+      .. rst-class:: ansible-option-title
+
+      **currWorkItemIdx**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tasks/currWorkItemIdx" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Workflow's currWorkItemIdx.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tasks/endTime"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/endTime:
+
+      .. rst-class:: ansible-option-title
+
+      **endTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tasks/endTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Workflow's endTime.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tasks/name"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tasks/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Workflow's name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tasks/startTime"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/startTime:
+
+      .. rst-class:: ansible-option-title
+
+      **startTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tasks/startTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Workflow's startTime.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tasks/state"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tasks/state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Workflow's state.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tasks/taskSeqNo"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/taskSeqNo:
+
+      .. rst-class:: ansible-option-title
+
+      **taskSeqNo**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tasks/taskSeqNo" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Workflow's taskSeqNo.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tasks/timeTaken"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/timeTaken:
+
+      .. rst-class:: ansible-option-title
+
+      **timeTaken**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tasks/timeTaken" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Workflow's timeTaken.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tasks/type"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/type:
+
+      .. rst-class:: ansible-option-title
+
+      **type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tasks/type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Workflow's type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workItemList:
+
+      .. rst-class:: ansible-option-title
+
+      **workItemList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tasks/workItemList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Workflow's workItemList.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/command"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workItemList/command:
+
+      .. rst-class:: ansible-option-title
+
+      **command**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tasks/workItemList/command" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Workflow's command.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/endTime"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workItemList/endTime:
+
+      .. rst-class:: ansible-option-title
+
+      **endTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tasks/workItemList/endTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Workflow's endTime.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/outputStr"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workItemList/outputStr:
+
+      .. rst-class:: ansible-option-title
+
+      **outputStr**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tasks/workItemList/outputStr" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Workflow's outputStr.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/startTime"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workItemList/startTime:
+
+      .. rst-class:: ansible-option-title
+
+      **startTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tasks/workItemList/startTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Workflow's startTime.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/state"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workItemList/state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tasks/workItemList/state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Workflow's state.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/timeTaken"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workItemList/timeTaken:
+
+      .. rst-class:: ansible-option-title
+
+      **timeTaken**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tasks/workItemList/timeTaken" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Workflow's timeTaken.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tenantId"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tenantId:
+
+      .. rst-class:: ansible-option-title
+
+      **tenantId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tenantId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's tenantId.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-type"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-type:
+
+      .. rst-class:: ansible-option-title
+
+      **type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-useState"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-useState:
+
+      .. rst-class:: ansible-option-title
+
+      **useState**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-useState" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's useState.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-version"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-version:
+
+      .. rst-class:: ansible-option-title
+
+      **version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Workflow's version.
+
+
+      .. raw:: html
+
+        </div>
+
 
 .. Attributes
 
@@ -787,7 +1621,7 @@ Notes
 -----
 
 .. note::
-   - Does not support ``check_mode``
+   - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
@@ -925,74 +1759,50 @@ Return Values
 -------------
 Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
 
-.. raw:: html
+.. rst-class:: ansible-option-table
 
-    <table border=0 cellpadding=0 class="documentation-table">
-        <tr>
-            <th colspan="1">Key</th>
-            <th>Returned</th>
-            <th width="100%">Description</th>
-        </tr>
-                    <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
-                    <b>dnac_response</b>
-                    <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">dictionary</span>
-                                          </div>
-                                    </td>
-                <td>always</td>
-                <td>
-                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
-                                        <br/>
-                                                                <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
-      &quot;_id&quot;: &quot;string&quot;,
-      &quot;state&quot;: &quot;string&quot;,
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;description&quot;: &quot;string&quot;,
-      &quot;lastupdateOn&quot;: 0,
-      &quot;imageId&quot;: &quot;string&quot;,
-      &quot;currTaskIdx&quot;: 0,
-      &quot;addedOn&quot;: 0,
-      &quot;tasks&quot;: [
-        {
-          &quot;state&quot;: &quot;string&quot;,
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;currWorkItemIdx&quot;: 0,
-          &quot;taskSeqNo&quot;: 0,
-          &quot;endTime&quot;: 0,
-          &quot;startTime&quot;: 0,
-          &quot;workItemList&quot;: [
-            {
-              &quot;state&quot;: &quot;string&quot;,
-              &quot;command&quot;: &quot;string&quot;,
-              &quot;outputStr&quot;: &quot;string&quot;,
-              &quot;endTime&quot;: 0,
-              &quot;startTime&quot;: 0,
-              &quot;timeTaken&quot;: 0
-            }
-          ],
-          &quot;timeTaken&quot;: 0,
-          &quot;name&quot;: &quot;string&quot;
-        }
-      ],
-      &quot;addToInventory&quot;: true,
-      &quot;instanceType&quot;: &quot;string&quot;,
-      &quot;endTime&quot;: 0,
-      &quot;execTime&quot;: 0,
-      &quot;startTime&quot;: 0,
-      &quot;useState&quot;: &quot;string&quot;,
-      &quot;configId&quot;: &quot;string&quot;,
-      &quot;name&quot;: &quot;string&quot;,
-      &quot;version&quot;: 0,
-      &quot;tenantId&quot;: &quot;string&quot;
-    }</div>
-                                    </td>
-            </tr>
-                        </table>
-    <br/><br/>
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` "{\\n  \\"\_id\\": \\"string\\",\\n  \\"state\\": \\"string\\",\\n  \\"type\\": \\"string\\",\\n  \\"description\\": \\"string\\",\\n  \\"lastupdateOn\\": 0,\\n  \\"imageId\\": \\"string\\",\\n  \\"currTaskIdx\\": 0,\\n  \\"addedOn\\": 0,\\n  \\"tasks\\": [\\n    {\\n      \\"state\\": \\"string\\",\\n      \\"type\\": \\"string\\",\\n      \\"currWorkItemIdx\\": 0,\\n      \\"taskSeqNo\\": 0,\\n      \\"endTime\\": 0,\\n      \\"startTime\\": 0,\\n      \\"workItemList\\": [\\n        {\\n          \\"state\\": \\"string\\",\\n          \\"command\\": \\"string\\",\\n          \\"outputStr\\": \\"string\\",\\n          \\"endTime\\": 0,\\n          \\"startTime\\": 0,\\n          \\"timeTaken\\": 0\\n        }\\n      ],\\n      \\"timeTaken\\": 0,\\n      \\"name\\": \\"string\\"\\n    }\\n  ],\\n  \\"addToInventory\\": true,\\n  \\"instanceType\\": \\"string\\",\\n  \\"endTime\\": 0,\\n  \\"execTime\\": 0,\\n  \\"startTime\\": 0,\\n  \\"useState\\": \\"string\\",\\n  \\"configId\\": \\"string\\",\\n  \\"name\\": \\"string\\",\\n  \\"version\\": 0,\\n  \\"tenantId\\": \\"string\\"\\n}\\n"
+
 
 ..  Status (Presently only deprecated)
 

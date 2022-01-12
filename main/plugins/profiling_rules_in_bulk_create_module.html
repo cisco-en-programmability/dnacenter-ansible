@@ -404,7 +404,7 @@
 <h1>cisco.dnac.profiling_rules_in_bulk_create – Resource module for Profiling Rules In Bulk Create<a class="headerlink" href="#cisco-dnac-profiling-rules-in-bulk-create-resource-module-for-profiling-rules-in-bulk-create" title="Permalink to this headline"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This plugin is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 4.1.0).</p>
+<p>This plugin is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 4.1.1).</p>
 <p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
 It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
 To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
@@ -445,625 +445,298 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </section>
 <section id="parameters">
 <h2><a class="toc-backref" href="#id3">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this headline"></a></h2>
-<table  border=0 cellpadding=0 class="documentation-table">
-    <tr>
-        <th colspan="4">Parameter</th>
-        <th>Choices/<font color="blue">Defaults</font></th>
-                    <th width="100%">Comments</th>
-    </tr>
-                <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
-                <b>dnac_debug</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                                                                <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li><div style="color: blue"><b>no</b>&nbsp;&larr;</div></li>
-                                                                                                                                                                                            <li>yes</li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>Flag for Cisco DNA Center SDK to enable debugging.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
-                <b>dnac_host</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                             / <span style="color: red">required</span>                    </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>The Cisco DNA Center hostname.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
-                <b>dnac_password</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>The Cisco DNA Center password to authenticate.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
-                <b>dnac_port</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">443</div>
-                                </td>
-                                                            <td>
-                                        <div>The Cisco DNA Center port.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
-                <b>dnac_username</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">"admin"</div>
-                                </td>
-                                                            <td>
-                                        <div>The Cisco DNA Center username to authenticate.</div>
-                                                            <div style="font-size: small; color: darkgreen"><br/>aliases: user</div>
-                                </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
-                <b>dnac_verify</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                                                                <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li>no</li>
-                                                                                                                                                                                            <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>Flag to enable or disable SSL certificate verification.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
-                <b>dnac_version</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">"2.2.3.3"</div>
-                                </td>
-                                                            <td>
-                                        <div>Informs the SDK which version of Cisco DNA Center to use.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules"></div>
-                <b>profilingRules</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Profiling Rules In Bulk Create&#x27;s profilingRules.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/clusterId"></div>
-                <b>clusterId</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/clusterId" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Unique identifier for ML cluster. Only applicable for &#x27;ML Rule&#x27;.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups"></div>
-                <b>conditionGroups</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Profiling Rules In Bulk Create&#x27;s conditionGroups.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/condition"></div>
-                <b>condition</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups/condition" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Profiling Rules In Bulk Create&#x27;s condition.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/condition/attribute"></div>
-                <b>attribute</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups/condition/attribute" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Profiling Rules In Bulk Create&#x27;s attribute.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/condition/attributeDictionary"></div>
-                <b>attributeDictionary</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups/condition/attributeDictionary" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Profiling Rules In Bulk Create&#x27;s attributeDictionary.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/condition/operator"></div>
-                <b>operator</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups/condition/operator" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Profiling Rules In Bulk Create&#x27;s operator.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/condition/value"></div>
-                <b>value</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups/condition/value" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Profiling Rules In Bulk Create&#x27;s value.</div>
-                                                    </td>
-        </tr>
-
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/conditionGroup"></div>
-                <b>conditionGroup</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups/conditionGroup" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=dictionary</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Profiling Rules In Bulk Create&#x27;s conditionGroup.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/operator"></div>
-                <b>operator</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups/operator" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Profiling Rules In Bulk Create&#x27;s operator.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/type"></div>
-                <b>type</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups/type" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Profiling Rules In Bulk Create&#x27;s type.</div>
-                                                    </td>
-        </tr>
-
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/isDeleted"></div>
-                <b>isDeleted</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/isDeleted" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li>no</li>
-                                                                                                                                                                                            <li>yes</li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>Flag to indicate whether the rule was deleted.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/lastModifiedBy"></div>
-                <b>lastModifiedBy</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/lastModifiedBy" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>User that last modified the rule. It is read-only, and is ignored if provided as part of input request.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/lastModifiedOn"></div>
-                <b>lastModifiedOn</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/lastModifiedOn" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">integer</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Timestamp (in epoch milliseconds) of last modification. It is read-only, and is ignored if provided as part of input request.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/pluginId"></div>
-                <b>pluginId</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/pluginId" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Plugin for the rule. Only applicable for &#x27;Cisco Default&#x27; rules.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/rejected"></div>
-                <b>rejected</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/rejected" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li>no</li>
-                                                                                                                                                                                            <li>yes</li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>Flag to indicate whether rule has been rejected by user or not. Only applicable for &#x27;ML Rule&#x27;.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/result"></div>
-                <b>result</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/result" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Profiling Rules In Bulk Create&#x27;s result.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/result/deviceType"></div>
-                <b>deviceType</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/result/deviceType" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>List of device types determined by the current rule.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/result/hardwareManufacturer"></div>
-                <b>hardwareManufacturer</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/result/hardwareManufacturer" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>List of hardware manufacturers determined by the current rule.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/result/hardwareModel"></div>
-                <b>hardwareModel</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/result/hardwareModel" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>List of hardware models determined by the current rule.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/result/operatingSystem"></div>
-                <b>operatingSystem</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/result/operatingSystem" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>List of operating systems determined by the current rule.</div>
-                                                    </td>
-        </tr>
-
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/ruleId"></div>
-                <b>ruleId</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/ruleId" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Unique identifier for the rule. This is normally generated by the system, and client does not need to provide it for rules that need to be newly created.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/ruleName"></div>
-                <b>ruleName</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/ruleName" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Human readable name for the rule.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/rulePriority"></div>
-                <b>rulePriority</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/rulePriority" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">integer</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Priority for the rule.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/ruleType"></div>
-                <b>ruleType</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/ruleType" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Type of the rule. Allowed values are &#x27;Cisco Default - Static&#x27;, &#x27;Cisco Default - Dynamic&#x27;, &#x27;Custom Rule&#x27;, &#x27;ML Rule&#x27;.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/ruleVersion"></div>
-                <b>ruleVersion</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/ruleVersion" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">integer</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Version of the rule.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/sourcePriority"></div>
-                <b>sourcePriority</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/sourcePriority" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">integer</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Source priority for the rule.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-profilingRules/usedAttributes"></div>
-                <b>usedAttributes</b>
-                <a class="ansibleOptionLink" href="#parameter-profilingRules/usedAttributes" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>List of attributes used in the rule. Only applicable for &#x27;Cisco Default&#x27; rules.</div>
-                                                    </td>
-        </tr>
-
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
-                <b>validate_response_schema</b>
-                <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                                                                <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li>no</li>
-                                                                                                                                                                                            <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</div>
-                                                    </td>
-        </tr>
-                    </table>
-<br/></section>
+<table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Comments</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable debugging.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-default-bold">no</span> <span class="ansible-option-default">← (default)</span></p></li>
+<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-dnac-host"><strong>dnac_host</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco DNA Center hostname.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-dnac-password"><strong>dnac_password</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco DNA Center password to authenticate.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-dnac-port"><strong>dnac_port</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco DNA Center port.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+<div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-user"><span id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
+<p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco DNA Center username to authenticate.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“admin”</span></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-choices-entry">no</span></p></li>
+<li><p><span class="ansible-option-default-bold">yes</span> <span class="ansible-option-default">← (default)</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-dnac-version"><strong>dnac_version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Informs the SDK which version of Cisco DNA Center to use.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“2.2.3.3”</span></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules"><strong>profilingRules</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Profiling Rules In Bulk Create’s profilingRules.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/clusterId"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-clusterid"><strong>clusterId</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/clusterId" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Unique identifier for ML cluster. Only applicable for ‘ML Rule’.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-conditiongroups"><strong>conditionGroups</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Profiling Rules In Bulk Create’s conditionGroups.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/condition"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-conditiongroups-condition"><strong>condition</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups/condition" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Profiling Rules In Bulk Create’s condition.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/condition/attribute"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-conditiongroups-condition-attribute"><strong>attribute</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups/condition/attribute" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Profiling Rules In Bulk Create’s attribute.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/condition/attributeDictionary"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-conditiongroups-condition-attributedictionary"><strong>attributeDictionary</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups/condition/attributeDictionary" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Profiling Rules In Bulk Create’s attributeDictionary.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/condition/operator"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-conditiongroups-condition-operator"><strong>operator</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups/condition/operator" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Profiling Rules In Bulk Create’s operator.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/condition/value"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-conditiongroups-condition-value"><strong>value</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups/condition/value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Profiling Rules In Bulk Create’s value.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/conditionGroup"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-conditiongroups-conditiongroup"><strong>conditionGroup</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups/conditionGroup" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Profiling Rules In Bulk Create’s conditionGroup.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/operator"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-conditiongroups-operator"><strong>operator</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups/operator" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Profiling Rules In Bulk Create’s operator.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-conditiongroups-type"><strong>type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/conditionGroups/type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Profiling Rules In Bulk Create’s type.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/isDeleted"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-isdeleted"><strong>isDeleted</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/isDeleted" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Flag to indicate whether the rule was deleted.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-choices-entry">no</span></p></li>
+<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/lastModifiedBy"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-lastmodifiedby"><strong>lastModifiedBy</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/lastModifiedBy" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>User that last modified the rule. It is read-only, and is ignored if provided as part of input request.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/lastModifiedOn"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-lastmodifiedon"><strong>lastModifiedOn</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/lastModifiedOn" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Timestamp (in epoch milliseconds) of last modification. It is read-only, and is ignored if provided as part of input request.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/pluginId"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-pluginid"><strong>pluginId</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/pluginId" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Plugin for the rule. Only applicable for ‘Cisco Default’ rules.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/rejected"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-rejected"><strong>rejected</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/rejected" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Flag to indicate whether rule has been rejected by user or not. Only applicable for ‘ML Rule’.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-choices-entry">no</span></p></li>
+<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/result"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-result"><strong>result</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/result" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Profiling Rules In Bulk Create’s result.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/result/deviceType"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-result-devicetype"><strong>deviceType</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/result/deviceType" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of device types determined by the current rule.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/result/hardwareManufacturer"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-result-hardwaremanufacturer"><strong>hardwareManufacturer</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/result/hardwareManufacturer" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of hardware manufacturers determined by the current rule.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/result/hardwareModel"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-result-hardwaremodel"><strong>hardwareModel</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/result/hardwareModel" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of hardware models determined by the current rule.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/result/operatingSystem"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-result-operatingsystem"><strong>operatingSystem</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/result/operatingSystem" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of operating systems determined by the current rule.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/ruleId"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-ruleid"><strong>ruleId</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/ruleId" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Unique identifier for the rule. This is normally generated by the system, and client does not need to provide it for rules that need to be newly created.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/ruleName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-rulename"><strong>ruleName</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/ruleName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Human readable name for the rule.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/rulePriority"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-rulepriority"><strong>rulePriority</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/rulePriority" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Priority for the rule.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/ruleType"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-ruletype"><strong>ruleType</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/ruleType" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Type of the rule. Allowed values are ‘Cisco Default - Static’, ‘Cisco Default - Dynamic’, ‘Custom Rule’, ‘ML Rule’.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/ruleVersion"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-ruleversion"><strong>ruleVersion</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/ruleVersion" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Version of the rule.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/sourcePriority"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-sourcepriority"><strong>sourcePriority</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/sourcePriority" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Source priority for the rule.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-profilingRules/usedAttributes"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-profilingrules-usedattributes"><strong>usedAttributes</strong></p>
+<a class="ansibleOptionLink" href="#parameter-profilingRules/usedAttributes" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of attributes used in the rule. Only applicable for ‘Cisco Default’ rules.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-parameter-validate-response-schema"><strong>validate_response_schema</strong></p>
+<a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-choices-entry">no</span></p></li>
+<li><p><span class="ansible-option-default-bold">yes</span> <span class="ansible-option-default">← (default)</span></p></li>
+</ul>
+</div></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="notes">
 <h2><a class="toc-backref" href="#id4">Notes</a><a class="headerlink" href="#notes" title="Permalink to this headline"></a></h2>
 <div class="admonition note">
@@ -1087,80 +760,74 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </section>
 <section id="examples">
 <h2><a class="toc-backref" href="#id6">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline"></a></h2>
-<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Create</span>
-  <span class="nt">cisco.dnac.profiling_rules_in_bulk_create</span><span class="p">:</span>
-    <span class="nt">dnac_host</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_username</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_password</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_verify</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_port</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_version</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_debug</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">profilingRules</span><span class="p">:</span>
-    <span class="p p-Indicator">-</span> <span class="nt">clusterId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">conditionGroups</span><span class="p">:</span>
-        <span class="nt">condition</span><span class="p">:</span>
-          <span class="nt">attribute</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">attributeDictionary</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">operator</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">value</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">conditionGroup</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="p p-Indicator">{}</span>
-        <span class="nt">operator</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">isDeleted</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="nt">lastModifiedBy</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">lastModifiedOn</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">pluginId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">rejected</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="nt">result</span><span class="p">:</span>
-        <span class="nt">deviceType</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">hardwareManufacturer</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">hardwareModel</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">operatingSystem</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">ruleId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">ruleName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">rulePriority</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">ruleType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">ruleVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">sourcePriority</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">usedAttributes</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create</span><span class="w"></span>
+<span class="w">  </span><span class="nt">cisco.dnac.profiling_rules_in_bulk_create</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">profilingRules</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">clusterId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">conditionGroups</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">condition</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="nt">attribute</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">          </span><span class="nt">attributeDictionary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">          </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">        </span><span class="nt">conditionGroup</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{}</span><span class="w"></span>
+<span class="w">        </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">isDeleted</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">      </span><span class="nt">lastModifiedBy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">lastModifiedOn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w"></span>
+<span class="w">      </span><span class="nt">pluginId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">rejected</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">      </span><span class="nt">result</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">deviceType</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">        </span><span class="nt">hardwareManufacturer</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">        </span><span class="nt">hardwareModel</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">        </span><span class="nt">operatingSystem</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">ruleId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">ruleName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">rulePriority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w"></span>
+<span class="w">      </span><span class="nt">ruleType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">ruleVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w"></span>
+<span class="w">      </span><span class="nt">sourcePriority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w"></span>
+<span class="w">      </span><span class="nt">usedAttributes</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="return-values">
 <h2><a class="toc-backref" href="#id7">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this headline"></a></h2>
 <p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v5)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
-<table border=0 cellpadding=0 class="documentation-table">
-    <tr>
-        <th colspan="1">Key</th>
-        <th>Returned</th>
-        <th width="100%">Description</th>
-    </tr>
-                <tr>
-                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
-                <b>dnac_response</b>
-                <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
-                <div style="font-size: small">
-                  <span style="color: purple">dictionary</span>
-                                      </div>
-                                </td>
-            <td>always</td>
-            <td>
-                                        <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
-                                    <br/>
-                                                            <div style="font-size: smaller"><b>Sample:</b></div>
-                                            <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{}</div>
-                                </td>
-        </tr>
-                    </table>
-<br/><br/><section id="authors">
+<table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="return-dnac_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module-return-dnac-response"><strong>dnac_response</strong></p>
+<a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</td>
+<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco DNAC Python SDK</p>
+<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> “{}\n”</p>
+</td>
+</tr>
+</tbody>
+</table>
+<section id="authors">
 <h3>Authors<a class="headerlink" href="#authors" title="Permalink to this headline"></a></h3>
 <ul class="simple">
 <li><p>Rafael Campos (&#64;racampos)</p></li>

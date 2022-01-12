@@ -11,6 +11,18 @@
 .. role:: ansible-attribute-support-partial
 .. role:: ansible-attribute-support-none
 .. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-entry
+.. role:: ansible-option-default
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
 
 .. Anchors
 
@@ -30,7 +42,7 @@ cisco.dnac.path_trace_info -- Information module for Path Trace
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -80,411 +92,912 @@ The below requirements are needed on the host that executes this module.
 Parameters
 ----------
 
-.. raw:: html
+.. rst-class:: ansible-option-table
 
-    <table  border=0 cellpadding=0 class="documentation-table">
-        <tr>
-            <th colspan="1">Parameter</th>
-            <th>Choices/<font color="blue">Defaults</font></th>
-                        <th width="100%">Comments</th>
-        </tr>
-                    <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-destIP"></div>
-                    <b>destIP</b>
-                    <a class="ansibleOptionLink" href="#parameter-destIP" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>DestIP query parameter. Destination IP adress.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-destPort"></div>
-                    <b>destPort</b>
-                    <a class="ansibleOptionLink" href="#parameter-destPort" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>DestPort query parameter. Destination port.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
-                    <b>dnac_debug</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li><div style="color: blue"><b>no</b>&nbsp;&larr;</div></li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>Flag for Cisco DNA Center SDK to enable debugging.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
-                    <b>dnac_host</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>The Cisco DNA Center hostname.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
-                    <b>dnac_password</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>The Cisco DNA Center password to authenticate.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
-                    <b>dnac_port</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">443</div>
-                                    </td>
-                                                                <td>
-                                            <div>The Cisco DNA Center port.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
-                    <b>dnac_username</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"admin"</div>
-                                    </td>
-                                                                <td>
-                                            <div>The Cisco DNA Center username to authenticate.</div>
-                                                                <div style="font-size: small; color: darkgreen"><br/>aliases: user</div>
-                                    </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
-                    <b>dnac_verify</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>Flag to enable or disable SSL certificate verification.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
-                    <b>dnac_version</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.3.3"</div>
-                                    </td>
-                                                                <td>
-                                            <div>Informs the SDK which version of Cisco DNA Center to use.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-flowAnalysisId"></div>
-                    <b>flowAnalysisId</b>
-                    <a class="ansibleOptionLink" href="#parameter-flowAnalysisId" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>FlowAnalysisId path parameter. Flow analysis request id.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-gtCreateTime"></div>
-                    <b>gtCreateTime</b>
-                    <a class="ansibleOptionLink" href="#parameter-gtCreateTime" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>GtCreateTime query parameter. Analyses requested after this time.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-headers"></div>
-                    <b>headers</b>
-                    <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Additional headers.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-lastUpdateTime"></div>
-                    <b>lastUpdateTime</b>
-                    <a class="ansibleOptionLink" href="#parameter-lastUpdateTime" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>LastUpdateTime query parameter. Last update time.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-limit"></div>
-                    <b>limit</b>
-                    <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Limit query parameter. Number of resources returned.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-ltCreateTime"></div>
-                    <b>ltCreateTime</b>
-                    <a class="ansibleOptionLink" href="#parameter-ltCreateTime" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>LtCreateTime query parameter. Analyses requested before this time.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-offset"></div>
-                    <b>offset</b>
-                    <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Offset query parameter. Start index of resources returned (1-based).</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-order"></div>
-                    <b>order</b>
-                    <a class="ansibleOptionLink" href="#parameter-order" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Order query parameter. Order by this field.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-periodicRefresh"></div>
-                    <b>periodicRefresh</b>
-                    <a class="ansibleOptionLink" href="#parameter-periodicRefresh" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>PeriodicRefresh query parameter. Is analysis periodically refreshed?.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-protocol"></div>
-                    <b>protocol</b>
-                    <a class="ansibleOptionLink" href="#parameter-protocol" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Protocol query parameter.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-sortBy"></div>
-                    <b>sortBy</b>
-                    <a class="ansibleOptionLink" href="#parameter-sortBy" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>SortBy query parameter. Sort by this field.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-sourceIP"></div>
-                    <b>sourceIP</b>
-                    <a class="ansibleOptionLink" href="#parameter-sourceIP" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>SourceIP query parameter. Source IP address.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-sourcePort"></div>
-                    <b>sourcePort</b>
-                    <a class="ansibleOptionLink" href="#parameter-sourcePort" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>SourcePort query parameter. Source port.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-status"></div>
-                    <b>status</b>
-                    <a class="ansibleOptionLink" href="#parameter-status" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Status query parameter.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-taskId"></div>
-                    <b>taskId</b>
-                    <a class="ansibleOptionLink" href="#parameter-taskId" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>TaskId query parameter. Task ID.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
-                    <b>validate_response_schema</b>
-                    <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</div>
-                                                        </td>
-            </tr>
-                        </table>
-    <br/>
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-destIP"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-destIP:
+
+      .. rst-class:: ansible-option-title
+
+      **destIP**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-destIP" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      DestIP query parameter. Destination IP adress.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-destPort"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-destPort:
+
+      .. rst-class:: ansible-option-title
+
+      **destPort**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-destPort" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      DestPort query parameter. Destination port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-flowAnalysisId"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-flowAnalysisId:
+
+      .. rst-class:: ansible-option-title
+
+      **flowAnalysisId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-flowAnalysisId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      FlowAnalysisId path parameter. Flow analysis request id.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-gtCreateTime"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-gtCreateTime:
+
+      .. rst-class:: ansible-option-title
+
+      **gtCreateTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-gtCreateTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      GtCreateTime query parameter. Analyses requested after this time.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-headers:
+
+      .. rst-class:: ansible-option-title
+
+      **headers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lastUpdateTime"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-lastUpdateTime:
+
+      .. rst-class:: ansible-option-title
+
+      **lastUpdateTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lastUpdateTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      LastUpdateTime query parameter. Last update time.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-limit"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-limit:
+
+      .. rst-class:: ansible-option-title
+
+      **limit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Limit query parameter. Number of resources returned.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ltCreateTime"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-ltCreateTime:
+
+      .. rst-class:: ansible-option-title
+
+      **ltCreateTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ltCreateTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      LtCreateTime query parameter. Analyses requested before this time.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-offset"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-offset:
+
+      .. rst-class:: ansible-option-title
+
+      **offset**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Offset query parameter. Start index of resources returned (1-based).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-order"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-order:
+
+      .. rst-class:: ansible-option-title
+
+      **order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Order query parameter. Order by this field.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-periodicRefresh"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-periodicRefresh:
+
+      .. rst-class:: ansible-option-title
+
+      **periodicRefresh**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-periodicRefresh" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      PeriodicRefresh query parameter. Is analysis periodically refreshed?.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-protocol"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-protocol:
+
+      .. rst-class:: ansible-option-title
+
+      **protocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-protocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Protocol query parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sortBy"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-sortBy:
+
+      .. rst-class:: ansible-option-title
+
+      **sortBy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sortBy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SortBy query parameter. Sort by this field.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sourceIP"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-sourceIP:
+
+      .. rst-class:: ansible-option-title
+
+      **sourceIP**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sourceIP" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SourceIP query parameter. Source IP address.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sourcePort"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-sourcePort:
+
+      .. rst-class:: ansible-option-title
+
+      **sourcePort**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sourcePort" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SourcePort query parameter. Source port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-status"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-status:
+
+      .. rst-class:: ansible-option-title
+
+      **status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Status query parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-taskId"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-taskId:
+
+      .. rst-class:: ansible-option-title
+
+      **taskId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-taskId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      TaskId query parameter. Task ID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+
+      .. raw:: html
+
+        </div>
+
 
 .. Attributes
 
@@ -495,7 +1008,7 @@ Notes
 -----
 
 .. note::
-   - Supports ``check_mode``
+   - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
@@ -572,950 +1085,50 @@ Return Values
 -------------
 Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
 
-.. raw:: html
+.. rst-class:: ansible-option-table
 
-    <table border=0 cellpadding=0 class="documentation-table">
-        <tr>
-            <th colspan="1">Key</th>
-            <th>Returned</th>
-            <th width="100%">Description</th>
-        </tr>
-                    <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
-                    <b>dnac_response</b>
-                    <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">dictionary</span>
-                                          </div>
-                                    </td>
-                <td>always</td>
-                <td>
-                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
-                                        <br/>
-                                                                <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
-      &quot;response&quot;: {
-        &quot;detailedStatus&quot;: {
-          &quot;aclTraceCalculation&quot;: &quot;string&quot;,
-          &quot;aclTraceCalculationFailureReason&quot;: &quot;string&quot;
-        },
-        &quot;lastUpdate&quot;: &quot;string&quot;,
-        &quot;networkElements&quot;: [
-          {
-            &quot;accuracyList&quot;: [
-              {
-                &quot;percent&quot;: 0,
-                &quot;reason&quot;: &quot;string&quot;
-              }
-            ],
-            &quot;detailedStatus&quot;: {
-              &quot;aclTraceCalculation&quot;: &quot;string&quot;,
-              &quot;aclTraceCalculationFailureReason&quot;: &quot;string&quot;
-            },
-            &quot;deviceStatistics&quot;: {
-              &quot;cpuStatistics&quot;: {
-                &quot;fiveMinUsageInPercentage&quot;: 0,
-                &quot;fiveSecsUsageInPercentage&quot;: 0,
-                &quot;oneMinUsageInPercentage&quot;: 0,
-                &quot;refreshedAt&quot;: 0
-              },
-              &quot;memoryStatistics&quot;: {
-                &quot;memoryUsage&quot;: 0,
-                &quot;refreshedAt&quot;: 0,
-                &quot;totalMemory&quot;: 0
-              }
-            },
-            &quot;deviceStatsCollection&quot;: &quot;string&quot;,
-            &quot;deviceStatsCollectionFailureReason&quot;: &quot;string&quot;,
-            &quot;egressPhysicalInterface&quot;: {
-              &quot;aclAnalysis&quot;: {
-                &quot;aclName&quot;: &quot;string&quot;,
-                &quot;matchingAces&quot;: [
-                  {
-                    &quot;ace&quot;: &quot;string&quot;,
-                    &quot;matchingPorts&quot;: [
-                      {
-                        &quot;ports&quot;: [
-                          {
-                            &quot;destPorts&quot;: [
-                              &quot;string&quot;
-                            ],
-                            &quot;sourcePorts&quot;: [
-                              &quot;string&quot;
-                            ]
-                          }
-                        ],
-                        &quot;protocol&quot;: &quot;string&quot;
-                      }
-                    ],
-                    &quot;result&quot;: &quot;string&quot;
-                  }
-                ],
-                &quot;result&quot;: &quot;string&quot;
-              },
-              &quot;id&quot;: &quot;string&quot;,
-              &quot;interfaceStatistics&quot;: {
-                &quot;adminStatus&quot;: &quot;string&quot;,
-                &quot;inputPackets&quot;: 0,
-                &quot;inputQueueCount&quot;: 0,
-                &quot;inputQueueDrops&quot;: 0,
-                &quot;inputQueueFlushes&quot;: 0,
-                &quot;inputQueueMaxDepth&quot;: 0,
-                &quot;inputRatebps&quot;: 0,
-                &quot;operationalStatus&quot;: &quot;string&quot;,
-                &quot;outputDrop&quot;: 0,
-                &quot;outputPackets&quot;: 0,
-                &quot;outputQueueCount&quot;: 0,
-                &quot;outputQueueDepth&quot;: 0,
-                &quot;outputRatebps&quot;: 0,
-                &quot;refreshedAt&quot;: 0
-              },
-              &quot;interfaceStatsCollection&quot;: &quot;string&quot;,
-              &quot;interfaceStatsCollectionFailureReason&quot;: &quot;string&quot;,
-              &quot;name&quot;: &quot;string&quot;,
-              &quot;pathOverlayInfo&quot;: [
-                {
-                  &quot;controlPlane&quot;: &quot;string&quot;,
-                  &quot;dataPacketEncapsulation&quot;: &quot;string&quot;,
-                  &quot;destIp&quot;: &quot;string&quot;,
-                  &quot;destPort&quot;: &quot;string&quot;,
-                  &quot;protocol&quot;: &quot;string&quot;,
-                  &quot;sourceIp&quot;: &quot;string&quot;,
-                  &quot;sourcePort&quot;: &quot;string&quot;,
-                  &quot;vxlanInfo&quot;: {
-                    &quot;dscp&quot;: &quot;string&quot;,
-                    &quot;vnid&quot;: &quot;string&quot;
-                  }
-                }
-              ],
-              &quot;qosStatistics&quot;: [
-                {
-                  &quot;classMapName&quot;: &quot;string&quot;,
-                  &quot;dropRate&quot;: 0,
-                  &quot;numBytes&quot;: 0,
-                  &quot;numPackets&quot;: 0,
-                  &quot;offeredRate&quot;: 0,
-                  &quot;queueBandwidthbps&quot;: &quot;string&quot;,
-                  &quot;queueDepth&quot;: 0,
-                  &quot;queueNoBufferDrops&quot;: 0,
-                  &quot;queueTotalDrops&quot;: 0,
-                  &quot;refreshedAt&quot;: 0
-                }
-              ],
-              &quot;qosStatsCollection&quot;: &quot;string&quot;,
-              &quot;qosStatsCollectionFailureReason&quot;: &quot;string&quot;,
-              &quot;usedVlan&quot;: &quot;string&quot;,
-              &quot;vrfName&quot;: &quot;string&quot;
-            },
-            &quot;egressVirtualInterface&quot;: {
-              &quot;aclAnalysis&quot;: {
-                &quot;aclName&quot;: &quot;string&quot;,
-                &quot;matchingAces&quot;: [
-                  {
-                    &quot;ace&quot;: &quot;string&quot;,
-                    &quot;matchingPorts&quot;: [
-                      {
-                        &quot;ports&quot;: [
-                          {
-                            &quot;destPorts&quot;: [
-                              &quot;string&quot;
-                            ],
-                            &quot;sourcePorts&quot;: [
-                              &quot;string&quot;
-                            ]
-                          }
-                        ],
-                        &quot;protocol&quot;: &quot;string&quot;
-                      }
-                    ],
-                    &quot;result&quot;: &quot;string&quot;
-                  }
-                ],
-                &quot;result&quot;: &quot;string&quot;
-              },
-              &quot;id&quot;: &quot;string&quot;,
-              &quot;interfaceStatistics&quot;: {
-                &quot;adminStatus&quot;: &quot;string&quot;,
-                &quot;inputPackets&quot;: 0,
-                &quot;inputQueueCount&quot;: 0,
-                &quot;inputQueueDrops&quot;: 0,
-                &quot;inputQueueFlushes&quot;: 0,
-                &quot;inputQueueMaxDepth&quot;: 0,
-                &quot;inputRatebps&quot;: 0,
-                &quot;operationalStatus&quot;: &quot;string&quot;,
-                &quot;outputDrop&quot;: 0,
-                &quot;outputPackets&quot;: 0,
-                &quot;outputQueueCount&quot;: 0,
-                &quot;outputQueueDepth&quot;: 0,
-                &quot;outputRatebps&quot;: 0,
-                &quot;refreshedAt&quot;: 0
-              },
-              &quot;interfaceStatsCollection&quot;: &quot;string&quot;,
-              &quot;interfaceStatsCollectionFailureReason&quot;: &quot;string&quot;,
-              &quot;name&quot;: &quot;string&quot;,
-              &quot;pathOverlayInfo&quot;: [
-                {
-                  &quot;controlPlane&quot;: &quot;string&quot;,
-                  &quot;dataPacketEncapsulation&quot;: &quot;string&quot;,
-                  &quot;destIp&quot;: &quot;string&quot;,
-                  &quot;destPort&quot;: &quot;string&quot;,
-                  &quot;protocol&quot;: &quot;string&quot;,
-                  &quot;sourceIp&quot;: &quot;string&quot;,
-                  &quot;sourcePort&quot;: &quot;string&quot;,
-                  &quot;vxlanInfo&quot;: {
-                    &quot;dscp&quot;: &quot;string&quot;,
-                    &quot;vnid&quot;: &quot;string&quot;
-                  }
-                }
-              ],
-              &quot;qosStatistics&quot;: [
-                {
-                  &quot;classMapName&quot;: &quot;string&quot;,
-                  &quot;dropRate&quot;: 0,
-                  &quot;numBytes&quot;: 0,
-                  &quot;numPackets&quot;: 0,
-                  &quot;offeredRate&quot;: 0,
-                  &quot;queueBandwidthbps&quot;: &quot;string&quot;,
-                  &quot;queueDepth&quot;: 0,
-                  &quot;queueNoBufferDrops&quot;: 0,
-                  &quot;queueTotalDrops&quot;: 0,
-                  &quot;refreshedAt&quot;: 0
-                }
-              ],
-              &quot;qosStatsCollection&quot;: &quot;string&quot;,
-              &quot;qosStatsCollectionFailureReason&quot;: &quot;string&quot;,
-              &quot;usedVlan&quot;: &quot;string&quot;,
-              &quot;vrfName&quot;: &quot;string&quot;
-            },
-            &quot;flexConnect&quot;: {
-              &quot;authentication&quot;: &quot;string&quot;,
-              &quot;dataSwitching&quot;: &quot;string&quot;,
-              &quot;egressAclAnalysis&quot;: {
-                &quot;aclName&quot;: &quot;string&quot;,
-                &quot;matchingAces&quot;: [
-                  {
-                    &quot;ace&quot;: &quot;string&quot;,
-                    &quot;matchingPorts&quot;: [
-                      {
-                        &quot;ports&quot;: [
-                          {
-                            &quot;destPorts&quot;: [
-                              &quot;string&quot;
-                            ],
-                            &quot;sourcePorts&quot;: [
-                              &quot;string&quot;
-                            ]
-                          }
-                        ],
-                        &quot;protocol&quot;: &quot;string&quot;
-                      }
-                    ],
-                    &quot;result&quot;: &quot;string&quot;
-                  }
-                ],
-                &quot;result&quot;: &quot;string&quot;
-              },
-              &quot;ingressAclAnalysis&quot;: {
-                &quot;aclName&quot;: &quot;string&quot;,
-                &quot;matchingAces&quot;: [
-                  {
-                    &quot;ace&quot;: &quot;string&quot;,
-                    &quot;matchingPorts&quot;: [
-                      {
-                        &quot;ports&quot;: [
-                          {
-                            &quot;destPorts&quot;: [
-                              &quot;string&quot;
-                            ],
-                            &quot;sourcePorts&quot;: [
-                              &quot;string&quot;
-                            ]
-                          }
-                        ],
-                        &quot;protocol&quot;: &quot;string&quot;
-                      }
-                    ],
-                    &quot;result&quot;: &quot;string&quot;
-                  }
-                ],
-                &quot;result&quot;: &quot;string&quot;
-              },
-              &quot;wirelessLanControllerId&quot;: &quot;string&quot;,
-              &quot;wirelessLanControllerName&quot;: &quot;string&quot;
-            },
-            &quot;id&quot;: &quot;string&quot;,
-            &quot;ingressPhysicalInterface&quot;: {
-              &quot;aclAnalysis&quot;: {
-                &quot;aclName&quot;: &quot;string&quot;,
-                &quot;matchingAces&quot;: [
-                  {
-                    &quot;ace&quot;: &quot;string&quot;,
-                    &quot;matchingPorts&quot;: [
-                      {
-                        &quot;ports&quot;: [
-                          {
-                            &quot;destPorts&quot;: [
-                              &quot;string&quot;
-                            ],
-                            &quot;sourcePorts&quot;: [
-                              &quot;string&quot;
-                            ]
-                          }
-                        ],
-                        &quot;protocol&quot;: &quot;string&quot;
-                      }
-                    ],
-                    &quot;result&quot;: &quot;string&quot;
-                  }
-                ],
-                &quot;result&quot;: &quot;string&quot;
-              },
-              &quot;id&quot;: &quot;string&quot;,
-              &quot;interfaceStatistics&quot;: {
-                &quot;adminStatus&quot;: &quot;string&quot;,
-                &quot;inputPackets&quot;: 0,
-                &quot;inputQueueCount&quot;: 0,
-                &quot;inputQueueDrops&quot;: 0,
-                &quot;inputQueueFlushes&quot;: 0,
-                &quot;inputQueueMaxDepth&quot;: 0,
-                &quot;inputRatebps&quot;: 0,
-                &quot;operationalStatus&quot;: &quot;string&quot;,
-                &quot;outputDrop&quot;: 0,
-                &quot;outputPackets&quot;: 0,
-                &quot;outputQueueCount&quot;: 0,
-                &quot;outputQueueDepth&quot;: 0,
-                &quot;outputRatebps&quot;: 0,
-                &quot;refreshedAt&quot;: 0
-              },
-              &quot;interfaceStatsCollection&quot;: &quot;string&quot;,
-              &quot;interfaceStatsCollectionFailureReason&quot;: &quot;string&quot;,
-              &quot;name&quot;: &quot;string&quot;,
-              &quot;pathOverlayInfo&quot;: [
-                {
-                  &quot;controlPlane&quot;: &quot;string&quot;,
-                  &quot;dataPacketEncapsulation&quot;: &quot;string&quot;,
-                  &quot;destIp&quot;: &quot;string&quot;,
-                  &quot;destPort&quot;: &quot;string&quot;,
-                  &quot;protocol&quot;: &quot;string&quot;,
-                  &quot;sourceIp&quot;: &quot;string&quot;,
-                  &quot;sourcePort&quot;: &quot;string&quot;,
-                  &quot;vxlanInfo&quot;: {
-                    &quot;dscp&quot;: &quot;string&quot;,
-                    &quot;vnid&quot;: &quot;string&quot;
-                  }
-                }
-              ],
-              &quot;qosStatistics&quot;: [
-                {
-                  &quot;classMapName&quot;: &quot;string&quot;,
-                  &quot;dropRate&quot;: 0,
-                  &quot;numBytes&quot;: 0,
-                  &quot;numPackets&quot;: 0,
-                  &quot;offeredRate&quot;: 0,
-                  &quot;queueBandwidthbps&quot;: &quot;string&quot;,
-                  &quot;queueDepth&quot;: 0,
-                  &quot;queueNoBufferDrops&quot;: 0,
-                  &quot;queueTotalDrops&quot;: 0,
-                  &quot;refreshedAt&quot;: 0
-                }
-              ],
-              &quot;qosStatsCollection&quot;: &quot;string&quot;,
-              &quot;qosStatsCollectionFailureReason&quot;: &quot;string&quot;,
-              &quot;usedVlan&quot;: &quot;string&quot;,
-              &quot;vrfName&quot;: &quot;string&quot;
-            },
-            &quot;ingressVirtualInterface&quot;: {
-              &quot;aclAnalysis&quot;: {
-                &quot;aclName&quot;: &quot;string&quot;,
-                &quot;matchingAces&quot;: [
-                  {
-                    &quot;ace&quot;: &quot;string&quot;,
-                    &quot;matchingPorts&quot;: [
-                      {
-                        &quot;ports&quot;: [
-                          {
-                            &quot;destPorts&quot;: [
-                              &quot;string&quot;
-                            ],
-                            &quot;sourcePorts&quot;: [
-                              &quot;string&quot;
-                            ]
-                          }
-                        ],
-                        &quot;protocol&quot;: &quot;string&quot;
-                      }
-                    ],
-                    &quot;result&quot;: &quot;string&quot;
-                  }
-                ],
-                &quot;result&quot;: &quot;string&quot;
-              },
-              &quot;id&quot;: &quot;string&quot;,
-              &quot;interfaceStatistics&quot;: {
-                &quot;adminStatus&quot;: &quot;string&quot;,
-                &quot;inputPackets&quot;: 0,
-                &quot;inputQueueCount&quot;: 0,
-                &quot;inputQueueDrops&quot;: 0,
-                &quot;inputQueueFlushes&quot;: 0,
-                &quot;inputQueueMaxDepth&quot;: 0,
-                &quot;inputRatebps&quot;: 0,
-                &quot;operationalStatus&quot;: &quot;string&quot;,
-                &quot;outputDrop&quot;: 0,
-                &quot;outputPackets&quot;: 0,
-                &quot;outputQueueCount&quot;: 0,
-                &quot;outputQueueDepth&quot;: 0,
-                &quot;outputRatebps&quot;: 0,
-                &quot;refreshedAt&quot;: 0
-              },
-              &quot;interfaceStatsCollection&quot;: &quot;string&quot;,
-              &quot;interfaceStatsCollectionFailureReason&quot;: &quot;string&quot;,
-              &quot;name&quot;: &quot;string&quot;,
-              &quot;pathOverlayInfo&quot;: [
-                {
-                  &quot;controlPlane&quot;: &quot;string&quot;,
-                  &quot;dataPacketEncapsulation&quot;: &quot;string&quot;,
-                  &quot;destIp&quot;: &quot;string&quot;,
-                  &quot;destPort&quot;: &quot;string&quot;,
-                  &quot;protocol&quot;: &quot;string&quot;,
-                  &quot;sourceIp&quot;: &quot;string&quot;,
-                  &quot;sourcePort&quot;: &quot;string&quot;,
-                  &quot;vxlanInfo&quot;: {
-                    &quot;dscp&quot;: &quot;string&quot;,
-                    &quot;vnid&quot;: &quot;string&quot;
-                  }
-                }
-              ],
-              &quot;qosStatistics&quot;: [
-                {
-                  &quot;classMapName&quot;: &quot;string&quot;,
-                  &quot;dropRate&quot;: 0,
-                  &quot;numBytes&quot;: 0,
-                  &quot;numPackets&quot;: 0,
-                  &quot;offeredRate&quot;: 0,
-                  &quot;queueBandwidthbps&quot;: &quot;string&quot;,
-                  &quot;queueDepth&quot;: 0,
-                  &quot;queueNoBufferDrops&quot;: 0,
-                  &quot;queueTotalDrops&quot;: 0,
-                  &quot;refreshedAt&quot;: 0
-                }
-              ],
-              &quot;qosStatsCollection&quot;: &quot;string&quot;,
-              &quot;qosStatsCollectionFailureReason&quot;: &quot;string&quot;,
-              &quot;usedVlan&quot;: &quot;string&quot;,
-              &quot;vrfName&quot;: &quot;string&quot;
-            },
-            &quot;ip&quot;: &quot;string&quot;,
-            &quot;linkInformationSource&quot;: &quot;string&quot;,
-            &quot;name&quot;: &quot;string&quot;,
-            &quot;perfMonCollection&quot;: &quot;string&quot;,
-            &quot;perfMonCollectionFailureReason&quot;: &quot;string&quot;,
-            &quot;perfMonStatistics&quot;: [
-              {
-                &quot;byteRate&quot;: 0,
-                &quot;destIpAddress&quot;: &quot;string&quot;,
-                &quot;destPort&quot;: &quot;string&quot;,
-                &quot;inputInterface&quot;: &quot;string&quot;,
-                &quot;ipv4DSCP&quot;: &quot;string&quot;,
-                &quot;ipv4TTL&quot;: 0,
-                &quot;outputInterface&quot;: &quot;string&quot;,
-                &quot;packetBytes&quot;: 0,
-                &quot;packetCount&quot;: 0,
-                &quot;packetLoss&quot;: 0,
-                &quot;packetLossPercentage&quot;: 0,
-                &quot;protocol&quot;: &quot;string&quot;,
-                &quot;refreshedAt&quot;: 0,
-                &quot;rtpJitterMax&quot;: 0,
-                &quot;rtpJitterMean&quot;: 0,
-                &quot;rtpJitterMin&quot;: 0,
-                &quot;sourceIpAddress&quot;: &quot;string&quot;,
-                &quot;sourcePort&quot;: &quot;string&quot;
-              }
-            ],
-            &quot;role&quot;: &quot;string&quot;,
-            &quot;ssid&quot;: &quot;string&quot;,
-            &quot;tunnels&quot;: [
-              &quot;string&quot;
-            ],
-            &quot;type&quot;: &quot;string&quot;,
-            &quot;wlanId&quot;: &quot;string&quot;
-          }
-        ],
-        &quot;networkElementsInfo&quot;: [
-          {
-            &quot;accuracyList&quot;: [
-              {
-                &quot;percent&quot;: 0,
-                &quot;reason&quot;: &quot;string&quot;
-              }
-            ],
-            &quot;detailedStatus&quot;: {
-              &quot;aclTraceCalculation&quot;: &quot;string&quot;,
-              &quot;aclTraceCalculationFailureReason&quot;: &quot;string&quot;
-            },
-            &quot;deviceStatistics&quot;: {
-              &quot;cpuStatistics&quot;: {
-                &quot;fiveMinUsageInPercentage&quot;: 0,
-                &quot;fiveSecsUsageInPercentage&quot;: 0,
-                &quot;oneMinUsageInPercentage&quot;: 0,
-                &quot;refreshedAt&quot;: 0
-              },
-              &quot;memoryStatistics&quot;: {
-                &quot;memoryUsage&quot;: 0,
-                &quot;refreshedAt&quot;: 0,
-                &quot;totalMemory&quot;: 0
-              }
-            },
-            &quot;deviceStatsCollection&quot;: &quot;string&quot;,
-            &quot;deviceStatsCollectionFailureReason&quot;: &quot;string&quot;,
-            &quot;egressInterface&quot;: {
-              &quot;physicalInterface&quot;: {
-                &quot;aclAnalysis&quot;: {
-                  &quot;aclName&quot;: &quot;string&quot;,
-                  &quot;matchingAces&quot;: [
-                    {
-                      &quot;ace&quot;: &quot;string&quot;,
-                      &quot;matchingPorts&quot;: [
-                        {
-                          &quot;ports&quot;: [
-                            {
-                              &quot;destPorts&quot;: [
-                                &quot;string&quot;
-                              ],
-                              &quot;sourcePorts&quot;: [
-                                &quot;string&quot;
-                              ]
-                            }
-                          ],
-                          &quot;protocol&quot;: &quot;string&quot;
-                        }
-                      ],
-                      &quot;result&quot;: &quot;string&quot;
-                    }
-                  ],
-                  &quot;result&quot;: &quot;string&quot;
-                },
-                &quot;id&quot;: &quot;string&quot;,
-                &quot;interfaceStatistics&quot;: {
-                  &quot;adminStatus&quot;: &quot;string&quot;,
-                  &quot;inputPackets&quot;: 0,
-                  &quot;inputQueueCount&quot;: 0,
-                  &quot;inputQueueDrops&quot;: 0,
-                  &quot;inputQueueFlushes&quot;: 0,
-                  &quot;inputQueueMaxDepth&quot;: 0,
-                  &quot;inputRatebps&quot;: 0,
-                  &quot;operationalStatus&quot;: &quot;string&quot;,
-                  &quot;outputDrop&quot;: 0,
-                  &quot;outputPackets&quot;: 0,
-                  &quot;outputQueueCount&quot;: 0,
-                  &quot;outputQueueDepth&quot;: 0,
-                  &quot;outputRatebps&quot;: 0,
-                  &quot;refreshedAt&quot;: 0
-                },
-                &quot;interfaceStatsCollection&quot;: &quot;string&quot;,
-                &quot;interfaceStatsCollectionFailureReason&quot;: &quot;string&quot;,
-                &quot;name&quot;: &quot;string&quot;,
-                &quot;pathOverlayInfo&quot;: [
-                  {
-                    &quot;controlPlane&quot;: &quot;string&quot;,
-                    &quot;dataPacketEncapsulation&quot;: &quot;string&quot;,
-                    &quot;destIp&quot;: &quot;string&quot;,
-                    &quot;destPort&quot;: &quot;string&quot;,
-                    &quot;protocol&quot;: &quot;string&quot;,
-                    &quot;sourceIp&quot;: &quot;string&quot;,
-                    &quot;sourcePort&quot;: &quot;string&quot;,
-                    &quot;vxlanInfo&quot;: {
-                      &quot;dscp&quot;: &quot;string&quot;,
-                      &quot;vnid&quot;: &quot;string&quot;
-                    }
-                  }
-                ],
-                &quot;qosStatistics&quot;: [
-                  {
-                    &quot;classMapName&quot;: &quot;string&quot;,
-                    &quot;dropRate&quot;: 0,
-                    &quot;numBytes&quot;: 0,
-                    &quot;numPackets&quot;: 0,
-                    &quot;offeredRate&quot;: 0,
-                    &quot;queueBandwidthbps&quot;: &quot;string&quot;,
-                    &quot;queueDepth&quot;: 0,
-                    &quot;queueNoBufferDrops&quot;: 0,
-                    &quot;queueTotalDrops&quot;: 0,
-                    &quot;refreshedAt&quot;: 0
-                  }
-                ],
-                &quot;qosStatsCollection&quot;: &quot;string&quot;,
-                &quot;qosStatsCollectionFailureReason&quot;: &quot;string&quot;,
-                &quot;usedVlan&quot;: &quot;string&quot;,
-                &quot;vrfName&quot;: &quot;string&quot;
-              },
-              &quot;virtualInterface&quot;: [
-                {
-                  &quot;aclAnalysis&quot;: {
-                    &quot;aclName&quot;: &quot;string&quot;,
-                    &quot;matchingAces&quot;: [
-                      {
-                        &quot;ace&quot;: &quot;string&quot;,
-                        &quot;matchingPorts&quot;: [
-                          {
-                            &quot;ports&quot;: [
-                              {
-                                &quot;destPorts&quot;: [
-                                  &quot;string&quot;
-                                ],
-                                &quot;sourcePorts&quot;: [
-                                  &quot;string&quot;
-                                ]
-                              }
-                            ],
-                            &quot;protocol&quot;: &quot;string&quot;
-                          }
-                        ],
-                        &quot;result&quot;: &quot;string&quot;
-                      }
-                    ],
-                    &quot;result&quot;: &quot;string&quot;
-                  },
-                  &quot;id&quot;: &quot;string&quot;,
-                  &quot;interfaceStatistics&quot;: {
-                    &quot;adminStatus&quot;: &quot;string&quot;,
-                    &quot;inputPackets&quot;: 0,
-                    &quot;inputQueueCount&quot;: 0,
-                    &quot;inputQueueDrops&quot;: 0,
-                    &quot;inputQueueFlushes&quot;: 0,
-                    &quot;inputQueueMaxDepth&quot;: 0,
-                    &quot;inputRatebps&quot;: 0,
-                    &quot;operationalStatus&quot;: &quot;string&quot;,
-                    &quot;outputDrop&quot;: 0,
-                    &quot;outputPackets&quot;: 0,
-                    &quot;outputQueueCount&quot;: 0,
-                    &quot;outputQueueDepth&quot;: 0,
-                    &quot;outputRatebps&quot;: 0,
-                    &quot;refreshedAt&quot;: 0
-                  },
-                  &quot;interfaceStatsCollection&quot;: &quot;string&quot;,
-                  &quot;interfaceStatsCollectionFailureReason&quot;: &quot;string&quot;,
-                  &quot;name&quot;: &quot;string&quot;,
-                  &quot;pathOverlayInfo&quot;: [
-                    {
-                      &quot;controlPlane&quot;: &quot;string&quot;,
-                      &quot;dataPacketEncapsulation&quot;: &quot;string&quot;,
-                      &quot;destIp&quot;: &quot;string&quot;,
-                      &quot;destPort&quot;: &quot;string&quot;,
-                      &quot;protocol&quot;: &quot;string&quot;,
-                      &quot;sourceIp&quot;: &quot;string&quot;,
-                      &quot;sourcePort&quot;: &quot;string&quot;,
-                      &quot;vxlanInfo&quot;: {
-                        &quot;dscp&quot;: &quot;string&quot;,
-                        &quot;vnid&quot;: &quot;string&quot;
-                      }
-                    }
-                  ],
-                  &quot;qosStatistics&quot;: [
-                    {
-                      &quot;classMapName&quot;: &quot;string&quot;,
-                      &quot;dropRate&quot;: 0,
-                      &quot;numBytes&quot;: 0,
-                      &quot;numPackets&quot;: 0,
-                      &quot;offeredRate&quot;: 0,
-                      &quot;queueBandwidthbps&quot;: &quot;string&quot;,
-                      &quot;queueDepth&quot;: 0,
-                      &quot;queueNoBufferDrops&quot;: 0,
-                      &quot;queueTotalDrops&quot;: 0,
-                      &quot;refreshedAt&quot;: 0
-                    }
-                  ],
-                  &quot;qosStatsCollection&quot;: &quot;string&quot;,
-                  &quot;qosStatsCollectionFailureReason&quot;: &quot;string&quot;,
-                  &quot;usedVlan&quot;: &quot;string&quot;,
-                  &quot;vrfName&quot;: &quot;string&quot;
-                }
-              ]
-            },
-            &quot;flexConnect&quot;: {
-              &quot;authentication&quot;: &quot;string&quot;,
-              &quot;dataSwitching&quot;: &quot;string&quot;,
-              &quot;egressAclAnalysis&quot;: {
-                &quot;aclName&quot;: &quot;string&quot;,
-                &quot;matchingAces&quot;: [
-                  {
-                    &quot;ace&quot;: &quot;string&quot;,
-                    &quot;matchingPorts&quot;: [
-                      {
-                        &quot;ports&quot;: [
-                          {
-                            &quot;destPorts&quot;: [
-                              &quot;string&quot;
-                            ],
-                            &quot;sourcePorts&quot;: [
-                              &quot;string&quot;
-                            ]
-                          }
-                        ],
-                        &quot;protocol&quot;: &quot;string&quot;
-                      }
-                    ],
-                    &quot;result&quot;: &quot;string&quot;
-                  }
-                ],
-                &quot;result&quot;: &quot;string&quot;
-              },
-              &quot;ingressAclAnalysis&quot;: {
-                &quot;aclName&quot;: &quot;string&quot;,
-                &quot;matchingAces&quot;: [
-                  {
-                    &quot;ace&quot;: &quot;string&quot;,
-                    &quot;matchingPorts&quot;: [
-                      {
-                        &quot;ports&quot;: [
-                          {
-                            &quot;destPorts&quot;: [
-                              &quot;string&quot;
-                            ],
-                            &quot;sourcePorts&quot;: [
-                              &quot;string&quot;
-                            ]
-                          }
-                        ],
-                        &quot;protocol&quot;: &quot;string&quot;
-                      }
-                    ],
-                    &quot;result&quot;: &quot;string&quot;
-                  }
-                ],
-                &quot;result&quot;: &quot;string&quot;
-              },
-              &quot;wirelessLanControllerId&quot;: &quot;string&quot;,
-              &quot;wirelessLanControllerName&quot;: &quot;string&quot;
-            },
-            &quot;id&quot;: &quot;string&quot;,
-            &quot;ingressInterface&quot;: {
-              &quot;physicalInterface&quot;: {
-                &quot;aclAnalysis&quot;: {
-                  &quot;aclName&quot;: &quot;string&quot;,
-                  &quot;matchingAces&quot;: [
-                    {
-                      &quot;ace&quot;: &quot;string&quot;,
-                      &quot;matchingPorts&quot;: [
-                        {
-                          &quot;ports&quot;: [
-                            {
-                              &quot;destPorts&quot;: [
-                                &quot;string&quot;
-                              ],
-                              &quot;sourcePorts&quot;: [
-                                &quot;string&quot;
-                              ]
-                            }
-                          ],
-                          &quot;protocol&quot;: &quot;string&quot;
-                        }
-                      ],
-                      &quot;result&quot;: &quot;string&quot;
-                    }
-                  ],
-                  &quot;result&quot;: &quot;string&quot;
-                },
-                &quot;id&quot;: &quot;string&quot;,
-                &quot;interfaceStatistics&quot;: {
-                  &quot;adminStatus&quot;: &quot;string&quot;,
-                  &quot;inputPackets&quot;: 0,
-                  &quot;inputQueueCount&quot;: 0,
-                  &quot;inputQueueDrops&quot;: 0,
-                  &quot;inputQueueFlushes&quot;: 0,
-                  &quot;inputQueueMaxDepth&quot;: 0,
-                  &quot;inputRatebps&quot;: 0,
-                  &quot;operationalStatus&quot;: &quot;string&quot;,
-                  &quot;outputDrop&quot;: 0,
-                  &quot;outputPackets&quot;: 0,
-                  &quot;outputQueueCount&quot;: 0,
-                  &quot;outputQueueDepth&quot;: 0,
-                  &quot;outputRatebps&quot;: 0,
-                  &quot;refreshedAt&quot;: 0
-                },
-                &quot;interfaceStatsCollection&quot;: &quot;string&quot;,
-                &quot;interfaceStatsCollectionFailureReason&quot;: &quot;string&quot;,
-                &quot;name&quot;: &quot;string&quot;,
-                &quot;pathOverlayInfo&quot;: [
-                  {
-                    &quot;controlPlane&quot;: &quot;string&quot;,
-                    &quot;dataPacketEncapsulation&quot;: &quot;string&quot;,
-                    &quot;destIp&quot;: &quot;string&quot;,
-                    &quot;destPort&quot;: &quot;string&quot;,
-                    &quot;protocol&quot;: &quot;string&quot;,
-                    &quot;sourceIp&quot;: &quot;string&quot;,
-                    &quot;sourcePort&quot;: &quot;string&quot;,
-                    &quot;vxlanInfo&quot;: {
-                      &quot;dscp&quot;: &quot;string&quot;,
-                      &quot;vnid&quot;: &quot;string&quot;
-                    }
-                  }
-                ],
-                &quot;qosStatistics&quot;: [
-                  {
-                    &quot;classMapName&quot;: &quot;string&quot;,
-                    &quot;dropRate&quot;: 0,
-                    &quot;numBytes&quot;: 0,
-                    &quot;numPackets&quot;: 0,
-                    &quot;offeredRate&quot;: 0,
-                    &quot;queueBandwidthbps&quot;: &quot;string&quot;,
-                    &quot;queueDepth&quot;: 0,
-                    &quot;queueNoBufferDrops&quot;: 0,
-                    &quot;queueTotalDrops&quot;: 0,
-                    &quot;refreshedAt&quot;: 0
-                  }
-                ],
-                &quot;qosStatsCollection&quot;: &quot;string&quot;,
-                &quot;qosStatsCollectionFailureReason&quot;: &quot;string&quot;,
-                &quot;usedVlan&quot;: &quot;string&quot;,
-                &quot;vrfName&quot;: &quot;string&quot;
-              },
-              &quot;virtualInterface&quot;: [
-                {
-                  &quot;aclAnalysis&quot;: {
-                    &quot;aclName&quot;: &quot;string&quot;,
-                    &quot;matchingAces&quot;: [
-                      {
-                        &quot;ace&quot;: &quot;string&quot;,
-                        &quot;matchingPorts&quot;: [
-                          {
-                            &quot;ports&quot;: [
-                              {
-                                &quot;destPorts&quot;: [
-                                  &quot;string&quot;
-                                ],
-                                &quot;sourcePorts&quot;: [
-                                  &quot;string&quot;
-                                ]
-                              }
-                            ],
-                            &quot;protocol&quot;: &quot;string&quot;
-                          }
-                        ],
-                        &quot;result&quot;: &quot;string&quot;
-                      }
-                    ],
-                    &quot;result&quot;: &quot;string&quot;
-                  },
-                  &quot;id&quot;: &quot;string&quot;,
-                  &quot;interfaceStatistics&quot;: {
-                    &quot;adminStatus&quot;: &quot;string&quot;,
-                    &quot;inputPackets&quot;: 0,
-                    &quot;inputQueueCount&quot;: 0,
-                    &quot;inputQueueDrops&quot;: 0,
-                    &quot;inputQueueFlushes&quot;: 0,
-                    &quot;inputQueueMaxDepth&quot;: 0,
-                    &quot;inputRatebps&quot;: 0,
-                    &quot;operationalStatus&quot;: &quot;string&quot;,
-                    &quot;outputDrop&quot;: 0,
-                    &quot;outputPackets&quot;: 0,
-                    &quot;outputQueueCount&quot;: 0,
-                    &quot;outputQueueDepth&quot;: 0,
-                    &quot;outputRatebps&quot;: 0,
-                    &quot;refreshedAt&quot;: 0
-                  },
-                  &quot;interfaceStatsCollection&quot;: &quot;string&quot;,
-                  &quot;interfaceStatsCollectionFailureReason&quot;: &quot;string&quot;,
-                  &quot;name&quot;: &quot;string&quot;,
-                  &quot;pathOverlayInfo&quot;: [
-                    {
-                      &quot;controlPlane&quot;: &quot;string&quot;,
-                      &quot;dataPacketEncapsulation&quot;: &quot;string&quot;,
-                      &quot;destIp&quot;: &quot;string&quot;,
-                      &quot;destPort&quot;: &quot;string&quot;,
-                      &quot;protocol&quot;: &quot;string&quot;,
-                      &quot;sourceIp&quot;: &quot;string&quot;,
-                      &quot;sourcePort&quot;: &quot;string&quot;,
-                      &quot;vxlanInfo&quot;: {
-                        &quot;dscp&quot;: &quot;string&quot;,
-                        &quot;vnid&quot;: &quot;string&quot;
-                      }
-                    }
-                  ],
-                  &quot;qosStatistics&quot;: [
-                    {
-                      &quot;classMapName&quot;: &quot;string&quot;,
-                      &quot;dropRate&quot;: 0,
-                      &quot;numBytes&quot;: 0,
-                      &quot;numPackets&quot;: 0,
-                      &quot;offeredRate&quot;: 0,
-                      &quot;queueBandwidthbps&quot;: &quot;string&quot;,
-                      &quot;queueDepth&quot;: 0,
-                      &quot;queueNoBufferDrops&quot;: 0,
-                      &quot;queueTotalDrops&quot;: 0,
-                      &quot;refreshedAt&quot;: 0
-                    }
-                  ],
-                  &quot;qosStatsCollection&quot;: &quot;string&quot;,
-                  &quot;qosStatsCollectionFailureReason&quot;: &quot;string&quot;,
-                  &quot;usedVlan&quot;: &quot;string&quot;,
-                  &quot;vrfName&quot;: &quot;string&quot;
-                }
-              ]
-            },
-            &quot;ip&quot;: &quot;string&quot;,
-            &quot;linkInformationSource&quot;: &quot;string&quot;,
-            &quot;name&quot;: &quot;string&quot;,
-            &quot;perfMonCollection&quot;: &quot;string&quot;,
-            &quot;perfMonCollectionFailureReason&quot;: &quot;string&quot;,
-            &quot;perfMonitorStatistics&quot;: [
-              {
-                &quot;byteRate&quot;: 0,
-                &quot;destIpAddress&quot;: &quot;string&quot;,
-                &quot;destPort&quot;: &quot;string&quot;,
-                &quot;inputInterface&quot;: &quot;string&quot;,
-                &quot;ipv4DSCP&quot;: &quot;string&quot;,
-                &quot;ipv4TTL&quot;: 0,
-                &quot;outputInterface&quot;: &quot;string&quot;,
-                &quot;packetBytes&quot;: 0,
-                &quot;packetCount&quot;: 0,
-                &quot;packetLoss&quot;: 0,
-                &quot;packetLossPercentage&quot;: 0,
-                &quot;protocol&quot;: &quot;string&quot;,
-                &quot;refreshedAt&quot;: 0,
-                &quot;rtpJitterMax&quot;: 0,
-                &quot;rtpJitterMean&quot;: 0,
-                &quot;rtpJitterMin&quot;: 0,
-                &quot;sourceIpAddress&quot;: &quot;string&quot;,
-                &quot;sourcePort&quot;: &quot;string&quot;
-              }
-            ],
-            &quot;role&quot;: &quot;string&quot;,
-            &quot;ssid&quot;: &quot;string&quot;,
-            &quot;tunnels&quot;: [
-              &quot;string&quot;
-            ],
-            &quot;type&quot;: &quot;string&quot;,
-            &quot;wlanId&quot;: &quot;string&quot;
-          }
-        ],
-        &quot;properties&quot;: [
-          &quot;string&quot;
-        ],
-        &quot;request&quot;: {
-          &quot;controlPath&quot;: true,
-          &quot;createTime&quot;: 0,
-          &quot;destIP&quot;: &quot;string&quot;,
-          &quot;destPort&quot;: &quot;string&quot;,
-          &quot;failureReason&quot;: &quot;string&quot;,
-          &quot;id&quot;: &quot;string&quot;,
-          &quot;inclusions&quot;: [
-            &quot;string&quot;
-          ],
-          &quot;lastUpdateTime&quot;: 0,
-          &quot;periodicRefresh&quot;: true,
-          &quot;protocol&quot;: &quot;string&quot;,
-          &quot;sourceIP&quot;: &quot;string&quot;,
-          &quot;sourcePort&quot;: &quot;string&quot;,
-          &quot;status&quot;: &quot;string&quot;
-        }
-      },
-      &quot;version&quot;: &quot;string&quot;
-    }</div>
-                                    </td>
-            </tr>
-                        </table>
-    <br/><br/>
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` "{\\n  \\"response\\": {\\n    \\"detailedStatus\\": {\\n      \\"aclTraceCalculation\\": \\"string\\",\\n      \\"aclTraceCalculationFailureReason\\": \\"string\\"\\n    },\\n    \\"lastUpdate\\": \\"string\\",\\n    \\"networkElements\\": [\\n      {\\n        \\"accuracyList\\": [\\n          {\\n            \\"percent\\": 0,\\n            \\"reason\\": \\"string\\"\\n          }\\n        ],\\n        \\"detailedStatus\\": {\\n          \\"aclTraceCalculation\\": \\"string\\",\\n          \\"aclTraceCalculationFailureReason\\": \\"string\\"\\n        },\\n        \\"deviceStatistics\\": {\\n          \\"cpuStatistics\\": {\\n            \\"fiveMinUsageInPercentage\\": 0,\\n            \\"fiveSecsUsageInPercentage\\": 0,\\n            \\"oneMinUsageInPercentage\\": 0,\\n            \\"refreshedAt\\": 0\\n          },\\n          \\"memoryStatistics\\": {\\n            \\"memoryUsage\\": 0,\\n            \\"refreshedAt\\": 0,\\n            \\"totalMemory\\": 0\\n          }\\n        },\\n        \\"deviceStatsCollection\\": \\"string\\",\\n        \\"deviceStatsCollectionFailureReason\\": \\"string\\",\\n        \\"egressPhysicalInterface\\": {\\n          \\"aclAnalysis\\": {\\n            \\"aclName\\": \\"string\\",\\n            \\"matchingAces\\": [\\n              {\\n                \\"ace\\": \\"string\\",\\n                \\"matchingPorts\\": [\\n                  {\\n                    \\"ports\\": [\\n                      {\\n                        \\"destPorts\\": [\\n                          \\"string\\"\\n                        ],\\n                        \\"sourcePorts\\": [\\n                          \\"string\\"\\n                        ]\\n                      }\\n                    ],\\n                    \\"protocol\\": \\"string\\"\\n                  }\\n                ],\\n                \\"result\\": \\"string\\"\\n              }\\n            ],\\n            \\"result\\": \\"string\\"\\n          },\\n          \\"id\\": \\"string\\",\\n          \\"interfaceStatistics\\": {\\n            \\"adminStatus\\": \\"string\\",\\n            \\"inputPackets\\": 0,\\n            \\"inputQueueCount\\": 0,\\n            \\"inputQueueDrops\\": 0,\\n            \\"inputQueueFlushes\\": 0,\\n            \\"inputQueueMaxDepth\\": 0,\\n            \\"inputRatebps\\": 0,\\n            \\"operationalStatus\\": \\"string\\",\\n            \\"outputDrop\\": 0,\\n            \\"outputPackets\\": 0,\\n            \\"outputQueueCount\\": 0,\\n            \\"outputQueueDepth\\": 0,\\n            \\"outputRatebps\\": 0,\\n            \\"refreshedAt\\": 0\\n          },\\n          \\"interfaceStatsCollection\\": \\"string\\",\\n          \\"interfaceStatsCollectionFailureReason\\": \\"string\\",\\n          \\"name\\": \\"string\\",\\n          \\"pathOverlayInfo\\": [\\n            {\\n              \\"controlPlane\\": \\"string\\",\\n              \\"dataPacketEncapsulation\\": \\"string\\",\\n              \\"destIp\\": \\"string\\",\\n              \\"destPort\\": \\"string\\",\\n              \\"protocol\\": \\"string\\",\\n              \\"sourceIp\\": \\"string\\",\\n              \\"sourcePort\\": \\"string\\",\\n              \\"vxlanInfo\\": {\\n                \\"dscp\\": \\"string\\",\\n                \\"vnid\\": \\"string\\"\\n              }\\n            }\\n          ],\\n          \\"qosStatistics\\": [\\n            {\\n              \\"classMapName\\": \\"string\\",\\n              \\"dropRate\\": 0,\\n              \\"numBytes\\": 0,\\n              \\"numPackets\\": 0,\\n              \\"offeredRate\\": 0,\\n              \\"queueBandwidthbps\\": \\"string\\",\\n              \\"queueDepth\\": 0,\\n              \\"queueNoBufferDrops\\": 0,\\n              \\"queueTotalDrops\\": 0,\\n              \\"refreshedAt\\": 0\\n            }\\n          ],\\n          \\"qosStatsCollection\\": \\"string\\",\\n          \\"qosStatsCollectionFailureReason\\": \\"string\\",\\n          \\"usedVlan\\": \\"string\\",\\n          \\"vrfName\\": \\"string\\"\\n        },\\n        \\"egressVirtualInterface\\": {\\n          \\"aclAnalysis\\": {\\n            \\"aclName\\": \\"string\\",\\n            \\"matchingAces\\": [\\n              {\\n                \\"ace\\": \\"string\\",\\n                \\"matchingPorts\\": [\\n                  {\\n                    \\"ports\\": [\\n                      {\\n                        \\"destPorts\\": [\\n                          \\"string\\"\\n                        ],\\n                        \\"sourcePorts\\": [\\n                          \\"string\\"\\n                        ]\\n                      }\\n                    ],\\n                    \\"protocol\\": \\"string\\"\\n                  }\\n                ],\\n                \\"result\\": \\"string\\"\\n              }\\n            ],\\n            \\"result\\": \\"string\\"\\n          },\\n          \\"id\\": \\"string\\",\\n          \\"interfaceStatistics\\": {\\n            \\"adminStatus\\": \\"string\\",\\n            \\"inputPackets\\": 0,\\n            \\"inputQueueCount\\": 0,\\n            \\"inputQueueDrops\\": 0,\\n            \\"inputQueueFlushes\\": 0,\\n            \\"inputQueueMaxDepth\\": 0,\\n            \\"inputRatebps\\": 0,\\n            \\"operationalStatus\\": \\"string\\",\\n            \\"outputDrop\\": 0,\\n            \\"outputPackets\\": 0,\\n            \\"outputQueueCount\\": 0,\\n            \\"outputQueueDepth\\": 0,\\n            \\"outputRatebps\\": 0,\\n            \\"refreshedAt\\": 0\\n          },\\n          \\"interfaceStatsCollection\\": \\"string\\",\\n          \\"interfaceStatsCollectionFailureReason\\": \\"string\\",\\n          \\"name\\": \\"string\\",\\n          \\"pathOverlayInfo\\": [\\n            {\\n              \\"controlPlane\\": \\"string\\",\\n              \\"dataPacketEncapsulation\\": \\"string\\",\\n              \\"destIp\\": \\"string\\",\\n              \\"destPort\\": \\"string\\",\\n              \\"protocol\\": \\"string\\",\\n              \\"sourceIp\\": \\"string\\",\\n              \\"sourcePort\\": \\"string\\",\\n              \\"vxlanInfo\\": {\\n                \\"dscp\\": \\"string\\",\\n                \\"vnid\\": \\"string\\"\\n              }\\n            }\\n          ],\\n          \\"qosStatistics\\": [\\n            {\\n              \\"classMapName\\": \\"string\\",\\n              \\"dropRate\\": 0,\\n              \\"numBytes\\": 0,\\n              \\"numPackets\\": 0,\\n              \\"offeredRate\\": 0,\\n              \\"queueBandwidthbps\\": \\"string\\",\\n              \\"queueDepth\\": 0,\\n              \\"queueNoBufferDrops\\": 0,\\n              \\"queueTotalDrops\\": 0,\\n              \\"refreshedAt\\": 0\\n            }\\n          ],\\n          \\"qosStatsCollection\\": \\"string\\",\\n          \\"qosStatsCollectionFailureReason\\": \\"string\\",\\n          \\"usedVlan\\": \\"string\\",\\n          \\"vrfName\\": \\"string\\"\\n        },\\n        \\"flexConnect\\": {\\n          \\"authentication\\": \\"string\\",\\n          \\"dataSwitching\\": \\"string\\",\\n          \\"egressAclAnalysis\\": {\\n            \\"aclName\\": \\"string\\",\\n            \\"matchingAces\\": [\\n              {\\n                \\"ace\\": \\"string\\",\\n                \\"matchingPorts\\": [\\n                  {\\n                    \\"ports\\": [\\n                      {\\n                        \\"destPorts\\": [\\n                          \\"string\\"\\n                        ],\\n                        \\"sourcePorts\\": [\\n                          \\"string\\"\\n                        ]\\n                      }\\n                    ],\\n                    \\"protocol\\": \\"string\\"\\n                  }\\n                ],\\n                \\"result\\": \\"string\\"\\n              }\\n            ],\\n            \\"result\\": \\"string\\"\\n          },\\n          \\"ingressAclAnalysis\\": {\\n            \\"aclName\\": \\"string\\",\\n            \\"matchingAces\\": [\\n              {\\n                \\"ace\\": \\"string\\",\\n                \\"matchingPorts\\": [\\n                  {\\n                    \\"ports\\": [\\n                      {\\n                        \\"destPorts\\": [\\n                          \\"string\\"\\n                        ],\\n                        \\"sourcePorts\\": [\\n                          \\"string\\"\\n                        ]\\n                      }\\n                    ],\\n                    \\"protocol\\": \\"string\\"\\n                  }\\n                ],\\n                \\"result\\": \\"string\\"\\n              }\\n            ],\\n            \\"result\\": \\"string\\"\\n          },\\n          \\"wirelessLanControllerId\\": \\"string\\",\\n          \\"wirelessLanControllerName\\": \\"string\\"\\n        },\\n        \\"id\\": \\"string\\",\\n        \\"ingressPhysicalInterface\\": {\\n          \\"aclAnalysis\\": {\\n            \\"aclName\\": \\"string\\",\\n            \\"matchingAces\\": [\\n              {\\n                \\"ace\\": \\"string\\",\\n                \\"matchingPorts\\": [\\n                  {\\n                    \\"ports\\": [\\n                      {\\n                        \\"destPorts\\": [\\n                          \\"string\\"\\n                        ],\\n                        \\"sourcePorts\\": [\\n                          \\"string\\"\\n                        ]\\n                      }\\n                    ],\\n                    \\"protocol\\": \\"string\\"\\n                  }\\n                ],\\n                \\"result\\": \\"string\\"\\n              }\\n            ],\\n            \\"result\\": \\"string\\"\\n          },\\n          \\"id\\": \\"string\\",\\n          \\"interfaceStatistics\\": {\\n            \\"adminStatus\\": \\"string\\",\\n            \\"inputPackets\\": 0,\\n            \\"inputQueueCount\\": 0,\\n            \\"inputQueueDrops\\": 0,\\n            \\"inputQueueFlushes\\": 0,\\n            \\"inputQueueMaxDepth\\": 0,\\n            \\"inputRatebps\\": 0,\\n            \\"operationalStatus\\": \\"string\\",\\n            \\"outputDrop\\": 0,\\n            \\"outputPackets\\": 0,\\n            \\"outputQueueCount\\": 0,\\n            \\"outputQueueDepth\\": 0,\\n            \\"outputRatebps\\": 0,\\n            \\"refreshedAt\\": 0\\n          },\\n          \\"interfaceStatsCollection\\": \\"string\\",\\n          \\"interfaceStatsCollectionFailureReason\\": \\"string\\",\\n          \\"name\\": \\"string\\",\\n          \\"pathOverlayInfo\\": [\\n            {\\n              \\"controlPlane\\": \\"string\\",\\n              \\"dataPacketEncapsulation\\": \\"string\\",\\n              \\"destIp\\": \\"string\\",\\n              \\"destPort\\": \\"string\\",\\n              \\"protocol\\": \\"string\\",\\n              \\"sourceIp\\": \\"string\\",\\n              \\"sourcePort\\": \\"string\\",\\n              \\"vxlanInfo\\": {\\n                \\"dscp\\": \\"string\\",\\n                \\"vnid\\": \\"string\\"\\n              }\\n            }\\n          ],\\n          \\"qosStatistics\\": [\\n            {\\n              \\"classMapName\\": \\"string\\",\\n              \\"dropRate\\": 0,\\n              \\"numBytes\\": 0,\\n              \\"numPackets\\": 0,\\n              \\"offeredRate\\": 0,\\n              \\"queueBandwidthbps\\": \\"string\\",\\n              \\"queueDepth\\": 0,\\n              \\"queueNoBufferDrops\\": 0,\\n              \\"queueTotalDrops\\": 0,\\n              \\"refreshedAt\\": 0\\n            }\\n          ],\\n          \\"qosStatsCollection\\": \\"string\\",\\n          \\"qosStatsCollectionFailureReason\\": \\"string\\",\\n          \\"usedVlan\\": \\"string\\",\\n          \\"vrfName\\": \\"string\\"\\n        },\\n        \\"ingressVirtualInterface\\": {\\n          \\"aclAnalysis\\": {\\n            \\"aclName\\": \\"string\\",\\n            \\"matchingAces\\": [\\n              {\\n                \\"ace\\": \\"string\\",\\n                \\"matchingPorts\\": [\\n                  {\\n                    \\"ports\\": [\\n                      {\\n                        \\"destPorts\\": [\\n                          \\"string\\"\\n                        ],\\n                        \\"sourcePorts\\": [\\n                          \\"string\\"\\n                        ]\\n                      }\\n                    ],\\n                    \\"protocol\\": \\"string\\"\\n                  }\\n                ],\\n                \\"result\\": \\"string\\"\\n              }\\n            ],\\n            \\"result\\": \\"string\\"\\n          },\\n          \\"id\\": \\"string\\",\\n          \\"interfaceStatistics\\": {\\n            \\"adminStatus\\": \\"string\\",\\n            \\"inputPackets\\": 0,\\n            \\"inputQueueCount\\": 0,\\n            \\"inputQueueDrops\\": 0,\\n            \\"inputQueueFlushes\\": 0,\\n            \\"inputQueueMaxDepth\\": 0,\\n            \\"inputRatebps\\": 0,\\n            \\"operationalStatus\\": \\"string\\",\\n            \\"outputDrop\\": 0,\\n            \\"outputPackets\\": 0,\\n            \\"outputQueueCount\\": 0,\\n            \\"outputQueueDepth\\": 0,\\n            \\"outputRatebps\\": 0,\\n            \\"refreshedAt\\": 0\\n          },\\n          \\"interfaceStatsCollection\\": \\"string\\",\\n          \\"interfaceStatsCollectionFailureReason\\": \\"string\\",\\n          \\"name\\": \\"string\\",\\n          \\"pathOverlayInfo\\": [\\n            {\\n              \\"controlPlane\\": \\"string\\",\\n              \\"dataPacketEncapsulation\\": \\"string\\",\\n              \\"destIp\\": \\"string\\",\\n              \\"destPort\\": \\"string\\",\\n              \\"protocol\\": \\"string\\",\\n              \\"sourceIp\\": \\"string\\",\\n              \\"sourcePort\\": \\"string\\",\\n              \\"vxlanInfo\\": {\\n                \\"dscp\\": \\"string\\",\\n                \\"vnid\\": \\"string\\"\\n              }\\n            }\\n          ],\\n          \\"qosStatistics\\": [\\n            {\\n              \\"classMapName\\": \\"string\\",\\n              \\"dropRate\\": 0,\\n              \\"numBytes\\": 0,\\n              \\"numPackets\\": 0,\\n              \\"offeredRate\\": 0,\\n              \\"queueBandwidthbps\\": \\"string\\",\\n              \\"queueDepth\\": 0,\\n              \\"queueNoBufferDrops\\": 0,\\n              \\"queueTotalDrops\\": 0,\\n              \\"refreshedAt\\": 0\\n            }\\n          ],\\n          \\"qosStatsCollection\\": \\"string\\",\\n          \\"qosStatsCollectionFailureReason\\": \\"string\\",\\n          \\"usedVlan\\": \\"string\\",\\n          \\"vrfName\\": \\"string\\"\\n        },\\n        \\"ip\\": \\"string\\",\\n        \\"linkInformationSource\\": \\"string\\",\\n        \\"name\\": \\"string\\",\\n        \\"perfMonCollection\\": \\"string\\",\\n        \\"perfMonCollectionFailureReason\\": \\"string\\",\\n        \\"perfMonStatistics\\": [\\n          {\\n            \\"byteRate\\": 0,\\n            \\"destIpAddress\\": \\"string\\",\\n            \\"destPort\\": \\"string\\",\\n            \\"inputInterface\\": \\"string\\",\\n            \\"ipv4DSCP\\": \\"string\\",\\n            \\"ipv4TTL\\": 0,\\n            \\"outputInterface\\": \\"string\\",\\n            \\"packetBytes\\": 0,\\n            \\"packetCount\\": 0,\\n            \\"packetLoss\\": 0,\\n            \\"packetLossPercentage\\": 0,\\n            \\"protocol\\": \\"string\\",\\n            \\"refreshedAt\\": 0,\\n            \\"rtpJitterMax\\": 0,\\n            \\"rtpJitterMean\\": 0,\\n            \\"rtpJitterMin\\": 0,\\n            \\"sourceIpAddress\\": \\"string\\",\\n            \\"sourcePort\\": \\"string\\"\\n          }\\n        ],\\n        \\"role\\": \\"string\\",\\n        \\"ssid\\": \\"string\\",\\n        \\"tunnels\\": [\\n          \\"string\\"\\n        ],\\n        \\"type\\": \\"string\\",\\n        \\"wlanId\\": \\"string\\"\\n      }\\n    ],\\n    \\"networkElementsInfo\\": [\\n      {\\n        \\"accuracyList\\": [\\n          {\\n            \\"percent\\": 0,\\n            \\"reason\\": \\"string\\"\\n          }\\n        ],\\n        \\"detailedStatus\\": {\\n          \\"aclTraceCalculation\\": \\"string\\",\\n          \\"aclTraceCalculationFailureReason\\": \\"string\\"\\n        },\\n        \\"deviceStatistics\\": {\\n          \\"cpuStatistics\\": {\\n            \\"fiveMinUsageInPercentage\\": 0,\\n            \\"fiveSecsUsageInPercentage\\": 0,\\n            \\"oneMinUsageInPercentage\\": 0,\\n            \\"refreshedAt\\": 0\\n          },\\n          \\"memoryStatistics\\": {\\n            \\"memoryUsage\\": 0,\\n            \\"refreshedAt\\": 0,\\n            \\"totalMemory\\": 0\\n          }\\n        },\\n        \\"deviceStatsCollection\\": \\"string\\",\\n        \\"deviceStatsCollectionFailureReason\\": \\"string\\",\\n        \\"egressInterface\\": {\\n          \\"physicalInterface\\": {\\n            \\"aclAnalysis\\": {\\n              \\"aclName\\": \\"string\\",\\n              \\"matchingAces\\": [\\n                {\\n                  \\"ace\\": \\"string\\",\\n                  \\"matchingPorts\\": [\\n                    {\\n                      \\"ports\\": [\\n                        {\\n                          \\"destPorts\\": [\\n                            \\"string\\"\\n                          ],\\n                          \\"sourcePorts\\": [\\n                            \\"string\\"\\n                          ]\\n                        }\\n                      ],\\n                      \\"protocol\\": \\"string\\"\\n                    }\\n                  ],\\n                  \\"result\\": \\"string\\"\\n                }\\n              ],\\n              \\"result\\": \\"string\\"\\n            },\\n            \\"id\\": \\"string\\",\\n            \\"interfaceStatistics\\": {\\n              \\"adminStatus\\": \\"string\\",\\n              \\"inputPackets\\": 0,\\n              \\"inputQueueCount\\": 0,\\n              \\"inputQueueDrops\\": 0,\\n              \\"inputQueueFlushes\\": 0,\\n              \\"inputQueueMaxDepth\\": 0,\\n              \\"inputRatebps\\": 0,\\n              \\"operationalStatus\\": \\"string\\",\\n              \\"outputDrop\\": 0,\\n              \\"outputPackets\\": 0,\\n              \\"outputQueueCount\\": 0,\\n              \\"outputQueueDepth\\": 0,\\n              \\"outputRatebps\\": 0,\\n              \\"refreshedAt\\": 0\\n            },\\n            \\"interfaceStatsCollection\\": \\"string\\",\\n            \\"interfaceStatsCollectionFailureReason\\": \\"string\\",\\n            \\"name\\": \\"string\\",\\n            \\"pathOverlayInfo\\": [\\n              {\\n                \\"controlPlane\\": \\"string\\",\\n                \\"dataPacketEncapsulation\\": \\"string\\",\\n                \\"destIp\\": \\"string\\",\\n                \\"destPort\\": \\"string\\",\\n                \\"protocol\\": \\"string\\",\\n                \\"sourceIp\\": \\"string\\",\\n                \\"sourcePort\\": \\"string\\",\\n                \\"vxlanInfo\\": {\\n                  \\"dscp\\": \\"string\\",\\n                  \\"vnid\\": \\"string\\"\\n                }\\n              }\\n            ],\\n            \\"qosStatistics\\": [\\n              {\\n                \\"classMapName\\": \\"string\\",\\n                \\"dropRate\\": 0,\\n                \\"numBytes\\": 0,\\n                \\"numPackets\\": 0,\\n                \\"offeredRate\\": 0,\\n                \\"queueBandwidthbps\\": \\"string\\",\\n                \\"queueDepth\\": 0,\\n                \\"queueNoBufferDrops\\": 0,\\n                \\"queueTotalDrops\\": 0,\\n                \\"refreshedAt\\": 0\\n              }\\n            ],\\n            \\"qosStatsCollection\\": \\"string\\",\\n            \\"qosStatsCollectionFailureReason\\": \\"string\\",\\n            \\"usedVlan\\": \\"string\\",\\n            \\"vrfName\\": \\"string\\"\\n          },\\n          \\"virtualInterface\\": [\\n            {\\n              \\"aclAnalysis\\": {\\n                \\"aclName\\": \\"string\\",\\n                \\"matchingAces\\": [\\n                  {\\n                    \\"ace\\": \\"string\\",\\n                    \\"matchingPorts\\": [\\n                      {\\n                        \\"ports\\": [\\n                          {\\n                            \\"destPorts\\": [\\n                              \\"string\\"\\n                            ],\\n                            \\"sourcePorts\\": [\\n                              \\"string\\"\\n                            ]\\n                          }\\n                        ],\\n                        \\"protocol\\": \\"string\\"\\n                      }\\n                    ],\\n                    \\"result\\": \\"string\\"\\n                  }\\n                ],\\n                \\"result\\": \\"string\\"\\n              },\\n              \\"id\\": \\"string\\",\\n              \\"interfaceStatistics\\": {\\n                \\"adminStatus\\": \\"string\\",\\n                \\"inputPackets\\": 0,\\n                \\"inputQueueCount\\": 0,\\n                \\"inputQueueDrops\\": 0,\\n                \\"inputQueueFlushes\\": 0,\\n                \\"inputQueueMaxDepth\\": 0,\\n                \\"inputRatebps\\": 0,\\n                \\"operationalStatus\\": \\"string\\",\\n                \\"outputDrop\\": 0,\\n                \\"outputPackets\\": 0,\\n                \\"outputQueueCount\\": 0,\\n                \\"outputQueueDepth\\": 0,\\n                \\"outputRatebps\\": 0,\\n                \\"refreshedAt\\": 0\\n              },\\n              \\"interfaceStatsCollection\\": \\"string\\",\\n              \\"interfaceStatsCollectionFailureReason\\": \\"string\\",\\n              \\"name\\": \\"string\\",\\n              \\"pathOverlayInfo\\": [\\n                {\\n                  \\"controlPlane\\": \\"string\\",\\n                  \\"dataPacketEncapsulation\\": \\"string\\",\\n                  \\"destIp\\": \\"string\\",\\n                  \\"destPort\\": \\"string\\",\\n                  \\"protocol\\": \\"string\\",\\n                  \\"sourceIp\\": \\"string\\",\\n                  \\"sourcePort\\": \\"string\\",\\n                  \\"vxlanInfo\\": {\\n                    \\"dscp\\": \\"string\\",\\n                    \\"vnid\\": \\"string\\"\\n                  }\\n                }\\n              ],\\n              \\"qosStatistics\\": [\\n                {\\n                  \\"classMapName\\": \\"string\\",\\n                  \\"dropRate\\": 0,\\n                  \\"numBytes\\": 0,\\n                  \\"numPackets\\": 0,\\n                  \\"offeredRate\\": 0,\\n                  \\"queueBandwidthbps\\": \\"string\\",\\n                  \\"queueDepth\\": 0,\\n                  \\"queueNoBufferDrops\\": 0,\\n                  \\"queueTotalDrops\\": 0,\\n                  \\"refreshedAt\\": 0\\n                }\\n              ],\\n              \\"qosStatsCollection\\": \\"string\\",\\n              \\"qosStatsCollectionFailureReason\\": \\"string\\",\\n              \\"usedVlan\\": \\"string\\",\\n              \\"vrfName\\": \\"string\\"\\n            }\\n          ]\\n        },\\n        \\"flexConnect\\": {\\n          \\"authentication\\": \\"string\\",\\n          \\"dataSwitching\\": \\"string\\",\\n          \\"egressAclAnalysis\\": {\\n            \\"aclName\\": \\"string\\",\\n            \\"matchingAces\\": [\\n              {\\n                \\"ace\\": \\"string\\",\\n                \\"matchingPorts\\": [\\n                  {\\n                    \\"ports\\": [\\n                      {\\n                        \\"destPorts\\": [\\n                          \\"string\\"\\n                        ],\\n                        \\"sourcePorts\\": [\\n                          \\"string\\"\\n                        ]\\n                      }\\n                    ],\\n                    \\"protocol\\": \\"string\\"\\n                  }\\n                ],\\n                \\"result\\": \\"string\\"\\n              }\\n            ],\\n            \\"result\\": \\"string\\"\\n          },\\n          \\"ingressAclAnalysis\\": {\\n            \\"aclName\\": \\"string\\",\\n            \\"matchingAces\\": [\\n              {\\n                \\"ace\\": \\"string\\",\\n                \\"matchingPorts\\": [\\n                  {\\n                    \\"ports\\": [\\n                      {\\n                        \\"destPorts\\": [\\n                          \\"string\\"\\n                        ],\\n                        \\"sourcePorts\\": [\\n                          \\"string\\"\\n                        ]\\n                      }\\n                    ],\\n                    \\"protocol\\": \\"string\\"\\n                  }\\n                ],\\n                \\"result\\": \\"string\\"\\n              }\\n            ],\\n            \\"result\\": \\"string\\"\\n          },\\n          \\"wirelessLanControllerId\\": \\"string\\",\\n          \\"wirelessLanControllerName\\": \\"string\\"\\n        },\\n        \\"id\\": \\"string\\",\\n        \\"ingressInterface\\": {\\n          \\"physicalInterface\\": {\\n            \\"aclAnalysis\\": {\\n              \\"aclName\\": \\"string\\",\\n              \\"matchingAces\\": [\\n                {\\n                  \\"ace\\": \\"string\\",\\n                  \\"matchingPorts\\": [\\n                    {\\n                      \\"ports\\": [\\n                        {\\n                          \\"destPorts\\": [\\n                            \\"string\\"\\n                          ],\\n                          \\"sourcePorts\\": [\\n                            \\"string\\"\\n                          ]\\n                        }\\n                      ],\\n                      \\"protocol\\": \\"string\\"\\n                    }\\n                  ],\\n                  \\"result\\": \\"string\\"\\n                }\\n              ],\\n              \\"result\\": \\"string\\"\\n            },\\n            \\"id\\": \\"string\\",\\n            \\"interfaceStatistics\\": {\\n              \\"adminStatus\\": \\"string\\",\\n              \\"inputPackets\\": 0,\\n              \\"inputQueueCount\\": 0,\\n              \\"inputQueueDrops\\": 0,\\n              \\"inputQueueFlushes\\": 0,\\n              \\"inputQueueMaxDepth\\": 0,\\n              \\"inputRatebps\\": 0,\\n              \\"operationalStatus\\": \\"string\\",\\n              \\"outputDrop\\": 0,\\n              \\"outputPackets\\": 0,\\n              \\"outputQueueCount\\": 0,\\n              \\"outputQueueDepth\\": 0,\\n              \\"outputRatebps\\": 0,\\n              \\"refreshedAt\\": 0\\n            },\\n            \\"interfaceStatsCollection\\": \\"string\\",\\n            \\"interfaceStatsCollectionFailureReason\\": \\"string\\",\\n            \\"name\\": \\"string\\",\\n            \\"pathOverlayInfo\\": [\\n              {\\n                \\"controlPlane\\": \\"string\\",\\n                \\"dataPacketEncapsulation\\": \\"string\\",\\n                \\"destIp\\": \\"string\\",\\n                \\"destPort\\": \\"string\\",\\n                \\"protocol\\": \\"string\\",\\n                \\"sourceIp\\": \\"string\\",\\n                \\"sourcePort\\": \\"string\\",\\n                \\"vxlanInfo\\": {\\n                  \\"dscp\\": \\"string\\",\\n                  \\"vnid\\": \\"string\\"\\n                }\\n              }\\n            ],\\n            \\"qosStatistics\\": [\\n              {\\n                \\"classMapName\\": \\"string\\",\\n                \\"dropRate\\": 0,\\n                \\"numBytes\\": 0,\\n                \\"numPackets\\": 0,\\n                \\"offeredRate\\": 0,\\n                \\"queueBandwidthbps\\": \\"string\\",\\n                \\"queueDepth\\": 0,\\n                \\"queueNoBufferDrops\\": 0,\\n                \\"queueTotalDrops\\": 0,\\n                \\"refreshedAt\\": 0\\n              }\\n            ],\\n            \\"qosStatsCollection\\": \\"string\\",\\n            \\"qosStatsCollectionFailureReason\\": \\"string\\",\\n            \\"usedVlan\\": \\"string\\",\\n            \\"vrfName\\": \\"string\\"\\n          },\\n          \\"virtualInterface\\": [\\n            {\\n              \\"aclAnalysis\\": {\\n                \\"aclName\\": \\"string\\",\\n                \\"matchingAces\\": [\\n                  {\\n                    \\"ace\\": \\"string\\",\\n                    \\"matchingPorts\\": [\\n                      {\\n                        \\"ports\\": [\\n                          {\\n                            \\"destPorts\\": [\\n                              \\"string\\"\\n                            ],\\n                            \\"sourcePorts\\": [\\n                              \\"string\\"\\n                            ]\\n                          }\\n                        ],\\n                        \\"protocol\\": \\"string\\"\\n                      }\\n                    ],\\n                    \\"result\\": \\"string\\"\\n                  }\\n                ],\\n                \\"result\\": \\"string\\"\\n              },\\n              \\"id\\": \\"string\\",\\n              \\"interfaceStatistics\\": {\\n                \\"adminStatus\\": \\"string\\",\\n                \\"inputPackets\\": 0,\\n                \\"inputQueueCount\\": 0,\\n                \\"inputQueueDrops\\": 0,\\n                \\"inputQueueFlushes\\": 0,\\n                \\"inputQueueMaxDepth\\": 0,\\n                \\"inputRatebps\\": 0,\\n                \\"operationalStatus\\": \\"string\\",\\n                \\"outputDrop\\": 0,\\n                \\"outputPackets\\": 0,\\n                \\"outputQueueCount\\": 0,\\n                \\"outputQueueDepth\\": 0,\\n                \\"outputRatebps\\": 0,\\n                \\"refreshedAt\\": 0\\n              },\\n              \\"interfaceStatsCollection\\": \\"string\\",\\n              \\"interfaceStatsCollectionFailureReason\\": \\"string\\",\\n              \\"name\\": \\"string\\",\\n              \\"pathOverlayInfo\\": [\\n                {\\n                  \\"controlPlane\\": \\"string\\",\\n                  \\"dataPacketEncapsulation\\": \\"string\\",\\n                  \\"destIp\\": \\"string\\",\\n                  \\"destPort\\": \\"string\\",\\n                  \\"protocol\\": \\"string\\",\\n                  \\"sourceIp\\": \\"string\\",\\n                  \\"sourcePort\\": \\"string\\",\\n                  \\"vxlanInfo\\": {\\n                    \\"dscp\\": \\"string\\",\\n                    \\"vnid\\": \\"string\\"\\n                  }\\n                }\\n              ],\\n              \\"qosStatistics\\": [\\n                {\\n                  \\"classMapName\\": \\"string\\",\\n                  \\"dropRate\\": 0,\\n                  \\"numBytes\\": 0,\\n                  \\"numPackets\\": 0,\\n                  \\"offeredRate\\": 0,\\n                  \\"queueBandwidthbps\\": \\"string\\",\\n                  \\"queueDepth\\": 0,\\n                  \\"queueNoBufferDrops\\": 0,\\n                  \\"queueTotalDrops\\": 0,\\n                  \\"refreshedAt\\": 0\\n                }\\n              ],\\n              \\"qosStatsCollection\\": \\"string\\",\\n              \\"qosStatsCollectionFailureReason\\": \\"string\\",\\n              \\"usedVlan\\": \\"string\\",\\n              \\"vrfName\\": \\"string\\"\\n            }\\n          ]\\n        },\\n        \\"ip\\": \\"string\\",\\n        \\"linkInformationSource\\": \\"string\\",\\n        \\"name\\": \\"string\\",\\n        \\"perfMonCollection\\": \\"string\\",\\n        \\"perfMonCollectionFailureReason\\": \\"string\\",\\n        \\"perfMonitorStatistics\\": [\\n          {\\n            \\"byteRate\\": 0,\\n            \\"destIpAddress\\": \\"string\\",\\n            \\"destPort\\": \\"string\\",\\n            \\"inputInterface\\": \\"string\\",\\n            \\"ipv4DSCP\\": \\"string\\",\\n            \\"ipv4TTL\\": 0,\\n            \\"outputInterface\\": \\"string\\",\\n            \\"packetBytes\\": 0,\\n            \\"packetCount\\": 0,\\n            \\"packetLoss\\": 0,\\n            \\"packetLossPercentage\\": 0,\\n            \\"protocol\\": \\"string\\",\\n            \\"refreshedAt\\": 0,\\n            \\"rtpJitterMax\\": 0,\\n            \\"rtpJitterMean\\": 0,\\n            \\"rtpJitterMin\\": 0,\\n            \\"sourceIpAddress\\": \\"string\\",\\n            \\"sourcePort\\": \\"string\\"\\n          }\\n        ],\\n        \\"role\\": \\"string\\",\\n        \\"ssid\\": \\"string\\",\\n        \\"tunnels\\": [\\n          \\"string\\"\\n        ],\\n        \\"type\\": \\"string\\",\\n        \\"wlanId\\": \\"string\\"\\n      }\\n    ],\\n    \\"properties\\": [\\n      \\"string\\"\\n    ],\\n    \\"request\\": {\\n      \\"controlPath\\": true,\\n      \\"createTime\\": 0,\\n      \\"destIP\\": \\"string\\",\\n      \\"destPort\\": \\"string\\",\\n      \\"failureReason\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"inclusions\\": [\\n        \\"string\\"\\n      ],\\n      \\"lastUpdateTime\\": 0,\\n      \\"periodicRefresh\\": true,\\n      \\"protocol\\": \\"string\\",\\n      \\"sourceIP\\": \\"string\\",\\n      \\"sourcePort\\": \\"string\\",\\n      \\"status\\": \\"string\\"\\n    }\\n  },\\n  \\"version\\": \\"string\\"\\n}\\n"
+
 
 ..  Status (Presently only deprecated)
 

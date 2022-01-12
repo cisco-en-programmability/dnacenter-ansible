@@ -404,7 +404,7 @@
 <h1>cisco.dnac.app_policy_intent_create – Resource module for App Policy Intent Create<a class="headerlink" href="#cisco-dnac-app-policy-intent-create-resource-module-for-app-policy-intent-create" title="Permalink to this headline"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This plugin is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 4.1.0).</p>
+<p>This plugin is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 4.1.1).</p>
 <p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
 It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
 To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
@@ -445,1123 +445,494 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </section>
 <section id="parameters">
 <h2><a class="toc-backref" href="#id3">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this headline"></a></h2>
-<table  border=0 cellpadding=0 class="documentation-table">
-    <tr>
-        <th colspan="4">Parameter</th>
-        <th>Choices/<font color="blue">Defaults</font></th>
-                    <th width="100%">Comments</th>
-    </tr>
-                <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-createList"></div>
-                <b>createList</b>
-                <a class="ansibleOptionLink" href="#parameter-createList" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s createList.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope"></div>
-                <b>advancedPolicyScope</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s advancedPolicyScope.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope/advancedPolicyScopeElement"></div>
-                <b>advancedPolicyScopeElement</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope/advancedPolicyScopeElement" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s advancedPolicyScopeElement.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope/advancedPolicyScopeElement/groupId"></div>
-                <b>groupId</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope/advancedPolicyScopeElement/groupId" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Group id.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope/advancedPolicyScopeElement/ssid"></div>
-                <b>ssid</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope/advancedPolicyScopeElement/ssid" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Ssid.</div>
-                                                    </td>
-        </tr>
-
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope/name"></div>
-                <b>name</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope/name" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Policy name.</div>
-                                                    </td>
-        </tr>
-
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-createList/consumer"></div>
-                <b>consumer</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/consumer" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s consumer.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-createList/consumer/scalableGroup"></div>
-                <b>scalableGroup</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/consumer/scalableGroup" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s scalableGroup.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-createList/consumer/scalableGroup/idRef"></div>
-                <b>idRef</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/consumer/scalableGroup/idRef" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Id ref to application Scalable group.</div>
-                                                    </td>
-        </tr>
-
-
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-createList/contract"></div>
-                <b>contract</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/contract" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s contract.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-createList/contract/idRef"></div>
-                <b>idRef</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/contract/idRef" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Id ref to Queueing profile.</div>
-                                                    </td>
-        </tr>
-
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-createList/deletePolicyStatus"></div>
-                <b>deletePolicyStatus</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/deletePolicyStatus" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>NONE deployed policy to devices, DELETED delete policy from devices, RESTORED restored to original configuration.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract"></div>
-                <b>exclusiveContract</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s exclusiveContract.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause"></div>
-                <b>clause</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s clause.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause/deviceRemovalBehavior"></div>
-                <b>deviceRemovalBehavior</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause/deviceRemovalBehavior" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Device eemoval behavior.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause/hostTrackingEnabled"></div>
-                <b>hostTrackingEnabled</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause/hostTrackingEnabled" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li>no</li>
-                                                                                                                                                                                            <li>yes</li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>Is host tracking enabled.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause/relevanceLevel"></div>
-                <b>relevanceLevel</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause/relevanceLevel" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Relevance level.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause/type"></div>
-                <b>type</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause/type" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Type.</div>
-                                                    </td>
-        </tr>
-
-
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-createList/name"></div>
-                <b>name</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/name" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Concatination of &lt;polcy name&gt;_&lt;application-set-name&gt; or &lt;polcy name&gt;_global_policy_configuration or &lt;polcy name&gt;_queuing_customization.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-createList/policyScope"></div>
-                <b>policyScope</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/policyScope" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Policy name.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-createList/priority"></div>
-                <b>priority</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/priority" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Set to 4095 while producer refer to application Scalable group otherwise 100.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-createList/producer"></div>
-                <b>producer</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/producer" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s producer.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-createList/producer/scalableGroup"></div>
-                <b>scalableGroup</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/producer/scalableGroup" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s scalableGroup.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-createList/producer/scalableGroup/idRef"></div>
-                <b>idRef</b>
-                <a class="ansibleOptionLink" href="#parameter-createList/producer/scalableGroup/idRef" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Id ref to application-set or application Scalable group.</div>
-                                                    </td>
-        </tr>
-
-
-
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-deleteList"></div>
-                <b>deleteList</b>
-                <a class="ansibleOptionLink" href="#parameter-deleteList" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Delete list of Group Based Policy ids.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
-                <b>dnac_debug</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                                                                <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li><div style="color: blue"><b>no</b>&nbsp;&larr;</div></li>
-                                                                                                                                                                                            <li>yes</li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>Flag for Cisco DNA Center SDK to enable debugging.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
-                <b>dnac_host</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                             / <span style="color: red">required</span>                    </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>The Cisco DNA Center hostname.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
-                <b>dnac_password</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>The Cisco DNA Center password to authenticate.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
-                <b>dnac_port</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">443</div>
-                                </td>
-                                                            <td>
-                                        <div>The Cisco DNA Center port.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
-                <b>dnac_username</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">"admin"</div>
-                                </td>
-                                                            <td>
-                                        <div>The Cisco DNA Center username to authenticate.</div>
-                                                            <div style="font-size: small; color: darkgreen"><br/>aliases: user</div>
-                                </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
-                <b>dnac_verify</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                                                                <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li>no</li>
-                                                                                                                                                                                            <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>Flag to enable or disable SSL certificate verification.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
-                <b>dnac_version</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">"2.2.3.3"</div>
-                                </td>
-                                                            <td>
-                                        <div>Informs the SDK which version of Cisco DNA Center to use.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-updateList"></div>
-                <b>updateList</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s updateList.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope"></div>
-                <b>advancedPolicyScope</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s advancedPolicyScope.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement"></div>
-                <b>advancedPolicyScopeElement</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s advancedPolicyScopeElement.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/groupId"></div>
-                <b>groupId</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/groupId" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Group id.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/id"></div>
-                <b>id</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/id" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Id of Advance policy scope element.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/ssid"></div>
-                <b>ssid</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/ssid" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Ssid.</div>
-                                                    </td>
-        </tr>
-
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/id"></div>
-                <b>id</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/id" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Id of Advance policy scope.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/name"></div>
-                <b>name</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/name" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Policy name.</div>
-                                                    </td>
-        </tr>
-
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/consumer"></div>
-                <b>consumer</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/consumer" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s consumer.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/consumer/id"></div>
-                <b>id</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/consumer/id" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Id of Consumer.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/consumer/scalableGroup"></div>
-                <b>scalableGroup</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/consumer/scalableGroup" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s scalableGroup.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/consumer/scalableGroup/idRef"></div>
-                <b>idRef</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/consumer/scalableGroup/idRef" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Id ref to application Scalable group.</div>
-                                                    </td>
-        </tr>
-
-
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/contract"></div>
-                <b>contract</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/contract" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s contract.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/contract/idRef"></div>
-                <b>idRef</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/contract/idRef" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Id ref to Queueing profile.</div>
-                                                    </td>
-        </tr>
-
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/deletePolicyStatus"></div>
-                <b>deletePolicyStatus</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/deletePolicyStatus" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>NONE deployed policy to devices, DELETED delete policy from devices, RESTORED restored to original configuration.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract"></div>
-                <b>exclusiveContract</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s exclusiveContract.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause"></div>
-                <b>clause</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s clause.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause/deviceRemovalBehavior"></div>
-                <b>deviceRemovalBehavior</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause/deviceRemovalBehavior" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Device removal behavior.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause/hostTrackingEnabled"></div>
-                <b>hostTrackingEnabled</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause/hostTrackingEnabled" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li>no</li>
-                                                                                                                                                                                            <li>yes</li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>Host tracking enabled.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause/id"></div>
-                <b>id</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause/id" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Id of Business relevance or Application policy knobs clause.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause/relevanceLevel"></div>
-                <b>relevanceLevel</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause/relevanceLevel" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Relevance level.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause/type"></div>
-                <b>type</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause/type" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Type.</div>
-                                                    </td>
-        </tr>
-
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/id"></div>
-                <b>id</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/id" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Id of Exclusive contract.</div>
-                                                    </td>
-        </tr>
-
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/id"></div>
-                <b>id</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/id" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Id of Group based policy.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/name"></div>
-                <b>name</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/name" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Concatination of &lt;polcy name&gt;_&lt;application-set-name&gt; or &lt;polcy name&gt;_global_policy_configuration or &lt;polcy name&gt;_queuing_customization.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/policyScope"></div>
-                <b>policyScope</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/policyScope" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Policy name.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/priority"></div>
-                <b>priority</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/priority" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Set to 4095 while producer refer to application Scalable group otherwise 100.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/producer"></div>
-                <b>producer</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/producer" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s producer.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/producer/id"></div>
-                <b>id</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/producer/id" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Id of Producer.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/producer/scalableGroup"></div>
-                <b>scalableGroup</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/producer/scalableGroup" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>App Policy Intent Create&#x27;s scalableGroup.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-updateList/producer/scalableGroup/idRef"></div>
-                <b>idRef</b>
-                <a class="ansibleOptionLink" href="#parameter-updateList/producer/scalableGroup/idRef" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Id ref to application-set or application Scalable group.</div>
-                                                    </td>
-        </tr>
-
-
-
-                            <tr>
-                                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
-                <b>validate_response_schema</b>
-                <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                                                                <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li>no</li>
-                                                                                                                                                                                            <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</div>
-                                                    </td>
-        </tr>
-                    </table>
-<br/></section>
+<table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Comments</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist"><strong>createList</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>App Policy Intent Create’s createList.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-advancedpolicyscope"><strong>advancedPolicyScope</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s advancedPolicyScope.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope/advancedPolicyScopeElement"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-advancedpolicyscope-advancedpolicyscopeelement"><strong>advancedPolicyScopeElement</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope/advancedPolicyScopeElement" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s advancedPolicyScopeElement.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope/advancedPolicyScopeElement/groupId"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-advancedpolicyscope-advancedpolicyscopeelement-groupid"><strong>groupId</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope/advancedPolicyScopeElement/groupId" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Group id.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope/advancedPolicyScopeElement/ssid"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-advancedpolicyscope-advancedpolicyscopeelement-ssid"><strong>ssid</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope/advancedPolicyScopeElement/ssid" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Ssid.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-advancedpolicyscope-name"><strong>name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Policy name.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/consumer"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-consumer"><strong>consumer</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/consumer" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s consumer.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/consumer/scalableGroup"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-consumer-scalablegroup"><strong>scalableGroup</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/consumer/scalableGroup" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s scalableGroup.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/consumer/scalableGroup/idRef"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-consumer-scalablegroup-idref"><strong>idRef</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/consumer/scalableGroup/idRef" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Id ref to application Scalable group.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/contract"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-contract"><strong>contract</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/contract" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s contract.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/contract/idRef"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-contract-idref"><strong>idRef</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/contract/idRef" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Id ref to Queueing profile.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/deletePolicyStatus"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-deletepolicystatus"><strong>deletePolicyStatus</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/deletePolicyStatus" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>NONE deployed policy to devices, DELETED delete policy from devices, RESTORED restored to original configuration.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-exclusivecontract"><strong>exclusiveContract</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s exclusiveContract.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-exclusivecontract-clause"><strong>clause</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s clause.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause/deviceRemovalBehavior"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-exclusivecontract-clause-deviceremovalbehavior"><strong>deviceRemovalBehavior</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause/deviceRemovalBehavior" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device eemoval behavior.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause/hostTrackingEnabled"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-exclusivecontract-clause-hosttrackingenabled"><strong>hostTrackingEnabled</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause/hostTrackingEnabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Is host tracking enabled.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-choices-entry">no</span></p></li>
+<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause/relevanceLevel"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-exclusivecontract-clause-relevancelevel"><strong>relevanceLevel</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause/relevanceLevel" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Relevance level.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause/type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-exclusivecontract-clause-type"><strong>type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause/type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Type.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-name"><strong>name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Concatination of &lt;polcy name&gt;_&lt;application-set-name&gt; or &lt;polcy name&gt;_global_policy_configuration or &lt;polcy name&gt;_queuing_customization.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/policyScope"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-policyscope"><strong>policyScope</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/policyScope" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Policy name.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/priority"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-priority"><strong>priority</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/priority" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Set to 4095 while producer refer to application Scalable group otherwise 100.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/producer"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-producer"><strong>producer</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/producer" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s producer.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/producer/scalableGroup"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-producer-scalablegroup"><strong>scalableGroup</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/producer/scalableGroup" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s scalableGroup.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-createList/producer/scalableGroup/idRef"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-createlist-producer-scalablegroup-idref"><strong>idRef</strong></p>
+<a class="ansibleOptionLink" href="#parameter-createList/producer/scalableGroup/idRef" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Id ref to application-set or application Scalable group.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-deleteList"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-deletelist"><strong>deleteList</strong></p>
+<a class="ansibleOptionLink" href="#parameter-deleteList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Delete list of Group Based Policy ids.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable debugging.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-default-bold">no</span> <span class="ansible-option-default">← (default)</span></p></li>
+<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-dnac-host"><strong>dnac_host</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco DNA Center hostname.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-dnac-password"><strong>dnac_password</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco DNA Center password to authenticate.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-dnac-port"><strong>dnac_port</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco DNA Center port.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+<div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-user"><span id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
+<p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco DNA Center username to authenticate.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“admin”</span></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-choices-entry">no</span></p></li>
+<li><p><span class="ansible-option-default-bold">yes</span> <span class="ansible-option-default">← (default)</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-dnac-version"><strong>dnac_version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Informs the SDK which version of Cisco DNA Center to use.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“2.2.3.3”</span></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist"><strong>updateList</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>App Policy Intent Create’s updateList.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-advancedpolicyscope"><strong>advancedPolicyScope</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s advancedPolicyScope.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-advancedpolicyscope-advancedpolicyscopeelement"><strong>advancedPolicyScopeElement</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s advancedPolicyScopeElement.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/groupId"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-advancedpolicyscope-advancedpolicyscopeelement-groupid"><strong>groupId</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/groupId" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Group id.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-advancedpolicyscope-advancedpolicyscopeelement-id"><strong>id</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Id of Advance policy scope element.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/ssid"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-advancedpolicyscope-advancedpolicyscopeelement-ssid"><strong>ssid</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/ssid" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Ssid.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-advancedpolicyscope-id"><strong>id</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Id of Advance policy scope.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-advancedpolicyscope-name"><strong>name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Policy name.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/consumer"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-consumer"><strong>consumer</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/consumer" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s consumer.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/consumer/id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-consumer-id"><strong>id</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/consumer/id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Id of Consumer.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/consumer/scalableGroup"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-consumer-scalablegroup"><strong>scalableGroup</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/consumer/scalableGroup" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s scalableGroup.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/consumer/scalableGroup/idRef"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-consumer-scalablegroup-idref"><strong>idRef</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/consumer/scalableGroup/idRef" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Id ref to application Scalable group.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/contract"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-contract"><strong>contract</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/contract" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s contract.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/contract/idRef"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-contract-idref"><strong>idRef</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/contract/idRef" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Id ref to Queueing profile.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/deletePolicyStatus"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-deletepolicystatus"><strong>deletePolicyStatus</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/deletePolicyStatus" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>NONE deployed policy to devices, DELETED delete policy from devices, RESTORED restored to original configuration.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-exclusivecontract"><strong>exclusiveContract</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s exclusiveContract.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-exclusivecontract-clause"><strong>clause</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s clause.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause/deviceRemovalBehavior"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-exclusivecontract-clause-deviceremovalbehavior"><strong>deviceRemovalBehavior</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause/deviceRemovalBehavior" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device removal behavior.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause/hostTrackingEnabled"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-exclusivecontract-clause-hosttrackingenabled"><strong>hostTrackingEnabled</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause/hostTrackingEnabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Host tracking enabled.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-choices-entry">no</span></p></li>
+<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause/id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-exclusivecontract-clause-id"><strong>id</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause/id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Id of Business relevance or Application policy knobs clause.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause/relevanceLevel"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-exclusivecontract-clause-relevancelevel"><strong>relevanceLevel</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause/relevanceLevel" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Relevance level.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause/type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-exclusivecontract-clause-type"><strong>type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause/type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Type.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-exclusivecontract-id"><strong>id</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Id of Exclusive contract.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-id"><strong>id</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Id of Group based policy.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-name"><strong>name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Concatination of &lt;polcy name&gt;_&lt;application-set-name&gt; or &lt;polcy name&gt;_global_policy_configuration or &lt;polcy name&gt;_queuing_customization.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/policyScope"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-policyscope"><strong>policyScope</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/policyScope" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Policy name.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/priority"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-priority"><strong>priority</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/priority" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Set to 4095 while producer refer to application Scalable group otherwise 100.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/producer"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-producer"><strong>producer</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/producer" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s producer.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/producer/id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-producer-id"><strong>id</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/producer/id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Id of Producer.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/producer/scalableGroup"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-producer-scalablegroup"><strong>scalableGroup</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/producer/scalableGroup" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create’s scalableGroup.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-updateList/producer/scalableGroup/idRef"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-updatelist-producer-scalablegroup-idref"><strong>idRef</strong></p>
+<a class="ansibleOptionLink" href="#parameter-updateList/producer/scalableGroup/idRef" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Id ref to application-set or application Scalable group.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-parameter-validate-response-schema"><strong>validate_response_schema</strong></p>
+<a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-choices-entry">no</span></p></li>
+<li><p><span class="ansible-option-default-bold">yes</span> <span class="ansible-option-default">← (default)</span></p></li>
+</ul>
+</div></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="notes">
 <h2><a class="toc-backref" href="#id4">Notes</a><a class="headerlink" href="#notes" title="Permalink to this headline"></a></h2>
 <div class="admonition note">
@@ -1585,113 +956,101 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </section>
 <section id="examples">
 <h2><a class="toc-backref" href="#id6">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline"></a></h2>
-<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Create</span>
-  <span class="nt">cisco.dnac.app_policy_intent_create</span><span class="p">:</span>
-    <span class="nt">dnac_host</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_username</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_password</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_verify</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_port</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_version</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_debug</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">createList</span><span class="p">:</span>
-    <span class="p p-Indicator">-</span> <span class="nt">advancedPolicyScope</span><span class="p">:</span>
-        <span class="nt">advancedPolicyScopeElement</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="nt">groupId</span><span class="p">:</span>
-          <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">ssid</span><span class="p">:</span>
-          <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">consumer</span><span class="p">:</span>
-        <span class="nt">scalableGroup</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="nt">idRef</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">contract</span><span class="p">:</span>
-        <span class="nt">idRef</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">deletePolicyStatus</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">exclusiveContract</span><span class="p">:</span>
-        <span class="nt">clause</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="nt">deviceRemovalBehavior</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">hostTrackingEnabled</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-          <span class="nt">relevanceLevel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">policyScope</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">priority</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">producer</span><span class="p">:</span>
-        <span class="nt">scalableGroup</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="nt">idRef</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-    <span class="nt">deleteList</span><span class="p">:</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-    <span class="nt">updateList</span><span class="p">:</span>
-    <span class="p p-Indicator">-</span> <span class="nt">advancedPolicyScope</span><span class="p">:</span>
-        <span class="nt">advancedPolicyScopeElement</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="nt">groupId</span><span class="p">:</span>
-          <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">ssid</span><span class="p">:</span>
-          <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">consumer</span><span class="p">:</span>
-        <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">scalableGroup</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="nt">idRef</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">contract</span><span class="p">:</span>
-        <span class="nt">idRef</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">deletePolicyStatus</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">exclusiveContract</span><span class="p">:</span>
-        <span class="nt">clause</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="nt">deviceRemovalBehavior</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">hostTrackingEnabled</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-          <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">relevanceLevel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">policyScope</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">priority</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">producer</span><span class="p">:</span>
-        <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">scalableGroup</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="nt">idRef</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create</span><span class="w"></span>
+<span class="w">  </span><span class="nt">cisco.dnac.app_policy_intent_create</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">createList</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">advancedPolicyScope</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">advancedPolicyScopeElement</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">groupId</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">          </span><span class="nt">ssid</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">consumer</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">scalableGroup</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">idRef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">contract</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">idRef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">deletePolicyStatus</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">exclusiveContract</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">clause</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">deviceRemovalBehavior</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">          </span><span class="nt">hostTrackingEnabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">          </span><span class="nt">relevanceLevel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">policyScope</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">producer</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">scalableGroup</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">idRef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">    </span><span class="nt">deleteList</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">    </span><span class="nt">updateList</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">advancedPolicyScope</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">advancedPolicyScopeElement</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">groupId</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">          </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">          </span><span class="nt">ssid</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">consumer</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">        </span><span class="nt">scalableGroup</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">idRef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">contract</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">idRef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">deletePolicyStatus</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">exclusiveContract</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">clause</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">deviceRemovalBehavior</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">          </span><span class="nt">hostTrackingEnabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">          </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">          </span><span class="nt">relevanceLevel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">policyScope</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">producer</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">        </span><span class="nt">scalableGroup</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">idRef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="return-values">
 <h2><a class="toc-backref" href="#id7">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this headline"></a></h2>
 <p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v5)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
-<table border=0 cellpadding=0 class="documentation-table">
-    <tr>
-        <th colspan="1">Key</th>
-        <th>Returned</th>
-        <th width="100%">Description</th>
-    </tr>
-                <tr>
-                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
-                <b>dnac_response</b>
-                <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
-                <div style="font-size: small">
-                  <span style="color: purple">dictionary</span>
-                                      </div>
-                                </td>
-            <td>always</td>
-            <td>
-                                        <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
-                                    <br/>
-                                                            <div style="font-size: smaller"><b>Sample:</b></div>
-                                            <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
-  &quot;response&quot;: {
-    &quot;taskId&quot;: &quot;string&quot;,
-    &quot;url&quot;: &quot;string&quot;
-  },
-  &quot;version&quot;: &quot;string&quot;
-}</div>
-                                </td>
-        </tr>
-                    </table>
-<br/><br/><section id="authors">
+<table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="return-dnac_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-app-policy-intent-create-module-return-dnac-response"><strong>dnac_response</strong></p>
+<a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</td>
+<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco DNAC Python SDK</p>
+<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> “{\n  \”response\”: {\n    \”taskId\”: \”string\”,\n    \”url\”: \”string\”\n  },\n  \”version\”: \”string\”\n}\n”</p>
+</td>
+</tr>
+</tbody>
+</table>
+<section id="authors">
 <h3>Authors<a class="headerlink" href="#authors" title="Permalink to this headline"></a></h3>
 <ul class="simple">
 <li><p>Rafael Campos (&#64;racampos)</p></li>

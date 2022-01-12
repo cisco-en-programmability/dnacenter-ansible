@@ -11,6 +11,18 @@
 .. role:: ansible-attribute-support-partial
 .. role:: ansible-attribute-support-none
 .. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-entry
+.. role:: ansible-option-default
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
 
 .. Anchors
 
@@ -30,7 +42,7 @@ cisco.dnac.pnp_virtual_account_add -- Resource module for Pnp Virtual Account Ad
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -79,552 +91,1194 @@ The below requirements are needed on the host that executes this module.
 Parameters
 ----------
 
-.. raw:: html
+.. rst-class:: ansible-option-table
 
-    <table  border=0 cellpadding=0 class="documentation-table">
-        <tr>
-            <th colspan="3">Parameter</th>
-            <th>Choices/<font color="blue">Defaults</font></th>
-                        <th width="100%">Comments</th>
-        </tr>
-                    <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-autoSyncPeriod"></div>
-                    <b>autoSyncPeriod</b>
-                    <a class="ansibleOptionLink" href="#parameter-autoSyncPeriod" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s autoSyncPeriod.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-ccoUser"></div>
-                    <b>ccoUser</b>
-                    <a class="ansibleOptionLink" href="#parameter-ccoUser" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s ccoUser.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
-                    <b>dnac_debug</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li><div style="color: blue"><b>no</b>&nbsp;&larr;</div></li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>Flag for Cisco DNA Center SDK to enable debugging.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
-                    <b>dnac_host</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>The Cisco DNA Center hostname.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
-                    <b>dnac_password</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>The Cisco DNA Center password to authenticate.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
-                    <b>dnac_port</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">443</div>
-                                    </td>
-                                                                <td>
-                                            <div>The Cisco DNA Center port.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
-                    <b>dnac_username</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"admin"</div>
-                                    </td>
-                                                                <td>
-                                            <div>The Cisco DNA Center username to authenticate.</div>
-                                                                <div style="font-size: small; color: darkgreen"><br/>aliases: user</div>
-                                    </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
-                    <b>dnac_verify</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>Flag to enable or disable SSL certificate verification.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
-                    <b>dnac_version</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.3.3"</div>
-                                    </td>
-                                                                <td>
-                                            <div>Informs the SDK which version of Cisco DNA Center to use.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-expiry"></div>
-                    <b>expiry</b>
-                    <a class="ansibleOptionLink" href="#parameter-expiry" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s expiry.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-lastSync"></div>
-                    <b>lastSync</b>
-                    <a class="ansibleOptionLink" href="#parameter-lastSync" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s lastSync.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-profile"></div>
-                    <b>profile</b>
-                    <a class="ansibleOptionLink" href="#parameter-profile" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s profile.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-profile/addressFqdn"></div>
-                    <b>addressFqdn</b>
-                    <a class="ansibleOptionLink" href="#parameter-profile/addressFqdn" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s addressFqdn.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-profile/addressIpV4"></div>
-                    <b>addressIpV4</b>
-                    <a class="ansibleOptionLink" href="#parameter-profile/addressIpV4" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s addressIpV4.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-profile/cert"></div>
-                    <b>cert</b>
-                    <a class="ansibleOptionLink" href="#parameter-profile/cert" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s cert.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-profile/makeDefault"></div>
-                    <b>makeDefault</b>
-                    <a class="ansibleOptionLink" href="#parameter-profile/makeDefault" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>MakeDefault flag.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-profile/name"></div>
-                    <b>name</b>
-                    <a class="ansibleOptionLink" href="#parameter-profile/name" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s name.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-profile/port"></div>
-                    <b>port</b>
-                    <a class="ansibleOptionLink" href="#parameter-profile/port" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s port.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-profile/profileId"></div>
-                    <b>profileId</b>
-                    <a class="ansibleOptionLink" href="#parameter-profile/profileId" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s profileId.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-profile/proxy"></div>
-                    <b>proxy</b>
-                    <a class="ansibleOptionLink" href="#parameter-profile/proxy" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>Proxy flag.</div>
-                                                        </td>
-            </tr>
-                    
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-smartAccountId"></div>
-                    <b>smartAccountId</b>
-                    <a class="ansibleOptionLink" href="#parameter-smartAccountId" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s smartAccountId.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-syncResult"></div>
-                    <b>syncResult</b>
-                    <a class="ansibleOptionLink" href="#parameter-syncResult" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s syncResult.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-syncResult/syncList"></div>
-                    <b>syncList</b>
-                    <a class="ansibleOptionLink" href="#parameter-syncResult/syncList" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>                                            </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s syncList.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-syncResult/syncList/deviceSnList"></div>
-                    <b>deviceSnList</b>
-                    <a class="ansibleOptionLink" href="#parameter-syncResult/syncList/deviceSnList" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>                                            </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s deviceSnList.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-syncResult/syncList/syncType"></div>
-                    <b>syncType</b>
-                    <a class="ansibleOptionLink" href="#parameter-syncResult/syncList/syncType" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s syncType.</div>
-                                                        </td>
-            </tr>
-                    
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-syncResult/syncMsg"></div>
-                    <b>syncMsg</b>
-                    <a class="ansibleOptionLink" href="#parameter-syncResult/syncMsg" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s syncMsg.</div>
-                                                        </td>
-            </tr>
-                    
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-syncResultStr"></div>
-                    <b>syncResultStr</b>
-                    <a class="ansibleOptionLink" href="#parameter-syncResultStr" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s syncResultStr.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-syncStartTime"></div>
-                    <b>syncStartTime</b>
-                    <a class="ansibleOptionLink" href="#parameter-syncStartTime" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s syncStartTime.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-syncStatus"></div>
-                    <b>syncStatus</b>
-                    <a class="ansibleOptionLink" href="#parameter-syncStatus" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s syncStatus.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-tenantId"></div>
-                    <b>tenantId</b>
-                    <a class="ansibleOptionLink" href="#parameter-tenantId" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s tenantId.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-token"></div>
-                    <b>token</b>
-                    <a class="ansibleOptionLink" href="#parameter-token" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s token.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
-                    <b>validate_response_schema</b>
-                    <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-virtualAccountId"></div>
-                    <b>virtualAccountId</b>
-                    <a class="ansibleOptionLink" href="#parameter-virtualAccountId" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Virtual Account Add&#x27;s virtualAccountId.</div>
-                                                        </td>
-            </tr>
-                        </table>
-    <br/>
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-autoSyncPeriod"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-autoSyncPeriod:
+
+      .. rst-class:: ansible-option-title
+
+      **autoSyncPeriod**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-autoSyncPeriod" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's autoSyncPeriod.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ccoUser"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-ccoUser:
+
+      .. rst-class:: ansible-option-title
+
+      **ccoUser**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ccoUser" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's ccoUser.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-expiry"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-expiry:
+
+      .. rst-class:: ansible-option-title
+
+      **expiry**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-expiry" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's expiry.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lastSync"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-lastSync:
+
+      .. rst-class:: ansible-option-title
+
+      **lastSync**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lastSync" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's lastSync.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profile"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-profile:
+
+      .. rst-class:: ansible-option-title
+
+      **profile**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profile" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's profile.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profile/addressFqdn"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-profile/addressFqdn:
+
+      .. rst-class:: ansible-option-title
+
+      **addressFqdn**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profile/addressFqdn" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's addressFqdn.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profile/addressIpV4"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-profile/addressIpV4:
+
+      .. rst-class:: ansible-option-title
+
+      **addressIpV4**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profile/addressIpV4" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's addressIpV4.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profile/cert"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-profile/cert:
+
+      .. rst-class:: ansible-option-title
+
+      **cert**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profile/cert" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's cert.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profile/makeDefault"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-profile/makeDefault:
+
+      .. rst-class:: ansible-option-title
+
+      **makeDefault**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profile/makeDefault" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      MakeDefault flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profile/name"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-profile/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profile/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profile/port"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-profile/port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profile/port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profile/profileId"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-profile/profileId:
+
+      .. rst-class:: ansible-option-title
+
+      **profileId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profile/profileId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's profileId.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profile/proxy"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-profile/proxy:
+
+      .. rst-class:: ansible-option-title
+
+      **proxy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profile/proxy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Proxy flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-smartAccountId"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-smartAccountId:
+
+      .. rst-class:: ansible-option-title
+
+      **smartAccountId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-smartAccountId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's smartAccountId.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-syncResult"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-syncResult:
+
+      .. rst-class:: ansible-option-title
+
+      **syncResult**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-syncResult" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's syncResult.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-syncResult/syncList"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-syncResult/syncList:
+
+      .. rst-class:: ansible-option-title
+
+      **syncList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-syncResult/syncList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's syncList.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-syncResult/syncList/deviceSnList"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-syncResult/syncList/deviceSnList:
+
+      .. rst-class:: ansible-option-title
+
+      **deviceSnList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-syncResult/syncList/deviceSnList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's deviceSnList.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-syncResult/syncList/syncType"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-syncResult/syncList/syncType:
+
+      .. rst-class:: ansible-option-title
+
+      **syncType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-syncResult/syncList/syncType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's syncType.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-syncResult/syncMsg"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-syncResult/syncMsg:
+
+      .. rst-class:: ansible-option-title
+
+      **syncMsg**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-syncResult/syncMsg" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's syncMsg.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-syncResultStr"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-syncResultStr:
+
+      .. rst-class:: ansible-option-title
+
+      **syncResultStr**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-syncResultStr" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's syncResultStr.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-syncStartTime"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-syncStartTime:
+
+      .. rst-class:: ansible-option-title
+
+      **syncStartTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-syncStartTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's syncStartTime.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-syncStatus"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-syncStatus:
+
+      .. rst-class:: ansible-option-title
+
+      **syncStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-syncStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's syncStatus.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tenantId"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-tenantId:
+
+      .. rst-class:: ansible-option-title
+
+      **tenantId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tenantId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's tenantId.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-token"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-token:
+
+      .. rst-class:: ansible-option-title
+
+      **token**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-token" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's token.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-virtualAccountId"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-virtualAccountId:
+
+      .. rst-class:: ansible-option-title
+
+      **virtualAccountId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-virtualAccountId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Virtual Account Add's virtualAccountId.
+
+
+      .. raw:: html
+
+        </div>
+
 
 .. Attributes
 
@@ -635,7 +1289,7 @@ Notes
 -----
 
 .. note::
-   - Does not support ``check_mode``
+   - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
@@ -706,66 +1360,50 @@ Return Values
 -------------
 Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
 
-.. raw:: html
+.. rst-class:: ansible-option-table
 
-    <table border=0 cellpadding=0 class="documentation-table">
-        <tr>
-            <th colspan="1">Key</th>
-            <th>Returned</th>
-            <th width="100%">Description</th>
-        </tr>
-                    <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
-                    <b>dnac_response</b>
-                    <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">dictionary</span>
-                                          </div>
-                                    </td>
-                <td>always</td>
-                <td>
-                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
-                                        <br/>
-                                                                <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
-      &quot;virtualAccountId&quot;: &quot;string&quot;,
-      &quot;autoSyncPeriod&quot;: 0,
-      &quot;syncResultStr&quot;: &quot;string&quot;,
-      &quot;profile&quot;: {
-        &quot;proxy&quot;: true,
-        &quot;makeDefault&quot;: true,
-        &quot;port&quot;: 0,
-        &quot;profileId&quot;: &quot;string&quot;,
-        &quot;name&quot;: &quot;string&quot;,
-        &quot;addressIpV4&quot;: &quot;string&quot;,
-        &quot;cert&quot;: &quot;string&quot;,
-        &quot;addressFqdn&quot;: &quot;string&quot;
-      },
-      &quot;ccoUser&quot;: &quot;string&quot;,
-      &quot;syncResult&quot;: {
-        &quot;syncList&quot;: [
-          {
-            &quot;syncType&quot;: &quot;string&quot;,
-            &quot;deviceSnList&quot;: [
-              &quot;string&quot;
-            ]
-          }
-        ],
-        &quot;syncMsg&quot;: &quot;string&quot;
-      },
-      &quot;token&quot;: &quot;string&quot;,
-      &quot;syncStartTime&quot;: 0,
-      &quot;lastSync&quot;: 0,
-      &quot;tenantId&quot;: &quot;string&quot;,
-      &quot;smartAccountId&quot;: &quot;string&quot;,
-      &quot;expiry&quot;: 0,
-      &quot;syncStatus&quot;: &quot;string&quot;
-    }</div>
-                                    </td>
-            </tr>
-                        </table>
-    <br/><br/>
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` "{\\n  \\"virtualAccountId\\": \\"string\\",\\n  \\"autoSyncPeriod\\": 0,\\n  \\"syncResultStr\\": \\"string\\",\\n  \\"profile\\": {\\n    \\"proxy\\": true,\\n    \\"makeDefault\\": true,\\n    \\"port\\": 0,\\n    \\"profileId\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"addressIpV4\\": \\"string\\",\\n    \\"cert\\": \\"string\\",\\n    \\"addressFqdn\\": \\"string\\"\\n  },\\n  \\"ccoUser\\": \\"string\\",\\n  \\"syncResult\\": {\\n    \\"syncList\\": [\\n      {\\n        \\"syncType\\": \\"string\\",\\n        \\"deviceSnList\\": [\\n          \\"string\\"\\n        ]\\n      }\\n    ],\\n    \\"syncMsg\\": \\"string\\"\\n  },\\n  \\"token\\": \\"string\\",\\n  \\"syncStartTime\\": 0,\\n  \\"lastSync\\": 0,\\n  \\"tenantId\\": \\"string\\",\\n  \\"smartAccountId\\": \\"string\\",\\n  \\"expiry\\": 0,\\n  \\"syncStatus\\": \\"string\\"\\n}\\n"
+
 
 ..  Status (Presently only deprecated)
 
