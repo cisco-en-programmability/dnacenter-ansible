@@ -93,7 +93,19 @@ class Applications(object):
 
     def get_object_by_id(self, id):
         result = None
-        # NOTICE: Does not have a get by id method or it is in another action
+        # NOTE: Does not have a get by id method or it is in another action
+        try:
+            items = self.dnac.exec(
+                family="application_policy",
+                function="get_applications",
+                params=self.get_all_params(id=id),
+            )
+            if isinstance(items, dict):
+                if 'response' in items:
+                    items = items.get('response')
+            result = get_dict_result(items, 'id', id)
+        except Exception:
+            result = None
         return result
 
     def exists(self):
