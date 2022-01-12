@@ -10,8 +10,8 @@
       dnac_password: "{{dnac_password}}"
       dnac_verify: "{{dnac_verify}}"
       dnac_debug: "{{dnac_debug}}"
-      certFilePath: /Users/wilhelm32/Developer/Work/GitHub/dnacenter-ansible1/playbooks/files/test.template
-      pkFilePath: /Users/wilhelm32/Developer/Work/GitHub/dnacenter-ansible1/playbooks/files/test.template
+      certFilePath: ./files/test.template
+      pkFilePath: ./files/test.template
     register: result
 
   - name: Show result

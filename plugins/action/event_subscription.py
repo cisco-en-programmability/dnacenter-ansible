@@ -95,7 +95,22 @@ class EventSubscription(object):
 
     def get_object_by_id(self, id):
         result = None
-        # NOTICE: Does not have a get by id method or it is in another action
+        # NOTE: Does not have a get by id method or it is in another action
+        try:
+            items = self.dnac.exec(
+                family="event_management",
+                function="get_event_subscriptions",
+            )
+            if isinstance(items, dict):
+                if 'response' in items:
+                    items = items.get('response')
+                if 'subscriptionEndpoints' in items:
+                    tmp_result = items.get('subscriptionEndpoints')
+            tmp_result = get_dict_result(tmp_result, 'id', id)
+            if tmp_result:
+                result = items
+        except Exception:
+            result = None
         return result
 
     def exists(self):
