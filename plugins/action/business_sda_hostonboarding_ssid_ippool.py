@@ -103,7 +103,7 @@ class BusinessSdaHostonboardingSsidIppool(object):
     def exists(self):
         name = self.new_object.get("name")
         prev_obj = self.get_object_by_name(name)
-        it_exists = prev_obj is not None and isinstance(prev_obj, dict)
+        it_exists = prev_obj is not None and isinstance(prev_obj, dict) and 'vlanName' in prev_obj
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
