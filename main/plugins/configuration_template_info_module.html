@@ -404,7 +404,7 @@
 <h1>cisco.dnac.configuration_template_info – Information module for Configuration Template<a class="headerlink" href="#cisco-dnac-configuration-template-info-information-module-for-configuration-template" title="Permalink to this headline"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This plugin is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 4.1.0).</p>
+<p>This plugin is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 4.1.1).</p>
 <p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
 It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
 To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
@@ -446,372 +446,205 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </section>
 <section id="parameters">
 <h2><a class="toc-backref" href="#id3">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this headline"></a></h2>
-<table  border=0 cellpadding=0 class="documentation-table">
-    <tr>
-        <th colspan="1">Parameter</th>
-        <th>Choices/<font color="blue">Defaults</font></th>
-                    <th width="100%">Comments</th>
-    </tr>
-                <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
-                <b>dnac_debug</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                                                                <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li><div style="color: blue"><b>no</b>&nbsp;&larr;</div></li>
-                                                                                                                                                                                            <li>yes</li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>Flag for Cisco DNA Center SDK to enable debugging.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
-                <b>dnac_host</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                             / <span style="color: red">required</span>                    </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>The Cisco DNA Center hostname.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
-                <b>dnac_password</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>The Cisco DNA Center password to authenticate.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
-                <b>dnac_port</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">443</div>
-                                </td>
-                                                            <td>
-                                        <div>The Cisco DNA Center port.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
-                <b>dnac_username</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">"admin"</div>
-                                </td>
-                                                            <td>
-                                        <div>The Cisco DNA Center username to authenticate.</div>
-                                                            <div style="font-size: small; color: darkgreen"><br/>aliases: user</div>
-                                </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
-                <b>dnac_verify</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                                                                <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li>no</li>
-                                                                                                                                                                                            <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>Flag to enable or disable SSL certificate verification.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
-                <b>dnac_version</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">"2.2.3.3"</div>
-                                </td>
-                                                            <td>
-                                        <div>Informs the SDK which version of Cisco DNA Center to use.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-filterConflictingTemplates"></div>
-                <b>filterConflictingTemplates</b>
-                <a class="ansibleOptionLink" href="#parameter-filterConflictingTemplates" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li>no</li>
-                                                                                                                                                                                            <li>yes</li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>FilterConflictingTemplates query parameter. Filter template(s) based on confliting templates.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-headers"></div>
-                <b>headers</b>
-                <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Additional headers.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-latestVersion"></div>
-                <b>latestVersion</b>
-                <a class="ansibleOptionLink" href="#parameter-latestVersion" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li>no</li>
-                                                                                                                                                                                            <li>yes</li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>LatestVersion query parameter. LatestVersion flag to get the latest versioned template.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-productFamily"></div>
-                <b>productFamily</b>
-                <a class="ansibleOptionLink" href="#parameter-productFamily" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>ProductFamily query parameter. Filter template(s) based on device family.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-productSeries"></div>
-                <b>productSeries</b>
-                <a class="ansibleOptionLink" href="#parameter-productSeries" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>ProductSeries query parameter. Filter template(s) based on device series.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-productType"></div>
-                <b>productType</b>
-                <a class="ansibleOptionLink" href="#parameter-productType" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>ProductType query parameter. Filter template(s) based on device type.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-projectId"></div>
-                <b>projectId</b>
-                <a class="ansibleOptionLink" href="#parameter-projectId" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>ProjectId query parameter. Filter template(s) based on project UUID.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-projectNames"></div>
-                <b>projectNames</b>
-                <a class="ansibleOptionLink" href="#parameter-projectNames" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>ProjectNames query parameter. Filter template(s) based on project names.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-softwareType"></div>
-                <b>softwareType</b>
-                <a class="ansibleOptionLink" href="#parameter-softwareType" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>SoftwareType query parameter. Filter template(s) based software type.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-softwareVersion"></div>
-                <b>softwareVersion</b>
-                <a class="ansibleOptionLink" href="#parameter-softwareVersion" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>SoftwareVersion query parameter. Filter template(s) based softwareVersion.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-sortOrder"></div>
-                <b>sortOrder</b>
-                <a class="ansibleOptionLink" href="#parameter-sortOrder" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-tags"></div>
-                <b>tags</b>
-                <a class="ansibleOptionLink" href="#parameter-tags" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Tags query parameter. Filter template(s) based on tags.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-templateId"></div>
-                <b>templateId</b>
-                <a class="ansibleOptionLink" href="#parameter-templateId" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>TemplateId path parameter. TemplateId(UUID) to get details of the template.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-unCommitted"></div>
-                <b>unCommitted</b>
-                <a class="ansibleOptionLink" href="#parameter-unCommitted" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li>no</li>
-                                                                                                                                                                                            <li>yes</li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>UnCommitted query parameter. Filter template(s) based on template commited or not.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
-                <b>validate_response_schema</b>
-                <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                                                                <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li>no</li>
-                                                                                                                                                                                            <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</div>
-                                                    </td>
-        </tr>
-                    </table>
-<br/></section>
+<table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Comments</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable debugging.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-default-bold">no</span> <span class="ansible-option-default">← (default)</span></p></li>
+<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-dnac-host"><strong>dnac_host</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco DNA Center hostname.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-dnac-password"><strong>dnac_password</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco DNA Center password to authenticate.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-dnac-port"><strong>dnac_port</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco DNA Center port.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+<div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-user"><span id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
+<p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco DNA Center username to authenticate.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“admin”</span></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-choices-entry">no</span></p></li>
+<li><p><span class="ansible-option-default-bold">yes</span> <span class="ansible-option-default">← (default)</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-dnac-version"><strong>dnac_version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Informs the SDK which version of Cisco DNA Center to use.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“2.2.3.3”</span></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-filterConflictingTemplates"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-filterconflictingtemplates"><strong>filterConflictingTemplates</strong></p>
+<a class="ansibleOptionLink" href="#parameter-filterConflictingTemplates" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>FilterConflictingTemplates query parameter. Filter template(s) based on confliting templates.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-choices-entry">no</span></p></li>
+<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-headers"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-headers"><strong>headers</strong></p>
+<a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Additional headers.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-latestVersion"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-latestversion"><strong>latestVersion</strong></p>
+<a class="ansibleOptionLink" href="#parameter-latestVersion" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>LatestVersion query parameter. LatestVersion flag to get the latest versioned template.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-choices-entry">no</span></p></li>
+<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-productFamily"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-productfamily"><strong>productFamily</strong></p>
+<a class="ansibleOptionLink" href="#parameter-productFamily" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>ProductFamily query parameter. Filter template(s) based on device family.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-productSeries"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-productseries"><strong>productSeries</strong></p>
+<a class="ansibleOptionLink" href="#parameter-productSeries" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>ProductSeries query parameter. Filter template(s) based on device series.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-productType"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-producttype"><strong>productType</strong></p>
+<a class="ansibleOptionLink" href="#parameter-productType" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>ProductType query parameter. Filter template(s) based on device type.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-projectId"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-projectid"><strong>projectId</strong></p>
+<a class="ansibleOptionLink" href="#parameter-projectId" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>ProjectId query parameter. Filter template(s) based on project UUID.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-projectNames"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-projectnames"><strong>projectNames</strong></p>
+<a class="ansibleOptionLink" href="#parameter-projectNames" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>ProjectNames query parameter. Filter template(s) based on project names.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-softwareType"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-softwaretype"><strong>softwareType</strong></p>
+<a class="ansibleOptionLink" href="#parameter-softwareType" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>SoftwareType query parameter. Filter template(s) based software type.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-softwareVersion"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-softwareversion"><strong>softwareVersion</strong></p>
+<a class="ansibleOptionLink" href="#parameter-softwareVersion" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>SoftwareVersion query parameter. Filter template(s) based softwareVersion.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-sortOrder"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-sortorder"><strong>sortOrder</strong></p>
+<a class="ansibleOptionLink" href="#parameter-sortOrder" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-tags"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-tags"><strong>tags</strong></p>
+<a class="ansibleOptionLink" href="#parameter-tags" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Tags query parameter. Filter template(s) based on tags.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-templateId"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-templateid"><strong>templateId</strong></p>
+<a class="ansibleOptionLink" href="#parameter-templateId" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>TemplateId path parameter. TemplateId(UUID) to get details of the template.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-unCommitted"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-uncommitted"><strong>unCommitted</strong></p>
+<a class="ansibleOptionLink" href="#parameter-unCommitted" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>UnCommitted query parameter. Filter template(s) based on template commited or not.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-choices-entry">no</span></p></li>
+<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-parameter-validate-response-schema"><strong>validate_response_schema</strong></p>
+<a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-choices-entry">no</span></p></li>
+<li><p><span class="ansible-option-default-bold">yes</span> <span class="ansible-option-default">← (default)</span></p></li>
+</ul>
+</div></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="notes">
 <h2><a class="toc-backref" href="#id4">Notes</a><a class="headerlink" href="#notes" title="Permalink to this headline"></a></h2>
 <div class="admonition note">
@@ -835,286 +668,69 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </section>
 <section id="examples">
 <h2><a class="toc-backref" href="#id6">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline"></a></h2>
-<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Get all Configuration Template</span>
-  <span class="nt">cisco.dnac.configuration_template_info</span><span class="p">:</span>
-    <span class="nt">dnac_host</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_username</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_password</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_verify</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_port</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_version</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_debug</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">headers</span><span class="p">:</span>
-      <span class="nt">custom</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">value</span>
-    <span class="nt">projectId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-    <span class="nt">softwareType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-    <span class="nt">softwareVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-    <span class="nt">productFamily</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-    <span class="nt">productSeries</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-    <span class="nt">productType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-    <span class="nt">filterConflictingTemplates</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
-    <span class="nt">tags</span><span class="p">:</span> <span class="p p-Indicator">[]</span>
-    <span class="nt">projectNames</span><span class="p">:</span> <span class="p p-Indicator">[]</span>
-    <span class="nt">unCommitted</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
-    <span class="nt">sortOrder</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="nt">register</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">result</span>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Get all Configuration Template</span><span class="w"></span>
+<span class="w">  </span><span class="nt">cisco.dnac.configuration_template_info</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">headers</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">custom</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">value</span><span class="w"></span>
+<span class="w">    </span><span class="nt">projectId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">    </span><span class="nt">softwareType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">    </span><span class="nt">softwareVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">    </span><span class="nt">productFamily</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">    </span><span class="nt">productSeries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">    </span><span class="nt">productType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">    </span><span class="nt">filterConflictingTemplates</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w"></span>
+<span class="w">    </span><span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span><span class="w"></span>
+<span class="w">    </span><span class="nt">projectNames</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span><span class="w"></span>
+<span class="w">    </span><span class="nt">unCommitted</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w"></span>
+<span class="w">    </span><span class="nt">sortOrder</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">  </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result</span><span class="w"></span>
 
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Get Configuration Template by id</span>
-  <span class="nt">cisco.dnac.configuration_template_info</span><span class="p">:</span>
-    <span class="nt">dnac_host</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_username</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_password</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_verify</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_port</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_version</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_debug</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">headers</span><span class="p">:</span>
-      <span class="nt">custom</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">value</span>
-    <span class="nt">latestVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
-    <span class="nt">templateId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-  <span class="nt">register</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">result</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Get Configuration Template by id</span><span class="w"></span>
+<span class="w">  </span><span class="nt">cisco.dnac.configuration_template_info</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">headers</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">custom</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">value</span><span class="w"></span>
+<span class="w">    </span><span class="nt">latestVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w"></span>
+<span class="w">    </span><span class="nt">templateId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">  </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="return-values">
 <h2><a class="toc-backref" href="#id7">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this headline"></a></h2>
 <p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v5)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
-<table border=0 cellpadding=0 class="documentation-table">
-    <tr>
-        <th colspan="1">Key</th>
-        <th>Returned</th>
-        <th width="100%">Description</th>
-    </tr>
-                <tr>
-                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
-                <b>dnac_response</b>
-                <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
-                <div style="font-size: small">
-                  <span style="color: purple">dictionary</span>
-                                      </div>
-                                </td>
-            <td>always</td>
-            <td>
-                                        <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
-                                    <br/>
-                                                            <div style="font-size: smaller"><b>Sample:</b></div>
-                                            <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
-  &quot;tags&quot;: [
-    {
-      &quot;id&quot;: &quot;string&quot;,
-      &quot;name&quot;: &quot;string&quot;
-    }
-  ],
-  &quot;author&quot;: &quot;string&quot;,
-  &quot;composite&quot;: true,
-  &quot;containingTemplates&quot;: [
-    {
-      &quot;tags&quot;: [
-        {
-          &quot;id&quot;: &quot;string&quot;,
-          &quot;name&quot;: &quot;string&quot;
-        }
-      ],
-      &quot;composite&quot;: true,
-      &quot;description&quot;: &quot;string&quot;,
-      &quot;deviceTypes&quot;: [
-        {
-          &quot;productFamily&quot;: &quot;string&quot;,
-          &quot;productSeries&quot;: &quot;string&quot;,
-          &quot;productType&quot;: &quot;string&quot;
-        }
-      ],
-      &quot;id&quot;: &quot;string&quot;,
-      &quot;language&quot;: &quot;string&quot;,
-      &quot;name&quot;: &quot;string&quot;,
-      &quot;projectName&quot;: &quot;string&quot;,
-      &quot;rollbackTemplateParams&quot;: [
-        {
-          &quot;binding&quot;: &quot;string&quot;,
-          &quot;customOrder&quot;: 0,
-          &quot;dataType&quot;: &quot;string&quot;,
-          &quot;defaultValue&quot;: &quot;string&quot;,
-          &quot;description&quot;: &quot;string&quot;,
-          &quot;displayName&quot;: &quot;string&quot;,
-          &quot;group&quot;: &quot;string&quot;,
-          &quot;id&quot;: &quot;string&quot;,
-          &quot;instructionText&quot;: &quot;string&quot;,
-          &quot;key&quot;: &quot;string&quot;,
-          &quot;notParam&quot;: true,
-          &quot;order&quot;: 0,
-          &quot;paramArray&quot;: true,
-          &quot;parameterName&quot;: &quot;string&quot;,
-          &quot;provider&quot;: &quot;string&quot;,
-          &quot;range&quot;: [
-            {
-              &quot;id&quot;: &quot;string&quot;,
-              &quot;maxValue&quot;: 0,
-              &quot;minValue&quot;: 0
-            }
-          ],
-          &quot;required&quot;: true,
-          &quot;selection&quot;: {
-            &quot;defaultSelectedValues&quot;: [
-              &quot;string&quot;
-            ],
-            &quot;id&quot;: &quot;string&quot;,
-            &quot;selectionType&quot;: &quot;string&quot;,
-            &quot;selectionValues&quot;: {}
-          }
-        }
-      ],
-      &quot;templateContent&quot;: &quot;string&quot;,
-      &quot;templateParams&quot;: [
-        {
-          &quot;binding&quot;: &quot;string&quot;,
-          &quot;customOrder&quot;: 0,
-          &quot;dataType&quot;: &quot;string&quot;,
-          &quot;defaultValue&quot;: &quot;string&quot;,
-          &quot;description&quot;: &quot;string&quot;,
-          &quot;displayName&quot;: &quot;string&quot;,
-          &quot;group&quot;: &quot;string&quot;,
-          &quot;id&quot;: &quot;string&quot;,
-          &quot;instructionText&quot;: &quot;string&quot;,
-          &quot;key&quot;: &quot;string&quot;,
-          &quot;notParam&quot;: true,
-          &quot;order&quot;: 0,
-          &quot;paramArray&quot;: true,
-          &quot;parameterName&quot;: &quot;string&quot;,
-          &quot;provider&quot;: &quot;string&quot;,
-          &quot;range&quot;: [
-            {
-              &quot;id&quot;: &quot;string&quot;,
-              &quot;maxValue&quot;: 0,
-              &quot;minValue&quot;: 0
-            }
-          ],
-          &quot;required&quot;: true,
-          &quot;selection&quot;: {
-            &quot;defaultSelectedValues&quot;: [
-              &quot;string&quot;
-            ],
-            &quot;id&quot;: &quot;string&quot;,
-            &quot;selectionType&quot;: &quot;string&quot;,
-            &quot;selectionValues&quot;: {}
-          }
-        }
-      ],
-      &quot;version&quot;: &quot;string&quot;
-    }
-  ],
-  &quot;createTime&quot;: 0,
-  &quot;customParamsOrder&quot;: true,
-  &quot;description&quot;: &quot;string&quot;,
-  &quot;deviceTypes&quot;: [
-    {
-      &quot;productFamily&quot;: &quot;string&quot;,
-      &quot;productSeries&quot;: &quot;string&quot;,
-      &quot;productType&quot;: &quot;string&quot;
-    }
-  ],
-  &quot;documentDatabase&quot;: true,
-  &quot;failurePolicy&quot;: &quot;string&quot;,
-  &quot;id&quot;: &quot;string&quot;,
-  &quot;language&quot;: &quot;string&quot;,
-  &quot;lastUpdateTime&quot;: 0,
-  &quot;latestVersionTime&quot;: 0,
-  &quot;name&quot;: &quot;string&quot;,
-  &quot;parentTemplateId&quot;: &quot;string&quot;,
-  &quot;projectAssociated&quot;: true,
-  &quot;projectId&quot;: &quot;string&quot;,
-  &quot;projectName&quot;: &quot;string&quot;,
-  &quot;rollbackTemplateContent&quot;: &quot;string&quot;,
-  &quot;rollbackTemplateParams&quot;: [
-    {
-      &quot;binding&quot;: &quot;string&quot;,
-      &quot;customOrder&quot;: 0,
-      &quot;dataType&quot;: &quot;string&quot;,
-      &quot;defaultValue&quot;: &quot;string&quot;,
-      &quot;description&quot;: &quot;string&quot;,
-      &quot;displayName&quot;: &quot;string&quot;,
-      &quot;group&quot;: &quot;string&quot;,
-      &quot;id&quot;: &quot;string&quot;,
-      &quot;instructionText&quot;: &quot;string&quot;,
-      &quot;key&quot;: &quot;string&quot;,
-      &quot;notParam&quot;: true,
-      &quot;order&quot;: 0,
-      &quot;paramArray&quot;: true,
-      &quot;parameterName&quot;: &quot;string&quot;,
-      &quot;provider&quot;: &quot;string&quot;,
-      &quot;range&quot;: [
-        {
-          &quot;id&quot;: &quot;string&quot;,
-          &quot;maxValue&quot;: 0,
-          &quot;minValue&quot;: 0
-        }
-      ],
-      &quot;required&quot;: true,
-      &quot;selection&quot;: {
-        &quot;defaultSelectedValues&quot;: [
-          &quot;string&quot;
-        ],
-        &quot;id&quot;: &quot;string&quot;,
-        &quot;selectionType&quot;: &quot;string&quot;,
-        &quot;selectionValues&quot;: {}
-      }
-    }
-  ],
-  &quot;softwareType&quot;: &quot;string&quot;,
-  &quot;softwareVariant&quot;: &quot;string&quot;,
-  &quot;softwareVersion&quot;: &quot;string&quot;,
-  &quot;templateContent&quot;: &quot;string&quot;,
-  &quot;templateParams&quot;: [
-    {
-      &quot;binding&quot;: &quot;string&quot;,
-      &quot;customOrder&quot;: 0,
-      &quot;dataType&quot;: &quot;string&quot;,
-      &quot;defaultValue&quot;: &quot;string&quot;,
-      &quot;description&quot;: &quot;string&quot;,
-      &quot;displayName&quot;: &quot;string&quot;,
-      &quot;group&quot;: &quot;string&quot;,
-      &quot;id&quot;: &quot;string&quot;,
-      &quot;instructionText&quot;: &quot;string&quot;,
-      &quot;key&quot;: &quot;string&quot;,
-      &quot;notParam&quot;: true,
-      &quot;order&quot;: 0,
-      &quot;paramArray&quot;: true,
-      &quot;parameterName&quot;: &quot;string&quot;,
-      &quot;provider&quot;: &quot;string&quot;,
-      &quot;range&quot;: [
-        {
-          &quot;id&quot;: &quot;string&quot;,
-          &quot;maxValue&quot;: 0,
-          &quot;minValue&quot;: 0
-        }
-      ],
-      &quot;required&quot;: true,
-      &quot;selection&quot;: {
-        &quot;defaultSelectedValues&quot;: [
-          &quot;string&quot;
-        ],
-        &quot;id&quot;: &quot;string&quot;,
-        &quot;selectionType&quot;: &quot;string&quot;,
-        &quot;selectionValues&quot;: {}
-      }
-    }
-  ],
-  &quot;validationErrors&quot;: {
-    &quot;rollbackTemplateErrors&quot;: [
-      {}
-    ],
-    &quot;templateErrors&quot;: [
-      {}
-    ],
-    &quot;templateId&quot;: &quot;string&quot;,
-    &quot;templateVersion&quot;: &quot;string&quot;
-  },
-  &quot;version&quot;: &quot;string&quot;
-}</div>
-                                </td>
-        </tr>
-                    </table>
-<br/><br/><section id="authors">
+<table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="return-dnac_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-info-module-return-dnac-response"><strong>dnac_response</strong></p>
+<a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</td>
+<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco DNAC Python SDK</p>
+<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> “{\n  \”tags\”: [\n    {\n      \”id\”: \”string\”,\n      \”name\”: \”string\”\n    }\n  ],\n  \”author\”: \”string\”,\n  \”composite\”: true,\n  \”containingTemplates\”: [\n    {\n      \”tags\”: [\n        {\n          \”id\”: \”string\”,\n          \”name\”: \”string\”\n        }\n      ],\n      \”composite\”: true,\n      \”description\”: \”string\”,\n      \”deviceTypes\”: [\n        {\n          \”productFamily\”: \”string\”,\n          \”productSeries\”: \”string\”,\n          \”productType\”: \”string\”\n        }\n      ],\n      \”id\”: \”string\”,\n      \”language\”: \”string\”,\n      \”name\”: \”string\”,\n      \”projectName\”: \”string\”,\n      \”rollbackTemplateParams\”: [\n        {\n          \”binding\”: \”string\”,\n          \”customOrder\”: 0,\n          \”dataType\”: \”string\”,\n          \”defaultValue\”: \”string\”,\n          \”description\”: \”string\”,\n          \”displayName\”: \”string\”,\n          \”group\”: \”string\”,\n          \”id\”: \”string\”,\n          \”instructionText\”: \”string\”,\n          \”key\”: \”string\”,\n          \”notParam\”: true,\n          \”order\”: 0,\n          \”paramArray\”: true,\n          \”parameterName\”: \”string\”,\n          \”provider\”: \”string\”,\n          \”range\”: [\n            {\n              \”id\”: \”string\”,\n              \”maxValue\”: 0,\n              \”minValue\”: 0\n            }\n          ],\n          \”required\”: true,\n          \”selection\”: {\n            \”defaultSelectedValues\”: [\n              \”string\”\n            ],\n            \”id\”: \”string\”,\n            \”selectionType\”: \”string\”,\n            \”selectionValues\”: {}\n          }\n        }\n      ],\n      \”templateContent\”: \”string\”,\n      \”templateParams\”: [\n        {\n          \”binding\”: \”string\”,\n          \”customOrder\”: 0,\n          \”dataType\”: \”string\”,\n          \”defaultValue\”: \”string\”,\n          \”description\”: \”string\”,\n          \”displayName\”: \”string\”,\n          \”group\”: \”string\”,\n          \”id\”: \”string\”,\n          \”instructionText\”: \”string\”,\n          \”key\”: \”string\”,\n          \”notParam\”: true,\n          \”order\”: 0,\n          \”paramArray\”: true,\n          \”parameterName\”: \”string\”,\n          \”provider\”: \”string\”,\n          \”range\”: [\n            {\n              \”id\”: \”string\”,\n              \”maxValue\”: 0,\n              \”minValue\”: 0\n            }\n          ],\n          \”required\”: true,\n          \”selection\”: {\n            \”defaultSelectedValues\”: [\n              \”string\”\n            ],\n            \”id\”: \”string\”,\n            \”selectionType\”: \”string\”,\n            \”selectionValues\”: {}\n          }\n        }\n      ],\n      \”version\”: \”string\”\n    }\n  ],\n  \”createTime\”: 0,\n  \”customParamsOrder\”: true,\n  \”description\”: \”string\”,\n  \”deviceTypes\”: [\n    {\n      \”productFamily\”: \”string\”,\n      \”productSeries\”: \”string\”,\n      \”productType\”: \”string\”\n    }\n  ],\n  \”documentDatabase\”: true,\n  \”failurePolicy\”: \”string\”,\n  \”id\”: \”string\”,\n  \”language\”: \”string\”,\n  \”lastUpdateTime\”: 0,\n  \”latestVersionTime\”: 0,\n  \”name\”: \”string\”,\n  \”parentTemplateId\”: \”string\”,\n  \”projectAssociated\”: true,\n  \”projectId\”: \”string\”,\n  \”projectName\”: \”string\”,\n  \”rollbackTemplateContent\”: \”string\”,\n  \”rollbackTemplateParams\”: [\n    {\n      \”binding\”: \”string\”,\n      \”customOrder\”: 0,\n      \”dataType\”: \”string\”,\n      \”defaultValue\”: \”string\”,\n      \”description\”: \”string\”,\n      \”displayName\”: \”string\”,\n      \”group\”: \”string\”,\n      \”id\”: \”string\”,\n      \”instructionText\”: \”string\”,\n      \”key\”: \”string\”,\n      \”notParam\”: true,\n      \”order\”: 0,\n      \”paramArray\”: true,\n      \”parameterName\”: \”string\”,\n      \”provider\”: \”string\”,\n      \”range\”: [\n        {\n          \”id\”: \”string\”,\n          \”maxValue\”: 0,\n          \”minValue\”: 0\n        }\n      ],\n      \”required\”: true,\n      \”selection\”: {\n        \”defaultSelectedValues\”: [\n          \”string\”\n        ],\n        \”id\”: \”string\”,\n        \”selectionType\”: \”string\”,\n        \”selectionValues\”: {}\n      }\n    }\n  ],\n  \”softwareType\”: \”string\”,\n  \”softwareVariant\”: \”string\”,\n  \”softwareVersion\”: \”string\”,\n  \”templateContent\”: \”string\”,\n  \”templateParams\”: [\n    {\n      \”binding\”: \”string\”,\n      \”customOrder\”: 0,\n      \”dataType\”: \”string\”,\n      \”defaultValue\”: \”string\”,\n      \”description\”: \”string\”,\n      \”displayName\”: \”string\”,\n      \”group\”: \”string\”,\n      \”id\”: \”string\”,\n      \”instructionText\”: \”string\”,\n      \”key\”: \”string\”,\n      \”notParam\”: true,\n      \”order\”: 0,\n      \”paramArray\”: true,\n      \”parameterName\”: \”string\”,\n      \”provider\”: \”string\”,\n      \”range\”: [\n        {\n          \”id\”: \”string\”,\n          \”maxValue\”: 0,\n          \”minValue\”: 0\n        }\n      ],\n      \”required\”: true,\n      \”selection\”: {\n        \”defaultSelectedValues\”: [\n          \”string\”\n        ],\n        \”id\”: \”string\”,\n        \”selectionType\”: \”string\”,\n        \”selectionValues\”: {}\n      }\n    }\n  ],\n  \”validationErrors\”: {\n    \”rollbackTemplateErrors\”: [\n      {}\n    ],\n    \”templateErrors\”: [\n      {}\n    ],\n    \”templateId\”: \”string\”,\n    \”templateVersion\”: \”string\”\n  },\n  \”version\”: \”string\”\n}\n”</p>
+</td>
+</tr>
+</tbody>
+</table>
+<section id="authors">
 <h3>Authors<a class="headerlink" href="#authors" title="Permalink to this headline"></a></h3>
 <ul class="simple">
 <li><p>Rafael Campos (&#64;racampos)</p></li>

@@ -404,7 +404,7 @@
 <h1>cisco.dnac.sensor_test_template_edit – Resource module for Sensor Test Template Edit<a class="headerlink" href="#cisco-dnac-sensor-test-template-edit-resource-module-for-sensor-test-template-edit" title="Permalink to this headline"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This plugin is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 4.1.0).</p>
+<p>This plugin is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 4.1.1).</p>
 <p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
 It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
 To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
@@ -445,477 +445,230 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </section>
 <section id="parameters">
 <h2><a class="toc-backref" href="#id3">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this headline"></a></h2>
-<table  border=0 cellpadding=0 class="documentation-table">
-    <tr>
-        <th colspan="5">Parameter</th>
-        <th>Choices/<font color="blue">Defaults</font></th>
-                    <th width="100%">Comments</th>
-    </tr>
-                <tr>
-                                                            <td colspan="5">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
-                <b>dnac_debug</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                                                                <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li><div style="color: blue"><b>no</b>&nbsp;&larr;</div></li>
-                                                                                                                                                                                            <li>yes</li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>Flag for Cisco DNA Center SDK to enable debugging.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="5">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
-                <b>dnac_host</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                             / <span style="color: red">required</span>                    </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>The Cisco DNA Center hostname.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="5">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
-                <b>dnac_password</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>The Cisco DNA Center password to authenticate.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="5">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
-                <b>dnac_port</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">443</div>
-                                </td>
-                                                            <td>
-                                        <div>The Cisco DNA Center port.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="5">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
-                <b>dnac_username</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">"admin"</div>
-                                </td>
-                                                            <td>
-                                        <div>The Cisco DNA Center username to authenticate.</div>
-                                                            <div style="font-size: small; color: darkgreen"><br/>aliases: user</div>
-                                </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="5">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
-                <b>dnac_verify</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                                                                <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li>no</li>
-                                                                                                                                                                                            <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>Flag to enable or disable SSL certificate verification.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="5">
-                <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
-                <b>dnac_version</b>
-                <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">"2.2.3.3"</div>
-                                </td>
-                                                            <td>
-                                        <div>Informs the SDK which version of Cisco DNA Center to use.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="5">
-                <div class="ansibleOptionAnchor" id="parameter-locationInfoList"></div>
-                <b>locationInfoList</b>
-                <a class="ansibleOptionLink" href="#parameter-locationInfoList" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Sensor Test Template Edit&#x27;s locationInfoList.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-locationInfoList/allSensors"></div>
-                <b>allSensors</b>
-                <a class="ansibleOptionLink" href="#parameter-locationInfoList/allSensors" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li>no</li>
-                                                                                                                                                                                            <li>yes</li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>All Sensors.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-locationInfoList/locationId"></div>
-                <b>locationId</b>
-                <a class="ansibleOptionLink" href="#parameter-locationInfoList/locationId" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Location Id.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-locationInfoList/locationType"></div>
-                <b>locationType</b>
-                <a class="ansibleOptionLink" href="#parameter-locationInfoList/locationType" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Location Type.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-locationInfoList/siteHierarchy"></div>
-                <b>siteHierarchy</b>
-                <a class="ansibleOptionLink" href="#parameter-locationInfoList/siteHierarchy" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Site Hierarchy.</div>
-                                                    </td>
-        </tr>
-
-                            <tr>
-                                                            <td colspan="5">
-                <div class="ansibleOptionAnchor" id="parameter-schedule"></div>
-                <b>schedule</b>
-                <a class="ansibleOptionLink" href="#parameter-schedule" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Sensor Test Template Edit&#x27;s schedule.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-schedule/frequency"></div>
-                <b>frequency</b>
-                <a class="ansibleOptionLink" href="#parameter-schedule/frequency" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Sensor Test Template Edit&#x27;s frequency.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-schedule/frequency/unit"></div>
-                <b>unit</b>
-                <a class="ansibleOptionLink" href="#parameter-schedule/frequency/unit" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Unit.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-schedule/frequency/value"></div>
-                <b>value</b>
-                <a class="ansibleOptionLink" href="#parameter-schedule/frequency/value" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">integer</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Value.</div>
-                                                    </td>
-        </tr>
-
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange"></div>
-                <b>scheduleRange</b>
-                <a class="ansibleOptionLink" href="#parameter-schedule/scheduleRange" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Sensor Test Template Edit&#x27;s scheduleRange.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/day"></div>
-                <b>day</b>
-                <a class="ansibleOptionLink" href="#parameter-schedule/scheduleRange/day" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Day.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="3">
-                <div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange"></div>
-                <b>timeRange</b>
-                <a class="ansibleOptionLink" href="#parameter-schedule/scheduleRange/timeRange" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">list</span>
-                     / <span style="color: purple">elements=string</span>                                            </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Sensor Test Template Edit&#x27;s timeRange.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange/frequency"></div>
-                <b>frequency</b>
-                <a class="ansibleOptionLink" href="#parameter-schedule/scheduleRange/timeRange/frequency" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">dictionary</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Sensor Test Template Edit&#x27;s frequency.</div>
-                                                    </td>
-        </tr>
-                                    <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange/frequency/unit"></div>
-                <b>unit</b>
-                <a class="ansibleOptionLink" href="#parameter-schedule/scheduleRange/timeRange/frequency/unit" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Unit.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange/frequency/value"></div>
-                <b>value</b>
-                <a class="ansibleOptionLink" href="#parameter-schedule/scheduleRange/timeRange/frequency/value" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">integer</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Value.</div>
-                                                    </td>
-        </tr>
-
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange/from"></div>
-                <b>from</b>
-                <a class="ansibleOptionLink" href="#parameter-schedule/scheduleRange/timeRange/from" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>From.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                <td class="elbow-placeholder"></td>
-                                            <td colspan="2">
-                <div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange/to"></div>
-                <b>to</b>
-                <a class="ansibleOptionLink" href="#parameter-schedule/scheduleRange/timeRange/to" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>To.</div>
-                                                    </td>
-        </tr>
-
-
-                            <tr>
-                                                <td class="elbow-placeholder"></td>
-                                            <td colspan="4">
-                <div class="ansibleOptionAnchor" id="parameter-schedule/testScheduleMode"></div>
-                <b>testScheduleMode</b>
-                <a class="ansibleOptionLink" href="#parameter-schedule/testScheduleMode" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Test Schedule Mode.</div>
-                                                    </td>
-        </tr>
-
-                            <tr>
-                                                            <td colspan="5">
-                <div class="ansibleOptionAnchor" id="parameter-templateName"></div>
-                <b>templateName</b>
-                <a class="ansibleOptionLink" href="#parameter-templateName" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">string</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                        </td>
-                                                            <td>
-                                        <div>Template Name.</div>
-                                                    </td>
-        </tr>
-                            <tr>
-                                                            <td colspan="5">
-                <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
-                <b>validate_response_schema</b>
-                <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
-                <div style="font-size: small">
-                    <span style="color: purple">boolean</span>
-                                                                </div>
-                                                    </td>
-                            <td>
-                                                                                                                                                                                                                <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                            <li>no</li>
-                                                                                                                                                                                            <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
-                                                                                </ul>
-                                                                        </td>
-                                                            <td>
-                                        <div>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</div>
-                                                    </td>
-        </tr>
-                    </table>
-<br/></section>
+<table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Comments</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable debugging.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-default-bold">no</span> <span class="ansible-option-default">← (default)</span></p></li>
+<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-dnac-host"><strong>dnac_host</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco DNA Center hostname.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-dnac-password"><strong>dnac_password</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco DNA Center password to authenticate.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-dnac-port"><strong>dnac_port</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco DNA Center port.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+<div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-user"><span id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
+<p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco DNA Center username to authenticate.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“admin”</span></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-choices-entry">no</span></p></li>
+<li><p><span class="ansible-option-default-bold">yes</span> <span class="ansible-option-default">← (default)</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-dnac-version"><strong>dnac_version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Informs the SDK which version of Cisco DNA Center to use.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“2.2.3.3”</span></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-locationInfoList"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-locationinfolist"><strong>locationInfoList</strong></p>
+<a class="ansibleOptionLink" href="#parameter-locationInfoList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Sensor Test Template Edit’s locationInfoList.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-locationInfoList/allSensors"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-locationinfolist-allsensors"><strong>allSensors</strong></p>
+<a class="ansibleOptionLink" href="#parameter-locationInfoList/allSensors" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>All Sensors.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-choices-entry">no</span></p></li>
+<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-locationInfoList/locationId"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-locationinfolist-locationid"><strong>locationId</strong></p>
+<a class="ansibleOptionLink" href="#parameter-locationInfoList/locationId" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Location Id.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-locationInfoList/locationType"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-locationinfolist-locationtype"><strong>locationType</strong></p>
+<a class="ansibleOptionLink" href="#parameter-locationInfoList/locationType" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Location Type.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-locationInfoList/siteHierarchy"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-locationinfolist-sitehierarchy"><strong>siteHierarchy</strong></p>
+<a class="ansibleOptionLink" href="#parameter-locationInfoList/siteHierarchy" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Site Hierarchy.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-schedule"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-schedule"><strong>schedule</strong></p>
+<a class="ansibleOptionLink" href="#parameter-schedule" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Sensor Test Template Edit’s schedule.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-schedule/frequency"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-schedule-frequency"><strong>frequency</strong></p>
+<a class="ansibleOptionLink" href="#parameter-schedule/frequency" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Sensor Test Template Edit’s frequency.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-schedule/frequency/unit"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-schedule-frequency-unit"><strong>unit</strong></p>
+<a class="ansibleOptionLink" href="#parameter-schedule/frequency/unit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Unit.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-schedule/frequency/value"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-schedule-frequency-value"><strong>value</strong></p>
+<a class="ansibleOptionLink" href="#parameter-schedule/frequency/value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Value.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-schedule-schedulerange"><strong>scheduleRange</strong></p>
+<a class="ansibleOptionLink" href="#parameter-schedule/scheduleRange" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Sensor Test Template Edit’s scheduleRange.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/day"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-schedule-schedulerange-day"><strong>day</strong></p>
+<a class="ansibleOptionLink" href="#parameter-schedule/scheduleRange/day" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Day.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-schedule-schedulerange-timerange"><strong>timeRange</strong></p>
+<a class="ansibleOptionLink" href="#parameter-schedule/scheduleRange/timeRange" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Sensor Test Template Edit’s timeRange.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange/frequency"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-schedule-schedulerange-timerange-frequency"><strong>frequency</strong></p>
+<a class="ansibleOptionLink" href="#parameter-schedule/scheduleRange/timeRange/frequency" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Sensor Test Template Edit’s frequency.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange/frequency/unit"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-schedule-schedulerange-timerange-frequency-unit"><strong>unit</strong></p>
+<a class="ansibleOptionLink" href="#parameter-schedule/scheduleRange/timeRange/frequency/unit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Unit.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange/frequency/value"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-schedule-schedulerange-timerange-frequency-value"><strong>value</strong></p>
+<a class="ansibleOptionLink" href="#parameter-schedule/scheduleRange/timeRange/frequency/value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Value.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange/from"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-schedule-schedulerange-timerange-from"><strong>from</strong></p>
+<a class="ansibleOptionLink" href="#parameter-schedule/scheduleRange/timeRange/from" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>From.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange/to"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-schedule-schedulerange-timerange-to"><strong>to</strong></p>
+<a class="ansibleOptionLink" href="#parameter-schedule/scheduleRange/timeRange/to" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>To.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-schedule/testScheduleMode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-schedule-testschedulemode"><strong>testScheduleMode</strong></p>
+<a class="ansibleOptionLink" href="#parameter-schedule/testScheduleMode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Test Schedule Mode.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-templateName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-templatename"><strong>templateName</strong></p>
+<a class="ansibleOptionLink" href="#parameter-templateName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Template Name.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-parameter-validate-response-schema"><strong>validate_response_schema</strong></p>
+<a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-choices-entry">no</span></p></li>
+<li><p><span class="ansible-option-default-bold">yes</span> <span class="ansible-option-default">← (default)</span></p></li>
+</ul>
+</div></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="notes">
 <h2><a class="toc-backref" href="#id4">Notes</a><a class="headerlink" href="#notes" title="Permalink to this headline"></a></h2>
 <div class="admonition note">
@@ -939,193 +692,59 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </section>
 <section id="examples">
 <h2><a class="toc-backref" href="#id6">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline"></a></h2>
-<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Update all</span>
-  <span class="nt">cisco.dnac.sensor_test_template_edit</span><span class="p">:</span>
-    <span class="nt">dnac_host</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_username</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_password</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_verify</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_port</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_version</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">dnac_debug</span><span class="p">:</span> <span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-    <span class="nt">locationInfoList</span><span class="p">:</span>
-    <span class="p p-Indicator">-</span> <span class="nt">allSensors</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="nt">locationId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">locationType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">siteHierarchy</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-    <span class="nt">schedule</span><span class="p">:</span>
-      <span class="nt">frequency</span><span class="p">:</span>
-        <span class="nt">unit</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">value</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-      <span class="nt">scheduleRange</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="nt">day</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-        <span class="nt">timeRange</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="nt">frequency</span><span class="p">:</span>
-            <span class="nt">unit</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-            <span class="nt">value</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-          <span class="nt">from</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-          <span class="nt">to</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-      <span class="nt">testScheduleMode</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
-    <span class="nt">templateName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update all</span><span class="w"></span>
+<span class="w">  </span><span class="nt">cisco.dnac.sensor_test_template_edit</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">locationInfoList</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">allSensors</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">      </span><span class="nt">locationId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">locationType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">siteHierarchy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">    </span><span class="nt">schedule</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">frequency</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">unit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">        </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w"></span>
+<span class="w">      </span><span class="nt">scheduleRange</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">day</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">        </span><span class="nt">timeRange</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">frequency</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="nt">unit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">            </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w"></span>
+<span class="w">          </span><span class="nt">from</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">          </span><span class="nt">to</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">testScheduleMode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">    </span><span class="nt">templateName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="return-values">
 <h2><a class="toc-backref" href="#id7">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this headline"></a></h2>
 <p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v5)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
-<table border=0 cellpadding=0 class="documentation-table">
-    <tr>
-        <th colspan="1">Key</th>
-        <th>Returned</th>
-        <th width="100%">Description</th>
-    </tr>
-                <tr>
-                            <td colspan="1">
-                <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
-                <b>dnac_response</b>
-                <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
-                <div style="font-size: small">
-                  <span style="color: purple">dictionary</span>
-                                      </div>
-                                </td>
-            <td>always</td>
-            <td>
-                                        <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
-                                    <br/>
-                                                            <div style="font-size: smaller"><b>Sample:</b></div>
-                                            <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
-  &quot;version&quot;: &quot;string&quot;,
-  &quot;response&quot;: {
-    &quot;_id&quot;: &quot;string&quot;,
-    &quot;name&quot;: &quot;string&quot;,
-    &quot;version&quot;: 0,
-    &quot;modelVersion&quot;: 0,
-    &quot;startTime&quot;: 0,
-    &quot;lastModifiedTime&quot;: 0,
-    &quot;numAssociatedSensor&quot;: 0,
-    &quot;location&quot;: {},
-    &quot;siteHierarchy&quot;: {},
-    &quot;status&quot;: &quot;string&quot;,
-    &quot;connection&quot;: &quot;string&quot;,
-    &quot;frequency&quot;: {},
-    &quot;rssiThreshold&quot;: 0,
-    &quot;numNeighborAPThreshold&quot;: 0,
-    &quot;scheduleInDays&quot;: 0,
-    &quot;wlans&quot;: [
-      {}
-    ],
-    &quot;ssids&quot;: [
-      {
-        &quot;bands&quot;: {},
-        &quot;ssid&quot;: &quot;string&quot;,
-        &quot;profileName&quot;: &quot;string&quot;,
-        &quot;authType&quot;: &quot;string&quot;,
-        &quot;authTypeRcvd&quot;: {},
-        &quot;psk&quot;: &quot;string&quot;,
-        &quot;username&quot;: {},
-        &quot;password&quot;: {},
-        &quot;eapMethod&quot;: {},
-        &quot;scep&quot;: true,
-        &quot;authProtocol&quot;: {},
-        &quot;certfilename&quot;: {},
-        &quot;certxferprotocol&quot;: &quot;string&quot;,
-        &quot;certstatus&quot;: &quot;string&quot;,
-        &quot;certpassphrase&quot;: {},
-        &quot;certdownloadurl&quot;: {},
-        &quot;numAps&quot;: 0,
-        &quot;numSensors&quot;: 0,
-        &quot;layer3webAuthsecurity&quot;: {},
-        &quot;layer3webAuthuserName&quot;: {},
-        &quot;layer3webAuthpassword&quot;: {},
-        &quot;extWebAuthVirtualIp&quot;: {},
-        &quot;layer3webAuthEmailAddress&quot;: {},
-        &quot;qosPolicy&quot;: &quot;string&quot;,
-        &quot;extWebAuth&quot;: true,
-        &quot;whiteList&quot;: true,
-        &quot;extWebAuthPortal&quot;: {},
-        &quot;extWebAuthAccessUrl&quot;: {},
-        &quot;extWebAuthHtmlTag&quot;: [
-          {}
-        ],
-        &quot;thirdParty&quot;: {
-          &quot;selected&quot;: true
-        },
-        &quot;id&quot;: 0,
-        &quot;wlanId&quot;: 0,
-        &quot;wlc&quot;: {},
-        &quot;validFrom&quot;: 0,
-        &quot;validTo&quot;: 0,
-        &quot;status&quot;: &quot;string&quot;,
-        &quot;tests&quot;: [
-          {
-            &quot;name&quot;: &quot;string&quot;,
-            &quot;config&quot;: [
-              {}
-            ]
-          }
-        ]
-      }
-    ],
-    &quot;testScheduleMode&quot;: &quot;string&quot;,
-    &quot;showWlcUpgradeBanner&quot;: true,
-    &quot;radioAsSensorRemoved&quot;: true,
-    &quot;encryptionMode&quot;: &quot;string&quot;,
-    &quot;runNow&quot;: &quot;string&quot;,
-    &quot;locationInfoList&quot;: [
-      {
-        &quot;locationId&quot;: &quot;string&quot;,
-        &quot;locationType&quot;: &quot;string&quot;,
-        &quot;allSensors&quot;: true,
-        &quot;siteHierarchy&quot;: &quot;string&quot;,
-        &quot;macAddressList&quot;: [
-          {}
-        ]
-      }
-    ],
-    &quot;schedule&quot;: {
-      &quot;testScheduleMode&quot;: &quot;string&quot;,
-      &quot;scheduleRange&quot;: [
-        {
-          &quot;timeRange&quot;: [
-            {
-              &quot;from&quot;: &quot;string&quot;,
-              &quot;to&quot;: &quot;string&quot;,
-              &quot;frequency&quot;: {
-                &quot;value&quot;: 0,
-                &quot;unit&quot;: &quot;string&quot;
-              }
-            }
-          ],
-          &quot;day&quot;: &quot;string&quot;
-        }
-      ],
-      &quot;startTime&quot;: 0,
-      &quot;frequency&quot;: {
-        &quot;value&quot;: 0,
-        &quot;unit&quot;: &quot;string&quot;
-      }
-    },
-    &quot;tests&quot;: {},
-    &quot;sensors&quot;: [
-      {}
-    ],
-    &quot;apCoverage&quot;: [
-      {
-        &quot;bands&quot;: &quot;string&quot;,
-        &quot;numberOfApsToTest&quot;: 0,
-        &quot;rssiThreshold&quot;: 0
-      }
-    ],
-    &quot;testDurationEstimate&quot;: 0,
-    &quot;testTemplate&quot;: true,
-    &quot;legacyTestSuite&quot;: true,
-    &quot;tenantId&quot;: &quot;string&quot;
-  }
-}</div>
-                                </td>
-        </tr>
-                    </table>
-<br/><br/><section id="authors">
+<table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="return-dnac_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sensor-test-template-edit-module-return-dnac-response"><strong>dnac_response</strong></p>
+<a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</td>
+<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco DNAC Python SDK</p>
+<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> “{\n  \”version\”: \”string\”,\n  \”response\”: {\n    \”_id\”: \”string\”,\n    \”name\”: \”string\”,\n    \”version\”: 0,\n    \”modelVersion\”: 0,\n    \”startTime\”: 0,\n    \”lastModifiedTime\”: 0,\n    \”numAssociatedSensor\”: 0,\n    \”location\”: {},\n    \”siteHierarchy\”: {},\n    \”status\”: \”string\”,\n    \”connection\”: \”string\”,\n    \”frequency\”: {},\n    \”rssiThreshold\”: 0,\n    \”numNeighborAPThreshold\”: 0,\n    \”scheduleInDays\”: 0,\n    \”wlans\”: [\n      {}\n    ],\n    \”ssids\”: [\n      {\n        \”bands\”: {},\n        \”ssid\”: \”string\”,\n        \”profileName\”: \”string\”,\n        \”authType\”: \”string\”,\n        \”authTypeRcvd\”: {},\n        \”psk\”: \”string\”,\n        \”username\”: {},\n        \”password\”: {},\n        \”eapMethod\”: {},\n        \”scep\”: true,\n        \”authProtocol\”: {},\n        \”certfilename\”: {},\n        \”certxferprotocol\”: \”string\”,\n        \”certstatus\”: \”string\”,\n        \”certpassphrase\”: {},\n        \”certdownloadurl\”: {},\n        \”numAps\”: 0,\n        \”numSensors\”: 0,\n        \”layer3webAuthsecurity\”: {},\n        \”layer3webAuthuserName\”: {},\n        \”layer3webAuthpassword\”: {},\n        \”extWebAuthVirtualIp\”: {},\n        \”layer3webAuthEmailAddress\”: {},\n        \”qosPolicy\”: \”string\”,\n        \”extWebAuth\”: true,\n        \”whiteList\”: true,\n        \”extWebAuthPortal\”: {},\n        \”extWebAuthAccessUrl\”: {},\n        \”extWebAuthHtmlTag\”: [\n          {}\n        ],\n        \”thirdParty\”: {\n          \”selected\”: true\n        },\n        \”id\”: 0,\n        \”wlanId\”: 0,\n        \”wlc\”: {},\n        \”validFrom\”: 0,\n        \”validTo\”: 0,\n        \”status\”: \”string\”,\n        \”tests\”: [\n          {\n            \”name\”: \”string\”,\n            \”config\”: [\n              {}\n            ]\n          }\n        ]\n      }\n    ],\n    \”testScheduleMode\”: \”string\”,\n    \”showWlcUpgradeBanner\”: true,\n    \”radioAsSensorRemoved\”: true,\n    \”encryptionMode\”: \”string\”,\n    \”runNow\”: \”string\”,\n    \”locationInfoList\”: [\n      {\n        \”locationId\”: \”string\”,\n        \”locationType\”: \”string\”,\n        \”allSensors\”: true,\n        \”siteHierarchy\”: \”string\”,\n        \”macAddressList\”: [\n          {}\n        ]\n      }\n    ],\n    \”schedule\”: {\n      \”testScheduleMode\”: \”string\”,\n      \”scheduleRange\”: [\n        {\n          \”timeRange\”: [\n            {\n              \”from\”: \”string\”,\n              \”to\”: \”string\”,\n              \”frequency\”: {\n                \”value\”: 0,\n                \”unit\”: \”string\”\n              }\n            }\n          ],\n          \”day\”: \”string\”\n        }\n      ],\n      \”startTime\”: 0,\n      \”frequency\”: {\n        \”value\”: 0,\n        \”unit\”: \”string\”\n      }\n    },\n    \”tests\”: {},\n    \”sensors\”: [\n      {}\n    ],\n    \”apCoverage\”: [\n      {\n        \”bands\”: \”string\”,\n        \”numberOfApsToTest\”: 0,\n        \”rssiThreshold\”: 0\n      }\n    ],\n    \”testDurationEstimate\”: 0,\n    \”testTemplate\”: true,\n    \”legacyTestSuite\”: true,\n    \”tenantId\”: \”string\”\n  }\n}\n”</p>
+</td>
+</tr>
+</tbody>
+</table>
+<section id="authors">
 <h3>Authors<a class="headerlink" href="#authors" title="Permalink to this headline"></a></h3>
 <ul class="simple">
 <li><p>Rafael Campos (&#64;racampos)</p></li>

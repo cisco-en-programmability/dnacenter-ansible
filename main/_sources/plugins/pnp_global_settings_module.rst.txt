@@ -11,6 +11,18 @@
 .. role:: ansible-attribute-support-partial
 .. role:: ansible-attribute-support-none
 .. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-entry
+.. role:: ansible-option-default
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
 
 .. Anchors
 
@@ -30,7 +42,7 @@ cisco.dnac.pnp_global_settings -- Resource module for Pnp Global Settings
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.0).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -79,869 +91,1824 @@ The below requirements are needed on the host that executes this module.
 Parameters
 ----------
 
-.. raw:: html
+.. rst-class:: ansible-option-table
 
-    <table  border=0 cellpadding=0 class="documentation-table">
-        <tr>
-            <th colspan="4">Parameter</th>
-            <th>Choices/<font color="blue">Defaults</font></th>
-                        <th width="100%">Comments</th>
-        </tr>
-                    <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-_id"></div>
-                    <b>_id</b>
-                    <a class="ansibleOptionLink" href="#parameter-_id" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s _id.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-aaaCredentials"></div>
-                    <b>aaaCredentials</b>
-                    <a class="ansibleOptionLink" href="#parameter-aaaCredentials" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s aaaCredentials.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-aaaCredentials/password"></div>
-                    <b>password</b>
-                    <a class="ansibleOptionLink" href="#parameter-aaaCredentials/password" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s password.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-aaaCredentials/username"></div>
-                    <b>username</b>
-                    <a class="ansibleOptionLink" href="#parameter-aaaCredentials/username" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s username.</div>
-                                                        </td>
-            </tr>
-                    
-                                <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-acceptEula"></div>
-                    <b>acceptEula</b>
-                    <a class="ansibleOptionLink" href="#parameter-acceptEula" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>AcceptEula flag.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-defaultProfile"></div>
-                    <b>defaultProfile</b>
-                    <a class="ansibleOptionLink" href="#parameter-defaultProfile" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s defaultProfile.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-defaultProfile/cert"></div>
-                    <b>cert</b>
-                    <a class="ansibleOptionLink" href="#parameter-defaultProfile/cert" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s cert.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-defaultProfile/fqdnAddresses"></div>
-                    <b>fqdnAddresses</b>
-                    <a class="ansibleOptionLink" href="#parameter-defaultProfile/fqdnAddresses" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>                                            </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s fqdnAddresses.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-defaultProfile/ipAddresses"></div>
-                    <b>ipAddresses</b>
-                    <a class="ansibleOptionLink" href="#parameter-defaultProfile/ipAddresses" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>                                            </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s ipAddresses.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-defaultProfile/port"></div>
-                    <b>port</b>
-                    <a class="ansibleOptionLink" href="#parameter-defaultProfile/port" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s port.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-defaultProfile/proxy"></div>
-                    <b>proxy</b>
-                    <a class="ansibleOptionLink" href="#parameter-defaultProfile/proxy" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>Proxy flag.</div>
-                                                        </td>
-            </tr>
-                    
-                                <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
-                    <b>dnac_debug</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li><div style="color: blue"><b>no</b>&nbsp;&larr;</div></li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>Flag for Cisco DNA Center SDK to enable debugging.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
-                    <b>dnac_host</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>The Cisco DNA Center hostname.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
-                    <b>dnac_password</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>The Cisco DNA Center password to authenticate.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
-                    <b>dnac_port</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">443</div>
-                                    </td>
-                                                                <td>
-                                            <div>The Cisco DNA Center port.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
-                    <b>dnac_username</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"admin"</div>
-                                    </td>
-                                                                <td>
-                                            <div>The Cisco DNA Center username to authenticate.</div>
-                                                                <div style="font-size: small; color: darkgreen"><br/>aliases: user</div>
-                                    </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
-                    <b>dnac_verify</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>Flag to enable or disable SSL certificate verification.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
-                    <b>dnac_version</b>
-                    <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">"2.2.3.3"</div>
-                                    </td>
-                                                                <td>
-                                            <div>Informs the SDK which version of Cisco DNA Center to use.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList"></div>
-                    <b>savaMappingList</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>                                            </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s savaMappingList.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/autoSyncPeriod"></div>
-                    <b>autoSyncPeriod</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/autoSyncPeriod" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s autoSyncPeriod.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/ccoUser"></div>
-                    <b>ccoUser</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/ccoUser" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s ccoUser.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/expiry"></div>
-                    <b>expiry</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/expiry" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s expiry.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/lastSync"></div>
-                    <b>lastSync</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/lastSync" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s lastSync.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile"></div>
-                    <b>profile</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s profile.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/addressFqdn"></div>
-                    <b>addressFqdn</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile/addressFqdn" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s addressFqdn.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/addressIpV4"></div>
-                    <b>addressIpV4</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile/addressIpV4" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s addressIpV4.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/cert"></div>
-                    <b>cert</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile/cert" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s cert.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/makeDefault"></div>
-                    <b>makeDefault</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile/makeDefault" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>MakeDefault flag.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/name"></div>
-                    <b>name</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile/name" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s name.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/port"></div>
-                    <b>port</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile/port" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s port.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/profileId"></div>
-                    <b>profileId</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile/profileId" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s profileId.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/proxy"></div>
-                    <b>proxy</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile/proxy" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>Proxy flag.</div>
-                                                        </td>
-            </tr>
-                    
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/smartAccountId"></div>
-                    <b>smartAccountId</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/smartAccountId" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s smartAccountId.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult"></div>
-                    <b>syncResult</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResult" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s syncResult.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult/syncList"></div>
-                    <b>syncList</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResult/syncList" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>                                            </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s syncList.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult/syncList/deviceSnList"></div>
-                    <b>deviceSnList</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResult/syncList/deviceSnList" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>                                            </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s deviceSnList.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult/syncList/syncType"></div>
-                    <b>syncType</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResult/syncList/syncType" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s syncType.</div>
-                                                        </td>
-            </tr>
-                    
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="2">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult/syncMsg"></div>
-                    <b>syncMsg</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResult/syncMsg" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s syncMsg.</div>
-                                                        </td>
-            </tr>
-                    
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResultStr"></div>
-                    <b>syncResultStr</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResultStr" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s syncResultStr.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncStartTime"></div>
-                    <b>syncStartTime</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncStartTime" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s syncStartTime.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncStatus"></div>
-                    <b>syncStatus</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncStatus" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s syncStatus.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/tenantId"></div>
-                    <b>tenantId</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/tenantId" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s tenantId.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/token"></div>
-                    <b>token</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/token" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s token.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-savaMappingList/virtualAccountId"></div>
-                    <b>virtualAccountId</b>
-                    <a class="ansibleOptionLink" href="#parameter-savaMappingList/virtualAccountId" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s virtualAccountId.</div>
-                                                        </td>
-            </tr>
-                    
-                                <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-taskTimeOuts"></div>
-                    <b>taskTimeOuts</b>
-                    <a class="ansibleOptionLink" href="#parameter-taskTimeOuts" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s taskTimeOuts.</div>
-                                                        </td>
-            </tr>
-                                        <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-taskTimeOuts/configTimeOut"></div>
-                    <b>configTimeOut</b>
-                    <a class="ansibleOptionLink" href="#parameter-taskTimeOuts/configTimeOut" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s configTimeOut.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-taskTimeOuts/generalTimeOut"></div>
-                    <b>generalTimeOut</b>
-                    <a class="ansibleOptionLink" href="#parameter-taskTimeOuts/generalTimeOut" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s generalTimeOut.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="3">
-                    <div class="ansibleOptionAnchor" id="parameter-taskTimeOuts/imageDownloadTimeOut"></div>
-                    <b>imageDownloadTimeOut</b>
-                    <a class="ansibleOptionLink" href="#parameter-taskTimeOuts/imageDownloadTimeOut" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s imageDownloadTimeOut.</div>
-                                                        </td>
-            </tr>
-                    
-                                <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-tenantId"></div>
-                    <b>tenantId</b>
-                    <a class="ansibleOptionLink" href="#parameter-tenantId" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s tenantId.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
-                    <b>validate_response_schema</b>
-                    <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="4">
-                    <div class="ansibleOptionAnchor" id="parameter-version"></div>
-                    <b>version</b>
-                    <a class="ansibleOptionLink" href="#parameter-version" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Pnp Global Settings&#x27;s version.</div>
-                                                        </td>
-            </tr>
-                        </table>
-    <br/>
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_id"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-_id:
+
+      .. rst-class:: ansible-option-title
+
+      **_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Global Settings's _id.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-aaaCredentials"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-aaaCredentials:
+
+      .. rst-class:: ansible-option-title
+
+      **aaaCredentials**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-aaaCredentials" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Global Settings's aaaCredentials.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-aaaCredentials/password"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-aaaCredentials/password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-aaaCredentials/password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's password.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-aaaCredentials/username"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-aaaCredentials/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-aaaCredentials/username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's username.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-acceptEula"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-acceptEula:
+
+      .. rst-class:: ansible-option-title
+
+      **acceptEula**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-acceptEula" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      AcceptEula flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-defaultProfile"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultProfile:
+
+      .. rst-class:: ansible-option-title
+
+      **defaultProfile**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-defaultProfile" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Global Settings's defaultProfile.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-defaultProfile/cert"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultProfile/cert:
+
+      .. rst-class:: ansible-option-title
+
+      **cert**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-defaultProfile/cert" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's cert.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-defaultProfile/fqdnAddresses"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultProfile/fqdnAddresses:
+
+      .. rst-class:: ansible-option-title
+
+      **fqdnAddresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-defaultProfile/fqdnAddresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's fqdnAddresses.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-defaultProfile/ipAddresses"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultProfile/ipAddresses:
+
+      .. rst-class:: ansible-option-title
+
+      **ipAddresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-defaultProfile/ipAddresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's ipAddresses.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-defaultProfile/port"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultProfile/port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-defaultProfile/port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-defaultProfile/proxy"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultProfile/proxy:
+
+      .. rst-class:: ansible-option-title
+
+      **proxy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-defaultProfile/proxy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Proxy flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList:
+
+      .. rst-class:: ansible-option-title
+
+      **savaMappingList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Global Settings's savaMappingList.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/autoSyncPeriod"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/autoSyncPeriod:
+
+      .. rst-class:: ansible-option-title
+
+      **autoSyncPeriod**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/autoSyncPeriod" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's autoSyncPeriod.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/ccoUser"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/ccoUser:
+
+      .. rst-class:: ansible-option-title
+
+      **ccoUser**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/ccoUser" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's ccoUser.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/expiry"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/expiry:
+
+      .. rst-class:: ansible-option-title
+
+      **expiry**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/expiry" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's expiry.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/lastSync"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/lastSync:
+
+      .. rst-class:: ansible-option-title
+
+      **lastSync**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/lastSync" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's lastSync.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile:
+
+      .. rst-class:: ansible-option-title
+
+      **profile**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's profile.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/addressFqdn"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile/addressFqdn:
+
+      .. rst-class:: ansible-option-title
+
+      **addressFqdn**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile/addressFqdn" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's addressFqdn.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/addressIpV4"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile/addressIpV4:
+
+      .. rst-class:: ansible-option-title
+
+      **addressIpV4**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile/addressIpV4" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's addressIpV4.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/cert"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile/cert:
+
+      .. rst-class:: ansible-option-title
+
+      **cert**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile/cert" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's cert.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/makeDefault"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile/makeDefault:
+
+      .. rst-class:: ansible-option-title
+
+      **makeDefault**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile/makeDefault" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      MakeDefault flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/name"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/port"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile/port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile/port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/profileId"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile/profileId:
+
+      .. rst-class:: ansible-option-title
+
+      **profileId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile/profileId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's profileId.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/proxy"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile/proxy:
+
+      .. rst-class:: ansible-option-title
+
+      **proxy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/profile/proxy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Proxy flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/smartAccountId"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/smartAccountId:
+
+      .. rst-class:: ansible-option-title
+
+      **smartAccountId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/smartAccountId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's smartAccountId.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/syncResult:
+
+      .. rst-class:: ansible-option-title
+
+      **syncResult**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResult" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's syncResult.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult/syncList"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/syncResult/syncList:
+
+      .. rst-class:: ansible-option-title
+
+      **syncList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResult/syncList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's syncList.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult/syncList/deviceSnList"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/syncResult/syncList/deviceSnList:
+
+      .. rst-class:: ansible-option-title
+
+      **deviceSnList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResult/syncList/deviceSnList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's deviceSnList.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult/syncList/syncType"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/syncResult/syncList/syncType:
+
+      .. rst-class:: ansible-option-title
+
+      **syncType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResult/syncList/syncType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's syncType.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult/syncMsg"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/syncResult/syncMsg:
+
+      .. rst-class:: ansible-option-title
+
+      **syncMsg**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResult/syncMsg" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's syncMsg.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResultStr"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/syncResultStr:
+
+      .. rst-class:: ansible-option-title
+
+      **syncResultStr**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncResultStr" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's syncResultStr.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncStartTime"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/syncStartTime:
+
+      .. rst-class:: ansible-option-title
+
+      **syncStartTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncStartTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's syncStartTime.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncStatus"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/syncStatus:
+
+      .. rst-class:: ansible-option-title
+
+      **syncStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/syncStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's syncStatus.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/tenantId"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/tenantId:
+
+      .. rst-class:: ansible-option-title
+
+      **tenantId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/tenantId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's tenantId.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/token"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/token:
+
+      .. rst-class:: ansible-option-title
+
+      **token**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/token" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's token.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-savaMappingList/virtualAccountId"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/virtualAccountId:
+
+      .. rst-class:: ansible-option-title
+
+      **virtualAccountId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-savaMappingList/virtualAccountId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's virtualAccountId.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-taskTimeOuts"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-taskTimeOuts:
+
+      .. rst-class:: ansible-option-title
+
+      **taskTimeOuts**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-taskTimeOuts" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Global Settings's taskTimeOuts.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-taskTimeOuts/configTimeOut"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-taskTimeOuts/configTimeOut:
+
+      .. rst-class:: ansible-option-title
+
+      **configTimeOut**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-taskTimeOuts/configTimeOut" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's configTimeOut.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-taskTimeOuts/generalTimeOut"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-taskTimeOuts/generalTimeOut:
+
+      .. rst-class:: ansible-option-title
+
+      **generalTimeOut**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-taskTimeOuts/generalTimeOut" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's generalTimeOut.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-taskTimeOuts/imageDownloadTimeOut"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-taskTimeOuts/imageDownloadTimeOut:
+
+      .. rst-class:: ansible-option-title
+
+      **imageDownloadTimeOut**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-taskTimeOuts/imageDownloadTimeOut" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Pnp Global Settings's imageDownloadTimeOut.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tenantId"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-tenantId:
+
+      .. rst-class:: ansible-option-title
+
+      **tenantId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tenantId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Global Settings's tenantId.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-version"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-version:
+
+      .. rst-class:: ansible-option-title
+
+      **version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pnp Global Settings's version.
+
+
+      .. raw:: html
+
+        </div>
+
 
 .. Attributes
 
@@ -952,7 +1919,7 @@ Notes
 -----
 
 .. note::
-   - Does not support ``check_mode``
+   - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
@@ -1044,95 +2011,50 @@ Return Values
 -------------
 Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
 
-.. raw:: html
+.. rst-class:: ansible-option-table
 
-    <table border=0 cellpadding=0 class="documentation-table">
-        <tr>
-            <th colspan="1">Key</th>
-            <th>Returned</th>
-            <th width="100%">Description</th>
-        </tr>
-                    <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
-                    <b>dnac_response</b>
-                    <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">dictionary</span>
-                                          </div>
-                                    </td>
-                <td>always</td>
-                <td>
-                                            <div>A dictionary or list with the response returned by the Cisco DNAC Python SDK</div>
-                                        <br/>
-                                                                <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{
-      &quot;savaMappingList&quot;: [
-        {
-          &quot;syncStatus&quot;: &quot;string&quot;,
-          &quot;syncStartTime&quot;: 0,
-          &quot;syncResult&quot;: {
-            &quot;syncList&quot;: [
-              {
-                &quot;syncType&quot;: &quot;string&quot;,
-                &quot;deviceSnList&quot;: [
-                  &quot;string&quot;
-                ]
-              }
-            ],
-            &quot;syncMsg&quot;: &quot;string&quot;
-          },
-          &quot;lastSync&quot;: 0,
-          &quot;tenantId&quot;: &quot;string&quot;,
-          &quot;profile&quot;: {
-            &quot;port&quot;: 0,
-            &quot;addressIpV4&quot;: &quot;string&quot;,
-            &quot;addressFqdn&quot;: &quot;string&quot;,
-            &quot;profileId&quot;: &quot;string&quot;,
-            &quot;proxy&quot;: true,
-            &quot;makeDefault&quot;: true,
-            &quot;cert&quot;: &quot;string&quot;,
-            &quot;name&quot;: &quot;string&quot;
-          },
-          &quot;token&quot;: &quot;string&quot;,
-          &quot;expiry&quot;: 0,
-          &quot;ccoUser&quot;: &quot;string&quot;,
-          &quot;smartAccountId&quot;: &quot;string&quot;,
-          &quot;virtualAccountId&quot;: &quot;string&quot;,
-          &quot;autoSyncPeriod&quot;: 0,
-          &quot;syncResultStr&quot;: &quot;string&quot;
-        }
-      ],
-      &quot;taskTimeOuts&quot;: {
-        &quot;imageDownloadTimeOut&quot;: 0,
-        &quot;configTimeOut&quot;: 0,
-        &quot;generalTimeOut&quot;: 0
-      },
-      &quot;tenantId&quot;: &quot;string&quot;,
-      &quot;aaaCredentials&quot;: {
-        &quot;password&quot;: &quot;string&quot;,
-        &quot;username&quot;: &quot;string&quot;
-      },
-      &quot;defaultProfile&quot;: {
-        &quot;fqdnAddresses&quot;: [
-          &quot;string&quot;
-        ],
-        &quot;proxy&quot;: true,
-        &quot;cert&quot;: &quot;string&quot;,
-        &quot;ipAddresses&quot;: [
-          &quot;string&quot;
-        ],
-        &quot;port&quot;: 0
-      },
-      &quot;acceptEula&quot;: true,
-      &quot;id&quot;: &quot;string&quot;,
-      &quot;_id&quot;: &quot;string&quot;,
-      &quot;version&quot;: 0
-    }</div>
-                                    </td>
-            </tr>
-                        </table>
-    <br/><br/>
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` "{\\n  \\"savaMappingList\\": [\\n    {\\n      \\"syncStatus\\": \\"string\\",\\n      \\"syncStartTime\\": 0,\\n      \\"syncResult\\": {\\n        \\"syncList\\": [\\n          {\\n            \\"syncType\\": \\"string\\",\\n            \\"deviceSnList\\": [\\n              \\"string\\"\\n            ]\\n          }\\n        ],\\n        \\"syncMsg\\": \\"string\\"\\n      },\\n      \\"lastSync\\": 0,\\n      \\"tenantId\\": \\"string\\",\\n      \\"profile\\": {\\n        \\"port\\": 0,\\n        \\"addressIpV4\\": \\"string\\",\\n        \\"addressFqdn\\": \\"string\\",\\n        \\"profileId\\": \\"string\\",\\n        \\"proxy\\": true,\\n        \\"makeDefault\\": true,\\n        \\"cert\\": \\"string\\",\\n        \\"name\\": \\"string\\"\\n      },\\n      \\"token\\": \\"string\\",\\n      \\"expiry\\": 0,\\n      \\"ccoUser\\": \\"string\\",\\n      \\"smartAccountId\\": \\"string\\",\\n      \\"virtualAccountId\\": \\"string\\",\\n      \\"autoSyncPeriod\\": 0,\\n      \\"syncResultStr\\": \\"string\\"\\n    }\\n  ],\\n  \\"taskTimeOuts\\": {\\n    \\"imageDownloadTimeOut\\": 0,\\n    \\"configTimeOut\\": 0,\\n    \\"generalTimeOut\\": 0\\n  },\\n  \\"tenantId\\": \\"string\\",\\n  \\"aaaCredentials\\": {\\n    \\"password\\": \\"string\\",\\n    \\"username\\": \\"string\\"\\n  },\\n  \\"defaultProfile\\": {\\n    \\"fqdnAddresses\\": [\\n      \\"string\\"\\n    ],\\n    \\"proxy\\": true,\\n    \\"cert\\": \\"string\\",\\n    \\"ipAddresses\\": [\\n      \\"string\\"\\n    ],\\n    \\"port\\": 0\\n  },\\n  \\"acceptEula\\": true,\\n  \\"id\\": \\"string\\",\\n  \\"\_id\\": \\"string\\",\\n  \\"version\\": 0\\n}\\n"
+
 
 ..  Status (Presently only deprecated)
 

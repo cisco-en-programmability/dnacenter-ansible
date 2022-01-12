@@ -1,10 +1,11 @@
 
+
 .. _plugins_in_cisco.dnac:
 
 Cisco.Dnac
 ==========
 
-Collection version 4.1.0
+Collection version 4.1.1
 
 .. toctree::
     :maxdepth: 1
@@ -13,7 +14,7 @@ Collection version 4.1.0
 Plugin Index
 ------------
 
-These are the plugins in the cisco.dnac collection
+These are the plugins in the cisco.dnac collection:
 
 
 Modules
