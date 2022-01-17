@@ -10,6 +10,7 @@ module: compliance_device_details_count_info
 short_description: Information module for Compliance Device Details Count
 description:
 - Get all Compliance Device Details Count.
+- Return  Compliance Count Detail.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -34,10 +35,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Compliance Device Details Count reference
-  description: Complete reference of the Compliance Device Details Count object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_compliance_detail_count used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.compliance.Compliance.get_compliance_detail_count
+
+- name: Paths used on the module Compliance Device Details Count
+  description: |-
+    get /dna/intent/api/v1/compliance/detail/count
 """
 
 EXAMPLES = r"""

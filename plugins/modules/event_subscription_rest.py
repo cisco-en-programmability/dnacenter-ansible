@@ -10,6 +10,8 @@ module: event_subscription_rest
 short_description: Resource module for Event Subscription Rest
 description:
 - Manage operations create and update of the resource Event Subscription Rest.
+- Create Rest/Webhook Subscription Endpoint for list of registered events.
+- Update Rest/Webhook Subscription Endpoint for list of registered events.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -57,10 +59,17 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Event Subscription Rest reference
-  description: Complete reference of the Event Subscription Rest object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function create_rest_webhook_event_subscription used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.create_rest_webhook_event_subscription
+
+- name: SDK function update_rest_webhook_event_subscription used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.update_rest_webhook_event_subscription
+
+- name: Paths used on the module Event Subscription Rest
+  description: |-
+    post /dna/intent/api/v1/event/subscription/rest,
+    put /dna/intent/api/v1/event/subscription/rest
 """
 
 EXAMPLES = r"""

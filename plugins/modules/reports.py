@@ -10,6 +10,8 @@ module: reports
 short_description: Resource module for Reports
 description:
 - Manage operations create and delete of the resource Reports.
+- Create/Schedule a report configuration. Use "Get view details for a given view group & view" API to get the metadata required to configure a report.
+- Delete a scheduled report configuration. Deletes the report executions also.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -99,10 +101,17 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Reports reference
-  description: Complete reference of the Reports object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function delete_a_scheduled_report used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.reports.Reports.delete_a_scheduled_report
+
+- name: SDK function create_or_schedule_a_report used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.reports.Reports.create_or_schedule_a_report
+
+- name: Paths used on the module Reports
+  description: |-
+    post /dna/intent/api/v1/data/reports,
+    delete /dna/intent/api/v1/data/reports/{reportId}
 """
 
 EXAMPLES = r"""

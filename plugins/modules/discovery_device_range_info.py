@@ -10,6 +10,7 @@ module: discovery_device_range_info
 short_description: Information module for Discovery Device Range
 description:
 - Get all Discovery Device Range.
+- Returns the network devices discovered for the given discovery and for the given range. The maximum number of records that can be retrieved is 500. Discovery ID can be obtained using the "Get Discoveries by range" API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -38,10 +39,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Discovery Device Range reference
-  description: Complete reference of the Discovery Device Range object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_discovered_devices_by_range used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.get_discovered_devices_by_range
+
+- name: Paths used on the module Discovery Device Range
+  description: |-
+    get /dna/intent/api/v1/discovery/{id}/network-device/{startIndex}/{recordsToReturn}
 """
 
 EXAMPLES = r"""

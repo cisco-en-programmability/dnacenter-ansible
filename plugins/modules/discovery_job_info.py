@@ -11,6 +11,8 @@ short_description: Information module for Discovery Job
 description:
 - Get all Discovery Job.
 - Get Discovery Job by id.
+- Returns the list of discovery jobs for the given IP.
+- Returns the list of discovery jobs for the given Discovery ID. The results can be optionally filtered based on IP. Discovery ID can be obtained using the "Get Discoveries by range" API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -43,10 +45,17 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Discovery Job reference
-  description: Complete reference of the Discovery Job object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_list_of_discoveries_by_discovery_id used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.get_list_of_discoveries_by_discovery_id
+
+- name: SDK function get_discovery_jobs_by_ip used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.get_discovery_jobs_by_ip
+
+- name: Paths used on the module Discovery Job
+  description: |-
+    get /dna/intent/api/v1/discovery/job,
+    get /dna/intent/api/v1/discovery/{id}/job
 """
 
 EXAMPLES = r"""

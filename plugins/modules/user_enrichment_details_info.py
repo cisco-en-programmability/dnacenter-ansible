@@ -10,6 +10,7 @@ module: user_enrichment_details_info
 short_description: Information module for User Enrichment Details
 description:
 - Get all User Enrichment Details.
+- Enriches a given network End User context (a network user-id or end user’s device Mac Address) with details about the user and devices that the user is connected to.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,10 +23,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: User Enrichment Details reference
-  description: Complete reference of the User Enrichment Details object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_user_enrichment_details used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.users.Users.get_user_enrichment_details
+
+- name: Paths used on the module User Enrichment Details
+  description: |-
+    get /dna/intent/api/v1/user-enrichment-details
 """
 
 EXAMPLES = r"""

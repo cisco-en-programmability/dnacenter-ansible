@@ -10,6 +10,9 @@ module: applications
 short_description: Resource module for Applications
 description:
 - Manage operations create, update and delete of the resource Applications.
+- Create new Custom application.
+- Edit the attributes of an existing application.
+- Delete existing application by its id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -107,10 +110,18 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Applications reference
-  description: Complete reference of the Applications object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function edit_application used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.edit_application
+
+- name: SDK function create_application used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.create_application
+
+- name: Paths used on the module Applications
+  description: |-
+    post /dna/intent/api/v1/applications,
+    put /dna/intent/api/v1/applications,
+    delete /dna/intent/api/v1/applications
 """
 
 EXAMPLES = r"""

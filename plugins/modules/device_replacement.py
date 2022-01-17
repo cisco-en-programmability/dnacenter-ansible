@@ -10,6 +10,8 @@ module: device_replacement
 short_description: Resource module for Device Replacement
 description:
 - Manage operations create and update of the resource Device Replacement.
+- UnMarks device for replacement.
+- Marks device for replacement.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -65,10 +67,17 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Device Replacement reference
-  description: Complete reference of the Device Replacement object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function mark_device_for_replacement used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_replacement.DeviceReplacement.mark_device_for_replacement
+
+- name: SDK function unmark_device_for_replacement used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_replacement.DeviceReplacement.unmark_device_for_replacement
+
+- name: Paths used on the module Device Replacement
+  description: |-
+    put /dna/intent/api/v1/device-replacement,
+    post /dna/intent/api/v1/device-replacement
 """
 
 EXAMPLES = r"""

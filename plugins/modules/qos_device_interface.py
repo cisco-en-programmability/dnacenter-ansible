@@ -10,7 +10,10 @@ module: qos_device_interface
 short_description: Resource module for Qos Device Interface
 description:
 - Manage operations create, update and delete of the resource Qos Device Interface.
-version_added: '3.1.0'
+- Update existing qos device interface infos associate with network device id.
+- Create qos device interface infos associate with network device id to allow the user to mark specific interfaces as WAN, to associate WAN interfaces with specific SP Profile and to be able to define a shaper on WAN interfaces.
+- Delete all qos device interface infos associate with network device id.
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
@@ -66,10 +69,21 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Qos Device Interface reference
-  description: Complete reference of the Qos Device Interface object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function create_qos_device_interface_info used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.create_qos_device_interface_info
+
+- name: SDK function update_qos_device_interface_info used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.update_qos_device_interface_info
+
+- name: SDK function delete_qos_device_interface_info used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.delete_qos_device_interface_info
+
+- name: Paths used on the module Qos Device Interface
+  description: |-
+    put /dna/intent/api/v1/qos-device-interface-info,
+    post /dna/intent/api/v1/qos-device-interface-info,
+    delete /dna/intent/api/v1/qos-device-interface-info/{id}
 """
 
 EXAMPLES = r"""

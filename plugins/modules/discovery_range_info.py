@@ -10,6 +10,7 @@ module: discovery_range_info
 short_description: Information module for Discovery Range
 description:
 - Get all Discovery Range.
+- Returns the discovery by specified range.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -30,10 +31,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Discovery Range reference
-  description: Complete reference of the Discovery Range object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_discoveries_by_range used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.get_discoveries_by_range
+
+- name: Paths used on the module Discovery Range
+  description: |-
+    get /dna/intent/api/v1/discovery/{startIndex}/{recordsToReturn}
 """
 
 EXAMPLES = r"""

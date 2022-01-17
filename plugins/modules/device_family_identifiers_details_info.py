@@ -10,6 +10,7 @@ module: device_family_identifiers_details_info
 short_description: Information module for Device Family Identifiers Details
 description:
 - Get all Device Family Identifiers Details.
+- API to get Device Family Identifiers for all Device Families that can be used for tagging an image golden.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,10 +23,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Device Family Identifiers Details reference
-  description: Complete reference of the Device Family Identifiers Details object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_device_family_identifiers used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.software_image_management_swim.SoftwareImageManagementSwim.get_device_family_identifiers
+
+- name: Paths used on the module Device Family Identifiers Details
+  description: |-
+    get /dna/intent/api/v1/image/importation/device-family-identifiers
 """
 
 EXAMPLES = r"""

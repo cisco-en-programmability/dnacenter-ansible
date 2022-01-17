@@ -10,6 +10,7 @@ module: pnp_global_settings_info
 short_description: Information module for Pnp Global Settings
 description:
 - Get all Pnp Global Settings.
+- Returns global PnP settings of the user.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,10 +23,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Pnp Global Settings reference
-  description: Complete reference of the Pnp Global Settings object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_pnp_global_settings used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.get_pnp_global_settings
+
+- name: Paths used on the module Pnp Global Settings
+  description: |-
+    get /dna/intent/api/v1/onboarding/pnp-settings
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,7 @@ module: pnp_device_import
 short_description: Resource module for Pnp Device Import
 description:
 - Manage operation create of the resource Pnp Device Import.
+- Add devices to PnP in bulk.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -806,10 +807,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Pnp Device Import reference
-  description: Complete reference of the Pnp Device Import object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function import_devices_in_bulk used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.import_devices_in_bulk
+
+- name: Paths used on the module Pnp Device Import
+  description: |-
+    post /dna/intent/api/v1/onboarding/pnp-device/import
 """
 
 EXAMPLES = r"""

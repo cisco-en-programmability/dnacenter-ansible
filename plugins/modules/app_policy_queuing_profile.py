@@ -10,6 +10,9 @@ module: app_policy_queuing_profile
 short_description: Resource module for App Policy Queuing Profile
 description:
 - Manage operations create, update and delete of the resource App Policy Queuing Profile.
+- Update existing custom application queuing profile.
+- Create new custom application queuing profile.
+- Delete existing custom application policy queuing profile by id.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -84,10 +87,21 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: App Policy Queuing Profile reference
-  description: Complete reference of the App Policy Queuing Profile object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function create_application_policy_queuing_profile used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.create_application_policy_queuing_profile
+
+- name: SDK function update_application_policy_queuing_profile used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.update_application_policy_queuing_profile
+
+- name: SDK function delete_application_policy_queuing_profile used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.delete_application_policy_queuing_profile
+
+- name: Paths used on the module App Policy Queuing Profile
+  description: |-
+    put /dna/intent/api/v1/app-policy-queuing-profile,
+    post /dna/intent/api/v1/app-policy-queuing-profile,
+    delete /dna/intent/api/v1/app-policy-queuing-profile/{id}
 """
 
 EXAMPLES = r"""

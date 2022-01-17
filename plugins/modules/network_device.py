@@ -10,6 +10,9 @@ module: network_device
 short_description: Resource module for Network Device
 description:
 - Manage operations create, update and delete of the resource Network Device.
+- Adds the device with given credential.
+- Sync the devices provided as input.
+- Deletes the network device for the given Id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -116,10 +119,21 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Network Device reference
-  description: Complete reference of the Network Device object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function delete_device_by_id used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.delete_device_by_id
+
+- name: SDK function add_device used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.add_device
+
+- name: SDK function sync_devices used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.sync_devices
+
+- name: Paths used on the module Network Device
+  description: |-
+    post /dna/intent/api/v1/network-device,
+    put /dna/intent/api/v1/network-device,
+    delete /dna/intent/api/v1/network-device/{id}
 """
 
 EXAMPLES = r"""

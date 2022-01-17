@@ -10,6 +10,8 @@ module: pnp_device
 short_description: Resource module for Pnp Device
 description:
 - Manage operations create, update and delete of the resource Pnp Device.
+- Adds a device to the PnP database.
+- Deletes specified device from PnP database.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -805,10 +807,20 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Pnp Device reference
-  description: Complete reference of the Pnp Device object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function update_device used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.update_device
+
+- name: SDK function add_device used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.add_device
+
+- name: SDK function delete_device_by_id_from_pnp used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp
+
+- name: Paths used on the module Pnp Device
+  description: |-
+    post /dna/intent/api/v1/onboarding/pnp-device,
+    delete /dna/intent/api/v1/onboarding/pnp-device/{id}
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,7 @@ module: nfv_provision_details
 short_description: Resource module for Nfv Provision Details
 description:
 - Manage operation create of the resource Nfv Provision Details.
+- Checks the provisioning detail of an ENCS device including log information.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -22,10 +23,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Nfv Provision Details reference
-  description: Complete reference of the Nfv Provision Details object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function nfv_provisioning_detail used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.nfv_provisioning_detail
+
+- name: Paths used on the module Nfv Provision Details
+  description: |-
+    post /dna/intent/api/v1/nfv-provision-detail
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,7 @@ module: file_namespace_files_info
 short_description: Information module for File Namespace Files
 description:
 - Get File Namespace Files by name.
+- Returns list of files under a specific namespace.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,10 +27,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: File Namespace Files reference
-  description: Complete reference of the File Namespace Files object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_list_of_files used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.file.File.get_list_of_files
+
+- name: Paths used on the module File Namespace Files
+  description: |-
+    get /dna/intent/api/v1/file/namespace/{nameSpace}
 """
 
 EXAMPLES = r"""

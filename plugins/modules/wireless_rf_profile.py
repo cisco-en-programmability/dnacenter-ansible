@@ -10,6 +10,8 @@ module: wireless_rf_profile
 short_description: Resource module for Wireless Rf Profile
 description:
 - Manage operations create and delete of the resource Wireless Rf Profile.
+- Create or Update RF profile.
+- Delete RF profile(s).
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -100,10 +102,17 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Wireless Rf Profile reference
-  description: Complete reference of the Wireless Rf Profile object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function create_or_update_rf_profile used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.create_or_update_rf_profile
+
+- name: SDK function delete_rf_profiles used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.delete_rf_profiles
+
+- name: Paths used on the module Wireless Rf Profile
+  description: |-
+    post /dna/intent/api/v1/wireless/rf-profile,
+    delete /dna/intent/api/v1/wireless/rf-profile/{rfProfileName}
 """
 
 EXAMPLES = r"""

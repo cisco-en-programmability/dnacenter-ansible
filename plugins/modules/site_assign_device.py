@@ -10,6 +10,7 @@ module: site_assign_device
 short_description: Resource module for Site Assign Device
 description:
 - Manage operation create of the resource Site Assign Device.
+- Assigns list of devices to a site.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -29,10 +30,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Site Assign Device reference
-  description: Complete reference of the Site Assign Device object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function assign_device_to_site used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sites.Sites.assign_device_to_site
+
+- name: Paths used on the module Site Assign Device
+  description: |-
+    post /dna/system/api/v1/site/{siteId}/device
 """
 
 EXAMPLES = r"""

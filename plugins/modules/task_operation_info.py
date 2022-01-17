@@ -10,6 +10,7 @@ module: task_operation_info
 short_description: Information module for Task Operation
 description:
 - Get Task Operation by id.
+- Returns root tasks associated with an Operationid.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -36,10 +37,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Task Operation reference
-  description: Complete reference of the Task Operation object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_task_by_operationid used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.task.Task.get_task_by_operationid
+
+- name: Paths used on the module Task Operation
+  description: |-
+    get /dna/intent/api/v1/task/operation/{operationId}/{offset}/{limit}
 """
 
 EXAMPLES = r"""

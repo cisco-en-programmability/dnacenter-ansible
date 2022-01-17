@@ -10,6 +10,7 @@ module: sda_fabric_border_device_info
 short_description: Information module for Sda Fabric Border Device
 description:
 - Get all Sda Fabric Border Device.
+- Gets border device detail from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,10 +28,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Sda Fabric Border Device reference
-  description: Complete reference of the Sda Fabric Border Device object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function gets_border_device_detail used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.gets_border_device_detail
+
+- name: Paths used on the module Sda Fabric Border Device
+  description: |-
+    get /dna/intent/api/v1/business/sda/border-device
 """
 
 EXAMPLES = r"""

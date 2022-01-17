@@ -10,6 +10,7 @@ module: configuration_template_create
 short_description: Resource module for Configuration Template Create
 description:
 - Manage operation create of the resource Configuration Template Create.
+- API to create a template by project id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -499,10 +500,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Configuration Template Create reference
-  description: Complete reference of the Configuration Template Create object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function create_template used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_templates.ConfigurationTemplates.create_template
+
+- name: Paths used on the module Configuration Template Create
+  description: |-
+    post /dna/intent/api/v1/template-programmer/project/{projectId}/template
 """
 
 EXAMPLES = r"""

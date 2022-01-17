@@ -10,6 +10,7 @@ module: configuration_template_export_project
 short_description: Resource module for Configuration Template Export Project
 description:
 - Manage operation create of the resource Configuration Template Export Project.
+- Exports the projects for given projectNames.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,10 +24,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Configuration Template Export Project reference
-  description: Complete reference of the Configuration Template Export Project object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function export_projects used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_templates.ConfigurationTemplates.export_projects
+
+- name: Paths used on the module Configuration Template Export Project
+  description: |-
+    post /dna/intent/api/v1/template-programmer/project/name/exportprojects
 """
 
 EXAMPLES = r"""

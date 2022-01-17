@@ -10,6 +10,7 @@ module: golden_image_create
 short_description: Resource module for Golden Image Create
 description:
 - Manage operation create of the resource Golden Image Create.
+- Golden Tag image. Set siteId as -1 for Global site.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -32,10 +33,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Golden Image Create reference
-  description: Complete reference of the Golden Image Create object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function tag_as_golden_image used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image
+
+- name: Paths used on the module Golden Image Create
+  description: |-
+    post /dna/intent/api/v1/image/importation/golden
 """
 
 EXAMPLES = r"""

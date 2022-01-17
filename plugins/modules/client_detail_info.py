@@ -10,6 +10,7 @@ module: client_detail_info
 short_description: Information module for Client Detail
 description:
 - Get all Client Detail.
+- Returns detailed Client information retrieved by Mac Address for any given point of time.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -30,10 +31,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Client Detail reference
-  description: Complete reference of the Client Detail object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_client_detail used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.clients.Clients.get_client_detail
+
+- name: Paths used on the module Client Detail
+  description: |-
+    get /dna/intent/api/v1/client-detail
 """
 
 EXAMPLES = r"""

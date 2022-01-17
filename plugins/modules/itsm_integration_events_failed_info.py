@@ -10,6 +10,7 @@ module: itsm_integration_events_failed_info
 short_description: Information module for Itsm Integration Events Failed
 description:
 - Get all Itsm Integration Events Failed.
+- Used to retrieve the list of integration events that failed to create tickets in ITSM.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,10 +27,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Itsm Integration Events Failed reference
-  description: Complete reference of the Itsm Integration Events Failed object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_failed_itsm_events used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.itsm.Itsm.get_failed_itsm_events
+
+- name: Paths used on the module Itsm Integration Events Failed
+  description: |-
+    get /dna/intent/api/v1/integration/events
 """
 
 EXAMPLES = r"""

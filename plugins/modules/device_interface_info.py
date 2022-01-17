@@ -11,6 +11,8 @@ short_description: Information module for Device Interface
 description:
 - Get all Device Interface.
 - Get Device Interface by id.
+- Returns all available interfaces. This endpoint can return a maximum of 500 interfaces.
+- Returns the interface for the given interface ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -35,10 +37,17 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Device Interface reference
-  description: Complete reference of the Device Interface object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_interface_by_id used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_interface_by_id
+
+- name: SDK function get_all_interfaces used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_all_interfaces
+
+- name: Paths used on the module Device Interface
+  description: |-
+    get /dna/intent/api/v1/interface,
+    get /dna/intent/api/v1/interface/{id}
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,7 @@ module: itsm_cmdb_sync_status_info
 short_description: Information module for Itsm Cmdb Sync Status
 description:
 - Get all Itsm Cmdb Sync Status.
+- This API allows to retrieve the detail of CMDB sync status.It accepts two query parameter "status","date".The supported values for status field are "Success","Failed","Unknown" and date field should be in "YYYY-MM-DD" format. By default all the cmdb sync status will be send as response and based on the query parameter filtered detail will be send as response.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -32,10 +33,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Itsm Cmdb Sync Status reference
-  description: Complete reference of the Itsm Cmdb Sync Status object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_cmdb_sync_status used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.itsm.Itsm.get_cmdb_sync_status
+
+- name: Paths used on the module Itsm Cmdb Sync Status
+  description: |-
+    get /dna/intent/api/v1/cmdb-sync/detail
 """
 
 EXAMPLES = r"""

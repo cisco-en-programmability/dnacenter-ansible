@@ -10,6 +10,7 @@ module: device_credential_delete
 short_description: Resource module for Device Credential Delete
 description:
 - Manage operation delete of the resource Device Credential Delete.
+- Delete device credential.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -22,10 +23,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Device Credential Delete reference
-  description: Complete reference of the Device Credential Delete object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function delete_device_credential used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.delete_device_credential
+
+- name: Paths used on the module Device Credential Delete
+  description: |-
+    delete /dna/intent/api/v1/device-credential/{id}
 """
 
 EXAMPLES = r"""

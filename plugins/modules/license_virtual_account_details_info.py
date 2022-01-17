@@ -10,6 +10,7 @@ module: license_virtual_account_details_info
 short_description: Information module for License Virtual Account Details
 description:
 - Get all License Virtual Account Details.
+- Get virtual account details of a smart account.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,10 +27,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: License Virtual Account Details reference
-  description: Complete reference of the License Virtual Account Details object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function virtual_account_details used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.licenses.Licenses.virtual_account_details
+
+- name: Paths used on the module License Virtual Account Details
+  description: |-
+    get /dna/intent/api/v1/licenses/smartAccount/{smart_account_id}/virtualAccounts
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,7 @@ module: site_delete
 short_description: Resource module for Site Delete
 description:
 - Manage operation delete of the resource Site Delete.
+- Delete site with area/building/floor by siteId.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -22,10 +23,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Site Delete reference
-  description: Complete reference of the Site Delete object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function delete_site used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sites.Sites.delete_site
+
+- name: Paths used on the module Site Delete
+  description: |-
+    delete /dna/intent/api/v1/site/{siteId}
 """
 
 EXAMPLES = r"""

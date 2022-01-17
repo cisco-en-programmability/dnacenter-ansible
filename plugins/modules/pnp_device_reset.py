@@ -10,6 +10,7 @@ module: pnp_device_reset
 short_description: Resource module for Pnp Device Reset
 description:
 - Manage operation create of the resource Pnp Device Reset.
+- Recovers a device from a Workflow Execution Error state.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -58,10 +59,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Pnp Device Reset reference
-  description: Complete reference of the Pnp Device Reset object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function reset_device used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.reset_device
+
+- name: Paths used on the module Pnp Device Reset
+  description: |-
+    post /dna/intent/api/v1/onboarding/pnp-device/reset
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,7 @@ module: network_device_meraki_organization_info
 short_description: Information module for Network Device Meraki Organization
 description:
 - Get all Network Device Meraki Organization.
+- Returns list of organizations for meraki dashboard.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,10 +27,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Network Device Meraki Organization reference
-  description: Complete reference of the Network Device Meraki Organization object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_organization_list_for_meraki used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_organization_list_for_meraki
+
+- name: Paths used on the module Network Device Meraki Organization
+  description: |-
+    get /dna/intent/api/v1/network-device/{id}/meraki-organization
 """
 
 EXAMPLES = r"""

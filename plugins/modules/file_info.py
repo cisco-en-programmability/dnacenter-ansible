@@ -10,6 +10,7 @@ module: file_info
 short_description: Information module for File
 description:
 - Get File by id.
+- Downloads a file specified by fileId.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -34,10 +35,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: File reference
-  description: Complete reference of the File object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function download_a_file_by_fileid used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.file.File.download_a_file_by_fileid
+
+- name: Paths used on the module File
+  description: |-
+    get /dna/intent/api/v1/file/{fileId}
 """
 
 EXAMPLES = r"""

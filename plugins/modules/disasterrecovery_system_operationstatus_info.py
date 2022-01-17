@@ -10,6 +10,7 @@ module: disasterrecovery_system_operationstatus_info
 short_description: Information module for Disasterrecovery System Operationstatus
 description:
 - Get all Disasterrecovery System Operationstatus.
+- Returns the status of Disaster Recovery operation performed on the system.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,10 +23,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Disasterrecovery System Operationstatus reference
-  description: Complete reference of the Disasterrecovery System Operationstatus object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function disaster_recovery_operational_status used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.disaster_recovery.DisasterRecovery.disaster_recovery_operational_status
+
+- name: Paths used on the module Disasterrecovery System Operationstatus
+  description: |-
+    get /dna/intent/api/v1/disasterrecovery/system/operationstatus
 """
 
 EXAMPLES = r"""

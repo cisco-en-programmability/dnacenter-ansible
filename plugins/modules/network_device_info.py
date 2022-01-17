@@ -11,6 +11,11 @@ short_description: Information module for Network Device
 description:
 - Get all Network Device.
 - Get Network Device by id.
+- Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, etc. You can use the .* in any value to conduct a wildcard search.
+  For example, to find all hostnames beginning with myhost in the IP address range 192.25.18.n, issue the following request:
+  GET /dna/intent/api/v1/network-device?hostname=myhost.*&managementIpAddress=192.25.18..*
+  If id parameter is provided with comma separated ids, it will return the list of network-devices for the given ids and ignores the other request parameters.
+- Returns the network device details for the given device ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -153,10 +158,17 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Network Device reference
-  description: Complete reference of the Network Device object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_device_by_id used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_device_by_id
+
+- name: SDK function get_device_list used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_device_list
+
+- name: Paths used on the module Network Device
+  description: |-
+    get /dna/intent/api/v1/network-device,
+    get /dna/intent/api/v1/network-device/{id}
 """
 
 EXAMPLES = r"""

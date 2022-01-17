@@ -10,6 +10,7 @@ module: network_device_lexicographically_sorted_info
 short_description: Information module for Network Device Lexicographically Sorted
 description:
 - Get all Network Device Lexicographically Sorted.
+- Returns the list of values of the first given required parameter. You can use the .* in any value to conduct a wildcard search. For example, to get all the devices with the management IP address starting with 10.10. , issue the following request: GET /dna/inten/api/v1/network-device/autocomplete?managementIpAddress=10.10..* It will return the device management IP addresses that match fully or partially the provided attribute. {[10.10.1.1, 10.10.20.2, …]}.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -110,10 +111,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Network Device Lexicographically Sorted reference
-  description: Complete reference of the Network Device Lexicographically Sorted object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_device_values_that_match_fully_or_partially_an_attribute used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_device_values_that_match_fully_or_partially_an_attribute
+
+- name: Paths used on the module Network Device Lexicographically Sorted
+  description: |-
+    get /dna/intent/api/v1/network-device/autocomplete
 """
 
 EXAMPLES = r"""

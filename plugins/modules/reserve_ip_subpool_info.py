@@ -10,6 +10,7 @@ module: reserve_ip_subpool_info
 short_description: Information module for Reserve Ip Subpool
 description:
 - Get all Reserve Ip Subpool.
+- API to get the ip subpool info.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -34,10 +35,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Reserve Ip Subpool reference
-  description: Complete reference of the Reserve Ip Subpool object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_reserve_ip_subpool used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.get_reserve_ip_subpool
+
+- name: Paths used on the module Reserve Ip Subpool
+  description: |-
+    get /dna/intent/api/v1/reserve-ip-subpool
 """
 
 EXAMPLES = r"""

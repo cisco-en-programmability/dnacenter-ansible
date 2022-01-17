@@ -10,6 +10,7 @@ module: configuration_template_version_create
 short_description: Resource module for Configuration Template Version Create
 description:
 - Manage operation create of the resource Configuration Template Version Create.
+- API to version the current contents of the template.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -25,10 +26,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Configuration Template Version Create reference
-  description: Complete reference of the Configuration Template Version Create object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function version_template used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_templates.ConfigurationTemplates.version_template
+
+- name: Paths used on the module Configuration Template Version Create
+  description: |-
+    post /dna/intent/api/v1/template-programmer/template/version
 """
 
 EXAMPLES = r"""

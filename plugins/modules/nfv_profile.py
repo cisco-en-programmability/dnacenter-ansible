@@ -10,6 +10,8 @@ module: nfv_profile
 short_description: Resource module for Nfv Profile
 description:
 - Manage operations create, update and delete of the resource Nfv Profile.
+- API to create network profile for different NFV topologies.
+- API to delete nfv network profile.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -143,10 +145,20 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Nfv Profile reference
-  description: Complete reference of the Nfv Profile object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function delete_nfv_profile used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.delete_nfv_profile
+
+- name: SDK function create_nfv_profile used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.create_nfv_profile
+
+- name: SDK function update_nfv_profile used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.update_nfv_profile
+
+- name: Paths used on the module Nfv Profile
+  description: |-
+    post /dna/intent/api/v1/nfv/network-profile,
+    delete /dna/intent/api/v1/nfv/network-profile/{id}
 """
 
 EXAMPLES = r"""

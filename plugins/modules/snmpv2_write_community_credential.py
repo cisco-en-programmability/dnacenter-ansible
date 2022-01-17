@@ -10,6 +10,8 @@ module: snmpv2_write_community_credential
 short_description: Resource module for Snmpv2 Write Community Credential
 description:
 - Manage operations create and update of the resource Snmpv2 Write Community Credential.
+- Adds global SNMP write community.
+- Updates global SNMP write community.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -50,10 +52,17 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Snmpv2 Write Community Credential reference
-  description: Complete reference of the Snmpv2 Write Community Credential object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function create_snmp_write_community used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.create_snmp_write_community
+
+- name: SDK function update_snmp_write_community used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.update_snmp_write_community
+
+- name: Paths used on the module Snmpv2 Write Community Credential
+  description: |-
+    post /dna/intent/api/v1/global-credential/snmpv2-write-community,
+    put /dna/intent/api/v1/global-credential/snmpv2-write-community
 """
 
 EXAMPLES = r"""

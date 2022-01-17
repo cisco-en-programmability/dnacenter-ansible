@@ -10,6 +10,7 @@ module: event_series_audit_logs_parent_records_info
 short_description: Information module for Event Series Audit Logs Parent Records
 description:
 - Get all Event Series Audit Logs Parent Records.
+- Get Parent Audit Log Event instances from the Event-Hub.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -120,10 +121,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Event Series Audit Logs Parent Records reference
-  description: Complete reference of the Event Series Audit Logs Parent Records object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_auditlog_parent_records used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.get_auditlog_parent_records
+
+- name: Paths used on the module Event Series Audit Logs Parent Records
+  description: |-
+    get /dna/data/api/v1/event/event-series/audit-log/parent-records
 """
 
 EXAMPLES = r"""

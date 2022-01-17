@@ -10,6 +10,7 @@ module: event_info
 short_description: Information module for Event
 description:
 - Get all Event.
+- Gets the list of registered Events with provided eventIds or tags as mandatory.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -46,10 +47,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Event reference
-  description: Complete reference of the Event object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_events used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.get_events
+
+- name: Paths used on the module Event
+  description: |-
+    get /dna/intent/api/v1/events
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,7 @@ module: templates_details_info
 short_description: Information module for Templates Details
 description:
 - Get all Templates Details.
+- Get template(s) details.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -90,10 +91,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Templates Details reference
-  description: Complete reference of the Templates Details object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_templates_details used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_templates.ConfigurationTemplates.get_templates_details
+
+- name: Paths used on the module Templates Details
+  description: |-
+    get /dna/intent/api/v2/template-programmer/template
 """
 
 EXAMPLES = r"""

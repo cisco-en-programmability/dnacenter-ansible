@@ -10,6 +10,7 @@ module: network_device_sync
 short_description: Resource module for Network Device Sync
 description:
 - Manage operation update of the resource Network Device Sync.
+- Synchronizes the devices. If forceSync param is false (default) then the sync would run in normal priority thread. If forceSync param is true then the sync would run in high priority thread if available, else the sync will fail. Result can be seen in the child task of each device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -26,10 +27,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Network Device Sync reference
-  description: Complete reference of the Network Device Sync object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function sync_devices_using_forcesync used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.sync_devices_using_forcesync
+
+- name: Paths used on the module Network Device Sync
+  description: |-
+    put /dna/intent/api/v1/network-device/sync
 """
 
 EXAMPLES = r"""

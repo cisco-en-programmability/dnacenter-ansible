@@ -10,6 +10,7 @@ module: license_virtual_account_change
 short_description: Resource module for License Virtual Account Change
 description:
 - Manage operation create of the resource License Virtual Account Change.
+- Transfer device(s) from one virtual account to another within same smart account.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -29,10 +30,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: License Virtual Account Change reference
-  description: Complete reference of the License Virtual Account Change object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function change_virtual_account used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.licenses.Licenses.change_virtual_account
+
+- name: Paths used on the module License Virtual Account Change
+  description: |-
+    post /dna/intent/api/v1/licenses/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name}/device/transfer
 """
 
 EXAMPLES = r"""

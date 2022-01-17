@@ -10,6 +10,7 @@ module: pnp_device_claim
 short_description: Resource module for Pnp Device Claim
 description:
 - Manage operation create of the resource Pnp Device Claim.
+- Claims one of more devices with specified workflow.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -76,10 +77,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Pnp Device Claim reference
-  description: Complete reference of the Pnp Device Claim object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function claim_device used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.claim_device
+
+- name: Paths used on the module Pnp Device Claim
+  description: |-
+    post /dna/intent/api/v1/onboarding/pnp-device/claim
 """
 
 EXAMPLES = r"""

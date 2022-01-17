@@ -10,6 +10,7 @@ module: device_credential_create
 short_description: Resource module for Device Credential Create
 description:
 - Manage operation create of the resource Device Credential Create.
+- API to create device credentials.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -116,10 +117,16 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Device Credential Create reference
-  description: Complete reference of the Device Credential Create object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function update_device_credentials used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.update_device_credentials
+
+- name: SDK function create_device_credentials used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.create_device_credentials
+
+- name: Paths used on the module Device Credential Create
+  description: |-
+    post /dna/intent/api/v1/device-credential
 """
 
 EXAMPLES = r"""

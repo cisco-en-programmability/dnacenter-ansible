@@ -10,6 +10,7 @@ module: discovery_summary_info
 short_description: Information module for Discovery Summary
 description:
 - Get all Discovery Summary.
+- Returns the network devices from a discovery job based on given filters. Discovery ID can be obtained using the "Get Discoveries by range" API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -62,10 +63,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Discovery Summary reference
-  description: Complete reference of the Discovery Summary object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_network_devices_from_discovery used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.get_network_devices_from_discovery
+
+- name: Paths used on the module Discovery Summary
+  description: |-
+    get /dna/intent/api/v1/discovery/{id}/summary
 """
 
 EXAMPLES = r"""

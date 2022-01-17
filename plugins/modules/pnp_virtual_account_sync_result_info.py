@@ -10,6 +10,7 @@ module: pnp_virtual_account_sync_result_info
 short_description: Information module for Pnp Virtual Account Sync Result
 description:
 - Get all Pnp Virtual Account Sync Result.
+- Returns the summary of devices synced from the given smart account & virtual account with PnP.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -30,10 +31,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Pnp Virtual Account Sync Result reference
-  description: Complete reference of the Pnp Virtual Account Sync Result object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_sync_result_for_virtual_account used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.get_sync_result_for_virtual_account
+
+- name: Paths used on the module Pnp Virtual Account Sync Result
+  description: |-
+    get /dna/intent/api/v1/onboarding/pnp-device/sacct/{domain}/vacct/{name}/sync-result
 """
 
 EXAMPLES = r"""

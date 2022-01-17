@@ -10,6 +10,7 @@ module: device_configurations_export
 short_description: Resource module for Device Configurations Export
 description:
 - Manage operation create of the resource Device Configurations Export.
+- Export Device configurations to an encrypted zip file.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -26,10 +27,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Device Configurations Export reference
-  description: Complete reference of the Device Configurations Export object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function export_device_configurations used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_archive.ConfigurationArchive.export_device_configurations
+
+- name: Paths used on the module Device Configurations Export
+  description: |-
+    post /dna/intent/api/v1/network-device-archive/cleartext
 """
 
 EXAMPLES = r"""

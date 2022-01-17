@@ -10,6 +10,7 @@ module: business_sda_hostonboarding_ssid_ippool_info
 short_description: Information module for Business Sda Hostonboarding Ssid Ippool
 description:
 - Get all Business Sda Hostonboarding Ssid Ippool.
+- Get SSID to IP Pool Mapping.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -30,10 +31,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Business Sda Hostonboarding Ssid Ippool reference
-  description: Complete reference of the Business Sda Hostonboarding Ssid Ippool object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_ssid_to_ip_pool_mapping used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.fabric_wireless.FabricWireless.get_ssid_to_ip_pool_mapping
+
+- name: Paths used on the module Business Sda Hostonboarding Ssid Ippool
+  description: |-
+    get /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool
 """
 
 EXAMPLES = r"""

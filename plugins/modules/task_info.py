@@ -11,6 +11,8 @@ short_description: Information module for Task
 description:
 - Get all Task.
 - Get Task by id.
+- Returns task(s) based on filter criteria.
+- Returns a task by specified id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -83,10 +85,17 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Task reference
-  description: Complete reference of the Task object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_tasks used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.task.Task.get_tasks
+
+- name: SDK function get_task_by_id used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.task.Task.get_task_by_id
+
+- name: Paths used on the module Task
+  description: |-
+    get /dna/intent/api/v1/task,
+    get /dna/intent/api/v1/task/{taskId}
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,7 @@ module: tag_member_info
 short_description: Information module for Tag Member
 description:
 - Get all Tag Member.
+- Returns tag members specified by id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -52,10 +53,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Tag Member reference
-  description: Complete reference of the Tag Member object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_tag_members_by_id used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.tag.Tag.get_tag_members_by_id
+
+- name: Paths used on the module Tag Member
+  description: |-
+    get /dna/intent/api/v1/tag/{id}/member
 """
 
 EXAMPLES = r"""

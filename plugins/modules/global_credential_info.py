@@ -11,6 +11,8 @@ short_description: Information module for Global Credential
 description:
 - Get all Global Credential.
 - Get Global Credential by id.
+- Returns global credential for the given credential sub type.
+- Returns the credential sub type for the given Id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -41,10 +43,17 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Global Credential reference
-  description: Complete reference of the Global Credential object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_credential_sub_type_by_credential_id used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.get_credential_sub_type_by_credential_id
+
+- name: SDK function get_global_credentials used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.get_global_credentials
+
+- name: Paths used on the module Global Credential
+  description: |-
+    get /dna/intent/api/v1/global-credential,
+    get /dna/intent/api/v1/global-credential/{id}
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,7 @@ module: network_device_update_role
 short_description: Resource module for Network Device Update Role
 description:
 - Manage operation update of the resource Network Device Update Role.
+- Updates the role of the device as access, core, distribution, border router.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -28,10 +29,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Network Device Update Role reference
-  description: Complete reference of the Network Device Update Role object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function update_device_role used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.update_device_role
+
+- name: Paths used on the module Network Device Update Role
+  description: |-
+    put /dna/intent/api/v1/network-device/brief
 """
 
 EXAMPLES = r"""

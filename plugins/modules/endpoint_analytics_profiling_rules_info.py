@@ -10,7 +10,10 @@ module: endpoint_analytics_profiling_rules_info
 short_description: Information module for Endpoint Analytics Profiling Rules
 description:
 - Get all Endpoint Analytics Profiling Rules.
-- Get Endpoint Analytics Profiling Rules by id.
+- This API fetches the list of profiling rules. It can be used to show profiling rules in client applications, or export those from an environment. 'POST /profiling-rules/bulk' API can be used to import such exported rules into another environment.
+  If this API is used to export rules to be imported into another Cisco DNA Center system, then ensure that 'includeDeleted' parameter is 'true', so that deleted rules get synchronized correctly.
+  Use query parameters to filter the data, as required. If no filter is provided, then it will include only rules of type 'Custom Rule' in the response. By default, the response is limited to 500 records. Use 'limit' parameter to fetch higher number of records, if required. 'GET /profiling-rules/count' API can be used to find out the total number of rules in the system.
+- Fetches details of the profiling rule for the given 'ruleId'.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -55,10 +58,17 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Endpoint Analytics Profiling Rules reference
-  description: Complete reference of the Endpoint Analytics Profiling Rules object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_list_of_profiling_rules used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.policy.Policy.get_list_of_profiling_rules
+
+- name: SDK function get_details_of_a_single_profiling_rule used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.policy.Policy.get_details_of_a_single_profiling_rule
+
+- name: Paths used on the module Endpoint Analytics Profiling Rules
+  description: |-
+    get /dna/intent/api/v1/endpoint-analytics/profiling-rules,
+    get /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId}
 """
 
 EXAMPLES = r"""

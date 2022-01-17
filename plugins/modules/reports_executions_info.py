@@ -11,6 +11,8 @@ short_description: Information module for Reports Executions
 description:
 - Get all Reports Executions.
 - Get Reports Executions by id.
+- Get details of all executions for a given report.
+- Returns report content. Save the response to a file by converting the response data as a blob and setting the file format available from content-disposition response header.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -39,10 +41,17 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Reports Executions reference
-  description: Complete reference of the Reports Executions object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_all_execution_details_for_a_given_report used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.reports.Reports.get_all_execution_details_for_a_given_report
+
+- name: SDK function download_report_content used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.reports.Reports.download_report_content
+
+- name: Paths used on the module Reports Executions
+  description: |-
+    get /dna/intent/api/v1/data/reports/{reportId}/executions,
+    get /dna/intent/api/v1/data/reports/{reportId}/executions/{executionId}
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,7 @@ module: qos_device_interface_info_count_info
 short_description: Information module for Qos Device Interface Info Count
 description:
 - Get all Qos Device Interface Info Count.
+- Get the number of all existing qos device interface infos group by network device id.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,10 +23,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Qos Device Interface Info Count reference
-  description: Complete reference of the Qos Device Interface Info Count object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_qos_device_interface_info_count used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.get_qos_device_interface_info_count
+
+- name: Paths used on the module Qos Device Interface Info Count
+  description: |-
+    get /dna/intent/api/v1/qos-device-interface-info-count
 """
 
 EXAMPLES = r"""

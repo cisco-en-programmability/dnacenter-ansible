@@ -10,6 +10,10 @@ module: discovery
 short_description: Resource module for Discovery
 description:
 - Manage operations create, update and delete of the resource Discovery.
+- Stops all the discoveries and removes them.
+- Stops or starts an existing discovery.
+- Initiates discovery with the given parameters.
+- Stops the discovery for the given Discovery ID and removes it. Discovery ID can be obtained using the "Get Discoveries by range" API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -211,10 +215,22 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Discovery reference
-  description: Complete reference of the Discovery object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function start_discovery used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.start_discovery
+
+- name: SDK function updates_discovery_by_id used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.updates_discovery_by_id
+
+- name: SDK function delete_discovery_by_id used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.delete_discovery_by_id
+
+- name: Paths used on the module Discovery
+  description: |-
+    delete /dna/intent/api/v1/discovery,
+    put /dna/intent/api/v1/discovery,
+    post /dna/intent/api/v1/discovery,
+    delete /dna/intent/api/v1/discovery/{id}
 """
 
 EXAMPLES = r"""

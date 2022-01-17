@@ -10,6 +10,7 @@ module: event_series_info
 short_description: Information module for Event Series
 description:
 - Get all Event Series.
+- Get the list of Published Notifications.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -74,10 +75,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Event Series reference
-  description: Complete reference of the Event Series object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_notifications used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.get_notifications
+
+- name: Paths used on the module Event Series
+  description: |-
+    get /dna/intent/api/v1/event/event-series
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,7 @@ module: nfv_provision
 short_description: Resource module for Nfv Provision
 description:
 - Manage operation create of the resource Nfv Provision.
+- Design and Provision single/multi NFV device with given site/area/building/floor .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -358,10 +359,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Nfv Provision reference
-  description: Complete reference of the Nfv Provision object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function provision_nfv used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.provision_nfv
+
+- name: Paths used on the module Nfv Provision
+  description: |-
+    post /dna/intent/api/v1/business/nfv
 """
 
 EXAMPLES = r"""

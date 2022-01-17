@@ -10,6 +10,7 @@ module: sensor_test_run
 short_description: Resource module for Sensor Test Run
 description:
 - Manage operation update of the resource Sensor Test Run.
+- Intent API to run a deployed SENSOR test.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -22,10 +23,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Sensor Test Run reference
-  description: Complete reference of the Sensor Test Run object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function run_now_sensor_test used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sensors.Sensors.run_now_sensor_test
+
+- name: Paths used on the module Sensor Test Run
+  description: |-
+    put /dna/intent/api/v1/sensor-run-now
 """
 
 EXAMPLES = r"""

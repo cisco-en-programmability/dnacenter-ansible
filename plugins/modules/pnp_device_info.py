@@ -11,6 +11,8 @@ short_description: Information module for Pnp Device
 description:
 - Get all Pnp Device.
 - Get Pnp Device by id.
+- Returns list of devices based on filter crieteria. If a limit is not specified, it will default to return 50 devices. Pagination and sorting are also supported by this endpoint.
+- Returns device details specified by device id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -111,10 +113,17 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Pnp Device reference
-  description: Complete reference of the Pnp Device object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_device_by_id used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.get_device_by_id
+
+- name: SDK function get_device_list used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.get_device_list
+
+- name: Paths used on the module Pnp Device
+  description: |-
+    get /dna/intent/api/v1/onboarding/pnp-device,
+    get /dna/intent/api/v1/onboarding/pnp-device/{id}
 """
 
 EXAMPLES = r"""

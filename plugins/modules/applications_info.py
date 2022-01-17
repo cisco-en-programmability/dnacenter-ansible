@@ -10,6 +10,7 @@ module: applications_info
 short_description: Information module for Applications
 description:
 - Get all Applications.
+- Get applications by offset/limit or by name.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -34,10 +35,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Applications reference
-  description: Complete reference of the Applications object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_applications used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.get_applications
+
+- name: Paths used on the module Applications
+  description: |-
+    get /dna/intent/api/v1/applications
 """
 
 EXAMPLES = r"""

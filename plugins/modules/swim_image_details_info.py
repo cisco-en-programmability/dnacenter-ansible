@@ -10,6 +10,7 @@ module: swim_image_details_info
 short_description: Information module for Swim Image Details
 description:
 - Get all Swim Image Details.
+- Returns software image list based on a filter criteria. For example: "filterbyName = cat3k%".
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -94,10 +95,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Swim Image Details reference
-  description: Complete reference of the Swim Image Details object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_software_image_details used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.software_image_management_swim.SoftwareImageManagementSwim.get_software_image_details
+
+- name: Paths used on the module Swim Image Details
+  description: |-
+    get /dna/intent/api/v1/image/importation
 """
 
 EXAMPLES = r"""

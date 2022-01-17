@@ -10,6 +10,7 @@ module: platform_release_summary_info
 short_description: Information module for Platform Release Summary
 description:
 - Get all Platform Release Summary.
+- Provides information such as API version, mandatory core packages for installation or upgrade, optional packages, Cisco DNA Center name and version, supported direct updates, and tenant ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,10 +23,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Platform Release Summary reference
-  description: Complete reference of the Platform Release Summary object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function release_summary used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.platform_configuration.PlatformConfiguration.release_summary
+
+- name: Paths used on the module Platform Release Summary
+  description: |-
+    get /dna/intent/api/v1/dnac-release
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,8 @@ module: endpoint_analytics_profiling_rules
 short_description: Resource module for Endpoint Analytics Profiling Rules
 description:
 - Manage operations create, update and delete of the resource Endpoint Analytics Profiling Rules.
+- Creates profiling rule from the request body.
+- Deletes the profiling rule for the given 'ruleId'.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -115,10 +117,20 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Endpoint Analytics Profiling Rules reference
-  description: Complete reference of the Endpoint Analytics Profiling Rules object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function update_an_existing_profiling_rule used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.policy.Policy.update_an_existing_profiling_rule
+
+- name: SDK function create_a_profiling_rule used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.policy.Policy.create_a_profiling_rule
+
+- name: SDK function delete_an_existing_profiling_rule used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.policy.Policy.delete_an_existing_profiling_rule
+
+- name: Paths used on the module Endpoint Analytics Profiling Rules
+  description: |-
+    post /dna/intent/api/v1/endpoint-analytics/profiling-rules,
+    delete /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId}
 """
 
 EXAMPLES = r"""

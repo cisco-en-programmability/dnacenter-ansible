@@ -10,6 +10,7 @@ module: global_credential_delete
 short_description: Resource module for Global Credential Delete
 description:
 - Manage operation delete of the resource Global Credential Delete.
+- Deletes global credential for the given ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -22,10 +23,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Global Credential Delete reference
-  description: Complete reference of the Global Credential Delete object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function delete_global_credentials_by_id used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.delete_global_credentials_by_id
+
+- name: Paths used on the module Global Credential Delete
+  description: |-
+    delete /dna/intent/api/v1/global-credential/{globalCredentialId}
 """
 
 EXAMPLES = r"""

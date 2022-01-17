@@ -10,6 +10,7 @@ module: sda_fabric_control_plane_device_info
 short_description: Information module for Sda Fabric Control Plane Device
 description:
 - Get all Sda Fabric Control Plane Device.
+- Get control plane device from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,10 +28,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Sda Fabric Control Plane Device reference
-  description: Complete reference of the Sda Fabric Control Plane Device object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_control_plane_device used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.get_control_plane_device
+
+- name: Paths used on the module Sda Fabric Control Plane Device
+  description: |-
+    get /dna/intent/api/v1/business/sda/control-plane-device
 """
 
 EXAMPLES = r"""

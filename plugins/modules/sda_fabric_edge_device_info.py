@@ -10,6 +10,7 @@ module: sda_fabric_edge_device_info
 short_description: Information module for Sda Fabric Edge Device
 description:
 - Get all Sda Fabric Edge Device.
+- Get edge device from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,10 +27,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Sda Fabric Edge Device reference
-  description: Complete reference of the Sda Fabric Edge Device object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_edge_device used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.get_edge_device
+
+- name: Paths used on the module Sda Fabric Edge Device
+  description: |-
+    get /dna/intent/api/v1/business/sda/edge-device
 """
 
 EXAMPLES = r"""

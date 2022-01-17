@@ -10,6 +10,8 @@ module: sda_multicast
 short_description: Resource module for Sda Multicast
 description:
 - Manage operations create and delete of the resource Sda Multicast.
+- Add multicast in SDA fabric.
+- Delete multicast from SDA fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -50,10 +52,14 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: Sda Multicast reference
-  description: Complete reference of the Sda Multicast object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function add_multicast_in_sda_fabric used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.add_multicast_in_sda_fabric
+
+- name: Paths used on the module Sda Multicast
+  description: |-
+    post /dna/intent/api/v1/business/sda/multicast,
+    delete /dna/intent/api/v1/business/sda/multicast
 """
 
 EXAMPLES = r"""

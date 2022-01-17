@@ -10,6 +10,7 @@ module: app_policy_default_info
 short_description: Information module for App Policy Default
 description:
 - Get all App Policy Default.
+- Get default application policy.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,10 +23,13 @@ requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
 seealso:
-# Reference by Internet resource
-- name: App Policy Default reference
-  description: Complete reference of the App Policy Default object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+# Reference to SDK documentation of current version
+- name: SDK function get_application_policy_default used
+  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.get_application_policy_default
+
+- name: Paths used on the module App Policy Default
+  description: |-
+    get /dna/intent/api/v1/app-policy-default
 """
 
 EXAMPLES = r"""
