@@ -33,7 +33,7 @@ seealso:
     wireless.Wireless.delete_ssid_and_provision_it_to_devices
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/business/ssid/{ssidName}/{managedAPLocations}
+  - Paths used are delete /dna/intent/api/v1/business/ssid/{ssidName}/{managedAPLocations}
 """
 
 EXAMPLES = r"""

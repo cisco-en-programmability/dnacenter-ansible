@@ -42,7 +42,7 @@ seealso:
     software_image_management_swim.SoftwareImageManagementSwim.remove_golden_tag_for_image
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId}
+  - Paths used are delete /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId}
 """
 
 EXAMPLES = r"""

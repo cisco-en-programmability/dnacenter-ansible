@@ -38,7 +38,7 @@ seealso:
     application_policy.ApplicationPolicy.create_application_set
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/application-policy-application-set,
+  - Paths used are delete /dna/intent/api/v1/application-policy-application-set,
     post /dna/intent/api/v1/application-policy-application-set
 """
 

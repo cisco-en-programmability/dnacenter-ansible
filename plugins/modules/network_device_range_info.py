@@ -38,7 +38,7 @@ seealso:
     devices.Devices.get_network_device_by_pagination_range
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/{startIndex}/{recordsToReturn}
+  - Paths used are get /dna/intent/api/v1/network-device/{startIndex}/{recordsToReturn}
 """
 
 EXAMPLES = r"""

@@ -46,7 +46,7 @@ seealso:
     fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping
 
 notes:
-  - Paths used: post /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
+  - Paths used are post /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
     put /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool
 """
 

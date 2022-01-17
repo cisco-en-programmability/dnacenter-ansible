@@ -118,7 +118,7 @@ seealso:
     devices.Devices.get_device_values_that_match_fully_or_partially_an_attribute
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/autocomplete
+  - Paths used are get /dna/intent/api/v1/network-device/autocomplete
 """
 
 EXAMPLES = r"""

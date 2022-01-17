@@ -40,7 +40,7 @@ seealso:
     itsm.Itsm.get_cmdb_sync_status
 
 notes:
-  - Paths used: get /dna/intent/api/v1/cmdb-sync/detail
+  - Paths used are get /dna/intent/api/v1/cmdb-sync/detail
 """
 
 EXAMPLES = r"""

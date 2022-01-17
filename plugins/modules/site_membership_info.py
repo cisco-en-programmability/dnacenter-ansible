@@ -50,7 +50,7 @@ seealso:
     sites.Sites.get_membership
 
 notes:
-  - Paths used: get /dna/intent/api/v1/membership/{siteId}
+  - Paths used are get /dna/intent/api/v1/membership/{siteId}
 """
 
 EXAMPLES = r"""

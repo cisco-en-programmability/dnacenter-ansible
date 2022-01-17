@@ -29,7 +29,7 @@ seealso:
     https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
     application_policy.ApplicationPolicy.get_application_policy_default
 notes:
-  - Paths used: get /dna/intent/api/v1/app-policy-default
+  - Paths used are get /dna/intent/api/v1/app-policy-default
 """
 
 EXAMPLES = r"""

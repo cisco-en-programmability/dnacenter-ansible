@@ -28,7 +28,7 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 notes:
-  - Paths used: delete /dna/intent/api/v1/discovery/{startIndex}/{recordsToDelete}
+  - Paths used are delete /dna/intent/api/v1/discovery/{startIndex}/{recordsToDelete}
 """
 
 EXAMPLES = r"""

@@ -30,7 +30,7 @@ seealso:
     network_settings.NetworkSettings.delete_sp_profile
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/sp-profile/{spProfileName}
+  - Paths used are delete /dna/intent/api/v1/sp-profile/{spProfileName}
 """
 
 EXAMPLES = r"""

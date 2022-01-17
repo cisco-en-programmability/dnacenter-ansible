@@ -129,7 +129,7 @@ seealso:
     network_settings.NetworkSettings.create_device_credentials
 
 notes:
-  - Paths used: put /dna/intent/api/v1/device-credential
+  - Paths used are put /dna/intent/api/v1/device-credential
 """
 
 EXAMPLES = r"""

@@ -58,7 +58,7 @@ seealso:
     devices.Devices.devices
 
 notes:
-  - Paths used: get /dna/intent/api/v1/device-health
+  - Paths used are get /dna/intent/api/v1/device-health
 """
 
 EXAMPLES = r"""

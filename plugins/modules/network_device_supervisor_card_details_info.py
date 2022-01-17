@@ -34,7 +34,7 @@ seealso:
     devices.Devices.get_supervisor_card_detail
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/{deviceUuid}/supervisor-card
+  - Paths used are get /dna/intent/api/v1/network-device/{deviceUuid}/supervisor-card
 """
 
 EXAMPLES = r"""

@@ -145,7 +145,7 @@ seealso:
     device_onboarding_pnp.DeviceOnboardingPnp.delete_workflow_by_id
 
 notes:
-  - Paths used: post /dna/intent/api/v1/onboarding/pnp-workflow,
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-workflow,
     delete /dna/intent/api/v1/onboarding/pnp-workflow/{id}
 """
 

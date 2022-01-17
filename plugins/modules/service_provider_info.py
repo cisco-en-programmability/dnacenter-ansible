@@ -30,7 +30,7 @@ seealso:
     network_settings.NetworkSettings.get_service_provider_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/service-provider
+  - Paths used are get /dna/intent/api/v1/service-provider
 """
 
 EXAMPLES = r"""

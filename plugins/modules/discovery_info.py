@@ -34,7 +34,7 @@ seealso:
     discovery.Discovery.get_discovery_by_id
 
 notes:
-  - Paths used: get /dna/intent/api/v1/discovery/{id}
+  - Paths used are get /dna/intent/api/v1/discovery/{id}
 """
 
 EXAMPLES = r"""

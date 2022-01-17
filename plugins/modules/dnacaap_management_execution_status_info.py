@@ -34,7 +34,7 @@ seealso:
     task.Task.get_business_api_execution_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/dnacaap/management/execution-status/{executionId}
+  - Paths used are get /dna/intent/api/v1/dnacaap/management/execution-status/{executionId}
 """
 
 EXAMPLES = r"""

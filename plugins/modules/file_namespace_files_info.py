@@ -34,7 +34,7 @@ seealso:
     file.File.get_list_of_files
 
 notes:
-  - Paths used: get /dna/intent/api/v1/file/namespace/{nameSpace}
+  - Paths used are get /dna/intent/api/v1/file/namespace/{nameSpace}
 """
 
 EXAMPLES = r"""

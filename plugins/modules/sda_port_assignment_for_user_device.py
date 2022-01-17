@@ -65,7 +65,7 @@ seealso:
     sda.Sda.add_port_assignment_for_user_device
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/business/sda/hostonboarding/user-device,
+  - Paths used are delete /dna/intent/api/v1/business/sda/hostonboarding/user-device,
     post /dna/intent/api/v1/business/sda/hostonboarding/user-device
 """
 

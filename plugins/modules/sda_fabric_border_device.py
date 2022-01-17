@@ -87,7 +87,7 @@ seealso:
     sda.Sda.adds_border_device
 
 notes:
-  - Paths used: post /dna/intent/api/v1/business/sda/border-device,
+  - Paths used are post /dna/intent/api/v1/business/sda/border-device,
     delete /dna/intent/api/v1/business/sda/border-device
 """
 

@@ -102,7 +102,7 @@ seealso:
     software_image_management_swim.SoftwareImageManagementSwim.get_software_image_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/image/importation
+  - Paths used are get /dna/intent/api/v1/image/importation
 """
 
 EXAMPLES = r"""

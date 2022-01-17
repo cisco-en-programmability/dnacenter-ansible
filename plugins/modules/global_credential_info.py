@@ -55,7 +55,7 @@ seealso:
     discovery.Discovery.get_global_credentials
 
 notes:
-  - Paths used: get /dna/intent/api/v1/global-credential,
+  - Paths used are get /dna/intent/api/v1/global-credential,
     get /dna/intent/api/v1/global-credential/{id}
 """
 

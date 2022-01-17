@@ -106,7 +106,7 @@ seealso:
     device_onboarding_pnp.DeviceOnboardingPnp.add_virtual_account
 
 notes:
-  - Paths used: post /dna/intent/api/v1/onboarding/pnp-settings/savacct
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-settings/savacct
 """
 
 EXAMPLES = r"""

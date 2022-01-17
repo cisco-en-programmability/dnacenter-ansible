@@ -34,7 +34,7 @@ seealso:
     wireless.Wireless.retrieve_rf_profiles
 
 notes:
-  - Paths used: get /dna/intent/api/v1/wireless/rf-profile
+  - Paths used are get /dna/intent/api/v1/wireless/rf-profile
 """
 
 EXAMPLES = r"""

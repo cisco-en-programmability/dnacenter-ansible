@@ -38,7 +38,7 @@ seealso:
     policy.Policy.get_count_of_profiling_rules
 
 notes:
-  - Paths used: get /dna/intent/api/v1/endpoint-analytics/profiling-rules/count
+  - Paths used are get /dna/intent/api/v1/endpoint-analytics/profiling-rules/count
 """
 
 EXAMPLES = r"""

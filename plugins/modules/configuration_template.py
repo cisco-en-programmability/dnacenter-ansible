@@ -516,7 +516,7 @@ seealso:
     configuration_templates.ConfigurationTemplates.deletes_the_template
 
 notes:
-  - Paths used: put /dna/intent/api/v1/template-programmer/template,
+  - Paths used are put /dna/intent/api/v1/template-programmer/template,
     delete /dna/intent/api/v1/template-programmer/template/{templateId}
 """
 

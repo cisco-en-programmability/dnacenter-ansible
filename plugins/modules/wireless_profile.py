@@ -79,7 +79,7 @@ seealso:
     wireless.Wireless.update_wireless_profile
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/wireless-profile/{wirelessProfileName},
+  - Paths used are delete /dna/intent/api/v1/wireless-profile/{wirelessProfileName},
     put /dna/intent/api/v1/wireless/profile,
     post /dna/intent/api/v1/wireless/profile
 """

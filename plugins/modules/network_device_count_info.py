@@ -41,7 +41,7 @@ seealso:
     devices.Devices.get_device_interface_count_by_id
 
 notes:
-  - Paths used: get /dna/intent/api/v1/interface/network-device/{deviceId}/count,
+  - Paths used are get /dna/intent/api/v1/interface/network-device/{deviceId}/count,
     get /dna/intent/api/v1/network-device/count
 """
 

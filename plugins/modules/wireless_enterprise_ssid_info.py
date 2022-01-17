@@ -36,7 +36,7 @@ seealso:
     wireless.Wireless.get_enterprise_ssid
 
 notes:
-  - Paths used: get /dna/intent/api/v1/enterprise-ssid
+  - Paths used are get /dna/intent/api/v1/enterprise-ssid
 """
 
 EXAMPLES = r"""

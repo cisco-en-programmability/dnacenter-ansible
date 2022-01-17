@@ -30,7 +30,7 @@ seealso:
     device_onboarding_pnp.DeviceOnboardingPnp.get_smart_account_list
 
 notes:
-  - Paths used: get /dna/intent/api/v1/onboarding/pnp-settings/sacct
+  - Paths used are get /dna/intent/api/v1/onboarding/pnp-settings/sacct
 """
 
 EXAMPLES = r"""

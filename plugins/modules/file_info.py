@@ -42,7 +42,7 @@ seealso:
     file.File.download_a_file_by_fileid
 
 notes:
-  - Paths used: get /dna/intent/api/v1/file/{fileId}
+  - Paths used are get /dna/intent/api/v1/file/{fileId}
 """
 
 EXAMPLES = r"""

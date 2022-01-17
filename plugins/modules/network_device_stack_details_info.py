@@ -34,7 +34,7 @@ seealso:
     devices.Devices.get_stack_details_for_device
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/{deviceId}/stack
+  - Paths used are get /dna/intent/api/v1/network-device/{deviceId}/stack
 """
 
 EXAMPLES = r"""

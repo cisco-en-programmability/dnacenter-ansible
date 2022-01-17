@@ -65,7 +65,7 @@ seealso:
     wireless.Wireless.provision
 
 notes:
-  - Paths used: put /dna/intent/api/v1/wireless/provision
+  - Paths used are put /dna/intent/api/v1/wireless/provision
 """
 
 EXAMPLES = r"""

@@ -46,7 +46,7 @@ seealso:
     health_and_performance.HealthAndPerformance.system_performance_historical
 
 notes:
-  - Paths used: get /dna/intent/api/v1/diagnostics/system/performance/history
+  - Paths used are get /dna/intent/api/v1/diagnostics/system/performance/history
 """
 
 EXAMPLES = r"""

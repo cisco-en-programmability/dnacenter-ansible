@@ -113,7 +113,7 @@ seealso:
     network_settings.NetworkSettings.reserve_ip_subpool
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/reserve-ip-subpool/{id},
+  - Paths used are delete /dna/intent/api/v1/reserve-ip-subpool/{id},
     post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
     put /dna/intent/api/v1/reserve-ip-subpool/{siteId}
 """

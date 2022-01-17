@@ -34,7 +34,7 @@ seealso:
     devices.Devices.get_network_device_by_ip
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/ip-address/{ipAddress}
+  - Paths used are get /dna/intent/api/v1/network-device/ip-address/{ipAddress}
 """
 
 EXAMPLES = r"""

@@ -44,7 +44,7 @@ seealso:
     network_settings.NetworkSettings.update_sp_profile
 
 notes:
-  - Paths used: put /dna/intent/api/v1/service-provider
+  - Paths used are put /dna/intent/api/v1/service-provider
 """
 
 EXAMPLES = r"""

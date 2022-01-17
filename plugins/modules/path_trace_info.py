@@ -101,7 +101,7 @@ seealso:
     path_trace.PathTrace.retrieves_previous_pathtrace
 
 notes:
-  - Paths used: get /dna/intent/api/v1/flow-analysis,
+  - Paths used are get /dna/intent/api/v1/flow-analysis,
     get /dna/intent/api/v1/flow-analysis/{flowAnalysisId}
 """
 

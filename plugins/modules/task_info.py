@@ -97,7 +97,7 @@ seealso:
     task.Task.get_task_by_id
 
 notes:
-  - Paths used: get /dna/intent/api/v1/task,
+  - Paths used are get /dna/intent/api/v1/task,
     get /dna/intent/api/v1/task/{taskId}
 """
 

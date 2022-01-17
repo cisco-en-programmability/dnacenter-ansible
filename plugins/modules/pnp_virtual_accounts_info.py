@@ -34,7 +34,7 @@ seealso:
     device_onboarding_pnp.DeviceOnboardingPnp.get_virtual_account_list
 
 notes:
-  - Paths used: get /dna/intent/api/v1/onboarding/pnp-settings/sacct/{domain}/vacct
+  - Paths used are get /dna/intent/api/v1/onboarding/pnp-settings/sacct/{domain}/vacct
 """
 
 EXAMPLES = r"""

@@ -30,7 +30,7 @@ seealso:
     device_onboarding_pnp.DeviceOnboardingPnp.get_pnp_global_settings
 
 notes:
-  - Paths used: get /dna/intent/api/v1/onboarding/pnp-settings
+  - Paths used are get /dna/intent/api/v1/onboarding/pnp-settings
 """
 
 EXAMPLES = r"""

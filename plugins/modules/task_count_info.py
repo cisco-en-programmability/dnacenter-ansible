@@ -70,7 +70,7 @@ seealso:
     task.Task.get_task_count
 
 notes:
-  - Paths used: get /dna/intent/api/v1/task/count
+  - Paths used are get /dna/intent/api/v1/task/count
 """
 
 EXAMPLES = r"""

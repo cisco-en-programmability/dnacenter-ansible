@@ -34,7 +34,7 @@ seealso:
     event_management.EventManagement.count_of_event_subscriptions
 
 notes:
-  - Paths used: get /dna/intent/api/v1/event/subscription/count
+  - Paths used are get /dna/intent/api/v1/event/subscription/count
 """
 
 EXAMPLES = r"""

@@ -41,7 +41,7 @@ seealso:
     site_design.SiteDesign.get_floormap
 
 notes:
-  - Paths used: get /dna/intent/api/v1/wireless/floormap/all,
+  - Paths used are get /dna/intent/api/v1/wireless/floormap/all,
     get /dna/intent/api/v1/wireless/floormap/{floorId}
 """
 

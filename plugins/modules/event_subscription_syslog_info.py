@@ -50,7 +50,7 @@ seealso:
     event_management.EventManagement.get_syslog_event_subscriptions
 
 notes:
-  - Paths used: get /dna/intent/api/v1/event/subscription/syslog
+  - Paths used are get /dna/intent/api/v1/event/subscription/syslog
 """
 
 EXAMPLES = r"""

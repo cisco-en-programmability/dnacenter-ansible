@@ -36,7 +36,7 @@ seealso:
     device_onboarding_pnp.DeviceOnboardingPnp.preview_config
 
 notes:
-  - Paths used: post /dna/intent/api/v1/onboarding/pnp-device/site-config-preview
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/site-config-preview
 """
 
 EXAMPLES = r"""

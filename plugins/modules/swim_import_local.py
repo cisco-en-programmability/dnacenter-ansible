@@ -43,7 +43,7 @@ seealso:
     software_image_management_swim.SoftwareImageManagementSwim.import_local_software_image
 
 notes:
-  - Paths used: post /dna/intent/api/v1/image/importation/source/file
+  - Paths used are post /dna/intent/api/v1/image/importation/source/file
 """
 
 EXAMPLES = r"""

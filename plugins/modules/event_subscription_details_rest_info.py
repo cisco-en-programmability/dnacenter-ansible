@@ -42,7 +42,7 @@ seealso:
     event_management.EventManagement.get_rest_webhook_subscription_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/event/subscription-details/rest
+  - Paths used are get /dna/intent/api/v1/event/subscription-details/rest
 """
 
 EXAMPLES = r"""

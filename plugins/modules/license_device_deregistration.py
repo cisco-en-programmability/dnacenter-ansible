@@ -31,7 +31,7 @@ seealso:
     licenses.Licenses.device_deregistration
 
 notes:
-  - Paths used: put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/deregister
+  - Paths used are put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/deregister
 """
 
 EXAMPLES = r"""

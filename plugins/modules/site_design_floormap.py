@@ -44,7 +44,7 @@ seealso:
     site_design.SiteDesign.delete_floormap
 
 notes:
-  - Paths used: post /dna/intent/api/v1/wireless/floormap,
+  - Paths used are post /dna/intent/api/v1/wireless/floormap,
     delete /dna/intent/api/v1/wireless/floormap/{floorId}
 """
 

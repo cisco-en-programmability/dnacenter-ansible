@@ -34,7 +34,7 @@ seealso:
     sda.Sda.get_sda_fabric_info
 
 notes:
-  - Paths used: get /dna/intent/api/v1/business/sda/fabric
+  - Paths used are get /dna/intent/api/v1/business/sda/fabric
 """
 
 EXAMPLES = r"""

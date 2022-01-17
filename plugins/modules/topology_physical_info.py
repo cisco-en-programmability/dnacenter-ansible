@@ -34,7 +34,7 @@ seealso:
     topology.Topology.get_physical_topology
 
 notes:
-  - Paths used: get /dna/intent/api/v1/topology/physical-topology
+  - Paths used are get /dna/intent/api/v1/topology/physical-topology
 """
 
 EXAMPLES = r"""

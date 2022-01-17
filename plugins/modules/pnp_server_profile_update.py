@@ -106,7 +106,7 @@ seealso:
     device_onboarding_pnp.DeviceOnboardingPnp.update_pnp_server_profile
 
 notes:
-  - Paths used: put /dna/intent/api/v1/onboarding/pnp-settings/savacct
+  - Paths used are put /dna/intent/api/v1/onboarding/pnp-settings/savacct
 """
 
 EXAMPLES = r"""

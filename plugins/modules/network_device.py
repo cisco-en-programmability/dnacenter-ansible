@@ -136,7 +136,7 @@ seealso:
     devices.Devices.sync_devices
 
 notes:
-  - Paths used: post /dna/intent/api/v1/network-device,
+  - Paths used are post /dna/intent/api/v1/network-device,
     put /dna/intent/api/v1/network-device,
     delete /dna/intent/api/v1/network-device/{id}
 """

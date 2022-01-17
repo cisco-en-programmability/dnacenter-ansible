@@ -30,7 +30,7 @@ seealso:
     devices.Devices.get_polling_interval_for_all_devices
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/collection-schedule/global
+  - Paths used are get /dna/intent/api/v1/network-device/collection-schedule/global
 """
 
 EXAMPLES = r"""

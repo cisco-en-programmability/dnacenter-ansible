@@ -39,7 +39,7 @@ seealso:
     discovery.Discovery.update_global_credentials
 
 notes:
-  - Paths used: put /dna/intent/api/v1/global-credential/{globalCredentialId}
+  - Paths used are put /dna/intent/api/v1/global-credential/{globalCredentialId}
 """
 
 EXAMPLES = r"""

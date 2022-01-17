@@ -34,7 +34,7 @@ seealso:
     configuration_templates.ConfigurationTemplates.get_template_versions
 
 notes:
-  - Paths used: get /dna/intent/api/v1/template-programmer/template/version/{templateId}
+  - Paths used are get /dna/intent/api/v1/template-programmer/template/version/{templateId}
 """
 
 EXAMPLES = r"""

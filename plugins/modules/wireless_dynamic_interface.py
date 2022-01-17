@@ -39,7 +39,7 @@ seealso:
     wireless.Wireless.delete_dynamic_interface
 
 notes:
-  - Paths used: post /dna/intent/api/v1/wireless/dynamic-interface,
+  - Paths used are post /dna/intent/api/v1/wireless/dynamic-interface,
     delete /dna/intent/api/v1/wireless/dynamic-interface/{interfaceName}
 """
 

@@ -41,7 +41,7 @@ seealso:
     reports.Reports.get_views_for_a_given_view_group
 
 notes:
-  - Paths used: get /dna/intent/api/v1/data/view-groups,
+  - Paths used are get /dna/intent/api/v1/data/view-groups,
     get /dna/intent/api/v1/data/view-groups/{viewGroupId}
 """
 

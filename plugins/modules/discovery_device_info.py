@@ -38,7 +38,7 @@ seealso:
     discovery.Discovery.get_discovered_network_devices_by_discovery_id
 
 notes:
-  - Paths used: get /dna/intent/api/v1/discovery/{id}/network-device
+  - Paths used are get /dna/intent/api/v1/discovery/{id}/network-device
 """
 
 EXAMPLES = r"""

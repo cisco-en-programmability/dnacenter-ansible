@@ -34,7 +34,7 @@ seealso:
     security_advisories.SecurityAdvisories.get_devices_per_advisory
 
 notes:
-  - Paths used: get /dna/intent/api/v1/security-advisory/advisory/{advisoryId}/device
+  - Paths used are get /dna/intent/api/v1/security-advisory/advisory/{advisoryId}/device
 """
 
 EXAMPLES = r"""

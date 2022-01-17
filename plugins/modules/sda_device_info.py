@@ -35,7 +35,7 @@ seealso:
     sda.Sda.get_device_info
 
 notes:
-  - Paths used: get /dna/intent/api/v1/business/sda/device
+  - Paths used are get /dna/intent/api/v1/business/sda/device
 """
 
 EXAMPLES = r"""

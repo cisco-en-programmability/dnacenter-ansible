@@ -46,7 +46,7 @@ seealso:
     discovery.Discovery.create_update_snmp_properties
 
 notes:
-  - Paths used: post /dna/intent/api/v1/snmp-property
+  - Paths used are post /dna/intent/api/v1/snmp-property
 """
 
 EXAMPLES = r"""

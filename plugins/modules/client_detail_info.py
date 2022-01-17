@@ -38,7 +38,7 @@ seealso:
     clients.Clients.get_client_detail
 
 notes:
-  - Paths used: get /dna/intent/api/v1/client-detail
+  - Paths used are get /dna/intent/api/v1/client-detail
 """
 
 EXAMPLES = r"""

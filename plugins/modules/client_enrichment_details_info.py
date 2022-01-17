@@ -30,7 +30,7 @@ seealso:
     clients.Clients.get_client_enrichment_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/client-enrichment-details
+  - Paths used are get /dna/intent/api/v1/client-enrichment-details
 """
 
 EXAMPLES = r"""

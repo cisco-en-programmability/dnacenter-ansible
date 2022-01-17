@@ -36,7 +36,7 @@ seealso:
     device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site
 
 notes:
-  - Paths used: post /dna/intent/api/v1/onboarding/pnp-device/site-claim
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/site-claim
 """
 
 EXAMPLES = r"""

@@ -69,7 +69,7 @@ seealso:
     sda.Sda.update_default_authentication_profile
 
 notes:
-  - Paths used: post /dna/intent/api/v1/business/sda/authentication-profile,
+  - Paths used are post /dna/intent/api/v1/business/sda/authentication-profile,
     put /dna/intent/api/v1/business/sda/authentication-profile,
     delete /dna/intent/api/v1/business/sda/authentication-profile
 """

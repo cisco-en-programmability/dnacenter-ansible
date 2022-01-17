@@ -113,7 +113,7 @@ seealso:
     reports.Reports.create_or_schedule_a_report
 
 notes:
-  - Paths used: post /dna/intent/api/v1/data/reports,
+  - Paths used are post /dna/intent/api/v1/data/reports,
     delete /dna/intent/api/v1/data/reports/{reportId}
 """
 

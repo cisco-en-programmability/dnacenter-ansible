@@ -30,7 +30,7 @@ seealso:
     tag.Tag.get_tag_resource_types
 
 notes:
-  - Paths used: get /dna/intent/api/v1/tag/member/type
+  - Paths used are get /dna/intent/api/v1/tag/member/type
 """
 
 EXAMPLES = r"""

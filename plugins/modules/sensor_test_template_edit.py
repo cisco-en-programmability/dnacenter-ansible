@@ -90,7 +90,7 @@ seealso:
     sensors.Sensors.edit_sensor_test_template
 
 notes:
-  - Paths used: put /dna/intent/api/v1/AssuranceScheduleSensorTest
+  - Paths used are put /dna/intent/api/v1/AssuranceScheduleSensorTest
 """
 
 EXAMPLES = r"""

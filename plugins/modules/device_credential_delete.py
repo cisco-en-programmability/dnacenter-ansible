@@ -30,7 +30,7 @@ seealso:
     network_settings.NetworkSettings.delete_device_credential
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/device-credential/{id}
+  - Paths used are delete /dna/intent/api/v1/device-credential/{id}
 """
 
 EXAMPLES = r"""

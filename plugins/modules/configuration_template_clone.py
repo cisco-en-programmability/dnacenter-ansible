@@ -38,7 +38,7 @@ seealso:
     configuration_templates.ConfigurationTemplates.clone_given_template
 
 notes:
-  - Paths used: post /dna/intent/api/v1/template-programmer/clone/name/{name}/project/{projectId}/template/{templateId}
+  - Paths used are post /dna/intent/api/v1/template-programmer/clone/name/{name}/project/{projectId}/template/{templateId}
 """
 
 EXAMPLES = r"""

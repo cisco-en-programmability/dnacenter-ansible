@@ -56,7 +56,7 @@ seealso:
     software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url
 
 notes:
-  - Paths used: post /dna/intent/api/v1/image/importation/source/url
+  - Paths used are post /dna/intent/api/v1/image/importation/source/url
 """
 
 EXAMPLES = r"""

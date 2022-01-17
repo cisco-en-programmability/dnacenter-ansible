@@ -42,7 +42,7 @@ seealso:
     device_onboarding_pnp.DeviceOnboardingPnp.get_device_history
 
 notes:
-  - Paths used: get /dna/intent/api/v1/onboarding/pnp-device/history
+  - Paths used are get /dna/intent/api/v1/onboarding/pnp-device/history
 """
 
 EXAMPLES = r"""

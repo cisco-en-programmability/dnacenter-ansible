@@ -50,7 +50,7 @@ seealso:
     devices.Devices.get_devices_with_snmpv3_des
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/insight/{siteId}/insecure-connection
+  - Paths used are get /dna/intent/api/v1/network-device/insight/{siteId}/insecure-connection
 """
 
 EXAMPLES = r"""

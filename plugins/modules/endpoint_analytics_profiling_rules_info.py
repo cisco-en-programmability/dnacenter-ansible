@@ -70,7 +70,7 @@ seealso:
     policy.Policy.get_details_of_a_single_profiling_rule
 
 notes:
-  - Paths used: get /dna/intent/api/v1/endpoint-analytics/profiling-rules,
+  - Paths used are get /dna/intent/api/v1/endpoint-analytics/profiling-rules,
     get /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId}
 """
 

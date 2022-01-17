@@ -34,7 +34,7 @@ seealso:
     application_policy.ApplicationPolicy.get_qos_device_interface_info
 
 notes:
-  - Paths used: get /dna/intent/api/v1/qos-device-interface-info
+  - Paths used are get /dna/intent/api/v1/qos-device-interface-info
 """
 
 EXAMPLES = r"""

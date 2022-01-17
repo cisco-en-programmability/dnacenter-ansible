@@ -42,7 +42,7 @@ seealso:
     application_policy.ApplicationPolicy.get_application_sets
 
 notes:
-  - Paths used: get /dna/intent/api/v1/application-policy-application-set
+  - Paths used are get /dna/intent/api/v1/application-policy-application-set
 """
 
 EXAMPLES = r"""

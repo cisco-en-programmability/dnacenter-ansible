@@ -44,7 +44,7 @@ seealso:
     network_settings.NetworkSettings.create_sp_profile
 
 notes:
-  - Paths used: post /dna/intent/api/v1/service-provider
+  - Paths used are post /dna/intent/api/v1/service-provider
 """
 
 EXAMPLES = r"""

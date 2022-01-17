@@ -38,7 +38,7 @@ seealso:
     discovery.Discovery.get_discoveries_by_range
 
 notes:
-  - Paths used: get /dna/intent/api/v1/discovery/{startIndex}/{recordsToReturn}
+  - Paths used are get /dna/intent/api/v1/discovery/{startIndex}/{recordsToReturn}
 """
 
 EXAMPLES = r"""

@@ -38,7 +38,7 @@ seealso:
     device_onboarding_pnp.DeviceOnboardingPnp.get_sync_result_for_virtual_account
 
 notes:
-  - Paths used: get /dna/intent/api/v1/onboarding/pnp-device/sacct/{domain}/vacct/{name}/sync-result
+  - Paths used are get /dna/intent/api/v1/onboarding/pnp-device/sacct/{domain}/vacct/{name}/sync-result
 """
 
 EXAMPLES = r"""

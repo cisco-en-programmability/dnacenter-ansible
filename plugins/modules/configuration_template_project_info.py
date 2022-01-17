@@ -49,7 +49,7 @@ seealso:
     configuration_templates.ConfigurationTemplates.get_project_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/template-programmer/project,
+  - Paths used are get /dna/intent/api/v1/template-programmer/project,
     get /dna/intent/api/v1/template-programmer/project/{projectId}
 """
 

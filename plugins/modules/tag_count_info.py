@@ -54,7 +54,7 @@ seealso:
     tag.Tag.get_tag_count
 
 notes:
-  - Paths used: get /dna/intent/api/v1/tag/count
+  - Paths used are get /dna/intent/api/v1/tag/count
 """
 
 EXAMPLES = r"""

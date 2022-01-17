@@ -36,7 +36,7 @@ seealso:
     sda.Sda.add_control_plane_device
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/business/sda/control-plane-device,
+  - Paths used are delete /dna/intent/api/v1/business/sda/control-plane-device,
     post /dna/intent/api/v1/business/sda/control-plane-device
 """
 

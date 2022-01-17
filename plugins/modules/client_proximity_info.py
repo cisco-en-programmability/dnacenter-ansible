@@ -49,7 +49,7 @@ seealso:
     clients.Clients.client_proximity
 
 notes:
-  - Paths used: get /dna/intent/api/v1/client-proximity
+  - Paths used are get /dna/intent/api/v1/client-proximity
 """
 
 EXAMPLES = r"""

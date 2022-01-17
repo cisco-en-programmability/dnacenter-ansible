@@ -34,7 +34,7 @@ seealso:
     itsm.Itsm.retry_integration_events
 
 notes:
-  - Paths used: post /dna/intent/api/v1/integration/events
+  - Paths used are post /dna/intent/api/v1/integration/events
 """
 
 EXAMPLES = r"""

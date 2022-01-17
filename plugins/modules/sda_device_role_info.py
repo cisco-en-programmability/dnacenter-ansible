@@ -34,7 +34,7 @@ seealso:
     sda.Sda.get_device_role_in_sda_fabric
 
 notes:
-  - Paths used: get /dna/intent/api/v1/business/sda/device/role
+  - Paths used are get /dna/intent/api/v1/business/sda/device/role
 """
 
 EXAMPLES = r"""

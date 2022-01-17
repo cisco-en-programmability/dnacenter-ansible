@@ -30,7 +30,7 @@ seealso:
     platform_configuration.PlatformConfiguration.release_summary
 
 notes:
-  - Paths used: get /dna/intent/api/v1/dnac-release
+  - Paths used are get /dna/intent/api/v1/dnac-release
 """
 
 EXAMPLES = r"""

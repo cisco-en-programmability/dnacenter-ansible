@@ -63,7 +63,7 @@ seealso:
     discovery.Discovery.update_http_write_credentials
 
 notes:
-  - Paths used: put /dna/intent/api/v1/global-credential/http-write,
+  - Paths used are put /dna/intent/api/v1/global-credential/http-write,
     post /dna/intent/api/v1/global-credential/http-write
 """
 

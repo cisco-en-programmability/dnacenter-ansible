@@ -31,7 +31,7 @@ seealso:
     configuration_templates.ConfigurationTemplates.export_templates
 
 notes:
-  - Paths used: post /dna/intent/api/v1/template-programmer/template/exporttemplates
+  - Paths used are post /dna/intent/api/v1/template-programmer/template/exporttemplates
 """
 
 EXAMPLES = r"""

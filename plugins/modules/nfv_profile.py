@@ -162,7 +162,7 @@ seealso:
     site_design.SiteDesign.update_nfv_profile
 
 notes:
-  - Paths used: post /dna/intent/api/v1/nfv/network-profile,
+  - Paths used are post /dna/intent/api/v1/nfv/network-profile,
     delete /dna/intent/api/v1/nfv/network-profile/{id}
 """
 

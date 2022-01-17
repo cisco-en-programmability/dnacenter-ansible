@@ -34,7 +34,7 @@ seealso:
     sites.Sites.get_site_count
 
 notes:
-  - Paths used: get /dna/intent/api/v1/site/count
+  - Paths used are get /dna/intent/api/v1/site/count
 """
 
 EXAMPLES = r"""

@@ -48,7 +48,7 @@ seealso:
     network_settings.NetworkSettings.assign_credential_to_site
 
 notes:
-  - Paths used: post /dna/intent/api/v1/credential-to-site/{siteId}
+  - Paths used are post /dna/intent/api/v1/credential-to-site/{siteId}
 """
 
 EXAMPLES = r"""

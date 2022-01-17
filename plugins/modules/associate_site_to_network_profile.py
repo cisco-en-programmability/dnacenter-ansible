@@ -38,7 +38,7 @@ seealso:
     site_design.SiteDesign.disassociate
 
 notes:
-  - Paths used: post /dna/intent/api/v1/networkprofile/{networkProfileId}/site/{siteId}
+  - Paths used are post /dna/intent/api/v1/networkprofile/{networkProfileId}/site/{siteId}
 """
 
 EXAMPLES = r"""

@@ -134,7 +134,7 @@ seealso:
     policy.Policy.delete_an_existing_profiling_rule
 
 notes:
-  - Paths used: post /dna/intent/api/v1/endpoint-analytics/profiling-rules,
+  - Paths used are post /dna/intent/api/v1/endpoint-analytics/profiling-rules,
     delete /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId}
 """
 

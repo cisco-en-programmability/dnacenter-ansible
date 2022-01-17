@@ -36,7 +36,7 @@ seealso:
     devices.Devices.update_device_role
 
 notes:
-  - Paths used: put /dna/intent/api/v1/network-device/brief
+  - Paths used are put /dna/intent/api/v1/network-device/brief
 """
 
 EXAMPLES = r"""

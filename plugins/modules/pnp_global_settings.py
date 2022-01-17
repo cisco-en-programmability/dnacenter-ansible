@@ -166,7 +166,7 @@ seealso:
     device_onboarding_pnp.DeviceOnboardingPnp.update_pnp_global_settings
 
 notes:
-  - Paths used: put /dna/intent/api/v1/onboarding/pnp-settings
+  - Paths used are put /dna/intent/api/v1/onboarding/pnp-settings
 """
 
 EXAMPLES = r"""

@@ -66,7 +66,7 @@ seealso:
     issues.Issues.issues
 
 notes:
-  - Paths used: get /dna/intent/api/v1/issues
+  - Paths used are get /dna/intent/api/v1/issues
 """
 
 EXAMPLES = r"""

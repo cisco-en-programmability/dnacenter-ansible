@@ -46,7 +46,7 @@ seealso:
     discovery.Discovery.get_discovered_devices_by_range
 
 notes:
-  - Paths used: get /dna/intent/api/v1/discovery/{id}/network-device/{startIndex}/{recordsToReturn}
+  - Paths used are get /dna/intent/api/v1/discovery/{id}/network-device/{startIndex}/{recordsToReturn}
 """
 
 EXAMPLES = r"""

@@ -63,7 +63,7 @@ seealso:
     discovery.Discovery.update_http_read_credential
 
 notes:
-  - Paths used: post /dna/intent/api/v1/global-credential/http-read,
+  - Paths used are post /dna/intent/api/v1/global-credential/http-read,
     put /dna/intent/api/v1/global-credential/http-read
 """
 

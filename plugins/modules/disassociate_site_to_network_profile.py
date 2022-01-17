@@ -38,7 +38,7 @@ seealso:
     site_design.SiteDesign.disassociate
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/networkprofile/{networkProfileId}/site/{siteId}
+  - Paths used are delete /dna/intent/api/v1/networkprofile/{networkProfileId}/site/{siteId}
 """
 
 EXAMPLES = r"""

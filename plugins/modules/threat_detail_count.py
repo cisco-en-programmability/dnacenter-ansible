@@ -54,7 +54,7 @@ seealso:
     devices.Devices.threat_detail_count
 
 notes:
-  - Paths used: post /dna/intent/api/v1/security/threats/details/count
+  - Paths used are post /dna/intent/api/v1/security/threats/details/count
 """
 
 EXAMPLES = r"""

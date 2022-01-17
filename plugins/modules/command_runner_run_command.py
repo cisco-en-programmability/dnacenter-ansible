@@ -44,7 +44,7 @@ seealso:
     command_runner.CommandRunner.run_read_only_commands_on_devices
 
 notes:
-  - Paths used: post /dna/intent/api/v1/network-device-poller/cli/read-request
+  - Paths used are post /dna/intent/api/v1/network-device-poller/cli/read-request
 """
 
 EXAMPLES = r"""

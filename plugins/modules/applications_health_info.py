@@ -73,7 +73,7 @@ seealso:
     applications.Applications.applications
 
 notes:
-  - Paths used: get /dna/intent/api/v1/application-health
+  - Paths used are get /dna/intent/api/v1/application-health
 """
 
 EXAMPLES = r"""

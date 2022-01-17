@@ -30,7 +30,7 @@ seealso:
     sensors.Sensors.run_now_sensor_test
 
 notes:
-  - Paths used: put /dna/intent/api/v1/sensor-run-now
+  - Paths used are put /dna/intent/api/v1/sensor-run-now
 """
 
 EXAMPLES = r"""

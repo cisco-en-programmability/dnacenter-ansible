@@ -40,7 +40,7 @@ seealso:
     wireless.Wireless.psk_override
 
 notes:
-  - Paths used: post /dna/intent/api/v1/wireless/psk-override
+  - Paths used are post /dna/intent/api/v1/wireless/psk-override
 """
 
 EXAMPLES = r"""

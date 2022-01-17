@@ -34,7 +34,7 @@ seealso:
     devices.Devices.get_wireless_lan_controller_details_by_id
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/{id}/wireless-info
+  - Paths used are get /dna/intent/api/v1/network-device/{id}/wireless-info
 """
 
 EXAMPLES = r"""

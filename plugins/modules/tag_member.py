@@ -42,7 +42,7 @@ seealso:
     tag.Tag.add_members_to_the_tag
 
 notes:
-  - Paths used: post /dna/intent/api/v1/tag/{id}/member,
+  - Paths used are post /dna/intent/api/v1/tag/{id}/member,
     delete /dna/intent/api/v1/tag/{id}/member/{memberId}
 """
 

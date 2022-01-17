@@ -30,7 +30,7 @@ seealso:
     application_policy.ApplicationPolicy.get_application_policy_queuing_profile_count
 
 notes:
-  - Paths used: get /dna/intent/api/v1/app-policy-queuing-profile-count
+  - Paths used are get /dna/intent/api/v1/app-policy-queuing-profile-count
 """
 
 EXAMPLES = r"""

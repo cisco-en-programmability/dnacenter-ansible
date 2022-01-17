@@ -79,7 +79,7 @@ seealso:
     device_replacement.DeviceReplacement.unmark_device_for_replacement
 
 notes:
-  - Paths used: put /dna/intent/api/v1/device-replacement,
+  - Paths used are put /dna/intent/api/v1/device-replacement,
     post /dna/intent/api/v1/device-replacement
 """
 

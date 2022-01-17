@@ -54,7 +54,7 @@ seealso:
     discovery.Discovery.create_netconf_credentials
 
 notes:
-  - Paths used: put /dna/intent/api/v1/global-credential/netconf,
+  - Paths used are put /dna/intent/api/v1/global-credential/netconf,
     post /dna/intent/api/v1/global-credential/netconf
 """
 

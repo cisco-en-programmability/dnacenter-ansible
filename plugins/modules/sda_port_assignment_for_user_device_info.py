@@ -38,7 +38,7 @@ seealso:
     sda.Sda.get_port_assignment_for_user_device
 
 notes:
-  - Paths used: get /dna/intent/api/v1/business/sda/hostonboarding/user-device
+  - Paths used are get /dna/intent/api/v1/business/sda/hostonboarding/user-device
 """
 
 EXAMPLES = r"""

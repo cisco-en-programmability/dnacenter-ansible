@@ -50,7 +50,7 @@ seealso:
     licenses.Licenses.device_count_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/licenses/device/count
+  - Paths used are get /dna/intent/api/v1/licenses/device/count
 """
 
 EXAMPLES = r"""

@@ -128,7 +128,7 @@ seealso:
     policy.Policy.import_profiling_rules_in_bulk
 
 notes:
-  - Paths used: post /dna/intent/api/v1/endpoint-analytics/profiling-rules/bulk
+  - Paths used are post /dna/intent/api/v1/endpoint-analytics/profiling-rules/bulk
 """
 
 EXAMPLES = r"""

@@ -38,7 +38,7 @@ seealso:
     devices.Devices.return_power_supply_fan_details_for_the_given_device
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/{deviceUuid}/equipment
+  - Paths used are get /dna/intent/api/v1/network-device/{deviceUuid}/equipment
 """
 
 EXAMPLES = r"""

@@ -53,7 +53,7 @@ seealso:
     wireless.Wireless.ap_provision
 
 notes:
-  - Paths used: post /dna/intent/api/v1/wireless/ap-provision
+  - Paths used are post /dna/intent/api/v1/wireless/ap-provision
 """
 
 EXAMPLES = r"""

@@ -38,7 +38,7 @@ seealso:
     network_settings.NetworkSettings.get_global_pool
 
 notes:
-  - Paths used: get /dna/intent/api/v1/global-pool
+  - Paths used are get /dna/intent/api/v1/global-pool
 """
 
 EXAMPLES = r"""

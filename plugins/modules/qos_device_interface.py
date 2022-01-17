@@ -86,7 +86,7 @@ seealso:
     application_policy.ApplicationPolicy.delete_qos_device_interface_info
 
 notes:
-  - Paths used: put /dna/intent/api/v1/qos-device-interface-info,
+  - Paths used are put /dna/intent/api/v1/qos-device-interface-info,
     post /dna/intent/api/v1/qos-device-interface-info,
     delete /dna/intent/api/v1/qos-device-interface-info/{id}
 """

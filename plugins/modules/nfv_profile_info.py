@@ -46,7 +46,7 @@ seealso:
     site_design.SiteDesign.get_nfv_profile
 
 notes:
-  - Paths used: get /dna/intent/api/v1/nfv/network-profile/{id}
+  - Paths used are get /dna/intent/api/v1/nfv/network-profile/{id}
 """
 
 EXAMPLES = r"""

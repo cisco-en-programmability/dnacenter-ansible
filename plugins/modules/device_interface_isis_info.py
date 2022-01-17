@@ -30,7 +30,7 @@ seealso:
     devices.Devices.get_isis_interfaces
 
 notes:
-  - Paths used: get /dna/intent/api/v1/interface/isis
+  - Paths used are get /dna/intent/api/v1/interface/isis
 """
 
 EXAMPLES = r"""

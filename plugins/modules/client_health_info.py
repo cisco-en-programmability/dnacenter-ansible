@@ -34,7 +34,7 @@ seealso:
     clients.Clients.get_overall_client_health
 
 notes:
-  - Paths used: get /dna/intent/api/v1/client-health
+  - Paths used are get /dna/intent/api/v1/client-health
 """
 
 EXAMPLES = r"""

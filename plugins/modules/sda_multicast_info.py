@@ -34,7 +34,7 @@ seealso:
     sda.Sda.get_multicast_details_from_sda_fabric
 
 notes:
-  - Paths used: get /dna/intent/api/v1/business/sda/multicast
+  - Paths used are get /dna/intent/api/v1/business/sda/multicast
 """
 
 EXAMPLES = r"""

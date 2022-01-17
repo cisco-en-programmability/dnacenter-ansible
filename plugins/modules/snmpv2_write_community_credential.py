@@ -64,7 +64,7 @@ seealso:
     discovery.Discovery.update_snmp_write_community
 
 notes:
-  - Paths used: post /dna/intent/api/v1/global-credential/snmpv2-write-community,
+  - Paths used are post /dna/intent/api/v1/global-credential/snmpv2-write-community,
     put /dna/intent/api/v1/global-credential/snmpv2-write-community
 """
 

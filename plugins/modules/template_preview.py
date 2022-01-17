@@ -40,7 +40,7 @@ seealso:
     configuration_templates.ConfigurationTemplates.preview_template
 
 notes:
-  - Paths used: put /dna/intent/api/v1/template-programmer/template/preview
+  - Paths used are put /dna/intent/api/v1/template-programmer/template/preview
 """
 
 EXAMPLES = r"""

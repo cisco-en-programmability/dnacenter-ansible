@@ -42,7 +42,7 @@ seealso:
     event_management.EventManagement.get_syslog_subscription_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/event/subscription-details/syslog
+  - Paths used are get /dna/intent/api/v1/event/subscription-details/syslog
 """
 
 EXAMPLES = r"""

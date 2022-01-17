@@ -66,7 +66,7 @@ seealso:
     configuration_templates.ConfigurationTemplates.deploy_template_v2
 
 notes:
-  - Paths used: post /dna/intent/api/v2/template-programmer/template/deploy
+  - Paths used are post /dna/intent/api/v2/template-programmer/template/deploy
 """
 
 EXAMPLES = r"""

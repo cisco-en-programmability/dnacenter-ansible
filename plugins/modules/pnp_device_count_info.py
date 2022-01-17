@@ -86,7 +86,7 @@ seealso:
     device_onboarding_pnp.DeviceOnboardingPnp.get_device_count
 
 notes:
-  - Paths used: get /dna/intent/api/v1/onboarding/pnp-device/count
+  - Paths used are get /dna/intent/api/v1/onboarding/pnp-device/count
 """
 
 EXAMPLES = r"""

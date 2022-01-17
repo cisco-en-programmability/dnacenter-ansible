@@ -30,7 +30,7 @@ seealso:
     discovery.Discovery.get_count_of_all_discovery_jobs
 
 notes:
-  - Paths used: get /dna/intent/api/v1/discovery/count
+  - Paths used are get /dna/intent/api/v1/discovery/count
 """
 
 EXAMPLES = r"""

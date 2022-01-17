@@ -30,7 +30,7 @@ seealso:
     disaster_recovery.DisasterRecovery.disaster_recovery_operational_status
 
 notes:
-  - Paths used: get /dna/intent/api/v1/disasterrecovery/system/operationstatus
+  - Paths used are get /dna/intent/api/v1/disasterrecovery/system/operationstatus
 """
 
 EXAMPLES = r"""

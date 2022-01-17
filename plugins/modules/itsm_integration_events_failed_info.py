@@ -34,7 +34,7 @@ seealso:
     itsm.Itsm.get_failed_itsm_events
 
 notes:
-  - Paths used: get /dna/intent/api/v1/integration/events
+  - Paths used are get /dna/intent/api/v1/integration/events
 """
 
 EXAMPLES = r"""

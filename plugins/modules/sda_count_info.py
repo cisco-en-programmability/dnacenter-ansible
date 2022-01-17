@@ -30,7 +30,7 @@ seealso:
     sda.Sda.get_sda_fabric_count
 
 notes:
-  - Paths used: get /dna/intent/api/v1/business/sda/fabric/count
+  - Paths used are get /dna/intent/api/v1/business/sda/fabric/count
 """
 
 EXAMPLES = r"""

@@ -128,7 +128,7 @@ seealso:
     event_management.EventManagement.get_auditlog_parent_records
 
 notes:
-  - Paths used: get /dna/data/api/v1/event/event-series/audit-log/parent-records
+  - Paths used are get /dna/data/api/v1/event/event-series/audit-log/parent-records
 """
 
 EXAMPLES = r"""

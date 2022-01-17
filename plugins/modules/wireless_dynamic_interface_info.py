@@ -36,7 +36,7 @@ seealso:
     wireless.Wireless.get_dynamic_interface
 
 notes:
-  - Paths used: get /dna/intent/api/v1/wireless/dynamic-interface
+  - Paths used are get /dna/intent/api/v1/wireless/dynamic-interface
 """
 
 EXAMPLES = r"""

@@ -65,7 +65,7 @@ seealso:
     device_onboarding_pnp.DeviceOnboardingPnp.get_workflow_by_id
 
 notes:
-  - Paths used: get /dna/intent/api/v1/onboarding/pnp-workflow,
+  - Paths used are get /dna/intent/api/v1/onboarding/pnp-workflow,
     get /dna/intent/api/v1/onboarding/pnp-workflow/{id}
 """
 

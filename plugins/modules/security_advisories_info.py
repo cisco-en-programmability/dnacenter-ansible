@@ -30,7 +30,7 @@ seealso:
     security_advisories.SecurityAdvisories.get_advisories_list
 
 notes:
-  - Paths used: get /dna/intent/api/v1/security-advisory/advisory
+  - Paths used are get /dna/intent/api/v1/security-advisory/advisory
 """
 
 EXAMPLES = r"""

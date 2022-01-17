@@ -99,7 +99,7 @@ seealso:
     sensors.Sensors.delete_sensor_test
 
 notes:
-  - Paths used: post /dna/intent/api/v1/sensor,
+  - Paths used are post /dna/intent/api/v1/sensor,
     delete /dna/intent/api/v1/sensor
 """
 

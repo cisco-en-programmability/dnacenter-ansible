@@ -35,7 +35,7 @@ seealso:
     devices.Devices.get_device_config_by_id
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/config,
+  - Paths used are get /dna/intent/api/v1/network-device/config,
     get /dna/intent/api/v1/network-device/{networkDeviceId}/config
 """
 

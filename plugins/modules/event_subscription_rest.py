@@ -71,7 +71,7 @@ seealso:
     event_management.EventManagement.update_rest_webhook_event_subscription
 
 notes:
-  - Paths used: post /dna/intent/api/v1/event/subscription/rest,
+  - Paths used are post /dna/intent/api/v1/event/subscription/rest,
     put /dna/intent/api/v1/event/subscription/rest
 """
 

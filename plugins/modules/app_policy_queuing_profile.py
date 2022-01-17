@@ -107,7 +107,7 @@ seealso:
     application_policy.ApplicationPolicy.delete_application_policy_queuing_profile
 
 notes:
-  - Paths used: put /dna/intent/api/v1/app-policy-queuing-profile,
+  - Paths used are put /dna/intent/api/v1/app-policy-queuing-profile,
     post /dna/intent/api/v1/app-policy-queuing-profile,
     delete /dna/intent/api/v1/app-policy-queuing-profile/{id}
 """

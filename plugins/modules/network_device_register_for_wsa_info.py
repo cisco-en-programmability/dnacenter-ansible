@@ -38,7 +38,7 @@ seealso:
     devices.Devices.register_device_for_wsa
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/tenantinfo/macaddress
+  - Paths used are get /dna/intent/api/v1/network-device/tenantinfo/macaddress
 """
 
 EXAMPLES = r"""

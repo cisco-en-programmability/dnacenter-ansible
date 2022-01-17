@@ -366,7 +366,7 @@ seealso:
     site_design.SiteDesign.provision_nfv
 
 notes:
-  - Paths used: post /dna/intent/api/v1/business/nfv
+  - Paths used are post /dna/intent/api/v1/business/nfv
 """
 
 EXAMPLES = r"""

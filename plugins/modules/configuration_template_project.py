@@ -557,7 +557,7 @@ seealso:
     configuration_templates.ConfigurationTemplates.create_project
 
 notes:
-  - Paths used: post /dna/intent/api/v1/template-programmer/project,
+  - Paths used are post /dna/intent/api/v1/template-programmer/project,
     put /dna/intent/api/v1/template-programmer/project,
     delete /dna/intent/api/v1/template-programmer/project/{projectId}
 """

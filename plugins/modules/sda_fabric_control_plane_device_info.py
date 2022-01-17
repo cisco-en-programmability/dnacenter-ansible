@@ -35,7 +35,7 @@ seealso:
     sda.Sda.get_control_plane_device
 
 notes:
-  - Paths used: get /dna/intent/api/v1/business/sda/control-plane-device
+  - Paths used are get /dna/intent/api/v1/business/sda/control-plane-device
 """
 
 EXAMPLES = r"""

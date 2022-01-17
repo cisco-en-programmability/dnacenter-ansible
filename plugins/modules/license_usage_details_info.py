@@ -44,7 +44,7 @@ seealso:
     licenses.Licenses.license_usage_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/licenses/usage/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name}
+  - Paths used are get /dna/intent/api/v1/licenses/usage/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name}
 """
 
 EXAMPLES = r"""

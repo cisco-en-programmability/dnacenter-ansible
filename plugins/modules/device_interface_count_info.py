@@ -30,7 +30,7 @@ seealso:
     devices.Devices.get_device_interface_count
 
 notes:
-  - Paths used: get /dna/intent/api/v1/interface/count
+  - Paths used are get /dna/intent/api/v1/interface/count
 """
 
 EXAMPLES = r"""

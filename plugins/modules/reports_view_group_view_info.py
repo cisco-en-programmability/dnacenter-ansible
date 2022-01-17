@@ -38,7 +38,7 @@ seealso:
     reports.Reports.get_view_details_for_a_given_view_group_and_view
 
 notes:
-  - Paths used: get /dna/intent/api/v1/data/view-groups/{viewGroupId}/views/{viewId}
+  - Paths used are get /dna/intent/api/v1/data/view-groups/{viewGroupId}/views/{viewId}
 """
 
 EXAMPLES = r"""

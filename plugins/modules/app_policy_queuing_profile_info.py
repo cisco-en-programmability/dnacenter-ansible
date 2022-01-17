@@ -34,7 +34,7 @@ seealso:
     application_policy.ApplicationPolicy.get_application_policy_queuing_profile
 
 notes:
-  - Paths used: get /dna/intent/api/v1/app-policy-queuing-profile
+  - Paths used are get /dna/intent/api/v1/app-policy-queuing-profile
 """
 
 EXAMPLES = r"""

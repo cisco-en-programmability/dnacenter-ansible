@@ -34,7 +34,7 @@ seealso:
     event_management.EventManagement.get_status_api_for_events
 
 notes:
-  - Paths used: get /dna/intent/api/v1/event/api-status/{executionId}
+  - Paths used are get /dna/intent/api/v1/event/api-status/{executionId}
 """
 
 EXAMPLES = r"""

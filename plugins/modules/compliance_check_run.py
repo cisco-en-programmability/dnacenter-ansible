@@ -38,7 +38,7 @@ seealso:
     compliance.Compliance.run_compliance
 
 notes:
-  - Paths used: post /dna/intent/api/v1/compliance/
+  - Paths used are post /dna/intent/api/v1/compliance/
 """
 
 EXAMPLES = r"""

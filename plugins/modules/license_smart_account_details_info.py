@@ -30,7 +30,7 @@ seealso:
     licenses.Licenses.smart_account_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/licenses/smartAccounts
+  - Paths used are get /dna/intent/api/v1/licenses/smartAccounts
 """
 
 EXAMPLES = r"""

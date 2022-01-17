@@ -30,7 +30,7 @@ seealso:
     event_management.EventManagement.eventartifact_count
 
 notes:
-  - Paths used: get /dna/system/api/v1/event/artifact/count
+  - Paths used are get /dna/system/api/v1/event/artifact/count
 """
 
 EXAMPLES = r"""

@@ -30,7 +30,7 @@ seealso:
     devices.Devices.get_ospf_interfaces
 
 notes:
-  - Paths used: get /dna/intent/api/v1/interface/ospf
+  - Paths used are get /dna/intent/api/v1/interface/ospf
 """
 
 EXAMPLES = r"""

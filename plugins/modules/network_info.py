@@ -34,7 +34,7 @@ seealso:
     network_settings.NetworkSettings.get_network
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network
+  - Paths used are get /dna/intent/api/v1/network
 """
 
 EXAMPLES = r"""

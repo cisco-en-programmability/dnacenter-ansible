@@ -34,7 +34,7 @@ seealso:
     site_design.SiteDesign.get_device_details_by_ip
 
 notes:
-  - Paths used: get /dna/intent/api/v1/business/nfv/provisioningDetail
+  - Paths used are get /dna/intent/api/v1/business/nfv/provisioningDetail
 """
 
 EXAMPLES = r"""

@@ -69,7 +69,7 @@ seealso:
     devices.Devices.get_modules
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/module,
+  - Paths used are get /dna/intent/api/v1/network-device/module,
     get /dna/intent/api/v1/network-device/module/{id}
 """
 

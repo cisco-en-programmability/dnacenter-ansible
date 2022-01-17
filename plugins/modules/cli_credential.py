@@ -60,7 +60,7 @@ seealso:
     discovery.Discovery.create_cli_credentials
 
 notes:
-  - Paths used: put /dna/intent/api/v1/global-credential/cli,
+  - Paths used are put /dna/intent/api/v1/global-credential/cli,
     post /dna/intent/api/v1/global-credential/cli
 """
 

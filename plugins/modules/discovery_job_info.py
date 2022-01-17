@@ -57,7 +57,7 @@ seealso:
     discovery.Discovery.get_discovery_jobs_by_ip
 
 notes:
-  - Paths used: get /dna/intent/api/v1/discovery/job,
+  - Paths used are get /dna/intent/api/v1/discovery/job,
     get /dna/intent/api/v1/discovery/{id}/job
 """
 

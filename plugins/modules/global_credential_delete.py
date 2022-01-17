@@ -30,7 +30,7 @@ seealso:
     discovery.Discovery.delete_global_credentials_by_id
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/global-credential/{globalCredentialId}
+  - Paths used are delete /dna/intent/api/v1/global-credential/{globalCredentialId}
 """
 
 EXAMPLES = r"""

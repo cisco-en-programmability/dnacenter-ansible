@@ -61,7 +61,7 @@ seealso:
     path_trace.PathTrace.deletes_pathtrace_by_id
 
 notes:
-  - Paths used: post /dna/intent/api/v1/flow-analysis,
+  - Paths used are post /dna/intent/api/v1/flow-analysis,
     delete /dna/intent/api/v1/flow-analysis/{flowAnalysisId}
 """
 

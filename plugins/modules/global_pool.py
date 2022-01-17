@@ -67,7 +67,7 @@ seealso:
     network_settings.NetworkSettings.update_global_pool
 
 notes:
-  - Paths used: put /dna/intent/api/v1/global-pool,
+  - Paths used are put /dna/intent/api/v1/global-pool,
     post /dna/intent/api/v1/global-pool,
     delete /dna/intent/api/v1/global-pool/{id}
 """

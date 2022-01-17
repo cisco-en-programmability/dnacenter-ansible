@@ -30,7 +30,7 @@ seealso:
     platform_configuration.PlatformConfiguration.nodes_configuration_summary
 
 notes:
-  - Paths used: get /dna/intent/api/v1/nodes-config
+  - Paths used are get /dna/intent/api/v1/nodes-config
 """
 
 EXAMPLES = r"""

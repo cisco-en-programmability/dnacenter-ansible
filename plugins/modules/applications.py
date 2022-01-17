@@ -122,7 +122,7 @@ seealso:
     application_policy.ApplicationPolicy.create_application
 
 notes:
-  - Paths used: post /dna/intent/api/v1/applications,
+  - Paths used are post /dna/intent/api/v1/applications,
     put /dna/intent/api/v1/applications,
     delete /dna/intent/api/v1/applications
 """

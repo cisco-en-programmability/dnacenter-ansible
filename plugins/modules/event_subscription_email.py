@@ -81,7 +81,7 @@ seealso:
     event_management.EventManagement.update_email_event_subscription
 
 notes:
-  - Paths used: post /dna/intent/api/v1/event/subscription/email,
+  - Paths used are post /dna/intent/api/v1/event/subscription/email,
     put /dna/intent/api/v1/event/subscription/email
 """
 

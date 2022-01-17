@@ -70,7 +70,7 @@ seealso:
     licenses.Licenses.device_license_summary
 
 notes:
-  - Paths used: get /dna/intent/api/v1/licenses/device/summary
+  - Paths used are get /dna/intent/api/v1/licenses/device/summary
 """
 
 EXAMPLES = r"""

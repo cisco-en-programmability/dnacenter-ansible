@@ -54,7 +54,7 @@ seealso:
     health_and_performance.HealthAndPerformance.system_health
 
 notes:
-  - Paths used: get /dna/intent/api/v1/diagnostics/system/health
+  - Paths used are get /dna/intent/api/v1/diagnostics/system/health
 """
 
 EXAMPLES = r"""

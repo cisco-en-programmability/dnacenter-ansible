@@ -168,7 +168,7 @@ seealso:
     devices.Devices.get_device_list
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device,
+  - Paths used are get /dna/intent/api/v1/network-device,
     get /dna/intent/api/v1/network-device/{id}
 """
 

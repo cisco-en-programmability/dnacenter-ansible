@@ -38,7 +38,7 @@ seealso:
     sda.Sda.get_vn
 
 notes:
-  - Paths used: get /dna/intent/api/v1/business/sda/virtual-network
+  - Paths used are get /dna/intent/api/v1/business/sda/virtual-network
 """
 
 EXAMPLES = r"""

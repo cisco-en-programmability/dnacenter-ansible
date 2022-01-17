@@ -33,7 +33,7 @@ seealso:
     sensors.Sensors.duplicate_sensor_test_template
 
 notes:
-  - Paths used: put /dna/intent/api/v1/sensorTestTemplate
+  - Paths used are put /dna/intent/api/v1/sensorTestTemplate
 """
 
 EXAMPLES = r"""

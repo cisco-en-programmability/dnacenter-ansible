@@ -34,7 +34,7 @@ seealso:
     sda.Sda.get_provisioned_wired_device
 
 notes:
-  - Paths used: get /dna/intent/api/v1/business/sda/provision-device
+  - Paths used are get /dna/intent/api/v1/business/sda/provision-device
 """
 
 EXAMPLES = r"""

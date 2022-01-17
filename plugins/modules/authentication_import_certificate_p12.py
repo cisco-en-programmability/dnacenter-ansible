@@ -39,7 +39,7 @@ seealso:
     authentication_management.AuthenticationManagement.import_certificate_p12
 
 notes:
-  - Paths used: post /dna/intent/api/v1/certificate-p12
+  - Paths used are post /dna/intent/api/v1/certificate-p12
 """
 
 EXAMPLES = r"""

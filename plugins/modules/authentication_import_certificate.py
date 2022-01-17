@@ -39,7 +39,7 @@ seealso:
     authentication_management.AuthenticationManagement.import_certificate
 
 notes:
-  - Paths used: post /dna/intent/api/v1/certificate
+  - Paths used are post /dna/intent/api/v1/certificate
 """
 
 EXAMPLES = r"""

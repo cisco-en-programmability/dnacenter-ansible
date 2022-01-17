@@ -39,7 +39,7 @@ seealso:
     sda.Sda.get_default_authentication_profile
 
 notes:
-  - Paths used: get /dna/intent/api/v1/business/sda/authentication-profile
+  - Paths used are get /dna/intent/api/v1/business/sda/authentication-profile
 """
 
 EXAMPLES = r"""

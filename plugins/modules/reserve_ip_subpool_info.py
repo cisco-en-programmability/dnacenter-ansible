@@ -42,7 +42,7 @@ seealso:
     network_settings.NetworkSettings.get_reserve_ip_subpool
 
 notes:
-  - Paths used: get /dna/intent/api/v1/reserve-ip-subpool
+  - Paths used are get /dna/intent/api/v1/reserve-ip-subpool
 """
 
 EXAMPLES = r"""

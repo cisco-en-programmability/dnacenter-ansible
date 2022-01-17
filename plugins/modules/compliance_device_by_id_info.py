@@ -56,7 +56,7 @@ seealso:
     compliance.Compliance.compliance_details_of_device
 
 notes:
-  - Paths used: get /dna/intent/api/v1/compliance/{deviceUuid}/detail
+  - Paths used are get /dna/intent/api/v1/compliance/{deviceUuid}/detail
 """
 
 EXAMPLES = r"""

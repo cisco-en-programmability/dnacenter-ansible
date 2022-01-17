@@ -50,7 +50,7 @@ seealso:
     configuration_templates.ConfigurationTemplates.get_projects_details
 
 notes:
-  - Paths used: get /dna/intent/api/v2/template-programmer/project
+  - Paths used are get /dna/intent/api/v2/template-programmer/project
 """
 
 EXAMPLES = r"""

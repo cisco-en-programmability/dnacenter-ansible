@@ -30,7 +30,7 @@ seealso:
     topology.Topology.get_vlan_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/topology/vlan/vlan-names
+  - Paths used are get /dna/intent/api/v1/topology/vlan/vlan-names
 """
 
 EXAMPLES = r"""

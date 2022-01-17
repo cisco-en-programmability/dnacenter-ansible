@@ -38,7 +38,7 @@ seealso:
     tag.Tag.updates_tag_membership
 
 notes:
-  - Paths used: put /dna/intent/api/v1/tag/member
+  - Paths used are put /dna/intent/api/v1/tag/member
 """
 
 EXAMPLES = r"""

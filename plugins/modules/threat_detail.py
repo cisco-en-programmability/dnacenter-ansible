@@ -54,7 +54,7 @@ seealso:
     devices.Devices.threat_details
 
 notes:
-  - Paths used: post /dna/intent/api/v1/security/threats/details
+  - Paths used are post /dna/intent/api/v1/security/threats/details
 """
 
 EXAMPLES = r"""

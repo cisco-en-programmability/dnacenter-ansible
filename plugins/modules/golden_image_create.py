@@ -40,7 +40,7 @@ seealso:
     software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image
 
 notes:
-  - Paths used: post /dna/intent/api/v1/image/importation/golden
+  - Paths used are post /dna/intent/api/v1/image/importation/golden
 """
 
 EXAMPLES = r"""

@@ -42,7 +42,7 @@ seealso:
     event_management.EventManagement.get_email_subscription_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/event/subscription-details/email
+  - Paths used are get /dna/intent/api/v1/event/subscription-details/email
 """
 
 EXAMPLES = r"""

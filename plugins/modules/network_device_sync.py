@@ -34,7 +34,7 @@ seealso:
     devices.Devices.sync_devices_using_forcesync
 
 notes:
-  - Paths used: put /dna/intent/api/v1/network-device/sync
+  - Paths used are put /dna/intent/api/v1/network-device/sync
 """
 
 EXAMPLES = r"""

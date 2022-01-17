@@ -37,7 +37,7 @@ seealso:
     licenses.Licenses.change_virtual_account
 
 notes:
-  - Paths used: post /dna/intent/api/v1/licenses/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name}/device/transfer
+  - Paths used are post /dna/intent/api/v1/licenses/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name}/device/transfer
 """
 
 EXAMPLES = r"""

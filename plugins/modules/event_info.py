@@ -54,7 +54,7 @@ seealso:
     event_management.EventManagement.get_events
 
 notes:
-  - Paths used: get /dna/intent/api/v1/events
+  - Paths used are get /dna/intent/api/v1/events
 """
 
 EXAMPLES = r"""

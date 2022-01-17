@@ -30,7 +30,7 @@ seealso:
     issues.Issues.get_issue_enrichment_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/issue-enrichment-details
+  - Paths used are get /dna/intent/api/v1/issue-enrichment-details
 """
 
 EXAMPLES = r"""

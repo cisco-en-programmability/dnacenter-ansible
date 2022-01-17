@@ -507,7 +507,7 @@ seealso:
     configuration_templates.ConfigurationTemplates.create_template
 
 notes:
-  - Paths used: post /dna/intent/api/v1/template-programmer/project/{projectId}/template
+  - Paths used are post /dna/intent/api/v1/template-programmer/project/{projectId}/template
 """
 
 EXAMPLES = r"""

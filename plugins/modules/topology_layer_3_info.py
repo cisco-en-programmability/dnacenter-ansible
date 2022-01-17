@@ -34,7 +34,7 @@ seealso:
     topology.Topology.get_l3_topology_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/topology/l3/{topologyType}
+  - Paths used are get /dna/intent/api/v1/topology/l3/{topologyType}
 """
 
 EXAMPLES = r"""

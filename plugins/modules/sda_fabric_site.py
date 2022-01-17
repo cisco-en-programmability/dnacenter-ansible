@@ -35,7 +35,7 @@ seealso:
     sda.Sda.add_site
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/business/sda/fabric-site,
+  - Paths used are delete /dna/intent/api/v1/business/sda/fabric-site,
     post /dna/intent/api/v1/business/sda/fabric-site
 """
 

@@ -34,7 +34,7 @@ seealso:
     network_settings.NetworkSettings.get_device_credential_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/device-credential
+  - Paths used are get /dna/intent/api/v1/device-credential
 """
 
 EXAMPLES = r"""

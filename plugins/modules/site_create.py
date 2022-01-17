@@ -86,7 +86,7 @@ seealso:
     sites.Sites.create_site
 
 notes:
-  - Paths used: post /dna/intent/api/v1/site
+  - Paths used are post /dna/intent/api/v1/site
 """
 
 EXAMPLES = r"""

@@ -34,7 +34,7 @@ seealso:
     devices.Devices.get_chassis_details_for_device
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/{deviceId}/chassis
+  - Paths used are get /dna/intent/api/v1/network-device/{deviceId}/chassis
 """
 
 EXAMPLES = r"""

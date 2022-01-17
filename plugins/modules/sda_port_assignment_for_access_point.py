@@ -52,7 +52,7 @@ seealso:
     sda.Sda.add_port_assignment_for_access_point
 
 notes:
-  - Paths used: post /dna/intent/api/v1/business/sda/hostonboarding/access-point,
+  - Paths used are post /dna/intent/api/v1/business/sda/hostonboarding/access-point,
     delete /dna/intent/api/v1/business/sda/hostonboarding/access-point
 """
 

@@ -44,7 +44,7 @@ seealso:
     task.Task.get_task_by_operationid
 
 notes:
-  - Paths used: get /dna/intent/api/v1/task/operation/{operationId}/{offset}/{limit}
+  - Paths used are get /dna/intent/api/v1/task/operation/{operationId}/{offset}/{limit}
 """
 
 EXAMPLES = r"""

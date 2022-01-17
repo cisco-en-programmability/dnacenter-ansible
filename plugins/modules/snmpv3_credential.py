@@ -69,7 +69,7 @@ seealso:
     discovery.Discovery.update_snmpv3_credentials
 
 notes:
-  - Paths used: put /dna/intent/api/v1/global-credential/snmpv3,
+  - Paths used are put /dna/intent/api/v1/global-credential/snmpv3,
     post /dna/intent/api/v1/global-credential/snmpv3
 """
 

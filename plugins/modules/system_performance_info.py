@@ -50,7 +50,7 @@ seealso:
     health_and_performance.HealthAndPerformance.system_performance
 
 notes:
-  - Paths used: get /dna/intent/api/v1/diagnostics/system/performance
+  - Paths used are get /dna/intent/api/v1/diagnostics/system/performance
 """
 
 EXAMPLES = r"""

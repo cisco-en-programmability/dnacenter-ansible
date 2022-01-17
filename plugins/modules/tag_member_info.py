@@ -60,7 +60,7 @@ seealso:
     tag.Tag.get_tag_members_by_id
 
 notes:
-  - Paths used: get /dna/intent/api/v1/tag/{id}/member
+  - Paths used are get /dna/intent/api/v1/tag/{id}/member
 """
 
 EXAMPLES = r"""

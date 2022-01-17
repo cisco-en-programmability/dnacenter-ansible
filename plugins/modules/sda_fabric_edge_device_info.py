@@ -34,7 +34,7 @@ seealso:
     sda.Sda.get_edge_device
 
 notes:
-  - Paths used: get /dna/intent/api/v1/business/sda/edge-device
+  - Paths used are get /dna/intent/api/v1/business/sda/edge-device
 """
 
 EXAMPLES = r"""

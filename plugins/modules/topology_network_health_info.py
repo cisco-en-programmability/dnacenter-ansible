@@ -34,7 +34,7 @@ seealso:
     topology.Topology.get_overall_network_health
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-health
+  - Paths used are get /dna/intent/api/v1/network-health
 """
 
 EXAMPLES = r"""

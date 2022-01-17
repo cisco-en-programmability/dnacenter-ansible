@@ -30,7 +30,7 @@ seealso:
     file.File.get_list_of_available_namespaces
 
 notes:
-  - Paths used: get /dna/intent/api/v1/file/namespace
+  - Paths used are get /dna/intent/api/v1/file/namespace
 """
 
 EXAMPLES = r"""

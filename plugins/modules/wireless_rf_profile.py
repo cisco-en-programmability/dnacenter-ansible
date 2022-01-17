@@ -114,7 +114,7 @@ seealso:
     wireless.Wireless.delete_rf_profiles
 
 notes:
-  - Paths used: post /dna/intent/api/v1/wireless/rf-profile,
+  - Paths used are post /dna/intent/api/v1/wireless/rf-profile,
     delete /dna/intent/api/v1/wireless/rf-profile/{rfProfileName}
 """
 

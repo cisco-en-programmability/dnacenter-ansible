@@ -30,7 +30,7 @@ seealso:
     software_image_management_swim.SoftwareImageManagementSwim.get_device_family_identifiers
 
 notes:
-  - Paths used: get /dna/intent/api/v1/image/importation/device-family-identifiers
+  - Paths used are get /dna/intent/api/v1/image/importation/device-family-identifiers
 """
 
 EXAMPLES = r"""

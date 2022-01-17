@@ -38,7 +38,7 @@ seealso:
     sda.Sda.get_port_assignment_for_access_point
 
 notes:
-  - Paths used: get /dna/intent/api/v1/business/sda/hostonboarding/access-point
+  - Paths used are get /dna/intent/api/v1/business/sda/hostonboarding/access-point
 """
 
 EXAMPLES = r"""

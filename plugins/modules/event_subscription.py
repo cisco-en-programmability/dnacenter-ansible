@@ -84,7 +84,7 @@ seealso:
     event_management.EventManagement.create_event_subscriptions
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/event/subscription,
+  - Paths used are delete /dna/intent/api/v1/event/subscription,
     put /dna/intent/api/v1/event/subscription,
     post /dna/intent/api/v1/event/subscription
 """

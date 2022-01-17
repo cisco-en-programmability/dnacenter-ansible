@@ -30,7 +30,7 @@ seealso:
     sites.Sites.delete_site
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/site/{siteId}
+  - Paths used are delete /dna/intent/api/v1/site/{siteId}
 """
 
 EXAMPLES = r"""

@@ -34,7 +34,7 @@ seealso:
     devices.Devices.get_polling_interval_by_id
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/{id}/collection-schedule
+  - Paths used are get /dna/intent/api/v1/network-device/{id}/collection-schedule
 """
 
 EXAMPLES = r"""

@@ -42,7 +42,7 @@ seealso:
     devices.Devices.get_device_detail
 
 notes:
-  - Paths used: get /dna/intent/api/v1/device-detail
+  - Paths used are get /dna/intent/api/v1/device-detail
 """
 
 EXAMPLES = r"""

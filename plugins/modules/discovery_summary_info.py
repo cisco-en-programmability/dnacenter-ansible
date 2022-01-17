@@ -70,7 +70,7 @@ seealso:
     discovery.Discovery.get_network_devices_from_discovery
 
 notes:
-  - Paths used: get /dna/intent/api/v1/discovery/{id}/summary
+  - Paths used are get /dna/intent/api/v1/discovery/{id}/summary
 """
 
 EXAMPLES = r"""

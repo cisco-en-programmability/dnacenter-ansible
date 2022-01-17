@@ -31,7 +31,7 @@ seealso:
     sda.Sda.add_fabric
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/business/sda/fabric,
+  - Paths used are delete /dna/intent/api/v1/business/sda/fabric,
     post /dna/intent/api/v1/business/sda/fabric
 """
 

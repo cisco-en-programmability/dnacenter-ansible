@@ -132,7 +132,7 @@ seealso:
     event_management.EventManagement.get_auditlog_records
 
 notes:
-  - Paths used: get /dna/data/api/v1/event/event-series/audit-logs
+  - Paths used are get /dna/data/api/v1/event/event-series/audit-logs
 """
 
 EXAMPLES = r"""

@@ -59,7 +59,7 @@ seealso:
     sda.Sda.add_multicast_in_sda_fabric
 
 notes:
-  - Paths used: post /dna/intent/api/v1/business/sda/multicast,
+  - Paths used are post /dna/intent/api/v1/business/sda/multicast,
     delete /dna/intent/api/v1/business/sda/multicast
 """
 

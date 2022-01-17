@@ -34,7 +34,7 @@ seealso:
     devices.Devices.get_linecard_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/{deviceUuid}/line-card
+  - Paths used are get /dna/intent/api/v1/network-device/{deviceUuid}/line-card
 """
 
 EXAMPLES = r"""

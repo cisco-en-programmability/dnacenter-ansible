@@ -47,7 +47,7 @@ seealso:
     sites.Sites.get_site_health
 
 notes:
-  - Paths used: get /dna/intent/api/v1/site-health
+  - Paths used are get /dna/intent/api/v1/site-health
 """
 
 EXAMPLES = r"""

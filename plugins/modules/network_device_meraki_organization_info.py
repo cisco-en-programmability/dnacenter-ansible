@@ -34,7 +34,7 @@ seealso:
     devices.Devices.get_organization_list_for_meraki
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/{id}/meraki-organization
+  - Paths used are get /dna/intent/api/v1/network-device/{id}/meraki-organization
 """
 
 EXAMPLES = r"""

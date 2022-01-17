@@ -36,7 +36,7 @@ seealso:
     fabric_wireless.FabricWireless.add_w_l_c_to_fabric_domain
 
 notes:
-  - Paths used: post /dna/intent/api/v1/business/sda/wireless-controller
+  - Paths used are post /dna/intent/api/v1/business/sda/wireless-controller
 """
 
 EXAMPLES = r"""

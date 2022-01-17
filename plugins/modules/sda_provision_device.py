@@ -41,7 +41,7 @@ seealso:
     sda.Sda.provision_wired_device
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/business/sda/provision-device,
+  - Paths used are delete /dna/intent/api/v1/business/sda/provision-device,
     put /dna/intent/api/v1/business/sda/provision-device,
     post /dna/intent/api/v1/business/sda/provision-device
 """

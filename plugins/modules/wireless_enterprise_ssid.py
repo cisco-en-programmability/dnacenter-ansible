@@ -97,7 +97,7 @@ seealso:
     wireless.Wireless.update_enterprise_ssid
 
 notes:
-  - Paths used: post /dna/intent/api/v1/enterprise-ssid,
+  - Paths used are post /dna/intent/api/v1/enterprise-ssid,
     put /dna/intent/api/v1/enterprise-ssid,
     delete /dna/intent/api/v1/enterprise-ssid/{ssidName}
 """

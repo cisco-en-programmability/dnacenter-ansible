@@ -42,7 +42,7 @@ seealso:
     devices.Devices.get_device_interfaces_by_specified_range
 
 notes:
-  - Paths used: get /dna/intent/api/v1/interface/network-device/{deviceId}/{startIndex}/{recordsToReturn}
+  - Paths used are get /dna/intent/api/v1/interface/network-device/{deviceId}/{startIndex}/{recordsToReturn}
 """
 
 EXAMPLES = r"""

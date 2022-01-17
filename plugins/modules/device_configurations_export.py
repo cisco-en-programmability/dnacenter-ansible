@@ -34,7 +34,7 @@ seealso:
     configuration_archive.ConfigurationArchive.export_device_configurations
 
 notes:
-  - Paths used: post /dna/intent/api/v1/network-device-archive/cleartext
+  - Paths used are post /dna/intent/api/v1/network-device-archive/cleartext
 """
 
 EXAMPLES = r"""

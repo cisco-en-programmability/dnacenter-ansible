@@ -38,7 +38,7 @@ seealso:
     discovery.Discovery.get_devices_discovered_by_id
 
 notes:
-  - Paths used: get /dna/intent/api/v1/discovery/{id}/network-device/count
+  - Paths used are get /dna/intent/api/v1/discovery/{id}/network-device/count
 """
 
 EXAMPLES = r"""

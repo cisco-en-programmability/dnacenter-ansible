@@ -30,7 +30,7 @@ seealso:
     site_design.SiteDesign.nfv_provisioning_detail
 
 notes:
-  - Paths used: post /dna/intent/api/v1/nfv-provision-detail
+  - Paths used are post /dna/intent/api/v1/nfv-provision-detail
 """
 
 EXAMPLES = r"""

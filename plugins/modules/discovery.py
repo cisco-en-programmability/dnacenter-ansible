@@ -232,7 +232,7 @@ seealso:
     discovery.Discovery.delete_discovery_by_id
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/discovery,
+  - Paths used are delete /dna/intent/api/v1/discovery,
     put /dna/intent/api/v1/discovery,
     post /dna/intent/api/v1/discovery,
     delete /dna/intent/api/v1/discovery/{id}

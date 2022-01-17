@@ -71,7 +71,7 @@ seealso:
     event_management.EventManagement.create_syslog_event_subscription
 
 notes:
-  - Paths used: put /dna/intent/api/v1/event/subscription/syslog,
+  - Paths used are put /dna/intent/api/v1/event/subscription/syslog,
     post /dna/intent/api/v1/event/subscription/syslog
 """
 

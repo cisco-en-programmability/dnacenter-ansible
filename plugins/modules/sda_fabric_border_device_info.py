@@ -35,7 +35,7 @@ seealso:
     sda.Sda.gets_border_device_detail
 
 notes:
-  - Paths used: get /dna/intent/api/v1/business/sda/border-device
+  - Paths used are get /dna/intent/api/v1/business/sda/border-device
 """
 
 EXAMPLES = r"""

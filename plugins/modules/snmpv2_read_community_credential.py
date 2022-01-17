@@ -64,7 +64,7 @@ seealso:
     discovery.Discovery.create_snmp_read_community
 
 notes:
-  - Paths used: put /dna/intent/api/v1/global-credential/snmpv2-read-community,
+  - Paths used are put /dna/intent/api/v1/global-credential/snmpv2-read-community,
     post /dna/intent/api/v1/global-credential/snmpv2-read-community
 """
 

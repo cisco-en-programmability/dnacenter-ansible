@@ -82,7 +82,7 @@ seealso:
     tag.Tag.create_tag
 
 notes:
-  - Paths used: put /dna/intent/api/v1/tag,
+  - Paths used are put /dna/intent/api/v1/tag,
     post /dna/intent/api/v1/tag,
     delete /dna/intent/api/v1/tag/{id}
 """

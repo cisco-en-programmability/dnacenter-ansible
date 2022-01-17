@@ -54,7 +54,7 @@ seealso:
     devices.Devices.inventory_insight_device_link_mismatch
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/insight/{siteId}/device-link
+  - Paths used are get /dna/intent/api/v1/network-device/insight/{siteId}/device-link
 """
 
 EXAMPLES = r"""

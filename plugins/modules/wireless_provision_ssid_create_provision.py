@@ -84,7 +84,7 @@ seealso:
     wireless.Wireless.create_and_provision_ssid
 
 notes:
-  - Paths used: post /dna/intent/api/v1/business/ssid
+  - Paths used are post /dna/intent/api/v1/business/ssid
 """
 
 EXAMPLES = r"""

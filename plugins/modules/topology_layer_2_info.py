@@ -34,7 +34,7 @@ seealso:
     topology.Topology.get_topology_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/topology/l2/{vlanID}
+  - Paths used are get /dna/intent/api/v1/topology/l2/{vlanID}
 """
 
 EXAMPLES = r"""

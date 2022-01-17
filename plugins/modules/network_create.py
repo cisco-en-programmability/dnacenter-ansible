@@ -144,7 +144,7 @@ seealso:
     network_settings.NetworkSettings.create_network
 
 notes:
-  - Paths used: post /dna/intent/api/v1/network/{siteId}
+  - Paths used are post /dna/intent/api/v1/network/{siteId}
 """
 
 EXAMPLES = r"""

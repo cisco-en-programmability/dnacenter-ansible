@@ -58,7 +58,7 @@ seealso:
     event_management.EventManagement.get_eventartifacts
 
 notes:
-  - Paths used: get /dna/system/api/v1/event/artifact
+  - Paths used are get /dna/system/api/v1/event/artifact
 """
 
 EXAMPLES = r"""

@@ -30,7 +30,7 @@ seealso:
     command_runner.CommandRunner.get_all_keywords_of_clis_accepted
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device-poller/cli/legit-reads
+  - Paths used are get /dna/intent/api/v1/network-device-poller/cli/legit-reads
 """
 
 EXAMPLES = r"""

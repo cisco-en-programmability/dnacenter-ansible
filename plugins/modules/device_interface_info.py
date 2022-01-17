@@ -49,7 +49,7 @@ seealso:
     devices.Devices.get_all_interfaces
 
 notes:
-  - Paths used: get /dna/intent/api/v1/interface,
+  - Paths used are get /dna/intent/api/v1/interface,
     get /dna/intent/api/v1/interface/{id}
 """
 

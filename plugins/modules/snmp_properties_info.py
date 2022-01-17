@@ -30,7 +30,7 @@ seealso:
     discovery.Discovery.get_snmp_properties
 
 notes:
-  - Paths used: get /dna/intent/api/v1/snmp-property
+  - Paths used are get /dna/intent/api/v1/snmp-property
 """
 
 EXAMPLES = r"""

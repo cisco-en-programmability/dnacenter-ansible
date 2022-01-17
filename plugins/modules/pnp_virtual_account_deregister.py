@@ -28,7 +28,7 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 notes:
-  - Paths used: delete /dna/intent/api/v1/onboarding/pnp-settings/vacct
+  - Paths used are delete /dna/intent/api/v1/onboarding/pnp-settings/vacct
 """
 
 EXAMPLES = r"""

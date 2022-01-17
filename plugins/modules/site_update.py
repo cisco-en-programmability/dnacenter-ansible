@@ -86,7 +86,7 @@ seealso:
     sites.Sites.update_site
 
 notes:
-  - Paths used: put /dna/intent/api/v1/site/{siteId}
+  - Paths used are put /dna/intent/api/v1/site/{siteId}
 """
 
 EXAMPLES = r"""

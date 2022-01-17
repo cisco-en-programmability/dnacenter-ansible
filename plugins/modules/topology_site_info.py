@@ -30,7 +30,7 @@ seealso:
     topology.Topology.get_site_topology
 
 notes:
-  - Paths used: get /dna/intent/api/v1/topology/site-topology
+  - Paths used are get /dna/intent/api/v1/topology/site-topology
 """
 
 EXAMPLES = r"""

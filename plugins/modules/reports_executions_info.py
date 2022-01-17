@@ -53,7 +53,7 @@ seealso:
     reports.Reports.download_report_content
 
 notes:
-  - Paths used: get /dna/intent/api/v1/data/reports/{reportId}/executions,
+  - Paths used are get /dna/intent/api/v1/data/reports/{reportId}/executions,
     get /dna/intent/api/v1/data/reports/{reportId}/executions/{executionId}
 """
 

@@ -51,7 +51,7 @@ seealso:
     devices.Devices.get_functional_capability_for_devices
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/functional-capability,
+  - Paths used are get /dna/intent/api/v1/network-device/functional-capability,
     get /dna/intent/api/v1/network-device/functional-capability/{id}
 """
 

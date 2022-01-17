@@ -73,7 +73,7 @@ seealso:
     sda.Sda.add_ip_pool_in_sda_virtual_network
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/business/sda/virtualnetwork/ippool,
+  - Paths used are delete /dna/intent/api/v1/business/sda/virtualnetwork/ippool,
     post /dna/intent/api/v1/business/sda/virtualnetwork/ippool
 """
 

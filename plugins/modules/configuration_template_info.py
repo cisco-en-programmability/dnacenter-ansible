@@ -89,7 +89,7 @@ seealso:
     configuration_templates.ConfigurationTemplates.gets_the_templates_available
 
 notes:
-  - Paths used: get /dna/intent/api/v1/template-programmer/template,
+  - Paths used are get /dna/intent/api/v1/template-programmer/template,
     get /dna/intent/api/v1/template-programmer/template/{templateId}
 """
 

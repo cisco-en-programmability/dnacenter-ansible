@@ -46,7 +46,7 @@ seealso:
     wireless.Wireless.sensor_test_results
 
 notes:
-  - Paths used: get /dna/intent/api/v1/AssuranceGetSensorTestResults
+  - Paths used are get /dna/intent/api/v1/AssuranceGetSensorTestResults
 """
 
 EXAMPLES = r"""

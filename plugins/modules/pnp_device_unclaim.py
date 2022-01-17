@@ -31,7 +31,7 @@ seealso:
     device_onboarding_pnp.DeviceOnboardingPnp.un_claim_device
 
 notes:
-  - Paths used: post /dna/intent/api/v1/onboarding/pnp-device/unclaim
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/unclaim
 """
 
 EXAMPLES = r"""

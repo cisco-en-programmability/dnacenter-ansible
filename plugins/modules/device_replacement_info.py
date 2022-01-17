@@ -76,7 +76,7 @@ seealso:
     device_replacement.DeviceReplacement.return_replacement_devices_with_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/device-replacement
+  - Paths used are get /dna/intent/api/v1/device-replacement
 """
 
 EXAMPLES = r"""

@@ -34,7 +34,7 @@ seealso:
     sensors.Sensors.sensors
 
 notes:
-  - Paths used: get /dna/intent/api/v1/sensor
+  - Paths used are get /dna/intent/api/v1/sensor
 """
 
 EXAMPLES = r"""

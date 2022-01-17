@@ -82,7 +82,7 @@ seealso:
     event_management.EventManagement.get_notifications
 
 notes:
-  - Paths used: get /dna/intent/api/v1/event/event-series
+  - Paths used are get /dna/intent/api/v1/event/event-series
 """
 
 EXAMPLES = r"""

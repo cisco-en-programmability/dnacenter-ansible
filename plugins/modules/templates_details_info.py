@@ -98,7 +98,7 @@ seealso:
     configuration_templates.ConfigurationTemplates.get_templates_details
 
 notes:
-  - Paths used: get /dna/intent/api/v2/template-programmer/template
+  - Paths used are get /dna/intent/api/v2/template-programmer/template
 """
 
 EXAMPLES = r"""

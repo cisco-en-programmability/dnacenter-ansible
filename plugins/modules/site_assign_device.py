@@ -37,7 +37,7 @@ seealso:
     sites.Sites.assign_device_to_site
 
 notes:
-  - Paths used: post /dna/system/api/v1/site/{siteId}/device
+  - Paths used are post /dna/system/api/v1/site/{siteId}/device
 """
 
 EXAMPLES = r"""

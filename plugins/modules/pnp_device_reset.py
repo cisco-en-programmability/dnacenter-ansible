@@ -66,7 +66,7 @@ seealso:
     device_onboarding_pnp.DeviceOnboardingPnp.reset_device
 
 notes:
-  - Paths used: post /dna/intent/api/v1/onboarding/pnp-device/reset
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/reset
 """
 
 EXAMPLES = r"""

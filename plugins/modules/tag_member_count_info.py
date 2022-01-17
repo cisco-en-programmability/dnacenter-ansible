@@ -46,7 +46,7 @@ seealso:
     tag.Tag.get_tag_member_count
 
 notes:
-  - Paths used: get /dna/intent/api/v1/tag/{id}/member/count
+  - Paths used are get /dna/intent/api/v1/tag/{id}/member/count
 """
 
 EXAMPLES = r"""

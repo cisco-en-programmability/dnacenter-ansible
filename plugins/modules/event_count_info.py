@@ -38,7 +38,7 @@ seealso:
     event_management.EventManagement.count_of_events
 
 notes:
-  - Paths used: get /dna/intent/api/v1/events/count
+  - Paths used are get /dna/intent/api/v1/events/count
 """
 
 EXAMPLES = r"""

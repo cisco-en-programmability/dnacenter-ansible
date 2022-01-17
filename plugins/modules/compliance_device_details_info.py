@@ -54,7 +54,7 @@ seealso:
     compliance.Compliance.get_compliance_detail
 
 notes:
-  - Paths used: get /dna/intent/api/v1/compliance/detail
+  - Paths used are get /dna/intent/api/v1/compliance/detail
 """
 
 EXAMPLES = r"""

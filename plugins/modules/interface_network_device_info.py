@@ -34,7 +34,7 @@ seealso:
     devices.Devices.get_interface_info_by_id
 
 notes:
-  - Paths used: get /dna/intent/api/v1/interface/network-device/{deviceId}
+  - Paths used are get /dna/intent/api/v1/interface/network-device/{deviceId}
 """
 
 EXAMPLES = r"""

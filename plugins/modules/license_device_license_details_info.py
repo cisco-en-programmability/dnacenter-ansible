@@ -34,7 +34,7 @@ seealso:
     licenses.Licenses.device_license_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/licenses/device/{device_uuid}/details
+  - Paths used are get /dna/intent/api/v1/licenses/device/{device_uuid}/details
 """
 
 EXAMPLES = r"""

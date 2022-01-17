@@ -47,7 +47,7 @@ seealso:
     sda.Sda.update_virtual_network_with_scalable_groups
 
 notes:
-  - Paths used: post /dna/intent/api/v1/virtual-network,
+  - Paths used are post /dna/intent/api/v1/virtual-network,
     delete /dna/intent/api/v1/virtual-network,
     put /dna/intent/api/v1/virtual-network
 """

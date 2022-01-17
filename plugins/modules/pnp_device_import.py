@@ -814,7 +814,7 @@ seealso:
     device_onboarding_pnp.DeviceOnboardingPnp.import_devices_in_bulk
 
 notes:
-  - Paths used: post /dna/intent/api/v1/onboarding/pnp-device/import
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/import
 """
 
 EXAMPLES = r"""

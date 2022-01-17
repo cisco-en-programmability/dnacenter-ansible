@@ -42,7 +42,7 @@ seealso:
     compliance.Compliance.get_compliance_detail_count
 
 notes:
-  - Paths used: get /dna/intent/api/v1/compliance/detail/count
+  - Paths used are get /dna/intent/api/v1/compliance/detail/count
 """
 
 EXAMPLES = r"""

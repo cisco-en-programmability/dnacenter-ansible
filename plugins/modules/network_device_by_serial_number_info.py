@@ -34,7 +34,7 @@ seealso:
     devices.Devices.get_device_by_serial_number
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/serial-number/{serialNumber}
+  - Paths used are get /dna/intent/api/v1/network-device/serial-number/{serialNumber}
 """
 
 EXAMPLES = r"""

@@ -33,7 +33,7 @@ seealso:
     configuration_templates.ConfigurationTemplates.imports_the_projects_provided
 
 notes:
-  - Paths used: post /dna/intent/api/v1/template-programmer/project/importprojects
+  - Paths used are post /dna/intent/api/v1/template-programmer/project/importprojects
 """
 
 EXAMPLES = r"""

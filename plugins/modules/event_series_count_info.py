@@ -66,7 +66,7 @@ seealso:
     event_management.EventManagement.count_of_notifications
 
 notes:
-  - Paths used: get /dna/intent/api/v1/event/event-series/count
+  - Paths used are get /dna/intent/api/v1/event/event-series/count
 """
 
 EXAMPLES = r"""

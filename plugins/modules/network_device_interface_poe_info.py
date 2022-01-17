@@ -38,7 +38,7 @@ seealso:
     devices.Devices.poe_interface_details
 
 notes:
-  - Paths used: get /dna/intent/api/v1/network-device/{deviceUuid}/interface/poe-detail
+  - Paths used are get /dna/intent/api/v1/network-device/{deviceUuid}/interface/poe-detail
 """
 
 EXAMPLES = r"""

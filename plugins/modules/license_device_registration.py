@@ -34,7 +34,7 @@ seealso:
     licenses.Licenses.device_registration
 
 notes:
-  - Paths used: put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/{virtual_account_name}/register
+  - Paths used are put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/{virtual_account_name}/register
 """
 
 EXAMPLES = r"""

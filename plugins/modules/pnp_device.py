@@ -824,7 +824,7 @@ seealso:
     device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp
 
 notes:
-  - Paths used: post /dna/intent/api/v1/onboarding/pnp-device,
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device,
     delete /dna/intent/api/v1/onboarding/pnp-device/{id}
 """
 

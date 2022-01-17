@@ -34,7 +34,7 @@ seealso:
     sda.Sda.add_vn
 
 notes:
-  - Paths used: delete /dna/intent/api/v1/business/sda/virtual-network,
+  - Paths used are delete /dna/intent/api/v1/business/sda/virtual-network,
     post /dna/intent/api/v1/business/sda/virtual-network
 """
 

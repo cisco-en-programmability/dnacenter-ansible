@@ -37,7 +37,7 @@ seealso:
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_distribution
 
 notes:
-  - Paths used: post /dna/intent/api/v1/image/distribution
+  - Paths used are post /dna/intent/api/v1/image/distribution
 """
 
 EXAMPLES = r"""
