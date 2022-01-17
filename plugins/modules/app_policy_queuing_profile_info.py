@@ -33,7 +33,7 @@ seealso:
 
 - name: Paths used on the module App Policy Queuing Profile
   description: |-
-		get /dna/intent/api/v1/app-policy-queuing-profile
+    get /dna/intent/api/v1/app-policy-queuing-profile
 """
 
 EXAMPLES = r"""

@@ -11,7 +11,7 @@ short_description: Information module for Task
 description:
 - Get all Task.
 - Get Task by id.
-- Returns task(s) based on filter criteria.
+- Returns task(s) {[hek:1]} based on filter criteria.
 - Returns a task by specified id.
 version_added: '3.1.0'
 extends_documentation_fragment:
