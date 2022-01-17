@@ -11,7 +11,8 @@ short_description: Information module for Pnp Device
 description:
 - Get all Pnp Device.
 - Get Pnp Device by id.
-- Returns list of devices based on filter crieteria. If a limit is not specified, it will default to return 50 devices. Pagination and sorting are also supported by this endpoint.
+- Returns list of devices based on filter crieteria. If a limit is not specified, it will default to return 50 devices.
+  Pagination and sorting are also supported by this endpoint.
 - Returns device details specified by device id.
 version_added: '3.1.0'
 extends_documentation_fragment:

@@ -10,7 +10,8 @@ module: issues_enrichment_details_info
 short_description: Information module for Issues Enrichment Details
 description:
 - Get all Issues Enrichment Details.
-- Enriches a given network issue context (an issue id or end user's Mac Address) with details about the issue(s), impacted hosts and suggested actions for remediation.
+- Enriches a given network issue context an issue id or end user's Mac Address
+  with details about the issue(s), impacted hosts and suggested actions for remediation.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

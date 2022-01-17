@@ -10,7 +10,9 @@ module: device_replacement_info
 short_description: Information module for Device Replacement
 description:
 - Get all Device Replacement.
-- Get list of replacement devices with replacement details and it can filter replacement devices based on Faulty Device Name,Faulty Device Platform, Replacement Device Platform, Faulty Device Serial Number,Replacement Device Serial Number, Device Replacement status, Product Family.
+- Get list of replacement devices with replacement details and it can filter replacement devices based on Faulty Device Name,
+  Faulty Device Platform, Replacement Device Platform, Faulty Device Serial Number,
+  Replacement Device Serial Number, Device Replacement status, Product Family.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

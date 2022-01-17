@@ -11,7 +11,8 @@ short_description: Resource module for Qos Device Interface
 description:
 - Manage operations create, update and delete of the resource Qos Device Interface.
 - Update existing qos device interface infos associate with network device id.
-- Create qos device interface infos associate with network device id to allow the user to mark specific interfaces as WAN, to associate WAN interfaces with specific SP Profile and to be able to define a shaper on WAN interfaces.
+- Create qos device interface infos associate with network device id to allow the user to mark specific interfaces as WAN,
+  to associate WAN interfaces with specific SP Profile and to be able to define a shaper on WAN interfaces.
 - Delete all qos device interface infos associate with network device id.
 version_added: '4.0.0'
 extends_documentation_fragment:

@@ -12,7 +12,9 @@ description:
 - Get all Discovery Job.
 - Get Discovery Job by id.
 - Returns the list of discovery jobs for the given IP.
-- Returns the list of discovery jobs for the given Discovery ID. The results can be optionally filtered based on IP. Discovery ID can be obtained using the "Get Discoveries by range" API.
+- Returns the list of discovery jobs for the given Discovery ID.
+  The results can be optionally filtered based on IP.
+  Discovery ID can be obtained using the "Get Discoveries by range" API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

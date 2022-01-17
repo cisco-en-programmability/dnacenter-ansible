@@ -11,7 +11,8 @@ short_description: Information module for Pnp Workflow
 description:
 - Get all Pnp Workflow.
 - Get Pnp Workflow by id.
-- Returns the list of workflows based on filter criteria. If a limit is not specified, it will default to return 50 workflows. Pagination and sorting are also supported by this endpoint.
+- Returns the list of workflows based on filter criteria. If a limit is not specified, it will default to return 50 workflows.
+  Pagination and sorting are also supported by this endpoint.
 - Returns a workflow specified by id.
 version_added: '3.1.0'
 extends_documentation_fragment:
