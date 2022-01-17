@@ -33,7 +33,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function return_power_supply_fan_details_for_the_given_device used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.return_power_supply_fan_details_for_the_given_device
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    devices.Devices.return_power_supply_fan_details_for_the_given_device
 
 notes:
   - Paths used: get /dna/intent/api/v1/network-device/{deviceUuid}/equipment

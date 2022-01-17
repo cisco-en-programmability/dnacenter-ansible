@@ -29,13 +29,19 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function update_floormap used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.update_floormap
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    site_design.SiteDesign.update_floormap
 
 - name: SDK function create_floormap used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.create_floormap
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    site_design.SiteDesign.create_floormap
 
 - name: SDK function delete_floormap used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.delete_floormap
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    site_design.SiteDesign.delete_floormap
 
 notes:
   - Paths used: post /dna/intent/api/v1/wireless/floormap,

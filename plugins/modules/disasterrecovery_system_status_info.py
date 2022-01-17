@@ -25,7 +25,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function disaster_recovery_status used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.disaster_recovery.DisasterRecovery.disaster_recovery_status
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    disaster_recovery.DisasterRecovery.disaster_recovery_status
 
 notes:
   - Paths used: get /dna/intent/api/v1/disasterrecovery/system/status

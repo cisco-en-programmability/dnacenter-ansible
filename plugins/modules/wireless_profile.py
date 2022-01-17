@@ -64,13 +64,19 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function delete_wireless_profile used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.delete_wireless_profile
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    wireless.Wireless.delete_wireless_profile
 
 - name: SDK function create_wireless_profile used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.create_wireless_profile
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    wireless.Wireless.create_wireless_profile
 
 - name: SDK function update_wireless_profile used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.update_wireless_profile
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    wireless.Wireless.update_wireless_profile
 
 notes:
   - Paths used: delete /dna/intent/api/v1/wireless-profile/{wirelessProfileName},

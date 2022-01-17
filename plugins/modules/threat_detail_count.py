@@ -49,7 +49,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function threat_detail_count used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.threat_detail_count
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    devices.Devices.threat_detail_count
 
 notes:
   - Paths used: post /dna/intent/api/v1/security/threats/details/count

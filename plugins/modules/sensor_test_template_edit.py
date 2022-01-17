@@ -85,7 +85,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function edit_sensor_test_template used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sensors.Sensors.edit_sensor_test_template
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    sensors.Sensors.edit_sensor_test_template
 
 notes:
   - Paths used: put /dna/intent/api/v1/AssuranceScheduleSensorTest

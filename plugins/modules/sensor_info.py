@@ -29,7 +29,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function sensors used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sensors.Sensors.sensors
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    sensors.Sensors.sensors
 
 notes:
   - Paths used: get /dna/intent/api/v1/sensor

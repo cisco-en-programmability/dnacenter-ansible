@@ -28,10 +28,14 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function associate used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.associate
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    site_design.SiteDesign.associate
 
 - name: SDK function disassociate used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.disassociate
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    site_design.SiteDesign.disassociate
 
 notes:
   - Paths used: post /dna/intent/api/v1/networkprofile/{networkProfileId}/site/{siteId}

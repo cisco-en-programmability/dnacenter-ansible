@@ -37,7 +37,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_reserve_ip_subpool used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.get_reserve_ip_subpool
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    network_settings.NetworkSettings.get_reserve_ip_subpool
 
 notes:
   - Paths used: get /dna/intent/api/v1/reserve-ip-subpool

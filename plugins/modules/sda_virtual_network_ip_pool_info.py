@@ -33,7 +33,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_ip_pool_from_sda_virtual_network used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.get_ip_pool_from_sda_virtual_network
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    sda.Sda.get_ip_pool_from_sda_virtual_network
 
 notes:
   - Paths used: get /dna/intent/api/v1/business/sda/virtualnetwork/ippool

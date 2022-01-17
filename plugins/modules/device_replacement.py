@@ -69,10 +69,14 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function mark_device_for_replacement used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_replacement.DeviceReplacement.mark_device_for_replacement
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    device_replacement.DeviceReplacement.mark_device_for_replacement
 
 - name: SDK function unmark_device_for_replacement used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_replacement.DeviceReplacement.unmark_device_for_replacement
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    device_replacement.DeviceReplacement.unmark_device_for_replacement
 
 notes:
   - Paths used: put /dna/intent/api/v1/device-replacement,

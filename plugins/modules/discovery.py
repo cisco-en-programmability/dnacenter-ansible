@@ -217,13 +217,19 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function start_discovery used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.start_discovery
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    discovery.Discovery.start_discovery
 
 - name: SDK function updates_discovery_by_id used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.updates_discovery_by_id
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    discovery.Discovery.updates_discovery_by_id
 
 - name: SDK function delete_discovery_by_id used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.delete_discovery_by_id
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    discovery.Discovery.delete_discovery_by_id
 
 notes:
   - Paths used: delete /dna/intent/api/v1/discovery,

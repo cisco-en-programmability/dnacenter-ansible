@@ -29,10 +29,14 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function create_update_dynamic_interface used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.create_update_dynamic_interface
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    wireless.Wireless.create_update_dynamic_interface
 
 - name: SDK function delete_dynamic_interface used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.delete_dynamic_interface
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    wireless.Wireless.delete_dynamic_interface
 
 notes:
   - Paths used: post /dna/intent/api/v1/wireless/dynamic-interface,

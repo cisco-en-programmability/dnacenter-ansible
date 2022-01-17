@@ -33,7 +33,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_count_of_profiling_rules used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.policy.Policy.get_count_of_profiling_rules
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    policy.Policy.get_count_of_profiling_rules
 
 notes:
   - Paths used: get /dna/intent/api/v1/endpoint-analytics/profiling-rules/count

@@ -41,7 +41,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function sensor_test_results used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.sensor_test_results
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    wireless.Wireless.sensor_test_results
 
 notes:
   - Paths used: get /dna/intent/api/v1/AssuranceGetSensorTestResults

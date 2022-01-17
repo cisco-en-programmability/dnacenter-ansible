@@ -93,7 +93,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_templates_details used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_templates.ConfigurationTemplates.get_templates_details
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    configuration_templates.ConfigurationTemplates.get_templates_details
 
 notes:
   - Paths used: get /dna/intent/api/v2/template-programmer/template

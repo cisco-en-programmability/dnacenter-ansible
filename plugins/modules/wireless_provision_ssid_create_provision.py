@@ -79,7 +79,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function create_and_provision_ssid used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.create_and_provision_ssid
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    wireless.Wireless.create_and_provision_ssid
 
 notes:
   - Paths used: post /dna/intent/api/v1/business/ssid

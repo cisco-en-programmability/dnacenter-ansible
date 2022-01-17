@@ -32,7 +32,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function assign_device_to_site used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sites.Sites.assign_device_to_site
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    sites.Sites.assign_device_to_site
 
 notes:
   - Paths used: post /dna/system/api/v1/site/{siteId}/device

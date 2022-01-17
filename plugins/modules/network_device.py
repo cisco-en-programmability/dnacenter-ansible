@@ -121,13 +121,19 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function delete_device_by_id used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.delete_device_by_id
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    devices.Devices.delete_device_by_id
 
 - name: SDK function add_device used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.add_device
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    devices.Devices.add_device
 
 - name: SDK function sync_devices used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.sync_devices
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    devices.Devices.sync_devices
 
 notes:
   - Paths used: post /dna/intent/api/v1/network-device,

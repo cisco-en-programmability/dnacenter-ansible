@@ -123,7 +123,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_auditlog_parent_records used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.get_auditlog_parent_records
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    event_management.EventManagement.get_auditlog_parent_records
 
 notes:
   - Paths used: get /dna/data/api/v1/event/event-series/audit-log/parent-records

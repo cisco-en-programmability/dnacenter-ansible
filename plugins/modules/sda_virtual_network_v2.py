@@ -37,10 +37,14 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function add_virtual_network_with_scalable_groups used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.add_virtual_network_with_scalable_groups
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    sda.Sda.add_virtual_network_with_scalable_groups
 
 - name: SDK function update_virtual_network_with_scalable_groups used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.update_virtual_network_with_scalable_groups
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    sda.Sda.update_virtual_network_with_scalable_groups
 
 notes:
   - Paths used: post /dna/intent/api/v1/virtual-network,

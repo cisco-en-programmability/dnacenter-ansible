@@ -43,7 +43,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_golden_tag_status_of_an_image used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.software_image_management_swim.SoftwareImageManagementSwim.get_golden_tag_status_of_an_image
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    software_image_management_swim.SoftwareImageManagementSwim.get_golden_tag_status_of_an_image
 
 notes:
   - Paths used: get /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId}

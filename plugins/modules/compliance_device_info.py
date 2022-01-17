@@ -45,10 +45,14 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_compliance_status used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.compliance.Compliance.get_compliance_status
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    compliance.Compliance.get_compliance_status
 
 - name: SDK function device_compliance_status used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.compliance.Compliance.device_compliance_status
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    compliance.Compliance.device_compliance_status
 
 notes:
   - Paths used: get /dna/intent/api/v1/compliance,

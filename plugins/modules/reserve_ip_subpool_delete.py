@@ -25,7 +25,8 @@ seealso:
 # Reference by Internet resource
 - name: Reserve Ip Subpool Delete reference
   description: Complete reference of the Reserve Ip Subpool Delete object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+  link: >
+    https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
 """
 
 EXAMPLES = r"""

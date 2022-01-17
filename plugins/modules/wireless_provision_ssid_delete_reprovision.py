@@ -28,7 +28,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function delete_ssid_and_provision_it_to_devices used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.delete_ssid_and_provision_it_to_devices
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    wireless.Wireless.delete_ssid_and_provision_it_to_devices
 
 notes:
   - Paths used: delete /dna/intent/api/v1/business/ssid/{ssidName}/{managedAPLocations}

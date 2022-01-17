@@ -29,7 +29,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_network_device_by_ip used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_network_device_by_ip
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    devices.Devices.get_network_device_by_ip
 
 notes:
   - Paths used: get /dna/intent/api/v1/network-device/ip-address/{ipAddress}

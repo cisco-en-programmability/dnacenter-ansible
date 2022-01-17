@@ -26,7 +26,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function export_templates used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_templates.ConfigurationTemplates.export_templates
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    configuration_templates.ConfigurationTemplates.export_templates
 
 notes:
   - Paths used: post /dna/intent/api/v1/template-programmer/template/exporttemplates

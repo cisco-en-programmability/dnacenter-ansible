@@ -119,13 +119,19 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function update_an_existing_profiling_rule used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.policy.Policy.update_an_existing_profiling_rule
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    policy.Policy.update_an_existing_profiling_rule
 
 - name: SDK function create_a_profiling_rule used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.policy.Policy.create_a_profiling_rule
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    policy.Policy.create_a_profiling_rule
 
 - name: SDK function delete_an_existing_profiling_rule used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.policy.Policy.delete_an_existing_profiling_rule
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    policy.Policy.delete_an_existing_profiling_rule
 
 notes:
   - Paths used: post /dna/intent/api/v1/endpoint-analytics/profiling-rules,

@@ -39,10 +39,14 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_list_of_scheduled_reports used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.reports.Reports.get_list_of_scheduled_reports
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    reports.Reports.get_list_of_scheduled_reports
 
 - name: SDK function get_a_scheduled_report used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.reports.Reports.get_a_scheduled_report
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    reports.Reports.get_a_scheduled_report
 
 notes:
   - Paths used: get /dna/intent/api/v1/data/reports,

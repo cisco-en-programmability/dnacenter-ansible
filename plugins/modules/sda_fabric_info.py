@@ -29,7 +29,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_sda_fabric_info used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.get_sda_fabric_info
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    sda.Sda.get_sda_fabric_info
 
 notes:
   - Paths used: get /dna/intent/api/v1/business/sda/fabric

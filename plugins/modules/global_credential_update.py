@@ -29,10 +29,14 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function delete_global_credentials_by_id used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.delete_global_credentials_by_id
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    discovery.Discovery.delete_global_credentials_by_id
 
 - name: SDK function update_global_credentials used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.update_global_credentials
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    discovery.Discovery.update_global_credentials
 
 notes:
   - Paths used: put /dna/intent/api/v1/global-credential/{globalCredentialId}

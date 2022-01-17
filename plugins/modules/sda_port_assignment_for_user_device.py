@@ -60,7 +60,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function add_port_assignment_for_user_device used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.add_port_assignment_for_user_device
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    sda.Sda.add_port_assignment_for_user_device
 
 notes:
   - Paths used: delete /dna/intent/api/v1/business/sda/hostonboarding/user-device,

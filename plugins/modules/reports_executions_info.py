@@ -43,10 +43,14 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_all_execution_details_for_a_given_report used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.reports.Reports.get_all_execution_details_for_a_given_report
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    reports.Reports.get_all_execution_details_for_a_given_report
 
 - name: SDK function download_report_content used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.reports.Reports.download_report_content
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    reports.Reports.download_report_content
 
 notes:
   - Paths used: get /dna/intent/api/v1/data/reports/{reportId}/executions,

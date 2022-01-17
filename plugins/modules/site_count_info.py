@@ -29,7 +29,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_site_count used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sites.Sites.get_site_count
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    sites.Sites.get_site_count
 
 notes:
   - Paths used: get /dna/intent/api/v1/site/count

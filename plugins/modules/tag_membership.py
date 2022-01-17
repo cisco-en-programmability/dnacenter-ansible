@@ -33,7 +33,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function updates_tag_membership used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.tag.Tag.updates_tag_membership
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    tag.Tag.updates_tag_membership
 
 notes:
   - Paths used: put /dna/intent/api/v1/tag/member

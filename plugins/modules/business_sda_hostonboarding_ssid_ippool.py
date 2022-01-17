@@ -36,10 +36,14 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function update_ssid_to_ip_pool_mapping used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping
 
 - name: SDK function add_ssid_to_ip_pool_mapping used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping
 
 notes:
   - Paths used: post /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,

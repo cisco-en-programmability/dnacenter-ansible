@@ -25,7 +25,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function smart_account_details used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.licenses.Licenses.smart_account_details
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    licenses.Licenses.smart_account_details
 
 notes:
   - Paths used: get /dna/intent/api/v1/licenses/smartAccounts

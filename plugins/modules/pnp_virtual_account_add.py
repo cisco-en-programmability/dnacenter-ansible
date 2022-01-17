@@ -101,7 +101,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function add_virtual_account used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.add_virtual_account
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    device_onboarding_pnp.DeviceOnboardingPnp.add_virtual_account
 
 notes:
   - Paths used: post /dna/intent/api/v1/onboarding/pnp-settings/savacct

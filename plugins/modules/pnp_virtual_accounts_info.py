@@ -29,7 +29,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_virtual_account_list used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.get_virtual_account_list
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    device_onboarding_pnp.DeviceOnboardingPnp.get_virtual_account_list
 
 notes:
   - Paths used: get /dna/intent/api/v1/onboarding/pnp-settings/sacct/{domain}/vacct

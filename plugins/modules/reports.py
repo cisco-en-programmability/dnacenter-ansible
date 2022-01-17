@@ -103,10 +103,14 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function delete_a_scheduled_report used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.reports.Reports.delete_a_scheduled_report
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    reports.Reports.delete_a_scheduled_report
 
 - name: SDK function create_or_schedule_a_report used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.reports.Reports.create_or_schedule_a_report
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    reports.Reports.create_or_schedule_a_report
 
 notes:
   - Paths used: post /dna/intent/api/v1/data/reports,

@@ -25,7 +25,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function delete_device_credential used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.delete_device_credential
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    network_settings.NetworkSettings.delete_device_credential
 
 notes:
   - Paths used: delete /dna/intent/api/v1/device-credential/{id}

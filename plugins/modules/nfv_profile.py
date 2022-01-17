@@ -147,13 +147,19 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function delete_nfv_profile used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.delete_nfv_profile
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    site_design.SiteDesign.delete_nfv_profile
 
 - name: SDK function create_nfv_profile used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.create_nfv_profile
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    site_design.SiteDesign.create_nfv_profile
 
 - name: SDK function update_nfv_profile used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.update_nfv_profile
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    site_design.SiteDesign.update_nfv_profile
 
 notes:
   - Paths used: post /dna/intent/api/v1/nfv/network-profile,

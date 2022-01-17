@@ -35,7 +35,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function psk_override used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.psk_override
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    wireless.Wireless.psk_override
 
 notes:
   - Paths used: post /dna/intent/api/v1/wireless/psk-override

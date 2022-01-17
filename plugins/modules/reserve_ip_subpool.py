@@ -98,13 +98,19 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function release_reserve_ip_subpool used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.release_reserve_ip_subpool
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    network_settings.NetworkSettings.release_reserve_ip_subpool
 
 - name: SDK function update_reserve_ip_subpool used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.update_reserve_ip_subpool
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    network_settings.NetworkSettings.update_reserve_ip_subpool
 
 - name: SDK function reserve_ip_subpool used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.reserve_ip_subpool
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    network_settings.NetworkSettings.reserve_ip_subpool
 
 notes:
   - Paths used: delete /dna/intent/api/v1/reserve-ip-subpool/{id},

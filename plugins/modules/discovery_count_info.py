@@ -25,7 +25,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_count_of_all_discovery_jobs used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.get_count_of_all_discovery_jobs
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    discovery.Discovery.get_count_of_all_discovery_jobs
 
 notes:
   - Paths used: get /dna/intent/api/v1/discovery/count

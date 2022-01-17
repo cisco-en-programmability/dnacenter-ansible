@@ -29,7 +29,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_organization_list_for_meraki used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_organization_list_for_meraki
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    devices.Devices.get_organization_list_for_meraki
 
 notes:
   - Paths used: get /dna/intent/api/v1/network-device/{id}/meraki-organization

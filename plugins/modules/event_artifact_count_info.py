@@ -25,7 +25,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function eventartifact_count used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.eventartifact_count
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    event_management.EventManagement.eventartifact_count
 
 notes:
   - Paths used: get /dna/system/api/v1/event/artifact/count

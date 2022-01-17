@@ -49,7 +49,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_compliance_detail used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.compliance.Compliance.get_compliance_detail
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    compliance.Compliance.get_compliance_detail
 
 notes:
   - Paths used: get /dna/intent/api/v1/compliance/detail

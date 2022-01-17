@@ -25,7 +25,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_all_keywords_of_clis_accepted used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.command_runner.CommandRunner.get_all_keywords_of_clis_accepted
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    command_runner.CommandRunner.get_all_keywords_of_clis_accepted
 
 notes:
   - Paths used: get /dna/intent/api/v1/network-device-poller/cli/legit-reads

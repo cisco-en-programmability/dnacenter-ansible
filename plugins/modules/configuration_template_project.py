@@ -542,13 +542,19 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function update_project used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_templates.ConfigurationTemplates.update_project
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    configuration_templates.ConfigurationTemplates.update_project
 
 - name: SDK function deletes_the_project used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_templates.ConfigurationTemplates.deletes_the_project
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    configuration_templates.ConfigurationTemplates.deletes_the_project
 
 - name: SDK function create_project used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_templates.ConfigurationTemplates.create_project
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    configuration_templates.ConfigurationTemplates.create_project
 
 notes:
   - Paths used: post /dna/intent/api/v1/template-programmer/project,

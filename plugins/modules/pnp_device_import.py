@@ -809,7 +809,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function import_devices_in_bulk used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.import_devices_in_bulk
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    device_onboarding_pnp.DeviceOnboardingPnp.import_devices_in_bulk
 
 notes:
   - Paths used: post /dna/intent/api/v1/onboarding/pnp-device/import

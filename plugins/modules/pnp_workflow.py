@@ -130,13 +130,19 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function update_workflow used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.update_workflow
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    device_onboarding_pnp.DeviceOnboardingPnp.update_workflow
 
 - name: SDK function add_a_workflow used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.add_a_workflow
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    device_onboarding_pnp.DeviceOnboardingPnp.add_a_workflow
 
 - name: SDK function delete_workflow_by_id used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.delete_workflow_by_id
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    device_onboarding_pnp.DeviceOnboardingPnp.delete_workflow_by_id
 
 notes:
   - Paths used: post /dna/intent/api/v1/onboarding/pnp-workflow,

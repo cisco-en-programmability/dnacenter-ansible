@@ -51,7 +51,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function import_software_image_via_url used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url
 
 notes:
   - Paths used: post /dna/intent/api/v1/image/importation/source/url

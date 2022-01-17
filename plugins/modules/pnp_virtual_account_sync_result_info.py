@@ -33,7 +33,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_sync_result_for_virtual_account used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.get_sync_result_for_virtual_account
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    device_onboarding_pnp.DeviceOnboardingPnp.get_sync_result_for_virtual_account
 
 notes:
   - Paths used: get /dna/intent/api/v1/onboarding/pnp-device/sacct/{domain}/vacct/{name}/sync-result

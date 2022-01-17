@@ -67,13 +67,19 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function update_tag used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.tag.Tag.update_tag
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    tag.Tag.update_tag
 
 - name: SDK function delete_tag used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.tag.Tag.delete_tag
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    tag.Tag.delete_tag
 
 - name: SDK function create_tag used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.tag.Tag.create_tag
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    tag.Tag.create_tag
 
 notes:
   - Paths used: put /dna/intent/api/v1/tag,

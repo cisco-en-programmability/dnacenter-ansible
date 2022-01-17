@@ -71,13 +71,19 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function create_qos_device_interface_info used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.create_qos_device_interface_info
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    application_policy.ApplicationPolicy.create_qos_device_interface_info
 
 - name: SDK function update_qos_device_interface_info used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.update_qos_device_interface_info
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    application_policy.ApplicationPolicy.update_qos_device_interface_info
 
 - name: SDK function delete_qos_device_interface_info used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.delete_qos_device_interface_info
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    application_policy.ApplicationPolicy.delete_qos_device_interface_info
 
 notes:
   - Paths used: put /dna/intent/api/v1/qos-device-interface-info,

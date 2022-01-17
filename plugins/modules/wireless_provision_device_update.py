@@ -55,10 +55,14 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function provision_update used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.provision_update
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    wireless.Wireless.provision_update
 
 - name: SDK function provision used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.provision
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    wireless.Wireless.provision
 
 notes:
   - Paths used: put /dna/intent/api/v1/wireless/provision

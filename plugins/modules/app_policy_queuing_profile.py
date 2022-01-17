@@ -89,16 +89,19 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function create_application_policy_queuing_profile used
+  description: SDK function create_application_policy_queuing_profile used
   link: >
     https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
     application_policy.ApplicationPolicy.create_application_policy_queuing_profile
 
 - name: SDK function update_application_policy_queuing_profile used
+  description: SDK function update_application_policy_queuing_profile used
   link: >
     https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
     application_policy.ApplicationPolicy.update_application_policy_queuing_profile
 
 - name: SDK function delete_application_policy_queuing_profile used
+  description: SDK function delete_application_policy_queuing_profile used
   link: >
     https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
     application_policy.ApplicationPolicy.delete_application_policy_queuing_profile

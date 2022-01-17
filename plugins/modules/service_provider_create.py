@@ -39,7 +39,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function create_sp_profile used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.create_sp_profile
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    network_settings.NetworkSettings.create_sp_profile
 
 notes:
   - Paths used: post /dna/intent/api/v1/service-provider

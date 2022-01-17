@@ -37,7 +37,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_applications used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.get_applications
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    application_policy.ApplicationPolicy.get_applications
 
 notes:
   - Paths used: get /dna/intent/api/v1/applications

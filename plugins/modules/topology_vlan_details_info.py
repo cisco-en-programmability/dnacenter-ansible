@@ -25,7 +25,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_vlan_details used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.topology.Topology.get_vlan_details
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    topology.Topology.get_vlan_details
 
 notes:
   - Paths used: get /dna/intent/api/v1/topology/vlan/vlan-names

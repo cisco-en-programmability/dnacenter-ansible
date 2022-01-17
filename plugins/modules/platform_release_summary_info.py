@@ -25,7 +25,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function release_summary used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.platform_configuration.PlatformConfiguration.release_summary
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    platform_configuration.PlatformConfiguration.release_summary
 
 notes:
   - Paths used: get /dna/intent/api/v1/dnac-release

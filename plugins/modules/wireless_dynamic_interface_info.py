@@ -31,7 +31,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_dynamic_interface used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.get_dynamic_interface
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    wireless.Wireless.get_dynamic_interface
 
 notes:
   - Paths used: get /dna/intent/api/v1/wireless/dynamic-interface

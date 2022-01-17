@@ -51,7 +51,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function compliance_details_of_device used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.compliance.Compliance.compliance_details_of_device
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    compliance.Compliance.compliance_details_of_device
 
 notes:
   - Paths used: get /dna/intent/api/v1/compliance/{deviceUuid}/detail

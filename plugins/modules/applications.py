@@ -112,10 +112,14 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function edit_application used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.edit_application
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    application_policy.ApplicationPolicy.edit_application
 
 - name: SDK function create_application used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.create_application
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    application_policy.ApplicationPolicy.create_application
 
 notes:
   - Paths used: post /dna/intent/api/v1/applications,

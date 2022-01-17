@@ -26,7 +26,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function add_fabric used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.add_fabric
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    sda.Sda.add_fabric
 
 notes:
   - Paths used: delete /dna/intent/api/v1/business/sda/fabric,

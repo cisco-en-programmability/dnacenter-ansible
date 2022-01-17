@@ -61,7 +61,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function deploy_template_v2 used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_templates.ConfigurationTemplates.deploy_template_v2
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    configuration_templates.ConfigurationTemplates.deploy_template_v2
 
 notes:
   - Paths used: post /dna/intent/api/v2/template-programmer/template/deploy

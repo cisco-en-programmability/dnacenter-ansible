@@ -139,10 +139,14 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function update_network used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.update_network
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    network_settings.NetworkSettings.update_network
 
 - name: SDK function create_network used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.create_network
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    network_settings.NetworkSettings.create_network
 
 notes:
   - Paths used: put /dna/intent/api/v1/network/{siteId}

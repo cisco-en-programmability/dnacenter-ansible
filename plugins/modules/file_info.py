@@ -37,7 +37,9 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function download_a_file_by_fileid used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.file.File.download_a_file_by_fileid
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    file.File.download_a_file_by_fileid
 
 notes:
   - Paths used: get /dna/intent/api/v1/file/{fileId}

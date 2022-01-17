@@ -59,10 +59,14 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function create_snmpv3_credentials used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.create_snmpv3_credentials
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    discovery.Discovery.create_snmpv3_credentials
 
 - name: SDK function update_snmpv3_credentials used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.update_snmpv3_credentials
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    discovery.Discovery.update_snmpv3_credentials
 
 notes:
   - Paths used: put /dna/intent/api/v1/global-credential/snmpv3,

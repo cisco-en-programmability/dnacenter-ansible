@@ -51,10 +51,14 @@ requirements:
 seealso:
 # Reference to SDK documentation of current version
 - name: SDK function initiate_a_new_pathtrace used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.path_trace.PathTrace.initiate_a_new_pathtrace
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    path_trace.PathTrace.initiate_a_new_pathtrace
 
 - name: SDK function deletes_pathtrace_by_id used
-  link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.path_trace.PathTrace.deletes_pathtrace_by_id
+  link: >
+    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
+    path_trace.PathTrace.deletes_pathtrace_by_id
 
 notes:
   - Paths used: post /dna/intent/api/v1/flow-analysis,
