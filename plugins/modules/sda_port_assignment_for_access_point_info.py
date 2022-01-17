@@ -35,9 +35,8 @@ seealso:
 - name: SDK function get_port_assignment_for_access_point used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.get_port_assignment_for_access_point
 
-- name: Paths used on the module Sda Port Assignment For Access Point
-  description: |-
-    get /dna/intent/api/v1/business/sda/hostonboarding/access-point
+notes:
+  - Paths used: get /dna/intent/api/v1/business/sda/hostonboarding/access-point
 """
 
 EXAMPLES = r"""

@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_qos_device_interface_info used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.get_qos_device_interface_info
 
-- name: Paths used on the module Qos Device Interface
-  description: |-
-    get /dna/intent/api/v1/qos-device-interface-info
+notes:
+  - Paths used: get /dna/intent/api/v1/qos-device-interface-info
 """
 
 EXAMPLES = r"""

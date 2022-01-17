@@ -66,9 +66,8 @@ seealso:
 - name: SDK function update_rest_webhook_event_subscription used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.update_rest_webhook_event_subscription
 
-- name: Paths used on the module Event Subscription Rest
-  description: |-
-    post /dna/intent/api/v1/event/subscription/rest,
+notes:
+  - Paths used: post /dna/intent/api/v1/event/subscription/rest,
     put /dna/intent/api/v1/event/subscription/rest
 """
 

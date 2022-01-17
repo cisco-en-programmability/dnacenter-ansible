@@ -53,9 +53,8 @@ seealso:
 - name: SDK function compliance_details_of_device used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.compliance.Compliance.compliance_details_of_device
 
-- name: Paths used on the module Compliance Device By Id
-  description: |-
-    get /dna/intent/api/v1/compliance/{deviceUuid}/detail
+notes:
+  - Paths used: get /dna/intent/api/v1/compliance/{deviceUuid}/detail
 """
 
 EXAMPLES = r"""

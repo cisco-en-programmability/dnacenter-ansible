@@ -27,9 +27,8 @@ seealso:
 - name: SDK function disaster_recovery_status used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.disaster_recovery.DisasterRecovery.disaster_recovery_status
 
-- name: Paths used on the module Disasterrecovery System Status
-  description: |-
-    get /dna/intent/api/v1/disasterrecovery/system/status
+notes:
+  - Paths used: get /dna/intent/api/v1/disasterrecovery/system/status
 """
 
 EXAMPLES = r"""

@@ -51,9 +51,8 @@ seealso:
 - name: SDK function inventory_insight_device_link_mismatch used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.inventory_insight_device_link_mismatch
 
-- name: Paths used on the module Network Device Inventory Insight Link Mismatch
-  description: |-
-    get /dna/intent/api/v1/network-device/insight/{siteId}/device-link
+notes:
+  - Paths used: get /dna/intent/api/v1/network-device/insight/{siteId}/device-link
 """
 
 EXAMPLES = r"""

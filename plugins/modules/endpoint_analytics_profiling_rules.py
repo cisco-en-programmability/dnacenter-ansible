@@ -127,9 +127,8 @@ seealso:
 - name: SDK function delete_an_existing_profiling_rule used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.policy.Policy.delete_an_existing_profiling_rule
 
-- name: Paths used on the module Endpoint Analytics Profiling Rules
-  description: |-
-    post /dna/intent/api/v1/endpoint-analytics/profiling-rules,
+notes:
+  - Paths used: post /dna/intent/api/v1/endpoint-analytics/profiling-rules,
     delete /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId}
 """
 

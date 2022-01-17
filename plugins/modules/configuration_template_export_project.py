@@ -28,9 +28,8 @@ seealso:
 - name: SDK function export_projects used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_templates.ConfigurationTemplates.export_projects
 
-- name: Paths used on the module Configuration Template Export Project
-  description: |-
-    post /dna/intent/api/v1/template-programmer/project/name/exportprojects
+notes:
+  - Paths used: post /dna/intent/api/v1/template-programmer/project/name/exportprojects
 """
 
 EXAMPLES = r"""

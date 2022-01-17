@@ -41,9 +41,8 @@ seealso:
 - name: SDK function get_task_by_operationid used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.task.Task.get_task_by_operationid
 
-- name: Paths used on the module Task Operation
-  description: |-
-    get /dna/intent/api/v1/task/operation/{operationId}/{offset}/{limit}
+notes:
+  - Paths used: get /dna/intent/api/v1/task/operation/{operationId}/{offset}/{limit}
 """
 
 EXAMPLES = r"""

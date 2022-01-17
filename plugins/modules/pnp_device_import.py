@@ -811,9 +811,8 @@ seealso:
 - name: SDK function import_devices_in_bulk used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.import_devices_in_bulk
 
-- name: Paths used on the module Pnp Device Import
-  description: |-
-    post /dna/intent/api/v1/onboarding/pnp-device/import
+notes:
+  - Paths used: post /dna/intent/api/v1/onboarding/pnp-device/import
 """
 
 EXAMPLES = r"""

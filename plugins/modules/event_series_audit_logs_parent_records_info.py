@@ -125,9 +125,8 @@ seealso:
 - name: SDK function get_auditlog_parent_records used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.get_auditlog_parent_records
 
-- name: Paths used on the module Event Series Audit Logs Parent Records
-  description: |-
-    get /dna/data/api/v1/event/event-series/audit-log/parent-records
+notes:
+  - Paths used: get /dna/data/api/v1/event/event-series/audit-log/parent-records
 """
 
 EXAMPLES = r"""

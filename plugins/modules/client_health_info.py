@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_overall_client_health used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.clients.Clients.get_overall_client_health
 
-- name: Paths used on the module Client Health
-  description: |-
-    get /dna/intent/api/v1/client-health
+notes:
+  - Paths used: get /dna/intent/api/v1/client-health
 """
 
 EXAMPLES = r"""

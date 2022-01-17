@@ -103,9 +103,8 @@ seealso:
 - name: SDK function update_pnp_server_profile used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.update_pnp_server_profile
 
-- name: Paths used on the module Pnp Server Profile Update
-  description: |-
-    put /dna/intent/api/v1/onboarding/pnp-settings/savacct
+notes:
+  - Paths used: put /dna/intent/api/v1/onboarding/pnp-settings/savacct
 """
 
 EXAMPLES = r"""

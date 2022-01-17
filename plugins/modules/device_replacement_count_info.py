@@ -33,9 +33,8 @@ seealso:
 - name: SDK function return_replacement_devices_count used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_replacement.DeviceReplacement.return_replacement_devices_count
 
-- name: Paths used on the module Device Replacement Count
-  description: |-
-    get /dna/intent/api/v1/device-replacement/count
+notes:
+  - Paths used: get /dna/intent/api/v1/device-replacement/count
 """
 
 EXAMPLES = r"""

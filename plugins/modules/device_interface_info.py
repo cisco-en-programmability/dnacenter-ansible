@@ -44,9 +44,8 @@ seealso:
 - name: SDK function get_all_interfaces used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_all_interfaces
 
-- name: Paths used on the module Device Interface
-  description: |-
-    get /dna/intent/api/v1/interface,
+notes:
+  - Paths used: get /dna/intent/api/v1/interface,
     get /dna/intent/api/v1/interface/{id}
 """
 

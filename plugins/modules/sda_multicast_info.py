@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_multicast_details_from_sda_fabric used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.get_multicast_details_from_sda_fabric
 
-- name: Paths used on the module Sda Multicast
-  description: |-
-    get /dna/intent/api/v1/business/sda/multicast
+notes:
+  - Paths used: get /dna/intent/api/v1/business/sda/multicast
 """
 
 EXAMPLES = r"""

@@ -103,9 +103,8 @@ seealso:
 - name: SDK function sync_virtual_account_devices used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.sync_virtual_account_devices
 
-- name: Paths used on the module Pnp Virtual Account Devices Sync
-  description: |-
-    post /dna/intent/api/v1/onboarding/pnp-device/vacct-sync
+notes:
+  - Paths used: post /dna/intent/api/v1/onboarding/pnp-device/vacct-sync
 """
 
 EXAMPLES = r"""

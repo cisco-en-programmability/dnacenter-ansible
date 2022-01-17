@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_list_of_files used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.file.File.get_list_of_files
 
-- name: Paths used on the module File Namespace Files
-  description: |-
-    get /dna/intent/api/v1/file/namespace/{nameSpace}
+notes:
+  - Paths used: get /dna/intent/api/v1/file/namespace/{nameSpace}
 """
 
 EXAMPLES = r"""

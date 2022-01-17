@@ -51,9 +51,8 @@ seealso:
 - name: SDK function get_compliance_detail used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.compliance.Compliance.get_compliance_detail
 
-- name: Paths used on the module Compliance Device Details
-  description: |-
-    get /dna/intent/api/v1/compliance/detail
+notes:
+  - Paths used: get /dna/intent/api/v1/compliance/detail
 """
 
 EXAMPLES = r"""

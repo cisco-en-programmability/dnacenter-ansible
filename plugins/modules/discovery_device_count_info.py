@@ -35,9 +35,8 @@ seealso:
 - name: SDK function get_devices_discovered_by_id used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.get_devices_discovered_by_id
 
-- name: Paths used on the module Discovery Device Count
-  description: |-
-    get /dna/intent/api/v1/discovery/{id}/network-device/count
+notes:
+  - Paths used: get /dna/intent/api/v1/discovery/{id}/network-device/count
 """
 
 EXAMPLES = r"""

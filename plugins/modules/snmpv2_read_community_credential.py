@@ -59,9 +59,8 @@ seealso:
 - name: SDK function create_snmp_read_community used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.create_snmp_read_community
 
-- name: Paths used on the module Snmpv2 Read Community Credential
-  description: |-
-    put /dna/intent/api/v1/global-credential/snmpv2-read-community,
+notes:
+  - Paths used: put /dna/intent/api/v1/global-credential/snmpv2-read-community,
     post /dna/intent/api/v1/global-credential/snmpv2-read-community
 """
 

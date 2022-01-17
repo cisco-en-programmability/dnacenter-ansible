@@ -27,9 +27,8 @@ seealso:
 - name: SDK function eventartifact_count used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.eventartifact_count
 
-- name: Paths used on the module Event Artifact Count
-  description: |-
-    get /dna/system/api/v1/event/artifact/count
+notes:
+  - Paths used: get /dna/system/api/v1/event/artifact/count
 """
 
 EXAMPLES = r"""

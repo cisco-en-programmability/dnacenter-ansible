@@ -41,9 +41,8 @@ seealso:
 - name: SDK function license_usage_details used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.licenses.Licenses.license_usage_details
 
-- name: Paths used on the module License Usage Details
-  description: |-
-    get /dna/intent/api/v1/licenses/usage/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name}
+notes:
+  - Paths used: get /dna/intent/api/v1/licenses/usage/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name}
 """
 
 EXAMPLES = r"""

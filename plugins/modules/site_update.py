@@ -83,9 +83,8 @@ seealso:
 - name: SDK function update_site used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sites.Sites.update_site
 
-- name: Paths used on the module Site Update
-  description: |-
-    put /dna/intent/api/v1/site/{siteId}
+notes:
+  - Paths used: put /dna/intent/api/v1/site/{siteId}
 """
 
 EXAMPLES = r"""

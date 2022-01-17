@@ -33,9 +33,8 @@ seealso:
 - name: SDK function get_enterprise_ssid used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.get_enterprise_ssid
 
-- name: Paths used on the module Wireless Enterprise Ssid
-  description: |-
-    get /dna/intent/api/v1/enterprise-ssid
+notes:
+  - Paths used: get /dna/intent/api/v1/enterprise-ssid
 """
 
 EXAMPLES = r"""

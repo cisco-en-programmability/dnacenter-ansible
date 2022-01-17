@@ -82,9 +82,8 @@ seealso:
 - name: SDK function get_tag used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.tag.Tag.get_tag
 
-- name: Paths used on the module Tag
-  description: |-
-    get /dna/intent/api/v1/tag,
+notes:
+  - Paths used: get /dna/intent/api/v1/tag,
     get /dna/intent/api/v1/tag/{id}
 """
 

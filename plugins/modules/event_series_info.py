@@ -79,9 +79,8 @@ seealso:
 - name: SDK function get_notifications used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.get_notifications
 
-- name: Paths used on the module Event Series
-  description: |-
-    get /dna/intent/api/v1/event/event-series
+notes:
+  - Paths used: get /dna/intent/api/v1/event/event-series
 """
 
 EXAMPLES = r"""

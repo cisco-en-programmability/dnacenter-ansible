@@ -67,9 +67,8 @@ seealso:
 - name: SDK function device_license_summary used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.licenses.Licenses.device_license_summary
 
-- name: Paths used on the module License Device License Summary
-  description: |-
-    get /dna/intent/api/v1/licenses/device/summary
+notes:
+  - Paths used: get /dna/intent/api/v1/licenses/device/summary
 """
 
 EXAMPLES = r"""

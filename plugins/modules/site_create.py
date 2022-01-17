@@ -83,9 +83,8 @@ seealso:
 - name: SDK function create_site used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sites.Sites.create_site
 
-- name: Paths used on the module Site Create
-  description: |-
-    post /dna/intent/api/v1/site
+notes:
+  - Paths used: post /dna/intent/api/v1/site
 """
 
 EXAMPLES = r"""

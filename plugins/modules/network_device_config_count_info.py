@@ -27,9 +27,8 @@ seealso:
 - name: SDK function get_device_config_count used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_device_config_count
 
-- name: Paths used on the module Network Device Config Count
-  description: |-
-    get /dna/intent/api/v1/network-device/config/count
+notes:
+  - Paths used: get /dna/intent/api/v1/network-device/config/count
 """
 
 EXAMPLES = r"""

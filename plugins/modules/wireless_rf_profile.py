@@ -109,9 +109,8 @@ seealso:
 - name: SDK function delete_rf_profiles used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.delete_rf_profiles
 
-- name: Paths used on the module Wireless Rf Profile
-  description: |-
-    post /dna/intent/api/v1/wireless/rf-profile,
+notes:
+  - Paths used: post /dna/intent/api/v1/wireless/rf-profile,
     delete /dna/intent/api/v1/wireless/rf-profile/{rfProfileName}
 """
 

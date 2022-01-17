@@ -27,9 +27,8 @@ seealso:
 - name: SDK function nodes_configuration_summary used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.platform_configuration.PlatformConfiguration.nodes_configuration_summary
 
-- name: Paths used on the module Platform Nodes Configuration Summary
-  description: |-
-    get /dna/intent/api/v1/nodes-config
+notes:
+  - Paths used: get /dna/intent/api/v1/nodes-config
 """
 
 EXAMPLES = r"""

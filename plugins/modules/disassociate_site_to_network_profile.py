@@ -33,9 +33,8 @@ seealso:
 - name: SDK function disassociate used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.disassociate
 
-- name: Paths used on the module Disassociate Site To Network Profile
-  description: |-
-    delete /dna/intent/api/v1/networkprofile/{networkProfileId}/site/{siteId}
+notes:
+  - Paths used: delete /dna/intent/api/v1/networkprofile/{networkProfileId}/site/{siteId}
 """
 
 EXAMPLES = r"""

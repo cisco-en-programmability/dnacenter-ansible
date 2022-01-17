@@ -46,9 +46,8 @@ seealso:
 - name: SDK function client_proximity used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.clients.Clients.client_proximity
 
-- name: Paths used on the module Client Proximity
-  description: |-
-    get /dna/intent/api/v1/client-proximity
+notes:
+  - Paths used: get /dna/intent/api/v1/client-proximity
 """
 
 EXAMPLES = r"""

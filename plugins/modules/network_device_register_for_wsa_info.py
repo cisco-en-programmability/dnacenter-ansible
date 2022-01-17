@@ -35,9 +35,8 @@ seealso:
 - name: SDK function register_device_for_wsa used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.register_device_for_wsa
 
-- name: Paths used on the module Network Device Register For Wsa
-  description: |-
-    get /dna/intent/api/v1/network-device/tenantinfo/macaddress
+notes:
+  - Paths used: get /dna/intent/api/v1/network-device/tenantinfo/macaddress
 """
 
 EXAMPLES = r"""

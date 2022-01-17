@@ -32,9 +32,8 @@ seealso:
 - name: SDK function get_control_plane_device used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.get_control_plane_device
 
-- name: Paths used on the module Sda Fabric Control Plane Device
-  description: |-
-    get /dna/intent/api/v1/business/sda/control-plane-device
+notes:
+  - Paths used: get /dna/intent/api/v1/business/sda/control-plane-device
 """
 
 EXAMPLES = r"""

@@ -115,9 +115,8 @@ seealso:
 - name: SDK function get_device_values_that_match_fully_or_partially_an_attribute used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_device_values_that_match_fully_or_partially_an_attribute
 
-- name: Paths used on the module Network Device Lexicographically Sorted
-  description: |-
-    get /dna/intent/api/v1/network-device/autocomplete
+notes:
+  - Paths used: get /dna/intent/api/v1/network-device/autocomplete
 """
 
 EXAMPLES = r"""

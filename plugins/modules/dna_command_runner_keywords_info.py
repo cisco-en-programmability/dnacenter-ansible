@@ -27,9 +27,8 @@ seealso:
 - name: SDK function get_all_keywords_of_clis_accepted used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.command_runner.CommandRunner.get_all_keywords_of_clis_accepted
 
-- name: Paths used on the module Dna Command Runner Keywords
-  description: |-
-    get /dna/intent/api/v1/network-device-poller/cli/legit-reads
+notes:
+  - Paths used: get /dna/intent/api/v1/network-device-poller/cli/legit-reads
 """
 
 EXAMPLES = r"""

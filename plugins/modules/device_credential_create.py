@@ -124,9 +124,8 @@ seealso:
 - name: SDK function create_device_credentials used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.create_device_credentials
 
-- name: Paths used on the module Device Credential Create
-  description: |-
-    post /dna/intent/api/v1/device-credential
+notes:
+  - Paths used: post /dna/intent/api/v1/device-credential
 """
 
 EXAMPLES = r"""

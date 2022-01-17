@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_devices_per_advisory used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.security_advisories.SecurityAdvisories.get_devices_per_advisory
 
-- name: Paths used on the module Security Advisories Devices
-  description: |-
-    get /dna/intent/api/v1/security-advisory/advisory/{advisoryId}/device
+notes:
+  - Paths used: get /dna/intent/api/v1/security-advisory/advisory/{advisoryId}/device
 """
 
 EXAMPLES = r"""

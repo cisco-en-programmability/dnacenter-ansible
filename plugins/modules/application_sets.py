@@ -35,9 +35,8 @@ seealso:
 - name: SDK function create_application_set used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.create_application_set
 
-- name: Paths used on the module Application Sets
-  description: |-
-    delete /dna/intent/api/v1/application-policy-application-set,
+notes:
+  - Paths used: delete /dna/intent/api/v1/application-policy-application-set,
     post /dna/intent/api/v1/application-policy-application-set
 """
 

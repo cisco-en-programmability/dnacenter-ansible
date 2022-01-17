@@ -36,9 +36,8 @@ seealso:
 - name: SDK function get_floormap used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.get_floormap
 
-- name: Paths used on the module Site Design Floormap
-  description: |-
-    get /dna/intent/api/v1/wireless/floormap/all,
+notes:
+  - Paths used: get /dna/intent/api/v1/wireless/floormap/all,
     get /dna/intent/api/v1/wireless/floormap/{floorId}
 """
 

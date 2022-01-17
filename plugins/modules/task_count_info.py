@@ -67,9 +67,8 @@ seealso:
 - name: SDK function get_task_count used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.task.Task.get_task_count
 
-- name: Paths used on the module Task Count
-  description: |-
-    get /dna/intent/api/v1/task/count
+notes:
+  - Paths used: get /dna/intent/api/v1/task/count
 """
 
 EXAMPLES = r"""

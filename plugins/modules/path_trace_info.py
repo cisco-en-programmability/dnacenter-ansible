@@ -96,9 +96,8 @@ seealso:
 - name: SDK function retrieves_previous_pathtrace used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.path_trace.PathTrace.retrieves_previous_pathtrace
 
-- name: Paths used on the module Path Trace
-  description: |-
-    get /dna/intent/api/v1/flow-analysis,
+notes:
+  - Paths used: get /dna/intent/api/v1/flow-analysis,
     get /dna/intent/api/v1/flow-analysis/{flowAnalysisId}
 """
 

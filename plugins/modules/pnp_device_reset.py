@@ -63,9 +63,8 @@ seealso:
 - name: SDK function reset_device used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.reset_device
 
-- name: Paths used on the module Pnp Device Reset
-  description: |-
-    post /dna/intent/api/v1/onboarding/pnp-device/reset
+notes:
+  - Paths used: post /dna/intent/api/v1/onboarding/pnp-device/reset
 """
 
 EXAMPLES = r"""

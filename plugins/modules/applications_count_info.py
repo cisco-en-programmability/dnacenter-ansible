@@ -27,9 +27,8 @@ seealso:
 - name: SDK function get_applications_count used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.get_applications_count
 
-- name: Paths used on the module Applications Count
-  description: |-
-    get /dna/intent/api/v1/applications-count
+notes:
+  - Paths used: get /dna/intent/api/v1/applications-count
 """
 
 EXAMPLES = r"""

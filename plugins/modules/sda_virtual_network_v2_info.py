@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_virtual_network_with_scalable_groups used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.get_virtual_network_with_scalable_groups
 
-- name: Paths used on the module Sda Virtual Network V2
-  description: |-
-    get /dna/intent/api/v1/virtual-network
+notes:
+  - Paths used: get /dna/intent/api/v1/virtual-network
 """
 
 EXAMPLES = r"""

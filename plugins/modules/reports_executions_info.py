@@ -48,9 +48,8 @@ seealso:
 - name: SDK function download_report_content used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.reports.Reports.download_report_content
 
-- name: Paths used on the module Reports Executions
-  description: |-
-    get /dna/intent/api/v1/data/reports/{reportId}/executions,
+notes:
+  - Paths used: get /dna/intent/api/v1/data/reports/{reportId}/executions,
     get /dna/intent/api/v1/data/reports/{reportId}/executions/{executionId}
 """
 

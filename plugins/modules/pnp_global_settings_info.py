@@ -27,9 +27,8 @@ seealso:
 - name: SDK function get_pnp_global_settings used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.get_pnp_global_settings
 
-- name: Paths used on the module Pnp Global Settings
-  description: |-
-    get /dna/intent/api/v1/onboarding/pnp-settings
+notes:
+  - Paths used: get /dna/intent/api/v1/onboarding/pnp-settings
 """
 
 EXAMPLES = r"""

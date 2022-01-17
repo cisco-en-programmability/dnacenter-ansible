@@ -64,9 +64,8 @@ seealso:
 - name: SDK function update_default_authentication_profile used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.update_default_authentication_profile
 
-- name: Paths used on the module Sda Fabric Authentication Profile
-  description: |-
-    post /dna/intent/api/v1/business/sda/authentication-profile,
+notes:
+  - Paths used: post /dna/intent/api/v1/business/sda/authentication-profile,
     put /dna/intent/api/v1/business/sda/authentication-profile,
     delete /dna/intent/api/v1/business/sda/authentication-profile
 """

@@ -90,9 +90,8 @@ seealso:
 - name: SDK function update_enterprise_ssid used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.update_enterprise_ssid
 
-- name: Paths used on the module Wireless Enterprise Ssid
-  description: |-
-    post /dna/intent/api/v1/enterprise-ssid,
+notes:
+  - Paths used: post /dna/intent/api/v1/enterprise-ssid,
     put /dna/intent/api/v1/enterprise-ssid,
     delete /dna/intent/api/v1/enterprise-ssid/{ssidName}
 """

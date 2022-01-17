@@ -27,9 +27,8 @@ seealso:
 - name: SDK function get_advisories_summary used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.security_advisories.SecurityAdvisories.get_advisories_summary
 
-- name: Paths used on the module Security Advisories Summary
-  description: |-
-    get /dna/intent/api/v1/security-advisory/advisory/aggregate
+notes:
+  - Paths used: get /dna/intent/api/v1/security-advisory/advisory/aggregate
 """
 
 EXAMPLES = r"""

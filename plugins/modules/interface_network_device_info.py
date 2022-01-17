@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_interface_info_by_id used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_interface_info_by_id
 
-- name: Paths used on the module Interface Network Device
-  description: |-
-    get /dna/intent/api/v1/interface/network-device/{deviceId}
+notes:
+  - Paths used: get /dna/intent/api/v1/interface/network-device/{deviceId}
 """
 
 EXAMPLES = r"""

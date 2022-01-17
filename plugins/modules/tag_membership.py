@@ -35,9 +35,8 @@ seealso:
 - name: SDK function updates_tag_membership used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.tag.Tag.updates_tag_membership
 
-- name: Paths used on the module Tag Membership
-  description: |-
-    put /dna/intent/api/v1/tag/member
+notes:
+  - Paths used: put /dna/intent/api/v1/tag/member
 """
 
 EXAMPLES = r"""

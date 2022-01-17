@@ -27,9 +27,8 @@ seealso:
 - name: SDK function get_snmp_properties used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.get_snmp_properties
 
-- name: Paths used on the module Snmp Properties
-  description: |-
-    get /dna/intent/api/v1/snmp-property
+notes:
+  - Paths used: get /dna/intent/api/v1/snmp-property
 """
 
 EXAMPLES = r"""

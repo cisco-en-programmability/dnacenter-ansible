@@ -99,9 +99,8 @@ seealso:
 - name: SDK function get_software_image_details used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.software_image_management_swim.SoftwareImageManagementSwim.get_software_image_details
 
-- name: Paths used on the module Swim Image Details
-  description: |-
-    get /dna/intent/api/v1/image/importation
+notes:
+  - Paths used: get /dna/intent/api/v1/image/importation
 """
 
 EXAMPLES = r"""

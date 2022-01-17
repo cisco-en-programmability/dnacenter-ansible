@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_network_device_by_ip used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_network_device_by_ip
 
-- name: Paths used on the module Network Device By Ip
-  description: |-
-    get /dna/intent/api/v1/network-device/ip-address/{ipAddress}
+notes:
+  - Paths used: get /dna/intent/api/v1/network-device/ip-address/{ipAddress}
 """
 
 EXAMPLES = r"""

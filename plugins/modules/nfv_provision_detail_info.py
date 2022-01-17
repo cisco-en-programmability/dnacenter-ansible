@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_device_details_by_ip used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.get_device_details_by_ip
 
-- name: Paths used on the module Nfv Provision Detail
-  description: |-
-    get /dna/intent/api/v1/business/nfv/provisioningDetail
+notes:
+  - Paths used: get /dna/intent/api/v1/business/nfv/provisioningDetail
 """
 
 EXAMPLES = r"""

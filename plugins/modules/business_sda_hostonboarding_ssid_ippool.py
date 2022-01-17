@@ -41,9 +41,8 @@ seealso:
 - name: SDK function add_ssid_to_ip_pool_mapping used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping
 
-- name: Paths used on the module Business Sda Hostonboarding Ssid Ippool
-  description: |-
-    post /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
+notes:
+  - Paths used: post /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
     put /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool
 """
 

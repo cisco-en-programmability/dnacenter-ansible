@@ -63,9 +63,8 @@ seealso:
 - name: SDK function deploy_template_v2 used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_templates.ConfigurationTemplates.deploy_template_v2
 
-- name: Paths used on the module Configuration Template Deploy V2
-  description: |-
-    post /dna/intent/api/v2/template-programmer/template/deploy
+notes:
+  - Paths used: post /dna/intent/api/v2/template-programmer/template/deploy
 """
 
 EXAMPLES = r"""

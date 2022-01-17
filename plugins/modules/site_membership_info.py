@@ -47,9 +47,8 @@ seealso:
 - name: SDK function get_membership used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sites.Sites.get_membership
 
-- name: Paths used on the module Site Membership
-  description: |-
-    get /dna/intent/api/v1/membership/{siteId}
+notes:
+  - Paths used: get /dna/intent/api/v1/membership/{siteId}
 """
 
 EXAMPLES = r"""

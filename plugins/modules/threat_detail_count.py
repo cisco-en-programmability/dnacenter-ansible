@@ -51,9 +51,8 @@ seealso:
 - name: SDK function threat_detail_count used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.threat_detail_count
 
-- name: Paths used on the module Threat Detail Count
-  description: |-
-    post /dna/intent/api/v1/security/threats/details/count
+notes:
+  - Paths used: post /dna/intent/api/v1/security/threats/details/count
 """
 
 EXAMPLES = r"""

@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_discovery_by_id used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.get_discovery_by_id
 
-- name: Paths used on the module Discovery
-  description: |-
-    get /dna/intent/api/v1/discovery/{id}
+notes:
+  - Paths used: get /dna/intent/api/v1/discovery/{id}
 """
 
 EXAMPLES = r"""

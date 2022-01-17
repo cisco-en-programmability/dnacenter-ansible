@@ -35,9 +35,8 @@ seealso:
 - name: SDK function run_compliance used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.compliance.Compliance.run_compliance
 
-- name: Paths used on the module Compliance Check Run
-  description: |-
-    post /dna/intent/api/v1/compliance/
+notes:
+  - Paths used: post /dna/intent/api/v1/compliance/
 """
 
 EXAMPLES = r"""

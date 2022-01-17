@@ -27,9 +27,8 @@ seealso:
 - name: SDK function get_isis_interfaces used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_isis_interfaces
 
-- name: Paths used on the module Device Interface Isis
-  description: |-
-    get /dna/intent/api/v1/interface/isis
+notes:
+  - Paths used: get /dna/intent/api/v1/interface/isis
 """
 
 EXAMPLES = r"""

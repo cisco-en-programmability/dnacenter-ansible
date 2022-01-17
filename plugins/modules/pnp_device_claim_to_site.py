@@ -33,9 +33,8 @@ seealso:
 - name: SDK function claim_a_device_to_a_site used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site
 
-- name: Paths used on the module Pnp Device Claim To Site
-  description: |-
-    post /dna/intent/api/v1/onboarding/pnp-device/site-claim
+notes:
+  - Paths used: post /dna/intent/api/v1/onboarding/pnp-device/site-claim
 """
 
 EXAMPLES = r"""

@@ -41,9 +41,8 @@ seealso:
 - name: SDK function update_sp_profile used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.update_sp_profile
 
-- name: Paths used on the module Service Provider Update
-  description: |-
-    put /dna/intent/api/v1/service-provider
+notes:
+  - Paths used: put /dna/intent/api/v1/service-provider
 """
 
 EXAMPLES = r"""

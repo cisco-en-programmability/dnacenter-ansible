@@ -35,9 +35,8 @@ seealso:
 - name: SDK function return_power_supply_fan_details_for_the_given_device used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.return_power_supply_fan_details_for_the_given_device
 
-- name: Paths used on the module Network Device Equipment
-  description: |-
-    get /dna/intent/api/v1/network-device/{deviceUuid}/equipment
+notes:
+  - Paths used: get /dna/intent/api/v1/network-device/{deviceUuid}/equipment
 """
 
 EXAMPLES = r"""

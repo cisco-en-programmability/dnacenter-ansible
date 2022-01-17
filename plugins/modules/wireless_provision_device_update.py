@@ -60,9 +60,8 @@ seealso:
 - name: SDK function provision used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.provision
 
-- name: Paths used on the module Wireless Provision Device Update
-  description: |-
-    put /dna/intent/api/v1/wireless/provision
+notes:
+  - Paths used: put /dna/intent/api/v1/wireless/provision
 """
 
 EXAMPLES = r"""

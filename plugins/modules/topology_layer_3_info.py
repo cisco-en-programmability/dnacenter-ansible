@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_l3_topology_details used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.topology.Topology.get_l3_topology_details
 
-- name: Paths used on the module Topology Layer 3
-  description: |-
-    get /dna/intent/api/v1/topology/l3/{topologyType}
+notes:
+  - Paths used: get /dna/intent/api/v1/topology/l3/{topologyType}
 """
 
 EXAMPLES = r"""

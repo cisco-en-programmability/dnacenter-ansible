@@ -31,9 +31,8 @@ seealso:
 - name: SDK function device_registration used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.licenses.Licenses.device_registration
 
-- name: Paths used on the module License Device Registration
-  description: |-
-    put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/{virtual_account_name}/register
+notes:
+  - Paths used: put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/{virtual_account_name}/register
 """
 
 EXAMPLES = r"""

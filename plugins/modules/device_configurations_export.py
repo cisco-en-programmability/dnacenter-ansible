@@ -31,9 +31,8 @@ seealso:
 - name: SDK function export_device_configurations used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_archive.ConfigurationArchive.export_device_configurations
 
-- name: Paths used on the module Device Configurations Export
-  description: |-
-    post /dna/intent/api/v1/network-device-archive/cleartext
+notes:
+  - Paths used: post /dna/intent/api/v1/network-device-archive/cleartext
 """
 
 EXAMPLES = r"""

@@ -28,9 +28,8 @@ seealso:
 - name: SDK function un_claim_device used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.un_claim_device
 
-- name: Paths used on the module Pnp Device Unclaim
-  description: |-
-    post /dna/intent/api/v1/onboarding/pnp-device/unclaim
+notes:
+  - Paths used: post /dna/intent/api/v1/onboarding/pnp-device/unclaim
 """
 
 EXAMPLES = r"""

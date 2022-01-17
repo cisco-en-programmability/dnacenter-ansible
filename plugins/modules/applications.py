@@ -117,9 +117,8 @@ seealso:
 - name: SDK function create_application used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.create_application
 
-- name: Paths used on the module Applications
-  description: |-
-    post /dna/intent/api/v1/applications,
+notes:
+  - Paths used: post /dna/intent/api/v1/applications,
     put /dna/intent/api/v1/applications,
     delete /dna/intent/api/v1/applications
 """

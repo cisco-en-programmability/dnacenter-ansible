@@ -32,9 +32,8 @@ seealso:
 - name: SDK function get_device_info used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.get_device_info
 
-- name: Paths used on the module Sda Device
-  description: |-
-    get /dna/intent/api/v1/business/sda/device
+notes:
+  - Paths used: get /dna/intent/api/v1/business/sda/device
 """
 
 EXAMPLES = r"""

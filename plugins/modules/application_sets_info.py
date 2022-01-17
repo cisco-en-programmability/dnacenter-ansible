@@ -39,9 +39,8 @@ seealso:
 - name: SDK function get_application_sets used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.get_application_sets
 
-- name: Paths used on the module Application Sets
-  description: |-
-    get /dna/intent/api/v1/application-policy-application-set
+notes:
+  - Paths used: get /dna/intent/api/v1/application-policy-application-set
 """
 
 EXAMPLES = r"""

@@ -50,9 +50,8 @@ seealso:
 - name: SDK function get_global_credentials used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.get_global_credentials
 
-- name: Paths used on the module Global Credential
-  description: |-
-    get /dna/intent/api/v1/global-credential,
+notes:
+  - Paths used: get /dna/intent/api/v1/global-credential,
     get /dna/intent/api/v1/global-credential/{id}
 """
 

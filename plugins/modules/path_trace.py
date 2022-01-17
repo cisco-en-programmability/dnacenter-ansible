@@ -56,9 +56,8 @@ seealso:
 - name: SDK function deletes_pathtrace_by_id used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.path_trace.PathTrace.deletes_pathtrace_by_id
 
-- name: Paths used on the module Path Trace
-  description: |-
-    post /dna/intent/api/v1/flow-analysis,
+notes:
+  - Paths used: post /dna/intent/api/v1/flow-analysis,
     delete /dna/intent/api/v1/flow-analysis/{flowAnalysisId}
 """
 

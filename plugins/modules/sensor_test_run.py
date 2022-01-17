@@ -27,9 +27,8 @@ seealso:
 - name: SDK function run_now_sensor_test used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sensors.Sensors.run_now_sensor_test
 
-- name: Paths used on the module Sensor Test Run
-  description: |-
-    put /dna/intent/api/v1/sensor-run-now
+notes:
+  - Paths used: put /dna/intent/api/v1/sensor-run-now
 """
 
 EXAMPLES = r"""

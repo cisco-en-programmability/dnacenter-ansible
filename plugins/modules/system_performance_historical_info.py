@@ -43,9 +43,8 @@ seealso:
 - name: SDK function system_performance_historical used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.health_and_performance.HealthAndPerformance.system_performance_historical
 
-- name: Paths used on the module System Performance Historical
-  description: |-
-    get /dna/intent/api/v1/diagnostics/system/performance/history
+notes:
+  - Paths used: get /dna/intent/api/v1/diagnostics/system/performance/history
 """
 
 EXAMPLES = r"""

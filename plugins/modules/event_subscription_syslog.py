@@ -66,9 +66,8 @@ seealso:
 - name: SDK function create_syslog_event_subscription used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.create_syslog_event_subscription
 
-- name: Paths used on the module Event Subscription Syslog
-  description: |-
-    put /dna/intent/api/v1/event/subscription/syslog,
+notes:
+  - Paths used: put /dna/intent/api/v1/event/subscription/syslog,
     post /dna/intent/api/v1/event/subscription/syslog
 """
 

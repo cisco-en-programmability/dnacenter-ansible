@@ -43,9 +43,8 @@ seealso:
 - name: SDK function sensor_test_results used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.sensor_test_results
 
-- name: Paths used on the module Wireless Sensor Test Results
-  description: |-
-    get /dna/intent/api/v1/AssuranceGetSensorTestResults
+notes:
+  - Paths used: get /dna/intent/api/v1/AssuranceGetSensorTestResults
 """
 
 EXAMPLES = r"""

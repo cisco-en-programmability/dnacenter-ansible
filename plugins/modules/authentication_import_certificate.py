@@ -36,9 +36,8 @@ seealso:
 - name: SDK function import_certificate used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.authentication_management.AuthenticationManagement.import_certificate
 
-- name: Paths used on the module Authentication Import Certificate
-  description: |-
-    post /dna/intent/api/v1/certificate
+notes:
+  - Paths used: post /dna/intent/api/v1/certificate
 """
 
 EXAMPLES = r"""

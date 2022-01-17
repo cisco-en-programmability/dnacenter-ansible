@@ -52,9 +52,8 @@ seealso:
 - name: SDK function get_discovery_jobs_by_ip used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.get_discovery_jobs_by_ip
 
-- name: Paths used on the module Discovery Job
-  description: |-
-    get /dna/intent/api/v1/discovery/job,
+notes:
+  - Paths used: get /dna/intent/api/v1/discovery/job,
     get /dna/intent/api/v1/discovery/{id}/job
 """
 

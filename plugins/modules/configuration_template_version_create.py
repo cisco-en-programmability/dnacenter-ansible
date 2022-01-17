@@ -30,9 +30,8 @@ seealso:
 - name: SDK function version_template used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_templates.ConfigurationTemplates.version_template
 
-- name: Paths used on the module Configuration Template Version Create
-  description: |-
-    post /dna/intent/api/v1/template-programmer/template/version
+notes:
+  - Paths used: post /dna/intent/api/v1/template-programmer/template/version
 """
 
 EXAMPLES = r"""

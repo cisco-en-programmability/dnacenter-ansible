@@ -51,9 +51,8 @@ seealso:
 - name: SDK function get_tag_count used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.tag.Tag.get_tag_count
 
-- name: Paths used on the module Tag Count
-  description: |-
-    get /dna/intent/api/v1/tag/count
+notes:
+  - Paths used: get /dna/intent/api/v1/tag/count
 """
 
 EXAMPLES = r"""

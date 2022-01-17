@@ -34,9 +34,8 @@ seealso:
 - name: SDK function change_virtual_account used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.licenses.Licenses.change_virtual_account
 
-- name: Paths used on the module License Virtual Account Change
-  description: |-
-    post /dna/intent/api/v1/licenses/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name}/device/transfer
+notes:
+  - Paths used: post /dna/intent/api/v1/licenses/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name}/device/transfer
 """
 
 EXAMPLES = r"""

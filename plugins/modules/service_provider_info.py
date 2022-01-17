@@ -27,9 +27,8 @@ seealso:
 - name: SDK function get_service_provider_details used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.get_service_provider_details
 
-- name: Paths used on the module Service Provider
-  description: |-
-    get /dna/intent/api/v1/service-provider
+notes:
+  - Paths used: get /dna/intent/api/v1/service-provider
 """
 
 EXAMPLES = r"""

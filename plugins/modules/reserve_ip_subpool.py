@@ -106,9 +106,8 @@ seealso:
 - name: SDK function reserve_ip_subpool used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.reserve_ip_subpool
 
-- name: Paths used on the module Reserve Ip Subpool
-  description: |-
-    delete /dna/intent/api/v1/reserve-ip-subpool/{id},
+notes:
+  - Paths used: delete /dna/intent/api/v1/reserve-ip-subpool/{id},
     post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
     put /dna/intent/api/v1/reserve-ip-subpool/{siteId}
 """

@@ -31,9 +31,8 @@ seealso:
 - name: SDK function add_vn used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.add_vn
 
-- name: Paths used on the module Sda Virtual Network
-  description: |-
-    delete /dna/intent/api/v1/business/sda/virtual-network,
+notes:
+  - Paths used: delete /dna/intent/api/v1/business/sda/virtual-network,
     post /dna/intent/api/v1/business/sda/virtual-network
 """
 

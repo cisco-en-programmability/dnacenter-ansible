@@ -27,9 +27,8 @@ requirements:
 - python >= 3.5
 seealso:
 # Reference to SDK documentation of current version
-- name: Paths used on the module Pnp Virtual Account Deregister
-  description: |-
-    delete /dna/intent/api/v1/onboarding/pnp-settings/vacct
+notes:
+  - Paths used: delete /dna/intent/api/v1/onboarding/pnp-settings/vacct
 """
 
 EXAMPLES = r"""

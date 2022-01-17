@@ -47,9 +47,8 @@ seealso:
 - name: SDK function system_performance used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.health_and_performance.HealthAndPerformance.system_performance
 
-- name: Paths used on the module System Performance
-  description: |-
-    get /dna/intent/api/v1/diagnostics/system/performance
+notes:
+  - Paths used: get /dna/intent/api/v1/diagnostics/system/performance
 """
 
 EXAMPLES = r"""

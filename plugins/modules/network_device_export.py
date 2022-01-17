@@ -41,9 +41,8 @@ seealso:
 - name: SDK function export_device_list used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.export_device_list
 
-- name: Paths used on the module Network Device Export
-  description: |-
-    post /dna/intent/api/v1/network-device/file
+notes:
+  - Paths used: post /dna/intent/api/v1/network-device/file
 """
 
 EXAMPLES = r"""

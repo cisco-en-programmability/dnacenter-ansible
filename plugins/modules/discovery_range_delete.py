@@ -27,9 +27,8 @@ requirements:
 - python >= 3.5
 seealso:
 # Reference to SDK documentation of current version
-- name: Paths used on the module Discovery Range Delete
-  description: |-
-    delete /dna/intent/api/v1/discovery/{startIndex}/{recordsToDelete}
+notes:
+  - Paths used: delete /dna/intent/api/v1/discovery/{startIndex}/{recordsToDelete}
 """
 
 EXAMPLES = r"""

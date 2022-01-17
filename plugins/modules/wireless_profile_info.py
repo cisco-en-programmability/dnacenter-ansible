@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_wireless_profile used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.get_wireless_profile
 
-- name: Paths used on the module Wireless Profile
-  description: |-
-    get /dna/intent/api/v1/wireless/profile
+notes:
+  - Paths used: get /dna/intent/api/v1/wireless/profile
 """
 
 EXAMPLES = r"""

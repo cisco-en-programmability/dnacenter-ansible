@@ -28,9 +28,8 @@ seealso:
 - name: SDK function device_deregistration used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.licenses.Licenses.device_deregistration
 
-- name: Paths used on the module License Device Deregistration
-  description: |-
-    put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/deregister
+notes:
+  - Paths used: put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/deregister
 """
 
 EXAMPLES = r"""

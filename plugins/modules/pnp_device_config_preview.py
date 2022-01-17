@@ -33,9 +33,8 @@ seealso:
 - name: SDK function preview_config used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.preview_config
 
-- name: Paths used on the module Pnp Device Config Preview
-  description: |-
-    post /dna/intent/api/v1/onboarding/pnp-device/site-config-preview
+notes:
+  - Paths used: post /dna/intent/api/v1/onboarding/pnp-device/site-config-preview
 """
 
 EXAMPLES = r"""

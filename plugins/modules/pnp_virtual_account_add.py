@@ -103,9 +103,8 @@ seealso:
 - name: SDK function add_virtual_account used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.add_virtual_account
 
-- name: Paths used on the module Pnp Virtual Account Add
-  description: |-
-    post /dna/intent/api/v1/onboarding/pnp-settings/savacct
+notes:
+  - Paths used: post /dna/intent/api/v1/onboarding/pnp-settings/savacct
 """
 
 EXAMPLES = r"""

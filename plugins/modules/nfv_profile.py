@@ -155,9 +155,8 @@ seealso:
 - name: SDK function update_nfv_profile used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.update_nfv_profile
 
-- name: Paths used on the module Nfv Profile
-  description: |-
-    post /dna/intent/api/v1/nfv/network-profile,
+notes:
+  - Paths used: post /dna/intent/api/v1/nfv/network-profile,
     delete /dna/intent/api/v1/nfv/network-profile/{id}
 """
 

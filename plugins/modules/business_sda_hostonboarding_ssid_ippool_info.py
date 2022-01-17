@@ -35,9 +35,8 @@ seealso:
 - name: SDK function get_ssid_to_ip_pool_mapping used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.fabric_wireless.FabricWireless.get_ssid_to_ip_pool_mapping
 
-- name: Paths used on the module Business Sda Hostonboarding Ssid Ippool
-  description: |-
-    get /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool
+notes:
+  - Paths used: get /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool
 """
 
 EXAMPLES = r"""

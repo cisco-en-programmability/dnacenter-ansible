@@ -72,9 +72,8 @@ seealso:
 - name: SDK function update_wireless_profile used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.update_wireless_profile
 
-- name: Paths used on the module Wireless Profile
-  description: |-
-    delete /dna/intent/api/v1/wireless-profile/{wirelessProfileName},
+notes:
+  - Paths used: delete /dna/intent/api/v1/wireless-profile/{wirelessProfileName},
     put /dna/intent/api/v1/wireless/profile,
     post /dna/intent/api/v1/wireless/profile
 """

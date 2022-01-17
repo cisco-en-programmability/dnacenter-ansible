@@ -108,9 +108,8 @@ seealso:
 - name: SDK function create_or_schedule_a_report used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.reports.Reports.create_or_schedule_a_report
 
-- name: Paths used on the module Reports
-  description: |-
-    post /dna/intent/api/v1/data/reports,
+notes:
+  - Paths used: post /dna/intent/api/v1/data/reports,
     delete /dna/intent/api/v1/data/reports/{reportId}
 """
 

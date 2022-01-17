@@ -35,9 +35,8 @@ seealso:
 - name: SDK function count_of_events used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.count_of_events
 
-- name: Paths used on the module Event Count
-  description: |-
-    get /dna/intent/api/v1/events/count
+notes:
+  - Paths used: get /dna/intent/api/v1/events/count
 """
 
 EXAMPLES = r"""

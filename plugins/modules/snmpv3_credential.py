@@ -64,9 +64,8 @@ seealso:
 - name: SDK function update_snmpv3_credentials used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.update_snmpv3_credentials
 
-- name: Paths used on the module Snmpv3 Credential
-  description: |-
-    put /dna/intent/api/v1/global-credential/snmpv3,
+notes:
+  - Paths used: put /dna/intent/api/v1/global-credential/snmpv3,
     post /dna/intent/api/v1/global-credential/snmpv3
 """
 

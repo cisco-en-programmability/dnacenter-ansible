@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_chassis_details_for_device used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_chassis_details_for_device
 
-- name: Paths used on the module Network Device Chassis Details
-  description: |-
-    get /dna/intent/api/v1/network-device/{deviceId}/chassis
+notes:
+  - Paths used: get /dna/intent/api/v1/network-device/{deviceId}/chassis
 """
 
 EXAMPLES = r"""

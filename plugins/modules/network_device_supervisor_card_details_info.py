@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_supervisor_card_detail used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_supervisor_card_detail
 
-- name: Paths used on the module Network Device Supervisor Card Details
-  description: |-
-    get /dna/intent/api/v1/network-device/{deviceUuid}/supervisor-card
+notes:
+  - Paths used: get /dna/intent/api/v1/network-device/{deviceUuid}/supervisor-card
 """
 
 EXAMPLES = r"""

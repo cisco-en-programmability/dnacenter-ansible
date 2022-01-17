@@ -47,9 +47,8 @@ seealso:
 - name: SDK function get_devices_with_snmpv3_des used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_devices_with_snmpv3_des
 
-- name: Paths used on the module Network Device With Snmp V3 Des
-  description: |-
-    get /dna/intent/api/v1/network-device/insight/{siteId}/insecure-connection
+notes:
+  - Paths used: get /dna/intent/api/v1/network-device/insight/{siteId}/insecure-connection
 """
 
 EXAMPLES = r"""

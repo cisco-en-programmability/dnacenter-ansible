@@ -37,9 +37,8 @@ seealso:
 - name: SDK function add_members_to_the_tag used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.tag.Tag.add_members_to_the_tag
 
-- name: Paths used on the module Tag Member
-  description: |-
-    post /dna/intent/api/v1/tag/{id}/member,
+notes:
+  - Paths used: post /dna/intent/api/v1/tag/{id}/member,
     delete /dna/intent/api/v1/tag/{id}/member/{memberId}
 """
 

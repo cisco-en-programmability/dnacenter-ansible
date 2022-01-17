@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_template_deployment_status used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_templates.ConfigurationTemplates.get_template_deployment_status
 
-- name: Paths used on the module Configuration Template Deploy Status
-  description: |-
-    get /dna/intent/api/v1/template-programmer/template/deploy/status/{deploymentId}
+notes:
+  - Paths used: get /dna/intent/api/v1/template-programmer/template/deploy/status/{deploymentId}
 """
 
 EXAMPLES = r"""

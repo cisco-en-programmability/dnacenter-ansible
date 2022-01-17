@@ -60,9 +60,8 @@ seealso:
 - name: SDK function get_workflow_by_id used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.get_workflow_by_id
 
-- name: Paths used on the module Pnp Workflow
-  description: |-
-    get /dna/intent/api/v1/onboarding/pnp-workflow,
+notes:
+  - Paths used: get /dna/intent/api/v1/onboarding/pnp-workflow,
     get /dna/intent/api/v1/onboarding/pnp-workflow/{id}
 """
 

@@ -37,9 +37,8 @@ seealso:
 - name: SDK function delete_floormap used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.delete_floormap
 
-- name: Paths used on the module Site Design Floormap
-  description: |-
-    post /dna/intent/api/v1/wireless/floormap,
+notes:
+  - Paths used: post /dna/intent/api/v1/wireless/floormap,
     delete /dna/intent/api/v1/wireless/floormap/{floorId}
 """
 

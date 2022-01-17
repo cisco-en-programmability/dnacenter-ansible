@@ -163,9 +163,8 @@ seealso:
 - name: SDK function get_device_list used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_device_list
 
-- name: Paths used on the module Network Device
-  description: |-
-    get /dna/intent/api/v1/network-device,
+notes:
+  - Paths used: get /dna/intent/api/v1/network-device,
     get /dna/intent/api/v1/network-device/{id}
 """
 

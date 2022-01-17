@@ -39,9 +39,8 @@ seealso:
 - name: SDK function get_device_interfaces_by_specified_range used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_device_interfaces_by_specified_range
 
-- name: Paths used on the module Interface Network Device Range
-  description: |-
-    get /dna/intent/api/v1/interface/network-device/{deviceId}/{startIndex}/{recordsToReturn}
+notes:
+  - Paths used: get /dna/intent/api/v1/interface/network-device/{deviceId}/{startIndex}/{recordsToReturn}
 """
 
 EXAMPLES = r"""

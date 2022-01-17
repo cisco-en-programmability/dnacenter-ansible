@@ -27,9 +27,8 @@ seealso:
 - name: SDK function get_tag_resource_types used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.tag.Tag.get_tag_resource_types
 
-- name: Paths used on the module Tag Member Type
-  description: |-
-    get /dna/intent/api/v1/tag/member/type
+notes:
+  - Paths used: get /dna/intent/api/v1/tag/member/type
 """
 
 EXAMPLES = r"""

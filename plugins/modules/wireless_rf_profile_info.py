@@ -31,9 +31,8 @@ seealso:
 - name: SDK function retrieve_rf_profiles used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.wireless.Wireless.retrieve_rf_profiles
 
-- name: Paths used on the module Wireless Rf Profile
-  description: |-
-    get /dna/intent/api/v1/wireless/rf-profile
+notes:
+  - Paths used: get /dna/intent/api/v1/wireless/rf-profile
 """
 
 EXAMPLES = r"""

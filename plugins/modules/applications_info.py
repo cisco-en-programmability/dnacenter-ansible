@@ -39,9 +39,8 @@ seealso:
 - name: SDK function get_applications used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.get_applications
 
-- name: Paths used on the module Applications
-  description: |-
-    get /dna/intent/api/v1/applications
+notes:
+  - Paths used: get /dna/intent/api/v1/applications
 """
 
 EXAMPLES = r"""

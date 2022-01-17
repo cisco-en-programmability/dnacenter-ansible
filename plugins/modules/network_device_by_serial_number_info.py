@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_device_by_serial_number used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_device_by_serial_number
 
-- name: Paths used on the module Network Device By Serial Number
-  description: |-
-    get /dna/intent/api/v1/network-device/serial-number/{serialNumber}
+notes:
+  - Paths used: get /dna/intent/api/v1/network-device/serial-number/{serialNumber}
 """
 
 EXAMPLES = r"""

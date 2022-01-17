@@ -32,9 +32,8 @@ seealso:
 - name: SDK function add_site used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.add_site
 
-- name: Paths used on the module Sda Fabric Site
-  description: |-
-    delete /dna/intent/api/v1/business/sda/fabric-site,
+notes:
+  - Paths used: delete /dna/intent/api/v1/business/sda/fabric-site,
     post /dna/intent/api/v1/business/sda/fabric-site
 """
 

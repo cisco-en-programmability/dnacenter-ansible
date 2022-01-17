@@ -37,9 +37,8 @@ seealso:
 - name: SDK function get_cmdb_sync_status used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.itsm.Itsm.get_cmdb_sync_status
 
-- name: Paths used on the module Itsm Cmdb Sync Status
-  description: |-
-    get /dna/intent/api/v1/cmdb-sync/detail
+notes:
+  - Paths used: get /dna/intent/api/v1/cmdb-sync/detail
 """
 
 EXAMPLES = r"""

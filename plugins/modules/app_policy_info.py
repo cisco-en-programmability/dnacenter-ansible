@@ -30,10 +30,8 @@ seealso:
 # Reference to SDK documentation of current version
 - name: SDK function get_application_policy used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.application_policy.ApplicationPolicy.get_application_policy
-
-- name: Paths used on the module App Policy
-  description: |-
-    get /dna/intent/api/v1/app-policy
+notes:
+  - Paths used: get /dna/intent/api/v1/app-policy
 """
 
 EXAMPLES = r"""

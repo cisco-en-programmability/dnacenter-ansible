@@ -35,9 +35,8 @@ seealso:
 - name: SDK function get_device_interface_vlans used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_device_interface_vlans
 
-- name: Paths used on the module Network Device Vlan
-  description: |-
-    get /dna/intent/api/v1/network-device/{id}/vlan
+notes:
+  - Paths used: get /dna/intent/api/v1/network-device/{id}/vlan
 """
 
 EXAMPLES = r"""

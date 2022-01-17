@@ -47,9 +47,8 @@ seealso:
 - name: SDK function get_syslog_event_subscriptions used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.get_syslog_event_subscriptions
 
-- name: Paths used on the module Event Subscription Syslog
-  description: |-
-    get /dna/intent/api/v1/event/subscription/syslog
+notes:
+  - Paths used: get /dna/intent/api/v1/event/subscription/syslog
 """
 
 EXAMPLES = r"""

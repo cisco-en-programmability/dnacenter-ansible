@@ -36,9 +36,8 @@ seealso:
 - name: SDK function get_views_for_a_given_view_group used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.reports.Reports.get_views_for_a_given_view_group
 
-- name: Paths used on the module Reports View Group
-  description: |-
-    get /dna/intent/api/v1/data/view-groups,
+notes:
+  - Paths used: get /dna/intent/api/v1/data/view-groups,
     get /dna/intent/api/v1/data/view-groups/{viewGroupId}
 """
 

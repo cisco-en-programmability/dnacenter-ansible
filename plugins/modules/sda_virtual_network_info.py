@@ -35,9 +35,8 @@ seealso:
 - name: SDK function get_vn used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.get_vn
 
-- name: Paths used on the module Sda Virtual Network
-  description: |-
-    get /dna/intent/api/v1/business/sda/virtual-network
+notes:
+  - Paths used: get /dna/intent/api/v1/business/sda/virtual-network
 """
 
 EXAMPLES = r"""

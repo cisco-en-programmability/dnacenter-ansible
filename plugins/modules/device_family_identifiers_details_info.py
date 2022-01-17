@@ -27,9 +27,8 @@ seealso:
 - name: SDK function get_device_family_identifiers used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.software_image_management_swim.SoftwareImageManagementSwim.get_device_family_identifiers
 
-- name: Paths used on the module Device Family Identifiers Details
-  description: |-
-    get /dna/intent/api/v1/image/importation/device-family-identifiers
+notes:
+  - Paths used: get /dna/intent/api/v1/image/importation/device-family-identifiers
 """
 
 EXAMPLES = r"""

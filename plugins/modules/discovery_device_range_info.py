@@ -43,9 +43,8 @@ seealso:
 - name: SDK function get_discovered_devices_by_range used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.get_discovered_devices_by_range
 
-- name: Paths used on the module Discovery Device Range
-  description: |-
-    get /dna/intent/api/v1/discovery/{id}/network-device/{startIndex}/{recordsToReturn}
+notes:
+  - Paths used: get /dna/intent/api/v1/discovery/{id}/network-device/{startIndex}/{recordsToReturn}
 """
 
 EXAMPLES = r"""

@@ -44,9 +44,8 @@ seealso:
 - name: SDK function get_a_scheduled_report used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.reports.Reports.get_a_scheduled_report
 
-- name: Paths used on the module Reports
-  description: |-
-    get /dna/intent/api/v1/data/reports,
+notes:
+  - Paths used: get /dna/intent/api/v1/data/reports,
     get /dna/intent/api/v1/data/reports/{reportId}
 """
 

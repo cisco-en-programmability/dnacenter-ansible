@@ -42,9 +42,8 @@ seealso:
 - name: SDK function update_virtual_network_with_scalable_groups used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.update_virtual_network_with_scalable_groups
 
-- name: Paths used on the module Sda Virtual Network V2
-  description: |-
-    post /dna/intent/api/v1/virtual-network,
+notes:
+  - Paths used: post /dna/intent/api/v1/virtual-network,
     delete /dna/intent/api/v1/virtual-network,
     put /dna/intent/api/v1/virtual-network
 """

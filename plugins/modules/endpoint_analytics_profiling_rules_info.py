@@ -65,9 +65,8 @@ seealso:
 - name: SDK function get_details_of_a_single_profiling_rule used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.policy.Policy.get_details_of_a_single_profiling_rule
 
-- name: Paths used on the module Endpoint Analytics Profiling Rules
-  description: |-
-    get /dna/intent/api/v1/endpoint-analytics/profiling-rules,
+notes:
+  - Paths used: get /dna/intent/api/v1/endpoint-analytics/profiling-rules,
     get /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId}
 """
 

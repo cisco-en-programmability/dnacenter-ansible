@@ -56,9 +56,8 @@ seealso:
 - name: SDK function add_multicast_in_sda_fabric used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.add_multicast_in_sda_fabric
 
-- name: Paths used on the module Sda Multicast
-  description: |-
-    post /dna/intent/api/v1/business/sda/multicast,
+notes:
+  - Paths used: post /dna/intent/api/v1/business/sda/multicast,
     delete /dna/intent/api/v1/business/sda/multicast
 """
 

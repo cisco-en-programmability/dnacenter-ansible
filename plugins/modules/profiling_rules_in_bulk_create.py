@@ -125,9 +125,8 @@ seealso:
 - name: SDK function import_profiling_rules_in_bulk used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.policy.Policy.import_profiling_rules_in_bulk
 
-- name: Paths used on the module Profiling Rules In Bulk Create
-  description: |-
-    post /dna/intent/api/v1/endpoint-analytics/profiling-rules/bulk
+notes:
+  - Paths used: post /dna/intent/api/v1/endpoint-analytics/profiling-rules/bulk
 """
 
 EXAMPLES = r"""

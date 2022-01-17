@@ -84,9 +84,8 @@ seealso:
 - name: SDK function gets_the_templates_available used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_templates.ConfigurationTemplates.gets_the_templates_available
 
-- name: Paths used on the module Configuration Template
-  description: |-
-    get /dna/intent/api/v1/template-programmer/template,
+notes:
+  - Paths used: get /dna/intent/api/v1/template-programmer/template,
     get /dna/intent/api/v1/template-programmer/template/{templateId}
 """
 

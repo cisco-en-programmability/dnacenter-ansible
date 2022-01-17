@@ -94,9 +94,8 @@ seealso:
 - name: SDK function delete_sensor_test used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sensors.Sensors.delete_sensor_test
 
-- name: Paths used on the module Sensor
-  description: |-
-    post /dna/intent/api/v1/sensor,
+notes:
+  - Paths used: post /dna/intent/api/v1/sensor,
     delete /dna/intent/api/v1/sensor
 """
 

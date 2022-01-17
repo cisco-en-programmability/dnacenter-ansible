@@ -129,9 +129,8 @@ seealso:
 - name: SDK function sync_devices used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.sync_devices
 
-- name: Paths used on the module Network Device
-  description: |-
-    post /dna/intent/api/v1/network-device,
+notes:
+  - Paths used: post /dna/intent/api/v1/network-device,
     put /dna/intent/api/v1/network-device,
     delete /dna/intent/api/v1/network-device/{id}
 """

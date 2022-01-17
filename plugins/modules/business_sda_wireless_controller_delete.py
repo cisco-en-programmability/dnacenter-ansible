@@ -33,9 +33,8 @@ seealso:
 - name: SDK function add_w_l_c_to_fabric_domain used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.fabric_wireless.FabricWireless.add_w_l_c_to_fabric_domain
 
-- name: Paths used on the module Business Sda Wireless Controller Delete
-  description: |-
-    delete /dna/intent/api/v1/business/sda/wireless-controller
+notes:
+  - Paths used: delete /dna/intent/api/v1/business/sda/wireless-controller
 """
 
 EXAMPLES = r"""

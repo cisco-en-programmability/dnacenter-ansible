@@ -70,9 +70,8 @@ seealso:
 - name: SDK function applications used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.applications.Applications.applications
 
-- name: Paths used on the module Applications Health
-  description: |-
-    get /dna/intent/api/v1/application-health
+notes:
+  - Paths used: get /dna/intent/api/v1/application-health
 """
 
 EXAMPLES = r"""

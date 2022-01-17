@@ -34,9 +34,8 @@ seealso:
 - name: SDK function update_global_credentials used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.update_global_credentials
 
-- name: Paths used on the module Global Credential Update
-  description: |-
-    put /dna/intent/api/v1/global-credential/{globalCredentialId}
+notes:
+  - Paths used: put /dna/intent/api/v1/global-credential/{globalCredentialId}
 """
 
 EXAMPLES = r"""

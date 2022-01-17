@@ -59,9 +59,8 @@ seealso:
 - name: SDK function update_snmp_write_community used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.update_snmp_write_community
 
-- name: Paths used on the module Snmpv2 Write Community Credential
-  description: |-
-    post /dna/intent/api/v1/global-credential/snmpv2-write-community,
+notes:
+  - Paths used: post /dna/intent/api/v1/global-credential/snmpv2-write-community,
     put /dna/intent/api/v1/global-credential/snmpv2-write-community
 """
 

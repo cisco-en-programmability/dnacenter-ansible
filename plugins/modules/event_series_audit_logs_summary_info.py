@@ -113,9 +113,8 @@ seealso:
 - name: SDK function get_auditlog_summary used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.get_auditlog_summary
 
-- name: Paths used on the module Event Series Audit Logs Summary
-  description: |-
-    get /dna/data/api/v1/event/event-series/audit-log/summary
+notes:
+  - Paths used: get /dna/data/api/v1/event/event-series/audit-log/summary
 """
 
 EXAMPLES = r"""

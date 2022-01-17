@@ -27,9 +27,8 @@ seealso:
 - name: SDK function delete_site used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sites.Sites.delete_site
 
-- name: Paths used on the module Site Delete
-  description: |-
-    delete /dna/intent/api/v1/site/{siteId}
+notes:
+  - Paths used: delete /dna/intent/api/v1/site/{siteId}
 """
 
 EXAMPLES = r"""

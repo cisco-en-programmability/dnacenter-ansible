@@ -51,9 +51,8 @@ seealso:
 - name: SDK function threat_details used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.threat_details
 
-- name: Paths used on the module Threat Detail
-  description: |-
-    post /dna/intent/api/v1/security/threats/details
+notes:
+  - Paths used: post /dna/intent/api/v1/security/threats/details
 """
 
 EXAMPLES = r"""

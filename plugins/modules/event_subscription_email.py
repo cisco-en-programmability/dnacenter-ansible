@@ -76,9 +76,8 @@ seealso:
 - name: SDK function update_email_event_subscription used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.update_email_event_subscription
 
-- name: Paths used on the module Event Subscription Email
-  description: |-
-    post /dna/intent/api/v1/event/subscription/email,
+notes:
+  - Paths used: post /dna/intent/api/v1/event/subscription/email,
     put /dna/intent/api/v1/event/subscription/email
 """
 

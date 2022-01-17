@@ -79,9 +79,8 @@ seealso:
 - name: SDK function create_event_subscriptions used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.create_event_subscriptions
 
-- name: Paths used on the module Event Subscription
-  description: |-
-    delete /dna/intent/api/v1/event/subscription,
+notes:
+  - Paths used: delete /dna/intent/api/v1/event/subscription,
     put /dna/intent/api/v1/event/subscription,
     post /dna/intent/api/v1/event/subscription
 """

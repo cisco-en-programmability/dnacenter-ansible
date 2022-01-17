@@ -63,9 +63,8 @@ seealso:
 - name: SDK function count_of_notifications used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.event_management.EventManagement.count_of_notifications
 
-- name: Paths used on the module Event Series Count
-  description: |-
-    get /dna/intent/api/v1/event/event-series/count
+notes:
+  - Paths used: get /dna/intent/api/v1/event/event-series/count
 """
 
 EXAMPLES = r"""

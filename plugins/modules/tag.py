@@ -75,9 +75,8 @@ seealso:
 - name: SDK function create_tag used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.tag.Tag.create_tag
 
-- name: Paths used on the module Tag
-  description: |-
-    put /dna/intent/api/v1/tag,
+notes:
+  - Paths used: put /dna/intent/api/v1/tag,
     post /dna/intent/api/v1/tag,
     delete /dna/intent/api/v1/tag/{id}
 """

@@ -92,9 +92,8 @@ seealso:
 - name: SDK function get_task_by_id used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.task.Task.get_task_by_id
 
-- name: Paths used on the module Task
-  description: |-
-    get /dna/intent/api/v1/task,
+notes:
+  - Paths used: get /dna/intent/api/v1/task,
     get /dna/intent/api/v1/task/{taskId}
 """
 

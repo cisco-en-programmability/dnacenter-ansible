@@ -27,9 +27,8 @@ seealso:
 - name: SDK function nfv_provisioning_detail used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.nfv_provisioning_detail
 
-- name: Paths used on the module Nfv Provision Details
-  description: |-
-    post /dna/intent/api/v1/nfv-provision-detail
+notes:
+  - Paths used: post /dna/intent/api/v1/nfv-provision-detail
 """
 
 EXAMPLES = r"""

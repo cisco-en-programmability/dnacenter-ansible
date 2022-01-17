@@ -32,9 +32,8 @@ seealso:
 - name: SDK function get_device_config_by_id used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_device_config_by_id
 
-- name: Paths used on the module Network Device Config
-  description: |-
-    get /dna/intent/api/v1/network-device/config,
+notes:
+  - Paths used: get /dna/intent/api/v1/network-device/config,
     get /dna/intent/api/v1/network-device/{networkDeviceId}/config
 """
 

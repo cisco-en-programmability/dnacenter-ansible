@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_polling_interval_by_id used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_polling_interval_by_id
 
-- name: Paths used on the module Network Device Polling Interval
-  description: |-
-    get /dna/intent/api/v1/network-device/{id}/collection-schedule
+notes:
+  - Paths used: get /dna/intent/api/v1/network-device/{id}/collection-schedule
 """
 
 EXAMPLES = r"""

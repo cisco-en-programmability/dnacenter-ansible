@@ -34,9 +34,8 @@ seealso:
 - name: SDK function trigger_software_image_distribution used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_distribution
 
-- name: Paths used on the module Swim Trigger Distribution
-  description: |-
-    post /dna/intent/api/v1/image/distribution
+notes:
+  - Paths used: post /dna/intent/api/v1/image/distribution
 """
 
 EXAMPLES = r"""

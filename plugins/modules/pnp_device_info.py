@@ -120,9 +120,8 @@ seealso:
 - name: SDK function get_device_list used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.device_onboarding_pnp.DeviceOnboardingPnp.get_device_list
 
-- name: Paths used on the module Pnp Device
-  description: |-
-    get /dna/intent/api/v1/onboarding/pnp-device,
+notes:
+  - Paths used: get /dna/intent/api/v1/onboarding/pnp-device,
     get /dna/intent/api/v1/onboarding/pnp-device/{id}
 """
 

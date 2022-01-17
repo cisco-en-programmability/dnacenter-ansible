@@ -363,9 +363,8 @@ seealso:
 - name: SDK function provision_nfv used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.site_design.SiteDesign.provision_nfv
 
-- name: Paths used on the module Nfv Provision
-  description: |-
-    post /dna/intent/api/v1/business/nfv
+notes:
+  - Paths used: post /dna/intent/api/v1/business/nfv
 """
 
 EXAMPLES = r"""

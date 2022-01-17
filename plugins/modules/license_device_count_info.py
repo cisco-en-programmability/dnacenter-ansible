@@ -47,9 +47,8 @@ seealso:
 - name: SDK function device_count_details used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.licenses.Licenses.device_count_details
 
-- name: Paths used on the module License Device Count
-  description: |-
-    get /dna/intent/api/v1/licenses/device/count
+notes:
+  - Paths used: get /dna/intent/api/v1/licenses/device/count
 """
 
 EXAMPLES = r"""

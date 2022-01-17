@@ -47,9 +47,8 @@ seealso:
 - name: SDK function get_site used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sites.Sites.get_site
 
-- name: Paths used on the module Site
-  description: |-
-    get /dna/intent/api/v1/site
+notes:
+  - Paths used: get /dna/intent/api/v1/site
 """
 
 EXAMPLES = r"""

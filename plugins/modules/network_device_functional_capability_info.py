@@ -46,9 +46,8 @@ seealso:
 - name: SDK function get_functional_capability_for_devices used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.get_functional_capability_for_devices
 
-- name: Paths used on the module Network Device Functional Capability
-  description: |-
-    get /dna/intent/api/v1/network-device/functional-capability,
+notes:
+  - Paths used: get /dna/intent/api/v1/network-device/functional-capability,
     get /dna/intent/api/v1/network-device/functional-capability/{id}
 """
 

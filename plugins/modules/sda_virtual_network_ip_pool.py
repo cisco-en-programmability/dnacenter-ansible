@@ -70,9 +70,8 @@ seealso:
 - name: SDK function add_ip_pool_in_sda_virtual_network used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.add_ip_pool_in_sda_virtual_network
 
-- name: Paths used on the module Sda Virtual Network Ip Pool
-  description: |-
-    delete /dna/intent/api/v1/business/sda/virtualnetwork/ippool,
+notes:
+  - Paths used: delete /dna/intent/api/v1/business/sda/virtualnetwork/ippool,
     post /dna/intent/api/v1/business/sda/virtualnetwork/ippool
 """
 

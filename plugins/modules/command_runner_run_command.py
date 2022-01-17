@@ -41,9 +41,8 @@ seealso:
 - name: SDK function run_read_only_commands_on_devices used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.command_runner.CommandRunner.run_read_only_commands_on_devices
 
-- name: Paths used on the module Command Runner Run Command
-  description: |-
-    post /dna/intent/api/v1/network-device-poller/cli/read-request
+notes:
+  - Paths used: post /dna/intent/api/v1/network-device-poller/cli/read-request
 """
 
 EXAMPLES = r"""

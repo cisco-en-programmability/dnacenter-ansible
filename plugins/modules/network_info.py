@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_network used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.get_network
 
-- name: Paths used on the module Network
-  description: |-
-    get /dna/intent/api/v1/network
+notes:
+  - Paths used: get /dna/intent/api/v1/network
 """
 
 EXAMPLES = r"""

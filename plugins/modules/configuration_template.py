@@ -511,9 +511,8 @@ seealso:
 - name: SDK function deletes_the_template used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_templates.ConfigurationTemplates.deletes_the_template
 
-- name: Paths used on the module Configuration Template
-  description: |-
-    put /dna/intent/api/v1/template-programmer/template,
+notes:
+  - Paths used: put /dna/intent/api/v1/template-programmer/template,
     delete /dna/intent/api/v1/template-programmer/template/{templateId}
 """
 

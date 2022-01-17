@@ -40,9 +40,8 @@ seealso:
 - name: SDK function import_local_software_image used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.software_image_management_swim.SoftwareImageManagementSwim.import_local_software_image
 
-- name: Paths used on the module Swim Import Local
-  description: |-
-    post /dna/intent/api/v1/image/importation/source/file
+notes:
+  - Paths used: post /dna/intent/api/v1/image/importation/source/file
 """
 
 EXAMPLES = r"""

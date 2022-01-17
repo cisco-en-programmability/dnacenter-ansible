@@ -55,9 +55,8 @@ seealso:
 - name: SDK function create_cli_credentials used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.discovery.Discovery.create_cli_credentials
 
-- name: Paths used on the module Cli Credential
-  description: |-
-    put /dna/intent/api/v1/global-credential/cli,
+notes:
+  - Paths used: put /dna/intent/api/v1/global-credential/cli,
     post /dna/intent/api/v1/global-credential/cli
 """
 

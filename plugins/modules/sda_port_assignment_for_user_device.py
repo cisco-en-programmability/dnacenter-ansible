@@ -62,9 +62,8 @@ seealso:
 - name: SDK function add_port_assignment_for_user_device used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.add_port_assignment_for_user_device
 
-- name: Paths used on the module Sda Port Assignment For User Device
-  description: |-
-    delete /dna/intent/api/v1/business/sda/hostonboarding/user-device,
+notes:
+  - Paths used: delete /dna/intent/api/v1/business/sda/hostonboarding/user-device,
     post /dna/intent/api/v1/business/sda/hostonboarding/user-device
 """
 

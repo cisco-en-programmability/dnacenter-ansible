@@ -55,9 +55,8 @@ seealso:
 - name: SDK function devices used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.devices.Devices.devices
 
-- name: Paths used on the module Device Health
-  description: |-
-    get /dna/intent/api/v1/device-health
+notes:
+  - Paths used: get /dna/intent/api/v1/device-health
 """
 
 EXAMPLES = r"""

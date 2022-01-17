@@ -35,9 +35,8 @@ seealso:
 - name: SDK function get_ip_pool_from_sda_virtual_network used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.get_ip_pool_from_sda_virtual_network
 
-- name: Paths used on the module Sda Virtual Network Ip Pool
-  description: |-
-    get /dna/intent/api/v1/business/sda/virtualnetwork/ippool
+notes:
+  - Paths used: get /dna/intent/api/v1/business/sda/virtualnetwork/ippool
 """
 
 EXAMPLES = r"""

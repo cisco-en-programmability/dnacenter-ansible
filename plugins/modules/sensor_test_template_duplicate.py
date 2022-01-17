@@ -30,9 +30,8 @@ seealso:
 - name: SDK function duplicate_sensor_test_template used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sensors.Sensors.duplicate_sensor_test_template
 
-- name: Paths used on the module Sensor Test Template Duplicate
-  description: |-
-    put /dna/intent/api/v1/sensorTestTemplate
+notes:
+  - Paths used: put /dna/intent/api/v1/sensorTestTemplate
 """
 
 EXAMPLES = r"""

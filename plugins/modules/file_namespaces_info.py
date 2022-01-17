@@ -27,9 +27,8 @@ seealso:
 - name: SDK function get_list_of_available_namespaces used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.file.File.get_list_of_available_namespaces
 
-- name: Paths used on the module File Namespaces
-  description: |-
-    get /dna/intent/api/v1/file/namespace
+notes:
+  - Paths used: get /dna/intent/api/v1/file/namespace
 """
 
 EXAMPLES = r"""

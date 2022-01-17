@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_provisioned_wired_device used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.get_provisioned_wired_device
 
-- name: Paths used on the module Sda Provision Device
-  description: |-
-    get /dna/intent/api/v1/business/sda/provision-device
+notes:
+  - Paths used: get /dna/intent/api/v1/business/sda/provision-device
 """
 
 EXAMPLES = r"""

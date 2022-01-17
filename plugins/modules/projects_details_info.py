@@ -47,9 +47,8 @@ seealso:
 - name: SDK function get_projects_details used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.configuration_templates.ConfigurationTemplates.get_projects_details
 
-- name: Paths used on the module Projects Details
-  description: |-
-    get /dna/intent/api/v2/template-programmer/project
+notes:
+  - Paths used: get /dna/intent/api/v2/template-programmer/project
 """
 
 EXAMPLES = r"""

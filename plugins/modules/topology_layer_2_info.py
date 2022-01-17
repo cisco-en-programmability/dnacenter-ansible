@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_topology_details used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.topology.Topology.get_topology_details
 
-- name: Paths used on the module Topology Layer 2
-  description: |-
-    get /dna/intent/api/v1/topology/l2/{vlanID}
+notes:
+  - Paths used: get /dna/intent/api/v1/topology/l2/{vlanID}
 """
 
 EXAMPLES = r"""

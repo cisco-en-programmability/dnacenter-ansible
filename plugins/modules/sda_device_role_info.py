@@ -31,9 +31,8 @@ seealso:
 - name: SDK function get_device_role_in_sda_fabric used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.sda.Sda.get_device_role_in_sda_fabric
 
-- name: Paths used on the module Sda Device Role
-  description: |-
-    get /dna/intent/api/v1/business/sda/device/role
+notes:
+  - Paths used: get /dna/intent/api/v1/business/sda/device/role
 """
 
 EXAMPLES = r"""

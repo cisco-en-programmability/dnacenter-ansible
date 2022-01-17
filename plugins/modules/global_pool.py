@@ -60,9 +60,8 @@ seealso:
 - name: SDK function update_global_pool used
   link: https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.network_settings.NetworkSettings.update_global_pool
 
-- name: Paths used on the module Global Pool
-  description: |-
-    put /dna/intent/api/v1/global-pool,
+notes:
+  - Paths used: put /dna/intent/api/v1/global-pool,
     post /dna/intent/api/v1/global-pool,
     delete /dna/intent/api/v1/global-pool/{id}
 """
