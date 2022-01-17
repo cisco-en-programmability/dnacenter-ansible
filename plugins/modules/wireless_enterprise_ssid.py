@@ -79,24 +79,11 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function create_enterprise_ssid used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    wireless.Wireless.create_enterprise_ssid
-
-- name: SDK function delete_enterprise_ssid used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    wireless.Wireless.delete_enterprise_ssid
-
-- name: SDK function update_enterprise_ssid used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    wireless.Wireless.update_enterprise_ssid
-
 notes:
+  - SDK Method used are
+    wireless.Wireless.create_enterprise_ssid,
+    wireless.Wireless.delete_enterprise_ssid,
+    wireless.Wireless.update_enterprise_ssid
   - Paths used are post /dna/intent/api/v1/enterprise-ssid,
     put /dna/intent/api/v1/enterprise-ssid,
     delete /dna/intent/api/v1/enterprise-ssid/{ssidName}

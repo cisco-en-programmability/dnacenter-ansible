@@ -27,14 +27,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function add_site used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    sda.Sda.add_site
-
 notes:
+  - SDK Method used are
+    sda.Sda.add_site
   - Paths used are delete /dna/intent/api/v1/business/sda/fabric-site,
     post /dna/intent/api/v1/business/sda/fabric-site
 """

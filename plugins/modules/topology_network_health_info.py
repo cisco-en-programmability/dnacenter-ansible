@@ -26,14 +26,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function get_overall_network_health used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    topology.Topology.get_overall_network_health
-
 notes:
+  - SDK Method used are
+    topology.Topology.get_overall_network_health
   - Paths used are get /dna/intent/api/v1/network-health
 """
 

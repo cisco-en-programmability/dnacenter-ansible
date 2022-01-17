@@ -56,19 +56,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function add_default_authentication_profile used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    sda.Sda.add_default_authentication_profile
-
-- name: SDK function update_default_authentication_profile used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    sda.Sda.update_default_authentication_profile
-
 notes:
+  - SDK Method used are
+    sda.Sda.add_default_authentication_profile,
+    sda.Sda.update_default_authentication_profile
   - Paths used are post /dna/intent/api/v1/business/sda/authentication-profile,
     put /dna/intent/api/v1/business/sda/authentication-profile,
     delete /dna/intent/api/v1/business/sda/authentication-profile

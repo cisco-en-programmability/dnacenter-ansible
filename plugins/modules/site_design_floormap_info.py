@@ -28,19 +28,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function get_floormaps used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    site_design.SiteDesign.get_floormaps
-
-- name: SDK function get_floormap used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    site_design.SiteDesign.get_floormap
-
 notes:
+  - SDK Method used are
+    site_design.SiteDesign.get_floormaps,
+    site_design.SiteDesign.get_floormap
   - Paths used are get /dna/intent/api/v1/wireless/floormap/all,
     get /dna/intent/api/v1/wireless/floormap/{floorId}
 """

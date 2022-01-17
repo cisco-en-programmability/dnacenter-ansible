@@ -214,24 +214,11 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function start_discovery used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    discovery.Discovery.start_discovery
-
-- name: SDK function updates_discovery_by_id used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    discovery.Discovery.updates_discovery_by_id
-
-- name: SDK function delete_discovery_by_id used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    discovery.Discovery.delete_discovery_by_id
-
 notes:
+  - SDK Method used are
+    discovery.Discovery.start_discovery,
+    discovery.Discovery.updates_discovery_by_id,
+    discovery.Discovery.delete_discovery_by_id
   - Paths used are delete /dna/intent/api/v1/discovery,
     put /dna/intent/api/v1/discovery,
     post /dna/intent/api/v1/discovery,

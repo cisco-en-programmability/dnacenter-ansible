@@ -88,19 +88,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function retrives_all_previous_pathtraces_summary used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    path_trace.PathTrace.retrives_all_previous_pathtraces_summary
-
-- name: SDK function retrieves_previous_pathtrace used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    path_trace.PathTrace.retrieves_previous_pathtrace
-
 notes:
+  - SDK Method used are
+    path_trace.PathTrace.retrives_all_previous_pathtraces_summary,
+    path_trace.PathTrace.retrieves_previous_pathtrace
   - Paths used are get /dna/intent/api/v1/flow-analysis,
     get /dna/intent/api/v1/flow-analysis/{flowAnalysisId}
 """

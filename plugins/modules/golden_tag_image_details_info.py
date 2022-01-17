@@ -40,14 +40,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function get_golden_tag_status_of_an_image used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    software_image_management_swim.SoftwareImageManagementSwim.get_golden_tag_status_of_an_image
-
 notes:
+  - SDK Method used are
+    software_image_management_swim.SoftwareImageManagementSwim.get_golden_tag_status_of_an_image
   - Paths used are get /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId}
 """
 

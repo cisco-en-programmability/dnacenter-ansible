@@ -29,19 +29,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function remove_tag_member used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    tag.Tag.remove_tag_member
-
-- name: SDK function add_members_to_the_tag used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    tag.Tag.add_members_to_the_tag
-
 notes:
+  - SDK Method used are
+    tag.Tag.remove_tag_member,
+    tag.Tag.add_members_to_the_tag
   - Paths used are post /dna/intent/api/v1/tag/{id}/member,
     delete /dna/intent/api/v1/tag/{id}/member/{memberId}
 """

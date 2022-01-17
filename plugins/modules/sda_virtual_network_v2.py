@@ -34,19 +34,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function add_virtual_network_with_scalable_groups used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    sda.Sda.add_virtual_network_with_scalable_groups
-
-- name: SDK function update_virtual_network_with_scalable_groups used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    sda.Sda.update_virtual_network_with_scalable_groups
-
 notes:
+  - SDK Method used are
+    sda.Sda.add_virtual_network_with_scalable_groups,
+    sda.Sda.update_virtual_network_with_scalable_groups
   - Paths used are post /dna/intent/api/v1/virtual-network,
     delete /dna/intent/api/v1/virtual-network,
     put /dna/intent/api/v1/virtual-network

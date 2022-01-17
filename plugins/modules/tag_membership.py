@@ -32,14 +32,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function updates_tag_membership used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    tag.Tag.updates_tag_membership
-
 notes:
+  - SDK Method used are
+    tag.Tag.updates_tag_membership
   - Paths used are put /dna/intent/api/v1/tag/member
 """
 

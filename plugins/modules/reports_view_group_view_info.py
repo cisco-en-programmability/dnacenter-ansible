@@ -31,14 +31,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function get_view_details_for_a_given_view_group_and_view used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    reports.Reports.get_view_details_for_a_given_view_group_and_view
-
 notes:
+  - SDK Method used are
+    reports.Reports.get_view_details_for_a_given_view_group_and_view
   - Paths used are get /dna/intent/api/v1/data/view-groups/{viewGroupId}/views/{viewId}
 """
 

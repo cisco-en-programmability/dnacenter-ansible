@@ -58,19 +58,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function create_rest_webhook_event_subscription used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    event_management.EventManagement.create_rest_webhook_event_subscription
-
-- name: SDK function update_rest_webhook_event_subscription used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    event_management.EventManagement.update_rest_webhook_event_subscription
-
 notes:
+  - SDK Method used are
+    event_management.EventManagement.create_rest_webhook_event_subscription,
+    event_management.EventManagement.update_rest_webhook_event_subscription
   - Paths used are post /dna/intent/api/v1/event/subscription/rest,
     put /dna/intent/api/v1/event/subscription/rest
 """

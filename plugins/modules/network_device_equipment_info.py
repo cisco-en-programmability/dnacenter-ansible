@@ -30,14 +30,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function return_power_supply_fan_details_for_the_given_device used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    devices.Devices.return_power_supply_fan_details_for_the_given_device
-
 notes:
+  - SDK Method used are
+    devices.Devices.return_power_supply_fan_details_for_the_given_device
   - Paths used are get /dna/intent/api/v1/network-device/{deviceUuid}/equipment
 """
 

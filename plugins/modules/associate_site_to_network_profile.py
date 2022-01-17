@@ -25,19 +25,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function associate used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    site_design.SiteDesign.associate
-
-- name: SDK function disassociate used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    site_design.SiteDesign.disassociate
-
 notes:
+  - SDK Method used are
+    site_design.SiteDesign.associate
+    site_design.SiteDesign.disassociate
   - Paths used are post /dna/intent/api/v1/networkprofile/{networkProfileId}/site/{siteId}
 """
 

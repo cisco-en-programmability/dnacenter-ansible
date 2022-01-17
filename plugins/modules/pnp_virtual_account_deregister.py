@@ -27,7 +27,7 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
+
 # Reference to SDK documentation of current version
 notes:
   - Paths used are delete /dna/intent/api/v1/onboarding/pnp-settings/vacct

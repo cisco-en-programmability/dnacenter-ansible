@@ -50,14 +50,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function devices used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    devices.Devices.devices
-
 notes:
+  - SDK Method used are
+    devices.Devices.devices
   - Paths used are get /dna/intent/api/v1/device-health
 """
 

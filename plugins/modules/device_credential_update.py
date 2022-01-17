@@ -116,19 +116,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function update_device_credentials used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    network_settings.NetworkSettings.update_device_credentials
-
-- name: SDK function create_device_credentials used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    network_settings.NetworkSettings.create_device_credentials
-
 notes:
+  - SDK Method used are
+    network_settings.NetworkSettings.update_device_credentials,
+    network_settings.NetworkSettings.create_device_credentials
   - Paths used are put /dna/intent/api/v1/device-credential
 """
 

@@ -116,24 +116,11 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function update_an_existing_profiling_rule used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    policy.Policy.update_an_existing_profiling_rule
-
-- name: SDK function create_a_profiling_rule used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    policy.Policy.create_a_profiling_rule
-
-- name: SDK function delete_an_existing_profiling_rule used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    policy.Policy.delete_an_existing_profiling_rule
-
 notes:
+  - SDK Method used are
+    policy.Policy.update_an_existing_profiling_rule,
+    policy.Policy.create_a_profiling_rule,
+    policy.Policy.delete_an_existing_profiling_rule
   - Paths used are post /dna/intent/api/v1/endpoint-analytics/profiling-rules,
     delete /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId}
 """

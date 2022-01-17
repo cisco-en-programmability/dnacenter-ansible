@@ -21,7 +21,7 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
+
 # Reference by Internet resource
 - name: Reserve Ip Subpool Delete reference
   description: Complete reference of the Reserve Ip Subpool Delete object model.

@@ -26,14 +26,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function get_devices_per_advisory used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    security_advisories.SecurityAdvisories.get_devices_per_advisory
-
 notes:
+  - SDK Method used are
+    security_advisories.SecurityAdvisories.get_devices_per_advisory
   - Paths used are get /dna/intent/api/v1/security-advisory/advisory/{advisoryId}/device
 """
 

@@ -36,14 +36,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function export_device_list used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    devices.Devices.export_device_list
-
 notes:
+  - SDK Method used are
+    devices.Devices.export_device_list
   - Paths used are post /dna/intent/api/v1/network-device/file
 """
 

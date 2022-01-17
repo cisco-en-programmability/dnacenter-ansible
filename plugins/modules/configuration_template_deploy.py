@@ -58,14 +58,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function deploy_template used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    configuration_templates.ConfigurationTemplates.deploy_template
-
 notes:
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.deploy_template
   - Paths used are post /dna/intent/api/v1/template-programmer/template/deploy
 """
 

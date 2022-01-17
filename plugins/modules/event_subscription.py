@@ -71,19 +71,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function update_event_subscriptions used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    event_management.EventManagement.update_event_subscriptions
-
-- name: SDK function create_event_subscriptions used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    event_management.EventManagement.create_event_subscriptions
-
 notes:
+  - SDK Method used are
+    event_management.EventManagement.update_event_subscriptions,
+    event_management.EventManagement.create_event_subscriptions
   - Paths used are delete /dna/intent/api/v1/event/subscription,
     put /dna/intent/api/v1/event/subscription,
     post /dna/intent/api/v1/event/subscription

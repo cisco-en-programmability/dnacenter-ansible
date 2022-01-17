@@ -26,24 +26,11 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function update_floormap used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    site_design.SiteDesign.update_floormap
-
-- name: SDK function create_floormap used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    site_design.SiteDesign.create_floormap
-
-- name: SDK function delete_floormap used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    site_design.SiteDesign.delete_floormap
-
 notes:
+  - SDK Method used are
+    site_design.SiteDesign.update_floormap,
+    site_design.SiteDesign.create_floormap,
+    site_design.SiteDesign.delete_floormap
   - Paths used are post /dna/intent/api/v1/wireless/floormap,
     delete /dna/intent/api/v1/wireless/floormap/{floorId}
 """

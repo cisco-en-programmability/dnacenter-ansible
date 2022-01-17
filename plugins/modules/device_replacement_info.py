@@ -70,14 +70,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function return_replacement_devices_with_details used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    device_replacement.DeviceReplacement.return_replacement_devices_with_details
-
 notes:
+  - SDK Method used are
+    device_replacement.DeviceReplacement.return_replacement_devices_with_details
   - Paths used are get /dna/intent/api/v1/device-replacement
 """
 

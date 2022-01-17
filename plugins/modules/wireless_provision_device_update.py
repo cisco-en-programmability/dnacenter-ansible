@@ -52,19 +52,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function provision_update used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    wireless.Wireless.provision_update
-
-- name: SDK function provision used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    wireless.Wireless.provision
-
 notes:
+  - SDK Method used are
+    wireless.Wireless.provision_update
   - Paths used are put /dna/intent/api/v1/wireless/provision
 """
 

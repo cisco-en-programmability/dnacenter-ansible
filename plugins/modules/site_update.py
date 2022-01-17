@@ -78,14 +78,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function update_site used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    sites.Sites.update_site
-
 notes:
+  - SDK Method used are
+    sites.Sites.update_site
   - Paths used are put /dna/intent/api/v1/site/{siteId}
 """
 

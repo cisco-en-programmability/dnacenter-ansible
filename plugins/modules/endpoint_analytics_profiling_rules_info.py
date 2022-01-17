@@ -61,19 +61,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function get_list_of_profiling_rules used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    policy.Policy.get_list_of_profiling_rules
-
-- name: SDK function get_details_of_a_single_profiling_rule used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    policy.Policy.get_details_of_a_single_profiling_rule
-
 notes:
+  - SDK Method used are
+    policy.Policy.get_list_of_profiling_rules,
+    policy.Policy.get_details_of_a_single_profiling_rule
   - Paths used are get /dna/intent/api/v1/endpoint-analytics/profiling-rules,
     get /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId}
 """

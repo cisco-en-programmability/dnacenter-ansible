@@ -22,14 +22,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function get_all_keywords_of_clis_accepted used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    command_runner.CommandRunner.get_all_keywords_of_clis_accepted
-
 notes:
+  - SDK Method used are
+    command_runner.CommandRunner.get_all_keywords_of_clis_accepted
   - Paths used are get /dna/intent/api/v1/network-device-poller/cli/legit-reads
 """
 

@@ -30,14 +30,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function get_discovered_network_devices_by_discovery_id used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    discovery.Discovery.get_discovered_network_devices_by_discovery_id
-
 notes:
+  - SDK Method used are
+    discovery.Discovery.get_discovered_network_devices_by_discovery_id
   - Paths used are get /dna/intent/api/v1/discovery/{id}/network-device
 """
 

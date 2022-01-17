@@ -36,19 +36,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function get_projects used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    configuration_templates.ConfigurationTemplates.get_projects
-
-- name: SDK function get_project_details used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    configuration_templates.ConfigurationTemplates.get_project_details
-
 notes:
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.get_projects,
+    configuration_templates.ConfigurationTemplates.get_project_details
   - Paths used are get /dna/intent/api/v1/template-programmer/project,
     get /dna/intent/api/v1/template-programmer/project/{projectId}
 """

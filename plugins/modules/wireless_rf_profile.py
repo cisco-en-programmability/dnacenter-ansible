@@ -101,19 +101,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function create_or_update_rf_profile used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    wireless.Wireless.create_or_update_rf_profile
-
-- name: SDK function delete_rf_profiles used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    wireless.Wireless.delete_rf_profiles
-
 notes:
+  - SDK Method used are
+    wireless.Wireless.create_or_update_rf_profile,
+    wireless.Wireless.delete_rf_profiles
   - Paths used are post /dna/intent/api/v1/wireless/rf-profile,
     delete /dna/intent/api/v1/wireless/rf-profile/{rfProfileName}
 """

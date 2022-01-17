@@ -36,19 +36,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function get_list_of_scheduled_reports used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    reports.Reports.get_list_of_scheduled_reports
-
-- name: SDK function get_a_scheduled_report used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    reports.Reports.get_a_scheduled_report
-
 notes:
+  - SDK Method used are
+    reports.Reports.get_list_of_scheduled_reports,
+    reports.Reports.get_a_scheduled_report
   - Paths used are get /dna/intent/api/v1/data/reports,
     get /dna/intent/api/v1/data/reports/{reportId}
 """

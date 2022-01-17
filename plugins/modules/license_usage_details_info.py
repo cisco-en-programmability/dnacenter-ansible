@@ -36,14 +36,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function license_usage_details used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    licenses.Licenses.license_usage_details
-
 notes:
+  - SDK Method used are
+    licenses.Licenses.license_usage_details
   - Paths used are get /dna/intent/api/v1/licenses/usage/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name}
 """
 

@@ -22,14 +22,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function get_qos_device_interface_info_count used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    application_policy.ApplicationPolicy.get_qos_device_interface_info_count
-
 notes:
+  - SDK Method used are
+    application_policy.ApplicationPolicy.get_qos_device_interface_info_count
   - Paths used are get /dna/intent/api/v1/qos-device-interface-info-count
 """
 

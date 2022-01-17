@@ -33,19 +33,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function update_ssid_to_ip_pool_mapping used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping
-
-- name: SDK function add_ssid_to_ip_pool_mapping used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping
-
 notes:
+  - SDK Method used are
+    fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping,
+    fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping
   - Paths used are post /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
     put /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool
 """

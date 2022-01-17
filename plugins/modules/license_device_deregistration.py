@@ -23,14 +23,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function device_deregistration used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    licenses.Licenses.device_deregistration
-
 notes:
+  - SDK Method used are
+    licenses.Licenses.device_deregistration
   - Paths used are put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/deregister
 """
 

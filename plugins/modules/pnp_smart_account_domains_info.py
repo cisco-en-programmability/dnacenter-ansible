@@ -22,14 +22,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function get_smart_account_list used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    device_onboarding_pnp.DeviceOnboardingPnp.get_smart_account_list
-
 notes:
+  - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.get_smart_account_list
   - Paths used are get /dna/intent/api/v1/onboarding/pnp-settings/sacct
 """
 

@@ -86,7 +86,7 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
+
 # Reference to SDK documentation of current version
 - name: SDK function create_application_policy_queuing_profile used
   description: SDK function create_application_policy_queuing_profile used

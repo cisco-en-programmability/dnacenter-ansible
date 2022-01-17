@@ -31,14 +31,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function get_count_of_profiling_rules used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    policy.Policy.get_count_of_profiling_rules
-
 notes:
+  - SDK Method used are
+    policy.Policy.get_count_of_profiling_rules
   - Paths used are get /dna/intent/api/v1/endpoint-analytics/profiling-rules/count
 """
 

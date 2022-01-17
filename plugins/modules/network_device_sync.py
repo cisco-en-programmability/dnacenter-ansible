@@ -28,14 +28,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function sync_devices_using_forcesync used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    devices.Devices.sync_devices_using_forcesync
-
 notes:
+  - SDK Method used are
+    devices.Devices.sync_devices_using_forcesync
   - Paths used are put /dna/intent/api/v1/network-device/sync
 """
 

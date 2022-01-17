@@ -47,19 +47,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function update_cli_credentials used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    discovery.Discovery.update_cli_credentials
-
-- name: SDK function create_cli_credentials used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    discovery.Discovery.create_cli_credentials
-
 notes:
+  - SDK Method used are
+    discovery.Discovery.update_cli_credentials,
+    discovery.Discovery.create_cli_credentials
   - Paths used are put /dna/intent/api/v1/global-credential/cli,
     post /dna/intent/api/v1/global-credential/cli
 """

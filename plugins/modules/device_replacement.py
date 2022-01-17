@@ -66,19 +66,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function mark_device_for_replacement used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    device_replacement.DeviceReplacement.mark_device_for_replacement
-
-- name: SDK function unmark_device_for_replacement used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    device_replacement.DeviceReplacement.unmark_device_for_replacement
-
 notes:
+  - SDK Method used are
+    device_replacement.DeviceReplacement.mark_device_for_replacement,
+    device_replacement.DeviceReplacement.unmark_device_for_replacement
   - Paths used are put /dna/intent/api/v1/device-replacement,
     post /dna/intent/api/v1/device-replacement
 """

@@ -25,14 +25,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function deploy_device_replacement_workflow used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    device_replacement.DeviceReplacement.deploy_device_replacement_workflow
-
 notes:
+  - SDK Method used are
+    device_replacement.DeviceReplacement.deploy_device_replacement_workflow
   - Paths used are post /dna/intent/api/v1/device-replacement/workflow
 """
 

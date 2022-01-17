@@ -44,14 +44,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function add_port_assignment_for_access_point used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    sda.Sda.add_port_assignment_for_access_point
-
 notes:
+  - SDK Method used are
+    sda.Sda.add_port_assignment_for_access_point
   - Paths used are post /dna/intent/api/v1/business/sda/hostonboarding/access-point,
     delete /dna/intent/api/v1/business/sda/hostonboarding/access-point
 """

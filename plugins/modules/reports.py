@@ -100,19 +100,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function delete_a_scheduled_report used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    reports.Reports.delete_a_scheduled_report
-
-- name: SDK function create_or_schedule_a_report used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    reports.Reports.create_or_schedule_a_report
-
 notes:
+  - SDK Method used are
+    reports.Reports.delete_a_scheduled_report,
+    reports.Reports.create_or_schedule_a_report
   - Paths used are post /dna/intent/api/v1/data/reports,
     delete /dna/intent/api/v1/data/reports/{reportId}
 """

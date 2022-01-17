@@ -46,19 +46,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function get_list_of_discoveries_by_discovery_id used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    discovery.Discovery.get_list_of_discoveries_by_discovery_id
-
-- name: SDK function get_discovery_jobs_by_ip used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    discovery.Discovery.get_discovery_jobs_by_ip
-
 notes:
+  - SDK Method used are
+    discovery.Discovery.get_list_of_discoveries_by_discovery_id,
+    discovery.Discovery.get_discovery_jobs_by_ip
   - Paths used are get /dna/intent/api/v1/discovery/job,
     get /dna/intent/api/v1/discovery/{id}/job
 """

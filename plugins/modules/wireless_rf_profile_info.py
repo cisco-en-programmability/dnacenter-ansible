@@ -26,14 +26,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function retrieve_rf_profiles used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    wireless.Wireless.retrieve_rf_profiles
-
 notes:
+  - SDK Method used are
+    wireless.Wireless.retrieve_rf_profiles
   - Paths used are get /dna/intent/api/v1/wireless/rf-profile
 """
 

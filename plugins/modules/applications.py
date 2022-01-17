@@ -109,19 +109,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function edit_application used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    application_policy.ApplicationPolicy.edit_application
-
-- name: SDK function create_application used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    application_policy.ApplicationPolicy.create_application
-
 notes:
+  - SDK Method used are
+    application_policy.ApplicationPolicy.edit_application
+    application_policy.ApplicationPolicy.create_application
   - Paths used are post /dna/intent/api/v1/applications,
     put /dna/intent/api/v1/applications,
     delete /dna/intent/api/v1/applications

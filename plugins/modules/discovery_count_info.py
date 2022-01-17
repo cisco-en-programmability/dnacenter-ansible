@@ -22,14 +22,9 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function get_count_of_all_discovery_jobs used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    discovery.Discovery.get_count_of_all_discovery_jobs
-
 notes:
+  - SDK Method used are
+    discovery.Discovery.get_count_of_all_discovery_jobs
   - Paths used are get /dna/intent/api/v1/discovery/count
 """
 

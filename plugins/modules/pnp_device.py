@@ -806,24 +806,11 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference to SDK documentation of current version
-- name: SDK function update_device used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    device_onboarding_pnp.DeviceOnboardingPnp.update_device
-
-- name: SDK function add_device used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    device_onboarding_pnp.DeviceOnboardingPnp.add_device
-
-- name: SDK function delete_device_by_id_from_pnp used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp
-
 notes:
+  - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.update_device,
+    device_onboarding_pnp.DeviceOnboardingPnp.add_device,
+    device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp
   - Paths used are post /dna/intent/api/v1/onboarding/pnp-device,
     delete /dna/intent/api/v1/onboarding/pnp-device/{id}
 """
