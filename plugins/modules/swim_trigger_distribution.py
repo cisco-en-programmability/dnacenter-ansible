@@ -10,6 +10,7 @@ module: swim_trigger_distribution
 short_description: Resource module for Swim Trigger Distribution
 description:
 - Manage operation create of the resource Swim Trigger Distribution.
+- Distributes a software image on a given device. Software image must be imported successfully into DNA Center before it can be distributed.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -28,11 +29,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Swim Trigger Distribution reference
-  description: Complete reference of the Swim Trigger Distribution object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_distribution
+  - Paths used are post /dna/intent/api/v1/image/distribution
 """
 
 EXAMPLES = r"""

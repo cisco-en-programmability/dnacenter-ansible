@@ -10,6 +10,7 @@ module: global_credential_update
 short_description: Resource module for Global Credential Update
 description:
 - Manage operation update of the resource Global Credential Update.
+- Update global credential for network devices in site(s).
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -25,11 +26,11 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Global Credential Update reference
-  description: Complete reference of the Global Credential Update object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    discovery.Discovery.delete_global_credentials_by_id,
+    discovery.Discovery.update_global_credentials
+  - Paths used are put /dna/intent/api/v1/global-credential/{globalCredentialId}
 """
 
 EXAMPLES = r"""

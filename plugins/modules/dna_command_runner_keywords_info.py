@@ -10,6 +10,7 @@ module: dna_command_runner_keywords_info
 short_description: Information module for Dna Command Runner Keywords
 description:
 - Get all Dna Command Runner Keywords.
+- Get valid keywords.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,11 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Dna Command Runner Keywords reference
-  description: Complete reference of the Dna Command Runner Keywords object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    command_runner.CommandRunner.get_all_keywords_of_clis_accepted
+  - Paths used are get /dna/intent/api/v1/network-device-poller/cli/legit-reads
 """
 
 EXAMPLES = r"""

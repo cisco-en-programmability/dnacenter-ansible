@@ -10,6 +10,7 @@ module: client_health_info
 short_description: Information module for Client Health
 description:
 - Get all Client Health.
+- Returns Overall Client Health information by Client type (Wired and Wireless) for any given point of time.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,11 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Client Health reference
-  description: Complete reference of the Client Health object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    clients.Clients.get_overall_client_health
+  - Paths used are get /dna/intent/api/v1/client-health
 """
 
 EXAMPLES = r"""

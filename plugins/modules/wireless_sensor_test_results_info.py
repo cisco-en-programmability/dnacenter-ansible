@@ -10,6 +10,7 @@ module: wireless_sensor_test_results_info
 short_description: Information module for Wireless Sensor Test Results
 description:
 - Get all Wireless Sensor Test Results.
+- Intent API to get SENSOR test result summary.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -37,11 +38,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Wireless Sensor Test Results reference
-  description: Complete reference of the Wireless Sensor Test Results object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    wireless.Wireless.sensor_test_results
+  - Paths used are get /dna/intent/api/v1/AssuranceGetSensorTestResults
 """
 
 EXAMPLES = r"""

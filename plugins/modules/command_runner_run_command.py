@@ -10,6 +10,7 @@ module: command_runner_run_command
 short_description: Resource module for Command Runner Run Command
 description:
 - Manage operation create of the resource Command Runner Run Command.
+- Submit request for read-only CLIs.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -35,11 +36,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Command Runner Run Command reference
-  description: Complete reference of the Command Runner Run Command object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    command_runner.CommandRunner.run_read_only_commands_on_devices
+  - Paths used are post /dna/intent/api/v1/network-device-poller/cli/read-request
 """
 
 EXAMPLES = r"""

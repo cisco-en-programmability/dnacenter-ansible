@@ -10,6 +10,7 @@ module: pnp_device_claim_to_site
 short_description: Resource module for Pnp Device Claim To Site
 description:
 - Manage operation create of the resource Pnp Device Claim To Site.
+- Claim a device based on DNA-C Site based design process. Different parameters are required for different device platforms.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,11 +28,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Pnp Device Claim To Site reference
-  description: Complete reference of the Pnp Device Claim To Site object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/site-claim
 """
 
 EXAMPLES = r"""

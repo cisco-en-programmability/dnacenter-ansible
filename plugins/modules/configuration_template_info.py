@@ -11,6 +11,8 @@ short_description: Information module for Configuration Template
 description:
 - Get all Configuration Template.
 - Get Configuration Template by id.
+- List the templates available
+- Details of the template by its id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -74,11 +76,12 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Configuration Template reference
-  description: Complete reference of the Configuration Template object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.get_template_details,
+    configuration_templates.ConfigurationTemplates.gets_the_templates_available
+  - Paths used are get /dna/intent/api/v1/template-programmer/template,
+    get /dna/intent/api/v1/template-programmer/template/{templateId}
 """
 
 EXAMPLES = r"""

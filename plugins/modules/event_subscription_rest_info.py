@@ -10,6 +10,7 @@ module: event_subscription_rest_info
 short_description: Information module for Event Subscription Rest
 description:
 - Get all Event Subscription Rest.
+- Gets the list of Rest/Webhook Subscriptions's based on provided offset and limit.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -41,11 +42,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Event Subscription Rest reference
-  description: Complete reference of the Event Subscription Rest object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    event_management.EventManagement.get_rest_webhook_event_subscriptions
+  - Paths used are get /dna/intent/api/v1/event/subscription/rest
 """
 
 EXAMPLES = r"""

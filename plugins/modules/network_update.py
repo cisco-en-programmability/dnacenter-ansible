@@ -10,6 +10,7 @@ module: network_update
 short_description: Resource module for Network Update
 description:
 - Manage operation update of the resource Network Update.
+- API to update network for DHCP and DNS center server settings.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -135,11 +136,11 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Network Update reference
-  description: Complete reference of the Network Update object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    network_settings.NetworkSettings.update_network,
+    network_settings.NetworkSettings.create_network
+  - Paths used are put /dna/intent/api/v1/network/{siteId}
 """
 
 EXAMPLES = r"""

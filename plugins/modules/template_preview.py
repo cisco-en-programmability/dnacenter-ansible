@@ -10,6 +10,7 @@ module: template_preview
 short_description: Resource module for Template Preview
 description:
 - Manage operation update of the resource Template Preview.
+- API to preview a template.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,11 +32,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Template Preview reference
-  description: Complete reference of the Template Preview object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.preview_template
+  - Paths used are put /dna/intent/api/v1/template-programmer/template/preview
 """
 
 EXAMPLES = r"""

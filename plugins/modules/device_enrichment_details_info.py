@@ -10,6 +10,7 @@ module: device_enrichment_details_info
 short_description: Information module for Device Enrichment Details
 description:
 - Get all Device Enrichment Details.
+- Enriches a given network device context (device id or device Mac Address or device management IP address) with details about the device and neighbor topology.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,11 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Device Enrichment Details reference
-  description: Complete reference of the Device Enrichment Details object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    devices.Devices.get_device_enrichment_details
+  - Paths used are get /dna/intent/api/v1/device-enrichment-details
 """
 
 EXAMPLES = r"""

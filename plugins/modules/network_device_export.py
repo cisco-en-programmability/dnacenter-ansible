@@ -10,6 +10,7 @@ module: network_device_export
 short_description: Resource module for Network Device Export
 description:
 - Manage operation create of the resource Network Device Export.
+- Exports the selected network device to a file.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -35,11 +36,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Network Device Export reference
-  description: Complete reference of the Network Device Export object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    devices.Devices.export_device_list
+  - Paths used are post /dna/intent/api/v1/network-device/file
 """
 
 EXAMPLES = r"""

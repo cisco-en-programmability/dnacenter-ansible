@@ -10,6 +10,7 @@ module: wireless_enterprise_ssid_info
 short_description: Information module for Wireless Enterprise Ssid
 description:
 - Get all Wireless Enterprise Ssid.
+- Gets either one or all the enterprise SSID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,11 +28,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Wireless Enterprise Ssid reference
-  description: Complete reference of the Wireless Enterprise Ssid object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    wireless.Wireless.get_enterprise_ssid
+  - Paths used are get /dna/intent/api/v1/enterprise-ssid
 """
 
 EXAMPLES = r"""

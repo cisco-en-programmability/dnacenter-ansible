@@ -10,6 +10,8 @@ module: pnp_workflow
 short_description: Resource module for Pnp Workflow
 description:
 - Manage operations create, update and delete of the resource Pnp Workflow.
+- Adds a PnP Workflow along with the relevant tasks in the workflow into the PnP database.
+- Deletes a workflow specified by id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -125,11 +127,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Pnp Workflow reference
-  description: Complete reference of the Pnp Workflow object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.update_workflow,
+    device_onboarding_pnp.DeviceOnboardingPnp.add_a_workflow,
+    device_onboarding_pnp.DeviceOnboardingPnp.delete_workflow_by_id
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-workflow,
+    delete /dna/intent/api/v1/onboarding/pnp-workflow/{id}
 """
 
 EXAMPLES = r"""

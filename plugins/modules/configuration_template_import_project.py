@@ -10,6 +10,7 @@ module: configuration_template_import_project
 short_description: Resource module for Configuration Template Import Project
 description:
 - Manage operation create of the resource Configuration Template Import Project.
+- Imports the Projects provided in the DTO.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,11 +25,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Configuration Template Import Project reference
-  description: Complete reference of the Configuration Template Import Project object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.imports_the_projects_provided
+  - Paths used are post /dna/intent/api/v1/template-programmer/project/importprojects
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,7 @@ module: golden_tag_image_delete
 short_description: Resource module for Golden Tag Image Delete
 description:
 - Manage operation delete of the resource Golden Tag Image Delete.
+- Remove golden tag. Set siteId as -1 for Global site.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -33,11 +34,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Golden Tag Image Delete reference
-  description: Complete reference of the Golden Tag Image Delete object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    software_image_management_swim.SoftwareImageManagementSwim.remove_golden_tag_for_image
+  - Paths used are delete /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId}
 """
 
 EXAMPLES = r"""

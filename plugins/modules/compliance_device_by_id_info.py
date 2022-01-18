@@ -10,6 +10,7 @@ module: compliance_device_by_id_info
 short_description: Information module for Compliance Device By Id
 description:
 - Get all Compliance Device By Id.
+- Return compliance detailed report for a device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -47,11 +48,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Compliance Device By Id reference
-  description: Complete reference of the Compliance Device By Id object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    compliance.Compliance.compliance_details_of_device
+  - Paths used are get /dna/intent/api/v1/compliance/{deviceUuid}/detail
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,7 @@ module: pnp_server_profile_update
 short_description: Resource module for Pnp Server Profile Update
 description:
 - Manage operation update of the resource Pnp Server Profile Update.
+- Updates the PnP Server profile in a registered Virtual Account in the PnP database. The response payload returns the updated smart & virtual account info.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -97,11 +98,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Pnp Server Profile Update reference
-  description: Complete reference of the Pnp Server Profile Update object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.update_pnp_server_profile
+  - Paths used are put /dna/intent/api/v1/onboarding/pnp-settings/savacct
 """
 
 EXAMPLES = r"""

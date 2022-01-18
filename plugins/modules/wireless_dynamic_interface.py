@@ -10,6 +10,8 @@ module: wireless_dynamic_interface
 short_description: Resource module for Wireless Dynamic Interface
 description:
 - Manage operations create and delete of the resource Wireless Dynamic Interface.
+- API to create or update an dynamic interface.
+- Delete a dynamic interface.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,11 +26,12 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Wireless Dynamic Interface reference
-  description: Complete reference of the Wireless Dynamic Interface object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    wireless.Wireless.create_update_dynamic_interface,
+    wireless.Wireless.delete_dynamic_interface
+  - Paths used are post /dna/intent/api/v1/wireless/dynamic-interface,
+    delete /dna/intent/api/v1/wireless/dynamic-interface/{interfaceName}
 """
 
 EXAMPLES = r"""

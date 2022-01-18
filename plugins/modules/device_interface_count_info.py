@@ -10,6 +10,7 @@ module: device_interface_count_info
 short_description: Information module for Device Interface Count
 description:
 - Get all Device Interface Count.
+- Returns the count of interfaces for all devices.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,11 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Device Interface Count reference
-  description: Complete reference of the Device Interface Count object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    devices.Devices.get_device_interface_count
+  - Paths used are get /dna/intent/api/v1/interface/count
 """
 
 EXAMPLES = r"""

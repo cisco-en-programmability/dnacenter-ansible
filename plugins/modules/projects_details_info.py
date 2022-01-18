@@ -10,6 +10,7 @@ module: projects_details_info
 short_description: Information module for Projects Details
 description:
 - Get all Projects Details.
+- Get project(s) details.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -41,11 +42,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Projects Details reference
-  description: Complete reference of the Projects Details object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.get_projects_details
+  - Paths used are get /dna/intent/api/v2/template-programmer/project
 """
 
 EXAMPLES = r"""

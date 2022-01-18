@@ -10,6 +10,8 @@ module: configuration_template
 short_description: Resource module for Configuration Template
 description:
 - Manage operations update and delete of the resource Configuration Template.
+- API to update a template.
+- Deletes the template by its id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -501,11 +503,12 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Configuration Template reference
-  description: Complete reference of the Configuration Template object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.update_template,
+    configuration_templates.ConfigurationTemplates.deletes_the_template
+  - Paths used are put /dna/intent/api/v1/template-programmer/template,
+    delete /dna/intent/api/v1/template-programmer/template/{templateId}
 """
 
 EXAMPLES = r"""

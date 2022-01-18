@@ -9,7 +9,10 @@ DOCUMENTATION = r"""
 module: site_design_floormap_info
 short_description: Information module for Site Design Floormap
 description:
+- Get all Site Design Floormap.
 - Get Site Design Floormap by id.
+- List all floor maps.
+- List specified floor map(s).
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,14 +28,28 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Site Design Floormap reference
-  description: Complete reference of the Site Design Floormap object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    site_design.SiteDesign.get_floormaps,
+    site_design.SiteDesign.get_floormap
+  - Paths used are get /dna/intent/api/v1/wireless/floormap/all,
+    get /dna/intent/api/v1/wireless/floormap/{floorId}
 """
 
 EXAMPLES = r"""
+- name: Get all Site Design Floormap
+  cisco.dnac.site_design_floormap_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    headers:
+      custom: value
+  register: result
+
 - name: Get Site Design Floormap by id
   cisco.dnac.site_design_floormap_info:
     dnac_host: "{{dnac_host}}"

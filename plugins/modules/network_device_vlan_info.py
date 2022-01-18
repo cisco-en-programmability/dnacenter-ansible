@@ -10,6 +10,7 @@ module: network_device_vlan_info
 short_description: Information module for Network Device Vlan
 description:
 - Get all Network Device Vlan.
+- Returns Device Interface VLANs.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -29,11 +30,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Network Device Vlan reference
-  description: Complete reference of the Network Device Vlan object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    devices.Devices.get_device_interface_vlans
+  - Paths used are get /dna/intent/api/v1/network-device/{id}/vlan
 """
 
 EXAMPLES = r"""

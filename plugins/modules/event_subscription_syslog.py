@@ -10,6 +10,8 @@ module: event_subscription_syslog
 short_description: Resource module for Event Subscription Syslog
 description:
 - Manage operations create and update of the resource Event Subscription Syslog.
+- Update Syslog Subscription Endpoint for list of registered events.
+- Create Syslog Subscription Endpoint for list of registered events.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -56,11 +58,12 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Event Subscription Syslog reference
-  description: Complete reference of the Event Subscription Syslog object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    event_management.EventManagement.update_syslog_event_subscription,
+    event_management.EventManagement.create_syslog_event_subscription
+  - Paths used are put /dna/intent/api/v1/event/subscription/syslog,
+    post /dna/intent/api/v1/event/subscription/syslog
 """
 
 EXAMPLES = r"""

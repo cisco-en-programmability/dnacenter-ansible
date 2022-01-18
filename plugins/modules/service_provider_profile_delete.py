@@ -10,6 +10,7 @@ module: service_provider_profile_delete
 short_description: Resource module for Service Provider Profile Delete
 description:
 - Manage operation delete of the resource Service Provider Profile Delete.
+- API to delete Service Provider profile (QoS).
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -21,11 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Service Provider Profile Delete reference
-  description: Complete reference of the Service Provider Profile Delete object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    network_settings.NetworkSettings.delete_sp_profile
+  - Paths used are delete /dna/intent/api/v1/sp-profile/{spProfileName}
 """
 
 EXAMPLES = r"""

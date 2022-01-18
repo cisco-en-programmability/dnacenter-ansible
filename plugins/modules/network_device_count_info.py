@@ -11,6 +11,8 @@ short_description: Information module for Network Device Count
 description:
 - Get all Network Device Count.
 - Get Network Device Count by id.
+- Returns the interface count for the given device.
+- Returns the count of network devices based on the filter criteria by management IP address, mac address, hostname and location name.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,11 +28,12 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Network Device Count reference
-  description: Complete reference of the Network Device Count object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    devices.Devices.get_device_count,
+    devices.Devices.get_device_interface_count_by_id
+  - Paths used are get /dna/intent/api/v1/interface/network-device/{deviceId}/count,
+    get /dna/intent/api/v1/network-device/count
 """
 
 EXAMPLES = r"""

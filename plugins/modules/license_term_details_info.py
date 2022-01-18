@@ -10,6 +10,7 @@ module: license_term_details_info
 short_description: Information module for License Term Details
 description:
 - Get License Term Details by name.
+- Get license term details.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -35,11 +36,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: License Term Details reference
-  description: Complete reference of the License Term Details object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    licenses.Licenses.license_term_details
+  - Paths used are get /dna/intent/api/v1/licenses/term/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name}
 """
 
 EXAMPLES = r"""

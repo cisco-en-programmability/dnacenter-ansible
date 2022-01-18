@@ -10,6 +10,7 @@ module: disasterrecovery_system_status_info
 short_description: Information module for Disasterrecovery System Status
 description:
 - Get all Disasterrecovery System Status.
+- Detailed and Summarized status of DR components (Active, Standby and Witness system's health).
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,11 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Disasterrecovery System Status reference
-  description: Complete reference of the Disasterrecovery System Status object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    disaster_recovery.DisasterRecovery.disaster_recovery_status
+  - Paths used are get /dna/intent/api/v1/disasterrecovery/system/status
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,7 @@ module: topology_vlan_details_info
 short_description: Information module for Topology Vlan Details
 description:
 - Get all Topology Vlan Details.
+- Returns the list of VLAN names.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,11 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Topology Vlan Details reference
-  description: Complete reference of the Topology Vlan Details object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    topology.Topology.get_vlan_details
+  - Paths used are get /dna/intent/api/v1/topology/vlan/vlan-names
 """
 
 EXAMPLES = r"""

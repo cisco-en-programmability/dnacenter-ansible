@@ -10,6 +10,8 @@ module: profiling_rules_count_info
 short_description: Information module for Profiling Rules Count
 description:
 - Get all Profiling Rules Count.
+- This API fetches the count of profiling rules based on the filter values provided in the query parameters.
+  The filter parameters are same as that of 'GET /profiling-rules' API, excluding the pagination and sort parameters.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -29,11 +31,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Profiling Rules Count reference
-  description: Complete reference of the Profiling Rules Count object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    policy.Policy.get_count_of_profiling_rules
+  - Paths used are get /dna/intent/api/v1/endpoint-analytics/profiling-rules/count
 """
 
 EXAMPLES = r"""

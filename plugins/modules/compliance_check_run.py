@@ -10,6 +10,7 @@ module: compliance_check_run
 short_description: Resource module for Compliance Check Run
 description:
 - Manage operation create of the resource Compliance Check Run.
+- Run compliance check for device(s).
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -29,11 +30,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Compliance Check Run reference
-  description: Complete reference of the Compliance Check Run object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    compliance.Compliance.run_compliance
+  - Paths used are post /dna/intent/api/v1/compliance/
 """
 
 EXAMPLES = r"""

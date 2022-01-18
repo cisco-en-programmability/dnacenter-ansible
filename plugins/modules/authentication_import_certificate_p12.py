@@ -10,6 +10,7 @@ module: authentication_import_certificate_p12
 short_description: Resource module for Authentication Import Certificate P12
 description:
 - Manage operation create of the resource Authentication Import Certificate P12.
+- This method is used to upload a PKCS\#12 file.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -30,11 +31,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Authentication Import Certificate P12 reference
-  description: Complete reference of the Authentication Import Certificate P12 object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    authentication_management.AuthenticationManagement.import_certificate_p12
+  - Paths used are post /dna/intent/api/v1/certificate-p12
 """
 
 EXAMPLES = r"""

@@ -366,3 +366,11 @@ releases:
         - wireless_enterprise_ssid - fix get_object_by_id (issue 32), which helps deletion.
         - wireless_profile - fix get_object_by_id (issue 32), which helps deletion.
         - wireless_rf_profile - fix get_object_by_id (issue 32), which helps deletion.
+  4.1.2:
+    release_date: '2022-01-17'
+    changes:
+      release_summary:
+      bugfixes:
+        - plugin/modules/* - Update plugin module documentation 
+      minor_changes:
+        - site_design_floormap_info - Add get_all to module

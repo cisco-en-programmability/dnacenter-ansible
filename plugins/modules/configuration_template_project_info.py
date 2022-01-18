@@ -11,6 +11,8 @@ short_description: Information module for Configuration Template Project
 description:
 - Get all Configuration Template Project.
 - Get Configuration Template Project by id.
+- List the projects.
+- Get the details of the given project by its id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -34,11 +36,12 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Configuration Template Project reference
-  description: Complete reference of the Configuration Template Project object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.get_projects,
+    configuration_templates.ConfigurationTemplates.get_project_details
+  - Paths used are get /dna/intent/api/v1/template-programmer/project,
+    get /dna/intent/api/v1/template-programmer/project/{projectId}
 """
 
 EXAMPLES = r"""

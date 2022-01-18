@@ -10,6 +10,7 @@ module: pnp_virtual_account_devices_sync
 short_description: Resource module for Pnp Virtual Account Devices Sync
 description:
 - Manage operation create of the resource Pnp Virtual Account Devices Sync.
+- Synchronizes the device info from the given smart account & virtual account with the PnP database. The response payload returns a list of synced devices.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -97,11 +98,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Pnp Virtual Account Devices Sync reference
-  description: Complete reference of the Pnp Virtual Account Devices Sync object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.sync_virtual_account_devices
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/vacct-sync
 """
 
 EXAMPLES = r"""

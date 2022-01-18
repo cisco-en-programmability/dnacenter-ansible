@@ -10,7 +10,8 @@ module: qos_device_interface_info
 short_description: Information module for Qos Device Interface
 description:
 - Get all Qos Device Interface.
-version_added: '3.1.0'
+- Get all or by network device id, existing qos device interface infos.
+version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
@@ -25,11 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Qos Device Interface reference
-  description: Complete reference of the Qos Device Interface object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    application_policy.ApplicationPolicy.get_qos_device_interface_info
+  - Paths used are get /dna/intent/api/v1/qos-device-interface-info
 """
 
 EXAMPLES = r"""

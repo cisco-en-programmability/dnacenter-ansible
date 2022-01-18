@@ -10,6 +10,7 @@ module: event_artifact_count_info
 short_description: Information module for Event Artifact Count
 description:
 - Get all Event Artifact Count.
+- Get the count of registered event artifacts with provided eventIds or tags as mandatory.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,11 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Event Artifact Count reference
-  description: Complete reference of the Event Artifact Count object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    event_management.EventManagement.eventartifact_count
+  - Paths used are get /dna/system/api/v1/event/artifact/count
 """
 
 EXAMPLES = r"""
