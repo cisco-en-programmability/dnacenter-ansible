@@ -10,6 +10,7 @@ module: snmp_properties_info
 short_description: Information module for Snmp Properties
 description:
 - Get all Snmp Properties.
+- Returns SNMP properties.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,11 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Snmp Properties reference
-  description: Complete reference of the Snmp Properties object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    discovery.Discovery.get_snmp_properties
+  - Paths used are get /dna/intent/api/v1/snmp-property
 """
 
 EXAMPLES = r"""

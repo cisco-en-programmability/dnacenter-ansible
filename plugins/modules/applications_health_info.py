@@ -10,6 +10,8 @@ module: applications_health_info
 short_description: Information module for Applications Health
 description:
 - Get all Applications Health.
+- Intent API to get a list of applications for a specific site, a device, or a client device's MAC address.
+  For a combination of a specific application with site and/or device the API gets list of issues/devices/endpoints.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -64,11 +66,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Applications Health reference
-  description: Complete reference of the Applications Health object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    applications.Applications.applications
+  - Paths used are get /dna/intent/api/v1/application-health
 """
 
 EXAMPLES = r"""

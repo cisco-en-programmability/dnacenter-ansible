@@ -10,6 +10,7 @@ module: sensor_test_template_duplicate
 short_description: Resource module for Sensor Test Template Duplicate
 description:
 - Manage operation update of the resource Sensor Test Template Duplicate.
+- Intent API to duplicate an existing SENSOR test template.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,11 +25,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Sensor Test Template Duplicate reference
-  description: Complete reference of the Sensor Test Template Duplicate object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    sensors.Sensors.duplicate_sensor_test_template
+  - Paths used are put /dna/intent/api/v1/sensorTestTemplate
 """
 
 EXAMPLES = r"""

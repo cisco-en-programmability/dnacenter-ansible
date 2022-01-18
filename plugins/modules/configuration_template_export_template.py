@@ -10,6 +10,7 @@ module: configuration_template_export_template
 short_description: Resource module for Configuration Template Export Template
 description:
 - Manage operation create of the resource Configuration Template Export Template.
+- Exports the templates for given templateIds.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -22,11 +23,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Configuration Template Export Template reference
-  description: Complete reference of the Configuration Template Export Template object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.export_templates
+  - Paths used are post /dna/intent/api/v1/template-programmer/template/exporttemplates
 """
 
 EXAMPLES = r"""

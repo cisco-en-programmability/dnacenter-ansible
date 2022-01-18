@@ -10,6 +10,8 @@ module: business_sda_hostonboarding_ssid_ippool
 short_description: Resource module for Business Sda Hostonboarding Ssid Ippool
 description:
 - Manage operations create and update of the resource Business Sda Hostonboarding Ssid Ippool.
+- Add SSID to IP Pool Mapping.
+- Update SSID to IP Pool Mapping.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,11 +33,12 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Business Sda Hostonboarding Ssid Ippool reference
-  description: Complete reference of the Business Sda Hostonboarding Ssid Ippool object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping,
+    fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping
+  - Paths used are post /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
+    put /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool
 """
 
 EXAMPLES = r"""

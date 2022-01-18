@@ -11,6 +11,8 @@ short_description: Information module for Tag
 description:
 - Get all Tag.
 - Get Tag by id.
+- Returns the tags for given filter criteria.
+- Returns tag specified by Id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -72,11 +74,12 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Tag reference
-  description: Complete reference of the Tag object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    tag.Tag.get_tag_by_id,
+    tag.Tag.get_tag
+  - Paths used are get /dna/intent/api/v1/tag,
+    get /dna/intent/api/v1/tag/{id}
 """
 
 EXAMPLES = r"""

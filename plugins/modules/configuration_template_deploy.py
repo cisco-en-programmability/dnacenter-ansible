@@ -10,6 +10,7 @@ module: configuration_template_deploy
 short_description: Resource module for Configuration Template Deploy
 description:
 - Manage operation create of the resource Configuration Template Deploy.
+- API to deploy a template.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -57,11 +58,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Configuration Template Deploy reference
-  description: Complete reference of the Configuration Template Deploy object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.deploy_template
+  - Paths used are post /dna/intent/api/v1/template-programmer/template/deploy
 """
 
 EXAMPLES = r"""

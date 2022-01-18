@@ -10,6 +10,8 @@ module: issues_enrichment_details_info
 short_description: Information module for Issues Enrichment Details
 description:
 - Get all Issues Enrichment Details.
+- Enriches a given network issue context an issue id or end user's Mac Address
+  with details about the issue(s), impacted hosts and suggested actions for remediation.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,11 +23,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Issues Enrichment Details reference
-  description: Complete reference of the Issues Enrichment Details object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    issues.Issues.get_issue_enrichment_details
+  - Paths used are get /dna/intent/api/v1/issue-enrichment-details
 """
 
 EXAMPLES = r"""

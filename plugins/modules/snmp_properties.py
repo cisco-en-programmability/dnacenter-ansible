@@ -10,6 +10,7 @@ module: snmp_properties
 short_description: Resource module for Snmp Properties
 description:
 - Manage operation create of the resource Snmp Properties.
+- Adds SNMP properties.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -37,11 +38,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Snmp Properties reference
-  description: Complete reference of the Snmp Properties object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    discovery.Discovery.create_update_snmp_properties
+  - Paths used are post /dna/intent/api/v1/snmp-property
 """
 
 EXAMPLES = r"""

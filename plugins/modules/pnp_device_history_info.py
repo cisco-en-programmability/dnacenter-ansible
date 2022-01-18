@@ -10,6 +10,7 @@ module: pnp_device_history_info
 short_description: Information module for Pnp Device History
 description:
 - Get all Pnp Device History.
+- Returns history for a specific device. Serial number is a required parameter.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -33,11 +34,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Pnp Device History reference
-  description: Complete reference of the Pnp Device History object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.get_device_history
+  - Paths used are get /dna/intent/api/v1/onboarding/pnp-device/history
 """
 
 EXAMPLES = r"""

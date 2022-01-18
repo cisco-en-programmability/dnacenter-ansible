@@ -10,6 +10,8 @@ module: sda_fabric_edge_device
 short_description: Resource module for Sda Fabric Edge Device
 description:
 - Manage operations create and delete of the resource Sda Fabric Edge Device.
+- Add edge device in SDA Fabric.
+- Delete edge device from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -25,11 +27,11 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Sda Fabric Edge Device reference
-  description: Complete reference of the Sda Fabric Edge Device object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    sda.Sda.add_edge_device
+  - Paths used are post /dna/intent/api/v1/business/sda/edge-device,
+    delete /dna/intent/api/v1/business/sda/edge-device
 """
 
 EXAMPLES = r"""

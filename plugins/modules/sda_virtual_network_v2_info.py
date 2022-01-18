@@ -10,6 +10,7 @@ module: sda_virtual_network_v2_info
 short_description: Information module for Sda Virtual Network V2
 description:
 - Get all Sda Virtual Network V2.
+- Get virtual network with scalable groups.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,11 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Sda Virtual Network V2 reference
-  description: Complete reference of the Sda Virtual Network V2 object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    sda.Sda.get_virtual_network_with_scalable_groups
+  - Paths used are get /dna/intent/api/v1/virtual-network
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,7 @@ module: license_smart_account_details_info
 short_description: Information module for License Smart Account Details
 description:
 - Get all License Smart Account Details.
+- Get detail of all smart accounts.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,11 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: License Smart Account Details reference
-  description: Complete reference of the License Smart Account Details object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    licenses.Licenses.smart_account_details
+  - Paths used are get /dna/intent/api/v1/licenses/smartAccounts
 """
 
 EXAMPLES = r"""

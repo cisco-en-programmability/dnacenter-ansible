@@ -10,6 +10,7 @@ module: sda_virtual_network_ip_pool_info
 short_description: Information module for Sda Virtual Network Ip Pool
 description:
 - Get all Sda Virtual Network Ip Pool.
+- Get IP Pool from SDA Virtual Network.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -29,11 +30,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Sda Virtual Network Ip Pool reference
-  description: Complete reference of the Sda Virtual Network Ip Pool object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    sda.Sda.get_ip_pool_from_sda_virtual_network
+  - Paths used are get /dna/intent/api/v1/business/sda/virtualnetwork/ippool
 """
 
 EXAMPLES = r"""

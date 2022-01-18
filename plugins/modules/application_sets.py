@@ -10,6 +10,8 @@ module: application_sets
 short_description: Resource module for Application Sets
 description:
 - Manage operations create and delete of the resource Application Sets.
+- Delete existing application-set by it's id.
+- Create new custom application-set/s.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -28,11 +30,11 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Application Sets reference
-  description: Complete reference of the Application Sets object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    application_policy.ApplicationPolicy.create_application_set
+  - Paths used are delete /dna/intent/api/v1/application-policy-application-set,
+    post /dna/intent/api/v1/application-policy-application-set
 """
 
 EXAMPLES = r"""

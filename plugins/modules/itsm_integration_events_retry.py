@@ -10,6 +10,10 @@ module: itsm_integration_events_retry
 short_description: Resource module for Itsm Integration Events Retry
 description:
 - Manage operation create of the resource Itsm Integration Events Retry.
+- Allows retry of multiple failed ITSM event instances.
+  The retry request payload can be given as a list of strings.
+  A minimum of one instance Id is mandatory.
+  The list of failed event instance Ids can be retrieved using the Get Failed ITSM Events API in the instanceId attribute.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -22,11 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Itsm Integration Events Retry reference
-  description: Complete reference of the Itsm Integration Events Retry object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    itsm.Itsm.retry_integration_events
+  - Paths used are post /dna/intent/api/v1/integration/events
 """
 
 EXAMPLES = r"""

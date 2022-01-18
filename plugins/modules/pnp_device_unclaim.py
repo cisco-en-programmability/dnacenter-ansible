@@ -10,6 +10,7 @@ module: pnp_device_unclaim
 short_description: Resource module for Pnp Device Unclaim
 description:
 - Manage operation create of the resource Pnp Device Unclaim.
+- Un-Claims one of more devices with specified workflow.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -22,11 +23,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Pnp Device Unclaim reference
-  description: Complete reference of the Pnp Device Unclaim object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.un_claim_device
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/unclaim
 """
 
 EXAMPLES = r"""

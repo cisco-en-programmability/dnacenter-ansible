@@ -11,6 +11,9 @@ short_description: Information module for Network Device
 description:
 - Get all Network Device.
 - Get Network Device by id.
+- Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, etc.
+  If id parameter is provided with comma separated ids, it will return the list of network-devices for the given ids and ignores the other request parameters.
+- Returns the network device details for the given device ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -152,11 +155,12 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Network Device reference
-  description: Complete reference of the Network Device object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    devices.Devices.get_device_by_id,
+    devices.Devices.get_device_list
+  - Paths used are get /dna/intent/api/v1/network-device,
+    get /dna/intent/api/v1/network-device/{id}
 """
 
 EXAMPLES = r"""

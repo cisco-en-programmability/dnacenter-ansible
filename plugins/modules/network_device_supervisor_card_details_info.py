@@ -10,6 +10,7 @@ module: network_device_supervisor_card_details_info
 short_description: Information module for Network Device Supervisor Card Details
 description:
 - Get all Network Device Supervisor Card Details.
+- Get supervisor card detail for a given deviceuuid. Response will contain serial no, part no, switch no and slot no.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,11 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Network Device Supervisor Card Details reference
-  description: Complete reference of the Network Device Supervisor Card Details object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    devices.Devices.get_supervisor_card_detail
+  - Paths used are get /dna/intent/api/v1/network-device/{deviceUuid}/supervisor-card
 """
 
 EXAMPLES = r"""

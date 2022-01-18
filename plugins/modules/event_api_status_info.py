@@ -10,6 +10,7 @@ module: event_api_status_info
 short_description: Information module for Event Api Status
 description:
 - Get Event Api Status by id.
+- Get the Status of events API calls with provided executionId as mandatory path parameter.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,11 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Event Api Status reference
-  description: Complete reference of the Event Api Status object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    event_management.EventManagement.get_status_api_for_events
+  - Paths used are get /dna/intent/api/v1/event/api-status/{executionId}
 """
 
 EXAMPLES = r"""

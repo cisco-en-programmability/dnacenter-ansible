@@ -10,6 +10,7 @@ module: discovery_count_info
 short_description: Information module for Discovery Count
 description:
 - Get all Discovery Count.
+- Returns the count of all available discovery jobs.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,11 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Discovery Count reference
-  description: Complete reference of the Discovery Count object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    discovery.Discovery.get_count_of_all_discovery_jobs
+  - Paths used are get /dna/intent/api/v1/discovery/count
 """
 
 EXAMPLES = r"""

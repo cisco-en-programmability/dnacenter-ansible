@@ -10,6 +10,9 @@ module: event_subscription
 short_description: Resource module for Event Subscription
 description:
 - Manage operations create, update and delete of the resource Event Subscription.
+- Delete EventSubscriptions.
+- Update SubscriptionEndpoint to list of registered events.
+- Subscribe SubscriptionEndpoint to list of registered events.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -68,11 +71,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Event Subscription reference
-  description: Complete reference of the Event Subscription object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    event_management.EventManagement.update_event_subscriptions,
+    event_management.EventManagement.create_event_subscriptions
+  - Paths used are delete /dna/intent/api/v1/event/subscription,
+    put /dna/intent/api/v1/event/subscription,
+    post /dna/intent/api/v1/event/subscription
 """
 
 EXAMPLES = r"""

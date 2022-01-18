@@ -10,6 +10,7 @@ module: discovery_range_delete
 short_description: Resource module for Discovery Range Delete
 description:
 - Manage operation delete of the resource Discovery Range Delete.
+- Stops discovery for the given range and removes them.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,11 +25,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Discovery Range Delete reference
-  description: Complete reference of the Discovery Range Delete object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    discovery.Discovery.delete_discovery_by_specified_range
+  - Paths used are delete /dna/intent/api/v1/discovery/{startIndex}/{recordsToDelete}
 """
 
 EXAMPLES = r"""

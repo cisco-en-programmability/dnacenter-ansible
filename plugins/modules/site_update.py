@@ -10,6 +10,7 @@ module: site_update
 short_description: Resource module for Site Update
 description:
 - Manage operation update of the resource Site Update.
+- Update site area/building/floor with specified hierarchy and new values.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -77,11 +78,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Site Update reference
-  description: Complete reference of the Site Update object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    sites.Sites.update_site
+  - Paths used are put /dna/intent/api/v1/site/{siteId}
 """
 
 EXAMPLES = r"""

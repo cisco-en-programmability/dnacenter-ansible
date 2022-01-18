@@ -10,6 +10,7 @@ module: security_advisories_devices_info
 short_description: Information module for Security Advisories Devices
 description:
 - Get all Security Advisories Devices.
+- Retrieves list of devices for an advisory.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,11 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Security Advisories Devices reference
-  description: Complete reference of the Security Advisories Devices object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    security_advisories.SecurityAdvisories.get_devices_per_advisory
+  - Paths used are get /dna/intent/api/v1/security-advisory/advisory/{advisoryId}/device
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,7 @@ module: network_device_range_info
 short_description: Information module for Network Device Range
 description:
 - Get all Network Device Range.
+- Returns the list of network devices for the given pagination range.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -29,11 +30,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Network Device Range reference
-  description: Complete reference of the Network Device Range object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    devices.Devices.get_network_device_by_pagination_range
+  - Paths used are get /dna/intent/api/v1/network-device/{startIndex}/{recordsToReturn}
 """
 
 EXAMPLES = r"""

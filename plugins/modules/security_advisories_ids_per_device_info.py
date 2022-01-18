@@ -10,6 +10,7 @@ module: security_advisories_ids_per_device_info
 short_description: Information module for Security Advisories Ids Per Device
 description:
 - Get Security Advisories Ids Per Device by id.
+- Retrieves list of advisory IDs for a device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,11 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Security Advisories Ids Per Device reference
-  description: Complete reference of the Security Advisories Ids Per Device object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    security_advisories.SecurityAdvisories.get_advisory_ids_per_device
+  - Paths used are get /dna/intent/api/v1/security-advisory/device/{deviceId}
 """
 
 EXAMPLES = r"""

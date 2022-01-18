@@ -10,6 +10,7 @@ module: network_device_lexicographically_sorted_info
 short_description: Information module for Network Device Lexicographically Sorted
 description:
 - Get all Network Device Lexicographically Sorted.
+- Returns the list of values of the first given required parameter.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -109,11 +110,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Network Device Lexicographically Sorted reference
-  description: Complete reference of the Network Device Lexicographically Sorted object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    devices.Devices.get_device_values_that_match_fully_or_partially_an_attribute
+  - Paths used are get /dna/intent/api/v1/network-device/autocomplete
 """
 
 EXAMPLES = r"""

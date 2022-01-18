@@ -10,6 +10,7 @@ module: wireless_provision_access_point
 short_description: Resource module for Wireless Provision Access Point
 description:
 - Manage operation create of the resource Wireless Provision Access Point.
+- Access Point Provision and ReProvision.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -44,11 +45,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Wireless Provision Access Point reference
-  description: Complete reference of the Wireless Provision Access Point object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    wireless.Wireless.ap_provision
+  - Paths used are post /dna/intent/api/v1/wireless/ap-provision
 """
 
 EXAMPLES = r"""

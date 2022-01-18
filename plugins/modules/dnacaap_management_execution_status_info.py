@@ -10,6 +10,7 @@ module: dnacaap_management_execution_status_info
 short_description: Information module for Dnacaap Management Execution Status
 description:
 - Get Dnacaap Management Execution Status by id.
+- Retrieves the execution details of a Business API.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,11 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Dnacaap Management Execution Status reference
-  description: Complete reference of the Dnacaap Management Execution Status object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    task.Task.get_business_api_execution_details
+  - Paths used are get /dna/intent/api/v1/dnacaap/management/execution-status/{executionId}
 """
 
 EXAMPLES = r"""

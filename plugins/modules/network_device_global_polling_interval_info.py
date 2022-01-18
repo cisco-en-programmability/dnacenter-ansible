@@ -10,6 +10,7 @@ module: network_device_global_polling_interval_info
 short_description: Information module for Network Device Global Polling Interval
 description:
 - Get all Network Device Global Polling Interval.
+- Returns polling interval of all devices.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,11 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Network Device Global Polling Interval reference
-  description: Complete reference of the Network Device Global Polling Interval object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    devices.Devices.get_polling_interval_for_all_devices
+  - Paths used are get /dna/intent/api/v1/network-device/collection-schedule/global
 """
 
 EXAMPLES = r"""

@@ -10,6 +10,7 @@ module: authentication_import_certificate
 short_description: Resource module for Authentication Import Certificate
 description:
 - Manage operation create of the resource Authentication Import Certificate.
+- This method is used to upload a certificate.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -30,11 +31,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-seealso:
-# Reference by Internet resource
-- name: Authentication Import Certificate reference
-  description: Complete reference of the Authentication Import Certificate object model.
-  link: https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    authentication_management.AuthenticationManagement.import_certificate
+  - Paths used are post /dna/intent/api/v1/certificate
 """
 
 EXAMPLES = r"""
