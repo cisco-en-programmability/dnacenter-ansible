@@ -1,0 +1,1195 @@
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-entry
+.. role:: ansible-option-default
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.templates_details_info_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.templates_details_info -- Information module for Templates Details
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
+
+    You might already have this collection installed if you are using the ``ansible`` package.
+    It is not included in ``ansible-core``.
+    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.templates_details_info`.
+
+.. version_added
+
+.. versionadded:: 4.0.0 of cisco.dnac
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Get all Templates Details.
+- Get template(s) details.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk >= 2.4.0
+- python >= 3.5
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-allTemplateAttributes"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-allTemplateAttributes:
+
+      .. rst-class:: ansible-option-title
+
+      **allTemplateAttributes**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-allTemplateAttributes" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      AllTemplateAttributes query parameter. Return all template attributes.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filterConflictingTemplates"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-filterConflictingTemplates:
+
+      .. rst-class:: ansible-option-title
+
+      **filterConflictingTemplates**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filterConflictingTemplates" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      FilterConflictingTemplates query parameter. Filter template(s) based on confliting templates.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-headers:
+
+      .. rst-class:: ansible-option-title
+
+      **headers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id query parameter. Id of template to be searched.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-includeVersionDetails"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-includeVersionDetails:
+
+      .. rst-class:: ansible-option-title
+
+      **includeVersionDetails**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-includeVersionDetails" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IncludeVersionDetails query parameter. Include template version details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-limit"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-limit:
+
+      .. rst-class:: ansible-option-title
+
+      **limit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Limit query parameter. Limits number of results.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-name"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Name query parameter. Name of template to be searched.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-offset"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-offset:
+
+      .. rst-class:: ansible-option-title
+
+      **offset**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Offset query parameter. Index of first result.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-productFamily"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-productFamily:
+
+      .. rst-class:: ansible-option-title
+
+      **productFamily**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-productFamily" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ProductFamily query parameter. Filter template(s) based on device family.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-productSeries"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-productSeries:
+
+      .. rst-class:: ansible-option-title
+
+      **productSeries**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-productSeries" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ProductSeries query parameter. Filter template(s) based on device series.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-productType"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-productType:
+
+      .. rst-class:: ansible-option-title
+
+      **productType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-productType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ProductType query parameter. Filter template(s) based on device type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-projectId"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-projectId:
+
+      .. rst-class:: ansible-option-title
+
+      **projectId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-projectId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ProjectId query parameter. Filter template(s) based on project id.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-projectName"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-projectName:
+
+      .. rst-class:: ansible-option-title
+
+      **projectName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-projectName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ProjectName query parameter. Filter template(s) based on project name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-softwareType"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-softwareType:
+
+      .. rst-class:: ansible-option-title
+
+      **softwareType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-softwareType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SoftwareType query parameter. Filter template(s) based software type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-softwareVersion"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-softwareVersion:
+
+      .. rst-class:: ansible-option-title
+
+      **softwareVersion**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-softwareVersion" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SoftwareVersion query parameter. Filter template(s) based softwareVersion.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sortOrder"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-sortOrder:
+
+      .. rst-class:: ansible-option-title
+
+      **sortOrder**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sortOrder" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SortOrder query parameter. Sort Order Ascending (asc) or Descending (dsc).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tags"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-tags:
+
+      .. rst-class:: ansible-option-title
+
+      **tags**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tags" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Tags query parameter. Filter template(s) based on tags.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-unCommitted"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-unCommitted:
+
+      .. rst-class:: ansible-option-title
+
+      **unCommitted**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-unCommitted" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      UnCommitted query parameter. Return uncommitted template.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are configuration_templates.ConfigurationTemplates.get_templates_details
+   - Paths used are get /dna/intent/api/v2/template-programmer/template
+   - Supports \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
+   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Get all Templates Details
+      cisco.dnac.templates_details_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers:
+          custom: value
+        id: string
+        name: string
+        projectId: string
+        projectName: string
+        softwareType: string
+        softwareVersion: string
+        productFamily: string
+        productSeries: string
+        productType: string
+        filterConflictingTemplates: True
+        tags: []
+        unCommitted: True
+        sortOrder: string
+        allTemplateAttributes: True
+        includeVersionDetails: True
+        offset: 0
+        limit: 0
+      register: result
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` "{\\n  \\"response\\": [\\n    {\\n      \\"author\\": \\"string\\",\\n      \\"composite\\": true,\\n      \\"containingTemplates\\": [\\n        {\\n          \\"composite\\": true,\\n          \\"description\\": \\"string\\",\\n          \\"deviceTypes\\": [\\n            {\\n              \\"productFamily\\": \\"string\\",\\n              \\"productSeries\\": \\"string\\",\\n              \\"productType\\": \\"string\\"\\n            }\\n          ],\\n          \\"id\\": \\"string\\",\\n          \\"language\\": \\"string\\",\\n          \\"name\\": \\"string\\",\\n          \\"projectName\\": \\"string\\",\\n          \\"rollbackTemplateParams\\": [\\n            {\\n              \\"binding\\": \\"string\\",\\n              \\"customOrder\\": 0,\\n              \\"dataType\\": \\"string\\",\\n              \\"defaultValue\\": \\"string\\",\\n              \\"description\\": \\"string\\",\\n              \\"displayName\\": \\"string\\",\\n              \\"group\\": \\"string\\",\\n              \\"id\\": \\"string\\",\\n              \\"instructionText\\": \\"string\\",\\n              \\"key\\": \\"string\\",\\n              \\"notParam\\": true,\\n              \\"order\\": 0,\\n              \\"paramArray\\": true,\\n              \\"parameterName\\": \\"string\\",\\n              \\"provider\\": \\"string\\",\\n              \\"range\\": [\\n                {\\n                  \\"id\\": \\"string\\",\\n                  \\"maxValue\\": 0,\\n                  \\"minValue\\": 0\\n                }\\n              ],\\n              \\"required\\": true,\\n              \\"selection\\": {\\n                \\"defaultSelectedValues\\": [\\n                  \\"string\\"\\n                ],\\n                \\"id\\": \\"string\\",\\n                \\"selectionType\\": \\"string\\",\\n                \\"selectionValues\\": {}\\n              }\\n            }\\n          ],\\n          \\"tags\\": [\\n            {\\n              \\"id\\": \\"string\\",\\n              \\"name\\": \\"string\\"\\n            }\\n          ],\\n          \\"templateContent\\": \\"string\\",\\n          \\"templateParams\\": [\\n            {\\n              \\"binding\\": \\"string\\",\\n              \\"customOrder\\": 0,\\n              \\"dataType\\": \\"string\\",\\n              \\"defaultValue\\": \\"string\\",\\n              \\"description\\": \\"string\\",\\n              \\"displayName\\": \\"string\\",\\n              \\"group\\": \\"string\\",\\n              \\"id\\": \\"string\\",\\n              \\"instructionText\\": \\"string\\",\\n              \\"key\\": \\"string\\",\\n              \\"notParam\\": true,\\n              \\"order\\": 0,\\n              \\"paramArray\\": true,\\n              \\"parameterName\\": \\"string\\",\\n              \\"provider\\": \\"string\\",\\n              \\"range\\": [\\n                {\\n                  \\"id\\": \\"string\\",\\n                  \\"maxValue\\": 0,\\n                  \\"minValue\\": 0\\n                }\\n              ],\\n              \\"required\\": true,\\n              \\"selection\\": {\\n                \\"defaultSelectedValues\\": [\\n                  \\"string\\"\\n                ],\\n                \\"id\\": \\"string\\",\\n                \\"selectionType\\": \\"string\\",\\n                \\"selectionValues\\": {}\\n              }\\n            }\\n          ],\\n          \\"version\\": \\"string\\"\\n        }\\n      ],\\n      \\"createTime\\": 0,\\n      \\"customParamsOrder\\": true,\\n      \\"description\\": \\"string\\",\\n      \\"deviceTypes\\": [\\n        {\\n          \\"productFamily\\": \\"string\\",\\n          \\"productSeries\\": \\"string\\",\\n          \\"productType\\": \\"string\\"\\n        }\\n      ],\\n      \\"documentDatabase\\": true,\\n      \\"failurePolicy\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"language\\": \\"string\\",\\n      \\"lastUpdateTime\\": 0,\\n      \\"latestVersionTime\\": 0,\\n      \\"name\\": \\"string\\",\\n      \\"parentTemplateId\\": \\"string\\",\\n      \\"projectAssociated\\": true,\\n      \\"projectId\\": \\"string\\",\\n      \\"projectName\\": \\"string\\",\\n      \\"rollbackTemplateContent\\": \\"string\\",\\n      \\"rollbackTemplateParams\\": [\\n        {\\n          \\"binding\\": \\"string\\",\\n          \\"customOrder\\": 0,\\n          \\"dataType\\": \\"string\\",\\n          \\"defaultValue\\": \\"string\\",\\n          \\"description\\": \\"string\\",\\n          \\"displayName\\": \\"string\\",\\n          \\"group\\": \\"string\\",\\n          \\"id\\": \\"string\\",\\n          \\"instructionText\\": \\"string\\",\\n          \\"key\\": \\"string\\",\\n          \\"notParam\\": true,\\n          \\"order\\": 0,\\n          \\"paramArray\\": true,\\n          \\"parameterName\\": \\"string\\",\\n          \\"provider\\": \\"string\\",\\n          \\"range\\": [\\n            {\\n              \\"id\\": \\"string\\",\\n              \\"maxValue\\": 0,\\n              \\"minValue\\": 0\\n            }\\n          ],\\n          \\"required\\": true,\\n          \\"selection\\": {\\n            \\"defaultSelectedValues\\": [\\n              \\"string\\"\\n            ],\\n            \\"id\\": \\"string\\",\\n            \\"selectionType\\": \\"string\\",\\n            \\"selectionValues\\": {}\\n          }\\n        }\\n      ],\\n      \\"softwareType\\": \\"string\\",\\n      \\"softwareVariant\\": \\"string\\",\\n      \\"softwareVersion\\": \\"string\\",\\n      \\"tags\\": [\\n        {\\n          \\"id\\": \\"string\\",\\n          \\"name\\": \\"string\\"\\n        }\\n      ],\\n      \\"templateContent\\": \\"string\\",\\n      \\"templateParams\\": [\\n        {\\n          \\"binding\\": \\"string\\",\\n          \\"customOrder\\": 0,\\n          \\"dataType\\": \\"string\\",\\n          \\"defaultValue\\": \\"string\\",\\n          \\"description\\": \\"string\\",\\n          \\"displayName\\": \\"string\\",\\n          \\"group\\": \\"string\\",\\n          \\"id\\": \\"string\\",\\n          \\"instructionText\\": \\"string\\",\\n          \\"key\\": \\"string\\",\\n          \\"notParam\\": true,\\n          \\"order\\": 0,\\n          \\"paramArray\\": true,\\n          \\"parameterName\\": \\"string\\",\\n          \\"provider\\": \\"string\\",\\n          \\"range\\": [\\n            {\\n              \\"id\\": \\"string\\",\\n              \\"maxValue\\": 0,\\n              \\"minValue\\": 0\\n            }\\n          ],\\n          \\"required\\": true,\\n          \\"selection\\": {\\n            \\"defaultSelectedValues\\": [\\n              \\"string\\"\\n            ],\\n            \\"id\\": \\"string\\",\\n            \\"selectionType\\": \\"string\\",\\n            \\"selectionValues\\": {}\\n          }\\n        }\\n      ],\\n      \\"validationErrors\\": {\\n        \\"rollbackTemplateErrors\\": [\\n          {}\\n        ],\\n        \\"templateErrors\\": [\\n          {}\\n        ],\\n        \\"templateId\\": \\"string\\",\\n        \\"templateVersion\\": \\"string\\"\\n      },\\n      \\"version\\": \\"string\\",\\n      \\"versionsInfo\\": [\\n        {\\n          \\"author\\": \\"string\\",\\n          \\"description\\": \\"string\\",\\n          \\"id\\": \\"string\\",\\n          \\"version\\": \\"string\\",\\n          \\"versionComment\\": \\"string\\",\\n          \\"versionTime\\": 0\\n        }\\n      ]\\n    }\\n  ],\\n  \\"version\\": \\"string\\"\\n}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Parsing errors
+
