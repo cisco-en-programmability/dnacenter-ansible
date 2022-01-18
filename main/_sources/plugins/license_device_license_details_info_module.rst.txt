@@ -42,7 +42,7 @@ cisco.dnac.license_device_license_details_info -- Information module for License
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,7 @@ Synopsis
 .. Description
 
 - Get all License Device License Details.
+- Get detailed license information of a device.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -490,19 +491,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are licenses.Licenses.device_license_details
+   - Paths used are get /dna/intent/api/v1/licenses/device/{device_uuid}/details
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `License Device License Details reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the License Device License Details object model.
 
 .. Examples
 
@@ -567,6 +563,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -582,6 +583,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "[\\n  {\\n    \\"device\_uuid\\": \\"string\\",\\n    \\"site\\": \\"string\\",\\n    \\"model\\": \\"string\\",\\n    \\"license\_mode\\": \\"string\\",\\n    \\"is\_license\_expired\\": true,\\n    \\"software\_version\\": \\"string\\",\\n    \\"network\_license\\": \\"string\\",\\n    \\"evaluation\_license\_expiry\\": \\"string\\",\\n    \\"device\_name\\": \\"string\\",\\n    \\"device\_type\\": \\"string\\",\\n    \\"dna\_level\\": \\"string\\",\\n    \\"virtual\_account\_name\\": \\"string\\",\\n    \\"ip\_address\\": \\"string\\",\\n    \\"mac\_address\\": \\"string\\",\\n    \\"sntc\_status\\": \\"string\\",\\n    \\"feature\_license\\": [\\n      \\"string\\"\\n    ],\\n    \\"has\_sup\_cards\\": true,\\n    \\"udi\\": \\"string\\",\\n    \\"stacked\_devices\\": [\\n      {\\n        \\"mac\_address\\": \\"string\\",\\n        \\"id\\": \\"string\\",\\n        \\"role\\": \\"string\\",\\n        \\"serial\_number\\": \\"string\\"\\n      }\\n    ],\\n    \\"is\_stacked\_device\\": true,\\n    \\"access\_points\\": [\\n      {\\n        \\"ap\_type\\": \\"string\\",\\n        \\"count\\": \\"string\\"\\n      }\\n    ],\\n    \\"chassis\_details\\": {\\n      \\"board\_serial\_number\\": \\"string\\",\\n      \\"modules\\": [\\n        {\\n          \\"module\_type\\": \\"string\\",\\n          \\"module\_name\\": \\"string\\",\\n          \\"serial\_number\\": \\"string\\",\\n          \\"id\\": \\"string\\"\\n        }\\n      ],\\n      \\"supervisor\_cards\\": [\\n        {\\n          \\"serial\_number\\": \\"string\\",\\n          \\"supervisor\_card\_type\\": \\"string\\",\\n          \\"status\\": \\"string\\"\\n        }\\n      ],\\n      \\"port\\": 0\\n    }\\n  }\\n]\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

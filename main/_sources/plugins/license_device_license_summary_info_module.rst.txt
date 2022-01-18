@@ -42,7 +42,7 @@ cisco.dnac.license_device_license_summary_info -- Information module for License
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,7 @@ Synopsis
 .. Description
 
 - Get all License Device License Summary.
+- Show license summary of device(s).
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -796,19 +797,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are licenses.Licenses.device_license_summary
+   - Paths used are get /dna/intent/api/v1/licenses/device/summary
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `License Device License Summary reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the License Device License Summary object model.
 
 .. Examples
 
@@ -882,6 +878,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -897,6 +898,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "[\\n  {\\n    \\"authorization\_status\\": \\"string\\",\\n    \\"last\_updated\_time\\": \\"string\\",\\n    \\"is\_performance\_allowed\\": true,\\n    \\"sle\_auth\_code\\": \\"string\\",\\n    \\"throughput\_level\\": \\"string\\",\\n    \\"hsec\_status\\": \\"string\\",\\n    \\"device\_uuid\\": \\"string\\",\\n    \\"site\\": \\"string\\",\\n    \\"total\_access\_point\_count\\": 0,\\n    \\"model\\": \\"string\\",\\n    \\"is\_wireless\_capable\\": true,\\n    \\"registration\_status\\": \\"string\\",\\n    \\"sle\_state\\": \\"string\\",\\n    \\"performance\_license\\": \\"string\\",\\n    \\"license\_mode\\": \\"string\\",\\n    \\"is\_license\_expired\\": true,\\n    \\"software\_version\\": \\"string\\",\\n    \\"reservation\_status\\": \\"string\\",\\n    \\"is\_wireless\\": true,\\n    \\"network\_license\\": \\"string\\",\\n    \\"evaluation\_license\_expiry\\": \\"string\\",\\n    \\"wireless\_capable\_network\_license\\": \\"string\\",\\n    \\"device\_name\\": \\"string\\",\\n    \\"device\_type\\": \\"string\\",\\n    \\"dna\_level\\": \\"string\\",\\n    \\"virtual\_account\_name\\": \\"string\\",\\n    \\"last\_successful\_rum\_usage\_upload\_time\\": \\"string\\",\\n    \\"ip\_address\\": \\"string\\",\\n    \\"wireless\_capable\_dna\_license\\": \\"string\\",\\n    \\"mac\_address\\": \\"string\\",\\n    \\"customer\_tag1\\": \\"string\\",\\n    \\"customer\_tag2\\": \\"string\\",\\n    \\"customer\_tag3\\": \\"string\\",\\n    \\"customer\_tag4\\": \\"string\\",\\n    \\"smart\_account\_name\\": \\"string\\"\\n  }\\n]\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

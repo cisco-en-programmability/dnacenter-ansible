@@ -42,7 +42,7 @@ cisco.dnac.golden_image_create -- Resource module for Golden Image Create
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,7 @@ Synopsis
 .. Description
 
 - Manage operation create of the resource Golden Image Create.
+- Golden Tag image. Set siteId as -1 for Global site.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -558,19 +559,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image
+   - Paths used are post /dna/intent/api/v1/image/importation/golden
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Golden Image Create reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Golden Image Create object model.
 
 .. Examples
 
@@ -635,6 +631,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -650,6 +651,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "{\\n  \\"version\\": \\"string\\",\\n  \\"response\\": {\\n    \\"url\\": \\"string\\",\\n    \\"taskId\\": \\"string\\"\\n  }\\n}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

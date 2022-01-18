@@ -42,7 +42,7 @@ cisco.dnac.network_device_stack_details_info -- Information module for Network D
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,7 @@ Synopsis
 .. Description
 
 - Get all Network Device Stack Details.
+- Retrieves complete stack details for given device ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -490,19 +491,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are devices.Devices.get_stack_details_for_device
+   - Paths used are get /dna/intent/api/v1/network-device/{deviceId}/stack
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Network Device Stack Details reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Network Device Stack Details object model.
 
 .. Examples
 
@@ -567,6 +563,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -582,6 +583,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "{\\n  \\"response\\": {\\n    \\"deviceId\\": \\"string\\",\\n    \\"stackPortInfo\\": [\\n      {\\n        \\"isSynchOk\\": \\"string\\",\\n        \\"linkActive\\": true,\\n        \\"linkOk\\": true,\\n        \\"name\\": \\"string\\",\\n        \\"neighborPort\\": \\"string\\",\\n        \\"nrLinkOkChanges\\": 0,\\n        \\"stackCableLengthInfo\\": \\"string\\",\\n        \\"stackPortOperStatusInfo\\": \\"string\\",\\n        \\"switchPort\\": \\"string\\"\\n      }\\n    ],\\n    \\"stackSwitchInfo\\": [\\n      {\\n        \\"entPhysicalIndex\\": \\"string\\",\\n        \\"hwPriority\\": 0,\\n        \\"macAddress\\": \\"string\\",\\n        \\"numNextReload\\": 0,\\n        \\"platformId\\": \\"string\\",\\n        \\"role\\": \\"string\\",\\n        \\"serialNumber\\": \\"string\\",\\n        \\"softwareImage\\": \\"string\\",\\n        \\"stackMemberNumber\\": 0,\\n        \\"state\\": \\"string\\",\\n        \\"switchPriority\\": 0\\n      }\\n    ],\\n    \\"svlSwitchInfo\\": [\\n      {\\n        \\"dadProtocol\\": \\"string\\",\\n        \\"dadRecoveryReloadEnabled\\": true,\\n        \\"domainNumber\\": 0,\\n        \\"inDadRecoveryMode\\": true,\\n        \\"swVirtualStatus\\": \\"string\\",\\n        \\"switchMembers\\": [\\n          {\\n            \\"bandwidth\\": \\"string\\",\\n            \\"svlMemberEndPoints\\": [\\n              {\\n                \\"svlMemberEndPointPorts\\": [\\n                  {\\n                    \\"svlProtocolStatus\\": \\"string\\",\\n                    \\"swLocalInterface\\": \\"string\\",\\n                    \\"swRemoteInterface\\": \\"string\\"\\n                  }\\n                ],\\n                \\"svlNumber\\": 0,\\n                \\"svlStatus\\": \\"string\\"\\n              }\\n            ],\\n            \\"svlMemberNumber\\": 0,\\n            \\"svlMemberPepSettings\\": [\\n              {\\n                \\"dadEnabled\\": true,\\n                \\"dadInterfaceName\\": \\"string\\"\\n              }\\n            ]\\n          }\\n        ]\\n      }\\n    ]\\n  },\\n  \\"version\\": \\"string\\"\\n}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

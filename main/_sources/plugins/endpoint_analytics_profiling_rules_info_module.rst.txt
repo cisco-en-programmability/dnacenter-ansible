@@ -42,7 +42,7 @@ cisco.dnac.endpoint_analytics_profiling_rules_info -- Information module for End
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,7 +69,8 @@ Synopsis
 .. Description
 
 - Get all Endpoint Analytics Profiling Rules.
-- Get Endpoint Analytics Profiling Rules by id.
+- This API fetches the list of profiling rules. It can be used to show profiling rules in client applications, or export those from an environment. 'POST /profiling-rules/bulk' API can be used to import such exported rules into another environment. If this API is used to export rules to be imported into another Cisco DNA Center system, then ensure that 'includeDeleted' parameter is 'true', so that deleted rules get synchronized correctly. Use query parameters to filter the data, as required. If no filter is provided, then it will include only rules of type 'Custom Rule' in the response. By default, the response is limited to 500 records. Use 'limit' parameter to fetch higher number of records, if required. 'GET /profiling-rules/count' API can be used to find out the total number of rules in the system.
+- Fetches details of the profiling rule for the given 'ruleId'.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -704,19 +705,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are policy.Policy.get_list_of_profiling_rules, policy.Policy.get_details_of_a_single_profiling_rule
+   - Paths used are get /dna/intent/api/v1/endpoint-analytics/profiling-rules, get /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId}
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Endpoint Analytics Profiling Rules reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Endpoint Analytics Profiling Rules object model.
 
 .. Examples
 
@@ -800,6 +796,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -815,6 +816,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "{\\n  \\"ruleId\\": \\"string\\",\\n  \\"ruleName\\": \\"string\\",\\n  \\"ruleType\\": \\"string\\",\\n  \\"ruleVersion\\": 0,\\n  \\"rulePriority\\": 0,\\n  \\"sourcePriority\\": 0,\\n  \\"isDeleted\\": true,\\n  \\"lastModifiedBy\\": \\"string\\",\\n  \\"lastModifiedOn\\": 0,\\n  \\"pluginId\\": \\"string\\",\\n  \\"clusterId\\": \\"string\\",\\n  \\"rejected\\": true,\\n  \\"result\\": {\\n    \\"deviceType\\": [\\n      \\"string\\"\\n    ],\\n    \\"hardwareManufacturer\\": [\\n      \\"string\\"\\n    ],\\n    \\"hardwareModel\\": [\\n      \\"string\\"\\n    ],\\n    \\"operatingSystem\\": [\\n      \\"string\\"\\n    ]\\n  },\\n  \\"conditionGroups\\": {\\n    \\"type\\": \\"string\\",\\n    \\"condition\\": {\\n      \\"attribute\\": \\"string\\",\\n      \\"operator\\": \\"string\\",\\n      \\"value\\": \\"string\\",\\n      \\"attributeDictionary\\": \\"string\\"\\n    },\\n    \\"operator\\": \\"string\\",\\n    \\"conditionGroup\\": [\\n      {}\\n    ]\\n  },\\n  \\"usedAttributes\\": [\\n    \\"string\\"\\n  ]\\n}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

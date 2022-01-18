@@ -42,7 +42,7 @@ cisco.dnac.wireless_sensor_test_results_info -- Information module for Wireless 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,7 @@ Synopsis
 .. Description
 
 - Get all Wireless Sensor Test Results.
+- Intent API to get SENSOR test result summary.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -592,19 +593,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are wireless.Wireless.sensor_test_results
+   - Paths used are get /dna/intent/api/v1/AssuranceGetSensorTestResults
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Wireless Sensor Test Results reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Wireless Sensor Test Results object model.
 
 .. Examples
 
@@ -672,6 +668,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -687,6 +688,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "{\\n  \\"summary\\": {\\n    \\"totalTestCount\\": 0,\\n    \\"ONBOARDING\\": {\\n      \\"AUTH\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      },\\n      \\"DHCP\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      },\\n      \\"ASSOC\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      }\\n    },\\n    \\"PERFORMANCE\\": {\\n      \\"IPSLASENDER\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      }\\n    },\\n    \\"NETWORK\_SERVICES\\": {\\n      \\"DNS\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      }\\n    },\\n    \\"APP\_CONNECTIVITY\\": {\\n      \\"HOST\_REACHABILITY\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      },\\n      \\"WEBSERVER\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      },\\n      \\"FILETRANSFER\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      }\\n    },\\n    \\"RF\_ASSESSMENT\\": {\\n      \\"DATA\_RATE\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      },\\n      \\"SNR\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      }\\n    },\\n    \\"EMAIL\\": {\\n      \\"MAILSERVER\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      }\\n    }\\n  },\\n  \\"failureStats\\": [\\n    {\\n      \\"errorCode\\": 0,\\n      \\"errorTitle\\": \\"string\\",\\n      \\"testType\\": \\"string\\",\\n      \\"testCategory\\": \\"string\\"\\n    }\\n  ]\\n}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

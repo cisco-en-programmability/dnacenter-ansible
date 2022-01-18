@@ -42,7 +42,7 @@ cisco.dnac.reports_executions_info -- Information module for Reports Executions
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -70,6 +70,8 @@ Synopsis
 
 - Get all Reports Executions.
 - Get Reports Executions by id.
+- Get details of all executions for a given report.
+- Returns report content. Save the response to a file by converting the response data as a blob and setting the file format available from content-disposition response header.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -600,19 +602,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are reports.Reports.get_all_execution_details_for_a_given_report, reports.Reports.download_report_content
+   - Paths used are get /dna/intent/api/v1/data/reports/{reportId}/executions, get /dna/intent/api/v1/data/reports/{reportId}/executions/{executionId}
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Reports Executions reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Reports Executions object model.
 
 .. Examples
 
@@ -692,6 +689,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -707,6 +709,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "\\"\\u0027string\\u0027\\"\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

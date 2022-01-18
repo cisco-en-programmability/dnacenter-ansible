@@ -42,7 +42,7 @@ cisco.dnac.golden_tag_image_details_info -- Information module for Golden Tag Im
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,7 @@ Synopsis
 .. Description
 
 - Get Golden Tag Image Details by id.
+- Get golden tag status of an image. Set siteId as -1 for Global site.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -593,19 +594,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are software_image_management_swim.SoftwareImageManagementSwim.get_golden_tag_status_of_an_image
+   - Paths used are get /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId}
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Golden Tag Image Details reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Golden Tag Image Details object model.
 
 .. Examples
 
@@ -673,6 +669,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -688,6 +689,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "{\\n  \\"version\\": \\"string\\",\\n  \\"response\\": {\\n    \\"deviceRole\\": \\"string\\",\\n    \\"taggedGolden\\": true,\\n    \\"inheritedSiteName\\": \\"string\\",\\n    \\"inheritedSiteId\\": \\"string\\"\\n  }\\n}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)
