@@ -42,7 +42,7 @@ cisco.dnac.issues_info -- Information module for Issues
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,7 @@ Synopsis
 .. Description
 
 - Get all Issues.
+- Intent API to get a list of global issues, issues for a specific device, or issue for a specific client device's MAC address.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -730,19 +731,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are issues.Issues.issues
+   - Paths used are get /dna/intent/api/v1/issues
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Issues reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Issues object model.
 
 .. Examples
 
@@ -814,6 +810,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -829,6 +830,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "{\\n  \\"version\\": \\"string\\",\\n  \\"totalCount\\": 0,\\n  \\"response\\": [\\n    {\\n      \\"issueId\\": \\"string\\",\\n      \\"name\\": \\"string\\",\\n      \\"siteId\\": \\"string\\",\\n      \\"deviceId\\": \\"string\\",\\n      \\"deviceRole\\": \\"string\\",\\n      \\"aiDriven\\": true,\\n      \\"clientMac\\": \\"string\\",\\n      \\"issue\_occurence\_count\\": 0,\\n      \\"status\\": \\"string\\",\\n      \\"priority\\": \\"string\\",\\n      \\"category\\": \\"string\\",\\n      \\"last\_occurence\_time\\": 0\\n    }\\n  ]\\n}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

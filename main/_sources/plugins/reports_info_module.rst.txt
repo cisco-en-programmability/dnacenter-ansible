@@ -42,7 +42,7 @@ cisco.dnac.reports_info -- Information module for Reports
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -70,6 +70,8 @@ Synopsis
 
 - Get all Reports.
 - Get Reports by id.
+- Get list of scheduled report configurations.
+- Get scheduled report configuration by reportId.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -559,19 +561,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are reports.Reports.get_list_of_scheduled_reports, reports.Reports.get_a_scheduled_report
+   - Paths used are get /dna/intent/api/v1/data/reports, get /dna/intent/api/v1/data/reports/{reportId}
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Reports reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Reports object model.
 
 .. Examples
 
@@ -651,6 +648,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -666,6 +668,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "{\\n  \\"tags\\": [\\n    \\"string\\"\\n  ],\\n  \\"dataCategory\\": \\"string\\",\\n  \\"deliveries\\": [\\n    {}\\n  ],\\n  \\"executionCount\\": 0,\\n  \\"executions\\": [\\n    {\\n      \\"endTime\\": 0,\\n      \\"errors\\": [\\n        \\"string\\"\\n      ],\\n      \\"executionId\\": \\"string\\",\\n      \\"processStatus\\": \\"string\\",\\n      \\"requestStatus\\": \\"string\\",\\n      \\"startTime\\": 0,\\n      \\"warnings\\": [\\n        \\"string\\"\\n      ]\\n    }\\n  ],\\n  \\"name\\": \\"string\\",\\n  \\"reportId\\": \\"string\\",\\n  \\"reportWasExecuted\\": true,\\n  \\"schedule\\": {},\\n  \\"view\\": {\\n    \\"fieldGroups\\": [\\n      {\\n        \\"fieldGroupDisplayName\\": \\"string\\",\\n        \\"fieldGroupName\\": \\"string\\",\\n        \\"fields\\": [\\n          {\\n            \\"displayName\\": \\"string\\",\\n            \\"name\\": \\"string\\"\\n          }\\n        ]\\n      }\\n    ],\\n    \\"filters\\": [\\n      {\\n        \\"displayName\\": \\"string\\",\\n        \\"name\\": \\"string\\",\\n        \\"type\\": \\"string\\",\\n        \\"value\\": {}\\n      }\\n    ],\\n    \\"format\\": {\\n      \\"formatType\\": \\"string\\",\\n      \\"name\\": \\"string\\",\\n      \\"default\\": true\\n    },\\n    \\"name\\": \\"string\\",\\n    \\"viewId\\": \\"string\\",\\n    \\"description\\": \\"string\\",\\n    \\"viewInfo\\": \\"string\\"\\n  },\\n  \\"viewGroupId\\": \\"string\\",\\n  \\"viewGroupVersion\\": \\"string\\"\\n}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

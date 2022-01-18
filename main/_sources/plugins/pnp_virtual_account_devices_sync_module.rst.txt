@@ -42,7 +42,7 @@ cisco.dnac.pnp_virtual_account_devices_sync -- Resource module for Pnp Virtual A
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,7 @@ Synopsis
 .. Description
 
 - Manage operation create of the resource Pnp Virtual Account Devices Sync.
+- Synchronizes the device info from the given smart account & virtual account with the PnP database. The response payload returns a list of synced devices.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1289,19 +1290,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.sync_virtual_account_devices
+   - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/vacct-sync
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Pnp Virtual Account Devices Sync reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Pnp Virtual Account Devices Sync object model.
 
 .. Examples
 
@@ -1388,6 +1384,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -1403,6 +1404,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "{\\n  \\"virtualAccountId\\": \\"string\\",\\n  \\"autoSyncPeriod\\": 0,\\n  \\"syncResultStr\\": \\"string\\",\\n  \\"profile\\": {\\n    \\"proxy\\": true,\\n    \\"makeDefault\\": true,\\n    \\"port\\": 0,\\n    \\"profileId\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"addressIpV4\\": \\"string\\",\\n    \\"cert\\": \\"string\\",\\n    \\"addressFqdn\\": \\"string\\"\\n  },\\n  \\"ccoUser\\": \\"string\\",\\n  \\"syncResult\\": {\\n    \\"syncList\\": [\\n      {\\n        \\"syncType\\": \\"string\\",\\n        \\"deviceSnList\\": [\\n          \\"string\\"\\n        ]\\n      }\\n    ],\\n    \\"syncMsg\\": \\"string\\"\\n  },\\n  \\"token\\": \\"string\\",\\n  \\"syncStartTime\\": 0,\\n  \\"lastSync\\": 0,\\n  \\"tenantId\\": \\"string\\",\\n  \\"smartAccountId\\": \\"string\\",\\n  \\"expiry\\": 0,\\n  \\"syncStatus\\": \\"string\\"\\n}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

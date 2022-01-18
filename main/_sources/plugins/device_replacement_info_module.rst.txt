@@ -42,7 +42,7 @@ cisco.dnac.device_replacement_info -- Information module for Device Replacement
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,7 @@ Synopsis
 .. Description
 
 - Get all Device Replacement.
+- Get list of replacement devices with replacement details and it can filter replacement devices based on Faulty Device Name, Faulty Device Platform, Replacement Device Platform, Faulty Device Serial Number, Replacement Device Serial Number, Device Replacement status, Product Family.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -831,19 +832,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are device_replacement.DeviceReplacement.return_replacement_devices_with_details
+   - Paths used are get /dna/intent/api/v1/device-replacement
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Device Replacement reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Device Replacement object model.
 
 .. Examples
 
@@ -918,6 +914,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -933,6 +934,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "{\\n  \\"response\\": [\\n    {\\n      \\"creationTime\\": 0,\\n      \\"family\\": \\"string\\",\\n      \\"faultyDeviceId\\": \\"string\\",\\n      \\"faultyDeviceName\\": \\"string\\",\\n      \\"faultyDevicePlatform\\": \\"string\\",\\n      \\"faultyDeviceSerialNumber\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"neighbourDeviceId\\": \\"string\\",\\n      \\"networkReadinessTaskId\\": \\"string\\",\\n      \\"replacementDevicePlatform\\": \\"string\\",\\n      \\"replacementDeviceSerialNumber\\": \\"string\\",\\n      \\"replacementStatus\\": \\"string\\",\\n      \\"replacementTime\\": 0,\\n      \\"workflowId\\": \\"string\\"\\n    }\\n  ],\\n  \\"version\\": \\"string\\"\\n}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

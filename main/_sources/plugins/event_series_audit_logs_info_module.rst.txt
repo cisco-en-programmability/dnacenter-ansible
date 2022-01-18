@@ -42,7 +42,7 @@ cisco.dnac.event_series_audit_logs_info -- Information module for Event Series A
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,7 @@ Synopsis
 .. Description
 
 - Get all Event Series Audit Logs.
+- Get Audit Log Event instances from the Event-Hub.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -1218,19 +1219,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are event_management.EventManagement.get_auditlog_records
+   - Paths used are get /dna/data/api/v1/event/event-series/audit-logs
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Event Series Audit Logs reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Event Series Audit Logs object model.
 
 .. Examples
 
@@ -1316,6 +1312,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -1331,6 +1332,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "[\\n  {\\n    \\"version\\": \\"string\\",\\n    \\"instanceId\\": \\"string\\",\\n    \\"eventId\\": \\"string\\",\\n    \\"namespace\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"description\\": \\"string\\",\\n    \\"type\\": \\"string\\",\\n    \\"category\\": \\"string\\",\\n    \\"domain\\": \\"string\\",\\n    \\"subDomain\\": \\"string\\",\\n    \\"severity\\": 0,\\n    \\"source\\": \\"string\\",\\n    \\"timestamp\\": 0,\\n    \\"tags\\": [\\n      {}\\n    ],\\n    \\"details\\": {},\\n    \\"ciscoDnaEventLink\\": \\"string\\",\\n    \\"note\\": \\"string\\",\\n    \\"tntId\\": \\"string\\",\\n    \\"context\\": \\"string\\",\\n    \\"userId\\": \\"string\\",\\n    \\"i18n\\": \\"string\\",\\n    \\"eventHierarchy\\": \\"string\\",\\n    \\"message\\": \\"string\\",\\n    \\"messageParams\\": \\"string\\",\\n    \\"additionalDetails\\": {},\\n    \\"parentInstanceId\\": \\"string\\",\\n    \\"network\\": \\"string\\",\\n    \\"childCount\\": 0,\\n    \\"tenantId\\": \\"string\\"\\n  }\\n]\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

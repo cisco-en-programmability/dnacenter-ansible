@@ -42,7 +42,7 @@ cisco.dnac.pnp_global_settings_info -- Information module for Pnp Global Setting
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,7 @@ Synopsis
 .. Description
 
 - Get all Pnp Global Settings.
+- Returns global PnP settings of the user.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -456,19 +457,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.get_pnp_global_settings
+   - Paths used are get /dna/intent/api/v1/onboarding/pnp-settings
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Pnp Global Settings reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Pnp Global Settings object model.
 
 .. Examples
 
@@ -532,6 +528,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -547,6 +548,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "{\\n  \\"savaMappingList\\": [\\n    {\\n      \\"syncStatus\\": \\"string\\",\\n      \\"syncStartTime\\": 0,\\n      \\"syncResult\\": {\\n        \\"syncList\\": [\\n          {\\n            \\"syncType\\": \\"string\\",\\n            \\"deviceSnList\\": [\\n              \\"string\\"\\n            ]\\n          }\\n        ],\\n        \\"syncMsg\\": \\"string\\"\\n      },\\n      \\"lastSync\\": 0,\\n      \\"tenantId\\": \\"string\\",\\n      \\"profile\\": {\\n        \\"port\\": 0,\\n        \\"addressIpV4\\": \\"string\\",\\n        \\"addressFqdn\\": \\"string\\",\\n        \\"profileId\\": \\"string\\",\\n        \\"proxy\\": true,\\n        \\"makeDefault\\": true,\\n        \\"cert\\": \\"string\\",\\n        \\"name\\": \\"string\\"\\n      },\\n      \\"token\\": \\"string\\",\\n      \\"expiry\\": 0,\\n      \\"ccoUser\\": \\"string\\",\\n      \\"smartAccountId\\": \\"string\\",\\n      \\"virtualAccountId\\": \\"string\\",\\n      \\"autoSyncPeriod\\": 0,\\n      \\"syncResultStr\\": \\"string\\"\\n    }\\n  ],\\n  \\"taskTimeOuts\\": {\\n    \\"imageDownloadTimeOut\\": 0,\\n    \\"configTimeOut\\": 0,\\n    \\"generalTimeOut\\": 0\\n  },\\n  \\"tenantId\\": \\"string\\",\\n  \\"aaaCredentials\\": {\\n    \\"password\\": \\"string\\",\\n    \\"username\\": \\"string\\"\\n  },\\n  \\"defaultProfile\\": {\\n    \\"fqdnAddresses\\": [\\n      \\"string\\"\\n    ],\\n    \\"proxy\\": true,\\n    \\"cert\\": \\"string\\",\\n    \\"ipAddresses\\": [\\n      \\"string\\"\\n    ],\\n    \\"port\\": 0\\n  },\\n  \\"acceptEula\\": true,\\n  \\"id\\": \\"string\\",\\n  \\"\_id\\": \\"string\\",\\n  \\"version\\": 0\\n}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

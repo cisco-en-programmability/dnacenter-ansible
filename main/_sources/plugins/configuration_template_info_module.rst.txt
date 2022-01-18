@@ -42,7 +42,7 @@ cisco.dnac.configuration_template_info -- Information module for Configuration T
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -70,6 +70,8 @@ Synopsis
 
 - Get all Configuration Template.
 - Get Configuration Template by id.
+- List the templates available
+- Details of the template by its id.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -920,19 +922,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are configuration_templates.ConfigurationTemplates.get_template_details, configuration_templates.ConfigurationTemplates.gets_the_templates_available
+   - Paths used are get /dna/intent/api/v1/template-programmer/template, get /dna/intent/api/v1/template-programmer/template/{templateId}
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Configuration Template reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Configuration Template object model.
 
 .. Examples
 
@@ -1022,6 +1019,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -1037,6 +1039,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "{\\n  \\"tags\\": [\\n    {\\n      \\"id\\": \\"string\\",\\n      \\"name\\": \\"string\\"\\n    }\\n  ],\\n  \\"author\\": \\"string\\",\\n  \\"composite\\": true,\\n  \\"containingTemplates\\": [\\n    {\\n      \\"tags\\": [\\n        {\\n          \\"id\\": \\"string\\",\\n          \\"name\\": \\"string\\"\\n        }\\n      ],\\n      \\"composite\\": true,\\n      \\"description\\": \\"string\\",\\n      \\"deviceTypes\\": [\\n        {\\n          \\"productFamily\\": \\"string\\",\\n          \\"productSeries\\": \\"string\\",\\n          \\"productType\\": \\"string\\"\\n        }\\n      ],\\n      \\"id\\": \\"string\\",\\n      \\"language\\": \\"string\\",\\n      \\"name\\": \\"string\\",\\n      \\"projectName\\": \\"string\\",\\n      \\"rollbackTemplateParams\\": [\\n        {\\n          \\"binding\\": \\"string\\",\\n          \\"customOrder\\": 0,\\n          \\"dataType\\": \\"string\\",\\n          \\"defaultValue\\": \\"string\\",\\n          \\"description\\": \\"string\\",\\n          \\"displayName\\": \\"string\\",\\n          \\"group\\": \\"string\\",\\n          \\"id\\": \\"string\\",\\n          \\"instructionText\\": \\"string\\",\\n          \\"key\\": \\"string\\",\\n          \\"notParam\\": true,\\n          \\"order\\": 0,\\n          \\"paramArray\\": true,\\n          \\"parameterName\\": \\"string\\",\\n          \\"provider\\": \\"string\\",\\n          \\"range\\": [\\n            {\\n              \\"id\\": \\"string\\",\\n              \\"maxValue\\": 0,\\n              \\"minValue\\": 0\\n            }\\n          ],\\n          \\"required\\": true,\\n          \\"selection\\": {\\n            \\"defaultSelectedValues\\": [\\n              \\"string\\"\\n            ],\\n            \\"id\\": \\"string\\",\\n            \\"selectionType\\": \\"string\\",\\n            \\"selectionValues\\": {}\\n          }\\n        }\\n      ],\\n      \\"templateContent\\": \\"string\\",\\n      \\"templateParams\\": [\\n        {\\n          \\"binding\\": \\"string\\",\\n          \\"customOrder\\": 0,\\n          \\"dataType\\": \\"string\\",\\n          \\"defaultValue\\": \\"string\\",\\n          \\"description\\": \\"string\\",\\n          \\"displayName\\": \\"string\\",\\n          \\"group\\": \\"string\\",\\n          \\"id\\": \\"string\\",\\n          \\"instructionText\\": \\"string\\",\\n          \\"key\\": \\"string\\",\\n          \\"notParam\\": true,\\n          \\"order\\": 0,\\n          \\"paramArray\\": true,\\n          \\"parameterName\\": \\"string\\",\\n          \\"provider\\": \\"string\\",\\n          \\"range\\": [\\n            {\\n              \\"id\\": \\"string\\",\\n              \\"maxValue\\": 0,\\n              \\"minValue\\": 0\\n            }\\n          ],\\n          \\"required\\": true,\\n          \\"selection\\": {\\n            \\"defaultSelectedValues\\": [\\n              \\"string\\"\\n            ],\\n            \\"id\\": \\"string\\",\\n            \\"selectionType\\": \\"string\\",\\n            \\"selectionValues\\": {}\\n          }\\n        }\\n      ],\\n      \\"version\\": \\"string\\"\\n    }\\n  ],\\n  \\"createTime\\": 0,\\n  \\"customParamsOrder\\": true,\\n  \\"description\\": \\"string\\",\\n  \\"deviceTypes\\": [\\n    {\\n      \\"productFamily\\": \\"string\\",\\n      \\"productSeries\\": \\"string\\",\\n      \\"productType\\": \\"string\\"\\n    }\\n  ],\\n  \\"documentDatabase\\": true,\\n  \\"failurePolicy\\": \\"string\\",\\n  \\"id\\": \\"string\\",\\n  \\"language\\": \\"string\\",\\n  \\"lastUpdateTime\\": 0,\\n  \\"latestVersionTime\\": 0,\\n  \\"name\\": \\"string\\",\\n  \\"parentTemplateId\\": \\"string\\",\\n  \\"projectAssociated\\": true,\\n  \\"projectId\\": \\"string\\",\\n  \\"projectName\\": \\"string\\",\\n  \\"rollbackTemplateContent\\": \\"string\\",\\n  \\"rollbackTemplateParams\\": [\\n    {\\n      \\"binding\\": \\"string\\",\\n      \\"customOrder\\": 0,\\n      \\"dataType\\": \\"string\\",\\n      \\"defaultValue\\": \\"string\\",\\n      \\"description\\": \\"string\\",\\n      \\"displayName\\": \\"string\\",\\n      \\"group\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"instructionText\\": \\"string\\",\\n      \\"key\\": \\"string\\",\\n      \\"notParam\\": true,\\n      \\"order\\": 0,\\n      \\"paramArray\\": true,\\n      \\"parameterName\\": \\"string\\",\\n      \\"provider\\": \\"string\\",\\n      \\"range\\": [\\n        {\\n          \\"id\\": \\"string\\",\\n          \\"maxValue\\": 0,\\n          \\"minValue\\": 0\\n        }\\n      ],\\n      \\"required\\": true,\\n      \\"selection\\": {\\n        \\"defaultSelectedValues\\": [\\n          \\"string\\"\\n        ],\\n        \\"id\\": \\"string\\",\\n        \\"selectionType\\": \\"string\\",\\n        \\"selectionValues\\": {}\\n      }\\n    }\\n  ],\\n  \\"softwareType\\": \\"string\\",\\n  \\"softwareVariant\\": \\"string\\",\\n  \\"softwareVersion\\": \\"string\\",\\n  \\"templateContent\\": \\"string\\",\\n  \\"templateParams\\": [\\n    {\\n      \\"binding\\": \\"string\\",\\n      \\"customOrder\\": 0,\\n      \\"dataType\\": \\"string\\",\\n      \\"defaultValue\\": \\"string\\",\\n      \\"description\\": \\"string\\",\\n      \\"displayName\\": \\"string\\",\\n      \\"group\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"instructionText\\": \\"string\\",\\n      \\"key\\": \\"string\\",\\n      \\"notParam\\": true,\\n      \\"order\\": 0,\\n      \\"paramArray\\": true,\\n      \\"parameterName\\": \\"string\\",\\n      \\"provider\\": \\"string\\",\\n      \\"range\\": [\\n        {\\n          \\"id\\": \\"string\\",\\n          \\"maxValue\\": 0,\\n          \\"minValue\\": 0\\n        }\\n      ],\\n      \\"required\\": true,\\n      \\"selection\\": {\\n        \\"defaultSelectedValues\\": [\\n          \\"string\\"\\n        ],\\n        \\"id\\": \\"string\\",\\n        \\"selectionType\\": \\"string\\",\\n        \\"selectionValues\\": {}\\n      }\\n    }\\n  ],\\n  \\"validationErrors\\": {\\n    \\"rollbackTemplateErrors\\": [\\n      {}\\n    ],\\n    \\"templateErrors\\": [\\n      {}\\n    ],\\n    \\"templateId\\": \\"string\\",\\n    \\"templateVersion\\": \\"string\\"\\n  },\\n  \\"version\\": \\"string\\"\\n}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

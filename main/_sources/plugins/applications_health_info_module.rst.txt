@@ -42,7 +42,7 @@ cisco.dnac.applications_health_info -- Information module for Applications Healt
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,7 @@ Synopsis
 .. Description
 
 - Get all Applications Health.
+- Intent API to get a list of applications for a specific site, a device, or a client device's MAC address. For a combination of a specific application with site and/or device the API gets list of issues/devices/endpoints.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -768,19 +769,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are applications.Applications.applications
+   - Paths used are get /dna/intent/api/v1/application-health
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Applications Health reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Applications Health object model.
 
 .. Examples
 
@@ -853,6 +849,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -868,6 +869,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "{\\n  \\"version\\": \\"string\\",\\n  \\"totalCount\\": 0,\\n  \\"response\\": [\\n    {\\n      \\"name\\": \\"string\\",\\n      \\"health\\": 0,\\n      \\"businessRelevance\\": \\"string\\",\\n      \\"trafficClass\\": \\"string\\",\\n      \\"usageBytes\\": 0,\\n      \\"averageThroughput\\": 0,\\n      \\"packetLossPercent\\": {},\\n      \\"networkLatency\\": {},\\n      \\"jitter\\": {},\\n      \\"applicationServerLatency\\": {},\\n      \\"clientNetworkLatency\\": {},\\n      \\"serverNetworkLatency\\": {},\\n      \\"exporterIpAddress\\": \\"string\\",\\n      \\"exporterName\\": \\"string\\",\\n      \\"exporterUUID\\": \\"string\\",\\n      \\"exporterFamily\\": \\"string\\",\\n      \\"clientName\\": \\"string\\",\\n      \\"clientIp\\": \\"string\\",\\n      \\"location\\": \\"string\\",\\n      \\"operatingSystem\\": \\"string\\",\\n      \\"deviceType\\": \\"string\\",\\n      \\"clientMacAddress\\": \\"string\\",\\n      \\"issueId\\": \\"string\\",\\n      \\"issueName\\": \\"string\\",\\n      \\"application\\": \\"string\\",\\n      \\"severity\\": \\"string\\",\\n      \\"summary\\": \\"string\\",\\n      \\"rootCause\\": \\"string\\",\\n      \\"timestamp\\": 0,\\n      \\"occurrences\\": 0,\\n      \\"priority\\": \\"string\\"\\n    }\\n  ]\\n}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

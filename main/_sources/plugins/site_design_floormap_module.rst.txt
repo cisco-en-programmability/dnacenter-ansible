@@ -42,7 +42,7 @@ cisco.dnac.site_design_floormap -- Resource module for Site Design Floormap
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,8 @@ Synopsis
 .. Description
 
 - Manage operations create, update and delete of the resource Site Design Floormap.
+- Service to create a floor map with callback.
+- Service to delete an (empty) floor map with callback.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -490,19 +492,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are site_design.SiteDesign.update_floormap, site_design.SiteDesign.create_floormap, site_design.SiteDesign.delete_floormap
+   - Paths used are post /dna/intent/api/v1/wireless/floormap, delete /dna/intent/api/v1/wireless/floormap/{floorId}
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Site Design Floormap reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Site Design Floormap object model.
 
 .. Examples
 
@@ -590,6 +587,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -605,6 +607,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "{}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

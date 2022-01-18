@@ -42,7 +42,7 @@ cisco.dnac.configuration_template_deploy_status_info -- Information module for C
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,7 @@ Synopsis
 .. Description
 
 - Get Configuration Template Deploy Status by id.
+- API to retrieve the status of template deployment.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -490,19 +491,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are configuration_templates.ConfigurationTemplates.get_template_deployment_status
+   - Paths used are get /dna/intent/api/v1/template-programmer/template/deploy/status/{deploymentId}
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Configuration Template Deploy Status reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Configuration Template Deploy Status object model.
 
 .. Examples
 
@@ -567,6 +563,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -582,6 +583,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "{\\n  \\"deploymentId\\": \\"string\\",\\n  \\"deploymentName\\": \\"string\\",\\n  \\"devices\\": [\\n    {\\n      \\"detailedStatusMessage\\": \\"string\\",\\n      \\"deviceId\\": \\"string\\",\\n      \\"duration\\": \\"string\\",\\n      \\"endTime\\": \\"string\\",\\n      \\"identifier\\": \\"string\\",\\n      \\"ipAddress\\": \\"string\\",\\n      \\"name\\": \\"string\\",\\n      \\"startTime\\": \\"string\\",\\n      \\"status\\": \\"string\\",\\n      \\"targetType\\": \\"string\\"\\n    }\\n  ],\\n  \\"duration\\": \\"string\\",\\n  \\"endTime\\": \\"string\\",\\n  \\"projectName\\": \\"string\\",\\n  \\"startTime\\": \\"string\\",\\n  \\"status\\": \\"string\\",\\n  \\"statusMessage\\": \\"string\\",\\n  \\"templateName\\": \\"string\\",\\n  \\"templateVersion\\": \\"string\\"\\n}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

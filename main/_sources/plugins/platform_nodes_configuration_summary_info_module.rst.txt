@@ -42,7 +42,7 @@ cisco.dnac.platform_nodes_configuration_summary_info -- Information module for P
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,7 @@ Synopsis
 .. Description
 
 - Get all Platform Nodes Configuration Summary.
+- Provides details about the current Cisco DNA Center node configuration, such as API version, node name, NTP server, intracluster link, LACP mode, network static routes, DNS server, subnet mask, host IP, default gateway, and interface information.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -456,19 +457,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are platform_configuration.PlatformConfiguration.nodes_configuration_summary
+   - Paths used are get /dna/intent/api/v1/nodes-config
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Platform Nodes Configuration Summary reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Platform Nodes Configuration Summary object model.
 
 .. Examples
 
@@ -532,6 +528,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -547,6 +548,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "{\\n  \\"version\\": \\"string\\",\\n  \\"response\\": {\\n    \\"nodes\\": [\\n      {\\n        \\"ntp\\": {\\n          \\"servers\\": [\\n            \\"string\\"\\n          ]\\n        },\\n        \\"network\\": [\\n          {\\n            \\"intra\_cluster\_link\\": true,\\n            \\"lacp\_mode\\": true,\\n            \\"inet\\": {\\n              \\"routes\\": [\\n                {}\\n              ],\\n              \\"gateway\\": \\"string\\",\\n              \\"dns\_servers\\": [\\n                {}\\n              ],\\n              \\"netmask\\": \\"string\\",\\n              \\"host\_ip\\": \\"string\\"\\n            },\\n            \\"interface\\": \\"string\\",\\n            \\"inet6\\": {\\n              \\"host\_ip\\": \\"string\\",\\n              \\"netmask\\": \\"string\\"\\n            },\\n            \\"lacp\_supported\\": true,\\n            \\"slave\\": [\\n              \\"string\\"\\n            ]\\n          }\\n        ],\\n        \\"proxy\\": {\\n          \\"https\_proxy\\": \\"string\\",\\n          \\"no\_proxy\\": [\\n            \\"string\\"\\n          ],\\n          \\"https\_proxy\_username\\": \\"string\\",\\n          \\"http\_proxy\\": \\"string\\",\\n          \\"https\_proxy\_password\\": \\"string\\"\\n        },\\n        \\"platform\\": {\\n          \\"vendor\\": \\"string\\",\\n          \\"product\\": \\"string\\",\\n          \\"serial\\": \\"string\\"\\n        },\\n        \\"id\\": \\"string\\",\\n        \\"name\\": \\"string\\"\\n      }\\n    ]\\n  }\\n}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

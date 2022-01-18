@@ -42,7 +42,7 @@ cisco.dnac.business_sda_hostonboarding_ssid_ippool -- Resource module for Busine
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,8 @@ Synopsis
 .. Description
 
 - Manage operations create and update of the resource Business Sda Hostonboarding Ssid Ippool.
+- Add SSID to IP Pool Mapping.
+- Update SSID to IP Pool Mapping.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -558,19 +560,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping, fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping
+   - Paths used are post /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool, put /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Business Sda Hostonboarding Ssid Ippool reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Business Sda Hostonboarding Ssid Ippool object model.
 
 .. Examples
 
@@ -653,6 +650,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -668,6 +670,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "[\\n  {\\n    \\"executionId\\": \\"string\\",\\n    \\"executionStatusURL\\": \\"string\\",\\n    \\"message\\": \\"string\\"\\n  }\\n]\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

@@ -42,7 +42,7 @@ cisco.dnac.network_device_linecard_details_info -- Information module for Networ
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,7 @@ Synopsis
 .. Description
 
 - Get all Network Device Linecard Details.
+- Get line card detail for a given deviceuuid.  Response will contain serial no, part no, switch no and slot no.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -490,19 +491,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are devices.Devices.get_linecard_details
+   - Paths used are get /dna/intent/api/v1/network-device/{deviceUuid}/line-card
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Network Device Linecard Details reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Network Device Linecard Details object model.
 
 .. Examples
 
@@ -567,6 +563,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -582,6 +583,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "{\\n  \\"response\\": [\\n    {\\n      \\"serialno\\": \\"string\\",\\n      \\"partno\\": \\"string\\",\\n      \\"switchno\\": \\"string\\",\\n      \\"slotno\\": \\"string\\"\\n    }\\n  ],\\n  \\"version\\": \\"string\\"\\n}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)

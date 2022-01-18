@@ -42,7 +42,7 @@ cisco.dnac.sda_virtual_network_ip_pool -- Resource module for Sda Virtual Networ
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.1).
+    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.1.2).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,8 @@ Synopsis
 .. Description
 
 - Manage operations create and delete of the resource Sda Virtual Network Ip Pool.
+- Delete IP Pool from SDA Virtual Network.
+- Add IP Pool in SDA Virtual Network.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -840,19 +842,14 @@ Notes
 -----
 
 .. note::
+   - SDK Method used are sda.Sda.add_ip_pool_in_sda_virtual_network
+   - Paths used are delete /dna/intent/api/v1/business/sda/virtualnetwork/ippool, post /dna/intent/api/v1/business/sda/virtualnetwork/ippool
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Sda Virtual Network Ip Pool reference <https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary>`_
-       Complete reference of the Sda Virtual Network Ip Pool object model.
 
 .. Examples
 
@@ -938,6 +935,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
     - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -953,6 +955,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` "{\\n  \\"status\\": \\"string\\",\\n  \\"description\\": \\"string\\",\\n  \\"taskId\\": \\"string\\",\\n  \\"taskStatusUrl\\": \\"string\\",\\n  \\"executionStatusUrl\\": \\"string\\",\\n  \\"executionId\\": \\"string\\"\\n}\\n"
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)
