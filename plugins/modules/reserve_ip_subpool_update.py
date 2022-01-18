@@ -92,12 +92,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-
-# Reference by Internet resource
-- name: Reserve Ip Subpool Update reference
-  description: Complete reference of the Reserve Ip Subpool Update object model.
-  link: >
-    https://dnacentersdk.readthedocs.io/en/latest/api/api.html#v3-0-0-summary
+notes:
+  - SDK Method used are
+    network_settings.NetworkSettings.update_reserve_ip_subpool
+  - Paths used are put /dna/intent/api/v1/reserve-ip-subpool/{siteId}
 """
 
 EXAMPLES = r"""

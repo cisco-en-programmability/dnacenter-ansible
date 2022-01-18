@@ -86,27 +86,11 @@ options:
 requirements:
 - dnacentersdk >= 2.4.0
 - python >= 3.5
-
-# Reference to SDK documentation of current version
-- name: SDK function create_application_policy_queuing_profile used
-  description: SDK function create_application_policy_queuing_profile used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    application_policy.ApplicationPolicy.create_application_policy_queuing_profile
-
-- name: SDK function update_application_policy_queuing_profile used
-  description: SDK function update_application_policy_queuing_profile used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    application_policy.ApplicationPolicy.update_application_policy_queuing_profile
-
-- name: SDK function delete_application_policy_queuing_profile used
-  description: SDK function delete_application_policy_queuing_profile used
-  link: >
-    https://dnacentersdk.rtfd.io/en/latest/api/api.html#dnacentersdk.api.v2_2_3_3.
-    application_policy.ApplicationPolicy.delete_application_policy_queuing_profile
-
 notes:
+  - SDK Method used are
+    application_policy.ApplicationPolicy.create_application_policy_queuing_profile,
+    application_policy.ApplicationPolicy.update_application_policy_queuing_profile,
+    application_policy.ApplicationPolicy.delete_application_policy_queuing_profile
   - Paths used are put /dna/intent/api/v1/app-policy-queuing-profile,
     post /dna/intent/api/v1/app-policy-queuing-profile,
     delete /dna/intent/api/v1/app-policy-queuing-profile/{id}
