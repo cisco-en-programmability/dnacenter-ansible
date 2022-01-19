@@ -10,6 +10,7 @@ module: reserve_ip_subpool_update
 short_description: Resource module for Reserve Ip Subpool Update
 description:
 - Manage operation update of the resource Reserve Ip Subpool Update.
+- API to update ip subpool from the global pool.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
