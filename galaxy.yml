@@ -19,6 +19,6 @@ tags:
 dependencies:
   ansible.utils: ">=2.0.0,<3.0"
 repository: https://github.com/cisco-en-programmability/dnacenter-ansible
-documentation: https://developer.cisco.com/docs/dna-center/#!ansible
+documentation: https://cisco-en-programmability.github.io/dnacenter-ansible/
 homepage: https://github.com/cisco-en-programmability/dnacenter-ansible
 issues: https://github.com/cisco-en-programmability/dnacenter-ansible/issues
