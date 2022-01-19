@@ -369,8 +369,14 @@ releases:
   4.1.2:
     release_date: '2022-01-17'
     changes:
-      release_summary:
+      release_summary: Update plugin module documentation, update site_design_floormap_info
       bugfixes:
         - plugin/modules/* - Update plugin module documentation 
       minor_changes:
         - site_design_floormap_info - Add get_all to module
+  4.1.3:
+    release_date: '2022-01-19'
+    changes:
+      release_summary: Update documentation link
+      minor_changes:
+        - update documentation link in galaxy
