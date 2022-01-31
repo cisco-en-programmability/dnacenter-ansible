@@ -24,7 +24,7 @@ options:
     - Timestamp query parameter. Epoch time(in milliseconds) when the Network health data is required.
     type: str
 requirements:
-- dnacentersdk >= 2.4.0
+- dnacentersdk >= 2.4.4
 - python >= 3.5
 notes:
   - SDK Method used are

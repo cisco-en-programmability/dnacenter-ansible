@@ -24,7 +24,7 @@ options:
     - SiteId query parameter. Site id to retrieve the credential details associated with the site.
     type: str
 requirements:
-- dnacentersdk >= 2.4.0
+- dnacentersdk >= 2.4.4
 - python >= 3.5
 notes:
   - SDK Method used are

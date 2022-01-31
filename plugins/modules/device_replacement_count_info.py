@@ -26,7 +26,7 @@ options:
       PROGRESS, REPLACEMENT-SCHEDULED, REPLACED, ERROR.
     type: list
 requirements:
-- dnacentersdk >= 2.4.0
+- dnacentersdk >= 2.4.4
 - python >= 3.5
 notes:
   - SDK Method used are
