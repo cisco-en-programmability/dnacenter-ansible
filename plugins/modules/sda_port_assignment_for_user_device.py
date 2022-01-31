@@ -55,7 +55,7 @@ options:
       as VOICE(can't be empty if dataIpAddressPoolName is emty).
     type: str
 requirements:
-- dnacentersdk >= 2.4.0
+- dnacentersdk >= 2.4.4
 - python >= 3.5
 notes:
   - SDK Method used are
