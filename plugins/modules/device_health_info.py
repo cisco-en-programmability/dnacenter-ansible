@@ -48,7 +48,7 @@ options:
     - Offset query parameter. The offset of the first device in the returned data.
     type: int
 requirements:
-- dnacentersdk >= 2.4.0
+- dnacentersdk >= 2.4.4
 - python >= 3.5
 notes:
   - SDK Method used are

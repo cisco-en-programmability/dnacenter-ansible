@@ -28,7 +28,7 @@ options:
     - Type query parameter. Type value should be PowerSupply or Fan.
     type: str
 requirements:
-- dnacentersdk >= 2.4.0
+- dnacentersdk >= 2.4.4
 - python >= 3.5
 notes:
   - SDK Method used are
