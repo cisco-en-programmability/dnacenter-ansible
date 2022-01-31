@@ -386,3 +386,4 @@ releases:
       release_summary: Parameters were added to pnp_device_claim_to_site
       minor_changes:
         - pnp_device_claim_to_site - Add hostname, imageInfo and configInfo parameters to module.
+        - Update dnacentersdk requirement from 2.4.0 to 2.4.4
