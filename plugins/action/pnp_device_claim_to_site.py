@@ -28,6 +28,9 @@ argument_spec.update(dict(
     deviceId=dict(type="str"),
     siteId=dict(type="str"),
     type=dict(type="str"),
+    imageInfo=dict(type="dict"),
+    configInfo=dict(type="dict"),
+    hostname=dict(type="str"),
 ))
 
 required_if = []
@@ -68,6 +71,9 @@ class ActionModule(ActionBase):
             deviceId=params.get("deviceId"),
             siteId=params.get("siteId"),
             type=params.get("type"),
+            imageInfo=params.get("imageInfo"),
+            configInfo=params.get("configInfo"),
+            hostname=params.get("hostname"),
         )
         return new_object
 
