@@ -77,7 +77,7 @@ options:
     description: Vlan Id (e.g.,2-4096 except for reserved VLANs (1002-1005, 2046, 4095)).
     type: str
 requirements:
-- dnacentersdk >= 2.4.0
+- dnacentersdk >= 2.4.4
 - python >= 3.5
 notes:
   - SDK Method used are

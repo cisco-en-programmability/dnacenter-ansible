@@ -380,3 +380,10 @@ releases:
       release_summary: Update documentation link
       minor_changes:
         - update documentation link in galaxy
+  4.2.0:
+    release_date: '2022-01-31'
+    changes:
+      release_summary: Parameters were added to pnp_device_claim_to_site
+      minor_changes:
+        - pnp_device_claim_to_site - Add hostname, imageInfo and configInfo parameters to module.
+        - Update dnacentersdk requirement from 2.4.0 to 2.4.4

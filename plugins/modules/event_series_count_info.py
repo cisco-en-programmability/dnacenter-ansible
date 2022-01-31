@@ -56,7 +56,7 @@ options:
     - Source query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.0
+- dnacentersdk >= 2.4.4
 - python >= 3.5
 notes:
   - SDK Method used are

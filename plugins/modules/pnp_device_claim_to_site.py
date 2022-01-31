@@ -16,9 +16,39 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  configInfo:
+    description: Pnp Device Claim To Site's configInfo.
+    suboptions:
+      configId:
+        description: Pnp Device Claim To Site's configId.
+        type: str
+      configParameters:
+        description: Pnp Device Claim To Site's configParameters.
+        suboptions:
+          key:
+            description: Pnp Device Claim To Site's key.
+            type: str
+          value:
+            description: Pnp Device Claim To Site's value.
+            type: str
+        type: list
+    type: dict
   deviceId:
     description: Pnp Device Claim To Site's deviceId.
     type: str
+  hostname:
+    description: Pnp Device Claim To Site's hostname.
+    type: str
+  imageInfo:
+    description: Pnp Device Claim To Site's imageInfo.
+    suboptions:
+      imageId:
+        description: Pnp Device Claim To Site's imageId.
+        type: str
+      skip:
+        description: Skip flag.
+        type: bool
+    type: dict
   siteId:
     description: Pnp Device Claim To Site's siteId.
     type: str
@@ -26,12 +56,13 @@ options:
     description: Pnp Device Claim To Site's type.
     type: str
 requirements:
-- dnacentersdk >= 2.4.0
+- dnacentersdk >= 2.4.4
 - python >= 3.5
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site
   - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/site-claim
+  - Parameters hostname, imageInfo and configInfo were added in 4.2.0
 """
 
 EXAMPLES = r"""
@@ -44,7 +75,16 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    configInfo:
+      configId: string
+      configParameters:
+      - key: string
+        value: string
     deviceId: string
+    hostname: string
+    imageInfo:
+      imageId: string
+      skip: true
     siteId: string
     type: string
 

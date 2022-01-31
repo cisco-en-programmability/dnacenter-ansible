@@ -36,7 +36,7 @@ options:
     - TestFailureBy query parameter. Obtain failure statistics group by "area", "building", or "floor".
     type: str
 requirements:
-- dnacentersdk >= 2.4.0
+- dnacentersdk >= 2.4.4
 - python >= 3.5
 notes:
   - SDK Method used are
