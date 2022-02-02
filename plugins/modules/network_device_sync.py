@@ -30,8 +30,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.sync_devices_using_forcesync
-  - Paths used are put /dna/intent/api/v1/network-device/sync
+    devices.Devices.sync_devices_using_forcesync,
+
+  - Paths used are
+    put /dna/intent/api/v1/network-device/sync,
+
 """
 
 EXAMPLES = r"""

@@ -33,8 +33,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.get_default_authentication_profile
-  - Paths used are get /dna/intent/api/v1/business/sda/authentication-profile
+    sda.Sda.get_default_authentication_profile,
+
+  - Paths used are
+    get /dna/intent/api/v1/business/sda/authentication-profile,
+
 """
 
 EXAMPLES = r"""

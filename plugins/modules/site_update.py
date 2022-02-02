@@ -80,8 +80,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sites.Sites.update_site
-  - Paths used are put /dna/intent/api/v1/site/{siteId}
+    sites.Sites.update_site,
+
+  - Paths used are 
+    put /dna/intent/api/v1/site/{siteId},
+
 """
 
 EXAMPLES = r"""

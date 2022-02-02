@@ -36,8 +36,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.get_device_history
-  - Paths used are get /dna/intent/api/v1/onboarding/pnp-device/history
+    device_onboarding_pnp.DeviceOnboardingPnp.get_device_history,
+
+  - Paths used are
+    get /dna/intent/api/v1/onboarding/pnp-device/history,
+
 """
 
 EXAMPLES = r"""

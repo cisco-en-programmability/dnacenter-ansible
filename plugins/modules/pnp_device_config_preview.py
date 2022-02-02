@@ -30,8 +30,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.preview_config
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/site-config-preview
+    device_onboarding_pnp.DeviceOnboardingPnp.preview_config,
+
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-device/site-config-preview,
+
 """
 
 EXAMPLES = r"""

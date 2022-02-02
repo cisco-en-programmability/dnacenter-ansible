@@ -38,8 +38,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    command_runner.CommandRunner.run_read_only_commands_on_devices
-  - Paths used are post /dna/intent/api/v1/network-device-poller/cli/read-request
+    command_runner.CommandRunner.run_read_only_commands_on_devices,
+
+  - Paths used are
+    post /dna/intent/api/v1/network-device-poller/cli/read-request,
+
 """
 
 EXAMPLES = r"""

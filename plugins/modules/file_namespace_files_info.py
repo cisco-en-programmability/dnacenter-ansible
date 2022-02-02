@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    file.File.get_list_of_files
-  - Paths used are get /dna/intent/api/v1/file/namespace/{nameSpace}
+    file.File.get_list_of_files,
+
+  - Paths used are
+    get /dna/intent/api/v1/file/namespace/{nameSpace},
+
 """
 
 EXAMPLES = r"""

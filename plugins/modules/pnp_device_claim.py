@@ -78,8 +78,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.claim_device
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/claim
+    device_onboarding_pnp.DeviceOnboardingPnp.claim_device,
+
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-device/claim,
+
 """
 
 EXAMPLES = r"""

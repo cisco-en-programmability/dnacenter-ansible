@@ -24,8 +24,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    file.File.get_list_of_available_namespaces
-  - Paths used are get /dna/intent/api/v1/file/namespace
+    file.File.get_list_of_available_namespaces,
+
+  - Paths used are
+    get /dna/intent/api/v1/file/namespace,
+
 """
 
 EXAMPLES = r"""

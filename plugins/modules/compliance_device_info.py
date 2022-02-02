@@ -11,8 +11,8 @@ short_description: Information module for Compliance Device
 description:
 - Get all Compliance Device.
 - Get Compliance Device by id.
-- Return compliance status of device(s).
 - Return compliance status of a device.
+- Return compliance status of device(s).
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -44,10 +44,13 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
+    compliance.Compliance.device_compliance_status,
     compliance.Compliance.get_compliance_status,
-    compliance.Compliance.device_compliance_status
-  - Paths used are get /dna/intent/api/v1/compliance,
-    get /dna/intent/api/v1/compliance/{deviceUuid}
+
+  - Paths used are
+    get /dna/intent/api/v1/compliance,
+    get /dna/intent/api/v1/compliance/{deviceUuid},
+
 """
 
 EXAMPLES = r"""

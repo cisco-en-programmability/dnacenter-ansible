@@ -30,8 +30,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    wireless.Wireless.get_dynamic_interface
-  - Paths used are get /dna/intent/api/v1/wireless/dynamic-interface
+    wireless.Wireless.get_dynamic_interface,
+
+  - Paths used are
+    get /dna/intent/api/v1/wireless/dynamic-interface,
+
 """
 
 EXAMPLES = r"""

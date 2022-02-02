@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.get_device_credential_details
-  - Paths used are get /dna/intent/api/v1/device-credential
+    network_settings.NetworkSettings.get_device_credential_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/device-credential,
+
 """
 
 EXAMPLES = r"""

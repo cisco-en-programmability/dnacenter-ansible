@@ -27,9 +27,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    site_design.SiteDesign.associate,
-    site_design.SiteDesign.disassociate
-  - Paths used are delete /dna/intent/api/v1/networkprofile/{networkProfileId}/site/{siteId}
+    site_design.SiteDesign.disassociate,
+
+  - Paths used are
+    delete /dna/intent/api/v1/networkprofile/{networkProfileId}/site/{siteId},
+
 """
 
 EXAMPLES = r"""

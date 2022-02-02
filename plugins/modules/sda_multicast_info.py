@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.get_multicast_details_from_sda_fabric
-  - Paths used are get /dna/intent/api/v1/business/sda/multicast
+    sda.Sda.get_multicast_details_from_sda_fabric,
+
+  - Paths used are
+    get /dna/intent/api/v1/business/sda/multicast,
+
 """
 
 EXAMPLES = r"""

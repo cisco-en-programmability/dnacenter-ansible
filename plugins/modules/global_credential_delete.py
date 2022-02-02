@@ -24,8 +24,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    discovery.Discovery.delete_global_credentials_by_id
-  - Paths used are delete /dna/intent/api/v1/global-credential/{globalCredentialId}
+    discovery.Discovery.delete_global_credentials_by_id,
+
+  - Paths used are
+    delete /dna/intent/api/v1/global-credential/{globalCredentialId},
+
 """
 
 EXAMPLES = r"""
@@ -39,6 +42,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     globalCredentialId: string
+
 """
 
 RETURN = r"""

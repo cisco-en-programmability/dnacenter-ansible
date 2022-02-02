@@ -48,8 +48,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    compliance.Compliance.get_compliance_detail
-  - Paths used are get /dna/intent/api/v1/compliance/detail
+    compliance.Compliance.get_compliance_detail,
+
+  - Paths used are
+    get /dna/intent/api/v1/compliance/detail,
+
 """
 
 EXAMPLES = r"""

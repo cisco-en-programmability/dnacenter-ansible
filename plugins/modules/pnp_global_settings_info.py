@@ -24,8 +24,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.get_pnp_global_settings
-  - Paths used are get /dna/intent/api/v1/onboarding/pnp-settings
+    device_onboarding_pnp.DeviceOnboardingPnp.get_pnp_global_settings,
+
+  - Paths used are
+    get /dna/intent/api/v1/onboarding/pnp-settings,
+
 """
 
 EXAMPLES = r"""

@@ -80,8 +80,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sites.Sites.create_site
-  - Paths used are post /dna/intent/api/v1/site
+    sites.Sites.create_site,
+
+  - Paths used are
+    post /dna/intent/api/v1/site,
+
 """
 
 EXAMPLES = r"""

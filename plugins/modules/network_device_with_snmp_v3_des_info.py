@@ -44,8 +44,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_devices_with_snmpv3_des
-  - Paths used are get /dna/intent/api/v1/network-device/insight/{siteId}/insecure-connection
+    devices.Devices.get_devices_with_snmpv3_des,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/insight/{siteId}/insecure-connection,
+
 """
 
 EXAMPLES = r"""

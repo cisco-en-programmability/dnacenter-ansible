@@ -102,10 +102,13 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
+    reports.Reports.create_or_schedule_a_report,
     reports.Reports.delete_a_scheduled_report,
-    reports.Reports.create_or_schedule_a_report
-  - Paths used are post /dna/intent/api/v1/data/reports,
-    delete /dna/intent/api/v1/data/reports/{reportId}
+
+  - Paths used are
+    post /dna/intent/api/v1/data/reports,
+    delete /dna/intent/api/v1/data/reports/{reportId},
+
 """
 
 EXAMPLES = r"""

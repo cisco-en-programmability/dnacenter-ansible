@@ -25,6 +25,9 @@ options:
           model:
             description: Model.
             type: str
+          oldProfileName:
+            description: Old Profile Name.
+            type: str
           profileName:
             description: Profile Name.
             type: str
@@ -38,8 +41,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.update_sp_profile
-  - Paths used are put /dna/intent/api/v1/service-provider
+    network_settings.NetworkSettings.update_sp_profile,
+
+  - Paths used are
+    put /dna/intent/api/v1/service-provider,
+
 """
 
 EXAMPLES = r"""

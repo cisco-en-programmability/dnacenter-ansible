@@ -10,8 +10,8 @@ module: device_replacement
 short_description: Resource module for Device Replacement
 description:
 - Manage operations create and update of the resource Device Replacement.
-- UnMarks device for replacement.
 - Marks device for replacement.
+- UnMarks device for replacement.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -69,9 +69,12 @@ requirements:
 notes:
   - SDK Method used are
     device_replacement.DeviceReplacement.mark_device_for_replacement,
-    device_replacement.DeviceReplacement.unmark_device_for_replacement
-  - Paths used are put /dna/intent/api/v1/device-replacement,
-    post /dna/intent/api/v1/device-replacement
+    device_replacement.DeviceReplacement.unmark_device_for_replacement,
+
+  - Paths used are
+    post /dna/intent/api/v1/device-replacement,
+    put /dna/intent/api/v1/device-replacement,
+
 """
 
 EXAMPLES = r"""
@@ -86,6 +89,20 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
+    - creationTime: 1
+      family: string
+      faultyDeviceId: string
+      faultyDeviceName: string
+      faultyDevicePlatform: string
+      faultyDeviceSerialNumber: string
+      id: string
+      neighbourDeviceId: string
+      networkReadinessTaskId: string
+      replacementDevicePlatform: string
+      replacementDeviceSerialNumber: string
+      replacementStatus: string
+      replacementTime: 1
+      workflowId: string
 
 - name: Create
   cisco.dnac.device_replacement:
@@ -98,6 +115,20 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
+    - creationTime: 1
+      family: string
+      faultyDeviceId: string
+      faultyDeviceName: string
+      faultyDevicePlatform: string
+      faultyDeviceSerialNumber: string
+      id: string
+      neighbourDeviceId: string
+      networkReadinessTaskId: string
+      replacementDevicePlatform: string
+      replacementDeviceSerialNumber: string
+      replacementStatus: string
+      replacementTime: 1
+      workflowId: string
 
 """
 

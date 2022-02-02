@@ -60,9 +60,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/site-claim
-  - Parameters hostname, imageInfo and configInfo were added in 4.2.0
+    device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site,
+
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-device/site-claim,
+
 """
 
 EXAMPLES = r"""

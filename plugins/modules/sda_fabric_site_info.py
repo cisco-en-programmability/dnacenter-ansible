@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.get_site
-  - Paths used are get /dna/intent/api/v1/business/sda/fabric-site
+    sda.Sda.get_site,
+
+  - Paths used are
+    get /dna/intent/api/v1/business/sda/fabric-site,
+
 """
 
 EXAMPLES = r"""

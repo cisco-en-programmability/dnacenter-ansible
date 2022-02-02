@@ -32,8 +32,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    discovery.Discovery.get_devices_discovered_by_id
-  - Paths used are get /dna/intent/api/v1/discovery/{id}/network-device/count
+    discovery.Discovery.get_devices_discovered_by_id,
+
+  - Paths used are
+    get /dna/intent/api/v1/discovery/{id}/network-device/count,
+
 """
 
 EXAMPLES = r"""

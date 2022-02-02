@@ -32,8 +32,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_device_interface_vlans
-  - Paths used are get /dna/intent/api/v1/network-device/{id}/vlan
+    devices.Devices.get_device_interface_vlans,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/{id}/vlan,
+
 """
 
 EXAMPLES = r"""

@@ -68,8 +68,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    applications.Applications.applications
-  - Paths used are get /dna/intent/api/v1/application-health
+    applications.Applications.applications,
+
+  - Paths used are
+    get /dna/intent/api/v1/application-health,
+
 """
 
 EXAMPLES = r"""

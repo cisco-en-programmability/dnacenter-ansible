@@ -84,8 +84,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sensors.Sensors.edit_sensor_test_template
-  - Paths used are put /dna/intent/api/v1/AssuranceScheduleSensorTest
+    sensors.Sensors.edit_sensor_test_template,
+
+  - Paths used are
+    put /dna/intent/api/v1/AssuranceScheduleSensorTest,
+
 """
 
 EXAMPLES = r"""

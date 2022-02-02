@@ -38,10 +38,13 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
+    reports.Reports.get_a_scheduled_report,
     reports.Reports.get_list_of_scheduled_reports,
-    reports.Reports.get_a_scheduled_report
-  - Paths used are get /dna/intent/api/v1/data/reports,
-    get /dna/intent/api/v1/data/reports/{reportId}
+
+  - Paths used are
+    get /dna/intent/api/v1/data/reports,
+    get /dna/intent/api/v1/data/reports/{reportId},
+
 """
 
 EXAMPLES = r"""

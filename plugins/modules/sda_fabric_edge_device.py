@@ -29,9 +29,13 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.add_edge_device
-  - Paths used are post /dna/intent/api/v1/business/sda/edge-device,
-    delete /dna/intent/api/v1/business/sda/edge-device
+    sda.Sda.add_edge_device,
+    sda.Sda.delete_edge_device,
+
+  - Paths used are
+    post /dna/intent/api/v1/business/sda/edge-device,
+    delete /dna/intent/api/v1/business/sda/edge-device,
+
 """
 
 EXAMPLES = r"""

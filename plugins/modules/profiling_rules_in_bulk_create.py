@@ -10,9 +10,7 @@ module: profiling_rules_in_bulk_create
 short_description: Resource module for Profiling Rules In Bulk Create
 description:
 - Manage operation create of the resource Profiling Rules In Bulk Create.
-- This API imports the given list of profiling rules. For each record,
-  1) If 'ruleType' for a record is not 'Custom Rule', then it is rejected.
-  2) If 'ruleId' is provided in the input record,
+- This API imports the given list of profiling rules. For each record, 1) If 'ruleType' for a record is not 'Custom Rule', then it is rejected. 2) If 'ruleId' is provided in the input record,
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -124,8 +122,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    policy.Policy.import_profiling_rules_in_bulk
-  - Paths used are post /dna/intent/api/v1/endpoint-analytics/profiling-rules/bulk
+    policy.Policy.import_profiling_rules_in_bulk,
+
+  - Paths used are
+    post /dna/intent/api/v1/endpoint-analytics/profiling-rules/bulk,
+
 """
 
 EXAMPLES = r"""

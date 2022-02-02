@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    discovery.Discovery.get_discovery_by_id
-  - Paths used are get /dna/intent/api/v1/discovery/{id}
+    discovery.Discovery.get_discovery_by_id,
+
+  - Paths used are
+    get /dna/intent/api/v1/discovery/{id},
+
 """
 
 EXAMPLES = r"""

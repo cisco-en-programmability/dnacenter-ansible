@@ -20,7 +20,7 @@ options:
     description: Wireless Provision Device Create's payload.
     suboptions:
       deviceName:
-        description: Device Name.
+        description: Controller Name.
         type: str
       dynamicInterfaces:
         description: Wireless Provision Device Create's dynamicInterfaces.
@@ -29,7 +29,7 @@ options:
             description: Interface Gateway.
             type: str
           interfaceIPAddress:
-            description: Interface IPAddress.
+            description: Interface IP Address.
             type: str
           interfaceName:
             description: Interface Name.
@@ -41,21 +41,27 @@ options:
             description: Lag Or Port Number.
             type: int
           vlanId:
-            description: Vlan Id.
+            description: VLAN ID.
             type: int
         type: list
       managedAPLocations:
-        description: Managed APLocations.
+        description: List of managed AP locations (Site Hierarchies).
         elements: str
         type: list
+      site:
+        description: Full Site Hierarchy where device has to be assigned.
+        type: str
     type: list
 requirements:
 - dnacentersdk >= 2.4.4
 - python >= 3.5
 notes:
   - SDK Method used are
-    wireless.Wireless.provision
-  - Paths used are post /dna/intent/api/v1/wireless/provision
+    wireless.Wireless.provision,
+
+  - Paths used are
+    post /dna/intent/api/v1/wireless/provision,
+
 """
 
 EXAMPLES = r"""
@@ -68,6 +74,18 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    payload:
+    - deviceName: string
+      dynamicInterfaces:
+      - interfaceGateway: string
+        interfaceIPAddress: string
+        interfaceName: string
+        interfaceNetmaskInCIDR: 1
+        lagOrPortNumber: 1
+        vlanId: 1
+      managedAPLocations:
+      - string
+      site: string
 
 """
 

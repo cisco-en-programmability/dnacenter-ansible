@@ -32,8 +32,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.get_ip_pool_from_sda_virtual_network
-  - Paths used are get /dna/intent/api/v1/business/sda/virtualnetwork/ippool
+    sda.Sda.get_ip_pool_from_sda_virtual_network,
+
+  - Paths used are
+    get /dna/intent/api/v1/business/sda/virtualnetwork/ippool,
+
 """
 
 EXAMPLES = r"""

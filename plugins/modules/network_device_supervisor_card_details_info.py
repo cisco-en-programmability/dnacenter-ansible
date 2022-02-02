@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_supervisor_card_detail
-  - Paths used are get /dna/intent/api/v1/network-device/{deviceUuid}/supervisor-card
+    devices.Devices.get_supervisor_card_detail,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/{deviceUuid}/supervisor-card,
+
 """
 
 EXAMPLES = r"""

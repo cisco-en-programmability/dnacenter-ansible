@@ -11,8 +11,8 @@ short_description: Information module for Configuration Template
 description:
 - Get all Configuration Template.
 - Get Configuration Template by id.
-- List the templates available
 - Details of the template by its id.
+- List the templates available.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -79,9 +79,12 @@ requirements:
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_template_details,
-    configuration_templates.ConfigurationTemplates.gets_the_templates_available
-  - Paths used are get /dna/intent/api/v1/template-programmer/template,
-    get /dna/intent/api/v1/template-programmer/template/{templateId}
+    configuration_templates.ConfigurationTemplates.gets_the_templates_available,
+
+  - Paths used are
+    get /dna/intent/api/v1/template-programmer/template,
+    get /dna/intent/api/v1/template-programmer/template/{templateId},
+
 """
 
 EXAMPLES = r"""

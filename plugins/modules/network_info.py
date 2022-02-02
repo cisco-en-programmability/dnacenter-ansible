@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.get_network
-  - Paths used are get /dna/intent/api/v1/network
+    network_settings.NetworkSettings.get_network,
+
+  - Paths used are
+    get /dna/intent/api/v1/network,
+
 """
 
 EXAMPLES = r"""

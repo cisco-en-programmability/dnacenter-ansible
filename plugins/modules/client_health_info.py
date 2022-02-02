@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    clients.Clients.get_overall_client_health
-  - Paths used are get /dna/intent/api/v1/client-health
+    clients.Clients.get_overall_client_health,
+
+  - Paths used are
+    get /dna/intent/api/v1/client-health,
+
 """
 
 EXAMPLES = r"""

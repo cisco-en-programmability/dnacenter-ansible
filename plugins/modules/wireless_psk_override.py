@@ -34,8 +34,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    wireless.Wireless.psk_override
-  - Paths used are post /dna/intent/api/v1/wireless/psk-override
+    wireless.Wireless.psk_override,
+
+  - Paths used are
+    post /dna/intent/api/v1/wireless/psk-override,
+
 """
 
 EXAMPLES = r"""

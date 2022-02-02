@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    event_management.EventManagement.count_of_event_subscriptions
-  - Paths used are get /dna/intent/api/v1/event/subscription/count
+    event_management.EventManagement.count_of_event_subscriptions,
+
+  - Paths used are
+    get /dna/intent/api/v1/event/subscription/count,
+
 """
 
 EXAMPLES = r"""

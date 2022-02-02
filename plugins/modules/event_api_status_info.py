@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    event_management.EventManagement.get_status_api_for_events
-  - Paths used are get /dna/intent/api/v1/event/api-status/{executionId}
+    event_management.EventManagement.get_status_api_for_events,
+
+  - Paths used are
+    get /dna/intent/api/v1/event/api-status/{executionId},
+
 """
 
 EXAMPLES = r"""

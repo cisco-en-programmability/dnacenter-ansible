@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sensors.Sensors.sensors
-  - Paths used are get /dna/intent/api/v1/sensor
+    sensors.Sensors.sensors,
+
+  - Paths used are
+    get /dna/intent/api/v1/sensor,
+
 """
 
 EXAMPLES = r"""

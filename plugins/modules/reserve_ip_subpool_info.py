@@ -36,8 +36,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.get_reserve_ip_subpool
-  - Paths used are get /dna/intent/api/v1/reserve-ip-subpool
+    network_settings.NetworkSettings.get_reserve_ip_subpool,
+
+  - Paths used are
+    get /dna/intent/api/v1/reserve-ip-subpool,
+
 """
 
 EXAMPLES = r"""

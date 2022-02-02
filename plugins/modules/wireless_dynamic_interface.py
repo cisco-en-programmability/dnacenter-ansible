@@ -29,9 +29,12 @@ requirements:
 notes:
   - SDK Method used are
     wireless.Wireless.create_update_dynamic_interface,
-    wireless.Wireless.delete_dynamic_interface
-  - Paths used are post /dna/intent/api/v1/wireless/dynamic-interface,
-    delete /dna/intent/api/v1/wireless/dynamic-interface/{interfaceName}
+    wireless.Wireless.delete_dynamic_interface,
+
+  - Paths used are
+    post /dna/intent/api/v1/wireless/dynamic-interface,
+    delete /dna/intent/api/v1/wireless/dynamic-interface/{interfaceName},
+
 """
 
 EXAMPLES = r"""
@@ -66,13 +69,11 @@ RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: list
+  type: dict
   sample: >
-    [
-      {
-        "executionId": "string",
-        "executionUrl": "string",
-        "message": "string"
-      }
-    ]
+    {
+      "executionId": "string",
+      "executionUrl": "string",
+      "message": "string"
+    }
 """

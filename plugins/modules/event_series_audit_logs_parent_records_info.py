@@ -122,8 +122,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    event_management.EventManagement.get_auditlog_parent_records
-  - Paths used are get /dna/data/api/v1/event/event-series/audit-log/parent-records
+    event_management.EventManagement.get_auditlog_parent_records,
+
+  - Paths used are
+    get /dna/data/api/v1/event/event-series/audit-log/parent-records,
+
 """
 
 EXAMPLES = r"""

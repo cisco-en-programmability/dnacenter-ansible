@@ -29,8 +29,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.gets_border_device_detail
-  - Paths used are get /dna/intent/api/v1/business/sda/border-device
+    sda.Sda.gets_border_device_detail,
+
+  - Paths used are
+    get /dna/intent/api/v1/business/sda/border-device,
+
 """
 
 EXAMPLES = r"""

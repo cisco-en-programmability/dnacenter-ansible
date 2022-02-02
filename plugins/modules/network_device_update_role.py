@@ -30,8 +30,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.update_device_role
-  - Paths used are put /dna/intent/api/v1/network-device/brief
+    devices.Devices.update_device_role,
+
+  - Paths used are
+    put /dna/intent/api/v1/network-device/brief,
+
 """
 
 EXAMPLES = r"""

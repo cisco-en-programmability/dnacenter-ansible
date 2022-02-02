@@ -45,9 +45,12 @@ requirements:
 notes:
   - SDK Method used are
     discovery.Discovery.get_credential_sub_type_by_credential_id,
-    discovery.Discovery.get_global_credentials
-  - Paths used are get /dna/intent/api/v1/global-credential,
-    get /dna/intent/api/v1/global-credential/{id}
+    discovery.Discovery.get_global_credentials,
+
+  - Paths used are
+    get /dna/intent/api/v1/global-credential,
+    get /dna/intent/api/v1/global-credential/{id},
+
 """
 
 EXAMPLES = r"""

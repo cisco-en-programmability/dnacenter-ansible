@@ -30,8 +30,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    compliance.Compliance.get_compliance_status_count
-  - Paths used are get /dna/intent/api/v1/compliance/count
+    compliance.Compliance.get_compliance_status_count,
+
+  - Paths used are
+    get /dna/intent/api/v1/compliance/count,
+
 """
 
 EXAMPLES = r"""

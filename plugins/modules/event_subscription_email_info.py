@@ -46,8 +46,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    event_management.EventManagement.get_email_event_subscriptions
-  - Paths used are get /dna/intent/api/v1/event/subscription/email
+    event_management.EventManagement.get_email_event_subscriptions,
+
+  - Paths used are
+    get /dna/intent/api/v1/event/subscription/email,
+
 """
 
 EXAMPLES = r"""
@@ -124,7 +127,7 @@ dnac_response:
             "string"
           ]
         },
-        "isPrivate": "string",
+        "isPrivate": true,
         "tenantId": "string"
       }
     ]

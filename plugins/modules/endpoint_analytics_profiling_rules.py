@@ -118,11 +118,14 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    policy.Policy.update_an_existing_profiling_rule,
     policy.Policy.create_a_profiling_rule,
-    policy.Policy.delete_an_existing_profiling_rule
-  - Paths used are post /dna/intent/api/v1/endpoint-analytics/profiling-rules,
-    delete /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId}
+    policy.Policy.delete_an_existing_profiling_rule,
+    policy.Policy.update_an_existing_profiling_rule,
+
+  - Paths used are
+    post /dna/intent/api/v1/endpoint-analytics/profiling-rules,
+    delete /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
+
 """
 
 EXAMPLES = r"""

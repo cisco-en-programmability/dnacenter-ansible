@@ -24,8 +24,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.get_service_provider_details
-  - Paths used are get /dna/intent/api/v1/service-provider
+    network_settings.NetworkSettings.get_service_provider_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/service-provider,
+
 """
 
 EXAMPLES = r"""

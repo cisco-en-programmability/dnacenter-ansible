@@ -29,22 +29,6 @@ options:
   instanceUuid:
     description: Snmpv2 Write Community Credential's instanceUuid.
     type: str
-  payload:
-    description: Snmpv2 Write Community Credential's payload.
-    suboptions:
-      comments:
-        description: Comments to identify the credential.
-        type: str
-      credentialType:
-        description: Credential type to identify the application that uses the credential.
-        type: str
-      description:
-        description: Name/Description of the credential.
-        type: str
-      writeCommunity:
-        description: SNMP write community.
-        type: str
-    type: list
   writeCommunity:
     description: SNMP write community. NO!$DATA!$ for no value change.
     type: str
@@ -54,9 +38,12 @@ requirements:
 notes:
   - SDK Method used are
     discovery.Discovery.create_snmp_write_community,
-    discovery.Discovery.update_snmp_write_community
-  - Paths used are post /dna/intent/api/v1/global-credential/snmpv2-write-community,
-    put /dna/intent/api/v1/global-credential/snmpv2-write-community
+    discovery.Discovery.update_snmp_write_community,
+
+  - Paths used are
+    post /dna/intent/api/v1/global-credential/snmpv2-write-community,
+    put /dna/intent/api/v1/global-credential/snmpv2-write-community,
+
 """
 
 EXAMPLES = r"""
@@ -70,6 +57,10 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    comments: string
+    credentialType: string
+    description: string
+    writeCommunity: string
 
 - name: Update all
   cisco.dnac.snmpv2_write_community_credential:

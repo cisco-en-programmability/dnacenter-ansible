@@ -54,8 +54,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    tag.Tag.get_tag_members_by_id
-  - Paths used are get /dna/intent/api/v1/tag/{id}/member
+    tag.Tag.get_tag_members_by_id,
+
+  - Paths used are
+    get /dna/intent/api/v1/tag/{id}/member,
+
 """
 
 EXAMPLES = r"""

@@ -29,8 +29,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.get_control_plane_device
-  - Paths used are get /dna/intent/api/v1/business/sda/control-plane-device
+    sda.Sda.get_control_plane_device,
+
+  - Paths used are
+    get /dna/intent/api/v1/business/sda/control-plane-device,
+
 """
 
 EXAMPLES = r"""

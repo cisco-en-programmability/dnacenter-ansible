@@ -76,8 +76,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    event_management.EventManagement.get_notifications
-  - Paths used are get /dna/intent/api/v1/event/event-series
+    event_management.EventManagement.get_notifications,
+
+  - Paths used are
+    get /dna/intent/api/v1/event/event-series,
+
 """
 
 EXAMPLES = r"""

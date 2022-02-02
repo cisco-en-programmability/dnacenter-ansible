@@ -96,7 +96,7 @@ options:
     type: dict
   rfProfileName:
     description: RfProfileName path parameter. RF profile name to be deleted(required)
-      *non-custom RF profile cannot be deleted.
+      non-custom RF profile cannot be deleted.
     type: str
 requirements:
 - dnacentersdk >= 2.4.4
@@ -104,9 +104,12 @@ requirements:
 notes:
   - SDK Method used are
     wireless.Wireless.create_or_update_rf_profile,
-    wireless.Wireless.delete_rf_profiles
-  - Paths used are post /dna/intent/api/v1/wireless/rf-profile,
-    delete /dna/intent/api/v1/wireless/rf-profile/{rfProfileName}
+    wireless.Wireless.delete_rf_profiles,
+
+  - Paths used are
+    post /dna/intent/api/v1/wireless/rf-profile,
+    delete /dna/intent/api/v1/wireless/rf-profile/{rfProfileName},
+
 """
 
 EXAMPLES = r"""

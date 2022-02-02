@@ -100,8 +100,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.sync_virtual_account_devices
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/vacct-sync
+    device_onboarding_pnp.DeviceOnboardingPnp.sync_virtual_account_devices,
+
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-device/vacct-sync,
+
 """
 
 EXAMPLES = r"""

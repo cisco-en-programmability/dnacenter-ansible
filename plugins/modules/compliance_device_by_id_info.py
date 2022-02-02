@@ -50,8 +50,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    compliance.Compliance.compliance_details_of_device
-  - Paths used are get /dna/intent/api/v1/compliance/{deviceUuid}/detail
+    compliance.Compliance.compliance_details_of_device,
+
+  - Paths used are
+    get /dna/intent/api/v1/compliance/{deviceUuid}/detail,
+
 """
 
 EXAMPLES = r"""

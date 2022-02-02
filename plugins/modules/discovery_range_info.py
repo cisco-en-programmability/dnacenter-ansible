@@ -32,8 +32,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    discovery.Discovery.get_discoveries_by_range
-  - Paths used are get /dna/intent/api/v1/discovery/{startIndex}/{recordsToReturn}
+    discovery.Discovery.get_discoveries_by_range,
+
+  - Paths used are
+    get /dna/intent/api/v1/discovery/{startIndex}/{recordsToReturn},
+
 """
 
 EXAMPLES = r"""

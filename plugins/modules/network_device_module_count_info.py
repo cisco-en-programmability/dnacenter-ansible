@@ -44,8 +44,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_module_count
-  - Paths used are get /dna/intent/api/v1/network-device/module/count
+    devices.Devices.get_module_count,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/module/count,
+
 """
 
 EXAMPLES = r"""

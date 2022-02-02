@@ -27,8 +27,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sensors.Sensors.duplicate_sensor_test_template
-  - Paths used are put /dna/intent/api/v1/sensorTestTemplate
+    sensors.Sensors.duplicate_sensor_test_template,
+
+  - Paths used are
+    put /dna/intent/api/v1/sensorTestTemplate,
+
 """
 
 EXAMPLES = r"""

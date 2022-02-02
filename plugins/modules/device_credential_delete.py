@@ -24,8 +24,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.delete_device_credential
-  - Paths used are delete /dna/intent/api/v1/device-credential/{id}
+    network_settings.NetworkSettings.delete_device_credential,
+
+  - Paths used are
+    delete /dna/intent/api/v1/device-credential/{id},
+
 """
 
 EXAMPLES = r"""

@@ -10,9 +10,9 @@ module: global_pool
 short_description: Resource module for Global Pool
 description:
 - Manage operations create, update and delete of the resource Global Pool.
-- API to update global pool.
 - API to create global pool.
 - API to delete global IP pool.
+- API to update global pool.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -51,12 +51,15 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.delete_global_ip_pool,
     network_settings.NetworkSettings.create_global_pool,
-    network_settings.NetworkSettings.update_global_pool
-  - Paths used are put /dna/intent/api/v1/global-pool,
+    network_settings.NetworkSettings.delete_global_ip_pool,
+    network_settings.NetworkSettings.update_global_pool,
+
+  - Paths used are
     post /dna/intent/api/v1/global-pool,
-    delete /dna/intent/api/v1/global-pool/{id}
+    delete /dna/intent/api/v1/global-pool/{id},
+    put /dna/intent/api/v1/global-pool,
+
 """
 
 EXAMPLES = r"""

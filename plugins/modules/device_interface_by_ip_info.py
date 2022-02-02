@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_interface_by_ip
-  - Paths used are get /dna/intent/api/v1/interface/ip-address/{ipAddress}
+    devices.Devices.get_interface_by_ip,
+
+  - Paths used are
+    get /dna/intent/api/v1/interface/ip-address/{ipAddress},
+
 """
 
 EXAMPLES = r"""

@@ -48,8 +48,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.threat_detail_count
-  - Paths used are post /dna/intent/api/v1/security/threats/details/count
+    devices.Devices.threat_detail_count,
+
+  - Paths used are
+    post /dna/intent/api/v1/security/threats/details/count,
+
 """
 
 EXAMPLES = r"""

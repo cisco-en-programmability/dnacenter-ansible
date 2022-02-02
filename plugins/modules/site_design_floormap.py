@@ -23,16 +23,19 @@ options:
   payload:
     description: Site Design Floormap's payload
     type: dict
-requirements:
+  requirements:
 - dnacentersdk >= 2.4.4
 - python >= 3.5
 notes:
   - SDK Method used are
-    site_design.SiteDesign.update_floormap,
     site_design.SiteDesign.create_floormap,
-    site_design.SiteDesign.delete_floormap
-  - Paths used are post /dna/intent/api/v1/wireless/floormap,
-    delete /dna/intent/api/v1/wireless/floormap/{floorId}
+    site_design.SiteDesign.delete_floormap,
+    site_design.SiteDesign.update_floormap,
+
+  - Paths used are
+    post /dna/intent/api/v1/wireless/floormap,
+    delete /dna/intent/api/v1/wireless/floormap/{floorId},
+
 """
 
 EXAMPLES = r"""

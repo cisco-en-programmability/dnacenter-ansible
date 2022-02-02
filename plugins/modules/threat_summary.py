@@ -39,8 +39,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.threat_summary
-  - Paths used are post /dna/intent/api/v1/security/threats/summary
+    devices.Devices.threat_summary,
+
+  - Paths used are
+    post /dna/intent/api/v1/security/threats/summary,
+
 """
 
 EXAMPLES = r"""

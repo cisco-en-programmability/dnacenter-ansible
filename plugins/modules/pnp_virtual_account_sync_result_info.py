@@ -32,8 +32,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.get_sync_result_for_virtual_account
-  - Paths used are get /dna/intent/api/v1/onboarding/pnp-device/sacct/{domain}/vacct/{name}/sync-result
+    device_onboarding_pnp.DeviceOnboardingPnp.get_sync_result_for_virtual_account,
+
+  - Paths used are
+    get /dna/intent/api/v1/onboarding/pnp-device/sacct/{domain}/vacct/{name}/sync-result,
+
 """
 
 EXAMPLES = r"""

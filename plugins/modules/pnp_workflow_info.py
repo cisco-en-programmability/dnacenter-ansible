@@ -11,9 +11,8 @@ short_description: Information module for Pnp Workflow
 description:
 - Get all Pnp Workflow.
 - Get Pnp Workflow by id.
-- Returns the list of workflows based on filter criteria. If a limit is not specified, it will default to return 50 workflows.
-  Pagination and sorting are also supported by this endpoint.
 - Returns a workflow specified by id.
+- Returns the list of workflows based on filter criteria. If a limit is not specified, it will default to return 50 workflows. Pagination and sorting are also supported by this endpoint.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -55,10 +54,13 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.get_workflow_by_id,
     device_onboarding_pnp.DeviceOnboardingPnp.get_workflows,
-    device_onboarding_pnp.DeviceOnboardingPnp.get_workflow_by_id
-  - Paths used are get /dna/intent/api/v1/onboarding/pnp-workflow,
-    get /dna/intent/api/v1/onboarding/pnp-workflow/{id}
+
+  - Paths used are
+    get /dna/intent/api/v1/onboarding/pnp-workflow,
+    get /dna/intent/api/v1/onboarding/pnp-workflow/{id},
+
 """
 
 EXAMPLES = r"""

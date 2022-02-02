@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    topology.Topology.get_overall_network_health
-  - Paths used are get /dna/intent/api/v1/network-health
+    topology.Topology.get_overall_network_health,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-health,
+
 """
 
 EXAMPLES = r"""
@@ -91,10 +94,7 @@ dnac_response:
           "fairCount": 0,
           "unmonCount": 0,
           "kpiMetrics": [
-            {
-              "key": "string",
-              "value": "string"
-            }
+            {}
           ]
         }
       ]

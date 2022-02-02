@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_wireless_lan_controller_details_by_id
-  - Paths used are get /dna/intent/api/v1/network-device/{id}/wireless-info
+    devices.Devices.get_wireless_lan_controller_details_by_id,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/{id}/wireless-info,
+
 """
 
 EXAMPLES = r"""

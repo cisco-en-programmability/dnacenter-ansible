@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.get_sda_fabric_info
-  - Paths used are get /dna/intent/api/v1/business/sda/fabric
+    sda.Sda.get_sda_fabric_info,
+
+  - Paths used are
+    get /dna/intent/api/v1/business/sda/fabric,
+
 """
 
 EXAMPLES = r"""
@@ -58,6 +61,9 @@ dnac_response:
     {
       "status": "string",
       "description": "string",
-      "executionStatusUrl": "string"
+      "executionId": "string",
+      "fabricName": "string",
+      "fabricType": "string",
+      "fabricDomainType": "string"
     }
 """
