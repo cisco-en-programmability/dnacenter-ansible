@@ -10,8 +10,8 @@ module: netconf_credential
 short_description: Resource module for Netconf Credential
 description:
 - Manage operations create and update of the resource Netconf Credential.
-- Updates global netconf credentials.
 - Adds global netconf credentials.
+- Updates global netconf credentials.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -39,14 +39,17 @@ options:
     description: Netconf Credential's netconfPort.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
+    discovery.Discovery.create_netconf_credentials,
     discovery.Discovery.update_netconf_credentials,
-    discovery.Discovery.create_netconf_credentials
-  - Paths used are put /dna/intent/api/v1/global-credential/netconf,
-    post /dna/intent/api/v1/global-credential/netconf
+
+  - Paths used are
+    post /dna/intent/api/v1/global-credential/netconf,
+    put /dna/intent/api/v1/global-credential/netconf,
+
 """
 
 EXAMPLES = r"""
@@ -78,13 +81,14 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    comments: string
-    credentialType: string
-    description: string
-    id: string
-    instanceTenantId: string
-    instanceUuid: string
-    netconfPort: string
+    payload:
+    - comments: string
+      credentialType: string
+      description: string
+      id: string
+      instanceTenantId: string
+      instanceUuid: string
+      netconfPort: string
 
 """
 

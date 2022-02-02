@@ -30,12 +30,15 @@ options:
     description: Tag Membership's memberType.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    tag.Tag.updates_tag_membership
-  - Paths used are put /dna/intent/api/v1/tag/member
+    tag.Tag.updates_tag_membership,
+
+  - Paths used are
+    put /dna/intent/api/v1/tag/member,
+
 """
 
 EXAMPLES = r"""

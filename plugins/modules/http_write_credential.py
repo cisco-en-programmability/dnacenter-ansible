@@ -10,8 +10,8 @@ module: http_write_credential
 short_description: Resource module for Http Write Credential
 description:
 - Manage operations create and update of the resource Http Write Credential.
-- Updates global HTTP write credentials.
 - Adds global HTTP write credentials.
+- Updates global HTTP write credentials.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -48,14 +48,17 @@ options:
     description: Http Write Credential's username.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
     discovery.Discovery.create_http_write_credentials,
-    discovery.Discovery.update_http_write_credentials
-  - Paths used are put /dna/intent/api/v1/global-credential/http-write,
-    post /dna/intent/api/v1/global-credential/http-write
+    discovery.Discovery.update_http_write_credentials,
+
+  - Paths used are
+    post /dna/intent/api/v1/global-credential/http-write,
+    put /dna/intent/api/v1/global-credential/http-write,
+
 """
 
 EXAMPLES = r"""

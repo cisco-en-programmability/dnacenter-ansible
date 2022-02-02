@@ -28,12 +28,15 @@ options:
     - SiteNameHierarchy query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.get_vn
-  - Paths used are get /dna/intent/api/v1/business/sda/virtual-network
+    sda.Sda.get_vn,
+
+  - Paths used are
+    get /dna/intent/api/v1/business/sda/virtual-network,
+
 """
 
 EXAMPLES = r"""

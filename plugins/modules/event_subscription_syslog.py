@@ -10,8 +10,8 @@ module: event_subscription_syslog
 short_description: Resource module for Event Subscription Syslog
 description:
 - Manage operations create and update of the resource Event Subscription Syslog.
-- Update Syslog Subscription Endpoint for list of registered events.
 - Create Syslog Subscription Endpoint for list of registered events.
+- Update Syslog Subscription Endpoint for list of registered events.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -56,14 +56,17 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
+    event_management.EventManagement.create_syslog_event_subscription,
     event_management.EventManagement.update_syslog_event_subscription,
-    event_management.EventManagement.create_syslog_event_subscription
-  - Paths used are put /dna/intent/api/v1/event/subscription/syslog,
-    post /dna/intent/api/v1/event/subscription/syslog
+
+  - Paths used are
+    post /dna/intent/api/v1/event/subscription/syslog,
+    put /dna/intent/api/v1/event/subscription/syslog,
+
 """
 
 EXAMPLES = r"""
@@ -78,6 +81,17 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
+    - description: string
+      filter:
+        eventIds:
+        - string
+      name: string
+      subscriptionEndpoints:
+      - instanceId: string
+        subscriptionDetails:
+          connectorType: string
+      subscriptionId: string
+      version: string
 
 - name: Create
   cisco.dnac.event_subscription_syslog:
@@ -90,6 +104,17 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
+    - description: string
+      filter:
+        eventIds:
+        - string
+      name: string
+      subscriptionEndpoints:
+      - instanceId: string
+        subscriptionDetails:
+          connectorType: string
+      subscriptionId: string
+      version: string
 
 """
 

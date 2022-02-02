@@ -32,12 +32,15 @@ options:
       here /dna/platform/app/consumer-portal/developer-toolkit/events.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    health_and_performance.HealthAndPerformance.system_health_count
-  - Paths used are get /dna/intent/api/v1/diagnostics/system/health/count
+    health_and_performance.HealthAndPerformance.system_health_count,
+
+  - Paths used are
+    get /dna/intent/api/v1/diagnostics/system/health/count,
+
 """
 
 EXAMPLES = r"""

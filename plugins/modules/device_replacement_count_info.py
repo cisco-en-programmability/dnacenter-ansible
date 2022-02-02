@@ -26,12 +26,15 @@ options:
       PROGRESS, REPLACEMENT-SCHEDULED, REPLACED, ERROR.
     type: list
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_replacement.DeviceReplacement.return_replacement_devices_count
-  - Paths used are get /dna/intent/api/v1/device-replacement/count
+    device_replacement.DeviceReplacement.return_replacement_devices_count,
+
+  - Paths used are
+    get /dna/intent/api/v1/device-replacement/count,
+
 """
 
 EXAMPLES = r"""

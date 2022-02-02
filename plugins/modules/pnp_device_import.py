@@ -804,12 +804,15 @@ options:
         type: dict
     type: list
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.import_devices_in_bulk
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/import
+    device_onboarding_pnp.DeviceOnboardingPnp.import_devices_in_bulk,
+
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-device/import,
+
 """
 
 EXAMPLES = r"""
@@ -823,6 +826,262 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
+    - _id: string
+      deviceInfo:
+        aaaCredentials:
+          password: string
+          username: string
+        addedOn: 1
+        addnMacAddrs:
+        - string
+        agentType: string
+        authStatus: string
+        authenticatedSudiSerialNo: string
+        capabilitiesSupported:
+        - string
+        cmState: string
+        description: string
+        deviceSudiSerialNos:
+        - string
+        deviceType: string
+        featuresSupported:
+        - string
+        fileSystemList:
+        - freespace: 1
+          name: string
+          readable: true
+          size: 1
+          type: string
+          writeable: true
+        firstContact: 1
+        hostname: string
+        httpHeaders:
+        - key: string
+          value: string
+        imageFile: string
+        imageVersion: string
+        ipInterfaces:
+        - ipv4Address: {}
+          ipv6AddressList:
+          - {}
+          macAddress: string
+          name: string
+          status: string
+        lastContact: 1
+        lastSyncTime: 1
+        lastUpdateOn: 1
+        location:
+          address: string
+          altitude: string
+          latitude: string
+          longitude: string
+          siteId: string
+        macAddress: string
+        mode: string
+        name: string
+        neighborLinks:
+        - localInterfaceName: string
+          localMacAddress: string
+          localShortInterfaceName: string
+          remoteDeviceName: string
+          remoteInterfaceName: string
+          remoteMacAddress: string
+          remotePlatform: string
+          remoteShortInterfaceName: string
+          remoteVersion: string
+        onbState: string
+        pid: string
+        pnpProfileList:
+        - createdBy: string
+          discoveryCreated: true
+          primaryEndpoint:
+            certificate: string
+            fqdn: string
+            ipv4Address: {}
+            ipv6Address: {}
+            port: 1
+            protocol: string
+          profileName: string
+          secondaryEndpoint:
+            certificate: string
+            fqdn: string
+            ipv4Address: {}
+            ipv6Address: {}
+            port: 1
+            protocol: string
+        populateInventory: true
+        preWorkflowCliOuputs:
+        - cli: string
+          cliOutput: string
+        projectId: string
+        projectName: string
+        reloadRequested: true
+        serialNumber: string
+        smartAccountId: string
+        source: string
+        stack: true
+        stackInfo:
+          isFullRing: true
+          stackMemberList:
+          - hardwareVersion: string
+            licenseLevel: string
+            licenseType: string
+            macAddress: string
+            pid: string
+            priority: 1
+            role: string
+            serialNumber: string
+            softwareVersion: string
+            stackNumber: 1
+            state: string
+            sudiSerialNumber: string
+          stackRingProtocol: string
+          supportsStackWorkflows: true
+          totalMemberCount: 1
+          validLicenseLevels:
+          - string
+        state: string
+        sudiRequired: true
+        tags: {}
+        userSudiSerialNos:
+        - string
+        virtualAccountId: string
+        workflowId: string
+        workflowName: string
+      runSummaryList:
+      - details: string
+        errorFlag: true
+        historyTaskInfo:
+          addnDetails:
+          - key: string
+            value: string
+          name: string
+          timeTaken: 1
+          type: string
+          workItemList:
+          - command: string
+            endTime: 1
+            outputStr: string
+            startTime: 1
+            state: string
+            timeTaken: 1
+        timestamp: 1
+      systemResetWorkflow:
+        _id: string
+        addToInventory: true
+        addedOn: 1
+        configId: string
+        currTaskIdx: 1
+        description: string
+        endTime: 1
+        execTime: 1
+        imageId: string
+        instanceType: string
+        lastupdateOn: 1
+        name: string
+        startTime: 1
+        state: string
+        tasks:
+        - currWorkItemIdx: 1
+          endTime: 1
+          name: string
+          startTime: 1
+          state: string
+          taskSeqNo: 1
+          timeTaken: 1
+          type: string
+          workItemList:
+          - command: string
+            endTime: 1
+            outputStr: string
+            startTime: 1
+            state: string
+            timeTaken: 1
+        tenantId: string
+        type: string
+        useState: string
+        version: 1
+      systemWorkflow:
+        _id: string
+        addToInventory: true
+        addedOn: 1
+        configId: string
+        currTaskIdx: 1
+        description: string
+        endTime: 1
+        execTime: 1
+        imageId: string
+        instanceType: string
+        lastupdateOn: 1
+        name: string
+        startTime: 1
+        state: string
+        tasks:
+        - currWorkItemIdx: 1
+          endTime: 1
+          name: string
+          startTime: 1
+          state: string
+          taskSeqNo: 1
+          timeTaken: 1
+          type: string
+          workItemList:
+          - command: string
+            endTime: 1
+            outputStr: string
+            startTime: 1
+            state: string
+            timeTaken: 1
+        tenantId: string
+        type: string
+        useState: string
+        version: 1
+      tenantId: string
+      version: 1
+      workflow:
+        _id: string
+        addToInventory: true
+        addedOn: 1
+        configId: string
+        currTaskIdx: 1
+        description: string
+        endTime: 1
+        execTime: 1
+        imageId: string
+        instanceType: string
+        lastupdateOn: 1
+        name: string
+        startTime: 1
+        state: string
+        tasks:
+        - currWorkItemIdx: 1
+          endTime: 1
+          name: string
+          startTime: 1
+          state: string
+          taskSeqNo: 1
+          timeTaken: 1
+          type: string
+          workItemList:
+          - command: string
+            endTime: 1
+            outputStr: string
+            startTime: 1
+            state: string
+            timeTaken: 1
+        tenantId: string
+        type: string
+        useState: string
+        version: 1
+      workflowParameters:
+        configList:
+        - configId: string
+          configParameters:
+          - key: string
+            value: string
+        licenseLevel: string
+        licenseType: string
+        topOfStackSerialNumber: string
 
 """
 
@@ -934,7 +1193,9 @@ dnac_response:
                 "status": "string",
                 "macAddress": "string",
                 "ipv4Address": {},
-                "ipv6AddressList": [],
+                "ipv6AddressList": [
+                  {}
+                ],
                 "name": "string"
               }
             ],

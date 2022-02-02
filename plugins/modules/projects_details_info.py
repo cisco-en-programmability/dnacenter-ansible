@@ -40,12 +40,15 @@ options:
     - SortOrder query parameter. Sort Order Ascending (asc) or Descending (dsc).
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_projects_details
-  - Paths used are get /dna/intent/api/v2/template-programmer/project
+    configuration_templates.ConfigurationTemplates.get_projects_details,
+
+  - Paths used are
+    get /dna/intent/api/v2/template-programmer/project,
+
 """
 
 EXAMPLES = r"""

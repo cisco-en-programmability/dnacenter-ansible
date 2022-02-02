@@ -26,12 +26,15 @@ options:
     elements: dict
     type: list
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.sync_devices_using_forcesync
-  - Paths used are put /dna/intent/api/v1/network-device/sync
+    devices.Devices.sync_devices_using_forcesync,
+
+  - Paths used are
+    put /dna/intent/api/v1/network-device/sync,
+
 """
 
 EXAMPLES = r"""

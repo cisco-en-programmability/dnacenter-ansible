@@ -28,12 +28,15 @@ options:
     - Type query parameter. Type value should be PowerSupply or Fan.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.return_power_supply_fan_details_for_the_given_device
-  - Paths used are get /dna/intent/api/v1/network-device/{deviceUuid}/equipment
+    devices.Devices.return_power_supply_fan_details_for_the_given_device,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/{deviceUuid}/equipment,
+
 """
 
 EXAMPLES = r"""

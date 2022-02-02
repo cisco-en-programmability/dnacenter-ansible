@@ -44,12 +44,15 @@ options:
     - Order query parameter. Order. Value can be asc or desc. Default value is asc.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.inventory_insight_device_link_mismatch
-  - Paths used are get /dna/intent/api/v1/network-device/insight/{siteId}/device-link
+    devices.Devices.inventory_insight_device_link_mismatch,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/insight/{siteId}/device-link,
+
 """
 
 EXAMPLES = r"""

@@ -84,14 +84,17 @@ options:
     description: TemplateName query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
     sensors.Sensors.create_sensor_test_template,
-    sensors.Sensors.delete_sensor_test
-  - Paths used are post /dna/intent/api/v1/sensor,
-    delete /dna/intent/api/v1/sensor
+    sensors.Sensors.delete_sensor_test,
+
+  - Paths used are
+    post /dna/intent/api/v1/sensor,
+    delete /dna/intent/api/v1/sensor,
+
 """
 
 EXAMPLES = r"""

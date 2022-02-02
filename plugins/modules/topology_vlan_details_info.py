@@ -20,12 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    topology.Topology.get_vlan_details
-  - Paths used are get /dna/intent/api/v1/topology/vlan/vlan-names
+    topology.Topology.get_vlan_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/topology/vlan/vlan-names,
+
 """
 
 EXAMPLES = r"""

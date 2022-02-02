@@ -23,12 +23,15 @@ options:
     description: StartIndex path parameter. Start index.
     type: int
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    discovery.Discovery.delete_discovery_by_specified_range
-  - Paths used are delete /dna/intent/api/v1/discovery/{startIndex}/{recordsToDelete}
+    discovery.Discovery.delete_discovery_by_specified_range,
+
+  - Paths used are
+    delete /dna/intent/api/v1/discovery/{startIndex}/{recordsToDelete},
+
 """
 
 EXAMPLES = r"""

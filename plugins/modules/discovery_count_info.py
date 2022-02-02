@@ -20,12 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    discovery.Discovery.get_count_of_all_discovery_jobs
-  - Paths used are get /dna/intent/api/v1/discovery/count
+    discovery.Discovery.get_count_of_all_discovery_jobs,
+
+  - Paths used are
+    get /dna/intent/api/v1/discovery/count,
+
 """
 
 EXAMPLES = r"""

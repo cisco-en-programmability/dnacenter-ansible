@@ -10,7 +10,7 @@ module: swim_import_via_url
 short_description: Resource module for Swim Import Via Url
 description:
 - Manage operation create of the resource Swim Import Via Url.
-- Fetches a software image from remote file system (using URL for HTTP/FTP) and uploads to DNA Center.
+- Fetches a software image from remote file system using URL for HTTP/FTP and uploads to DNA Center.
   Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -47,12 +47,15 @@ options:
     description: ScheduleOrigin query parameter. Originator of this call (Optional).
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url
-  - Paths used are post /dna/intent/api/v1/image/importation/source/url
+    software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url,
+
+  - Paths used are
+    post /dna/intent/api/v1/image/importation/source/url,
+
 """
 
 EXAMPLES = r"""

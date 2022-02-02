@@ -21,12 +21,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    platform_configuration.PlatformConfiguration.nodes_configuration_summary
-  - Paths used are get /dna/intent/api/v1/nodes-config
+    platform_configuration.PlatformConfiguration.nodes_configuration_summary,
+
+  - Paths used are
+    get /dna/intent/api/v1/nodes-config,
+
 """
 
 EXAMPLES = r"""

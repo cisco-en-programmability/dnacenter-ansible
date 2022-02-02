@@ -54,8 +54,8 @@ options:
               - 223.255.255.255.
             type: str
           secondaryIpAddress:
-            description: Secondary ip address for DHCP (eg 3.3.3.3). Valid range 1.0.0.0
-              - 223.255.255.255.
+            description: Secondary ip address for DHCP (eg 3.3.3.3. Valid range 1.0.0.0
+              - 223.255.255.255).
             type: str
         type: dict
       messageOfTheday:
@@ -130,17 +130,19 @@ options:
         type: str
     type: dict
   siteId:
-    description: SiteId path parameter. Site id to which site details to associate with
-      the network settings.
+    description: SiteId path parameter. Site id to update the network settings which
+      is associated with the site.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.update_network,
-    network_settings.NetworkSettings.create_network
-  - Paths used are put /dna/intent/api/v1/network/{siteId}
+
+  - Paths used are
+    put /dna/intent/api/v1/network/{siteId}
+
 """
 
 EXAMPLES = r"""

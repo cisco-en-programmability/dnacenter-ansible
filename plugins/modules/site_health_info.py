@@ -37,12 +37,15 @@ options:
     - Limit query parameter. The max number of sites in the returned data set. Default is 25, and max at 50.
     type: int
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    sites.Sites.get_site_health
-  - Paths used are get /dna/intent/api/v1/site-health
+    sites.Sites.get_site_health,
+
+  - Paths used are
+    get /dna/intent/api/v1/site-health,
+
 """
 
 EXAMPLES = r"""

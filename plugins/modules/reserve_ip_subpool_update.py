@@ -28,24 +28,8 @@ options:
     elements: str
     type: list
   ipv4GateWay:
-    description: Gateway ip address details, example 175.175.0.1.
+    description: Ipv4 Gate Way.
     type: str
-  ipv4GlobalPool:
-    description: IP v4 Global pool address with cidr, example 175.175.0.0/16.
-    type: str
-  ipv4Prefix:
-    description: IPv4 prefix value is true, the ip4 prefix length input field is enabled
-      , if it is false ipv4 total Host input is enable.
-    type: bool
-  ipv4PrefixLength:
-    description: The ipv4 prefix length is required when ipv4prefix value is true.
-    type: int
-  ipv4Subnet:
-    description: IPv4 Subnet address, example 175.175.0.0.
-    type: str
-  ipv4TotalHost:
-    description: IPv4 total host is required when ipv4prefix value is false.
-    type: int
   ipv6AddressSpace:
     description: If the value is false only ipv4 input are required, otherwise both
       ipv6 and ipv4 are required.
@@ -62,11 +46,11 @@ options:
     description: Gateway ip address details, example 2001 db8 85a3 0 100 1.
     type: str
   ipv6GlobalPool:
-    description: IPv6 Global pool address with cidr this is required when Ipv6AddressSpace
+    description: IP v6 Global pool address with cidr this is required when Ipv6AddressSpace
       value is true, example 2001 db8 85a3 /64.
     type: str
   ipv6Prefix:
-    description: Ipv6 prefix value is true, the ip6 prefix length input field is enabled
+    description: IPv6 prefix value is true, the ip6 prefix length input field is enabled
       , if it is false ipv6 total Host input is enable.
     type: bool
   ipv6PrefixLength:
@@ -82,21 +66,23 @@ options:
     description: Name of the reserve ip sub pool.
     type: str
   siteId:
-    description: SiteId path parameter. Site id to reserve the ip sub pool.
+    description: SiteId path parameter. Site id of site to update sub pool.
     type: str
   slaacSupport:
     description: Slaac Support.
     type: bool
-  type:
-    description: Type of the reserve ip sub pool.
-    type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.update_reserve_ip_subpool
-  - Paths used are put /dna/intent/api/v1/reserve-ip-subpool/{siteId}
+    network_settings.NetworkSettings.update_reserve_ip_subpool,
+
+  - Paths used are
+    put /dna/intent/api/v1/reserve-ip-subpool/{siteId}
+
+  - Removed 'type', 'ipv4GlobalPool', 'ipv4Prefix', 'ipv4PrefixLength', 'ipv4Subnet' and 'ipv4TotalHost' options
+    in v4.3.0.
 """
 
 EXAMPLES = r"""

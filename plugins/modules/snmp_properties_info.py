@@ -20,12 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    discovery.Discovery.get_snmp_properties
-  - Paths used are get /dna/intent/api/v1/snmp-property
+    discovery.Discovery.get_snmp_properties,
+
+  - Paths used are
+    get /dna/intent/api/v1/snmp-property,
+
 """
 
 EXAMPLES = r"""

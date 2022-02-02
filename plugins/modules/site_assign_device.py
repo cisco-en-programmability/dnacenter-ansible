@@ -27,12 +27,15 @@ options:
     description: SiteId path parameter. Site id to which site the device to assign.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    sites.Sites.assign_device_to_site
-  - Paths used are post /dna/system/api/v1/site/{siteId}/device
+    sites.Sites.assign_device_to_site,
+
+  - Paths used are
+    post /dna/system/api/v1/site/{siteId}/device,
+
 """
 
 EXAMPLES = r"""

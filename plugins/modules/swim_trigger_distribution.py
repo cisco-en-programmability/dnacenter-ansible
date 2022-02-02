@@ -27,12 +27,15 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_distribution
-  - Paths used are post /dna/intent/api/v1/image/distribution
+    software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_distribution,
+
+  - Paths used are
+    post /dna/intent/api/v1/image/distribution,
+
 """
 
 EXAMPLES = r"""
@@ -46,6 +49,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
+    - deviceUuid: string
+      imageUuid: string
 
 """
 

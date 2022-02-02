@@ -28,12 +28,15 @@ options:
     - MacAddress query parameter. MAC Address of the client.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    clients.Clients.get_client_detail
-  - Paths used are get /dna/intent/api/v1/client-detail
+    clients.Clients.get_client_detail,
+
+  - Paths used are
+    get /dna/intent/api/v1/client-detail,
+
 """
 
 EXAMPLES = r"""

@@ -20,12 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    event_management.EventManagement.eventartifact_count
-  - Paths used are get /dna/system/api/v1/event/artifact/count
+    event_management.EventManagement.eventartifact_count,
+
+  - Paths used are
+    get /dna/system/api/v1/event/artifact/count,
+
 """
 
 EXAMPLES = r"""

@@ -24,12 +24,15 @@ options:
     - TaskId path parameter. UUID of the Task.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    task.Task.get_task_tree
-  - Paths used are get /dna/intent/api/v1/task/{taskId}/tree
+    task.Task.get_task_tree,
+
+  - Paths used are
+    get /dna/intent/api/v1/task/{taskId}/tree,
+
 """
 
 EXAMPLES = r"""

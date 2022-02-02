@@ -24,12 +24,15 @@ options:
     description: Virtual_account_name path parameter. Name of virtual account.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    licenses.Licenses.device_registration
-  - Paths used are put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/{virtual_account_name}/register
+    licenses.Licenses.device_registration,
+
+  - Paths used are
+    put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/{virtual_account_name}/register,
+
 """
 
 EXAMPLES = r"""

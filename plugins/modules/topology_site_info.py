@@ -20,12 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    topology.Topology.get_site_topology
-  - Paths used are get /dna/intent/api/v1/topology/site-topology
+    topology.Topology.get_site_topology,
+
+  - Paths used are
+    get /dna/intent/api/v1/topology/site-topology,
+
 """
 
 EXAMPLES = r"""

@@ -26,12 +26,15 @@ options:
     description: Network Device Update Role's roleSource.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.update_device_role
-  - Paths used are put /dna/intent/api/v1/network-device/brief
+    devices.Devices.update_device_role,
+
+  - Paths used are
+    put /dna/intent/api/v1/network-device/brief,
+
 """
 
 EXAMPLES = r"""

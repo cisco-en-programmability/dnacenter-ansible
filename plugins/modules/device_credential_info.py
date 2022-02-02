@@ -24,12 +24,15 @@ options:
     - SiteId query parameter. Site id to retrieve the credential details associated with the site.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.get_device_credential_details
-  - Paths used are get /dna/intent/api/v1/device-credential
+    network_settings.NetworkSettings.get_device_credential_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/device-credential,
+
 """
 
 EXAMPLES = r"""

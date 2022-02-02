@@ -24,12 +24,15 @@ options:
     - Timestamp query parameter. Epoch time(in milliseconds) when the Client health data is required.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    clients.Clients.get_overall_client_health
-  - Paths used are get /dna/intent/api/v1/client-health
+    clients.Clients.get_overall_client_health,
+
+  - Paths used are
+    get /dna/intent/api/v1/client-health,
+
 """
 
 EXAMPLES = r"""

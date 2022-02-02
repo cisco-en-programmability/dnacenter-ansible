@@ -24,12 +24,15 @@ options:
     - SiteId query parameter. Site id to get the network settings associated with the site.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.get_network
-  - Paths used are get /dna/intent/api/v1/network
+    network_settings.NetworkSettings.get_network,
+
+  - Paths used are
+    get /dna/intent/api/v1/network,
+
 """
 
 EXAMPLES = r"""

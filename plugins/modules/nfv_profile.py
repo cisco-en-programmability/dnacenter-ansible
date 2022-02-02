@@ -142,15 +142,18 @@ options:
     description: Name of the profile to create NFV profile.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    site_design.SiteDesign.delete_nfv_profile,
     site_design.SiteDesign.create_nfv_profile,
-    site_design.SiteDesign.update_nfv_profile
-  - Paths used are post /dna/intent/api/v1/nfv/network-profile,
-    delete /dna/intent/api/v1/nfv/network-profile/{id}
+    site_design.SiteDesign.delete_nfv_profile,
+    site_design.SiteDesign.update_nfv_profile,
+
+  - Paths used are
+    post /dna/intent/api/v1/nfv/network-profile,
+    delete /dna/intent/api/v1/nfv/network-profile/{id},
+
 """
 
 EXAMPLES = r"""

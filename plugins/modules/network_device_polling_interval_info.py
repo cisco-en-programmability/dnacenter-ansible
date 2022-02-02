@@ -24,12 +24,15 @@ options:
     - Id path parameter. Device ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_polling_interval_by_id
-  - Paths used are get /dna/intent/api/v1/network-device/{id}/collection-schedule
+    devices.Devices.get_polling_interval_by_id,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/{id}/collection-schedule,
+
 """
 
 EXAMPLES = r"""

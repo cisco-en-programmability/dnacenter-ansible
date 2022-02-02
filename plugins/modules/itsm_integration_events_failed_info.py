@@ -24,12 +24,15 @@ options:
     - InstanceId query parameter. Instance Id of the failed event as in the Runtime Dashboard.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    itsm.Itsm.get_failed_itsm_events
-  - Paths used are get /dna/intent/api/v1/integration/events
+    itsm.Itsm.get_failed_itsm_events,
+
+  - Paths used are
+    get /dna/intent/api/v1/integration/events,
+
 """
 
 EXAMPLES = r"""

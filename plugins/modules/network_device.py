@@ -11,8 +11,8 @@ short_description: Resource module for Network Device
 description:
 - Manage operations create, update and delete of the resource Network Device.
 - Adds the device with given credential.
-- Sync the devices provided as input.
 - Deletes the network device for the given Id.
+- Sync the devices provided as input.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -47,7 +47,7 @@ options:
     description: Network Device's httpUserName.
     type: str
   id:
-    description: Id path parameter. Device ID.
+    description: Network Device's id.
     type: str
   ipAddress:
     description: Network Device's ipAddress.
@@ -116,16 +116,20 @@ options:
     description: Network Device's userName.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.delete_device_by_id,
     devices.Devices.add_device,
-    devices.Devices.sync_devices
-  - Paths used are post /dna/intent/api/v1/network-device,
+    devices.Devices.delete_device_by_id,
+    devices.Devices.sync_devices,
+
+  - Paths used are
+    post /dna/intent/api/v1/network-device,
+    delete /dna/intent/api/v1/network-device/{id},
     put /dna/intent/api/v1/network-device,
-    delete /dna/intent/api/v1/network-device/{id}
+
+  - Removed 'managementIpAddress' options in v4.3.0.
 """
 
 EXAMPLES = r"""
@@ -189,6 +193,7 @@ EXAMPLES = r"""
     httpPort: string
     httpSecure: true
     httpUserName: string
+    id: string
     ipAddress:
     - string
     merakiOrgId:

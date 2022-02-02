@@ -20,12 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    command_runner.CommandRunner.get_all_keywords_of_clis_accepted
-  - Paths used are get /dna/intent/api/v1/network-device-poller/cli/legit-reads
+    command_runner.CommandRunner.get_all_keywords_of_clis_accepted,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device-poller/cli/legit-reads,
+
 """
 
 EXAMPLES = r"""

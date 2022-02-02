@@ -30,16 +30,19 @@ options:
   limit:
     description:
     - >
-      Limit path parameter. The maximum value of {limit} supported is 500. <br/> Base 1 indexing for {limit},
+      Limit path parameter. The maximum value of {limit} supported is 500. Base 1 indexing for {limit},
       minimum value is 1.
     type: int
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    task.Task.get_task_by_operationid
-  - Paths used are get /dna/intent/api/v1/task/operation/{operationId}/{offset}/{limit}
+    task.Task.get_task_by_operationid,
+
+  - Paths used are
+    get /dna/intent/api/v1/task/operation/{operationId}/{offset}/{limit},
+
 """
 
 EXAMPLES = r"""

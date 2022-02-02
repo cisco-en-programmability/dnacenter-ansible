@@ -25,7 +25,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    sp_profile_name=dict(type="str"),
+    spProfileName=dict(type="str"),
 ))
 
 required_if = []
@@ -63,7 +63,7 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            sp_profile_name=params.get("sp_profile_name"),
+            sp_profile_name=params.get("spProfileName"),
         )
         return new_object
 

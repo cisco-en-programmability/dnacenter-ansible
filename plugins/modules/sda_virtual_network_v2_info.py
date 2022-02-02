@@ -24,12 +24,15 @@ options:
     - VirtualNetworkName query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.get_virtual_network_with_scalable_groups
-  - Paths used are get /dna/intent/api/v1/virtual-network
+    sda.Sda.get_virtual_network_with_scalable_groups,
+
+  - Paths used are
+    get /dna/intent/api/v1/virtual-network,
+
 """
 
 EXAMPLES = r"""

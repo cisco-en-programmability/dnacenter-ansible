@@ -10,8 +10,8 @@ module: snmpv3_credential
 short_description: Resource module for Snmpv3 Credential
 description:
 - Manage operations create and update of the resource Snmpv3 Credential.
-- Updates global SNMPv3 credential.
 - Adds global SNMPv3 credentials.
+- Updates global SNMPv3 credential.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -54,14 +54,17 @@ options:
     description: Snmpv3 Credential's username.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
     discovery.Discovery.create_snmpv3_credentials,
-    discovery.Discovery.update_snmpv3_credentials
-  - Paths used are put /dna/intent/api/v1/global-credential/snmpv3,
-    post /dna/intent/api/v1/global-credential/snmpv3
+    discovery.Discovery.update_snmpv3_credentials,
+
+  - Paths used are
+    post /dna/intent/api/v1/global-credential/snmpv3,
+    put /dna/intent/api/v1/global-credential/snmpv3,
+
 """
 
 EXAMPLES = r"""
@@ -110,6 +113,7 @@ EXAMPLES = r"""
     privacyType: string
     snmpMode: string
     username: string
+
 """
 
 RETURN = r"""

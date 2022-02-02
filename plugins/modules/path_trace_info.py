@@ -86,14 +86,17 @@ options:
     - FlowAnalysisId path parameter. Flow analysis request id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
+    path_trace.PathTrace.retrieves_previous_pathtrace,
     path_trace.PathTrace.retrives_all_previous_pathtraces_summary,
-    path_trace.PathTrace.retrieves_previous_pathtrace
-  - Paths used are get /dna/intent/api/v1/flow-analysis,
-    get /dna/intent/api/v1/flow-analysis/{flowAnalysisId}
+
+  - Paths used are
+    get /dna/intent/api/v1/flow-analysis,
+    get /dna/intent/api/v1/flow-analysis/{flowAnalysisId},
+
 """
 
 EXAMPLES = r"""

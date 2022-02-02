@@ -28,12 +28,15 @@ options:
     - Macaddress query parameter. Mac addres of the device.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.register_device_for_wsa
-  - Paths used are get /dna/intent/api/v1/network-device/tenantinfo/macaddress
+    devices.Devices.register_device_for_wsa,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/tenantinfo/macaddress,
+
 """
 
 EXAMPLES = r"""

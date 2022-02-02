@@ -34,12 +34,15 @@ options:
     description: Command Runner Run Command's timeout.
     type: int
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    command_runner.CommandRunner.run_read_only_commands_on_devices
-  - Paths used are post /dna/intent/api/v1/network-device-poller/cli/read-request
+    command_runner.CommandRunner.run_read_only_commands_on_devices,
+
+  - Paths used are
+    post /dna/intent/api/v1/network-device-poller/cli/read-request,
+
 """
 
 EXAMPLES = r"""

@@ -20,12 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_isis_interfaces
-  - Paths used are get /dna/intent/api/v1/interface/isis
+    devices.Devices.get_isis_interfaces,
+
+  - Paths used are
+    get /dna/intent/api/v1/interface/isis,
+
 """
 
 EXAMPLES = r"""

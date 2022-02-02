@@ -24,12 +24,15 @@ options:
     - Name query parameter. Workflow Name.
     type: list
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.get_workflow_count
-  - Paths used are get /dna/intent/api/v1/onboarding/pnp-workflow/count
+    device_onboarding_pnp.DeviceOnboardingPnp.get_workflow_count,
+
+  - Paths used are
+    get /dna/intent/api/v1/onboarding/pnp-workflow/count,
+
 """
 
 EXAMPLES = r"""

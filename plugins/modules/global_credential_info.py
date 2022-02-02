@@ -40,14 +40,17 @@ options:
     - Id path parameter. Global Credential ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
     discovery.Discovery.get_credential_sub_type_by_credential_id,
-    discovery.Discovery.get_global_credentials
-  - Paths used are get /dna/intent/api/v1/global-credential,
-    get /dna/intent/api/v1/global-credential/{id}
+    discovery.Discovery.get_global_credentials,
+
+  - Paths used are
+    get /dna/intent/api/v1/global-credential,
+    get /dna/intent/api/v1/global-credential/{id},
+
 """
 
 EXAMPLES = r"""

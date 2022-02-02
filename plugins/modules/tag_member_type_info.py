@@ -20,12 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    tag.Tag.get_tag_resource_types
-  - Paths used are get /dna/intent/api/v1/tag/member/type
+    tag.Tag.get_tag_resource_types,
+
+  - Paths used are
+    get /dna/intent/api/v1/tag/member/type,
+
 """
 
 EXAMPLES = r"""

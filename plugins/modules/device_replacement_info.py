@@ -68,12 +68,15 @@ options:
     - Limit query parameter.
     type: int
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_replacement.DeviceReplacement.return_replacement_devices_with_details
-  - Paths used are get /dna/intent/api/v1/device-replacement
+    device_replacement.DeviceReplacement.return_replacement_devices_with_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/device-replacement,
+
 """
 
 EXAMPLES = r"""

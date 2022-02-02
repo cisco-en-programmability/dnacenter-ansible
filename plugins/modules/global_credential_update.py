@@ -17,20 +17,22 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   globalCredentialId:
-    description: GlobalCredentialId path parameter. ID of global-credential.
+    description: GlobalCredentialId path parameter. Global credential Uuid.
     type: str
   siteUuids:
     description: Global Credential Update's siteUuids.
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    discovery.Discovery.delete_global_credentials_by_id,
-    discovery.Discovery.update_global_credentials
-  - Paths used are put /dna/intent/api/v1/global-credential/{globalCredentialId}
+    discovery.Discovery.update_global_credentials,
+
+  - Paths used are
+    put /dna/intent/api/v1/global-credential/{globalCredentialId}
+
 """
 
 EXAMPLES = r"""

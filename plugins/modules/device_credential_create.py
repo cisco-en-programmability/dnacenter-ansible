@@ -114,13 +114,15 @@ options:
         type: list
     type: dict
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.update_device_credentials,
-    network_settings.NetworkSettings.create_device_credentials
-  - Paths used are post /dna/intent/api/v1/device-credential
+    network_settings.NetworkSettings.create_device_credentials,
+
+  - Paths used are
+    post /dna/intent/api/v1/device-credential,
+
 """
 
 EXAMPLES = r"""

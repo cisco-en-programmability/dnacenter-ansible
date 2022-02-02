@@ -28,12 +28,15 @@ options:
     - Tags query parameter. The registered Tags should be provided.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    event_management.EventManagement.count_of_events
-  - Paths used are get /dna/intent/api/v1/events/count
+    event_management.EventManagement.count_of_events,
+
+  - Paths used are
+    get /dna/intent/api/v1/events/count,
+
 """
 
 EXAMPLES = r"""
