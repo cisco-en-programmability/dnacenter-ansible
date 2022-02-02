@@ -27,7 +27,6 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     deviceName=dict(type="str"),
     siteNameHierarchy=dict(type="str"),
-    deviceIPAddress=dict(type="str"),
 ))
 
 required_if = []
@@ -67,7 +66,6 @@ class ActionModule(ActionBase):
         new_object = dict(
             deviceName=params.get("deviceName"),
             siteNameHierarchy=params.get("siteNameHierarchy"),
-            device_ipaddress=params.get("deviceIPAddress"),
         )
         return new_object
 
