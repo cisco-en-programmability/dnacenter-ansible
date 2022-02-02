@@ -387,3 +387,14 @@ releases:
       minor_changes:
         - pnp_device_claim_to_site - Add hostname, imageInfo and configInfo parameters to module.
         - Update dnacentersdk requirement from 2.4.0 to 2.4.4
+  5.0.0:
+    release_date: '2022-02-02'
+    changes:
+      release_summary: Parameters added and dropped for modules (service_provider_profile_delete, reserve_ip_subpool_update, network_device, business_sda_wireless_controller_create and business_sda_wireless_controller_delete)
+      major_changes:
+        - Update dnacentersdk requirement from 2.4.4 to 2.4.5
+        - service_provider_profile_delete - Rename argument from 'sp_profile_name' to 'spProfileName'.
+        - reserve_ip_subpool_update - Removed 'type', 'ipv4GlobalPool', 'ipv4Prefix', 'ipv4PrefixLength', 'ipv4Subnet' and 'ipv4TotalHost' arguments.
+        - network_device - Removed 'managementIpAddress' arguments.
+        - business_sda_wireless_controller_create - Removed 'deviceIPAddress' arguments.
+        - business_sda_wireless_controller_delete - Removed 'deviceName' and 'siteNameHierarchy' arguments.
