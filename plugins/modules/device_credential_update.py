@@ -51,7 +51,7 @@ options:
             description: Password for http read credential.
             type: str
           port:
-            description:Port for http read credential.
+            description: Port for http read credential.
             type: str
           username:
             description: User name of the http read credential.
