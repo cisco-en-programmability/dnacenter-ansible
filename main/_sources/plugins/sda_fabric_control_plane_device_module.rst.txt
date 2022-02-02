@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_fabric_control_plane_device -- Resource module for Sda Fabric Control Plane Device
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_fabric_control_plane_device module -- Resource module for Sda Fabric Control Plane Device
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,8 +69,8 @@ Synopsis
 .. Description
 
 - Manage operations create and delete of the resource Sda Fabric Control Plane Device.
-- Delete control plane device in SDA Fabric.
 - Add control plane device in SDA Fabric.
+- Delete control plane device in SDA Fabric.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -498,8 +498,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add_control_plane_device
-   - Paths used are delete /dna/intent/api/v1/business/sda/control-plane-device, post /dna/intent/api/v1/business/sda/control-plane-device
+   - SDK Method used are sda.Sda.add_control_plane_device, sda.Sda.delete_control_plane_device,
+   - Paths used are post /dna/intent/api/v1/business/sda/control-plane-device, delete /dna/intent/api/v1/business/sda/control-plane-device,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection

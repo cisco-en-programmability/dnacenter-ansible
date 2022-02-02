@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.wireless_provision_device_create -- Resource module for Wireless Provision Device Create
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.wireless_provision_device_create module -- Resource module for Wireless Provision Device Create
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,7 +83,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -433,7 +433,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device Name.
+      Controller Name.
 
 
       .. raw:: html
@@ -535,7 +535,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Interface IPAddress.
+      Interface IP Address.
 
 
       .. raw:: html
@@ -671,7 +671,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Vlan Id.
+      VLAN ID.
 
 
       .. raw:: html
@@ -706,7 +706,41 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Managed APLocations.
+      List of managed AP locations (Site Hierarchies).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/site"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/site:
+
+      .. rst-class:: ansible-option-title
+
+      **site**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/site" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Full Site Hierarchy where device has to be assigned.
 
 
       .. raw:: html
@@ -765,8 +799,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.provision
-   - Paths used are post /dna/intent/api/v1/wireless/provision
+   - SDK Method used are wireless.Wireless.provision,
+   - Paths used are post /dna/intent/api/v1/wireless/provision,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -791,6 +825,18 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
+        payload:
+        - deviceName: string
+          dynamicInterfaces:
+          - interfaceGateway: string
+            interfaceIPAddress: string
+            interfaceName: string
+            interfaceNetmaskInCIDR: 1
+            lagOrPortNumber: 1
+            vlanId: 1
+          managedAPLocations:
+          - string
+          site: string
 
 
 

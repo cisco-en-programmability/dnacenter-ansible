@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_device_info -- Information module for Network Device
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_info module -- Information module for Network Device
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -70,7 +70,7 @@ Synopsis
 
 - Get all Network Device.
 - Get Network Device by id.
-- Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, etc. If id parameter is provided with comma separated ids, it will return the list of network-devices for the given ids and ignores the other request parameters.
+- Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, etc.
 - Returns the network device details for the given device ID.
 
 .. note::
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -1548,8 +1548,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get_device_by_id, devices.Devices.get_device_list
-   - Paths used are get /dna/intent/api/v1/network-device, get /dna/intent/api/v1/network-device/{id}
+   - SDK Method used are devices.Devices.get_device_by_id, devices.Devices.get_device_list,
+   - Paths used are get /dna/intent/api/v1/network-device, get /dna/intent/api/v1/network-device/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1684,7 +1684,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"response\\": {\\n    \\"apManagerInterfaceIp\\": \\"string\\",\\n    \\"associatedWlcIp\\": \\"string\\",\\n    \\"bootDateTime\\": \\"string\\",\\n    \\"collectionInterval\\": \\"string\\",\\n    \\"collectionStatus\\": \\"string\\",\\n    \\"errorCode\\": \\"string\\",\\n    \\"errorDescription\\": \\"string\\",\\n    \\"family\\": \\"string\\",\\n    \\"hostname\\": \\"string\\",\\n    \\"id\\": \\"string\\",\\n    \\"instanceTenantId\\": \\"string\\",\\n    \\"instanceUuid\\": \\"string\\",\\n    \\"interfaceCount\\": \\"string\\",\\n    \\"inventoryStatusDetail\\": \\"string\\",\\n    \\"lastUpdateTime\\": 0,\\n    \\"lastUpdated\\": \\"string\\",\\n    \\"lineCardCount\\": \\"string\\",\\n    \\"lineCardId\\": \\"string\\",\\n    \\"location\\": \\"string\\",\\n    \\"locationName\\": \\"string\\",\\n    \\"macAddress\\": \\"string\\",\\n    \\"managementIpAddress\\": \\"string\\",\\n    \\"memorySize\\": \\"string\\",\\n    \\"platformId\\": \\"string\\",\\n    \\"reachabilityFailureReason\\": \\"string\\",\\n    \\"reachabilityStatus\\": \\"string\\",\\n    \\"role\\": \\"string\\",\\n    \\"roleSource\\": \\"string\\",\\n    \\"serialNumber\\": \\"string\\",\\n    \\"series\\": \\"string\\",\\n    \\"snmpContact\\": \\"string\\",\\n    \\"snmpLocation\\": \\"string\\",\\n    \\"softwareType\\": \\"string\\",\\n    \\"softwareVersion\\": \\"string\\",\\n    \\"tagCount\\": \\"string\\",\\n    \\"tunnelUdpPort\\": \\"string\\",\\n    \\"type\\": \\"string\\",\\n    \\"upTime\\": \\"string\\",\\n    \\"waasDeviceMode\\": \\"string\\",\\n    \\"uptimeSeconds\\": 0\\n  },\\n  \\"version\\": \\"string\\"\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` "{\\n  \\"response\\": {\\n    \\"apManagerInterfaceIp\\": \\"string\\",\\n    \\"associatedWlcIp\\": \\"string\\",\\n    \\"bootDateTime\\": \\"string\\",\\n    \\"collectionInterval\\": \\"string\\",\\n    \\"collectionStatus\\": \\"string\\",\\n    \\"errorCode\\": \\"string\\",\\n    \\"errorDescription\\": \\"string\\",\\n    \\"family\\": \\"string\\",\\n    \\"hostname\\": \\"string\\",\\n    \\"id\\": \\"string\\",\\n    \\"instanceTenantId\\": \\"string\\",\\n    \\"instanceUuid\\": \\"string\\",\\n    \\"interfaceCount\\": \\"string\\",\\n    \\"inventoryStatusDetail\\": \\"string\\",\\n    \\"lastUpdateTime\\": 0,\\n    \\"lastUpdated\\": \\"string\\",\\n    \\"lineCardCount\\": \\"string\\",\\n    \\"lineCardId\\": \\"string\\",\\n    \\"location\\": \\"string\\",\\n    \\"locationName\\": \\"string\\",\\n    \\"macAddress\\": \\"string\\",\\n    \\"managementIpAddress\\": \\"string\\",\\n    \\"memorySize\\": \\"string\\",\\n    \\"platformId\\": \\"string\\",\\n    \\"reachabilityFailureReason\\": \\"string\\",\\n    \\"reachabilityStatus\\": \\"string\\",\\n    \\"role\\": \\"string\\",\\n    \\"roleSource\\": \\"string\\",\\n    \\"serialNumber\\": \\"string\\",\\n    \\"series\\": \\"string\\",\\n    \\"snmpContact\\": \\"string\\",\\n    \\"snmpLocation\\": \\"string\\",\\n    \\"softwareType\\": \\"string\\",\\n    \\"softwareVersion\\": \\"string\\",\\n    \\"tagCount\\": \\"string\\",\\n    \\"tunnelUdpPort\\": \\"string\\",\\n    \\"type\\": \\"string\\",\\n    \\"upTime\\": \\"string\\",\\n    \\"waasDeviceMode\\": \\"string\\"\\n  },\\n  \\"version\\": \\"string\\"\\n}\\n"
 
 
       .. raw:: html

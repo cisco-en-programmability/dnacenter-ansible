@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.pnp_device_import -- Resource module for Pnp Device Import
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.pnp_device_import module -- Resource module for Pnp Device Import
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,7 +83,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -9044,8 +9044,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.import_devices_in_bulk
-   - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/import
+   - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.import_devices_in_bulk,
+   - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/import,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -9071,6 +9071,262 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         payload:
+        - _id: string
+          deviceInfo:
+            aaaCredentials:
+              password: string
+              username: string
+            addedOn: 1
+            addnMacAddrs:
+            - string
+            agentType: string
+            authStatus: string
+            authenticatedSudiSerialNo: string
+            capabilitiesSupported:
+            - string
+            cmState: string
+            description: string
+            deviceSudiSerialNos:
+            - string
+            deviceType: string
+            featuresSupported:
+            - string
+            fileSystemList:
+            - freespace: 1
+              name: string
+              readable: true
+              size: 1
+              type: string
+              writeable: true
+            firstContact: 1
+            hostname: string
+            httpHeaders:
+            - key: string
+              value: string
+            imageFile: string
+            imageVersion: string
+            ipInterfaces:
+            - ipv4Address: {}
+              ipv6AddressList:
+              - {}
+              macAddress: string
+              name: string
+              status: string
+            lastContact: 1
+            lastSyncTime: 1
+            lastUpdateOn: 1
+            location:
+              address: string
+              altitude: string
+              latitude: string
+              longitude: string
+              siteId: string
+            macAddress: string
+            mode: string
+            name: string
+            neighborLinks:
+            - localInterfaceName: string
+              localMacAddress: string
+              localShortInterfaceName: string
+              remoteDeviceName: string
+              remoteInterfaceName: string
+              remoteMacAddress: string
+              remotePlatform: string
+              remoteShortInterfaceName: string
+              remoteVersion: string
+            onbState: string
+            pid: string
+            pnpProfileList:
+            - createdBy: string
+              discoveryCreated: true
+              primaryEndpoint:
+                certificate: string
+                fqdn: string
+                ipv4Address: {}
+                ipv6Address: {}
+                port: 1
+                protocol: string
+              profileName: string
+              secondaryEndpoint:
+                certificate: string
+                fqdn: string
+                ipv4Address: {}
+                ipv6Address: {}
+                port: 1
+                protocol: string
+            populateInventory: true
+            preWorkflowCliOuputs:
+            - cli: string
+              cliOutput: string
+            projectId: string
+            projectName: string
+            reloadRequested: true
+            serialNumber: string
+            smartAccountId: string
+            source: string
+            stack: true
+            stackInfo:
+              isFullRing: true
+              stackMemberList:
+              - hardwareVersion: string
+                licenseLevel: string
+                licenseType: string
+                macAddress: string
+                pid: string
+                priority: 1
+                role: string
+                serialNumber: string
+                softwareVersion: string
+                stackNumber: 1
+                state: string
+                sudiSerialNumber: string
+              stackRingProtocol: string
+              supportsStackWorkflows: true
+              totalMemberCount: 1
+              validLicenseLevels:
+              - string
+            state: string
+            sudiRequired: true
+            tags: {}
+            userSudiSerialNos:
+            - string
+            virtualAccountId: string
+            workflowId: string
+            workflowName: string
+          runSummaryList:
+          - details: string
+            errorFlag: true
+            historyTaskInfo:
+              addnDetails:
+              - key: string
+                value: string
+              name: string
+              timeTaken: 1
+              type: string
+              workItemList:
+              - command: string
+                endTime: 1
+                outputStr: string
+                startTime: 1
+                state: string
+                timeTaken: 1
+            timestamp: 1
+          systemResetWorkflow:
+            _id: string
+            addToInventory: true
+            addedOn: 1
+            configId: string
+            currTaskIdx: 1
+            description: string
+            endTime: 1
+            execTime: 1
+            imageId: string
+            instanceType: string
+            lastupdateOn: 1
+            name: string
+            startTime: 1
+            state: string
+            tasks:
+            - currWorkItemIdx: 1
+              endTime: 1
+              name: string
+              startTime: 1
+              state: string
+              taskSeqNo: 1
+              timeTaken: 1
+              type: string
+              workItemList:
+              - command: string
+                endTime: 1
+                outputStr: string
+                startTime: 1
+                state: string
+                timeTaken: 1
+            tenantId: string
+            type: string
+            useState: string
+            version: 1
+          systemWorkflow:
+            _id: string
+            addToInventory: true
+            addedOn: 1
+            configId: string
+            currTaskIdx: 1
+            description: string
+            endTime: 1
+            execTime: 1
+            imageId: string
+            instanceType: string
+            lastupdateOn: 1
+            name: string
+            startTime: 1
+            state: string
+            tasks:
+            - currWorkItemIdx: 1
+              endTime: 1
+              name: string
+              startTime: 1
+              state: string
+              taskSeqNo: 1
+              timeTaken: 1
+              type: string
+              workItemList:
+              - command: string
+                endTime: 1
+                outputStr: string
+                startTime: 1
+                state: string
+                timeTaken: 1
+            tenantId: string
+            type: string
+            useState: string
+            version: 1
+          tenantId: string
+          version: 1
+          workflow:
+            _id: string
+            addToInventory: true
+            addedOn: 1
+            configId: string
+            currTaskIdx: 1
+            description: string
+            endTime: 1
+            execTime: 1
+            imageId: string
+            instanceType: string
+            lastupdateOn: 1
+            name: string
+            startTime: 1
+            state: string
+            tasks:
+            - currWorkItemIdx: 1
+              endTime: 1
+              name: string
+              startTime: 1
+              state: string
+              taskSeqNo: 1
+              timeTaken: 1
+              type: string
+              workItemList:
+              - command: string
+                endTime: 1
+                outputStr: string
+                startTime: 1
+                state: string
+                timeTaken: 1
+            tenantId: string
+            type: string
+            useState: string
+            version: 1
+          workflowParameters:
+            configList:
+            - configId: string
+              configParameters:
+              - key: string
+                value: string
+            licenseLevel: string
+            licenseType: string
+            topOfStackSerialNumber: string
 
 
 
@@ -9132,7 +9388,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"successList\\": [\\n    {\\n      \\"\_id\\": \\"string\\",\\n      \\"deviceInfo\\": {\\n        \\"source\\": \\"string\\",\\n        \\"serialNumber\\": \\"string\\",\\n        \\"stack\\": true,\\n        \\"mode\\": \\"string\\",\\n        \\"state\\": \\"string\\",\\n        \\"location\\": {\\n          \\"siteId\\": \\"string\\",\\n          \\"address\\": \\"string\\",\\n          \\"latitude\\": \\"string\\",\\n          \\"longitude\\": \\"string\\",\\n          \\"altitude\\": \\"string\\"\\n        },\\n        \\"description\\": \\"string\\",\\n        \\"onbState\\": \\"string\\",\\n        \\"authenticatedMicNumber\\": \\"string\\",\\n        \\"authenticatedSudiSerialNo\\": \\"string\\",\\n        \\"capabilitiesSupported\\": [\\n          \\"string\\"\\n        ],\\n        \\"featuresSupported\\": [\\n          \\"string\\"\\n        ],\\n        \\"cmState\\": \\"string\\",\\n        \\"firstContact\\": 0,\\n        \\"lastContact\\": 0,\\n        \\"macAddress\\": \\"string\\",\\n        \\"pid\\": \\"string\\",\\n        \\"deviceSudiSerialNos\\": [\\n          \\"string\\"\\n        ],\\n        \\"lastUpdateOn\\": 0,\\n        \\"workflowId\\": \\"string\\",\\n        \\"workflowName\\": \\"string\\",\\n        \\"projectId\\": \\"string\\",\\n        \\"projectName\\": \\"string\\",\\n        \\"deviceType\\": \\"string\\",\\n        \\"agentType\\": \\"string\\",\\n        \\"imageVersion\\": \\"string\\",\\n        \\"fileSystemList\\": [\\n          {\\n            \\"type\\": \\"string\\",\\n            \\"writeable\\": true,\\n            \\"freespace\\": 0,\\n            \\"name\\": \\"string\\",\\n            \\"readable\\": true,\\n            \\"size\\": 0\\n          }\\n        ],\\n        \\"pnpProfileList\\": [\\n          {\\n            \\"profileName\\": \\"string\\",\\n            \\"discoveryCreated\\": true,\\n            \\"createdBy\\": \\"string\\",\\n            \\"primaryEndpoint\\": {\\n              \\"port\\": 0,\\n              \\"protocol\\": \\"string\\",\\n              \\"ipv4Address\\": {},\\n              \\"ipv6Address\\": {},\\n              \\"fqdn\\": \\"string\\",\\n              \\"certificate\\": \\"string\\"\\n            },\\n            \\"secondaryEndpoint\\": {\\n              \\"port\\": 0,\\n              \\"protocol\\": \\"string\\",\\n              \\"ipv4Address\\": {},\\n              \\"ipv6Address\\": {},\\n              \\"fqdn\\": \\"string\\",\\n              \\"certificate\\": \\"string\\"\\n            }\\n          }\\n        ],\\n        \\"imageFile\\": \\"string\\",\\n        \\"httpHeaders\\": [\\n          {\\n            \\"key\\": \\"string\\",\\n            \\"value\\": \\"string\\"\\n          }\\n        ],\\n        \\"neighborLinks\\": [\\n          {\\n            \\"localInterfaceName\\": \\"string\\",\\n            \\"localShortInterfaceName\\": \\"string\\",\\n            \\"localMacAddress\\": \\"string\\",\\n            \\"remoteInterfaceName\\": \\"string\\",\\n            \\"remoteShortInterfaceName\\": \\"string\\",\\n            \\"remoteMacAddress\\": \\"string\\",\\n            \\"remoteDeviceName\\": \\"string\\",\\n            \\"remotePlatform\\": \\"string\\",\\n            \\"remoteVersion\\": \\"string\\"\\n          }\\n        ],\\n        \\"lastSyncTime\\": 0,\\n        \\"ipInterfaces\\": [\\n          {\\n            \\"status\\": \\"string\\",\\n            \\"macAddress\\": \\"string\\",\\n            \\"ipv4Address\\": {},\\n            \\"ipv6AddressList\\": [],\\n            \\"name\\": \\"string\\"\\n          }\\n        ],\\n        \\"hostname\\": \\"string\\",\\n        \\"authStatus\\": \\"string\\",\\n        \\"stackInfo\\": {\\n          \\"supportsStackWorkflows\\": true,\\n          \\"isFullRing\\": true,\\n          \\"stackMemberList\\": [\\n            {\\n              \\"serialNumber\\": \\"string\\",\\n              \\"state\\": \\"string\\",\\n              \\"role\\": \\"string\\",\\n              \\"macAddress\\": \\"string\\",\\n              \\"pid\\": \\"string\\",\\n              \\"licenseLevel\\": \\"string\\",\\n              \\"licenseType\\": \\"string\\",\\n              \\"sudiSerialNumber\\": \\"string\\",\\n              \\"hardwareVersion\\": \\"string\\",\\n              \\"stackNumber\\": 0,\\n              \\"softwareVersion\\": \\"string\\",\\n              \\"priority\\": 0\\n            }\\n          ],\\n          \\"stackRingProtocol\\": \\"string\\",\\n          \\"validLicenseLevels\\": [\\n            \\"string\\"\\n          ],\\n          \\"totalMemberCount\\": 0\\n        },\\n        \\"reloadRequested\\": true,\\n        \\"addedOn\\": 0,\\n        \\"siteId\\": \\"string\\",\\n        \\"aaaCredentials\\": {\\n          \\"password\\": \\"string\\",\\n          \\"username\\": \\"string\\"\\n        },\\n        \\"userMicNumbers\\": [\\n          \\"string\\"\\n        ],\\n        \\"userSudiSerialNos\\": [\\n          \\"string\\"\\n        ],\\n        \\"addnMacAddrs\\": [\\n          \\"string\\"\\n        ],\\n        \\"preWorkflowCliOuputs\\": [\\n          {\\n            \\"cli\\": \\"string\\",\\n            \\"cliOutput\\": \\"string\\"\\n          }\\n        ],\\n        \\"tags\\": {},\\n        \\"sudiRequired\\": true,\\n        \\"smartAccountId\\": \\"string\\",\\n        \\"virtualAccountId\\": \\"string\\",\\n        \\"populateInventory\\": true,\\n        \\"siteName\\": \\"string\\",\\n        \\"name\\": \\"string\\"\\n      },\\n      \\"systemResetWorkflow\\": {\\n        \\"\_id\\": \\"string\\",\\n        \\"state\\": \\"string\\",\\n        \\"type\\": \\"string\\",\\n        \\"description\\": \\"string\\",\\n        \\"lastupdateOn\\": 0,\\n        \\"imageId\\": \\"string\\",\\n        \\"currTaskIdx\\": 0,\\n        \\"addedOn\\": 0,\\n        \\"tasks\\": [\\n          {\\n            \\"state\\": \\"string\\",\\n            \\"type\\": \\"string\\",\\n            \\"currWorkItemIdx\\": 0,\\n            \\"taskSeqNo\\": 0,\\n            \\"endTime\\": 0,\\n            \\"startTime\\": 0,\\n            \\"workItemList\\": [\\n              {\\n                \\"state\\": \\"string\\",\\n                \\"command\\": \\"string\\",\\n                \\"outputStr\\": \\"string\\",\\n                \\"endTime\\": 0,\\n                \\"startTime\\": 0,\\n                \\"timeTaken\\": 0\\n              }\\n            ],\\n            \\"timeTaken\\": 0,\\n            \\"name\\": \\"string\\"\\n          }\\n        ],\\n        \\"addToInventory\\": true,\\n        \\"instanceType\\": \\"string\\",\\n        \\"endTime\\": 0,\\n        \\"execTime\\": 0,\\n        \\"startTime\\": 0,\\n        \\"useState\\": \\"string\\",\\n        \\"configId\\": \\"string\\",\\n        \\"name\\": \\"string\\",\\n        \\"version\\": 0,\\n        \\"tenantId\\": \\"string\\"\\n      },\\n      \\"systemWorkflow\\": {\\n        \\"\_id\\": \\"string\\",\\n        \\"state\\": \\"string\\",\\n        \\"type\\": \\"string\\",\\n        \\"description\\": \\"string\\",\\n        \\"lastupdateOn\\": 0,\\n        \\"imageId\\": \\"string\\",\\n        \\"currTaskIdx\\": 0,\\n        \\"addedOn\\": 0,\\n        \\"tasks\\": [\\n          {\\n            \\"state\\": \\"string\\",\\n            \\"type\\": \\"string\\",\\n            \\"currWorkItemIdx\\": 0,\\n            \\"taskSeqNo\\": 0,\\n            \\"endTime\\": 0,\\n            \\"startTime\\": 0,\\n            \\"workItemList\\": [\\n              {\\n                \\"state\\": \\"string\\",\\n                \\"command\\": \\"string\\",\\n                \\"outputStr\\": \\"string\\",\\n                \\"endTime\\": 0,\\n                \\"startTime\\": 0,\\n                \\"timeTaken\\": 0\\n              }\\n            ],\\n            \\"timeTaken\\": 0,\\n            \\"name\\": \\"string\\"\\n          }\\n        ],\\n        \\"addToInventory\\": true,\\n        \\"instanceType\\": \\"string\\",\\n        \\"endTime\\": 0,\\n        \\"execTime\\": 0,\\n        \\"startTime\\": 0,\\n        \\"useState\\": \\"string\\",\\n        \\"configId\\": \\"string\\",\\n        \\"name\\": \\"string\\",\\n        \\"version\\": 0,\\n        \\"tenantId\\": \\"string\\"\\n      },\\n      \\"workflow\\": {\\n        \\"\_id\\": \\"string\\",\\n        \\"state\\": \\"string\\",\\n        \\"type\\": \\"string\\",\\n        \\"description\\": \\"string\\",\\n        \\"lastupdateOn\\": 0,\\n        \\"imageId\\": \\"string\\",\\n        \\"currTaskIdx\\": 0,\\n        \\"addedOn\\": 0,\\n        \\"tasks\\": [\\n          {\\n            \\"state\\": \\"string\\",\\n            \\"type\\": \\"string\\",\\n            \\"currWorkItemIdx\\": 0,\\n            \\"taskSeqNo\\": 0,\\n            \\"endTime\\": 0,\\n            \\"startTime\\": 0,\\n            \\"workItemList\\": [\\n              {\\n                \\"state\\": \\"string\\",\\n                \\"command\\": \\"string\\",\\n                \\"outputStr\\": \\"string\\",\\n                \\"endTime\\": 0,\\n                \\"startTime\\": 0,\\n                \\"timeTaken\\": 0\\n              }\\n            ],\\n            \\"timeTaken\\": 0,\\n            \\"name\\": \\"string\\"\\n          }\\n        ],\\n        \\"addToInventory\\": true,\\n        \\"instanceType\\": \\"string\\",\\n        \\"endTime\\": 0,\\n        \\"execTime\\": 0,\\n        \\"startTime\\": 0,\\n        \\"useState\\": \\"string\\",\\n        \\"configId\\": \\"string\\",\\n        \\"name\\": \\"string\\",\\n        \\"version\\": 0,\\n        \\"tenantId\\": \\"string\\"\\n      },\\n      \\"runSummaryList\\": [\\n        {\\n          \\"details\\": \\"string\\",\\n          \\"historyTaskInfo\\": {\\n            \\"type\\": \\"string\\",\\n            \\"workItemList\\": [\\n              {\\n                \\"state\\": \\"string\\",\\n                \\"command\\": \\"string\\",\\n                \\"outputStr\\": \\"string\\",\\n                \\"endTime\\": 0,\\n                \\"startTime\\": 0,\\n                \\"timeTaken\\": 0\\n              }\\n            ],\\n            \\"timeTaken\\": 0,\\n            \\"addnDetails\\": [\\n              {\\n                \\"key\\": \\"string\\",\\n                \\"value\\": \\"string\\"\\n              }\\n            ],\\n            \\"name\\": \\"string\\"\\n          },\\n          \\"errorFlag\\": true,\\n          \\"timestamp\\": 0\\n        }\\n      ],\\n      \\"workflowParameters\\": {\\n        \\"topOfStackSerialNumber\\": \\"string\\",\\n        \\"licenseLevel\\": \\"string\\",\\n        \\"licenseType\\": \\"string\\",\\n        \\"configList\\": [\\n          {\\n            \\"configParameters\\": [\\n              {\\n                \\"key\\": \\"string\\",\\n                \\"value\\": \\"string\\"\\n              }\\n            ],\\n            \\"configId\\": \\"string\\"\\n          }\\n        ]\\n      },\\n      \\"dayZeroConfig\\": {\\n        \\"config\\": \\"string\\"\\n      },\\n      \\"dayZeroConfigPreview\\": {},\\n      \\"version\\": 0,\\n      \\"tenantId\\": \\"string\\"\\n    }\\n  ],\\n  \\"failureList\\": [\\n    {\\n      \\"index\\": 0,\\n      \\"serialNum\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"msg\\": \\"string\\"\\n    }\\n  ]\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` "{\\n  \\"successList\\": [\\n    {\\n      \\"\_id\\": \\"string\\",\\n      \\"deviceInfo\\": {\\n        \\"source\\": \\"string\\",\\n        \\"serialNumber\\": \\"string\\",\\n        \\"stack\\": true,\\n        \\"mode\\": \\"string\\",\\n        \\"state\\": \\"string\\",\\n        \\"location\\": {\\n          \\"siteId\\": \\"string\\",\\n          \\"address\\": \\"string\\",\\n          \\"latitude\\": \\"string\\",\\n          \\"longitude\\": \\"string\\",\\n          \\"altitude\\": \\"string\\"\\n        },\\n        \\"description\\": \\"string\\",\\n        \\"onbState\\": \\"string\\",\\n        \\"authenticatedMicNumber\\": \\"string\\",\\n        \\"authenticatedSudiSerialNo\\": \\"string\\",\\n        \\"capabilitiesSupported\\": [\\n          \\"string\\"\\n        ],\\n        \\"featuresSupported\\": [\\n          \\"string\\"\\n        ],\\n        \\"cmState\\": \\"string\\",\\n        \\"firstContact\\": 0,\\n        \\"lastContact\\": 0,\\n        \\"macAddress\\": \\"string\\",\\n        \\"pid\\": \\"string\\",\\n        \\"deviceSudiSerialNos\\": [\\n          \\"string\\"\\n        ],\\n        \\"lastUpdateOn\\": 0,\\n        \\"workflowId\\": \\"string\\",\\n        \\"workflowName\\": \\"string\\",\\n        \\"projectId\\": \\"string\\",\\n        \\"projectName\\": \\"string\\",\\n        \\"deviceType\\": \\"string\\",\\n        \\"agentType\\": \\"string\\",\\n        \\"imageVersion\\": \\"string\\",\\n        \\"fileSystemList\\": [\\n          {\\n            \\"type\\": \\"string\\",\\n            \\"writeable\\": true,\\n            \\"freespace\\": 0,\\n            \\"name\\": \\"string\\",\\n            \\"readable\\": true,\\n            \\"size\\": 0\\n          }\\n        ],\\n        \\"pnpProfileList\\": [\\n          {\\n            \\"profileName\\": \\"string\\",\\n            \\"discoveryCreated\\": true,\\n            \\"createdBy\\": \\"string\\",\\n            \\"primaryEndpoint\\": {\\n              \\"port\\": 0,\\n              \\"protocol\\": \\"string\\",\\n              \\"ipv4Address\\": {},\\n              \\"ipv6Address\\": {},\\n              \\"fqdn\\": \\"string\\",\\n              \\"certificate\\": \\"string\\"\\n            },\\n            \\"secondaryEndpoint\\": {\\n              \\"port\\": 0,\\n              \\"protocol\\": \\"string\\",\\n              \\"ipv4Address\\": {},\\n              \\"ipv6Address\\": {},\\n              \\"fqdn\\": \\"string\\",\\n              \\"certificate\\": \\"string\\"\\n            }\\n          }\\n        ],\\n        \\"imageFile\\": \\"string\\",\\n        \\"httpHeaders\\": [\\n          {\\n            \\"key\\": \\"string\\",\\n            \\"value\\": \\"string\\"\\n          }\\n        ],\\n        \\"neighborLinks\\": [\\n          {\\n            \\"localInterfaceName\\": \\"string\\",\\n            \\"localShortInterfaceName\\": \\"string\\",\\n            \\"localMacAddress\\": \\"string\\",\\n            \\"remoteInterfaceName\\": \\"string\\",\\n            \\"remoteShortInterfaceName\\": \\"string\\",\\n            \\"remoteMacAddress\\": \\"string\\",\\n            \\"remoteDeviceName\\": \\"string\\",\\n            \\"remotePlatform\\": \\"string\\",\\n            \\"remoteVersion\\": \\"string\\"\\n          }\\n        ],\\n        \\"lastSyncTime\\": 0,\\n        \\"ipInterfaces\\": [\\n          {\\n            \\"status\\": \\"string\\",\\n            \\"macAddress\\": \\"string\\",\\n            \\"ipv4Address\\": {},\\n            \\"ipv6AddressList\\": [\\n              {}\\n            ],\\n            \\"name\\": \\"string\\"\\n          }\\n        ],\\n        \\"hostname\\": \\"string\\",\\n        \\"authStatus\\": \\"string\\",\\n        \\"stackInfo\\": {\\n          \\"supportsStackWorkflows\\": true,\\n          \\"isFullRing\\": true,\\n          \\"stackMemberList\\": [\\n            {\\n              \\"serialNumber\\": \\"string\\",\\n              \\"state\\": \\"string\\",\\n              \\"role\\": \\"string\\",\\n              \\"macAddress\\": \\"string\\",\\n              \\"pid\\": \\"string\\",\\n              \\"licenseLevel\\": \\"string\\",\\n              \\"licenseType\\": \\"string\\",\\n              \\"sudiSerialNumber\\": \\"string\\",\\n              \\"hardwareVersion\\": \\"string\\",\\n              \\"stackNumber\\": 0,\\n              \\"softwareVersion\\": \\"string\\",\\n              \\"priority\\": 0\\n            }\\n          ],\\n          \\"stackRingProtocol\\": \\"string\\",\\n          \\"validLicenseLevels\\": [\\n            \\"string\\"\\n          ],\\n          \\"totalMemberCount\\": 0\\n        },\\n        \\"reloadRequested\\": true,\\n        \\"addedOn\\": 0,\\n        \\"siteId\\": \\"string\\",\\n        \\"aaaCredentials\\": {\\n          \\"password\\": \\"string\\",\\n          \\"username\\": \\"string\\"\\n        },\\n        \\"userMicNumbers\\": [\\n          \\"string\\"\\n        ],\\n        \\"userSudiSerialNos\\": [\\n          \\"string\\"\\n        ],\\n        \\"addnMacAddrs\\": [\\n          \\"string\\"\\n        ],\\n        \\"preWorkflowCliOuputs\\": [\\n          {\\n            \\"cli\\": \\"string\\",\\n            \\"cliOutput\\": \\"string\\"\\n          }\\n        ],\\n        \\"tags\\": {},\\n        \\"sudiRequired\\": true,\\n        \\"smartAccountId\\": \\"string\\",\\n        \\"virtualAccountId\\": \\"string\\",\\n        \\"populateInventory\\": true,\\n        \\"siteName\\": \\"string\\",\\n        \\"name\\": \\"string\\"\\n      },\\n      \\"systemResetWorkflow\\": {\\n        \\"\_id\\": \\"string\\",\\n        \\"state\\": \\"string\\",\\n        \\"type\\": \\"string\\",\\n        \\"description\\": \\"string\\",\\n        \\"lastupdateOn\\": 0,\\n        \\"imageId\\": \\"string\\",\\n        \\"currTaskIdx\\": 0,\\n        \\"addedOn\\": 0,\\n        \\"tasks\\": [\\n          {\\n            \\"state\\": \\"string\\",\\n            \\"type\\": \\"string\\",\\n            \\"currWorkItemIdx\\": 0,\\n            \\"taskSeqNo\\": 0,\\n            \\"endTime\\": 0,\\n            \\"startTime\\": 0,\\n            \\"workItemList\\": [\\n              {\\n                \\"state\\": \\"string\\",\\n                \\"command\\": \\"string\\",\\n                \\"outputStr\\": \\"string\\",\\n                \\"endTime\\": 0,\\n                \\"startTime\\": 0,\\n                \\"timeTaken\\": 0\\n              }\\n            ],\\n            \\"timeTaken\\": 0,\\n            \\"name\\": \\"string\\"\\n          }\\n        ],\\n        \\"addToInventory\\": true,\\n        \\"instanceType\\": \\"string\\",\\n        \\"endTime\\": 0,\\n        \\"execTime\\": 0,\\n        \\"startTime\\": 0,\\n        \\"useState\\": \\"string\\",\\n        \\"configId\\": \\"string\\",\\n        \\"name\\": \\"string\\",\\n        \\"version\\": 0,\\n        \\"tenantId\\": \\"string\\"\\n      },\\n      \\"systemWorkflow\\": {\\n        \\"\_id\\": \\"string\\",\\n        \\"state\\": \\"string\\",\\n        \\"type\\": \\"string\\",\\n        \\"description\\": \\"string\\",\\n        \\"lastupdateOn\\": 0,\\n        \\"imageId\\": \\"string\\",\\n        \\"currTaskIdx\\": 0,\\n        \\"addedOn\\": 0,\\n        \\"tasks\\": [\\n          {\\n            \\"state\\": \\"string\\",\\n            \\"type\\": \\"string\\",\\n            \\"currWorkItemIdx\\": 0,\\n            \\"taskSeqNo\\": 0,\\n            \\"endTime\\": 0,\\n            \\"startTime\\": 0,\\n            \\"workItemList\\": [\\n              {\\n                \\"state\\": \\"string\\",\\n                \\"command\\": \\"string\\",\\n                \\"outputStr\\": \\"string\\",\\n                \\"endTime\\": 0,\\n                \\"startTime\\": 0,\\n                \\"timeTaken\\": 0\\n              }\\n            ],\\n            \\"timeTaken\\": 0,\\n            \\"name\\": \\"string\\"\\n          }\\n        ],\\n        \\"addToInventory\\": true,\\n        \\"instanceType\\": \\"string\\",\\n        \\"endTime\\": 0,\\n        \\"execTime\\": 0,\\n        \\"startTime\\": 0,\\n        \\"useState\\": \\"string\\",\\n        \\"configId\\": \\"string\\",\\n        \\"name\\": \\"string\\",\\n        \\"version\\": 0,\\n        \\"tenantId\\": \\"string\\"\\n      },\\n      \\"workflow\\": {\\n        \\"\_id\\": \\"string\\",\\n        \\"state\\": \\"string\\",\\n        \\"type\\": \\"string\\",\\n        \\"description\\": \\"string\\",\\n        \\"lastupdateOn\\": 0,\\n        \\"imageId\\": \\"string\\",\\n        \\"currTaskIdx\\": 0,\\n        \\"addedOn\\": 0,\\n        \\"tasks\\": [\\n          {\\n            \\"state\\": \\"string\\",\\n            \\"type\\": \\"string\\",\\n            \\"currWorkItemIdx\\": 0,\\n            \\"taskSeqNo\\": 0,\\n            \\"endTime\\": 0,\\n            \\"startTime\\": 0,\\n            \\"workItemList\\": [\\n              {\\n                \\"state\\": \\"string\\",\\n                \\"command\\": \\"string\\",\\n                \\"outputStr\\": \\"string\\",\\n                \\"endTime\\": 0,\\n                \\"startTime\\": 0,\\n                \\"timeTaken\\": 0\\n              }\\n            ],\\n            \\"timeTaken\\": 0,\\n            \\"name\\": \\"string\\"\\n          }\\n        ],\\n        \\"addToInventory\\": true,\\n        \\"instanceType\\": \\"string\\",\\n        \\"endTime\\": 0,\\n        \\"execTime\\": 0,\\n        \\"startTime\\": 0,\\n        \\"useState\\": \\"string\\",\\n        \\"configId\\": \\"string\\",\\n        \\"name\\": \\"string\\",\\n        \\"version\\": 0,\\n        \\"tenantId\\": \\"string\\"\\n      },\\n      \\"runSummaryList\\": [\\n        {\\n          \\"details\\": \\"string\\",\\n          \\"historyTaskInfo\\": {\\n            \\"type\\": \\"string\\",\\n            \\"workItemList\\": [\\n              {\\n                \\"state\\": \\"string\\",\\n                \\"command\\": \\"string\\",\\n                \\"outputStr\\": \\"string\\",\\n                \\"endTime\\": 0,\\n                \\"startTime\\": 0,\\n                \\"timeTaken\\": 0\\n              }\\n            ],\\n            \\"timeTaken\\": 0,\\n            \\"addnDetails\\": [\\n              {\\n                \\"key\\": \\"string\\",\\n                \\"value\\": \\"string\\"\\n              }\\n            ],\\n            \\"name\\": \\"string\\"\\n          },\\n          \\"errorFlag\\": true,\\n          \\"timestamp\\": 0\\n        }\\n      ],\\n      \\"workflowParameters\\": {\\n        \\"topOfStackSerialNumber\\": \\"string\\",\\n        \\"licenseLevel\\": \\"string\\",\\n        \\"licenseType\\": \\"string\\",\\n        \\"configList\\": [\\n          {\\n            \\"configParameters\\": [\\n              {\\n                \\"key\\": \\"string\\",\\n                \\"value\\": \\"string\\"\\n              }\\n            ],\\n            \\"configId\\": \\"string\\"\\n          }\\n        ]\\n      },\\n      \\"dayZeroConfig\\": {\\n        \\"config\\": \\"string\\"\\n      },\\n      \\"dayZeroConfigPreview\\": {},\\n      \\"version\\": 0,\\n      \\"tenantId\\": \\"string\\"\\n    }\\n  ],\\n  \\"failureList\\": [\\n    {\\n      \\"index\\": 0,\\n      \\"serialNum\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"msg\\": \\"string\\"\\n    }\\n  ]\\n}\\n"
 
 
       .. raw:: html

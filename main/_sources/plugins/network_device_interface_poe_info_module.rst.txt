@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_device_interface_poe_info -- Information module for Network Device Interface Poe
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_interface_poe_info module -- Information module for Network Device Interface Poe
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Network Device Interface Poe.
-- Returns POE interface details for the device, where deviceuuid is mandatory & accepts comma seperated interface names which is optional and returns information for that particular interfaces where(operStatus = operationalStatus).
+- Returns POE interface details for the device, where deviceuuid is mandatory & accepts comma seperated interface names which is optional and returns information for that particular interfaces where operStatus = operationalStatus.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -83,7 +83,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -525,8 +525,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.poe_interface_details
-   - Paths used are get /dna/intent/api/v1/network-device/{deviceUuid}/interface/poe-detail
+   - SDK Method used are devices.Devices.poe_interface_details,
+   - Paths used are get /dna/intent/api/v1/network-device/{deviceUuid}/interface/poe-detail,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.configuration_template_info -- Information module for Configuration Template
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.configuration_template_info module -- Information module for Configuration Template
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -70,8 +70,8 @@ Synopsis
 
 - Get all Configuration Template.
 - Get Configuration Template by id.
-- List the templates available
 - Details of the template by its id.
+- List the templates available.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -922,8 +922,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are configuration_templates.ConfigurationTemplates.get_template_details, configuration_templates.ConfigurationTemplates.gets_the_templates_available
-   - Paths used are get /dna/intent/api/v1/template-programmer/template, get /dna/intent/api/v1/template-programmer/template/{templateId}
+   - SDK Method used are configuration_templates.ConfigurationTemplates.get_template_details, configuration_templates.ConfigurationTemplates.gets_the_templates_available,
+   - Paths used are get /dna/intent/api/v1/template-programmer/template, get /dna/intent/api/v1/template-programmer/template/{templateId},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection

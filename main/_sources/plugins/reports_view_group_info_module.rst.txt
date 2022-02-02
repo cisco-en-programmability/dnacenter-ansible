@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.reports_view_group_info -- Information module for Reports View Group
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.reports_view_group_info module -- Information module for Reports View Group
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -71,7 +71,7 @@ Synopsis
 - Get all Reports View Group.
 - Get Reports View Group by id.
 - Gives a list of summary of all view groups.
-- Gives a list of summary of all views in a viewgroup. Use "Get all view groups" API to get the viewGroupIds(required as a query param for this API) for available viewgroups.
+- Gives a list of summary of all views in a viewgroup. Use "Get all view groups" API to get the viewGroupIds required as a query param for this API for available viewgroups.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -493,8 +493,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are reports.Reports.get_all_view_groups, reports.Reports.get_views_for_a_given_view_group
-   - Paths used are get /dna/intent/api/v1/data/view-groups, get /dna/intent/api/v1/data/view-groups/{viewGroupId}
+   - SDK Method used are reports.Reports.get_all_view_groups, reports.Reports.get_views_for_a_given_view_group,
+   - Paths used are get /dna/intent/api/v1/data/view-groups, get /dna/intent/api/v1/data/view-groups/{viewGroupId},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection

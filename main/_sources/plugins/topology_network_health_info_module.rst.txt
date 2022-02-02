@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.topology_network_health_info -- Information module for Topology Network Health
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.topology_network_health_info module -- Information module for Topology Network Health
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,7 +83,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -491,8 +491,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are topology.Topology.get_overall_network_health
-   - Paths used are get /dna/intent/api/v1/network-health
+   - SDK Method used are topology.Topology.get_overall_network_health,
+   - Paths used are get /dna/intent/api/v1/network-health,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -582,7 +582,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"version\\": \\"string\\",\\n  \\"response\\": [\\n    {\\n      \\"time\\": \\"string\\",\\n      \\"healthScore\\": 0,\\n      \\"totalCount\\": 0,\\n      \\"goodCount\\": 0,\\n      \\"unmonCount\\": 0,\\n      \\"fairCount\\": 0,\\n      \\"badCount\\": 0,\\n      \\"entity\\": {},\\n      \\"timeinMillis\\": 0\\n    }\\n  ],\\n  \\"measuredBy\\": \\"string\\",\\n  \\"latestMeasuredByEntity\\": {},\\n  \\"latestHealthScore\\": 0,\\n  \\"monitoredDevices\\": 0,\\n  \\"monitoredHealthyDevices\\": 0,\\n  \\"monitoredUnHealthyDevices\\": 0,\\n  \\"unMonitoredDevices\\": 0,\\n  \\"healthDistirubution\\": [\\n    {\\n      \\"category\\": \\"string\\",\\n      \\"totalCount\\": 0,\\n      \\"healthScore\\": 0,\\n      \\"goodPercentage\\": 0,\\n      \\"badPercentage\\": 0,\\n      \\"fairPercentage\\": 0,\\n      \\"unmonPercentage\\": 0,\\n      \\"goodCount\\": 0,\\n      \\"badCount\\": 0,\\n      \\"fairCount\\": 0,\\n      \\"unmonCount\\": 0,\\n      \\"kpiMetrics\\": [\\n        {\\n          \\"key\\": \\"string\\",\\n          \\"value\\": \\"string\\"\\n        }\\n      ]\\n    }\\n  ]\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` "{\\n  \\"version\\": \\"string\\",\\n  \\"response\\": [\\n    {\\n      \\"time\\": \\"string\\",\\n      \\"healthScore\\": 0,\\n      \\"totalCount\\": 0,\\n      \\"goodCount\\": 0,\\n      \\"unmonCount\\": 0,\\n      \\"fairCount\\": 0,\\n      \\"badCount\\": 0,\\n      \\"entity\\": {},\\n      \\"timeinMillis\\": 0\\n    }\\n  ],\\n  \\"measuredBy\\": \\"string\\",\\n  \\"latestMeasuredByEntity\\": {},\\n  \\"latestHealthScore\\": 0,\\n  \\"monitoredDevices\\": 0,\\n  \\"monitoredHealthyDevices\\": 0,\\n  \\"monitoredUnHealthyDevices\\": 0,\\n  \\"unMonitoredDevices\\": 0,\\n  \\"healthDistirubution\\": [\\n    {\\n      \\"category\\": \\"string\\",\\n      \\"totalCount\\": 0,\\n      \\"healthScore\\": 0,\\n      \\"goodPercentage\\": 0,\\n      \\"badPercentage\\": 0,\\n      \\"fairPercentage\\": 0,\\n      \\"unmonPercentage\\": 0,\\n      \\"goodCount\\": 0,\\n      \\"badCount\\": 0,\\n      \\"fairCount\\": 0,\\n      \\"unmonCount\\": 0,\\n      \\"kpiMetrics\\": [\\n        {}\\n      ]\\n    }\\n  ]\\n}\\n"
 
 
       .. raw:: html

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.event_subscription_email -- Resource module for Event Subscription Email
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.event_subscription_email module -- Resource module for Event Subscription Email
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -904,8 +904,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are event_management.EventManagement.create_email_event_subscription, event_management.EventManagement.update_email_event_subscription
-   - Paths used are post /dna/intent/api/v1/event/subscription/email, put /dna/intent/api/v1/event/subscription/email
+   - SDK Method used are event_management.EventManagement.create_email_event_subscription, event_management.EventManagement.update_email_event_subscription,
+   - Paths used are post /dna/intent/api/v1/event/subscription/email, put /dna/intent/api/v1/event/subscription/email,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -932,6 +932,21 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
+        - description: string
+          filter:
+            eventIds:
+            - string
+          name: string
+          subscriptionEndpoints:
+          - instanceId: string
+            subscriptionDetails:
+              connectorType: string
+              fromEmailAddress: string
+              subject: string
+              toEmailAddresses:
+              - string
+          subscriptionId: string
+          version: string
 
     - name: Update all
       cisco.dnac.event_subscription_email:
@@ -944,6 +959,21 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
+        - description: string
+          filter:
+            eventIds:
+            - string
+          name: string
+          subscriptionEndpoints:
+          - instanceId: string
+            subscriptionDetails:
+              connectorType: string
+              fromEmailAddress: string
+              subject: string
+              toEmailAddresses:
+              - string
+          subscriptionId: string
+          version: string
 
 
 
