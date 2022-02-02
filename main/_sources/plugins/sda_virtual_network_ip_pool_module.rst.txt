@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_virtual_network_ip_pool -- Resource module for Sda Virtual Network Ip Pool
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_virtual_network_ip_pool module -- Resource module for Sda Virtual Network Ip Pool
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,8 +69,8 @@ Synopsis
 .. Description
 
 - Manage operations create and delete of the resource Sda Virtual Network Ip Pool.
-- Delete IP Pool from SDA Virtual Network.
 - Add IP Pool in SDA Virtual Network.
+- Delete IP Pool from SDA Virtual Network.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -842,8 +842,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add_ip_pool_in_sda_virtual_network
-   - Paths used are delete /dna/intent/api/v1/business/sda/virtualnetwork/ippool, post /dna/intent/api/v1/business/sda/virtualnetwork/ippool
+   - SDK Method used are sda.Sda.add_ip_pool_in_sda_virtual_network, sda.Sda.delete_ip_pool_from_sda_virtual_network,
+   - Paths used are post /dna/intent/api/v1/business/sda/virtualnetwork/ippool, delete /dna/intent/api/v1/business/sda/virtualnetwork/ippool,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection

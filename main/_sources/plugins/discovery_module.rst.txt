@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.discovery -- Resource module for Discovery
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.discovery module -- Resource module for Discovery
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,10 +69,10 @@ Synopsis
 .. Description
 
 - Manage operations create, update and delete of the resource Discovery.
-- Stops all the discoveries and removes them.
-- Stops or starts an existing discovery.
 - Initiates discovery with the given parameters.
+- Stops all the discoveries and removes them.
 - Stops the discovery for the given Discovery ID and removes it. Discovery ID can be obtained using the "Get Discoveries by range" API.
+- Stops or starts an existing discovery.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -2598,8 +2598,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are discovery.Discovery.start_discovery, discovery.Discovery.updates_discovery_by_id, discovery.Discovery.delete_discovery_by_id
-   - Paths used are delete /dna/intent/api/v1/discovery, put /dna/intent/api/v1/discovery, post /dna/intent/api/v1/discovery, delete /dna/intent/api/v1/discovery/{id}
+   - SDK Method used are discovery.Discovery.delete_discovery_by_id, discovery.Discovery.start_discovery, discovery.Discovery.updates_discovery_by_id,
+   - Paths used are post /dna/intent/api/v1/discovery, delete /dna/intent/api/v1/discovery, delete /dna/intent/api/v1/discovery/{id}, put /dna/intent/api/v1/discovery,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -2626,7 +2626,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
 
-    - name: Update by id
+    - name: Update all
       cisco.dnac.discovery:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

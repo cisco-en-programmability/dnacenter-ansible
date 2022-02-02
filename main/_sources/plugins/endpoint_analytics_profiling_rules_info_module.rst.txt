@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.endpoint_analytics_profiling_rules_info -- Information module for Endpoint Analytics Profiling Rules
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.endpoint_analytics_profiling_rules_info module -- Information module for Endpoint Analytics Profiling Rules
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,8 +69,9 @@ Synopsis
 .. Description
 
 - Get all Endpoint Analytics Profiling Rules.
-- This API fetches the list of profiling rules. It can be used to show profiling rules in client applications, or export those from an environment. 'POST /profiling-rules/bulk' API can be used to import such exported rules into another environment. If this API is used to export rules to be imported into another Cisco DNA Center system, then ensure that 'includeDeleted' parameter is 'true', so that deleted rules get synchronized correctly. Use query parameters to filter the data, as required. If no filter is provided, then it will include only rules of type 'Custom Rule' in the response. By default, the response is limited to 500 records. Use 'limit' parameter to fetch higher number of records, if required. 'GET /profiling-rules/count' API can be used to find out the total number of rules in the system.
+- Get Endpoint Analytics Profiling Rules by id.
 - Fetches details of the profiling rule for the given 'ruleId'.
+- This API fetches the list of profiling rules. It can be used to show profiling rules in client applications, or export those from an environment. 'POST /profiling-rules/bulk' API can be used to import such exported rules into another environment. If this API is used to export rules to be imported into another Cisco DNA Center system, then ensure that 'includeDeleted' parameter is 'true', so that deleted rules get synchronized correctly. Use query parameters to filter the data, as required. If no filter is provided, then it will include only rules of type 'Custom Rule' in the response. By default, the response is limited to 500 records. Use 'limit' parameter to fetch higher number of records, if required. 'GET /profiling-rules/count' API can be used to find out the total number of rules in the system.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -705,8 +706,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are policy.Policy.get_list_of_profiling_rules, policy.Policy.get_details_of_a_single_profiling_rule
-   - Paths used are get /dna/intent/api/v1/endpoint-analytics/profiling-rules, get /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId}
+   - SDK Method used are policy.Policy.get_details_of_a_single_profiling_rule, policy.Policy.get_list_of_profiling_rules,
+   - Paths used are get /dna/intent/api/v1/endpoint-analytics/profiling-rules, get /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection

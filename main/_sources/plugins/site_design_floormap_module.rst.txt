@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.site_design_floormap -- Resource module for Site Design Floormap
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.site_design_floormap module -- Resource module for Site Design Floormap
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -70,7 +70,7 @@ Synopsis
 
 - Manage operations create, update and delete of the resource Site Design Floormap.
 - Service to create a floor map with callback.
-- Service to delete an (empty) floor map with callback.
+- Service to delete an empty floor map with callback.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -492,8 +492,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are site_design.SiteDesign.update_floormap, site_design.SiteDesign.create_floormap, site_design.SiteDesign.delete_floormap
-   - Paths used are post /dna/intent/api/v1/wireless/floormap, delete /dna/intent/api/v1/wireless/floormap/{floorId}
+   - SDK Method used are site_design.SiteDesign.create_floormap, site_design.SiteDesign.delete_floormap, site_design.SiteDesign.update_floormap,
+   - Paths used are post /dna/intent/api/v1/wireless/floormap, delete /dna/intent/api/v1/wireless/floormap/{floorId},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection

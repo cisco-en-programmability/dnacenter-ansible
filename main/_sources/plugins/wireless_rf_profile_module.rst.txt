@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.wireless_rf_profile -- Resource module for Wireless Rf Profile
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.wireless_rf_profile module -- Resource module for Wireless Rf Profile
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -1287,7 +1287,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      RfProfileName path parameter. RF profile name to be deleted(required) *non-custom RF profile cannot be deleted.
+      RfProfileName path parameter. RF profile name to be deleted(required) non-custom RF profile cannot be deleted.
 
 
       .. raw:: html
@@ -1345,8 +1345,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create_or_update_rf_profile, wireless.Wireless.delete_rf_profiles
-   - Paths used are post /dna/intent/api/v1/wireless/rf-profile, delete /dna/intent/api/v1/wireless/rf-profile/{rfProfileName}
+   - SDK Method used are wireless.Wireless.create_or_update_rf_profile, wireless.Wireless.delete_rf_profiles,
+   - Paths used are post /dna/intent/api/v1/wireless/rf-profile, delete /dna/intent/api/v1/wireless/rf-profile/{rfProfileName},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection

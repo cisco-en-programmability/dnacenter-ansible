@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.device_replacement -- Resource module for Device Replacement
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.device_replacement module -- Resource module for Device Replacement
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,8 +69,8 @@ Synopsis
 .. Description
 
 - Manage operations create and update of the resource Device Replacement.
-- UnMarks device for replacement.
 - Marks device for replacement.
+- UnMarks device for replacement.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -935,8 +935,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device_replacement.DeviceReplacement.mark_device_for_replacement, device_replacement.DeviceReplacement.unmark_device_for_replacement
-   - Paths used are put /dna/intent/api/v1/device-replacement, post /dna/intent/api/v1/device-replacement
+   - SDK Method used are device_replacement.DeviceReplacement.mark_device_for_replacement, device_replacement.DeviceReplacement.unmark_device_for_replacement,
+   - Paths used are post /dna/intent/api/v1/device-replacement, put /dna/intent/api/v1/device-replacement,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -963,6 +963,20 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
+        - creationTime: 1
+          family: string
+          faultyDeviceId: string
+          faultyDeviceName: string
+          faultyDevicePlatform: string
+          faultyDeviceSerialNumber: string
+          id: string
+          neighbourDeviceId: string
+          networkReadinessTaskId: string
+          replacementDevicePlatform: string
+          replacementDeviceSerialNumber: string
+          replacementStatus: string
+          replacementTime: 1
+          workflowId: string
 
     - name: Create
       cisco.dnac.device_replacement:
@@ -975,6 +989,20 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
+        - creationTime: 1
+          family: string
+          faultyDeviceId: string
+          faultyDeviceName: string
+          faultyDevicePlatform: string
+          faultyDeviceSerialNumber: string
+          id: string
+          neighbourDeviceId: string
+          networkReadinessTaskId: string
+          replacementDevicePlatform: string
+          replacementDeviceSerialNumber: string
+          replacementStatus: string
+          replacementTime: 1
+          workflowId: string
 
 
 

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.qos_device_interface -- Resource module for Qos Device Interface
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.qos_device_interface module -- Resource module for Qos Device Interface
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,9 +69,9 @@ Synopsis
 .. Description
 
 - Manage operations create, update and delete of the resource Qos Device Interface.
-- Update existing qos device interface infos associate with network device id.
 - Create qos device interface infos associate with network device id to allow the user to mark specific interfaces as WAN, to associate WAN interfaces with specific SP Profile and to be able to define a shaper on WAN interfaces.
 - Delete all qos device interface infos associate with network device id.
+- Update existing qos device interface infos associate with network device id.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -903,8 +903,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application_policy.ApplicationPolicy.create_qos_device_interface_info, application_policy.ApplicationPolicy.update_qos_device_interface_info, application_policy.ApplicationPolicy.delete_qos_device_interface_info
-   - Paths used are put /dna/intent/api/v1/qos-device-interface-info, post /dna/intent/api/v1/qos-device-interface-info, delete /dna/intent/api/v1/qos-device-interface-info/{id}
+   - SDK Method used are application_policy.ApplicationPolicy.create_qos_device_interface_info, application_policy.ApplicationPolicy.delete_qos_device_interface_info, application_policy.ApplicationPolicy.update_qos_device_interface_info,
+   - Paths used are post /dna/intent/api/v1/qos-device-interface-info, delete /dna/intent/api/v1/qos-device-interface-info/{id}, put /dna/intent/api/v1/qos-device-interface-info,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -930,6 +930,21 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        payload:
+        - excludedInterfaces:
+          - string
+          id: string
+          name: string
+          networkDeviceId: string
+          qosDeviceInterfaceInfo:
+          - dmvpnRemoteSitesBw:
+            - 1
+            instanceId: 1
+            interfaceId: string
+            interfaceName: string
+            label: string
+            role: string
+            uploadBW: 1
 
     - name: Create
       cisco.dnac.qos_device_interface:
@@ -941,6 +956,19 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        payload:
+        - excludedInterfaces:
+          - string
+          name: string
+          networkDeviceId: string
+          qosDeviceInterfaceInfo:
+          - dmvpnRemoteSitesBw:
+            - 1
+            interfaceId: string
+            interfaceName: string
+            label: string
+            role: string
+            uploadBW: 1
 
     - name: Delete by id
       cisco.dnac.qos_device_interface:

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.configuration_template -- Resource module for Configuration Template
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.configuration_template module -- Resource module for Configuration Template
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,8 +69,8 @@ Synopsis
 .. Description
 
 - Manage operations update and delete of the resource Configuration Template.
-- API to update a template.
 - Deletes the template by its id.
+- API to update a template.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -5749,8 +5749,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are configuration_templates.ConfigurationTemplates.update_template, configuration_templates.ConfigurationTemplates.deletes_the_template
-   - Paths used are put /dna/intent/api/v1/template-programmer/template, delete /dna/intent/api/v1/template-programmer/template/{templateId}
+   - SDK Method used are configuration_templates.ConfigurationTemplates.deletes_the_template, configuration_templates.ConfigurationTemplates.update_template,
+   - Paths used are delete /dna/intent/api/v1/template-programmer/template/{templateId}, put /dna/intent/api/v1/template-programmer/template,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection

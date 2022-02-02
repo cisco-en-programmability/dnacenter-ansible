@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sensor -- Resource module for Sensor
-+++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sensor module -- Resource module for Sensor
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -1115,8 +1115,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sensors.Sensors.create_sensor_test_template, sensors.Sensors.delete_sensor_test
-   - Paths used are post /dna/intent/api/v1/sensor, delete /dna/intent/api/v1/sensor
+   - SDK Method used are sensors.Sensors.create_sensor_test_template, sensors.Sensors.delete_sensor_test,
+   - Paths used are post /dna/intent/api/v1/sensor, delete /dna/intent/api/v1/sensor,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_update -- Resource module for Network Update
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_update module -- Resource module for Network Update
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,7 +83,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -774,7 +774,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Secondary ip address for DHCP (eg 3.3.3.3). Valid range 1.0.0.0 - 223.255.255.255.
+      Secondary ip address for DHCP (eg 3.3.3.3. Valid range 1.0.0.0 - 223.255.255.255).
 
 
       .. raw:: html
@@ -1509,7 +1509,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SiteId path parameter. Site id to which site details to associate with the network settings.
+      SiteId path parameter. Site id to update the network settings which is associated with the site.
 
 
       .. raw:: html
@@ -1567,7 +1567,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network_settings.NetworkSettings.update_network, network_settings.NetworkSettings.create_network
+   - SDK Method used are network_settings.NetworkSettings.update_network,
    - Paths used are put /dna/intent/api/v1/network/{siteId}
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK

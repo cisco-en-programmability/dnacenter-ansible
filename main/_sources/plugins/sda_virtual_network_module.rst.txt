@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_virtual_network -- Resource module for Sda Virtual Network
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_virtual_network module -- Resource module for Sda Virtual Network
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,8 +69,8 @@ Synopsis
 .. Description
 
 - Manage operations create and delete of the resource Sda Virtual Network.
-- Delete virtual network (VN) from SDA Fabric.
 - Add virtual network (VN) in SDA Fabric.
+- Delete virtual network (VN) from SDA Fabric.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -492,8 +492,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add_vn
-   - Paths used are delete /dna/intent/api/v1/business/sda/virtual-network, post /dna/intent/api/v1/business/sda/virtual-network
+   - SDK Method used are sda.Sda.add_vn, sda.Sda.delete_vn,
+   - Paths used are post /dna/intent/api/v1/business/sda/virtual-network, delete /dna/intent/api/v1/business/sda/virtual-network,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection

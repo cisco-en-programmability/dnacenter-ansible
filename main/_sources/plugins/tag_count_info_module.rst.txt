@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.tag_count_info -- Information module for Tag Count
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.tag_count_info module -- Information module for Tag Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,7 +83,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -661,8 +661,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are tag.Tag.get_tag_count
-   - Paths used are get /dna/intent/api/v1/tag/count
+   - SDK Method used are tag.Tag.get_tag_count,
+   - Paths used are get /dna/intent/api/v1/tag/count,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection

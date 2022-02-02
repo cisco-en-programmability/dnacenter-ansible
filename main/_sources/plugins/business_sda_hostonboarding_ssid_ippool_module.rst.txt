@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.business_sda_hostonboarding_ssid_ippool -- Resource module for Business Sda Hostonboarding Ssid Ippool
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.business_sda_hostonboarding_ssid_ippool module -- Resource module for Business Sda Hostonboarding Ssid Ippool
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -560,8 +560,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping, fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping
-   - Paths used are post /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool, put /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool
+   - SDK Method used are fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping, fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping,
+   - Paths used are post /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool, put /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -649,7 +649,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -669,7 +669,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "[\\n  {\\n    \\"executionId\\": \\"string\\",\\n    \\"executionStatusURL\\": \\"string\\",\\n    \\"message\\": \\"string\\"\\n  }\\n]\\n"
+      :ansible-option-sample-bold:`Sample:` "{\\n  \\"executionId\\": \\"string\\",\\n  \\"executionStatusURL\\": \\"string\\",\\n  \\"message\\": \\"string\\"\\n}\\n"
 
 
       .. raw:: html

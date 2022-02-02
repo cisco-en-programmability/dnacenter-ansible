@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.swim_import_via_url -- Resource module for Swim Import Via Url
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.swim_import_via_url module -- Resource module for Swim Import Via Url
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Manage operation create of the resource Swim Import Via Url.
-- Fetches a software image from remote file system (using URL for HTTP/FTP) and uploads to DNA Center. Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
+- Fetches a software image from remote file system using URL for HTTP/FTP and uploads to DNA Center. Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -83,7 +83,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -737,8 +737,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url
-   - Paths used are post /dna/intent/api/v1/image/importation/source/url
+   - SDK Method used are software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url,
+   - Paths used are post /dna/intent/api/v1/image/importation/source/url,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection

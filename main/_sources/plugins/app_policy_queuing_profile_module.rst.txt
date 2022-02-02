@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.app_policy_queuing_profile -- Resource module for App Policy Queuing Profile
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.app_policy_queuing_profile module -- Resource module for App Policy Queuing Profile
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 4.2.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,9 +69,9 @@ Synopsis
 .. Description
 
 - Manage operations create, update and delete of the resource App Policy Queuing Profile.
-- Update existing custom application queuing profile.
 - Create new custom application queuing profile.
 - Delete existing custom application policy queuing profile by id.
+- Update existing custom application queuing profile.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 
 
@@ -1117,8 +1117,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application_policy.ApplicationPolicy.create_application_policy_queuing_profile, application_policy.ApplicationPolicy.update_application_policy_queuing_profile, application_policy.ApplicationPolicy.delete_application_policy_queuing_profile
-   - Paths used are put /dna/intent/api/v1/app-policy-queuing-profile, post /dna/intent/api/v1/app-policy-queuing-profile, delete /dna/intent/api/v1/app-policy-queuing-profile/{id}
+   - SDK Method used are application_policy.ApplicationPolicy.create_application_policy_queuing_profile, application_policy.ApplicationPolicy.delete_application_policy_queuing_profile, application_policy.ApplicationPolicy.update_application_policy_queuing_profile,
+   - Paths used are post /dna/intent/api/v1/app-policy-queuing-profile, delete /dna/intent/api/v1/app-policy-queuing-profile/{id}, put /dna/intent/api/v1/app-policy-queuing-profile,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1144,6 +1144,25 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        payload:
+        - clause:
+          - instanceId: 1
+            interfaceSpeedBandwidthClauses:
+            - instanceId: 1
+              interfaceSpeed: string
+              tcBandwidthSettings:
+              - bandwidthPercentage: 1
+                instanceId: 1
+                trafficClass: string
+            isCommonBetweenAllInterfaceSpeeds: true
+            tcDscpSettings:
+            - dscp: string
+              instanceId: 1
+              trafficClass: string
+            type: string
+          description: string
+          id: string
+          name: string
 
     - name: Create
       cisco.dnac.app_policy_queuing_profile:
@@ -1155,6 +1174,20 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        payload:
+        - clause:
+          - interfaceSpeedBandwidthClauses:
+            - interfaceSpeed: string
+              tcBandwidthSettings:
+              - bandwidthPercentage: 1
+                trafficClass: string
+            isCommonBetweenAllInterfaceSpeeds: true
+            tcDscpSettings:
+            - dscp: string
+              trafficClass: string
+            type: string
+          description: string
+          name: string
 
     - name: Delete by id
       cisco.dnac.app_policy_queuing_profile:
