@@ -10,7 +10,7 @@ module: swim_image_details_info
 short_description: Information module for Swim Image Details
 description:
 - Get all Swim Image Details.
-- Returns software image list based on a filter criteria. For example: "filterbyName = cat3k%".
+- Returns software image list based on a filter criteria. For example, "filterbyName = cat3k%".
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -92,7 +92,7 @@ options:
     - Offset query parameter.
     type: int
 requirements:
-- dnacentersdk == 2.4.5
+- dnacentersdk >= 2.4.4
 - python >= 3.5
 notes:
   - SDK Method used are

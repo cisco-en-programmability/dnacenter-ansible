@@ -11,7 +11,7 @@ short_description: Resource module for Site Design Floormap
 description:
 - Manage operations create, update and delete of the resource Site Design Floormap.
 - Service to create a floor map with callback.
-- Service to delete an (empty) floor map with callback.
+- Service to delete an empty floor map with callback.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,7 +23,7 @@ options:
   payload:
     description: Site Design Floormap's payload
     type: dict
-  requirements:
+requirements:
 - dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
