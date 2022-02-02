@@ -20,12 +20,15 @@ options:
     description: Template Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    sensors.Sensors.run_now_sensor_test
-  - Paths used are put /dna/intent/api/v1/sensor-run-now
+    sensors.Sensors.run_now_sensor_test,
+
+  - Paths used are
+    put /dna/intent/api/v1/sensor-run-now,
+
 """
 
 EXAMPLES = r"""

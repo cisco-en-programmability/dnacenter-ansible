@@ -40,12 +40,15 @@ options:
     - OperationalStateCodeList query parameter.
     type: list
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_module_count
-  - Paths used are get /dna/intent/api/v1/network-device/module/count
+    devices.Devices.get_module_count,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/module/count,
+
 """
 
 EXAMPLES = r"""

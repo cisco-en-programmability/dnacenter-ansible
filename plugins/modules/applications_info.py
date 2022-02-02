@@ -32,12 +32,15 @@ options:
     - Name query parameter. Application's name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_applications
-  - Paths used are get /dna/intent/api/v1/applications
+    application_policy.ApplicationPolicy.get_applications,
+
+  - Paths used are
+    get /dna/intent/api/v1/applications,
+
 """
 
 EXAMPLES = r"""
@@ -70,6 +73,16 @@ dnac_response:
       {
         "id": "string",
         "name": "string",
+        "indicativeNetworkIdentity": [
+          {
+            "id": "string",
+            "displayName": "string",
+            "lowerPort": 0,
+            "ports": "string",
+            "protocol": "string",
+            "upperPort": 0
+          }
+        ],
         "networkApplications": [
           {
             "id": "string",
@@ -82,8 +95,8 @@ dnac_response:
             "helpString": "string",
             "longDescription": "string",
             "name": "string",
-            "popularity": "string",
-            "rank": "string",
+            "popularity": 0,
+            "rank": 0,
             "trafficClass": "string",
             "serverName": "string",
             "url": "string",
@@ -95,10 +108,10 @@ dnac_response:
           {
             "id": "string",
             "displayName": "string",
-            "lowerPort": "string",
+            "lowerPort": 0,
             "ports": "string",
             "protocol": "string",
-            "upperPort": "string"
+            "upperPort": 0
           }
         ],
         "applicationSet": {

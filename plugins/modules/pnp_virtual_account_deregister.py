@@ -25,12 +25,15 @@ options:
     description: Name query parameter. Virtual Account Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.deregister_virtual_account
-  - Paths used are delete /dna/intent/api/v1/onboarding/pnp-settings/vacct
+    device_onboarding_pnp.DeviceOnboardingPnp.deregister_virtual_account,
+
+  - Paths used are
+    delete /dna/intent/api/v1/onboarding/pnp-settings/vacct,
+
 """
 
 EXAMPLES = r"""

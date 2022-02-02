@@ -48,12 +48,15 @@ options:
     - Search query parameter. Findd matches in name, description, eventId, type, category.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    event_management.EventManagement.get_eventartifacts
-  - Paths used are get /dna/system/api/v1/event/artifact
+    event_management.EventManagement.get_eventartifacts,
+
+  - Paths used are
+    get /dna/system/api/v1/event/artifact,
+
 """
 
 EXAMPLES = r"""
@@ -98,10 +101,10 @@ dnac_response:
         "tags": [
           "string"
         ],
-        "isTemplateEnabled": "string",
+        "isTemplateEnabled": true,
         "ciscoDNAEventLink": "string",
         "note": "string",
-        "isPrivate": "string",
+        "isPrivate": true,
         "eventPayload": {
           "eventId": "string",
           "version": "string",
@@ -118,7 +121,7 @@ dnac_response:
         "eventTemplates": [
           {}
         ],
-        "isTenantAware": "string",
+        "isTenantAware": true,
         "supportedConnectorTypes": [
           "string"
         ],

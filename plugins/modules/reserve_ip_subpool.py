@@ -10,8 +10,8 @@ module: reserve_ip_subpool
 short_description: Resource module for Reserve Ip Subpool
 description:
 - Manage operations create, update and delete of the resource Reserve Ip Subpool.
-- API to delete the reserved ip subpool.
 - API to reserve an ip subpool from the global pool.
+- API to delete the reserved ip subpool.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -93,16 +93,18 @@ options:
     description: Type of the reserve ip sub pool.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.release_reserve_ip_subpool,
+    network_settings.NetworkSettings.reserve_ip_subpool,
     network_settings.NetworkSettings.update_reserve_ip_subpool,
-    network_settings.NetworkSettings.reserve_ip_subpool
-  - Paths used are delete /dna/intent/api/v1/reserve-ip-subpool/{id},
+
+  - Paths used are
     post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
-    put /dna/intent/api/v1/reserve-ip-subpool/{siteId}
+    delete /dna/intent/api/v1/reserve-ip-subpool/{id},
+
 """
 
 EXAMPLES = r"""

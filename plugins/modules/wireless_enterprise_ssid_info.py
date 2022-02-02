@@ -26,12 +26,15 @@ options:
       enterprise SSIDs will be retrieved.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    wireless.Wireless.get_enterprise_ssid
-  - Paths used are get /dna/intent/api/v1/enterprise-ssid
+    wireless.Wireless.get_enterprise_ssid,
+
+  - Paths used are
+    get /dna/intent/api/v1/enterprise-ssid,
+
 """
 
 EXAMPLES = r"""

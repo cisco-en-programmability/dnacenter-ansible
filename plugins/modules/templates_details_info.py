@@ -88,12 +88,15 @@ options:
     - Limit query parameter. Limits number of results.
     type: int
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_templates_details
-  - Paths used are get /dna/intent/api/v2/template-programmer/template
+    configuration_templates.ConfigurationTemplates.get_templates_details,
+
+  - Paths used are
+    get /dna/intent/api/v2/template-programmer/template,
+
 """
 
 EXAMPLES = r"""

@@ -10,8 +10,8 @@ module: sda_port_assignment_for_user_device
 short_description: Resource module for Sda Port Assignment For User Device
 description:
 - Manage operations create and delete of the resource Sda Port Assignment For User Device.
-- Delete Port assignment for user device in SDA Fabric.
 - Add Port assignment for user device in SDA Fabric.
+- Delete Port assignment for user device in SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -55,13 +55,17 @@ options:
       as VOICE(can't be empty if dataIpAddressPoolName is emty).
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.add_port_assignment_for_user_device
-  - Paths used are delete /dna/intent/api/v1/business/sda/hostonboarding/user-device,
-    post /dna/intent/api/v1/business/sda/hostonboarding/user-device
+    sda.Sda.add_port_assignment_for_user_device,
+    sda.Sda.delete_port_assignment_for_user_device,
+
+  - Paths used are
+    post /dna/intent/api/v1/business/sda/hostonboarding/user-device,
+    delete /dna/intent/api/v1/business/sda/hostonboarding/user-device,
+
 """
 
 EXAMPLES = r"""

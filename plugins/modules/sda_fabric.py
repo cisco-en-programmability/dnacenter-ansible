@@ -10,8 +10,8 @@ module: sda_fabric
 short_description: Resource module for Sda Fabric
 description:
 - Manage operations create and delete of the resource Sda Fabric.
-- Delete SDA Fabric.
 - Add SDA Fabric.
+- Delete SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -21,13 +21,17 @@ options:
     description: FabricName query parameter. Fabric Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.add_fabric
-  - Paths used are delete /dna/intent/api/v1/business/sda/fabric,
-    post /dna/intent/api/v1/business/sda/fabric
+    sda.Sda.add_fabric,
+    sda.Sda.delete_sda_fabric,
+
+  - Paths used are
+    post /dna/intent/api/v1/business/sda/fabric,
+    delete /dna/intent/api/v1/business/sda/fabric,
+
 """
 
 EXAMPLES = r"""

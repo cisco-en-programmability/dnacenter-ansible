@@ -10,8 +10,8 @@ module: cli_credential
 short_description: Resource module for Cli Credential
 description:
 - Manage operations create and update of the resource Cli Credential.
-- Updates global CLI credentials.
 - Adds global CLI credential.
+- Updates global CLI credentials.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -45,14 +45,17 @@ options:
     description: Cli Credential's username.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
+    discovery.Discovery.create_cli_credentials,
     discovery.Discovery.update_cli_credentials,
-    discovery.Discovery.create_cli_credentials
-  - Paths used are put /dna/intent/api/v1/global-credential/cli,
-    post /dna/intent/api/v1/global-credential/cli
+
+  - Paths used are
+    post /dna/intent/api/v1/global-credential/cli,
+    put /dna/intent/api/v1/global-credential/cli,
+
 """
 
 EXAMPLES = r"""
@@ -95,6 +98,7 @@ EXAMPLES = r"""
     instanceUuid: string
     password: string
     username: string
+
 """
 
 RETURN = r"""

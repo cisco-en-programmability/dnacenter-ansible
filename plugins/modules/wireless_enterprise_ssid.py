@@ -11,8 +11,8 @@ short_description: Resource module for Wireless Enterprise Ssid
 description:
 - Manage operations create, update and delete of the resource Wireless Enterprise Ssid.
 - Creates enterprise SSID.
-- Update enterprise SSID.
 - Deletes given enterprise SSID.
+- Update enterprise SSID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -77,16 +77,19 @@ options:
     description: Traffic Type.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
     wireless.Wireless.create_enterprise_ssid,
     wireless.Wireless.delete_enterprise_ssid,
-    wireless.Wireless.update_enterprise_ssid
-  - Paths used are post /dna/intent/api/v1/enterprise-ssid,
+    wireless.Wireless.update_enterprise_ssid,
+
+  - Paths used are
+    post /dna/intent/api/v1/enterprise-ssid,
+    delete /dna/intent/api/v1/enterprise-ssid/{ssidName},
     put /dna/intent/api/v1/enterprise-ssid,
-    delete /dna/intent/api/v1/enterprise-ssid/{ssidName}
+
 """
 
 EXAMPLES = r"""

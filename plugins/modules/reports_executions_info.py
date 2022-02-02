@@ -12,8 +12,8 @@ description:
 - Get all Reports Executions.
 - Get Reports Executions by id.
 - Get details of all executions for a given report.
-- Returns report content. Save the response to a file by converting the response data as a blob
-  and setting the file format available from content-disposition response header.
+- Returns report content.
+  Save the response to a file by converting the response data as a blob and setting the file format available from content-disposition response header.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -39,14 +39,17 @@ options:
     - Enable or disable automatic file creation of raw response.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
+    reports.Reports.download_report_content,
     reports.Reports.get_all_execution_details_for_a_given_report,
-    reports.Reports.download_report_content
-  - Paths used are get /dna/intent/api/v1/data/reports/{reportId}/executions,
-    get /dna/intent/api/v1/data/reports/{reportId}/executions/{executionId}
+
+  - Paths used are
+    get /dna/intent/api/v1/data/reports/{reportId}/executions,
+    get /dna/intent/api/v1/data/reports/{reportId}/executions/{executionId},
+
 """
 
 EXAMPLES = r"""

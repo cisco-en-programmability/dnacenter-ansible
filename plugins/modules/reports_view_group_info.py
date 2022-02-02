@@ -13,7 +13,7 @@ description:
 - Get Reports View Group by id.
 - Gives a list of summary of all view groups.
 - Gives a list of summary of all views in a viewgroup.
-  Use "Get all view groups" API to get the viewGroupIds(required as a query param for this API) for available viewgroups.
+  Use "Get all view groups" API to get the viewGroupIds required as a query param for this API for available viewgroups.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,14 +27,17 @@ options:
     - ViewGroupId path parameter. ViewGroupId of viewgroup.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
     reports.Reports.get_all_view_groups,
-    reports.Reports.get_views_for_a_given_view_group
-  - Paths used are get /dna/intent/api/v1/data/view-groups,
-    get /dna/intent/api/v1/data/view-groups/{viewGroupId}
+    reports.Reports.get_views_for_a_given_view_group,
+
+  - Paths used are
+    get /dna/intent/api/v1/data/view-groups,
+    get /dna/intent/api/v1/data/view-groups/{viewGroupId},
+
 """
 
 EXAMPLES = r"""

@@ -20,12 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.get_device_family_identifiers
-  - Paths used are get /dna/intent/api/v1/image/importation/device-family-identifiers
+    software_image_management_swim.SoftwareImageManagementSwim.get_device_family_identifiers,
+
+  - Paths used are
+    get /dna/intent/api/v1/image/importation/device-family-identifiers,
+
 """
 
 EXAMPLES = r"""

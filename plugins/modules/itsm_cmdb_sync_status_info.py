@@ -32,12 +32,15 @@ options:
     - Date query parameter. Provide date in "YYYY-MM-DD" format.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    itsm.Itsm.get_cmdb_sync_status
-  - Paths used are get /dna/intent/api/v1/cmdb-sync/detail
+    itsm.Itsm.get_cmdb_sync_status,
+
+  - Paths used are
+    get /dna/intent/api/v1/cmdb-sync/detail,
+
 """
 
 EXAMPLES = r"""

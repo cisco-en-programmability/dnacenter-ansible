@@ -30,12 +30,15 @@ options:
     description: SiteId in uuid format. For Global Site "-1" to be used.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image
-  - Paths used are post /dna/intent/api/v1/image/importation/golden
+    software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image,
+
+  - Paths used are
+    post /dna/intent/api/v1/image/importation/golden,
+
 """
 
 EXAMPLES = r"""

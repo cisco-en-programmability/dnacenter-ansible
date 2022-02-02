@@ -11,8 +11,8 @@ short_description: Information module for Network Device Module
 description:
 - Get all Network Device Module.
 - Get Network Device Module by id.
-- Returns modules by specified device id.
 - Returns Module info by id.
+- Returns modules by specified device id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -54,14 +54,17 @@ options:
     - Id path parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
     devices.Devices.get_module_info_by_id,
-    devices.Devices.get_modules
-  - Paths used are get /dna/intent/api/v1/network-device/module,
-    get /dna/intent/api/v1/network-device/module/{id}
+    devices.Devices.get_modules,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/module,
+    get /dna/intent/api/v1/network-device/module/{id},
+
 """
 
 EXAMPLES = r"""

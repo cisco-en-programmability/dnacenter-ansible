@@ -38,12 +38,15 @@ options:
     - TaskId query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    discovery.Discovery.get_discovered_devices_by_range
-  - Paths used are get /dna/intent/api/v1/discovery/{id}/network-device/{startIndex}/{recordsToReturn}
+    discovery.Discovery.get_discovered_devices_by_range,
+
+  - Paths used are
+    get /dna/intent/api/v1/discovery/{id}/network-device/{startIndex}/{recordsToReturn},
+
 """
 
 EXAMPLES = r"""

@@ -20,12 +20,15 @@ options:
     description: Device Ip.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    site_design.SiteDesign.nfv_provisioning_detail
-  - Paths used are post /dna/intent/api/v1/nfv-provision-detail
+    site_design.SiteDesign.nfv_provisioning_detail,
+
+  - Paths used are
+    post /dna/intent/api/v1/nfv-provision-detail,
+
 """
 
 EXAMPLES = r"""

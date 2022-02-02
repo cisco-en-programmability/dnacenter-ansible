@@ -32,12 +32,15 @@ options:
       'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    compliance.Compliance.get_compliance_detail_count
-  - Paths used are get /dna/intent/api/v1/compliance/detail/count
+    compliance.Compliance.get_compliance_detail_count,
+
+  - Paths used are
+    get /dna/intent/api/v1/compliance/detail/count,
+
 """
 
 EXAMPLES = r"""

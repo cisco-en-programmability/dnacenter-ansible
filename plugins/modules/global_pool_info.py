@@ -28,12 +28,15 @@ options:
     - Limit query parameter. No of Global Pools to be retrieved.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.get_global_pool
-  - Paths used are get /dna/intent/api/v1/global-pool
+    network_settings.NetworkSettings.get_global_pool,
+
+  - Paths used are
+    get /dna/intent/api/v1/global-pool,
+
 """
 
 EXAMPLES = r"""
@@ -70,15 +73,15 @@ dnac_response:
           "gateways": [
             "string"
           ],
-          "createTime": "string",
-          "lastUpdateTime": "string",
-          "totalIpAddressCount": "string",
-          "usedIpAddressCount": "string",
+          "createTime": 0,
+          "lastUpdateTime": 0,
+          "totalIpAddressCount": 0,
+          "usedIpAddressCount": 0,
           "parentUuid": "string",
           "owner": "string",
-          "shared": "string",
-          "overlapping": "string",
-          "configureExternalDhcp": "string",
+          "shared": true,
+          "overlapping": true,
+          "configureExternalDhcp": true,
           "usedPercentage": "string",
           "clientOptions": {},
           "dnsServerIps": [
@@ -91,7 +94,7 @@ dnac_response:
               "contextValue": "string"
             }
           ],
-          "ipv6": "string",
+          "ipv6": true,
           "id": "string",
           "ipPoolCidr": "string"
         }

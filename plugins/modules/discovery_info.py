@@ -24,12 +24,15 @@ options:
     - Id path parameter. Discovery ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    discovery.Discovery.get_discovery_by_id
-  - Paths used are get /dna/intent/api/v1/discovery/{id}
+    discovery.Discovery.get_discovery_by_id,
+
+  - Paths used are
+    get /dna/intent/api/v1/discovery/{id},
+
 """
 
 EXAMPLES = r"""

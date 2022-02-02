@@ -10,9 +10,9 @@ module: wireless_profile
 short_description: Resource module for Wireless Profile
 description:
 - Manage operations create, update and delete of the resource Wireless Profile.
+- Creates Wireless Network Profile on DNAC and associates sites and SSIDs to it.
 - Delete the Wireless Profile from DNAC whose name is provided.
 - Updates the wireless Network Profile with updated details provided. All sites to be present in the network profile should be provided.
-- Creates Wireless Network Profile on DNAC and associates sites and SSIDs to it.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -59,16 +59,19 @@ options:
     description: WirelessProfileName path parameter. Wireless Profile Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    wireless.Wireless.delete_wireless_profile,
     wireless.Wireless.create_wireless_profile,
-    wireless.Wireless.update_wireless_profile
-  - Paths used are delete /dna/intent/api/v1/wireless-profile/{wirelessProfileName},
+    wireless.Wireless.delete_wireless_profile,
+    wireless.Wireless.update_wireless_profile,
+
+  - Paths used are
+    post /dna/intent/api/v1/wireless/profile,
+    delete /dna/intent/api/v1/wireless-profile/{wirelessProfileName},
     put /dna/intent/api/v1/wireless/profile,
-    post /dna/intent/api/v1/wireless/profile
+
 """
 
 EXAMPLES = r"""

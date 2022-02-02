@@ -24,12 +24,15 @@ options:
     - NetworkDeviceId query parameter. Network device id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_qos_device_interface_info
-  - Paths used are get /dna/intent/api/v1/qos-device-interface-info
+    application_policy.ApplicationPolicy.get_qos_device_interface_info,
+
+  - Paths used are
+    get /dna/intent/api/v1/qos-device-interface-info,
+
 """
 
 EXAMPLES = r"""

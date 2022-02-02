@@ -26,12 +26,15 @@ options:
     description: Pnp Device Config Preview's type.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.preview_config
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/site-config-preview
+    device_onboarding_pnp.DeviceOnboardingPnp.preview_config,
+
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-device/site-config-preview,
+
 """
 
 EXAMPLES = r"""

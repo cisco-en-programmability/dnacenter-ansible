@@ -24,12 +24,15 @@ options:
     - Device_uuid path parameter. Id of device.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    licenses.Licenses.device_license_details
-  - Paths used are get /dna/intent/api/v1/licenses/device/{device_uuid}/details
+    licenses.Licenses.device_license_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/licenses/device/{device_uuid}/details,
+
 """
 
 EXAMPLES = r"""

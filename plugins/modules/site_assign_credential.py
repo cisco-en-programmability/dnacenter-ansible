@@ -38,12 +38,15 @@ options:
     description: Snmp V3 Id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.assign_credential_to_site
-  - Paths used are post /dna/intent/api/v1/credential-to-site/{siteId}
+    network_settings.NetworkSettings.assign_credential_to_site,
+
+  - Paths used are
+    post /dna/intent/api/v1/credential-to-site/{siteId},
+
 """
 
 EXAMPLES = r"""

@@ -20,12 +20,15 @@ options:
     description: SiteId path parameter. Site id to which site details to be deleted.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    sites.Sites.delete_site
-  - Paths used are delete /dna/intent/api/v1/site/{siteId}
+    sites.Sites.delete_site,
+
+  - Paths used are
+    delete /dna/intent/api/v1/site/{siteId},
+
 """
 
 EXAMPLES = r"""
@@ -49,22 +52,7 @@ dnac_response:
   type: dict
   sample: >
     {
-      "result": "string",
-      "response": {
-        "endTime": "string",
-        "version": "string",
-        "startTime": "string",
-        "progress": "string",
-        "data": "string",
-        "serviceType": "string",
-        "operationIdList": [
-          "string"
-        ],
-        "isError": "string",
-        "rootId": "string",
-        "instanceTenantId": "string",
-        "id": "string"
-      },
-      "status": "string"
+      "status": "string",
+      "message": "string"
     }
 """

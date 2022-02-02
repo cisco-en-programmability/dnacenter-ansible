@@ -28,12 +28,15 @@ options:
     - Name query parameter. Interface name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_interface_details
-  - Paths used are get /dna/intent/api/v1/interface/network-device/{deviceId}/interface-name
+    devices.Devices.get_interface_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/interface/network-device/{deviceId}/interface-name,
+
 """
 
 EXAMPLES = r"""

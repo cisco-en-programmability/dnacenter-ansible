@@ -24,12 +24,15 @@ options:
     - ProfileName query parameter. Wireless Network Profile Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    wireless.Wireless.get_wireless_profile
-  - Paths used are get /dna/intent/api/v1/wireless/profile
+    wireless.Wireless.get_wireless_profile,
+
+  - Paths used are
+    get /dna/intent/api/v1/wireless/profile,
+
 """
 
 EXAMPLES = r"""

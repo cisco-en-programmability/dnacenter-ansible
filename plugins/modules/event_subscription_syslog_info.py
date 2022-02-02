@@ -40,12 +40,15 @@ options:
     - Order query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    event_management.EventManagement.get_syslog_event_subscriptions
-  - Paths used are get /dna/intent/api/v1/event/subscription/syslog
+    event_management.EventManagement.get_syslog_event_subscriptions,
+
+  - Paths used are
+    get /dna/intent/api/v1/event/subscription/syslog,
+
 """
 
 EXAMPLES = r"""
@@ -126,7 +129,7 @@ dnac_response:
             "string"
           ]
         },
-        "isPrivate": "string",
+        "isPrivate": true,
         "tenantId": "string"
       }
     ]

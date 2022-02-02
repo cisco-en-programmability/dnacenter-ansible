@@ -28,16 +28,22 @@ options:
           enablePassword:
             description: Enable password for CLI credential.
             type: str
+          id:
+            description: Id.
+            type: str
           password:
             description: Password for CLI credential.
             type: str
           username:
             description: User name for CLI credential.
             type: str
-        type: list
+        type: dict
       httpsRead:
         description: Device Credential Update's httpsRead.
         suboptions:
+          id:
+            description: Id.
+            type: str
           name:
             description: Name or description of http read credential.
             type: str
@@ -46,14 +52,17 @@ options:
             type: str
           port:
             description: Port for http read credential.
-            type: int
+            type: str
           username:
             description: User name of the http read credential.
             type: str
-        type: list
+        type: dict
       httpsWrite:
         description: Device Credential Update's httpsWrite.
         suboptions:
+          id:
+            description: Id.
+            type: str
           name:
             description: Name or description of http write credential.
             type: str
@@ -62,31 +71,37 @@ options:
             type: str
           port:
             description: Port for http write credential.
-            type: int
+            type: str
           username:
             description: User name of the http write credential.
             type: str
-        type: list
+        type: dict
       snmpV2cRead:
         description: Device Credential Update's snmpV2cRead.
         suboptions:
           description:
             description: Description for snmp v2 read.
             type: str
+          id:
+            description: Id.
+            type: str
           readCommunity:
             description: Ready community for snmp v2 read credential.
             type: str
-        type: list
+        type: dict
       snmpV2cWrite:
         description: Device Credential Update's snmpV2cWrite.
         suboptions:
           description:
             description: Description for snmp v2 write.
             type: str
+          id:
+            description: Id.
+            type: str
           writeCommunity:
             description: Write community for snmp v2 write credential.
             type: str
-        type: list
+        type: dict
       snmpV3:
         description: Device Credential Update's snmpV3.
         suboptions:
@@ -98,6 +113,9 @@ options:
             type: str
           description:
             description: Name or description for SNMPV3 credential.
+            type: str
+          id:
+            description: Id.
             type: str
           privacyPassword:
             description: Privacy password for snmpv3 credential.
@@ -111,16 +129,18 @@ options:
           username:
             description: User name for SNMPv3 credential.
             type: str
-        type: list
+        type: dict
     type: dict
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.update_device_credentials,
-    network_settings.NetworkSettings.create_device_credentials
-  - Paths used are put /dna/intent/api/v1/device-credential
+
+  - Paths used are
+    put /dna/intent/api/v1/device-credential,
+
 """
 
 EXAMPLES = r"""

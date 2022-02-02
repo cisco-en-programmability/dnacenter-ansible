@@ -27,14 +27,17 @@ options:
     description: Map of member type and member ids.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
+    tag.Tag.add_members_to_the_tag,
     tag.Tag.remove_tag_member,
-    tag.Tag.add_members_to_the_tag
-  - Paths used are post /dna/intent/api/v1/tag/{id}/member,
-    delete /dna/intent/api/v1/tag/{id}/member/{memberId}
+
+  - Paths used are
+    post /dna/intent/api/v1/tag/{id}/member,
+    delete /dna/intent/api/v1/tag/{id}/member/{memberId},
+
 """
 
 EXAMPLES = r"""

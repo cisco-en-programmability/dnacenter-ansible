@@ -56,12 +56,15 @@ options:
     - Source query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    event_management.EventManagement.count_of_notifications
-  - Paths used are get /dna/intent/api/v1/event/event-series/count
+    event_management.EventManagement.count_of_notifications,
+
+  - Paths used are
+    get /dna/intent/api/v1/event/event-series/count,
+
 """
 
 EXAMPLES = r"""

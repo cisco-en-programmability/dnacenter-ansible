@@ -108,12 +108,15 @@ options:
     - Limit query parameter.
     type: int
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_device_values_that_match_fully_or_partially_an_attribute
-  - Paths used are get /dna/intent/api/v1/network-device/autocomplete
+    devices.Devices.get_device_values_that_match_fully_or_partially_an_attribute,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/autocomplete,
+
 """
 
 EXAMPLES = r"""

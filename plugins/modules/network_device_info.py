@@ -12,7 +12,6 @@ description:
 - Get all Network Device.
 - Get Network Device by id.
 - Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, etc.
-  If id parameter is provided with comma separated ids, it will return the list of network-devices for the given ids and ignores the other request parameters.
 - Returns the network device details for the given device ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -153,14 +152,17 @@ options:
     - DeviceSupportLevel query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
     devices.Devices.get_device_by_id,
-    devices.Devices.get_device_list
-  - Paths used are get /dna/intent/api/v1/network-device,
-    get /dna/intent/api/v1/network-device/{id}
+    devices.Devices.get_device_list,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device,
+    get /dna/intent/api/v1/network-device/{id},
+
 """
 
 EXAMPLES = r"""
@@ -271,8 +273,7 @@ dnac_response:
         "tunnelUdpPort": "string",
         "type": "string",
         "upTime": "string",
-        "waasDeviceMode": "string",
-        "uptimeSeconds": 0
+        "waasDeviceMode": "string"
       },
       "version": "string"
     }

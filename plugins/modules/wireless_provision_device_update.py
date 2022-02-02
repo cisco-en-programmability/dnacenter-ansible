@@ -50,12 +50,15 @@ options:
         type: list
     type: list
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    wireless.Wireless.provision_update
-  - Paths used are put /dna/intent/api/v1/wireless/provision
+    wireless.Wireless.provision_update,
+
+  - Paths used are
+    put /dna/intent/api/v1/wireless/provision,
+
 """
 
 EXAMPLES = r"""
@@ -68,6 +71,17 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    payload:
+    - deviceName: string
+      dynamicInterfaces:
+      - interfaceGateway: string
+        interfaceIPAddress: string
+        interfaceName: string
+        interfaceNetmaskInCIDR: 1
+        lagOrPortNumber: 1
+        vlanId: 1
+      managedAPLocations:
+      - string
 
 """
 

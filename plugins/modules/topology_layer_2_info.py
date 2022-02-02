@@ -24,12 +24,15 @@ options:
     - VlanID path parameter. Vlan Name for e.g Vlan1, Vlan23 etc.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    topology.Topology.get_topology_details
-  - Paths used are get /dna/intent/api/v1/topology/l2/{vlanID}
+    topology.Topology.get_topology_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/topology/l2/{vlanID},
+
 """
 
 EXAMPLES = r"""

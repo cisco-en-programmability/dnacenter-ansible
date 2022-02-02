@@ -48,14 +48,17 @@ options:
     description: Http Read Credential's username.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
     discovery.Discovery.create_http_read_credentials,
-    discovery.Discovery.update_http_read_credential
-  - Paths used are post /dna/intent/api/v1/global-credential/http-read,
-    put /dna/intent/api/v1/global-credential/http-read
+    discovery.Discovery.update_http_read_credential,
+
+  - Paths used are
+    post /dna/intent/api/v1/global-credential/http-read,
+    put /dna/intent/api/v1/global-credential/http-read,
+
 """
 
 EXAMPLES = r"""

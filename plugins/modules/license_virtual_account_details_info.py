@@ -24,12 +24,15 @@ options:
     - Smart_account_id path parameter. Id of smart account.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    licenses.Licenses.virtual_account_details
-  - Paths used are get /dna/intent/api/v1/licenses/smartAccount/{smart_account_id}/virtualAccounts
+    licenses.Licenses.virtual_account_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/licenses/smartAccount/{smart_account_id}/virtualAccounts,
+
 """
 
 EXAMPLES = r"""

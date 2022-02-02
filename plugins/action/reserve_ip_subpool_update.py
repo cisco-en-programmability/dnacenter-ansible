@@ -26,13 +26,7 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     name=dict(type="str"),
-    type=dict(type="str"),
     ipv6AddressSpace=dict(type="bool"),
-    ipv4GlobalPool=dict(type="str"),
-    ipv4Prefix=dict(type="bool"),
-    ipv4PrefixLength=dict(type="int"),
-    ipv4Subnet=dict(type="str"),
-    ipv4GateWay=dict(type="str"),
     ipv4DhcpServers=dict(type="list"),
     ipv4DnsServers=dict(type="list"),
     ipv6GlobalPool=dict(type="str"),
@@ -42,9 +36,9 @@ argument_spec.update(dict(
     ipv6GateWay=dict(type="str"),
     ipv6DhcpServers=dict(type="list"),
     ipv6DnsServers=dict(type="list"),
-    ipv4TotalHost=dict(type="int"),
     ipv6TotalHost=dict(type="int"),
     slaacSupport=dict(type="bool"),
+    ipv4GateWay=dict(type="str"),
     siteId=dict(type="str"),
 ))
 
@@ -84,13 +78,7 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             name=params.get("name"),
-            type=params.get("type"),
             ipv6AddressSpace=params.get("ipv6AddressSpace"),
-            ipv4GlobalPool=params.get("ipv4GlobalPool"),
-            ipv4Prefix=params.get("ipv4Prefix"),
-            ipv4PrefixLength=params.get("ipv4PrefixLength"),
-            ipv4Subnet=params.get("ipv4Subnet"),
-            ipv4GateWay=params.get("ipv4GateWay"),
             ipv4DhcpServers=params.get("ipv4DhcpServers"),
             ipv4DnsServers=params.get("ipv4DnsServers"),
             ipv6GlobalPool=params.get("ipv6GlobalPool"),
@@ -100,9 +88,9 @@ class ActionModule(ActionBase):
             ipv6GateWay=params.get("ipv6GateWay"),
             ipv6DhcpServers=params.get("ipv6DhcpServers"),
             ipv6DnsServers=params.get("ipv6DnsServers"),
-            ipv4TotalHost=params.get("ipv4TotalHost"),
             ipv6TotalHost=params.get("ipv6TotalHost"),
             slaacSupport=params.get("slaacSupport"),
+            ipv4GateWay=params.get("ipv4GateWay"),
             site_id=params.get("siteId"),
         )
         return new_object

@@ -28,12 +28,15 @@ options:
     - InterfaceName query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.get_port_assignment_for_access_point
-  - Paths used are get /dna/intent/api/v1/business/sda/hostonboarding/access-point
+    sda.Sda.get_port_assignment_for_access_point,
+
+  - Paths used are
+    get /dna/intent/api/v1/business/sda/hostonboarding/access-point,
+
 """
 
 EXAMPLES = r"""

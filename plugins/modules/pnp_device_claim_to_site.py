@@ -17,6 +17,7 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   configInfo:
+    version_added: '4.2.0'
     description: Pnp Device Claim To Site's configInfo.
     suboptions:
       configId:
@@ -37,9 +38,11 @@ options:
     description: Pnp Device Claim To Site's deviceId.
     type: str
   hostname:
+    version_added: '4.2.0'
     description: Pnp Device Claim To Site's hostname.
     type: str
   imageInfo:
+    version_added: '4.2.0'
     description: Pnp Device Claim To Site's imageInfo.
     suboptions:
       imageId:
@@ -56,13 +59,15 @@ options:
     description: Pnp Device Claim To Site's type.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/site-claim
-  - Parameters hostname, imageInfo and configInfo were added in 4.2.0
+    device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site,
+
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-device/site-claim,
+
 """
 
 EXAMPLES = r"""

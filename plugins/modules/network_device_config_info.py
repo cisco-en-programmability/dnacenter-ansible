@@ -25,30 +25,20 @@ options:
     - NetworkDeviceId path parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_device_config_by_id
-  - Paths used are get /dna/intent/api/v1/network-device/config,
-    get /dna/intent/api/v1/network-device/{networkDeviceId}/config
+    devices.Devices.get_device_config_by_id,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/config,
+    get /dna/intent/api/v1/network-device/{networkDeviceId}/config,
+
 """
 
 EXAMPLES = r"""
 - name: Get all Network Device Config
-  cisco.dnac.network_device_config_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
-  register: result
-
-- name: Get Network Device Config by id
   cisco.dnac.network_device_config_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

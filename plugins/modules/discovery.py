@@ -10,10 +10,10 @@ module: discovery
 short_description: Resource module for Discovery
 description:
 - Manage operations create, update and delete of the resource Discovery.
-- Stops all the discoveries and removes them.
-- Stops or starts an existing discovery.
 - Initiates discovery with the given parameters.
+- Stops all the discoveries and removes them.
 - Stops the discovery for the given Discovery ID and removes it. Discovery ID can be obtained using the "Get Discoveries by range" API.
+- Stops or starts an existing discovery.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -212,17 +212,20 @@ options:
     description: Discovery's userNameList.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
+    discovery.Discovery.delete_discovery_by_id,
     discovery.Discovery.start_discovery,
     discovery.Discovery.updates_discovery_by_id,
-    discovery.Discovery.delete_discovery_by_id
-  - Paths used are delete /dna/intent/api/v1/discovery,
-    put /dna/intent/api/v1/discovery,
+
+  - Paths used are
     post /dna/intent/api/v1/discovery,
-    delete /dna/intent/api/v1/discovery/{id}
+    delete /dna/intent/api/v1/discovery,
+    delete /dna/intent/api/v1/discovery/{id},
+    put /dna/intent/api/v1/discovery,
+
 """
 
 EXAMPLES = r"""
@@ -237,7 +240,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
 
-- name: Update by id
+- name: Update all
   cisco.dnac.discovery:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

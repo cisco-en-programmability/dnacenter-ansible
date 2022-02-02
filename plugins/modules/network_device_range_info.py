@@ -28,12 +28,15 @@ options:
     - RecordsToReturn path parameter. Number of records to return.
     type: int
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_network_device_by_pagination_range
-  - Paths used are get /dna/intent/api/v1/network-device/{startIndex}/{recordsToReturn}
+    devices.Devices.get_network_device_by_pagination_range,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/{startIndex}/{recordsToReturn},
+
 """
 
 EXAMPLES = r"""

@@ -16,16 +16,20 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
-  sp_profile_name:
-    description: Sp-profile-name path parameter. Sp profile name.
+  spProfileName:
+    description: SpProfileName path parameter. Sp profile name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.delete_sp_profile
-  - Paths used are delete /dna/intent/api/v1/sp-profile/{spProfileName}
+    network_settings.NetworkSettings.delete_sp_profile,
+
+  - Paths used are
+    delete /dna/intent/api/v1/sp-profile/{spProfileName},
+
+  - Renamed argument from 'sp_profile_name' to 'spProfileName' in v4.3.0.
 """
 
 EXAMPLES = r"""
@@ -38,7 +42,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    sp_profile_name: string
+    spProfileName: string
 
 """
 

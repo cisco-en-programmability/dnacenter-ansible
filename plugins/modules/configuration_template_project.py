@@ -11,8 +11,8 @@ short_description: Resource module for Configuration Template Project
 description:
 - Manage operations create, update and delete of the resource Configuration Template Project.
 - This API is used to create a new project.
-- This API is used to update an existing project.
 - Deletes the project by its id.
+- This API is used to update an existing project.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -537,16 +537,19 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.update_project,
+    configuration_templates.ConfigurationTemplates.create_project,
     configuration_templates.ConfigurationTemplates.deletes_the_project,
-    configuration_templates.ConfigurationTemplates.create_project
-  - Paths used are post /dna/intent/api/v1/template-programmer/project,
+    configuration_templates.ConfigurationTemplates.update_project,
+
+  - Paths used are
+    post /dna/intent/api/v1/template-programmer/project,
+    delete /dna/intent/api/v1/template-programmer/project/{projectId},
     put /dna/intent/api/v1/template-programmer/project,
-    delete /dna/intent/api/v1/template-programmer/project/{projectId}
+
 """
 
 EXAMPLES = r"""

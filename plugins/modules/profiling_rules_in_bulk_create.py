@@ -120,12 +120,15 @@ options:
         type: list
     type: list
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    policy.Policy.import_profiling_rules_in_bulk
-  - Paths used are post /dna/intent/api/v1/endpoint-analytics/profiling-rules/bulk
+    policy.Policy.import_profiling_rules_in_bulk,
+
+  - Paths used are
+    post /dna/intent/api/v1/endpoint-analytics/profiling-rules/bulk,
+
 """
 
 EXAMPLES = r"""

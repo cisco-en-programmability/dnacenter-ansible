@@ -60,12 +60,15 @@ options:
     - HttpStatus query parameter.
     type: list
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    discovery.Discovery.get_network_devices_from_discovery
-  - Paths used are get /dna/intent/api/v1/discovery/{id}/summary
+    discovery.Discovery.get_network_devices_from_discovery,
+
+  - Paths used are
+    get /dna/intent/api/v1/discovery/{id}/summary,
+
 """
 
 EXAMPLES = r"""

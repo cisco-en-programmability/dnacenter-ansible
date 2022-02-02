@@ -40,12 +40,15 @@ options:
     - Smart_account_id query parameter. Id of smart account.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    licenses.Licenses.device_count_details
-  - Paths used are get /dna/intent/api/v1/licenses/device/count
+    licenses.Licenses.device_count_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/licenses/device/count,
+
 """
 
 EXAMPLES = r"""

@@ -24,12 +24,15 @@ options:
     - Rf-profile-name query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    wireless.Wireless.retrieve_rf_profiles
-  - Paths used are get /dna/intent/api/v1/wireless/rf-profile
+    wireless.Wireless.retrieve_rf_profiles,
+
+  - Paths used are
+    get /dna/intent/api/v1/wireless/rf-profile,
+
 """
 
 EXAMPLES = r"""

@@ -20,12 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_application_sets_count
-  - Paths used are get /dna/intent/api/v1/application-policy-application-set-count
+    application_policy.ApplicationPolicy.get_application_sets_count,
+
+  - Paths used are
+    get /dna/intent/api/v1/application-policy-application-set-count,
+
 """
 
 EXAMPLES = r"""

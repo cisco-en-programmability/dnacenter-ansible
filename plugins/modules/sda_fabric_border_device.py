@@ -73,17 +73,20 @@ options:
     description: Virtual Network Name assigned to site.
     type: str
   vlanId:
-    version_added: "4.0.0"
     description: Vlan Id (e.g.,2-4096 except for reserved VLANs (1002-1005, 2046, 4095)).
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.adds_border_device
-  - Paths used are post /dna/intent/api/v1/business/sda/border-device,
-    delete /dna/intent/api/v1/business/sda/border-device
+    sda.Sda.adds_border_device,
+    sda.Sda.deletes_border_device,
+
+  - Paths used are
+    post /dna/intent/api/v1/business/sda/border-device,
+    delete /dna/intent/api/v1/business/sda/border-device,
+
 """
 
 EXAMPLES = r"""

@@ -24,12 +24,15 @@ options:
     - DeviceManagementIpAddress query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.get_provisioned_wired_device
-  - Paths used are get /dna/intent/api/v1/business/sda/provision-device
+    sda.Sda.get_provisioned_wired_device,
+
+  - Paths used are
+    get /dna/intent/api/v1/business/sda/provision-device,
+
 """
 
 EXAMPLES = r"""

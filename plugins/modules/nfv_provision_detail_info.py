@@ -24,12 +24,15 @@ options:
     - DeviceIp query parameter. Device to which the provisioning detail has to be retrieved.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    site_design.SiteDesign.get_device_details_by_ip
-  - Paths used are get /dna/intent/api/v1/business/nfv/provisioningDetail
+    site_design.SiteDesign.get_device_details_by_ip,
+
+  - Paths used are
+    get /dna/intent/api/v1/business/nfv/provisioningDetail,
+
 """
 
 EXAMPLES = r"""

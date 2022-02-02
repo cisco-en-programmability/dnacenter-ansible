@@ -32,12 +32,15 @@ options:
     - Enable or disable automatic file creation of raw response.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    file.File.download_a_file_by_fileid
-  - Paths used are get /dna/intent/api/v1/file/{fileId}
+    file.File.download_a_file_by_fileid,
+
+  - Paths used are
+    get /dna/intent/api/v1/file/{fileId},
+
 """
 
 EXAMPLES = r"""

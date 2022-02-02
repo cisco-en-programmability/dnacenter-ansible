@@ -24,12 +24,15 @@ options:
     - ExecutionId path parameter. Execution Id of API.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    task.Task.get_business_api_execution_details
-  - Paths used are get /dna/intent/api/v1/dnacaap/management/execution-status/{executionId}
+    task.Task.get_business_api_execution_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/dnacaap/management/execution-status/{executionId},
+
 """
 
 EXAMPLES = r"""

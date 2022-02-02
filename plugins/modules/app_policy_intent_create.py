@@ -216,12 +216,15 @@ options:
         type: dict
     type: list
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.application_policy_intent
-  - Paths used are post /dna/intent/api/v1/app-policy-intent
+    application_policy.ApplicationPolicy.application_policy_intent,
+
+  - Paths used are
+    post /dna/intent/api/v1/app-policy-intent,
+
 """
 
 EXAMPLES = r"""
