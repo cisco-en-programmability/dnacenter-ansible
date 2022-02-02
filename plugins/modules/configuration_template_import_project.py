@@ -23,7 +23,7 @@ options:
       fails with 'Template already exists' error.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are

@@ -23,7 +23,7 @@ options:
     description: Site Name Hierarchy.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
@@ -32,6 +32,7 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/business/sda/wireless-controller,
 
+  - Removed 'deviceIPAddress' options in v4.3.0.
 """
 
 EXAMPLES = r"""

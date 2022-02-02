@@ -24,7 +24,7 @@ options:
     - EventIds query parameter. List of subscriptions related to the respective eventIds.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are

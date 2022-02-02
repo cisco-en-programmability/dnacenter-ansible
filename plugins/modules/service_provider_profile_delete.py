@@ -20,7 +20,7 @@ options:
     description: SpProfileName path parameter. Sp profile name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
@@ -29,6 +29,7 @@ notes:
   - Paths used are
     delete /dna/intent/api/v1/sp-profile/{spProfileName},
 
+  - Renamed argument from 'sp_profile_name' to 'spProfileName' in v4.3.0.
 """
 
 EXAMPLES = r"""

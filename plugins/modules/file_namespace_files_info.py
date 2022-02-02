@@ -24,7 +24,7 @@ options:
     - NameSpace path parameter. A listing of fileId's.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
