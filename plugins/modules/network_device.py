@@ -116,7 +116,7 @@ options:
     description: Network Device's userName.
     type: str
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
@@ -129,6 +129,7 @@ notes:
     delete /dna/intent/api/v1/network-device/{id},
     put /dna/intent/api/v1/network-device,
 
+  - Removed 'managementIpAddress' options in v4.3.0.
 """
 
 EXAMPLES = r"""

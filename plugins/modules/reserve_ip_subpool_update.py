@@ -72,7 +72,7 @@ options:
     description: Slaac Support.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.4
+- dnacentersdk == 2.4.5
 - python >= 3.5
 notes:
   - SDK Method used are
@@ -82,7 +82,7 @@ notes:
     put /dna/intent/api/v1/reserve-ip-subpool/{siteId}
 
   - Removed 'type', 'ipv4GlobalPool', 'ipv4Prefix', 'ipv4PrefixLength', 'ipv4Subnet' and 'ipv4TotalHost' options
-    at v4.3.0.
+    in v4.3.0.
 """
 
 EXAMPLES = r"""
