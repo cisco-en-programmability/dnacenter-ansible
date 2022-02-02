@@ -30,7 +30,7 @@ options:
   limit:
     description:
     - >
-      Limit path parameter. The maximum value of {limit} supported is 500. <br/> Base 1 indexing for {limit},
+      Limit path parameter. The maximum value of {limit} supported is 500. Base 1 indexing for {limit},
       minimum value is 1.
     type: int
 requirements:
