@@ -32,8 +32,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_interface_details
-  - Paths used are get /dna/intent/api/v1/interface/network-device/{deviceId}/interface-name
+    devices.Devices.get_interface_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/interface/network-device/{deviceId}/interface-name,
+
 """
 
 EXAMPLES = r"""

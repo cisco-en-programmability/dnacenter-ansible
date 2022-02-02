@@ -10,8 +10,7 @@ module: swim_import_local
 short_description: Resource module for Swim Import Local
 description:
 - Manage operation create of the resource Swim Import Local.
-- Fetches a software image from local file system and uploads to DNA Center.
-  Supported software image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
+- Fetches a software image from local file system and uploads to DNA Center. Supported software image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -38,8 +37,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.import_local_software_image
-  - Paths used are post /dna/intent/api/v1/image/importation/source/file
+    software_image_management_swim.SoftwareImageManagementSwim.import_local_software_image,
+
+  - Paths used are
+    post /dna/intent/api/v1/image/importation/source/file,
+
 """
 
 EXAMPLES = r"""

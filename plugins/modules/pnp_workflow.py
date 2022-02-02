@@ -129,11 +129,14 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.update_workflow,
     device_onboarding_pnp.DeviceOnboardingPnp.add_a_workflow,
-    device_onboarding_pnp.DeviceOnboardingPnp.delete_workflow_by_id
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-workflow,
-    delete /dna/intent/api/v1/onboarding/pnp-workflow/{id}
+    device_onboarding_pnp.DeviceOnboardingPnp.delete_workflow_by_id,
+    device_onboarding_pnp.DeviceOnboardingPnp.update_workflow,
+
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-workflow,
+    delete /dna/intent/api/v1/onboarding/pnp-workflow/{id},
+
 """
 
 EXAMPLES = r"""

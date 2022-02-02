@@ -40,8 +40,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    site_design.SiteDesign.get_nfv_profile
-  - Paths used are get /dna/intent/api/v1/nfv/network-profile/{id}
+    site_design.SiteDesign.get_nfv_profile,
+
+  - Paths used are
+    get /dna/intent/api/v1/nfv/network-profile/{id},
+
 """
 
 EXAMPLES = r"""

@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    topology.Topology.get_l3_topology_details
-  - Paths used are get /dna/intent/api/v1/topology/l3/{topologyType}
+    topology.Topology.get_l3_topology_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/topology/l3/{topologyType},
+
 """
 
 EXAMPLES = r"""

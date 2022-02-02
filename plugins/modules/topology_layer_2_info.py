@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    topology.Topology.get_topology_details
-  - Paths used are get /dna/intent/api/v1/topology/l2/{vlanID}
+    topology.Topology.get_topology_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/topology/l2/{vlanID},
+
 """
 
 EXAMPLES = r"""

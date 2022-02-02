@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_template_deployment_status
-  - Paths used are get /dna/intent/api/v1/template-programmer/template/deploy/status/{deploymentId}
+    configuration_templates.ConfigurationTemplates.get_template_deployment_status,
+
+  - Paths used are
+    get /dna/intent/api/v1/template-programmer/template/deploy/status/{deploymentId},
+
 """
 
 EXAMPLES = r"""

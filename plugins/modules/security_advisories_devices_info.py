@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    security_advisories.SecurityAdvisories.get_devices_per_advisory
-  - Paths used are get /dna/intent/api/v1/security-advisory/advisory/{advisoryId}/device
+    security_advisories.SecurityAdvisories.get_devices_per_advisory,
+
+  - Paths used are
+    get /dna/intent/api/v1/security-advisory/advisory/{advisoryId}/device,
+
 """
 
 EXAMPLES = r"""

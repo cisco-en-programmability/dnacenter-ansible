@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    wireless.Wireless.get_wireless_profile
-  - Paths used are get /dna/intent/api/v1/wireless/profile
+    wireless.Wireless.get_wireless_profile,
+
+  - Paths used are
+    get /dna/intent/api/v1/wireless/profile,
+
 """
 
 EXAMPLES = r"""

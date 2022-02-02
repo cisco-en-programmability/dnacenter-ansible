@@ -32,8 +32,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_network_device_by_pagination_range
-  - Paths used are get /dna/intent/api/v1/network-device/{startIndex}/{recordsToReturn}
+    devices.Devices.get_network_device_by_pagination_range,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/{startIndex}/{recordsToReturn},
+
 """
 
 EXAMPLES = r"""

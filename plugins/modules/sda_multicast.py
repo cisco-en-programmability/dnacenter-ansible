@@ -53,9 +53,13 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.add_multicast_in_sda_fabric
-  - Paths used are post /dna/intent/api/v1/business/sda/multicast,
-    delete /dna/intent/api/v1/business/sda/multicast
+    sda.Sda.add_multicast_in_sda_fabric,
+    sda.Sda.delete_multicast_from_sda_fabric,
+
+  - Paths used are
+    post /dna/intent/api/v1/business/sda/multicast,
+    delete /dna/intent/api/v1/business/sda/multicast,
+
 """
 
 EXAMPLES = r"""

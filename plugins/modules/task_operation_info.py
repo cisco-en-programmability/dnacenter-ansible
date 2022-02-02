@@ -38,8 +38,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    task.Task.get_task_by_operationid
-  - Paths used are get /dna/intent/api/v1/task/operation/{operationId}/{offset}/{limit}
+    task.Task.get_task_by_operationid,
+
+  - Paths used are
+    get /dna/intent/api/v1/task/operation/{operationId}/{offset}/{limit},
+
 """
 
 EXAMPLES = r"""

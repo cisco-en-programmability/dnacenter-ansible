@@ -61,9 +61,12 @@ requirements:
 notes:
   - SDK Method used are
     event_management.EventManagement.create_rest_webhook_event_subscription,
-    event_management.EventManagement.update_rest_webhook_event_subscription
-  - Paths used are post /dna/intent/api/v1/event/subscription/rest,
-    put /dna/intent/api/v1/event/subscription/rest
+    event_management.EventManagement.update_rest_webhook_event_subscription,
+
+  - Paths used are
+    post /dna/intent/api/v1/event/subscription/rest,
+    put /dna/intent/api/v1/event/subscription/rest,
+
 """
 
 EXAMPLES = r"""
@@ -78,6 +81,17 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
+    - description: string
+      filter:
+        eventIds:
+        - string
+      name: string
+      subscriptionEndpoints:
+      - instanceId: string
+        subscriptionDetails:
+          connectorType: string
+      subscriptionId: string
+      version: string
 
 - name: Update all
   cisco.dnac.event_subscription_rest:
@@ -90,6 +104,17 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
+    - description: string
+      filter:
+        eventIds:
+        - string
+      name: string
+      subscriptionEndpoints:
+      - instanceId: string
+        subscriptionDetails:
+          connectorType: string
+      subscriptionId: string
+      version: string
 
 """
 

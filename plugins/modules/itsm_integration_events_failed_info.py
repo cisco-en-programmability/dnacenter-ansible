@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    itsm.Itsm.get_failed_itsm_events
-  - Paths used are get /dna/intent/api/v1/integration/events
+    itsm.Itsm.get_failed_itsm_events,
+
+  - Paths used are
+    get /dna/intent/api/v1/integration/events,
+
 """
 
 EXAMPLES = r"""

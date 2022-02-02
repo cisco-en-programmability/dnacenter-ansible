@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    site_design.SiteDesign.get_device_details_by_ip
-  - Paths used are get /dna/intent/api/v1/business/nfv/provisioningDetail
+    site_design.SiteDesign.get_device_details_by_ip,
+
+  - Paths used are
+    get /dna/intent/api/v1/business/nfv/provisioningDetail,
+
 """
 
 EXAMPLES = r"""

@@ -30,10 +30,13 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
+    site_design.SiteDesign.get_floormap,
     site_design.SiteDesign.get_floormaps,
-    site_design.SiteDesign.get_floormap
-  - Paths used are get /dna/intent/api/v1/wireless/floormap/all,
-    get /dna/intent/api/v1/wireless/floormap/{floorId}
+
+  - Paths used are
+    get /dna/intent/api/v1/wireless/floormap/all,
+    get /dna/intent/api/v1/wireless/floormap/{floorId},
+
 """
 
 EXAMPLES = r"""

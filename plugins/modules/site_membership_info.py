@@ -44,8 +44,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sites.Sites.get_membership
-  - Paths used are get /dna/intent/api/v1/membership/{siteId}
+    sites.Sites.get_membership,
+
+  - Paths used are
+    get /dna/intent/api/v1/membership/{siteId},
+
 """
 
 EXAMPLES = r"""

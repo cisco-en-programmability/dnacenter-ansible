@@ -25,8 +25,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.export_projects
-  - Paths used are post /dna/intent/api/v1/template-programmer/project/name/exportprojects
+    configuration_templates.ConfigurationTemplates.export_projects,
+
+  - Paths used are
+    post /dna/intent/api/v1/template-programmer/project/name/exportprojects,
+
 """
 
 EXAMPLES = r"""
@@ -39,7 +42,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    payload: []
+    payload:
+    - {}
 
 """
 

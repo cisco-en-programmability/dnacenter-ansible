@@ -48,8 +48,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    event_management.EventManagement.get_events
-  - Paths used are get /dna/intent/api/v1/events
+    event_management.EventManagement.get_events,
+
+  - Paths used are
+    get /dna/intent/api/v1/events,
+
 """
 
 EXAMPLES = r"""

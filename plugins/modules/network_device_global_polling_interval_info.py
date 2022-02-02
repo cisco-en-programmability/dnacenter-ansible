@@ -24,8 +24,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_polling_interval_for_all_devices
-  - Paths used are get /dna/intent/api/v1/network-device/collection-schedule/global
+    devices.Devices.get_polling_interval_for_all_devices,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/collection-schedule/global,
+
 """
 
 EXAMPLES = r"""

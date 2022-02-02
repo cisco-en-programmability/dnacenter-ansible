@@ -38,8 +38,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.export_device_list
-  - Paths used are post /dna/intent/api/v1/network-device/file
+    devices.Devices.export_device_list,
+
+  - Paths used are
+    post /dna/intent/api/v1/network-device/file,
+
 """
 
 EXAMPLES = r"""

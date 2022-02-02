@@ -11,8 +11,8 @@ short_description: Resource module for Sda Fabric Authentication Profile
 description:
 - Manage operations create, update and delete of the resource Sda Fabric Authentication Profile.
 - Deploy authentication template in SDA Fabric.
-- Update default authentication profile in SDA Fabric.
 - Add default authentication profile in SDA Fabric.
+- Update default authentication profile in SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -59,10 +59,14 @@ requirements:
 notes:
   - SDK Method used are
     sda.Sda.add_default_authentication_profile,
-    sda.Sda.update_default_authentication_profile
-  - Paths used are post /dna/intent/api/v1/business/sda/authentication-profile,
+    sda.Sda.delete_default_authentication_profile,
+    sda.Sda.update_default_authentication_profile,
+
+  - Paths used are
+    post /dna/intent/api/v1/business/sda/authentication-profile,
+    delete /dna/intent/api/v1/business/sda/authentication-profile,
     put /dna/intent/api/v1/business/sda/authentication-profile,
-    delete /dna/intent/api/v1/business/sda/authentication-profile
+
 """
 
 EXAMPLES = r"""

@@ -10,9 +10,9 @@ module: tag
 short_description: Resource module for Tag
 description:
 - Manage operations create, update and delete of the resource Tag.
-- Updates a tag specified by id.
 - Creates tag with specified tag attributes.
 - Deletes a tag specified by id.
+- Updates a tag specified by id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -66,12 +66,15 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    tag.Tag.update_tag,
+    tag.Tag.create_tag,
     tag.Tag.delete_tag,
-    tag.Tag.create_tag
-  - Paths used are put /dna/intent/api/v1/tag,
+    tag.Tag.update_tag,
+
+  - Paths used are
     post /dna/intent/api/v1/tag,
-    delete /dna/intent/api/v1/tag/{id}
+    delete /dna/intent/api/v1/tag/{id},
+    put /dna/intent/api/v1/tag,
+
 """
 
 EXAMPLES = r"""

@@ -32,8 +32,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    event_management.EventManagement.count_of_events
-  - Paths used are get /dna/intent/api/v1/events/count
+    event_management.EventManagement.count_of_events,
+
+  - Paths used are
+    get /dna/intent/api/v1/events/count,
+
 """
 
 EXAMPLES = r"""

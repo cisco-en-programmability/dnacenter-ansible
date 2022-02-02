@@ -60,8 +60,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    issues.Issues.issues
-  - Paths used are get /dna/intent/api/v1/issues
+    issues.Issues.issues,
+
+  - Paths used are
+    get /dna/intent/api/v1/issues,
+
 """
 
 EXAMPLES = r"""

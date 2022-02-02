@@ -60,8 +60,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.reset_device
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/reset
+    device_onboarding_pnp.DeviceOnboardingPnp.reset_device,
+
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-device/reset,
+
 """
 
 EXAMPLES = r"""

@@ -220,8 +220,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.application_policy_intent
-  - Paths used are post /dna/intent/api/v1/app-policy-intent
+    application_policy.ApplicationPolicy.application_policy_intent,
+
+  - Paths used are
+    post /dna/intent/api/v1/app-policy-intent,
+
 """
 
 EXAMPLES = r"""

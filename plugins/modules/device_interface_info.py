@@ -38,10 +38,13 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
+    devices.Devices.get_all_interfaces,
     devices.Devices.get_interface_by_id,
-    devices.Devices.get_all_interfaces
-  - Paths used are get /dna/intent/api/v1/interface,
-    get /dna/intent/api/v1/interface/{id}
+
+  - Paths used are
+    get /dna/intent/api/v1/interface,
+    get /dna/intent/api/v1/interface/{id},
+
 """
 
 EXAMPLES = r"""

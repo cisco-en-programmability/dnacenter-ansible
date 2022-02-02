@@ -35,10 +35,13 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
+    fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping,
     fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping,
-    fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping
-  - Paths used are post /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
-    put /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool
+
+  - Paths used are
+    post /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
+    put /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
+
 """
 
 EXAMPLES = r"""
@@ -80,13 +83,11 @@ RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: list
+  type: dict
   sample: >
-    [
-      {
-        "executionId": "string",
-        "executionStatusURL": "string",
-        "message": "string"
-      }
-    ]
+    {
+      "executionId": "string",
+      "executionStatusURL": "string",
+      "message": "string"
+    }
 """

@@ -11,8 +11,8 @@ short_description: Resource module for Applications
 description:
 - Manage operations create, update and delete of the resource Applications.
 - Create new Custom application.
-- Edit the attributes of an existing application.
 - Delete existing application by its id.
+- Edit the attributes of an existing application.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,6 +31,28 @@ options:
             description: Id Ref.
             type: str
         type: dict
+      indicativeNetworkIdentity:
+        description: Applications's indicativeNetworkIdentity.
+        suboptions:
+          displayName:
+            description: DisplayName.
+            type: str
+          id:
+            description: Id.
+            type: str
+          lowerPort:
+            description: LowerPort.
+            type: int
+          ports:
+            description: Ports.
+            type: str
+          protocol:
+            description: Protocol.
+            type: str
+          upperPort:
+            description: UpperPort.
+            type: int
+        type: list
       name:
         description: Name.
         type: str
@@ -111,11 +133,15 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.edit_application
-    application_policy.ApplicationPolicy.create_application
-  - Paths used are post /dna/intent/api/v1/applications,
+    application_policy.ApplicationPolicy.create_application,
+    application_policy.ApplicationPolicy.delete_application,
+    application_policy.ApplicationPolicy.edit_application,
+
+  - Paths used are
+    post /dna/intent/api/v1/applications,
+    delete /dna/intent/api/v1/applications,
     put /dna/intent/api/v1/applications,
-    delete /dna/intent/api/v1/applications
+
 """
 
 EXAMPLES = r"""
@@ -130,32 +156,39 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - name: string
+    - applicationSet:
+        idRef: string
+      indicativeNetworkIdentity:
+      - displayName: string
+        id: string
+        lowerPort: 1
+        ports: string
+        protocol: string
+        upperPort: 1
+      name: string
       networkApplications:
       - appProtocol: string
         applicationSubType: string
         applicationType: string
         categoryId: string
         displayName: string
+        dscp: string
         engineId: string
         helpString: string
+        ignoreConflict: string
         longDescription: string
         name: string
         popularity: string
         rank: string
-        trafficClass: string
         serverName: string
+        trafficClass: string
         url: string
-        dscp: string
-        ignoreConflict: string
       networkIdentity:
       - displayName: string
         lowerPort: string
         ports: string
         protocol: string
         upperPort: string
-      applicationSet:
-        idRef: string
 
 - name: Update all
   cisco.dnac.applications:
@@ -168,35 +201,35 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - id: string
+    - applicationSet:
+        idRef: string
+      id: string
       name: string
       networkApplications:
-      - id: string
-        appProtocol: string
+      - appProtocol: string
         applicationSubType: string
         applicationType: string
         categoryId: string
         displayName: string
+        dscp: string
         engineId: string
         helpString: string
+        id: string
+        ignoreConflict: string
         longDescription: string
         name: string
         popularity: string
         rank: string
-        trafficClass: string
         serverName: string
+        trafficClass: string
         url: string
-        dscp: string
-        ignoreConflict: string
       networkIdentity:
-      - id: string
-        displayName: string
+      - displayName: string
+        id: string
         lowerPort: string
         ports: string
         protocol: string
         upperPort: string
-      applicationSet:
-        idRef: string
 
 - name: Delete all
   cisco.dnac.applications:
@@ -219,10 +252,7 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": {
-        "taskId": "string",
-        "url": "string"
-      },
-      "version": "string"
+      "taskId": "string",
+      "url": "string"
     }
 """

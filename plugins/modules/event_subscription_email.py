@@ -71,9 +71,12 @@ requirements:
 notes:
   - SDK Method used are
     event_management.EventManagement.create_email_event_subscription,
-    event_management.EventManagement.update_email_event_subscription
-  - Paths used are post /dna/intent/api/v1/event/subscription/email,
-    put /dna/intent/api/v1/event/subscription/email
+    event_management.EventManagement.update_email_event_subscription,
+
+  - Paths used are
+    post /dna/intent/api/v1/event/subscription/email,
+    put /dna/intent/api/v1/event/subscription/email,
+
 """
 
 EXAMPLES = r"""
@@ -88,6 +91,21 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
+    - description: string
+      filter:
+        eventIds:
+        - string
+      name: string
+      subscriptionEndpoints:
+      - instanceId: string
+        subscriptionDetails:
+          connectorType: string
+          fromEmailAddress: string
+          subject: string
+          toEmailAddresses:
+          - string
+      subscriptionId: string
+      version: string
 
 - name: Update all
   cisco.dnac.event_subscription_email:
@@ -100,6 +118,21 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
+    - description: string
+      filter:
+        eventIds:
+        - string
+      name: string
+      subscriptionEndpoints:
+      - instanceId: string
+        subscriptionDetails:
+          connectorType: string
+          fromEmailAddress: string
+          subject: string
+          toEmailAddresses:
+          - string
+      subscriptionId: string
+      version: string
 
 """
 

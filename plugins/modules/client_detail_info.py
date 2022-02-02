@@ -32,8 +32,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    clients.Clients.get_client_detail
-  - Paths used are get /dna/intent/api/v1/client-detail
+    clients.Clients.get_client_detail,
+
+  - Paths used are
+    get /dna/intent/api/v1/client-detail,
+
 """
 
 EXAMPLES = r"""

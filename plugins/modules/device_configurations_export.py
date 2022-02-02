@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    configuration_archive.ConfigurationArchive.export_device_configurations
-  - Paths used are post /dna/intent/api/v1/network-device-archive/cleartext
+    configuration_archive.ConfigurationArchive.export_device_configurations,
+
+  - Paths used are
+    post /dna/intent/api/v1/network-device-archive/cleartext,
+
 """
 
 EXAMPLES = r"""

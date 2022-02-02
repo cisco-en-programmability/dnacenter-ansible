@@ -30,8 +30,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    wireless.Wireless.get_enterprise_ssid
-  - Paths used are get /dna/intent/api/v1/enterprise-ssid
+    wireless.Wireless.get_enterprise_ssid,
+
+  - Paths used are
+    get /dna/intent/api/v1/enterprise-ssid,
+
 """
 
 EXAMPLES = r"""

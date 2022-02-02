@@ -10,9 +10,9 @@ module: app_policy_queuing_profile
 short_description: Resource module for App Policy Queuing Profile
 description:
 - Manage operations create, update and delete of the resource App Policy Queuing Profile.
-- Update existing custom application queuing profile.
 - Create new custom application queuing profile.
 - Delete existing custom application policy queuing profile by id.
+- Update existing custom application queuing profile.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -89,11 +89,14 @@ requirements:
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.create_application_policy_queuing_profile,
+    application_policy.ApplicationPolicy.delete_application_policy_queuing_profile,
     application_policy.ApplicationPolicy.update_application_policy_queuing_profile,
-    application_policy.ApplicationPolicy.delete_application_policy_queuing_profile
-  - Paths used are put /dna/intent/api/v1/app-policy-queuing-profile,
+
+  - Paths used are
     post /dna/intent/api/v1/app-policy-queuing-profile,
-    delete /dna/intent/api/v1/app-policy-queuing-profile/{id}
+    delete /dna/intent/api/v1/app-policy-queuing-profile/{id},
+    put /dna/intent/api/v1/app-policy-queuing-profile,
+
 """
 
 EXAMPLES = r"""
@@ -107,6 +110,25 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    payload:
+    - clause:
+      - instanceId: 1
+        interfaceSpeedBandwidthClauses:
+        - instanceId: 1
+          interfaceSpeed: string
+          tcBandwidthSettings:
+          - bandwidthPercentage: 1
+            instanceId: 1
+            trafficClass: string
+        isCommonBetweenAllInterfaceSpeeds: true
+        tcDscpSettings:
+        - dscp: string
+          instanceId: 1
+          trafficClass: string
+        type: string
+      description: string
+      id: string
+      name: string
 
 - name: Create
   cisco.dnac.app_policy_queuing_profile:
@@ -118,6 +140,20 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    payload:
+    - clause:
+      - interfaceSpeedBandwidthClauses:
+        - interfaceSpeed: string
+          tcBandwidthSettings:
+          - bandwidthPercentage: 1
+            trafficClass: string
+        isCommonBetweenAllInterfaceSpeeds: true
+        tcDscpSettings:
+        - dscp: string
+          trafficClass: string
+        type: string
+      description: string
+      name: string
 
 - name: Delete by id
   cisco.dnac.app_policy_queuing_profile:

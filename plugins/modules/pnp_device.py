@@ -808,11 +808,14 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.update_device,
     device_onboarding_pnp.DeviceOnboardingPnp.add_device,
-    device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device,
-    delete /dna/intent/api/v1/onboarding/pnp-device/{id}
+    device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp,
+    device_onboarding_pnp.DeviceOnboardingPnp.update_device,
+
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-device,
+    delete /dna/intent/api/v1/onboarding/pnp-device/{id},
+
 """
 
 EXAMPLES = r"""

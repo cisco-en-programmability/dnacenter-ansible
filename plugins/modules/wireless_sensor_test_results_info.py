@@ -40,8 +40,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    wireless.Wireless.sensor_test_results
-  - Paths used are get /dna/intent/api/v1/AssuranceGetSensorTestResults
+    wireless.Wireless.sensor_test_results,
+
+  - Paths used are
+    get /dna/intent/api/v1/AssuranceGetSensorTestResults,
+
 """
 
 EXAMPLES = r"""

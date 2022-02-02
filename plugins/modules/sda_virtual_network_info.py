@@ -32,8 +32,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.get_vn
-  - Paths used are get /dna/intent/api/v1/business/sda/virtual-network
+    sda.Sda.get_vn,
+
+  - Paths used are
+    get /dna/intent/api/v1/business/sda/virtual-network,
+
 """
 
 EXAMPLES = r"""

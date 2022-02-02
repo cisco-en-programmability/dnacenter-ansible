@@ -49,8 +49,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation
-  - Paths used are post /dna/intent/api/v1/image/activation/device
+    software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation,
+
+  - Paths used are
+    post /dna/intent/api/v1/image/activation/device,
+
 """
 
 EXAMPLES = r"""

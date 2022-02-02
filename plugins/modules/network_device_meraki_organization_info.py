@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_organization_list_for_meraki
-  - Paths used are get /dna/intent/api/v1/network-device/{id}/meraki-organization
+    devices.Devices.get_organization_list_for_meraki,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/{id}/meraki-organization,
+
 """
 
 EXAMPLES = r"""

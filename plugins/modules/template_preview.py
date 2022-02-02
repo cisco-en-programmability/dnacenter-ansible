@@ -34,8 +34,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.preview_template
-  - Paths used are put /dna/intent/api/v1/template-programmer/template/preview
+    configuration_templates.ConfigurationTemplates.preview_template,
+
+  - Paths used are
+    put /dna/intent/api/v1/template-programmer/template/preview,
+
 """
 
 EXAMPLES = r"""

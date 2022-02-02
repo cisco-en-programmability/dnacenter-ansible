@@ -25,8 +25,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    users.Users.get_user_enrichment_details
-  - Paths used are get /dna/intent/api/v1/user-enrichment-details
+    users.Users.get_user_enrichment_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/user-enrichment-details,
+
 """
 
 EXAMPLES = r"""

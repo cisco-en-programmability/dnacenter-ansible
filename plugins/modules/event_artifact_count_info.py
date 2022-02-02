@@ -24,8 +24,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    event_management.EventManagement.eventartifact_count
-  - Paths used are get /dna/system/api/v1/event/artifact/count
+    event_management.EventManagement.eventartifact_count,
+
+  - Paths used are
+    get /dna/system/api/v1/event/artifact/count,
+
 """
 
 EXAMPLES = r"""

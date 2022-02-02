@@ -33,8 +33,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    authentication_management.AuthenticationManagement.import_certificate
-  - Paths used are post /dna/intent/api/v1/certificate
+    authentication_management.AuthenticationManagement.import_certificate,
+
+  - Paths used are
+    post /dna/intent/api/v1/certificate,
+
 """
 
 EXAMPLES = r"""

@@ -19,19 +19,16 @@ options:
   deviceIPAddress:
     description: DeviceIPAddress query parameter. Device Management IP Address.
     type: str
-  deviceName:
-    description: EWLC Device Name.
-    type: str
-  siteNameHierarchy:
-    description: Site Name Hierarchy.
-    type: str
 requirements:
 - dnacentersdk >= 2.4.4
 - python >= 3.5
 notes:
   - SDK Method used are
-    fabric_wireless.FabricWireless.add_w_l_c_to_fabric_domain
-  - Paths used are delete /dna/intent/api/v1/business/sda/wireless-controller
+    fabric_wireless.FabricWireless.remove_w_l_c_from_fabric_domain,
+
+  - Paths used are
+    delete /dna/intent/api/v1/business/sda/wireless-controller,
+
 """
 
 EXAMPLES = r"""

@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    licenses.Licenses.device_license_details
-  - Paths used are get /dna/intent/api/v1/licenses/device/{device_uuid}/details
+    licenses.Licenses.device_license_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/licenses/device/{device_uuid}/details,
+
 """
 
 EXAMPLES = r"""

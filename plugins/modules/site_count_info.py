@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sites.Sites.get_site_count
-  - Paths used are get /dna/intent/api/v1/site/count
+    sites.Sites.get_site_count,
+
+  - Paths used are
+    get /dna/intent/api/v1/site/count,
+
 """
 
 EXAMPLES = r"""
@@ -56,7 +59,7 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": "string",
+      "response": 0,
       "version": "string"
     }
 """

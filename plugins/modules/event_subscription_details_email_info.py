@@ -36,8 +36,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    event_management.EventManagement.get_email_subscription_details
-  - Paths used are get /dna/intent/api/v1/event/subscription-details/email
+    event_management.EventManagement.get_email_subscription_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/event/subscription-details/email,
+
 """
 
 EXAMPLES = r"""

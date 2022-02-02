@@ -10,9 +10,9 @@ module: event_subscription
 short_description: Resource module for Event Subscription
 description:
 - Manage operations create, update and delete of the resource Event Subscription.
+- Subscribe SubscriptionEndpoint to list of registered events.
 - Delete EventSubscriptions.
 - Update SubscriptionEndpoint to list of registered events.
-- Subscribe SubscriptionEndpoint to list of registered events.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -73,11 +73,15 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
+    event_management.EventManagement.create_event_subscriptions,
+    event_management.EventManagement.delete_event_subscriptions,
     event_management.EventManagement.update_event_subscriptions,
-    event_management.EventManagement.create_event_subscriptions
-  - Paths used are delete /dna/intent/api/v1/event/subscription,
+
+  - Paths used are
+    post /dna/intent/api/v1/event/subscription,
+    delete /dna/intent/api/v1/event/subscription,
     put /dna/intent/api/v1/event/subscription,
-    post /dna/intent/api/v1/event/subscription
+
 """
 
 EXAMPLES = r"""
@@ -104,6 +108,20 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
+    - description: string
+      filter:
+        eventIds:
+        - string
+      name: string
+      subscriptionEndpoints:
+      - instanceId: string
+        subscriptionDetails:
+          connectorType: string
+          method: string
+          name: string
+          url: string
+      subscriptionId: string
+      version: string
 
 - name: Create
   cisco.dnac.event_subscription:
@@ -116,6 +134,20 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
+    - description: string
+      filter:
+        eventIds:
+        - string
+      name: string
+      subscriptionEndpoints:
+      - instanceId: string
+        subscriptionDetails:
+          connectorType: string
+          method: string
+          name: string
+          url: string
+      subscriptionId: string
+      version: string
 
 """
 

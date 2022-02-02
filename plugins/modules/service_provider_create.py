@@ -38,8 +38,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.create_sp_profile
-  - Paths used are post /dna/intent/api/v1/service-provider
+    network_settings.NetworkSettings.create_sp_profile,
+
+  - Paths used are
+    post /dna/intent/api/v1/service-provider,
+
 """
 
 EXAMPLES = r"""

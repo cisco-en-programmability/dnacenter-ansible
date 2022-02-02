@@ -24,8 +24,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    topology.Topology.get_vlan_details
-  - Paths used are get /dna/intent/api/v1/topology/vlan/vlan-names
+    topology.Topology.get_vlan_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/topology/vlan/vlan-names,
+
 """
 
 EXAMPLES = r"""

@@ -24,8 +24,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    disaster_recovery.DisasterRecovery.disaster_recovery_status
-  - Paths used are get /dna/intent/api/v1/disasterrecovery/system/status
+    disaster_recovery.DisasterRecovery.disaster_recovery_status,
+
+  - Paths used are
+    get /dna/intent/api/v1/disasterrecovery/system/status,
+
 """
 
 EXAMPLES = r"""

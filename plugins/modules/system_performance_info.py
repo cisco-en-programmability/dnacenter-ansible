@@ -44,8 +44,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    health_and_performance.HealthAndPerformance.system_performance
-  - Paths used are get /dna/intent/api/v1/diagnostics/system/performance
+    health_and_performance.HealthAndPerformance.system_performance,
+
+  - Paths used are
+    get /dna/intent/api/v1/diagnostics/system/performance,
+
 """
 
 EXAMPLES = r"""

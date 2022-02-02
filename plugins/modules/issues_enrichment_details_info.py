@@ -25,8 +25,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    issues.Issues.get_issue_enrichment_details
-  - Paths used are get /dna/intent/api/v1/issue-enrichment-details
+    issues.Issues.get_issue_enrichment_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/issue-enrichment-details,
+
 """
 
 EXAMPLES = r"""

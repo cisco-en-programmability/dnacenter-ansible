@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    topology.Topology.get_physical_topology
-  - Paths used are get /dna/intent/api/v1/topology/physical-topology
+    topology.Topology.get_physical_topology,
+
+  - Paths used are
+    get /dna/intent/api/v1/topology/physical-topology,
+
 """
 
 EXAMPLES = r"""

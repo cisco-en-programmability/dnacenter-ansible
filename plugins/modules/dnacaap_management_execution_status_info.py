@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    task.Task.get_business_api_execution_details
-  - Paths used are get /dna/intent/api/v1/dnacaap/management/execution-status/{executionId}
+    task.Task.get_business_api_execution_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/dnacaap/management/execution-status/{executionId},
+
 """
 
 EXAMPLES = r"""

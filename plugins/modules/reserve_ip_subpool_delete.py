@@ -24,8 +24,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.release_reserve_ip_subpool
-  - Paths used are put /dna/intent/api/v1/reserve-ip-subpool/{id}
+    network_settings.NetworkSettings.release_reserve_ip_subpool,
+
+  - Paths used are
+    delete /dna/intent/api/v1/reserve-ip-subpool/{id},
+
 """
 
 EXAMPLES = r"""

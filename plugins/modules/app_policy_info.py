@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_application_policy
-  - Paths used are get /dna/intent/api/v1/app-policy
+    application_policy.ApplicationPolicy.get_application_policy,
+
+  - Paths used are
+    get /dna/intent/api/v1/app-policy,
+
 """
 
 EXAMPLES = r"""

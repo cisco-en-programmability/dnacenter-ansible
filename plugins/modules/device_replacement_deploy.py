@@ -27,8 +27,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_replacement.DeviceReplacement.deploy_device_replacement_workflow
-  - Paths used are post /dna/intent/api/v1/device-replacement/workflow
+    device_replacement.DeviceReplacement.deploy_device_replacement_workflow,
+
+  - Paths used are
+    post /dna/intent/api/v1/device-replacement/workflow,
+
 """
 
 EXAMPLES = r"""

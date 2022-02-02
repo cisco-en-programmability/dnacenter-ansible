@@ -40,8 +40,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    discovery.Discovery.create_update_snmp_properties
-  - Paths used are post /dna/intent/api/v1/snmp-property
+    discovery.Discovery.create_update_snmp_properties,
+
+  - Paths used are
+    post /dna/intent/api/v1/snmp-property,
+
 """
 
 EXAMPLES = r"""
@@ -55,6 +58,12 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    payload:
+    - id: string
+      instanceTenantId: string
+      instanceUuid: string
+      intValue: 1
+      systemPropertyName: string
 
 """
 

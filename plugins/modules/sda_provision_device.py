@@ -10,9 +10,9 @@ module: sda_provision_device
 short_description: Resource module for Sda Provision Device
 description:
 - Manage operations create, update and delete of the resource Sda Provision Device.
+- Provision Wired Device.
 - Delete provisioned Wired Device.
 - Re-Provision Wired Device.
-- Provision Wired Device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -30,11 +30,15 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
+    sda.Sda.delete_provisioned_wired_device,
+    sda.Sda.provision_wired_device,
     sda.Sda.re_provision_wired_device,
-    sda.Sda.provision_wired_device
-  - Paths used are delete /dna/intent/api/v1/business/sda/provision-device,
+
+  - Paths used are
+    post /dna/intent/api/v1/business/sda/provision-device,
+    delete /dna/intent/api/v1/business/sda/provision-device,
     put /dna/intent/api/v1/business/sda/provision-device,
-    post /dna/intent/api/v1/business/sda/provision-device
+
 """
 
 EXAMPLES = r"""

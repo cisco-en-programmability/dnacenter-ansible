@@ -37,10 +37,14 @@ requirements:
 notes:
   - SDK Method used are
     sda.Sda.add_virtual_network_with_scalable_groups,
-    sda.Sda.update_virtual_network_with_scalable_groups
-  - Paths used are post /dna/intent/api/v1/virtual-network,
+    sda.Sda.delete_virtual_network_with_scalable_groups,
+    sda.Sda.update_virtual_network_with_scalable_groups,
+
+  - Paths used are
+    post /dna/intent/api/v1/virtual-network,
     delete /dna/intent/api/v1/virtual-network,
-    put /dna/intent/api/v1/virtual-network
+    put /dna/intent/api/v1/virtual-network,
+
 """
 
 EXAMPLES = r"""

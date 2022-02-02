@@ -16,9 +16,6 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
-  id:
-    description: Id query parameter. Id of subpool to be associated with the site.
-    type: str
   ipv4DhcpServers:
     description: IPv4 input for dhcp server ip example 1.1.1.1.
     elements: str
@@ -95,8 +92,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.reserve_ip_subpool
-  - Paths used are post /dna/intent/api/v1/reserve-ip-subpool/{siteId}
+    network_settings.NetworkSettings.reserve_ip_subpool,
+
+  - Paths used are
+    post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
+
 """
 
 EXAMPLES = r"""

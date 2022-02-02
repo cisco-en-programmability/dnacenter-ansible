@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.get_device_role_in_sda_fabric
-  - Paths used are get /dna/intent/api/v1/business/sda/device/role
+    sda.Sda.get_device_role_in_sda_fabric,
+
+  - Paths used are
+    get /dna/intent/api/v1/business/sda/device/role,
+
 """
 
 EXAMPLES = r"""

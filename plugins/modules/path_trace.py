@@ -50,10 +50,13 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
+    path_trace.PathTrace.deletes_pathtrace_by_id,
     path_trace.PathTrace.initiate_a_new_pathtrace,
-    path_trace.PathTrace.deletes_pathtrace_by_id
-  - Paths used are post /dna/intent/api/v1/flow-analysis,
-    delete /dna/intent/api/v1/flow-analysis/{flowAnalysisId}
+
+  - Paths used are
+    post /dna/intent/api/v1/flow-analysis,
+    delete /dna/intent/api/v1/flow-analysis/{flowAnalysisId},
+
 """
 
 EXAMPLES = r"""

@@ -38,8 +38,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    licenses.Licenses.license_term_details
-  - Paths used are get /dna/intent/api/v1/licenses/term/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name}
+    licenses.Licenses.license_term_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/licenses/term/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name},
+
 """
 
 EXAMPLES = r"""

@@ -47,8 +47,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    wireless.Wireless.ap_provision
-  - Paths used are post /dna/intent/api/v1/wireless/ap-provision
+    wireless.Wireless.ap_provision,
+
+  - Paths used are
+    post /dna/intent/api/v1/wireless/ap-provision,
+
 """
 
 EXAMPLES = r"""
@@ -62,6 +65,14 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
+    - customApGroupName: string
+      customFlexGroupName:
+      - string
+      deviceName: string
+      rfProfile: string
+      siteId: string
+      siteNameHierarchy: string
+      type: string
 
 """
 
@@ -69,13 +80,11 @@ RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: list
+  type: dict
   sample: >
-    [
-      {
-        "executionId": "string",
-        "executionUrl": "string",
-        "message": "string"
-      }
-    ]
+    {
+      "executionId": "string",
+      "executionUrl": "string",
+      "message": "string"
+    }
 """

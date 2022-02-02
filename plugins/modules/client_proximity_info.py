@@ -43,8 +43,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    clients.Clients.client_proximity
-  - Paths used are get /dna/intent/api/v1/client-proximity
+    clients.Clients.client_proximity,
+
+  - Paths used are
+    get /dna/intent/api/v1/client-proximity,
+
 """
 
 EXAMPLES = r"""

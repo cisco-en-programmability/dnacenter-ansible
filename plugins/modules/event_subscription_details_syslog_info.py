@@ -36,8 +36,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    event_management.EventManagement.get_syslog_subscription_details
-  - Paths used are get /dna/intent/api/v1/event/subscription-details/syslog
+    event_management.EventManagement.get_syslog_subscription_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/event/subscription-details/syslog,
+
 """
 
 EXAMPLES = r"""

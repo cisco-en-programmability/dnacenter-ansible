@@ -36,8 +36,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.remove_golden_tag_for_image
-  - Paths used are delete /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId}
+    software_image_management_swim.SoftwareImageManagementSwim.remove_golden_tag_for_image,
+
+  - Paths used are
+    delete /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId},
+
 """
 
 EXAMPLES = r"""

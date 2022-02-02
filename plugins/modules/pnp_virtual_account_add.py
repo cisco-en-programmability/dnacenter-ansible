@@ -102,8 +102,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.add_virtual_account
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-settings/savacct
+    device_onboarding_pnp.DeviceOnboardingPnp.add_virtual_account,
+
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-settings/savacct,
+
 """
 
 EXAMPLES = r"""

@@ -36,8 +36,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    file.File.download_a_file_by_fileid
-  - Paths used are get /dna/intent/api/v1/file/{fileId}
+    file.File.download_a_file_by_fileid,
+
+  - Paths used are
+    get /dna/intent/api/v1/file/{fileId},
+
 """
 
 EXAMPLES = r"""

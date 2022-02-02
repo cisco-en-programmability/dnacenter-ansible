@@ -46,9 +46,13 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.add_port_assignment_for_access_point
-  - Paths used are post /dna/intent/api/v1/business/sda/hostonboarding/access-point,
-    delete /dna/intent/api/v1/business/sda/hostonboarding/access-point
+    sda.Sda.add_port_assignment_for_access_point,
+    sda.Sda.delete_port_assignment_for_access_point,
+
+  - Paths used are
+    post /dna/intent/api/v1/business/sda/hostonboarding/access-point,
+    delete /dna/intent/api/v1/business/sda/hostonboarding/access-point,
+
 """
 
 EXAMPLES = r"""

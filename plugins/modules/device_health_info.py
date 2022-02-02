@@ -52,8 +52,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.devices
-  - Paths used are get /dna/intent/api/v1/device-health
+    devices.Devices.devices,
+
+  - Paths used are
+    get /dna/intent/api/v1/device-health,
+
 """
 
 EXAMPLES = r"""

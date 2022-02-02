@@ -31,8 +31,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sites.Sites.assign_device_to_site
-  - Paths used are post /dna/system/api/v1/site/{siteId}/device
+    sites.Sites.assign_device_to_site,
+
+  - Paths used are
+    post /dna/system/api/v1/site/{siteId}/device,
+
 """
 
 EXAMPLES = r"""

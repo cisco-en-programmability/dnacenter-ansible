@@ -24,8 +24,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sda.Sda.get_sda_fabric_count
-  - Paths used are get /dna/intent/api/v1/business/sda/fabric/count
+    sda.Sda.get_sda_fabric_count,
+
+  - Paths used are
+    get /dna/intent/api/v1/business/sda/fabric/count,
+
 """
 
 EXAMPLES = r"""

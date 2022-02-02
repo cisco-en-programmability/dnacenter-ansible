@@ -44,8 +44,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    licenses.Licenses.device_count_details
-  - Paths used are get /dna/intent/api/v1/licenses/device/count
+    licenses.Licenses.device_count_details,
+
+  - Paths used are
+    get /dna/intent/api/v1/licenses/device/count,
+
 """
 
 EXAMPLES = r"""

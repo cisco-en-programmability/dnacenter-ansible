@@ -44,8 +44,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_projects_details
-  - Paths used are get /dna/intent/api/v2/template-programmer/project
+    configuration_templates.ConfigurationTemplates.get_projects_details,
+
+  - Paths used are
+    get /dna/intent/api/v2/template-programmer/project,
+
 """
 
 EXAMPLES = r"""

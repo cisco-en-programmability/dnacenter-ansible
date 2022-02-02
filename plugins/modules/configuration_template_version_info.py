@@ -28,8 +28,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_template_versions
-  - Paths used are get /dna/intent/api/v1/template-programmer/template/version/{templateId}
+    configuration_templates.ConfigurationTemplates.get_template_versions,
+
+  - Paths used are
+    get /dna/intent/api/v1/template-programmer/template/version/{templateId},
+
 """
 
 EXAMPLES = r"""

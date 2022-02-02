@@ -10,8 +10,7 @@ module: reports_view_group_view_info
 short_description: Information module for Reports View Group View
 description:
 - Get Reports View Group View by id.
-- Gives complete information of the view that is required to configure a report.
-  Use "Get views for a given view group" API to get the viewIds (required as a query param for this API) for available views.
+- Gives complete information of the view that is required to configure a report. Use "Get views for a given view group" API to get the viewIds  (required as a query param for this API) for available views.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -33,8 +32,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    reports.Reports.get_view_details_for_a_given_view_group_and_view
-  - Paths used are get /dna/intent/api/v1/data/view-groups/{viewGroupId}/views/{viewId}
+    reports.Reports.get_view_details_for_a_given_view_group_and_view,
+
+  - Paths used are
+    get /dna/intent/api/v1/data/view-groups/{viewGroupId}/views/{viewId},
+
 """
 
 EXAMPLES = r"""

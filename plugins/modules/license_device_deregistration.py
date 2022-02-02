@@ -25,8 +25,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    licenses.Licenses.device_deregistration
-  - Paths used are put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/deregister
+    licenses.Licenses.device_deregistration,
+
+  - Paths used are
+    put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/deregister,
+
 """
 
 EXAMPLES = r"""

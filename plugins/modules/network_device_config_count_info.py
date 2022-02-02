@@ -24,8 +24,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    devices.Devices.get_device_config_count
-  - Paths used are get /dna/intent/api/v1/network-device/config/count
+    devices.Devices.get_device_config_count,
+
+  - Paths used are
+    get /dna/intent/api/v1/network-device/config/count,
+
 """
 
 EXAMPLES = r"""

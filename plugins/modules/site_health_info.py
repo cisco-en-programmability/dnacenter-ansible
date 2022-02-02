@@ -41,8 +41,11 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    sites.Sites.get_site_health
-  - Paths used are get /dna/intent/api/v1/site-health
+    sites.Sites.get_site_health,
+
+  - Paths used are
+    get /dna/intent/api/v1/site-health,
+
 """
 
 EXAMPLES = r"""

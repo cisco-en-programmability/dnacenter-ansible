@@ -10,8 +10,8 @@ module: snmpv2_read_community_credential
 short_description: Resource module for Snmpv2 Read Community Credential
 description:
 - Manage operations create and update of the resource Snmpv2 Read Community Credential.
-- Updates global SNMP read community.
 - Adds global SNMP read community.
+- Updates global SNMP read community.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -29,22 +29,6 @@ options:
   instanceUuid:
     description: Snmpv2 Read Community Credential's instanceUuid.
     type: str
-  payload:
-    description: Snmpv2 Read Community Credential's payload.
-    suboptions:
-      comments:
-        description: Comments to identify the credential.
-        type: str
-      credentialType:
-        description: Credential type to identify the application that uses the credential.
-        type: str
-      description:
-        description: Name/Description of the credential.
-        type: str
-      readCommunity:
-        description: SNMP read community.
-        type: str
-    type: list
   readCommunity:
     description: SNMP read community. NO!$DATA!$ for no value change.
     type: str
@@ -53,10 +37,13 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
+    discovery.Discovery.create_snmp_read_community,
     discovery.Discovery.update_snmp_read_community,
-    discovery.Discovery.create_snmp_read_community
-  - Paths used are put /dna/intent/api/v1/global-credential/snmpv2-read-community,
-    post /dna/intent/api/v1/global-credential/snmpv2-read-community
+
+  - Paths used are
+    post /dna/intent/api/v1/global-credential/snmpv2-read-community,
+    put /dna/intent/api/v1/global-credential/snmpv2-read-community,
+
 """
 
 EXAMPLES = r"""
@@ -86,6 +73,10 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    comments: string
+    credentialType: string
+    description: string
+    readCommunity: string
 
 """
 
