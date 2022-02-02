@@ -82,7 +82,7 @@ notes:
   - SDK Method used are
     sites.Sites.update_site,
 
-  - Paths used are 
+  - Paths used are
     put /dna/intent/api/v1/site/{siteId},
 
 """

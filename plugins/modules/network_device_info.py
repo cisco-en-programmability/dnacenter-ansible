@@ -11,7 +11,7 @@ short_description: Information module for Network Device
 description:
 - Get all Network Device.
 - Get Network Device by id.
-- Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, etc. You can use the .* in any value to conduct a wildcard search. For example, to find all hostnames beginning with myhost in the IP address range 192.25.18.n, issue the following request: GET /dna/intent/api/v1/network-device?hostname=myhost.*&managementIpAddress=192.25.18..*
+- Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, etc.
 - Returns the network device details for the given device ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
