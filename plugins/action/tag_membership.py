@@ -64,7 +64,7 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            memberToTags=params["memberToTags"][0] if len(params.get("memberToTags"))>0  else None,
+            memberToTags=params["memberToTags"][0] if len(params.get("memberToTags")) > 0 else None,
             memberType=params.get("memberType"),
         )
         return new_object
