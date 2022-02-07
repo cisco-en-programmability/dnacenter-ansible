@@ -411,3 +411,9 @@ releases:
       minor_changes:
         - tag_membership - changes in memberToTags from list to object in the way the value is obtained.
         - Update README
+  5.1.1:
+    release_date: "2022-02-07"
+    changes:
+      release_summary: Fixes tag_membership module documentation
+      minor_changes:
+        - tag_membership - Fixes module documentation

@@ -47,8 +47,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     memberToTags:
-      - {{templateID}}:
-        - "{{tagID}}"
+      - 8bf887f3-7cc2-4bd2-9407-df0fe6b7f63a:
+        - 7bf887f3-7cc2-7bd2-9407-df0fe6b7f63a
     memberType: string
 
 """
