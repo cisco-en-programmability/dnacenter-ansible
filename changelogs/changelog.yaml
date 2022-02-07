@@ -190,3 +190,9 @@ releases:
         - Updated internal code for credential and discovery
       minor_changes:
         - Updated test/sanity and remove duplicates
+  3.3.0:
+    release_date: '2021-02-07'
+    changes:
+      release_summary: Fixes update tag_membership
+      minor_changes:
+        - tag_membership - changes in memberToTags from list to object in the way the value is obtained.

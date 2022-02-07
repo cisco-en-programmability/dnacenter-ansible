@@ -17,11 +17,6 @@ author: Rafael Campos (@racampos)
 options:
   memberToTags:
     description: Tag Membership's memberToTags.
-    suboptions:
-      key:
-        description: Tag Membership's key.
-        elements: str
-        type: list
     type: list
   memberType:
     description: Tag Membership's memberType.
@@ -50,6 +45,7 @@ EXAMPLES = r"""
     - key:
       - string
     memberType: string
+    validate_response_schema: False
 
 """
 
