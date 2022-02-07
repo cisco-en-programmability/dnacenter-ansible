@@ -1,23 +1,23 @@
 releases:
   1.0.0:
-    release_date: '2020-12-02'
+    release_date: "2020-12-02"
     changes:
       release_summary: This is the initial release of the collection.
   1.0.1:
-    release_date: '2021-03-22'
+    release_date: "2021-03-22"
     changes:
       release_summary: Fixes a bug related to idempotent modules.
       bugfixes:
         - Fixes a bug in the 'site' and 'tag' modules, which are the only two idempotent modules.
   1.0.2:
-    release_date: '2021-03-22'
+    release_date: "2021-03-22"
     changes:
       release_summary: Fixes a bug related to optional module parameters.
       bugfixes:
         - Improve the documentation.
         - Fixes a bug that caused the task execution to fail if the optional parameters like port, dnac version and SSL verification were missing from the hosts.yml file.
   1.0.3:
-    release_date: '2021-03-29'
+    release_date: "2021-03-29"
     changes:
       release_summary: Fixes several bugs and issues required to pass sanity checks
       bugfixes:
@@ -35,13 +35,13 @@ releases:
         - Removes ANSIBLE_METADATA section from all modules
         - Adds changelog
   1.0.4:
-    release_date: '2021-03-29'
+    release_date: "2021-03-29"
     changes:
       release_summary: Fixes linting problems with the DOCUMENTATION and adds CI tests.
       bugfixes:
         - Fixes linting problems with the DOCUMENTATION.
   2.0.0:
-    release_date: '2021-04-05'
+    release_date: "2021-04-05"
     changes:
       release_summary: Moves the module parameters out of the inventory and places them inside the tasks themselves.
       major_changes:
@@ -52,38 +52,38 @@ releases:
         - Documents the dependency on ansible.utils
         - Documents the non-standard return values of all modules in the collection
   2.0.1:
-    release_date: '2021-04-05'
+    release_date: "2021-04-05"
     changes:
       release_summary: Fixes linting problems with the DOCUMENTATION.
       bugfixes:
         - Fixes linting problems with the DOCUMENTATION.
   2.0.2:
-    release_date: '2021-04-06'
+    release_date: "2021-04-06"
     changes:
       release_summary: Adds code to gracefully handle missing dependencies.
       bugfixes:
         - Adds try/except clauses to gracefully handle missing SDK and ansible.utils dependencies per ansible-core-2.11 requirements
   2.0.3:
-    release_date: '2021-04-06'
+    release_date: "2021-04-06"
     changes:
       release_summary: Updates the README to reflect latest API changes.
       bugfixes:
         - Updates the README to reflect latest API changes.
   2.0.4:
-    release_date: '2021-04-12'
+    release_date: "2021-04-12"
     changes:
       release_summary: Resolves an issue with overlapping params in some plugins as well as some documentation issues.
       bugfixes:
         - Fixes linting problems with the DOCUMENTATION.
         - Fixes a problem with the overlapping 'state' param in four plugins.
   2.0.5:
-    release_date: '2021-04-12'
+    release_date: "2021-04-12"
     changes:
       release_summary: This release introduces no changes. Exists just to be in sync with the Ansible Galaxy release number.
       minor_changes:
         - sync with Ansible Galaxy release number
   2.0.6:
-    release_date: '2021-04-13'
+    release_date: "2021-04-13"
     changes:
       release_summary: Adds dnacentersdk to the requirements.txt file. Adds sanitiy checks for Ansible v2.9.
       bugfixes:
@@ -91,13 +91,13 @@ releases:
       minor_changes:
         - Adds sanity ignores for ansible-2.9.
   2.0.7:
-    release_date: '2021-04-14'
+    release_date: "2021-04-14"
     changes:
       release_summary: Changes the minimum supported version of Ansible to v2.9.
       minor_changes:
         - Changes the minimum supported version from Ansible v.2.10.5 to v2.9.10.
   3.0.0:
-    release_date: '2021-08-05'
+    release_date: "2021-08-05"
     changes:
       release_summary: Drop special `state` params. Adds info plugins and resources.
       major_changes:
@@ -106,45 +106,45 @@ releases:
         - Adds plugins without state that perform special operation on DNA Center.
         - Adds plugins for resource's operations that have different structure in request/response bodies (ie. _create, _update, _delete plugins).
   3.1.0:
-    release_date: '2021-08-10'
+    release_date: "2021-08-10"
     changes:
       release_summary: Updates to support DNA version 2.2.2.3
       major_changes:
         - Adds new plugins related to DNA version 2.2.2.3.
         - Updates previous plugins to follow DNA version 2.2.2.3 specification.
   3.1.1:
-    release_date: '2021-09-03'
+    release_date: "2021-09-03"
     changes:
       release_summary: Adds headers parameter to info modules.
       minor_changes:
         - Adds ``headers`` parameter to info modules.
   3.1.2:
-    release_date: '2021-09-08'
+    release_date: "2021-09-08"
     changes:
       release_summary: Updates the README to reflect latest API changes.
       bugfixes:
         - Updates the README to reflect latest API changes.
   3.1.3:
-    release_date: '2021-09-14'
+    release_date: "2021-09-14"
     changes:
       release_summary: Fixes global credentials payload
       bugfixes:
         - It only accepts not None keys to dictionary item
         - It changes payload from dict to list of dict
   3.1.4:
-    release_date: '2021-09-14'
+    release_date: "2021-09-14"
     changes:
       release_summary: Updates module documentation & site_design_floormap
       bugfixes:
         - Adds param payload to site_design_floormap module
   3.1.5:
-    release_date: '2021-09-17'
+    release_date: "2021-09-17"
     changes:
       release_summary: Fixes internal 'exists' comparison
       bugfixes:
         - Changes the comparison from value to keys
   3.1.6:
-    release_date: '2021-09-20'
+    release_date: "2021-09-20"
     changes:
       release_summary: Fixes get_object_by_name issues
       bugfixes:
@@ -152,7 +152,7 @@ releases:
         - Update get for wireless_dynamic_interface, change key that has name
         - Update get for wireless_enterprise_ssid, obtain item.ssidDetails from items
   3.1.7:
-    release_date: '2021-10-12'
+    release_date: "2021-10-12"
     changes:
       release_summary: Fixes delete/update mixups
       bugfixes:
@@ -160,7 +160,7 @@ releases:
         - Fixes *update modules that were calling delete operation
         - Fixes *update modules that were calling create operation
   3.2.0:
-    release_date: '2021-10-22'
+    release_date: "2021-10-22"
     changes:
       release_summary: Improves documentation and fixes check_mode behavior.
       bugfixes:
@@ -168,22 +168,28 @@ releases:
         - Improves the documentation of modules.
         - Fixes check_mode behavior for non-info modules.
   3.2.1:
-    release_date: '2021-10-25'
+    release_date: "2021-10-25"
     changes:
       release_summary: Fixes check_mode behavior
       bugfixes:
         - On regular modules additional comparison of check_mode was removed as Ansible already handles it.
         - On info modules comparison was removed, because info modules should always run.
   3.2.2:
-    release_date: '2021-11-01'
+    release_date: "2021-11-01"
     changes:
       release_summary: Fixes id required condition
       bugfixes:
-        - global_pool - includes request param as an alternative to id 
-        - network_device - includes request param as an alternative to id 
-        - pnp_device - includes request param as an alternative to id 
+        - global_pool - includes request param as an alternative to id
+        - network_device - includes request param as an alternative to id
+        - pnp_device - includes request param as an alternative to id
+  3.3.0:
+    release_date: "2022-02-07"
+    changes:
+      release_summary: Fixes update tag_membership
+      minor_changes:
+        - tag_membership - changes in memberToTags from list to object in the way the value is obtained.
   3.2.3:
-    release_date: '2021-12-01'
+    release_date: "2021-12-01"
     changes:
       release_summary: Fixes internal code and update test/sanity
       bugfixes:
@@ -191,7 +197,7 @@ releases:
       minor_changes:
         - Updated test/sanity and remove duplicates
   4.0.0:
-    release_date: '2021-12-01'
+    release_date: "2021-12-01"
     changes:
       release_summary: Update to use DNAC v2.2.3.3
       minor_changes:
@@ -300,7 +306,7 @@ releases:
         - sda_virtual_network_ip_pool - remove `payload` and `ipPoolName` parameter.
         - sda_virtual_network_ip_pool - add `siteNameHierarchy`, `ipPoolName`, `trafficType`, `authenticationPolicyName`, `scalableGroupName`, `isL2FloodingEnabled`, `isThisCriticalPool`, `poolType`, `vlanName`, `isWirelessPool` parameters.
   4.1.0:
-    release_date: '2021-12-14'
+    release_date: "2021-12-14"
     changes:
       release_summary: Add qos_device_interface and fixes tag_member
       minor_changes:
@@ -310,7 +316,7 @@ releases:
         - tag_member - change object param to use payload.
         - tag_member - update module documentation.
   4.1.1:
-    release_date: '2022-01-12'
+    release_date: "2022-01-12"
     changes:
       release_summary: Update module doc and fix issues 31 & 32
       bugfixes:
@@ -367,28 +373,28 @@ releases:
         - wireless_profile - fix get_object_by_id (issue 32), which helps deletion.
         - wireless_rf_profile - fix get_object_by_id (issue 32), which helps deletion.
   4.1.2:
-    release_date: '2022-01-17'
+    release_date: "2022-01-17"
     changes:
       release_summary: Update plugin module documentation, update site_design_floormap_info
       bugfixes:
-        - plugin/modules/* - Update plugin module documentation 
+        - plugin/modules/* - Update plugin module documentation
       minor_changes:
         - site_design_floormap_info - Add get_all to module
   4.1.3:
-    release_date: '2022-01-19'
+    release_date: "2022-01-19"
     changes:
       release_summary: Update documentation link
       minor_changes:
         - update documentation link in galaxy
   4.2.0:
-    release_date: '2022-01-31'
+    release_date: "2022-01-31"
     changes:
       release_summary: Parameters were added to pnp_device_claim_to_site
       minor_changes:
         - pnp_device_claim_to_site - Add hostname, imageInfo and configInfo parameters to module.
         - Update dnacentersdk requirement from 2.4.0 to 2.4.4
   5.0.0:
-    release_date: '2022-02-02'
+    release_date: "2022-02-02"
     changes:
       release_summary: Parameters added and dropped for modules (service_provider_profile_delete, reserve_ip_subpool_update, network_device, business_sda_wireless_controller_create and business_sda_wireless_controller_delete)
       major_changes:
@@ -398,3 +404,10 @@ releases:
         - network_device - Removed 'managementIpAddress' arguments.
         - business_sda_wireless_controller_create - Removed 'deviceIPAddress' arguments.
         - business_sda_wireless_controller_delete - Removed 'deviceName' and 'siteNameHierarchy' arguments.
+  5.1.0:
+    release_date: "2022-02-07"
+    changes:
+      release_summary: Fixes update tag_membership for Cisco DNA Center v2.2.3.3
+      minor_changes:
+        - tag_membership - changes in memberToTags from list to object in the way the value is obtained.
+        - Update README
