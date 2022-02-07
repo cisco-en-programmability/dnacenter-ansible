@@ -15,8 +15,8 @@ Other versions of this collection have support for previous Cisco DNA Center ver
 | Cisco DNA Center version | Ansible "cisco.dnac" version | Python "dnacentersdk" version |
 |--------------------------|------------------------------|-------------------------------|
 | 2.1.1                    | 3.0.0                        | 2.2.5                         |
-| 2.2.2.3                  | 3.2.3                        | 2.3.3                         |
-| 2.2.3.3                  | 5.0.0                        | 2.4.5                         |
+| 2.2.2.3                  | 3.3.0                        | 2.3.3                         |
+| 2.2.3.3                  | 5.1.0                        | 2.4.5                         |
 
 *Notes*:
 
@@ -25,16 +25,16 @@ Other versions of this collection have support for previous Cisco DNA Center ver
 
 ## Installing according to Compatibility Matrix
 
-For example, for Cisco DNA Center 2.2.2.3, it is recommended to use Ansible "cisco.dnac" v3.2.3 and Python "dnacentersdk" v2.3.3.
+For example, for Cisco DNA Center 2.2.2.3, it is recommended to use Ansible "cisco.dnac" v3.3.0 and Python "dnacentersdk" v2.3.3.
 
 To get the Python DNA Center SDK v2.3.3 in a fresh development environment:
 ```
 sudo pip install dnacentersdk==2.3.3
 ```
 
-To get the Ansible collection v3.2.3 in a fresh development environment:
+To get the Ansible collection v3.3.0 in a fresh development environment:
 ```
-ansible-galaxy collection install cisco.dnac:3.2.3
+ansible-galaxy collection install cisco.dnac:3.3.0
 ```
 
 ## Requirements
