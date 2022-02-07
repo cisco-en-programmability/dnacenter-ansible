@@ -1,13 +1,13 @@
-name: CI
+name: CI - v3.3.0
 on:
   push:
-    branches: [ main ]
+    branches: [develop-v3.3.0]
   pull_request:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: "0 6 * * *"
 env:
   NAMESPACE: cisco
-  COLLECTION_NAME: dnac 
+  COLLECTION_NAME: dnac
 jobs:
   sanity:
     name: Sanity (Ⓐ${{ matrix.ansible }})
