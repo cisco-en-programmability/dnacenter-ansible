@@ -1,21 +1,21 @@
 ---
 namespace: cisco
 name: dnac
-version: 5.0.0
+version: 5.1.0
 readme: README.md
 authors:
-- Rafael Campos <rcampos@altus.cr>
-- William Astorga <wastorga@altus.cr>
-- Jose Bogarin <jbogarin@altus.cr>
+  - Rafael Campos <rcampos@altus.cr>
+  - William Astorga <wastorga@altus.cr>
+  - Jose Bogarin <jbogarin@altus.cr>
 description: Ansible Modules for Cisco DNA Center
-license_file: 'LICENSE'
+license_file: "LICENSE"
 tags:
-- cisco
-- dnac
-- cloud
-- collection
-- networking
-- sdn
+  - cisco
+  - dnac
+  - cloud
+  - collection
+  - networking
+  - sdn
 dependencies:
   ansible.utils: ">=2.0.0,<3.0"
 repository: https://github.com/cisco-en-programmability/dnacenter-ansible
