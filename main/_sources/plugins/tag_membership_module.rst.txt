@@ -42,7 +42,7 @@ cisco.dnac.tag_membership module -- Resource module for Tag Membership
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.1.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.1.1).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -518,8 +518,8 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         memberToTags:
-          - {{templateID}}:
-            - "{{tagID}}"
+          - 8bf887f3-7cc2-4bd2-9407-df0fe6b7f63a:
+            - 7bf887f3-7cc2-7bd2-9407-df0fe6b7f63a
         memberType: string
 
 
