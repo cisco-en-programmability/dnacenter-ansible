@@ -79,7 +79,10 @@ class SdaFabric(object):
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
-            result = get_dict_result(items, 'name', name)
+                if isinstance(items, dict) and items.get("status") == "failed":
+                    result = None
+                    return result
+            result = get_dict_result(items, 'fabricName', name)
         except Exception:
             result = None
         return result
