@@ -85,6 +85,9 @@ class SdaMulticast(object):
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
+                if isinstance(items, dict) and items.get("status") == "failed":
+                    result = None
+                    return result
             result = get_dict_result(items, 'name', name)
         except Exception:
             result = None
