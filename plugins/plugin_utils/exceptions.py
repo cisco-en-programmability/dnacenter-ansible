@@ -16,3 +16,8 @@ class AnsibleDNACException(Exception):
 class InconsistentParameters(AnsibleDNACException):
     """Provided parameters are not consistent."""
     pass
+
+
+class AnsibleSDAException(Exception):
+    def __init__(self, response):
+        self._response = response
