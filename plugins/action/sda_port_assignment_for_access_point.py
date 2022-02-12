@@ -24,6 +24,8 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
     InconsistentParameters,
+
+    AnsibleSDAException,
 )
 
 # Get common arguments specification
@@ -94,6 +96,9 @@ class SdaPortAssignmentForAccessPoint(object):
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
+                if isinstance(items, dict) and items.get("status") == "failed":
+                    result = None
+                    return result
             result = get_dict_result(items, 'name', name)
         except Exception:
             result = None
@@ -136,6 +141,11 @@ class SdaPortAssignmentForAccessPoint(object):
             params=self.create_params(),
             op_modifies=True,
         )
+        if isinstance(result, dict):
+            if 'response' in result:
+                result = result.get('response')
+            if isinstance(result, dict) and result.get("status") == "failed":
+                raise AnsibleSDAException(response=result)
         return result
 
     def delete(self):
@@ -199,8 +209,11 @@ class ActionModule(ActionBase):
                     response = prev_obj
                     dnac.object_already_present()
             else:
-                response = obj.create()
-                dnac.object_created()
+                try:
+                    response = obj.create()
+                    dnac.object_created()
+                except AnsibleSDAException as e:
+                    dnac.fail_json("Could not create object {e}".format(e=e._response))
         elif state == "absent":
             (obj_exists, prev_obj) = obj.exists()
             if obj_exists:
