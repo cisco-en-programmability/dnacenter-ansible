@@ -197,7 +197,25 @@ releases:
       minor_changes:
         - tag_membership - changes in memberToTags from list to object in the way the value is obtained.
   3.3.1:
-    release_date: '2022-02-11'
+    release_date: '2022-02-13'
+    changes:
+      release_summary: Add early check of status for SDA modules
+      bugfixes:
+        - sda_fabric_authentication_profile - add early check of 'status' for module.
+        - sda_fabric_border_device - add early check of 'status' for module.
+        - sda_fabric_control_plane_device - add early check of 'status' for module.
+        - sda_fabric_edge_device - add early check of 'status' for module.
+        - sda_fabric_site - add early check of 'status' for module.
+        - sda_fabric - add early check of 'status' for module.
+        - sda_multicast - add early check of 'status' for module.
+        - sda_port_assignment_for_access_point - add early check of 'status' for module.
+        - sda_port_assignment_for_user_device - add early check of 'status' for module.
+        - sda_provision_device - add early check of 'status' for module.
+        - sda_virtual_network_ip_pool - add early check of 'status' for module.
+        - sda_virtual_network_v2 - add early check of 'status' for module.
+        - sda_virtual_network - add early check of 'status' for module.
+  3.3.2:
+    release_date: '2022-02-13'
     changes:
       release_summary: Add early check of status for SDA modules
       bugfixes:
