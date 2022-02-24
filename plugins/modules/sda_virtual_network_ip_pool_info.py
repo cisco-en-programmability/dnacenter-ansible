@@ -19,6 +19,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  siteNameHierarchy:
+    description:
+    - SiteNameHierarchy query parameter.
+    type: str
   ipPoolName:
     description:
     - IpPoolName query parameter.
@@ -51,6 +55,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers:
       custom: value
+    siteNameHierarchy: string
     ipPoolName: string
     virtualNetworkName: string
   register: result

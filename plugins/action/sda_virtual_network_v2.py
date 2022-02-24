@@ -83,7 +83,7 @@ class SdaVirtualNetworkV2(object):
         new_object_params['scalableGroupNames'] = self.new_object.get('scalableGroupNames')
         return new_object_params
 
-    def get_object_by_name(self, name):
+    def get_object_by_name(self, name, is_absent=False):
         result = None
         # NOTICE: Does not have a get by name method or it is in another action
         try:
@@ -96,10 +96,14 @@ class SdaVirtualNetworkV2(object):
                 if 'response' in items:
                     items = items.get('response')
                 if isinstance(items, dict) and items.get("status") == "failed":
+                    if is_absent:
+                        raise AnsibleSDAException(response=items)
                     result = None
                     return result
             result = get_dict_result(items, 'name', name)
         except Exception:
+            if is_absent:
+                raise
             result = None
         return result
 
@@ -108,9 +112,9 @@ class SdaVirtualNetworkV2(object):
         # NOTE: Does not have a get by id method or it is in another action
         return result
 
-    def exists(self):
+    def exists(self, is_absent=False):
         name = self.new_object.get("name")
-        prev_obj = self.get_object_by_name(name)
+        prev_obj = self.get_object_by_name(name, is_absent=is_absent)
         it_exists = prev_obj is not None and isinstance(prev_obj, dict) and prev_obj.get("status") != "failed"
         return (it_exists, prev_obj)
 
@@ -225,12 +229,15 @@ class ActionModule(ActionBase):
                     dnac.fail_json("Could not create object {e}".format(e=e._response))
 
         elif state == "absent":
-            (obj_exists, prev_obj) = obj.exists()
-            if obj_exists:
-                response = obj.delete()
-                dnac.object_deleted()
-            else:
-                dnac.object_already_absent()
+            try:
+                (obj_exists, prev_obj) = obj.exists(is_absent=True)
+                if obj_exists:
+                    response = obj.delete()
+                    dnac.object_deleted()
+                else:
+                    dnac.object_already_absent()
+            except AnsibleSDAException as e:
+                dnac.fail_json("Could not get object to be delete {e}".format(e=e._response))
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())
