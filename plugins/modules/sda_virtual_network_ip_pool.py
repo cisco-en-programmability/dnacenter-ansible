@@ -88,6 +88,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     ipPoolName: string
+    siteNameHierarchy: string
     virtualNetworkName: string
 
 - name: Create

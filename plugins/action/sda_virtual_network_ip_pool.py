@@ -68,12 +68,14 @@ class SdaVirtualNetworkIpPool(object):
             poolType=params.get("poolType"),
             vlanName=params.get("vlanName"),
             isWirelessPool=params.get("isWirelessPool"),
+            site_name_hierarchy=params.get("siteNameHierarchy"),
             ip_pool_name=params.get("ipPoolName"),
             virtual_network_name=params.get("virtualNetworkName"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
+        new_object_params['siteNameHierarchy'] = self.new_object.get('site_name_hierarchy')
         new_object_params['ip_pool_name'] = self.new_object.get('ip_pool_name')
         new_object_params['virtual_network_name'] = self.new_object.get('virtual_network_name')
         return new_object_params
@@ -95,11 +97,12 @@ class SdaVirtualNetworkIpPool(object):
 
     def delete_all_params(self):
         new_object_params = {}
+        new_object_params['siteNameHierarchy'] = self.new_object.get('site_name_hierarchy')
         new_object_params['ip_pool_name'] = self.new_object.get('ip_pool_name')
         new_object_params['virtual_network_name'] = self.new_object.get('virtual_network_name')
         return new_object_params
 
-    def get_object_by_name(self, name):
+    def get_object_by_name(self, name, is_absent=False):
         result = None
         # NOTICE: Does not have a get by name method, using get all
         try:
@@ -112,10 +115,14 @@ class SdaVirtualNetworkIpPool(object):
                 if 'response' in items:
                     items = items.get('response')
                 if isinstance(items, dict) and items.get("status") == "failed":
+                    if is_absent:
+                        raise AnsibleSDAException(response=items)
                     result = None
                     return result
             result = get_dict_result(items, 'name', name)
         except Exception:
+            if is_absent:
+                raise
             result = None
         return result
 
@@ -124,9 +131,9 @@ class SdaVirtualNetworkIpPool(object):
         # NOTE: Does not have a get by id method or it is in another action
         return result
 
-    def exists(self):
+    def exists(self, is_absent=False):
         name = self.new_object.get("name")
-        prev_obj = self.get_object_by_name(name)
+        prev_obj = self.get_object_by_name(name, is_absent=is_absent)
         it_exists = prev_obj is not None and isinstance(prev_obj, dict) and prev_obj.get("status") != "failed"
         return (it_exists, prev_obj)
 
@@ -145,6 +152,7 @@ class SdaVirtualNetworkIpPool(object):
             ("poolType", "poolType"),
             ("vlanName", "vlanName"),
             ("isWirelessPool", "isWirelessPool"),
+            ("siteNameHierarchy", "site_name_hierarchy"),
             ("ipPoolName", "ip_pool_name"),
             ("virtualNetworkName", "virtual_network_name"),
         ]
@@ -235,12 +243,15 @@ class ActionModule(ActionBase):
                 except AnsibleSDAException as e:
                     dnac.fail_json("Could not create object {e}".format(e=e._response))
         elif state == "absent":
-            (obj_exists, prev_obj) = obj.exists()
-            if obj_exists:
-                response = obj.delete()
-                dnac.object_deleted()
-            else:
-                dnac.object_already_absent()
+            try:
+                (obj_exists, prev_obj) = obj.exists(is_absent=True)
+                if obj_exists:
+                    response = obj.delete()
+                    dnac.object_deleted()
+                else:
+                    dnac.object_already_absent()
+            except AnsibleSDAException as e:
+                dnac.fail_json("Could not get object to be delete {e}".format(e=e._response))
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())
