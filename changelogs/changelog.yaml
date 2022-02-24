@@ -471,3 +471,25 @@ releases:
         - sda_virtual_network_ip_pool - add early check of 'status' for module.
         - sda_virtual_network_v2 - add early check of 'status' for module.
         - sda_virtual_network - add early check of 'status' for module.
+  5.2.0:
+    release_date: '2022-02-24'
+    changes:
+      release_summary: Added siteNameHierarchy option to sda_virtual_network_ip_pool_info and sda_virtual_network_ip_pool
+      minor_changes:
+        - sda_virtual_network_ip_pool_info - add siteNameHierarchy option.
+        - sda_virtual_network_ip_pool - update example documentation to include siteNameHierarchy option.
+      bugfixes:
+        - sda_fabric - add early check of 'status' for module when state is absent.
+        - sda_fabric_authentication_profile - add early check of 'status' for module when state is absent.
+        - sda_fabric_border_device - add early check of 'status' for module when state is absent.
+        - sda_fabric_control_plane_device - add early check of 'status' for module when state is absent.
+        - sda_fabric_edge_device - add early check of 'status' for module when state is absent.
+        - sda_fabric_site - add early check of 'status' for module when state is absent.
+        - sda_multicast - add early check of 'status' for module when state is absent.
+        - sda_port_assignment_for_access_point - add early check of 'status' for module when state is absent.
+        - sda_port_assignment_for_user_device - add early check of 'status' for module when state is absent.
+        - sda_provision_device - add early check of 'status' for module when state is absent.
+        - sda_virtual_network - add early check of 'status' for module when state is absent.
+        - sda_virtual_network_ip_pool - add early check of 'status' for module when state is absent.
+        - sda_virtual_network_ip_pool_info - add early check of 'status' for module when state is absent.
+        - sda_virtual_network_v2 - add early check of 'status' for module when state is absent.
