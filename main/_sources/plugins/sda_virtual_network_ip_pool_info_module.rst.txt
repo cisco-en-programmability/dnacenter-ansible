@@ -42,7 +42,7 @@ cisco.dnac.sda_virtual_network_ip_pool_info module -- Information module for Sda
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.1.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 5.2.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -443,6 +443,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-siteNameHierarchy"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_info_module__parameter-siteNameHierarchy:
+
+      .. rst-class:: ansible-option-title
+
+      **siteNameHierarchy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-siteNameHierarchy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SiteNameHierarchy query parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
 
       .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_info_module__parameter-validate_response_schema:
@@ -553,6 +587,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         headers:
           custom: value
+        siteNameHierarchy: string
         ipPoolName: string
         virtualNetworkName: string
       register: result
