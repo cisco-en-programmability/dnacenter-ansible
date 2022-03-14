@@ -5,7 +5,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 5.2.0
+Collection version 6.0.0
 
 .. toctree::
     :maxdepth: 1
