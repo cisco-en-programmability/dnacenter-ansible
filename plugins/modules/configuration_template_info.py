@@ -74,7 +74,7 @@ options:
     - LatestVersion query parameter. LatestVersion flag to get the latest versioned template.
     type: bool
 requirements:
-- dnacentersdk == 2.4.5
+- dnacentersdk >= 2.4.6
 - python >= 3.5
 notes:
   - SDK Method used are
