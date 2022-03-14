@@ -39,7 +39,7 @@ options:
     - Enable or disable automatic file creation of raw response.
     type: bool
 requirements:
-- dnacentersdk == 2.4.5
+- dnacentersdk >= 2.4.6
 - python >= 3.5
 notes:
   - SDK Method used are
