@@ -34,7 +34,7 @@ options:
     - Device_type query parameter. Type of device like router, switch, wireless or ise.
     type: str
 requirements:
-- dnacentersdk == 2.4.5
+- dnacentersdk >= 2.4.6
 - python >= 3.5
 notes:
   - SDK Method used are

@@ -493,3 +493,10 @@ releases:
         - sda_virtual_network_ip_pool - add early check of 'status' for module when state is absent.
         - sda_virtual_network_ip_pool_info - add early check of 'status' for module when state is absent.
         - sda_virtual_network_v2 - add early check of 'status' for module when state is absent.
+  6.0.0:
+    release_date: '2022-03-14'
+    changes:
+      release_summary: Fixes update sda_fabric_border_device for Cisco DNA Center v2.2.3.3
+      major_changes:
+        - Update dnacentersdk requirement from 2.4.5 to 2.4.6
+        - sda_fabric_border_device - changes in externalConnectivitySettings from object to list.

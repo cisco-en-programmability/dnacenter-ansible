@@ -56,7 +56,7 @@ options:
     - IssueStatus query parameter. The issue's status value (One of ACTIVE, IGNORED, RESOLVED).
     type: str
 requirements:
-- dnacentersdk == 2.4.5
+- dnacentersdk >= 2.4.6
 - python >= 3.5
 notes:
   - SDK Method used are
