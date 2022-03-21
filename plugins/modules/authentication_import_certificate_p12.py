@@ -18,6 +18,7 @@ author: Rafael Campos (@racampos)
 options:
   listOfUsers:
     description: ListOfUsers query parameter.
+    elements: str
     type: list
   p12FilePath:
     description: P12 file absolute path.

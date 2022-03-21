@@ -26,6 +26,7 @@ options:
   sort:
     description:
     - Sort query parameter. Comma seperated list of fields to sort on.
+    elements: str
     type: list
   sortOrder:
     description:

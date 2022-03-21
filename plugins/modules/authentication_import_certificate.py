@@ -21,6 +21,7 @@ options:
     type: str
   listOfUsers:
     description: ListOfUsers query parameter.
+    elements: str
     type: list
   pkFilePath:
     description: Pk file absolute path.

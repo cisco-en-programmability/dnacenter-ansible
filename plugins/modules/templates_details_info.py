@@ -62,6 +62,7 @@ options:
   tags:
     description:
     - Tags query parameter. Filter template(s) based on tags.
+    elements: str
     type: list
   unCommitted:
     description:

@@ -36,18 +36,22 @@ options:
   nameList:
     description:
     - NameList query parameter.
+    elements: str
     type: list
   vendorEquipmentTypeList:
     description:
     - VendorEquipmentTypeList query parameter.
+    elements: str
     type: list
   partNumberList:
     description:
     - PartNumberList query parameter.
+    elements: str
     type: list
   operationalStateCodeList:
     description:
     - OperationalStateCodeList query parameter.
+    elements: str
     type: list
   id:
     description:

@@ -38,26 +38,32 @@ options:
   ipAddress:
     description:
     - IpAddress query parameter.
+    elements: str
     type: list
   pingStatus:
     description:
     - PingStatus query parameter.
+    elements: str
     type: list
   snmpStatus:
     description:
     - SnmpStatus query parameter.
+    elements: str
     type: list
   cliStatus:
     description:
     - CliStatus query parameter.
+    elements: str
     type: list
   netconfStatus:
     description:
     - NetconfStatus query parameter.
+    elements: str
     type: list
   httpStatus:
     description:
     - HttpStatus query parameter.
+    elements: str
     type: list
 requirements:
 - dnacentersdk >= 2.4.6
