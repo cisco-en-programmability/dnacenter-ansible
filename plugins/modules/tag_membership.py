@@ -20,6 +20,7 @@ author: Rafael Campos (@racampos)
 options:
   memberToTags:
     description: Tag Membership's memberToTags.
+    elements: dict
     type: list
   memberType:
     description: Tag Membership's memberType.

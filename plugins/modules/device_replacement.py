@@ -19,6 +19,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Device Replacement's payload.
+    elements: dict
     suboptions:
       creationTime:
         description: Device Replacement's creationTime.

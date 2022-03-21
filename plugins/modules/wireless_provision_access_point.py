@@ -18,6 +18,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Wireless Provision Access Point's payload.
+    elements: dict
     suboptions:
       customApGroupName:
         description: Custom AP group name.

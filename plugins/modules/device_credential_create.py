@@ -21,6 +21,7 @@ options:
     suboptions:
       cliCredential:
         description: Device Credential Create's cliCredential.
+        elements: dict
         suboptions:
           description:
             description: Name or description for CLI credential.
@@ -37,6 +38,7 @@ options:
         type: list
       httpsRead:
         description: Device Credential Create's httpsRead.
+        elements: dict
         suboptions:
           name:
             description: Name or description of http read credential.
@@ -53,6 +55,7 @@ options:
         type: list
       httpsWrite:
         description: Device Credential Create's httpsWrite.
+        elements: dict
         suboptions:
           name:
             description: Name or description of http write credential.
@@ -69,6 +72,7 @@ options:
         type: list
       snmpV2cRead:
         description: Device Credential Create's snmpV2cRead.
+        elements: dict
         suboptions:
           description:
             description: Description for snmp v2 read.
@@ -79,6 +83,7 @@ options:
         type: list
       snmpV2cWrite:
         description: Device Credential Create's snmpV2cWrite.
+        elements: dict
         suboptions:
           description:
             description: Description for snmp v2 write.
@@ -89,6 +94,7 @@ options:
         type: list
       snmpV3:
         description: Device Credential Create's snmpV3.
+        elements: dict
         suboptions:
           authPassword:
             description: Authentication password for snmpv3 credential.

@@ -20,6 +20,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Event Subscription's payload.
+    elements: dict
     suboptions:
       description:
         description: Description.
@@ -37,6 +38,7 @@ options:
         type: str
       subscriptionEndpoints:
         description: Event Subscription's subscriptionEndpoints.
+        elements: dict
         suboptions:
           instanceId:
             description: Instance Id.

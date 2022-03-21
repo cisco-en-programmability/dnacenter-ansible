@@ -64,6 +64,7 @@ options:
     suboptions:
       syncList:
         description: Pnp Virtual Account Devices Sync's syncList.
+        elements: dict
         suboptions:
           deviceSnList:
             description: Pnp Virtual Account Devices Sync's deviceSnList.

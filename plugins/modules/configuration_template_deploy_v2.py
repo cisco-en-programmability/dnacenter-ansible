@@ -31,6 +31,7 @@ options:
     type: list
   targetInfo:
     description: Configuration Template Deploy V2's targetInfo.
+    elements: dict
     suboptions:
       hostName:
         description: Hostname of device is required if targetType is MANAGED_DEVICE_HOSTNAME.

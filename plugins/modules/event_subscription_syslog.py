@@ -19,6 +19,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Event Subscription Syslog's payload.
+    elements: dict
     suboptions:
       description:
         description: Description.
@@ -36,6 +37,7 @@ options:
         type: str
       subscriptionEndpoints:
         description: Event Subscription Syslog's subscriptionEndpoints.
+        elements: dict
         suboptions:
           instanceId:
             description: (From Get Syslog Subscription Details --> pick instanceId).

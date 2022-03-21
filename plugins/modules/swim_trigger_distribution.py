@@ -18,6 +18,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Swim Trigger Distribution's payload.
+    elements: dict
     suboptions:
       deviceUuid:
         description: Swim Trigger Distribution's deviceUuid.

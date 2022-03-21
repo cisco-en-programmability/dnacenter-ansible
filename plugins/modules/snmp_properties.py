@@ -18,6 +18,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Snmp Properties's payload.
+    elements: dict
     suboptions:
       id:
         description: Snmp Properties's id.

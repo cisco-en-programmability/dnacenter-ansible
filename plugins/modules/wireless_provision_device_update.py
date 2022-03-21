@@ -18,12 +18,14 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Wireless Provision Device Update's payload.
+    elements: dict
     suboptions:
       deviceName:
         description: Device Name.
         type: str
       dynamicInterfaces:
         description: Wireless Provision Device Update's dynamicInterfaces.
+        elements: dict
         suboptions:
           interfaceGateway:
             description: Interface Gateway.

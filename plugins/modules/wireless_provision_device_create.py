@@ -18,12 +18,14 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Wireless Provision Device Create's payload.
+    elements: dict
     suboptions:
       deviceName:
         description: Controller Name.
         type: str
       dynamicInterfaces:
         description: Wireless Provision Device Create's dynamicInterfaces.
+        elements: dict
         suboptions:
           interfaceGateway:
             description: Interface Gateway.

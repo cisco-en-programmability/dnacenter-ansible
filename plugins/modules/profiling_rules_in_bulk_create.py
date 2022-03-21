@@ -20,6 +20,7 @@ author: Rafael Campos (@racampos)
 options:
   profilingRules:
     description: Profiling Rules In Bulk Create's profilingRules.
+    elements: dict
     suboptions:
       clusterId:
         description: Unique identifier for ML cluster. Only applicable for 'ML Rule'.

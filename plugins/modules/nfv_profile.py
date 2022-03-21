@@ -19,9 +19,11 @@ author: Rafael Campos (@racampos)
 options:
   device:
     description: Nfv Profile's device.
+    elements: dict
     suboptions:
       customNetworks:
         description: Nfv Profile's customNetworks.
+        elements: dict
         suboptions:
           connectionType:
             description: Type of network connection from custom network (eg lan).
@@ -31,6 +33,7 @@ options:
             type: str
           servicesToConnect:
             description: Nfv Profile's servicesToConnect.
+            elements: dict
             suboptions:
               serviceName:
                 description: Name of service to be connected to the custom network (eg
@@ -46,6 +49,7 @@ options:
         type: list
       customTemplate:
         description: Nfv Profile's customTemplate.
+        elements: dict
         suboptions:
           deviceType:
             description: Type of the device. Allowed values are 'Cisco 5400 Enterprise
@@ -74,6 +78,7 @@ options:
         type: bool
       serviceProviderProfile:
         description: Nfv Profile's serviceProviderProfile.
+        elements: dict
         suboptions:
           connect:
             description: Connection of service provider and device value should be boolean
@@ -91,6 +96,7 @@ options:
         type: list
       services:
         description: Nfv Profile's services.
+        elements: dict
         suboptions:
           firewallMode:
             description: Firewall mode details example (routed, transparent).
@@ -109,6 +115,7 @@ options:
             type: str
           vNicMapping:
             description: Nfv Profile's vNicMapping.
+            elements: dict
             suboptions:
               assignIpAddressToNetwork:
                 description: Assign ip address to network (eg true or false).
@@ -120,6 +127,7 @@ options:
         type: list
       vlanForL2:
         description: Nfv Profile's vlanForL2.
+        elements: dict
         suboptions:
           vlanDescription:
             description: Vlan description(eg Access 4018).

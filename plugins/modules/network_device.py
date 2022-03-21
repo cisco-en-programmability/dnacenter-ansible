@@ -104,6 +104,7 @@ options:
     type: str
   updateMgmtIPaddressList:
     description: Network Device's updateMgmtIPaddressList.
+    elements: dict
     suboptions:
       existMgmtIpAddress:
         description: Network Device's existMgmtIpAddress.

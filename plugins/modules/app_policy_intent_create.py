@@ -18,12 +18,14 @@ author: Rafael Campos (@racampos)
 options:
   createList:
     description: App Policy Intent Create's createList.
+    elements: dict
     suboptions:
       advancedPolicyScope:
         description: App Policy Intent Create's advancedPolicyScope.
         suboptions:
           advancedPolicyScopeElement:
             description: App Policy Intent Create's advancedPolicyScopeElement.
+            elements: dict
             suboptions:
               groupId:
                 description: Group id.
@@ -43,6 +45,7 @@ options:
         suboptions:
           scalableGroup:
             description: App Policy Intent Create's scalableGroup.
+            elements: dict
             suboptions:
               idRef:
                 description: Id ref to application Scalable group.
@@ -65,6 +68,7 @@ options:
         suboptions:
           clause:
             description: App Policy Intent Create's clause.
+            elements: dict
             suboptions:
               deviceRemovalBehavior:
                 description: Device eemoval behavior.
@@ -96,6 +100,7 @@ options:
         suboptions:
           scalableGroup:
             description: App Policy Intent Create's scalableGroup.
+            elements: dict
             suboptions:
               idRef:
                 description: Id ref to application-set or application Scalable group.
@@ -109,12 +114,14 @@ options:
     type: list
   updateList:
     description: App Policy Intent Create's updateList.
+    elements: dict
     suboptions:
       advancedPolicyScope:
         description: App Policy Intent Create's advancedPolicyScope.
         suboptions:
           advancedPolicyScopeElement:
             description: App Policy Intent Create's advancedPolicyScopeElement.
+            elements: dict
             suboptions:
               groupId:
                 description: Group id.
@@ -143,6 +150,7 @@ options:
             type: str
           scalableGroup:
             description: App Policy Intent Create's scalableGroup.
+            elements: dict
             suboptions:
               idRef:
                 description: Id ref to application Scalable group.
@@ -165,6 +173,7 @@ options:
         suboptions:
           clause:
             description: App Policy Intent Create's clause.
+            elements: dict
             suboptions:
               deviceRemovalBehavior:
                 description: Device removal behavior.
@@ -208,6 +217,7 @@ options:
             type: str
           scalableGroup:
             description: App Policy Intent Create's scalableGroup.
+            elements: dict
             suboptions:
               idRef:
                 description: Id ref to application-set or application Scalable group.

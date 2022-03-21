@@ -18,15 +18,18 @@ author: Rafael Campos (@racampos)
 options:
   deviceResetList:
     description: Pnp Device Reset's deviceResetList.
+    elements: dict
     suboptions:
       configList:
         description: Pnp Device Reset's configList.
+        elements: dict
         suboptions:
           configId:
             description: Pnp Device Reset's configId.
             type: str
           configParameters:
             description: Pnp Device Reset's configParameters.
+            elements: dict
             suboptions:
               key:
                 description: Pnp Device Reset's key.

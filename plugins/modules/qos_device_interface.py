@@ -25,6 +25,7 @@ options:
     type: str
   payload:
     description: Qos Device Interface's payload.
+    elements: dict
     suboptions:
       excludedInterfaces:
         description: Excluded interfaces ids.
@@ -41,6 +42,7 @@ options:
         type: str
       qosDeviceInterfaceInfo:
         description: Qos Device Interface's qosDeviceInterfaceInfo.
+        elements: dict
         suboptions:
           dmvpnRemoteSitesBw:
             description: Dmvpn remote sites bandwidth.

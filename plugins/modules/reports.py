@@ -39,6 +39,7 @@ options:
     suboptions:
       fieldGroups:
         description: Reports's fieldGroups.
+        elements: dict
         suboptions:
           fieldGroupDisplayName:
             description: Field group label/displayname for user.
@@ -48,6 +49,7 @@ options:
             type: str
           fields:
             description: Reports's fields.
+            elements: dict
             suboptions:
               displayName:
                 description: Field label/displayname.
@@ -59,6 +61,7 @@ options:
         type: list
       filters:
         description: Reports's filters.
+        elements: dict
         suboptions:
           displayName:
             description: Filter label/displayname.
