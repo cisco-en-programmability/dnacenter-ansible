@@ -72,6 +72,7 @@ options:
         type: list
       fileSystemList:
         description: Pnp Device's fileSystemList.
+        elements: dict
         suboptions:
           freespace:
             description: Pnp Device's freespace.
@@ -100,6 +101,7 @@ options:
         type: str
       httpHeaders:
         description: Pnp Device's httpHeaders.
+        elements: dict
         suboptions:
           key:
             description: Pnp Device's key.
@@ -116,6 +118,7 @@ options:
         type: str
       ipInterfaces:
         description: Pnp Device's ipInterfaces.
+        elements: dict
         suboptions:
           ipv4Address:
             description: Pnp Device's ipv4Address.
@@ -173,6 +176,7 @@ options:
         type: str
       neighborLinks:
         description: Pnp Device's neighborLinks.
+        elements: dict
         suboptions:
           localInterfaceName:
             description: Pnp Device's localInterfaceName.
@@ -210,6 +214,7 @@ options:
         type: str
       pnpProfileList:
         description: Pnp Device's pnpProfileList.
+        elements: dict
         suboptions:
           createdBy:
             description: Pnp Device's createdBy.
@@ -270,6 +275,7 @@ options:
         type: bool
       preWorkflowCliOuputs:
         description: Pnp Device's preWorkflowCliOuputs.
+        elements: dict
         suboptions:
           cli:
             description: Pnp Device's cli.
@@ -307,6 +313,7 @@ options:
             type: bool
           stackMemberList:
             description: Pnp Device's stackMemberList.
+            elements: dict
             suboptions:
               hardwareVersion:
                 description: Pnp Device's hardwareVersion.
@@ -387,6 +394,7 @@ options:
     type: str
   runSummaryList:
     description: Pnp Device's runSummaryList.
+    elements: dict
     suboptions:
       details:
         description: Pnp Device's details.
@@ -399,6 +407,7 @@ options:
         suboptions:
           addnDetails:
             description: Pnp Device's addnDetails.
+            elements: dict
             suboptions:
               key:
                 description: Pnp Device's key.
@@ -418,6 +427,7 @@ options:
             type: str
           workItemList:
             description: Pnp Device's workItemList.
+            elements: dict
             suboptions:
               command:
                 description: Pnp Device's command.
@@ -490,6 +500,7 @@ options:
         type: str
       tasks:
         description: Pnp Device's tasks.
+        elements: dict
         suboptions:
           currWorkItemIdx:
             description: Pnp Device's currWorkItemIdx.
@@ -517,6 +528,7 @@ options:
             type: str
           workItemList:
             description: Pnp Device's workItemList.
+            elements: dict
             suboptions:
               command:
                 description: Pnp Device's command.
@@ -598,6 +610,7 @@ options:
         type: str
       tasks:
         description: Pnp Device's tasks.
+        elements: dict
         suboptions:
           currWorkItemIdx:
             description: Pnp Device's currWorkItemIdx.
@@ -625,6 +638,7 @@ options:
             type: str
           workItemList:
             description: Pnp Device's workItemList.
+            elements: dict
             suboptions:
               command:
                 description: Pnp Device's command.
@@ -712,6 +726,7 @@ options:
         type: str
       tasks:
         description: Pnp Device's tasks.
+        elements: dict
         suboptions:
           currWorkItemIdx:
             description: Pnp Device's currWorkItemIdx.
@@ -739,6 +754,7 @@ options:
             type: str
           workItemList:
             description: Pnp Device's workItemList.
+            elements: dict
             suboptions:
               command:
                 description: Pnp Device's command.
@@ -778,12 +794,14 @@ options:
     suboptions:
       configList:
         description: Pnp Device's configList.
+        elements: dict
         suboptions:
           configId:
             description: Pnp Device's configId.
             type: str
           configParameters:
             description: Pnp Device's configParameters.
+            elements: dict
             suboptions:
               key:
                 description: Pnp Device's key.

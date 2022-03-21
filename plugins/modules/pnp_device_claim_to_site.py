@@ -25,6 +25,7 @@ options:
         type: str
       configParameters:
         description: Pnp Device Claim To Site's configParameters.
+        elements: dict
         suboptions:
           key:
             description: Pnp Device Claim To Site's key.

@@ -30,6 +30,7 @@ options:
         type: list
       ssidDetails:
         description: Wireless Profile's ssidDetails.
+        elements: dict
         suboptions:
           enableFabric:
             description: True is ssid is fabric else false.

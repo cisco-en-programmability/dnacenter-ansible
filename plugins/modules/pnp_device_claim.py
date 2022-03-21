@@ -24,15 +24,18 @@ options:
     type: str
   deviceClaimList:
     description: Pnp Device Claim's deviceClaimList.
+    elements: dict
     suboptions:
       configList:
         description: Pnp Device Claim's configList.
+        elements: dict
         suboptions:
           configId:
             description: Pnp Device Claim's configId.
             type: str
           configParameters:
             description: Pnp Device Claim's configParameters.
+            elements: dict
             suboptions:
               key:
                 description: Pnp Device Claim's key.

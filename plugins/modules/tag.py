@@ -23,6 +23,7 @@ options:
     type: str
   dynamicRules:
     description: Tag's dynamicRules.
+    elements: dict
     suboptions:
       memberType:
         description: Tag's memberType.

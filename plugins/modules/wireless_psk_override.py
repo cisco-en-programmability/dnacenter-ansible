@@ -18,6 +18,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Wireless Psk Override's payload.
+    elements: dict
     suboptions:
       passPhrase:
         description: Pass phrase (create/update).

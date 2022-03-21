@@ -64,6 +64,7 @@ options:
     suboptions:
       syncList:
         description: Pnp Server Profile Update's syncList.
+        elements: dict
         suboptions:
           deviceSnList:
             description: Pnp Server Profile Update's deviceSnList.

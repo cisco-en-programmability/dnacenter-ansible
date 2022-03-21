@@ -55,6 +55,7 @@ options:
     type: dict
   savaMappingList:
     description: Pnp Global Settings's savaMappingList.
+    elements: dict
     suboptions:
       autoSyncPeriod:
         description: Pnp Global Settings's autoSyncPeriod.
@@ -104,6 +105,7 @@ options:
         suboptions:
           syncList:
             description: Pnp Global Settings's syncList.
+            elements: dict
             suboptions:
               deviceSnList:
                 description: Pnp Global Settings's deviceSnList.

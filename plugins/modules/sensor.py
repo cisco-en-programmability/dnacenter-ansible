@@ -19,6 +19,7 @@ author: Rafael Campos (@racampos)
 options:
   apCoverage:
     description: Sensor's apCoverage.
+    elements: dict
     suboptions:
       bands:
         description: Bands.
@@ -41,6 +42,7 @@ options:
     type: str
   ssids:
     description: Sensor's ssids.
+    elements: dict
     suboptions:
       authType:
         description: Auth Type.
@@ -63,6 +65,7 @@ options:
         type: str
       tests:
         description: Sensor's tests.
+        elements: dict
         suboptions:
           config:
             description: Config.

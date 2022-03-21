@@ -22,6 +22,7 @@ options:
     type: str
   payload:
     description: Application Sets's payload.
+    elements: dict
     suboptions:
       name:
         description: Name.

@@ -18,6 +18,7 @@ author: Rafael Campos (@racampos)
 options:
   device:
     description: Site Assign Device's device.
+    elements: dict
     suboptions:
       ip:
         description: Device ip (eg 10.104.240.64).

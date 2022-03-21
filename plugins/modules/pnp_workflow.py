@@ -64,6 +64,7 @@ options:
     type: str
   tasks:
     description: Pnp Workflow's tasks.
+    elements: dict
     suboptions:
       currWorkItemIdx:
         description: Pnp Workflow's currWorkItemIdx.
@@ -91,6 +92,7 @@ options:
         type: str
       workItemList:
         description: Pnp Workflow's workItemList.
+        elements: dict
         suboptions:
           command:
             description: Pnp Workflow's command.

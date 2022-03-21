@@ -24,6 +24,7 @@ options:
     type: bool
   payload:
     description: Configuration Template Import Template's payload.
+    elements: dict
     suboptions:
       author:
         description: Author of template.
@@ -33,6 +34,7 @@ options:
         type: bool
       containingTemplates:
         description: Configuration Template Import Template's containingTemplates.
+        elements: dict
         suboptions:
           composite:
             description: Is it composite template.
@@ -42,6 +44,7 @@ options:
             type: str
           deviceTypes:
             description: Configuration Template Import Template's deviceTypes.
+            elements: dict
             suboptions:
               productFamily:
                 description: Device family.
@@ -67,6 +70,7 @@ options:
             type: str
           rollbackTemplateParams:
             description: Configuration Template Import Template's rollbackTemplateParams.
+            elements: dict
             suboptions:
               binding:
                 description: Bind to source.
@@ -115,6 +119,7 @@ options:
                 type: str
               range:
                 description: Configuration Template Import Template's range.
+                elements: dict
                 suboptions:
                   id:
                     description: UUID of range.
@@ -149,6 +154,7 @@ options:
             type: list
           tags:
             description: Configuration Template Import Template's tags.
+            elements: dict
             suboptions:
               id:
                 description: UUID of tag.
@@ -162,6 +168,7 @@ options:
             type: str
           templateParams:
             description: Configuration Template Import Template's templateParams.
+            elements: dict
             suboptions:
               binding:
                 description: Bind to source.
@@ -210,6 +217,7 @@ options:
                 type: str
               range:
                 description: Configuration Template Import Template's range.
+                elements: dict
                 suboptions:
                   id:
                     description: UUID of range.
@@ -257,6 +265,7 @@ options:
         type: str
       deviceTypes:
         description: Configuration Template Import Template's deviceTypes.
+        elements: dict
         suboptions:
           productFamily:
             description: Device family.
@@ -300,6 +309,7 @@ options:
         type: str
       rollbackTemplateParams:
         description: Configuration Template Import Template's rollbackTemplateParams.
+        elements: dict
         suboptions:
           binding:
             description: Bind to source.
@@ -348,6 +358,7 @@ options:
             type: str
           range:
             description: Configuration Template Import Template's range.
+            elements: dict
             suboptions:
               id:
                 description: UUID of range.
@@ -391,6 +402,7 @@ options:
         type: str
       tags:
         description: Configuration Template Import Template's tags.
+        elements: dict
         suboptions:
           id:
             description: UUID of tag.
@@ -404,6 +416,7 @@ options:
         type: str
       templateParams:
         description: Configuration Template Import Template's templateParams.
+        elements: dict
         suboptions:
           binding:
             description: Bind to source.
@@ -452,6 +465,7 @@ options:
             type: str
           range:
             description: Configuration Template Import Template's range.
+            elements: dict
             suboptions:
               id:
                 description: UUID of range.

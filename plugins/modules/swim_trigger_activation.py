@@ -18,6 +18,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Swim Trigger Activation's payload.
+    elements: dict
     suboptions:
       activateLowerImageVersion:
         description: ActivateLowerImageVersion flag.

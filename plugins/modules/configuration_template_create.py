@@ -24,6 +24,7 @@ options:
     type: bool
   containingTemplates:
     description: Configuration Template Create's containingTemplates.
+    elements: dict
     suboptions:
       composite:
         description: Is it composite template.
@@ -33,6 +34,7 @@ options:
         type: str
       deviceTypes:
         description: Configuration Template Create's deviceTypes.
+        elements: dict
         suboptions:
           productFamily:
             description: Device family.
@@ -58,6 +60,7 @@ options:
         type: str
       rollbackTemplateParams:
         description: Configuration Template Create's rollbackTemplateParams.
+        elements: dict
         suboptions:
           binding:
             description: Bind to source.
@@ -106,6 +109,7 @@ options:
             type: str
           range:
             description: Configuration Template Create's range.
+            elements: dict
             suboptions:
               id:
                 description: UUID of range.
@@ -140,6 +144,7 @@ options:
         type: list
       tags:
         description: Configuration Template Create's tags.
+        elements: dict
         suboptions:
           id:
             description: UUID of tag.
@@ -153,6 +158,7 @@ options:
         type: str
       templateParams:
         description: Configuration Template Create's templateParams.
+        elements: dict
         suboptions:
           binding:
             description: Bind to source.
@@ -201,6 +207,7 @@ options:
             type: str
           range:
             description: Configuration Template Create's range.
+            elements: dict
             suboptions:
               id:
                 description: UUID of range.
@@ -248,6 +255,7 @@ options:
     type: str
   deviceTypes:
     description: Configuration Template Create's deviceTypes.
+    elements: dict
     suboptions:
       productFamily:
         description: Device family.
@@ -291,6 +299,7 @@ options:
     type: str
   rollbackTemplateParams:
     description: Configuration Template Create's rollbackTemplateParams.
+    elements: dict
     suboptions:
       binding:
         description: Bind to source.
@@ -339,6 +348,7 @@ options:
         type: str
       range:
         description: Configuration Template Create's range.
+        elements: dict
         suboptions:
           id:
             description: UUID of range.
@@ -382,6 +392,7 @@ options:
     type: str
   tags:
     description: Configuration Template Create's tags.
+    elements: dict
     suboptions:
       id:
         description: UUID of tag.
@@ -395,6 +406,7 @@ options:
     type: str
   templateParams:
     description: Configuration Template Create's templateParams.
+    elements: dict
     suboptions:
       binding:
         description: Bind to source.
@@ -443,6 +455,7 @@ options:
         type: str
       range:
         description: Configuration Template Create's range.
+        elements: dict
         suboptions:
           id:
             description: UUID of range.

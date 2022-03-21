@@ -23,6 +23,7 @@ options:
     type: str
   payload:
     description: Applications's payload.
+    elements: dict
     suboptions:
       applicationSet:
         description: Applications's applicationSet.
@@ -33,6 +34,7 @@ options:
         type: dict
       indicativeNetworkIdentity:
         description: Applications's indicativeNetworkIdentity.
+        elements: dict
         suboptions:
           displayName:
             description: DisplayName.
@@ -58,6 +60,7 @@ options:
         type: str
       networkApplications:
         description: Applications's networkApplications.
+        elements: dict
         suboptions:
           appProtocol:
             description: App Protocol.
@@ -110,6 +113,7 @@ options:
         type: list
       networkIdentity:
         description: Applications's networkIdentity.
+        elements: dict
         suboptions:
           displayName:
             description: Display Name.

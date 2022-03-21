@@ -21,6 +21,7 @@ options:
     suboptions:
       qos:
         description: Service Provider Create's qos.
+        elements: dict
         suboptions:
           model:
             description: Model.

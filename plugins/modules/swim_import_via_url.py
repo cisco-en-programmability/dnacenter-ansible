@@ -19,6 +19,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Swim Import Via Url's payload.
+    elements: dict
     suboptions:
       applicationType:
         description: Swim Import Via Url's applicationType.

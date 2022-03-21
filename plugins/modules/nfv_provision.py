@@ -18,12 +18,15 @@ author: Rafael Campos (@racampos)
 options:
   provisioning:
     description: Nfv Provision's provisioning.
+    elements: dict
     suboptions:
       device:
         description: Nfv Provision's device.
+        elements: dict
         suboptions:
           customNetworks:
             description: Nfv Provision's customNetworks.
+            elements: dict
             suboptions:
               ipAddressPool:
                 description: IP address pool of sub pool (eg 175.175.140.1).
@@ -43,6 +46,7 @@ options:
             type: str
           serviceProviders:
             description: Nfv Provision's serviceProviders.
+            elements: dict
             suboptions:
               serviceProvider:
                 description: Name of the service provider (eg Airtel).
@@ -69,6 +73,7 @@ options:
             type: list
           services:
             description: Nfv Provision's services.
+            elements: dict
             suboptions:
               adminPasswordHash:
                 description: Admin password hash.
@@ -98,6 +103,7 @@ options:
             type: list
           subPools:
             description: Nfv Provision's subPools.
+            elements: dict
             suboptions:
               gateway:
                 description: IP address for gate way (eg 175.175.140.1).
@@ -138,6 +144,7 @@ options:
             type: dict
           vlan:
             description: Nfv Provision's vlan.
+            elements: dict
             suboptions:
               id:
                 description: Vlan id(e .4018).
@@ -214,12 +221,15 @@ options:
     type: list
   siteProfile:
     description: Nfv Provision's siteProfile.
+    elements: dict
     suboptions:
       device:
         description: Nfv Provision's device.
+        elements: dict
         suboptions:
           customNetworks:
             description: Nfv Provision's customNetworks.
+            elements: dict
             suboptions:
               connectionType:
                 description: Type of network connection from custom network (eg lan).
@@ -232,6 +242,7 @@ options:
                 type: str
               servicesToConnect:
                 description: Nfv Provision's servicesToConnect.
+                elements: dict
                 suboptions:
                   service:
                     description: Name of service to be connected to the custom network
@@ -244,6 +255,7 @@ options:
             type: list
           customServices:
             description: Nfv Provision's customServices.
+            elements: dict
             suboptions:
               applicationType:
                 description: Application type of custom service (eg LINUX).
@@ -274,6 +286,7 @@ options:
             type: list
           customTemplate:
             description: Nfv Provision's customTemplate.
+            elements: dict
             suboptions:
               deviceType:
                 description: Type of the device(eg NFVIS).
@@ -290,6 +303,7 @@ options:
             type: bool
           serviceProviders:
             description: Nfv Provision's serviceProviders.
+            elements: dict
             suboptions:
               connect:
                 description: Connection of service provider and device value should
@@ -307,6 +321,7 @@ options:
             type: list
           services:
             description: Nfv Provision's services.
+            elements: dict
             suboptions:
               imageName:
                 description: Name of image (eg isrv-universalk9.16.06.02.tar.gz).
@@ -342,6 +357,7 @@ options:
             type: str
           vlan:
             description: Nfv Provision's vlan.
+            elements: dict
             suboptions:
               id:
                 description: Vlan id(eg.4018).

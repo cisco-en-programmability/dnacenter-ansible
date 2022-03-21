@@ -18,6 +18,7 @@ author: Rafael Campos (@racampos)
 options:
   locationInfoList:
     description: Sensor Test Template Edit's locationInfoList.
+    elements: dict
     suboptions:
       allSensors:
         description: All Sensors.
@@ -47,12 +48,14 @@ options:
         type: dict
       scheduleRange:
         description: Sensor Test Template Edit's scheduleRange.
+        elements: dict
         suboptions:
           day:
             description: Day.
             type: str
           timeRange:
             description: Sensor Test Template Edit's timeRange.
+            elements: dict
             suboptions:
               frequency:
                 description: Sensor Test Template Edit's frequency.
