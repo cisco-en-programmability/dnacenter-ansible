@@ -44,6 +44,7 @@ options:
           ipPoolName:
             description: Ip Pool Name.
             type: str
+        elements: dict
         type: list
     type: dict
 requirements:

@@ -64,7 +64,9 @@ options:
                   2046, 4095)).
                 type: str
             type: dict
+        elements: dict
         type: list
+    elements: dict
     type: list
   externalDomainRoutingProtocolName:
     version_added: "4.0.0"

@@ -30,6 +30,7 @@ options:
   functionName:
     description:
     - FunctionName query parameter.
+    elements: str
     type: list
   id:
     description:
