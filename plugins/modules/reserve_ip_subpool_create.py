@@ -88,7 +88,7 @@ options:
     description: Type of the reserve ip sub pool.
     type: str
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

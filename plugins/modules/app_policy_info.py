@@ -24,7 +24,7 @@ options:
     - PolicyScope query parameter. Policy scope name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

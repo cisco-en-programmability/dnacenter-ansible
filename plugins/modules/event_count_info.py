@@ -28,7 +28,7 @@ options:
     - Tags query parameter. The registered Tags should be provided.
     type: str
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are
