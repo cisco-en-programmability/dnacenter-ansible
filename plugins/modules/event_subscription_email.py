@@ -19,6 +19,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Event Subscription Email's payload.
+    elements: dict
     suboptions:
       description:
         description: Description.
@@ -36,6 +37,7 @@ options:
         type: str
       subscriptionEndpoints:
         description: Event Subscription Email's subscriptionEndpoints.
+        elements: dict
         suboptions:
           instanceId:
             description: (From Get Email Subscription Details --> pick InstanceId).
@@ -66,7 +68,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

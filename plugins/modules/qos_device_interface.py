@@ -25,6 +25,7 @@ options:
     type: str
   payload:
     description: Qos Device Interface's payload.
+    elements: dict
     suboptions:
       excludedInterfaces:
         description: Excluded interfaces ids.
@@ -41,6 +42,7 @@ options:
         type: str
       qosDeviceInterfaceInfo:
         description: Qos Device Interface's qosDeviceInterfaceInfo.
+        elements: dict
         suboptions:
           dmvpnRemoteSitesBw:
             description: Dmvpn remote sites bandwidth.
@@ -67,7 +69,7 @@ options:
         type: list
     type: list
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

@@ -44,10 +44,11 @@ options:
           ipPoolName:
             description: Ip Pool Name.
             type: str
+        elements: dict
         type: list
     type: dict
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

@@ -22,61 +22,74 @@ options:
   serialNumber:
     description:
     - SerialNumber query parameter. Device Serial Number.
+    elements: str
     type: list
   state_:
     description:
     - State query parameter. Device State.
+    elements: str
     type: list
   onbState:
     description:
     - OnbState query parameter. Device Onboarding State.
+    elements: str
     type: list
   cmState:
     description:
     - CmState query parameter. Device Connection Manager State.
+    elements: str
     type: list
   name:
     description:
     - Name query parameter. Device Name.
+    elements: str
     type: list
   pid:
     description:
     - Pid query parameter. Device ProductId.
+    elements: str
     type: list
   source:
     description:
     - Source query parameter. Device Source.
+    elements: str
     type: list
   projectId:
     description:
     - ProjectId query parameter. Device Project Id.
+    elements: str
     type: list
   workflowId:
     description:
     - WorkflowId query parameter. Device Workflow Id.
+    elements: str
     type: list
   projectName:
     description:
     - ProjectName query parameter. Device Project Name.
+    elements: str
     type: list
   workflowName:
     description:
     - WorkflowName query parameter. Device Workflow Name.
+    elements: str
     type: list
   smartAccountId:
     description:
     - SmartAccountId query parameter. Device Smart Account.
+    elements: str
     type: list
   virtualAccountId:
     description:
     - VirtualAccountId query parameter. Device Virtual Account.
+    elements: str
     type: list
   lastContact:
     description:
     - LastContact query parameter. Device Has Contacted lastContact > 0.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

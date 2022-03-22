@@ -25,6 +25,7 @@ options:
         type: str
       configParameters:
         description: Pnp Device Claim To Site's configParameters.
+        elements: dict
         suboptions:
           key:
             description: Pnp Device Claim To Site's key.
@@ -52,6 +53,9 @@ options:
         description: Skip flag.
         type: bool
     type: dict
+  rfProfile:
+    description: Pnp Device Claim To Site's rfProfile.
+    type: str
   siteId:
     description: Pnp Device Claim To Site's siteId.
     type: str
@@ -59,7 +63,7 @@ options:
     description: Pnp Device Claim To Site's type.
     type: str
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are
@@ -91,6 +95,7 @@ EXAMPLES = r"""
       imageId: string
       skip: true
     siteId: string
+    rfProfile: string
     type: string
 
 """

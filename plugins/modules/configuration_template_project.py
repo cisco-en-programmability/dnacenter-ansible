@@ -38,6 +38,7 @@ options:
     type: str
   tags:
     description: Configuration Template Project's tags.
+    elements: dict
     suboptions:
       id:
         description: UUID of tag.
@@ -48,6 +49,7 @@ options:
     type: list
   templates:
     description: List of templates within the project.
+    elements: dict
     suboptions:
       author:
         description: Author of template.
@@ -57,6 +59,7 @@ options:
         type: bool
       containingTemplates:
         description: Configuration Template Project's containingTemplates.
+        elements: dict
         suboptions:
           composite:
             description: Is it composite template.
@@ -66,6 +69,7 @@ options:
             type: str
           deviceTypes:
             description: Configuration Template Project's deviceTypes.
+            elements: dict
             suboptions:
               productFamily:
                 description: Device family.
@@ -91,6 +95,7 @@ options:
             type: str
           rollbackTemplateParams:
             description: Configuration Template Project's rollbackTemplateParams.
+            elements: dict
             suboptions:
               binding:
                 description: Bind to source.
@@ -139,6 +144,7 @@ options:
                 type: str
               range:
                 description: Configuration Template Project's range.
+                elements: dict
                 suboptions:
                   id:
                     description: UUID of range.
@@ -173,6 +179,7 @@ options:
             type: list
           tags:
             description: Configuration Template Project's tags.
+            elements: dict
             suboptions:
               id:
                 description: UUID of tag.
@@ -186,6 +193,7 @@ options:
             type: str
           templateParams:
             description: Configuration Template Project's templateParams.
+            elements: dict
             suboptions:
               binding:
                 description: Bind to source.
@@ -234,6 +242,7 @@ options:
                 type: str
               range:
                 description: Configuration Template Project's range.
+                elements: dict
                 suboptions:
                   id:
                     description: UUID of range.
@@ -281,6 +290,7 @@ options:
         type: str
       deviceTypes:
         description: Configuration Template Project's deviceTypes.
+        elements: dict
         suboptions:
           productFamily:
             description: Device family.
@@ -330,6 +340,7 @@ options:
         type: str
       rollbackTemplateParams:
         description: Configuration Template Project's rollbackTemplateParams.
+        elements: dict
         suboptions:
           binding:
             description: Bind to source.
@@ -378,6 +389,7 @@ options:
             type: str
           range:
             description: Configuration Template Project's range.
+            elements: dict
             suboptions:
               id:
                 description: UUID of range.
@@ -421,6 +433,7 @@ options:
         type: str
       tags:
         description: Configuration Template Project's tags.
+        elements: dict
         suboptions:
           id:
             description: UUID of tag.
@@ -434,6 +447,7 @@ options:
         type: str
       templateParams:
         description: Configuration Template Project's templateParams.
+        elements: dict
         suboptions:
           binding:
             description: Bind to source.
@@ -482,6 +496,7 @@ options:
             type: str
           range:
             description: Configuration Template Project's range.
+            elements: dict
             suboptions:
               id:
                 description: UUID of range.
@@ -537,7 +552,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

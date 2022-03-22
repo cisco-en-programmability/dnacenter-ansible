@@ -31,6 +31,7 @@ options:
     type: list
   targetInfo:
     description: Configuration Template Deploy V2's targetInfo.
+    elements: dict
     suboptions:
       hostName:
         description: Hostname of device is required if targetType is MANAGED_DEVICE_HOSTNAME.
@@ -56,7 +57,7 @@ options:
     description: UUID of template to be provisioned.
     type: str
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

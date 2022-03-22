@@ -30,6 +30,7 @@ options:
         type: list
       ssidDetails:
         description: Wireless Profile's ssidDetails.
+        elements: dict
         suboptions:
           enableFabric:
             description: True is ssid is fabric else false.
@@ -59,7 +60,7 @@ options:
     description: WirelessProfileName path parameter. Wireless Profile Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

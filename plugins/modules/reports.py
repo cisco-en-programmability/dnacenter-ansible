@@ -39,6 +39,7 @@ options:
     suboptions:
       fieldGroups:
         description: Reports's fieldGroups.
+        elements: dict
         suboptions:
           fieldGroupDisplayName:
             description: Field group label/displayname for user.
@@ -48,6 +49,7 @@ options:
             type: str
           fields:
             description: Reports's fields.
+            elements: dict
             suboptions:
               displayName:
                 description: Field label/displayname.
@@ -59,6 +61,7 @@ options:
         type: list
       filters:
         description: Reports's filters.
+        elements: dict
         suboptions:
           displayName:
             description: Filter label/displayname.
@@ -98,7 +101,7 @@ options:
     description: Version of viewgroup for the report.
     type: str
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

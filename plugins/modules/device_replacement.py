@@ -19,6 +19,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Device Replacement's payload.
+    elements: dict
     suboptions:
       creationTime:
         description: Device Replacement's creationTime.
@@ -64,7 +65,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

@@ -20,6 +20,7 @@ author: Rafael Campos (@racampos)
 options:
   profilingRules:
     description: Profiling Rules In Bulk Create's profilingRules.
+    elements: dict
     suboptions:
       clusterId:
         description: Unique identifier for ML cluster. Only applicable for 'ML Rule'.
@@ -120,7 +121,7 @@ options:
         type: list
     type: list
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

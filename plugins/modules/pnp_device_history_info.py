@@ -26,13 +26,14 @@ options:
   sort:
     description:
     - Sort query parameter. Comma seperated list of fields to sort on.
+    elements: str
     type: list
   sortOrder:
     description:
     - SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).
     type: str
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are
