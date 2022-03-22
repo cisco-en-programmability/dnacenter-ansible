@@ -53,6 +53,9 @@ options:
         description: Skip flag.
         type: bool
     type: dict
+  rfProfile:
+    description: Pnp Device Claim To Site's rfProfile.
+    type: str
   siteId:
     description: Pnp Device Claim To Site's siteId.
     type: str
@@ -92,6 +95,7 @@ EXAMPLES = r"""
       imageId: string
       skip: true
     siteId: string
+    rfProfile: string
     type: string
 
 """
