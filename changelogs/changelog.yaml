@@ -500,3 +500,10 @@ releases:
       major_changes:
         - Update dnacentersdk requirement from 2.4.5 to 2.4.6
         - sda_fabric_border_device - changes in externalConnectivitySettings from object to list.
+  6.0.1:
+    release_date: '2022-03-22'
+    changes:
+      release_summary: Add new param on pnp_device_claim_to_site request
+      minor_changes:
+        - Update dnacentersdk requirement from 2.4.6 to 2.4.7
+        - Add parameter rfProfile to pnp_device_claim_to_site request.
