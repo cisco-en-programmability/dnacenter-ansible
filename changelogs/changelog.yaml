@@ -507,3 +507,6 @@ releases:
       minor_changes:
         - Update dnacentersdk requirement from 2.4.6 to 2.4.7
         - Add parameter rfProfile to pnp_device_claim_to_site request.
+      bugfixes:
+        - Fixed module documentation to have elements.
+        - Fixed the type of dnac_port in the documentation from string to int.
