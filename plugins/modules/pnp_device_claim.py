@@ -24,15 +24,18 @@ options:
     type: str
   deviceClaimList:
     description: Pnp Device Claim's deviceClaimList.
+    elements: dict
     suboptions:
       configList:
         description: Pnp Device Claim's configList.
+        elements: dict
         suboptions:
           configId:
             description: Pnp Device Claim's configId.
             type: str
           configParameters:
             description: Pnp Device Claim's configParameters.
+            elements: dict
             suboptions:
               key:
                 description: Pnp Device Claim's key.
@@ -74,7 +77,7 @@ options:
     description: Pnp Device Claim's workflowId.
     type: str
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

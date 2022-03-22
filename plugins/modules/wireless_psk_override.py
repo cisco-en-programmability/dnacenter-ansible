@@ -18,6 +18,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Wireless Psk Override's payload.
+    elements: dict
     suboptions:
       passPhrase:
         description: Pass phrase (create/update).
@@ -30,7 +31,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

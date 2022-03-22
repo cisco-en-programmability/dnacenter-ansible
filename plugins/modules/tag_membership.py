@@ -20,12 +20,13 @@ author: Rafael Campos (@racampos)
 options:
   memberToTags:
     description: Tag Membership's memberToTags.
+    elements: dict
     type: list
   memberType:
     description: Tag Membership's memberType.
     type: str
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

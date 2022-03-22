@@ -20,6 +20,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Event Subscription's payload.
+    elements: dict
     suboptions:
       description:
         description: Description.
@@ -37,6 +38,7 @@ options:
         type: str
       subscriptionEndpoints:
         description: Event Subscription's subscriptionEndpoints.
+        elements: dict
         suboptions:
           instanceId:
             description: Instance Id.
@@ -69,7 +71,7 @@ options:
     description: Subscriptions query parameter. List of EventSubscriptionId's for removal.
     type: str
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

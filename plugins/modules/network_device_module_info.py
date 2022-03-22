@@ -36,25 +36,29 @@ options:
   nameList:
     description:
     - NameList query parameter.
+    elements: str
     type: list
   vendorEquipmentTypeList:
     description:
     - VendorEquipmentTypeList query parameter.
+    elements: str
     type: list
   partNumberList:
     description:
     - PartNumberList query parameter.
+    elements: str
     type: list
   operationalStateCodeList:
     description:
     - OperationalStateCodeList query parameter.
+    elements: str
     type: list
   id:
     description:
     - Id path parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

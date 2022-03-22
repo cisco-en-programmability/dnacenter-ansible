@@ -64,6 +64,7 @@ options:
     suboptions:
       syncList:
         description: Pnp Server Profile Update's syncList.
+        elements: dict
         suboptions:
           deviceSnList:
             description: Pnp Server Profile Update's deviceSnList.
@@ -96,7 +97,7 @@ options:
     description: Pnp Server Profile Update's virtualAccountId.
     type: str
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

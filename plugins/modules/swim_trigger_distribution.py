@@ -18,6 +18,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Swim Trigger Distribution's payload.
+    elements: dict
     suboptions:
       deviceUuid:
         description: Swim Trigger Distribution's deviceUuid.
@@ -27,7 +28,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

@@ -64,7 +64,9 @@ options:
                   2046, 4095)).
                 type: str
             type: dict
+        elements: dict
         type: list
+    elements: dict
     type: list
   externalDomainRoutingProtocolName:
     version_added: "4.0.0"
@@ -80,7 +82,7 @@ options:
     description: Site Name Hierarchy for device location(site should be fabric site).
     type: str
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

@@ -18,12 +18,14 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Wireless Provision Device Update's payload.
+    elements: dict
     suboptions:
       deviceName:
         description: Device Name.
         type: str
       dynamicInterfaces:
         description: Wireless Provision Device Update's dynamicInterfaces.
+        elements: dict
         suboptions:
           interfaceGateway:
             description: Interface Gateway.
@@ -50,7 +52,7 @@ options:
         type: list
     type: list
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

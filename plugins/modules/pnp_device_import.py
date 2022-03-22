@@ -18,6 +18,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Pnp Device Import's payload.
+    elements: dict
     suboptions:
       _id:
         description: Pnp Device Import's _id.
@@ -74,6 +75,7 @@ options:
             type: list
           fileSystemList:
             description: Pnp Device Import's fileSystemList.
+            elements: dict
             suboptions:
               freespace:
                 description: Pnp Device Import's freespace.
@@ -102,6 +104,7 @@ options:
             type: str
           httpHeaders:
             description: Pnp Device Import's httpHeaders.
+            elements: dict
             suboptions:
               key:
                 description: Pnp Device Import's key.
@@ -118,6 +121,7 @@ options:
             type: str
           ipInterfaces:
             description: Pnp Device Import's ipInterfaces.
+            elements: dict
             suboptions:
               ipv4Address:
                 description: Pnp Device Import's ipv4Address.
@@ -175,6 +179,7 @@ options:
             type: str
           neighborLinks:
             description: Pnp Device Import's neighborLinks.
+            elements: dict
             suboptions:
               localInterfaceName:
                 description: Pnp Device Import's localInterfaceName.
@@ -212,6 +217,7 @@ options:
             type: str
           pnpProfileList:
             description: Pnp Device Import's pnpProfileList.
+            elements: dict
             suboptions:
               createdBy:
                 description: Pnp Device Import's createdBy.
@@ -272,6 +278,7 @@ options:
             type: bool
           preWorkflowCliOuputs:
             description: Pnp Device Import's preWorkflowCliOuputs.
+            elements: dict
             suboptions:
               cli:
                 description: Pnp Device Import's cli.
@@ -309,6 +316,7 @@ options:
                 type: bool
               stackMemberList:
                 description: Pnp Device Import's stackMemberList.
+                elements: dict
                 suboptions:
                   hardwareVersion:
                     description: Pnp Device Import's hardwareVersion.
@@ -386,6 +394,7 @@ options:
         type: dict
       runSummaryList:
         description: Pnp Device Import's runSummaryList.
+        elements: dict
         suboptions:
           details:
             description: Pnp Device Import's details.
@@ -398,6 +407,7 @@ options:
             suboptions:
               addnDetails:
                 description: Pnp Device Import's addnDetails.
+                elements: dict
                 suboptions:
                   key:
                     description: Pnp Device Import's key.
@@ -417,6 +427,7 @@ options:
                 type: str
               workItemList:
                 description: Pnp Device Import's workItemList.
+                elements: dict
                 suboptions:
                   command:
                     description: Pnp Device Import's command.
@@ -489,6 +500,7 @@ options:
             type: str
           tasks:
             description: Pnp Device Import's tasks.
+            elements: dict
             suboptions:
               currWorkItemIdx:
                 description: Pnp Device Import's currWorkItemIdx.
@@ -516,6 +528,7 @@ options:
                 type: str
               workItemList:
                 description: Pnp Device Import's workItemList.
+                elements: dict
                 suboptions:
                   command:
                     description: Pnp Device Import's command.
@@ -597,6 +610,7 @@ options:
             type: str
           tasks:
             description: Pnp Device Import's tasks.
+            elements: dict
             suboptions:
               currWorkItemIdx:
                 description: Pnp Device Import's currWorkItemIdx.
@@ -624,6 +638,7 @@ options:
                 type: str
               workItemList:
                 description: Pnp Device Import's workItemList.
+                elements: dict
                 suboptions:
                   command:
                     description: Pnp Device Import's command.
@@ -711,6 +726,7 @@ options:
             type: str
           tasks:
             description: Pnp Device Import's tasks.
+            elements: dict
             suboptions:
               currWorkItemIdx:
                 description: Pnp Device Import's currWorkItemIdx.
@@ -738,6 +754,7 @@ options:
                 type: str
               workItemList:
                 description: Pnp Device Import's workItemList.
+                elements: dict
                 suboptions:
                   command:
                     description: Pnp Device Import's command.
@@ -777,12 +794,14 @@ options:
         suboptions:
           configList:
             description: Pnp Device Import's configList.
+            elements: dict
             suboptions:
               configId:
                 description: Pnp Device Import's configId.
                 type: str
               configParameters:
                 description: Pnp Device Import's configParameters.
+                elements: dict
                 suboptions:
                   key:
                     description: Pnp Device Import's key.
@@ -804,7 +823,7 @@ options:
         type: dict
     type: list
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

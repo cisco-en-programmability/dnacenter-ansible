@@ -18,6 +18,7 @@ author: Rafael Campos (@racampos)
 options:
   device:
     description: Site Assign Device's device.
+    elements: dict
     suboptions:
       ip:
         description: Device ip (eg 10.104.240.64).
@@ -27,7 +28,7 @@ options:
     description: SiteId path parameter. Site id to which site the device to assign.
     type: str
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

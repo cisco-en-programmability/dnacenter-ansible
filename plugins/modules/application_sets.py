@@ -22,13 +22,14 @@ options:
     type: str
   payload:
     description: Application Sets's payload.
+    elements: dict
     suboptions:
       name:
         description: Name.
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

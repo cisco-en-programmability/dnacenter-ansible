@@ -23,15 +23,18 @@ options:
     type: str
   payload:
     description: App Policy Queuing Profile's payload.
+    elements: dict
     suboptions:
       clause:
         description: App Policy Queuing Profile's clause.
+        elements: dict
         suboptions:
           instanceId:
             description: Instance id.
             type: int
           interfaceSpeedBandwidthClauses:
             description: App Policy Queuing Profile's interfaceSpeedBandwidthClauses.
+            elements: dict
             suboptions:
               instanceId:
                 description: Instance id.
@@ -41,6 +44,7 @@ options:
                 type: str
               tcBandwidthSettings:
                 description: App Policy Queuing Profile's tcBandwidthSettings.
+                elements: dict
                 suboptions:
                   bandwidthPercentage:
                     description: Bandwidth percentage.
@@ -58,6 +62,7 @@ options:
             type: bool
           tcDscpSettings:
             description: App Policy Queuing Profile's tcDscpSettings.
+            elements: dict
             suboptions:
               dscp:
                 description: Dscp value.
@@ -84,7 +89,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

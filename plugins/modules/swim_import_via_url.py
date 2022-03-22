@@ -19,6 +19,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Swim Import Via Url's payload.
+    elements: dict
     suboptions:
       applicationType:
         description: Swim Import Via Url's applicationType.
@@ -47,7 +48,7 @@ options:
     description: ScheduleOrigin query parameter. Originator of this call (Optional).
     type: str
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

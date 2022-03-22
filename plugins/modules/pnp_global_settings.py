@@ -55,6 +55,7 @@ options:
     type: dict
   savaMappingList:
     description: Pnp Global Settings's savaMappingList.
+    elements: dict
     suboptions:
       autoSyncPeriod:
         description: Pnp Global Settings's autoSyncPeriod.
@@ -104,6 +105,7 @@ options:
         suboptions:
           syncList:
             description: Pnp Global Settings's syncList.
+            elements: dict
             suboptions:
               deviceSnList:
                 description: Pnp Global Settings's deviceSnList.
@@ -156,7 +158,7 @@ options:
     description: Pnp Global Settings's version.
     type: int
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

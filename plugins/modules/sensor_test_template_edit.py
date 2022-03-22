@@ -18,6 +18,7 @@ author: Rafael Campos (@racampos)
 options:
   locationInfoList:
     description: Sensor Test Template Edit's locationInfoList.
+    elements: dict
     suboptions:
       allSensors:
         description: All Sensors.
@@ -47,12 +48,14 @@ options:
         type: dict
       scheduleRange:
         description: Sensor Test Template Edit's scheduleRange.
+        elements: dict
         suboptions:
           day:
             description: Day.
             type: str
           timeRange:
             description: Sensor Test Template Edit's timeRange.
+            elements: dict
             suboptions:
               frequency:
                 description: Sensor Test Template Edit's frequency.
@@ -80,7 +83,7 @@ options:
     description: Template Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

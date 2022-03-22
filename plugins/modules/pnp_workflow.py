@@ -64,6 +64,7 @@ options:
     type: str
   tasks:
     description: Pnp Workflow's tasks.
+    elements: dict
     suboptions:
       currWorkItemIdx:
         description: Pnp Workflow's currWorkItemIdx.
@@ -91,6 +92,7 @@ options:
         type: str
       workItemList:
         description: Pnp Workflow's workItemList.
+        elements: dict
         suboptions:
           command:
             description: Pnp Workflow's command.
@@ -125,7 +127,7 @@ options:
     description: Pnp Workflow's version.
     type: int
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

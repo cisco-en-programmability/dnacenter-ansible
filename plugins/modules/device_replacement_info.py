@@ -46,10 +46,12 @@ options:
     - >
       ReplacementStatus query parameter. Device Replacement status READY-FOR-REPLACEMENT, REPLACEMENT-IN-PROGRESS,
       REPLACEMENT-SCHEDULED, REPLACED, ERROR, NETWORK_READINESS_REQUESTED, NETWORK_READINESS_FAILED.
+    elements: str
     type: list
   family:
     description:
     - Family query parameter. List of familiesRouters, Switches and Hubs, AP.
+    elements: str
     type: list
   sortBy:
     description:
@@ -68,7 +70,7 @@ options:
     - Limit query parameter.
     type: int
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

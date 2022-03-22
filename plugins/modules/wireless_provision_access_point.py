@@ -18,6 +18,7 @@ author: Rafael Campos (@racampos)
 options:
   payload:
     description: Wireless Provision Access Point's payload.
+    elements: dict
     suboptions:
       customApGroupName:
         description: Custom AP group name.
@@ -43,7 +44,7 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.6
+- dnacentersdk >= 2.4.7
 - python >= 3.5
 notes:
   - SDK Method used are

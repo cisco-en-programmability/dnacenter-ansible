@@ -31,6 +31,7 @@ argument_spec.update(dict(
     imageInfo=dict(type="dict"),
     configInfo=dict(type="dict"),
     hostname=dict(type="str"),
+    rfProfile=dict(type="str"),
 ))
 
 required_if = []
@@ -74,6 +75,7 @@ class ActionModule(ActionBase):
             imageInfo=params.get("imageInfo"),
             configInfo=params.get("configInfo"),
             hostname=params.get("hostname"),
+            rfProfile=params.get("rfProfile"),
         )
         return new_object
 
