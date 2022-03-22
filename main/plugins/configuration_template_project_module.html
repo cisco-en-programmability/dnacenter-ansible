@@ -404,7 +404,7 @@
 <h1>cisco.dnac.configuration_template_project module – Resource module for Configuration Template Project<a class="headerlink" href="#cisco-dnac-configuration-template-project-module-resource-module-for-configuration-template-project" title="Permalink to this headline"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.0.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.1.0).</p>
 <p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
 It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
 To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
@@ -441,7 +441,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
-<li><p>dnacentersdk &gt;= 2.4.6</p></li>
+<li><p>dnacentersdk &gt;= 2.4.7</p></li>
 <li><p>python &gt;= 3.5</p></li>
 </ul>
 </section>
@@ -496,7 +496,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-project-module-parameter-dnac-port"><strong>dnac_port</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The Cisco DNA Center port.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
@@ -562,7 +562,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-tags"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-project-module-parameter-tags"><strong>tags</strong></p>
-<a class="ansibleOptionLink" href="#parameter-tags" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-tags" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Configuration Template Project’s tags.</p>
 </div></td>
@@ -583,7 +583,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-templates"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-project-module-parameter-templates"><strong>templates</strong></p>
-<a class="ansibleOptionLink" href="#parameter-templates" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-templates" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>List of templates within the project.</p>
 </div></td>
@@ -609,7 +609,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-templates/containingTemplates"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-project-module-parameter-templates-containingtemplates"><strong>containingTemplates</strong></p>
-<a class="ansibleOptionLink" href="#parameter-templates/containingTemplates" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-templates/containingTemplates" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Project’s containingTemplates.</p>
 </div></td>
@@ -635,7 +635,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-templates/containingTemplates/deviceTypes"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-project-module-parameter-templates-containingtemplates-devicetypes"><strong>deviceTypes</strong></p>
-<a class="ansibleOptionLink" href="#parameter-templates/containingTemplates/deviceTypes" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-templates/containingTemplates/deviceTypes" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Project’s deviceTypes.</p>
 </div></td>
@@ -691,7 +691,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-templates/containingTemplates/rollbackTemplateParams"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-project-module-parameter-templates-containingtemplates-rollbacktemplateparams"><strong>rollbackTemplateParams</strong></p>
-<a class="ansibleOptionLink" href="#parameter-templates/containingTemplates/rollbackTemplateParams" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-templates/containingTemplates/rollbackTemplateParams" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Project’s rollbackTemplateParams.</p>
 </div></td>
@@ -813,7 +813,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-templates/containingTemplates/rollbackTemplateParams/range"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-project-module-parameter-templates-containingtemplates-rollbacktemplateparams-range"><strong>range</strong></p>
-<a class="ansibleOptionLink" href="#parameter-templates/containingTemplates/rollbackTemplateParams/range" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-templates/containingTemplates/rollbackTemplateParams/range" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Project’s range.</p>
 </div></td>
@@ -888,7 +888,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-templates/containingTemplates/tags"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-project-module-parameter-templates-containingtemplates-tags"><strong>tags</strong></p>
-<a class="ansibleOptionLink" href="#parameter-templates/containingTemplates/tags" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-templates/containingTemplates/tags" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Project’s tags.</p>
 </div></td>
@@ -916,7 +916,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-templates/containingTemplates/templateParams"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-project-module-parameter-templates-containingtemplates-templateparams"><strong>templateParams</strong></p>
-<a class="ansibleOptionLink" href="#parameter-templates/containingTemplates/templateParams" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-templates/containingTemplates/templateParams" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Project’s templateParams.</p>
 </div></td>
@@ -1038,7 +1038,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-templates/containingTemplates/templateParams/range"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-project-module-parameter-templates-containingtemplates-templateparams-range"><strong>range</strong></p>
-<a class="ansibleOptionLink" href="#parameter-templates/containingTemplates/templateParams/range" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-templates/containingTemplates/templateParams/range" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Project’s range.</p>
 </div></td>
@@ -1146,7 +1146,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-templates/deviceTypes"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-project-module-parameter-templates-devicetypes"><strong>deviceTypes</strong></p>
-<a class="ansibleOptionLink" href="#parameter-templates/deviceTypes" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-templates/deviceTypes" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Project’s deviceTypes.</p>
 </div></td>
@@ -1268,7 +1268,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-templates/rollbackTemplateParams"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-project-module-parameter-templates-rollbacktemplateparams"><strong>rollbackTemplateParams</strong></p>
-<a class="ansibleOptionLink" href="#parameter-templates/rollbackTemplateParams" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-templates/rollbackTemplateParams" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Project’s rollbackTemplateParams.</p>
 </div></td>
@@ -1390,7 +1390,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-templates/rollbackTemplateParams/range"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-project-module-parameter-templates-rollbacktemplateparams-range"><strong>range</strong></p>
-<a class="ansibleOptionLink" href="#parameter-templates/rollbackTemplateParams/range" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-templates/rollbackTemplateParams/range" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Project’s range.</p>
 </div></td>
@@ -1486,7 +1486,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-templates/tags"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-project-module-parameter-templates-tags"><strong>tags</strong></p>
-<a class="ansibleOptionLink" href="#parameter-templates/tags" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-templates/tags" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Project’s tags.</p>
 </div></td>
@@ -1514,7 +1514,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-templates/templateParams"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-project-module-parameter-templates-templateparams"><strong>templateParams</strong></p>
-<a class="ansibleOptionLink" href="#parameter-templates/templateParams" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-templates/templateParams" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Project’s templateParams.</p>
 </div></td>
@@ -1636,7 +1636,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-templates/templateParams/range"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-configuration-template-project-module-parameter-templates-templateparams-range"><strong>range</strong></p>
-<a class="ansibleOptionLink" href="#parameter-templates/templateParams/range" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-templates/templateParams/range" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Project’s range.</p>
 </div></td>
