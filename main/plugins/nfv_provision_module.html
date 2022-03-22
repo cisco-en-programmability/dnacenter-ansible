@@ -404,7 +404,7 @@
 <h1>cisco.dnac.nfv_provision module – Resource module for Nfv Provision<a class="headerlink" href="#cisco-dnac-nfv-provision-module-resource-module-for-nfv-provision" title="Permalink to this headline"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.0.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.1.0).</p>
 <p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
 It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
 To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
@@ -439,7 +439,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
-<li><p>dnacentersdk &gt;= 2.4.6</p></li>
+<li><p>dnacentersdk &gt;= 2.4.7</p></li>
 <li><p>python &gt;= 3.5</p></li>
 </ul>
 </section>
@@ -480,7 +480,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-nfv-provision-module-parameter-dnac-port"><strong>dnac_port</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The Cisco DNA Center port.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
@@ -518,21 +518,21 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provisioning"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-nfv-provision-module-parameter-provisioning"><strong>provisioning</strong></p>
-<a class="ansibleOptionLink" href="#parameter-provisioning" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-provisioning" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Nfv Provision’s provisioning.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provisioning/device"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-nfv-provision-module-parameter-provisioning-device"><strong>device</strong></p>
-<a class="ansibleOptionLink" href="#parameter-provisioning/device" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-provisioning/device" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Nfv Provision’s device.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provisioning/device/customNetworks"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-nfv-provision-module-parameter-provisioning-device-customnetworks"><strong>customNetworks</strong></p>
-<a class="ansibleOptionLink" href="#parameter-provisioning/device/customNetworks" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-provisioning/device/customNetworks" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Nfv Provision’s customNetworks.</p>
 </div></td>
@@ -574,7 +574,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provisioning/device/serviceProviders"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-nfv-provision-module-parameter-provisioning-device-serviceproviders"><strong>serviceProviders</strong></p>
-<a class="ansibleOptionLink" href="#parameter-provisioning/device/serviceProviders" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-provisioning/device/serviceProviders" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Nfv Provision’s serviceProviders.</p>
 </div></td>
@@ -630,7 +630,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provisioning/device/services"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-nfv-provision-module-parameter-provisioning-device-services"><strong>services</strong></p>
-<a class="ansibleOptionLink" href="#parameter-provisioning/device/services" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-provisioning/device/services" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Nfv Provision’s services.</p>
 </div></td>
@@ -693,7 +693,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provisioning/device/subPools"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-nfv-provision-module-parameter-provisioning-device-subpools"><strong>subPools</strong></p>
-<a class="ansibleOptionLink" href="#parameter-provisioning/device/subPools" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-provisioning/device/subPools" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Nfv Provision’s subPools.</p>
 </div></td>
@@ -777,7 +777,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-provisioning/device/vlan"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-nfv-provision-module-parameter-provisioning-device-vlan"><strong>vlan</strong></p>
-<a class="ansibleOptionLink" href="#parameter-provisioning/device/vlan" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-provisioning/device/vlan" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Nfv Provision’s vlan.</p>
 </div></td>
@@ -938,21 +938,21 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-siteProfile"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-nfv-provision-module-parameter-siteprofile"><strong>siteProfile</strong></p>
-<a class="ansibleOptionLink" href="#parameter-siteProfile" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-siteProfile" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Nfv Provision’s siteProfile.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-siteProfile/device"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-nfv-provision-module-parameter-siteprofile-device"><strong>device</strong></p>
-<a class="ansibleOptionLink" href="#parameter-siteProfile/device" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-siteProfile/device" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Nfv Provision’s device.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-siteProfile/device/customNetworks"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-nfv-provision-module-parameter-siteprofile-device-customnetworks"><strong>customNetworks</strong></p>
-<a class="ansibleOptionLink" href="#parameter-siteProfile/device/customNetworks" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-siteProfile/device/customNetworks" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Nfv Provision’s customNetworks.</p>
 </div></td>
@@ -980,7 +980,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-siteProfile/device/customNetworks/servicesToConnect"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-nfv-provision-module-parameter-siteprofile-device-customnetworks-servicestoconnect"><strong>servicesToConnect</strong></p>
-<a class="ansibleOptionLink" href="#parameter-siteProfile/device/customNetworks/servicesToConnect" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-siteProfile/device/customNetworks/servicesToConnect" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Nfv Provision’s servicesToConnect.</p>
 </div></td>
@@ -1001,7 +1001,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-siteProfile/device/customServices"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-nfv-provision-module-parameter-siteprofile-device-customservices"><strong>customServices</strong></p>
-<a class="ansibleOptionLink" href="#parameter-siteProfile/device/customServices" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-siteProfile/device/customServices" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Nfv Provision’s customServices.</p>
 </div></td>
@@ -1064,7 +1064,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-siteProfile/device/customTemplate"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-nfv-provision-module-parameter-siteprofile-device-customtemplate"><strong>customTemplate</strong></p>
-<a class="ansibleOptionLink" href="#parameter-siteProfile/device/customTemplate" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-siteProfile/device/customTemplate" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Nfv Provision’s customTemplate.</p>
 </div></td>
@@ -1104,7 +1104,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-siteProfile/device/serviceProviders"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-nfv-provision-module-parameter-siteprofile-device-serviceproviders"><strong>serviceProviders</strong></p>
-<a class="ansibleOptionLink" href="#parameter-siteProfile/device/serviceProviders" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-siteProfile/device/serviceProviders" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Nfv Provision’s serviceProviders.</p>
 </div></td>
@@ -1149,7 +1149,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-siteProfile/device/services"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-nfv-provision-module-parameter-siteprofile-device-services"><strong>services</strong></p>
-<a class="ansibleOptionLink" href="#parameter-siteProfile/device/services" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-siteProfile/device/services" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Nfv Provision’s services.</p>
 </div></td>
@@ -1226,7 +1226,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-siteProfile/device/vlan"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-nfv-provision-module-parameter-siteprofile-device-vlan"><strong>vlan</strong></p>
-<a class="ansibleOptionLink" href="#parameter-siteProfile/device/vlan" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-siteProfile/device/vlan" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Nfv Provision’s vlan.</p>
 </div></td>

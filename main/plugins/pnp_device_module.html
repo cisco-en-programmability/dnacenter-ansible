@@ -404,7 +404,7 @@
 <h1>cisco.dnac.pnp_device module – Resource module for Pnp Device<a class="headerlink" href="#cisco-dnac-pnp-device-module-resource-module-for-pnp-device" title="Permalink to this headline"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.0.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.1.0).</p>
 <p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
 It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
 To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
@@ -440,7 +440,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <h2><a class="toc-backref" href="#id3">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
-<li><p>dnacentersdk &gt;= 2.4.6</p></li>
+<li><p>dnacentersdk &gt;= 2.4.7</p></li>
 <li><p>python &gt;= 3.5</p></li>
 </ul>
 </section>
@@ -567,7 +567,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-deviceInfo/fileSystemList"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-deviceinfo-filesystemlist"><strong>fileSystemList</strong></p>
-<a class="ansibleOptionLink" href="#parameter-deviceInfo/fileSystemList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-deviceInfo/fileSystemList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Pnp Device’s fileSystemList.</p>
 </div></td>
@@ -640,7 +640,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-deviceInfo/httpHeaders"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-deviceinfo-httpheaders"><strong>httpHeaders</strong></p>
-<a class="ansibleOptionLink" href="#parameter-deviceInfo/httpHeaders" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-deviceInfo/httpHeaders" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Pnp Device’s httpHeaders.</p>
 </div></td>
@@ -675,7 +675,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-deviceInfo/ipInterfaces"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-deviceinfo-ipinterfaces"><strong>ipInterfaces</strong></p>
-<a class="ansibleOptionLink" href="#parameter-deviceInfo/ipInterfaces" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-deviceInfo/ipInterfaces" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Pnp Device’s ipInterfaces.</p>
 </div></td>
@@ -801,7 +801,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-deviceInfo/neighborLinks"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-deviceinfo-neighborlinks"><strong>neighborLinks</strong></p>
-<a class="ansibleOptionLink" href="#parameter-deviceInfo/neighborLinks" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-deviceInfo/neighborLinks" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Pnp Device’s neighborLinks.</p>
 </div></td>
@@ -885,7 +885,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-deviceinfo-pnpprofilelist"><strong>pnpProfileList</strong></p>
-<a class="ansibleOptionLink" href="#parameter-deviceInfo/pnpProfileList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-deviceInfo/pnpProfileList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Pnp Device’s pnpProfileList.</p>
 </div></td>
@@ -1028,7 +1028,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-deviceInfo/preWorkflowCliOuputs"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-deviceinfo-preworkflowcliouputs"><strong>preWorkflowCliOuputs</strong></p>
-<a class="ansibleOptionLink" href="#parameter-deviceInfo/preWorkflowCliOuputs" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-deviceInfo/preWorkflowCliOuputs" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Pnp Device’s preWorkflowCliOuputs.</p>
 </div></td>
@@ -1127,7 +1127,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/stackMemberList"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-deviceinfo-stackinfo-stackmemberlist"><strong>stackMemberList</strong></p>
-<a class="ansibleOptionLink" href="#parameter-deviceInfo/stackInfo/stackMemberList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-deviceInfo/stackInfo/stackMemberList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Pnp Device’s stackMemberList.</p>
 </div></td>
@@ -1331,7 +1331,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-dnac-port"><strong>dnac_port</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The Cisco DNA Center port.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">443</span></p>
@@ -1376,7 +1376,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-runSummaryList"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-runsummarylist"><strong>runSummaryList</strong></p>
-<a class="ansibleOptionLink" href="#parameter-runSummaryList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-runSummaryList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Pnp Device’s runSummaryList.</p>
 </div></td>
@@ -1409,7 +1409,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-runSummaryList/historyTaskInfo/addnDetails"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-runsummarylist-historytaskinfo-addndetails"><strong>addnDetails</strong></p>
-<a class="ansibleOptionLink" href="#parameter-runSummaryList/historyTaskInfo/addnDetails" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-runSummaryList/historyTaskInfo/addnDetails" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Pnp Device’s addnDetails.</p>
 </div></td>
@@ -1451,7 +1451,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-runSummaryList/historyTaskInfo/workItemList"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-runsummarylist-historytaskinfo-workitemlist"><strong>workItemList</strong></p>
-<a class="ansibleOptionLink" href="#parameter-runSummaryList/historyTaskInfo/workItemList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-runSummaryList/historyTaskInfo/workItemList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Pnp Device’s workItemList.</p>
 </div></td>
@@ -1617,7 +1617,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-systemresetworkflow-tasks"><strong>tasks</strong></p>
-<a class="ansibleOptionLink" href="#parameter-systemResetWorkflow/tasks" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-systemResetWorkflow/tasks" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Pnp Device’s tasks.</p>
 </div></td>
@@ -1680,7 +1680,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks/workItemList"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-systemresetworkflow-tasks-workitemlist"><strong>workItemList</strong></p>
-<a class="ansibleOptionLink" href="#parameter-systemResetWorkflow/tasks/workItemList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-systemResetWorkflow/tasks/workItemList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Pnp Device’s workItemList.</p>
 </div></td>
@@ -1867,7 +1867,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-systemworkflow-tasks"><strong>tasks</strong></p>
-<a class="ansibleOptionLink" href="#parameter-systemWorkflow/tasks" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-systemWorkflow/tasks" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Pnp Device’s tasks.</p>
 </div></td>
@@ -1930,7 +1930,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks/workItemList"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-systemworkflow-tasks-workitemlist"><strong>workItemList</strong></p>
-<a class="ansibleOptionLink" href="#parameter-systemWorkflow/tasks/workItemList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-systemWorkflow/tasks/workItemList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Pnp Device’s workItemList.</p>
 </div></td>
@@ -2143,7 +2143,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-workflow/tasks"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-workflow-tasks"><strong>tasks</strong></p>
-<a class="ansibleOptionLink" href="#parameter-workflow/tasks" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-workflow/tasks" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Pnp Device’s tasks.</p>
 </div></td>
@@ -2206,7 +2206,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-workflow/tasks/workItemList"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-workflow-tasks-workitemlist"><strong>workItemList</strong></p>
-<a class="ansibleOptionLink" href="#parameter-workflow/tasks/workItemList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-workflow/tasks/workItemList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Pnp Device’s workItemList.</p>
 </div></td>
@@ -2290,7 +2290,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-workflowParameters/configList"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-workflowparameters-configlist"><strong>configList</strong></p>
-<a class="ansibleOptionLink" href="#parameter-workflowParameters/configList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-workflowParameters/configList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Pnp Device’s configList.</p>
 </div></td>
@@ -2304,7 +2304,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-workflowParameters/configList/configParameters"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-module-parameter-workflowparameters-configlist-configparameters"><strong>configParameters</strong></p>
-<a class="ansibleOptionLink" href="#parameter-workflowParameters/configList/configParameters" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<a class="ansibleOptionLink" href="#parameter-workflowParameters/configList/configParameters" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Pnp Device’s configParameters.</p>
 </div></td>
