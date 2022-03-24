@@ -519,3 +519,9 @@ releases:
         - file_info - add parameter filename.
         - reports_executions_info - Instead of returning the data string, it now returns a dictionary. The dictionary has property data with the previous string value.
         - reports_executions_info - add parameter filename.
+  6.2.1:
+    release_date: "2022-03-24"
+    changes:
+      release_summary: Update README
+      bugfixes:
+        - Update README, update Compatibility matrix.
