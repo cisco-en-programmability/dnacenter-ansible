@@ -31,6 +31,11 @@ options:
     description:
     - Enable or disable automatic file creation of raw response.
     type: bool
+  filename:
+    version_added: '6.2.0'
+    description:
+    - The filename used to save the download file. It defaults to the header Content-Disposition's filename.
+    type: str
 requirements:
 - dnacentersdk >= 2.4.8
 - python >= 3.5
@@ -64,7 +69,12 @@ RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: str
+  type: dict
   sample: >
-    "'string'"
+    {
+      "data": "filecontent",
+      "filename": "filename",
+      "dirpath": "download/directory",
+      "path": "download/directory/filename"
+    }
 """
