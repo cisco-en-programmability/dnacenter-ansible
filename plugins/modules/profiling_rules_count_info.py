@@ -29,7 +29,7 @@ options:
     - IncludeDeleted query parameter. Flag to indicate whether deleted rules should be part of the records fetched.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.7
+- dnacentersdk >= 2.4.8
 - python >= 3.5
 notes:
   - SDK Method used are

@@ -24,7 +24,7 @@ options:
     - Smart_account_id path parameter. Id of smart account.
     type: str
 requirements:
-- dnacentersdk >= 2.4.7
+- dnacentersdk >= 2.4.8
 - python >= 3.5
 notes:
   - SDK Method used are
