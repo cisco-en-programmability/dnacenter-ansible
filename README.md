@@ -8,7 +8,7 @@ This collection has been tested and supports Cisco DNA Center 2.2.3.3.
 
 *Note: This collection is not compatible with versions of Ansible before v2.8.*
 
-Other versions of this collection have support for previous Cisco DNA Center versions. The recommended versions are listed below on the [Compatibility matrix](#compatibility-matrix).
+Other versions of this collection have support for previous Cisco DNA Center versions. The recommended versions are listed below on the [Compatibility matrix](https://github.com/cisco-en-programmability/dnacenter-ansible#compatibility-matrix).
 
 ## Compatibility matrix
 
@@ -16,7 +16,7 @@ Other versions of this collection have support for previous Cisco DNA Center ver
 |--------------------------|------------------------------|-------------------------------|
 | 2.1.1                    | 3.0.0                        | 2.2.5                         |
 | 2.2.2.3                  | 3.3.1                        | 2.3.3                         |
-| 2.2.3.3                  | 6.1.0                        | 2.4.7                         |
+| 2.2.3.3                  | 6.2.1                        | 2.4.8                         |
 
 *Notes*:
 
@@ -59,7 +59,7 @@ Install the collection ([Galaxy link](https://galaxy.ansible.com/cisco/dnac))
 ansible-galaxy collection install cisco.dnac
 ```
 ## Use
-First, define a `credentials.yml` ([example](playbooks/credentials.template)) file where you specify your DNA Center credentials as Ansible variables:
+First, define a `credentials.yml` ([example](https://github.com/cisco-en-programmability/dnacenter-ansible/blob/main/playbooks/credentials.template)) file where you specify your DNA Center credentials as Ansible variables:
 ```
 ---
 dnac_host: <A.B.C.D>
@@ -71,13 +71,13 @@ dnac_verify: False  # optional, defaults to True
 dnac_debug: False  # optional, defaults to False
 ```
 
-Create a `hosts` ([example](playbooks/hosts)) file that uses `[dnac_servers]` with your Cisco DNA Center Settings:
+Create a `hosts` ([example](https://github.com/cisco-en-programmability/dnacenter-ansible/blob/main/playbooks/hosts)) file that uses `[dnac_servers]` with your Cisco DNA Center Settings:
 ```
 [dnac_servers]
 dnac_server
 ```
 
-Then, create a playbook `myplaybook.yml` ([example](playbooks/tag.yml)) referencing the variables in your credentials.yml file and specifying the full namespace path to the module, plugin and/or role:
+Then, create a playbook `myplaybook.yml` ([example](https://github.com/cisco-en-programmability/dnacenter-ansible/blob/main/playbooks/tag.yml)) referencing the variables in your credentials.yml file and specifying the full namespace path to the module, plugin and/or role:
 ```
 - hosts: dnac_servers
   vars_files:
@@ -100,7 +100,7 @@ Execute the playbook:
 ```
 ansible-playbook -i hosts myplaybook.yml
 ```
-In the `playbooks` [directory](playbooks/) you can find more examples and use cases.
+In the `playbooks` [directory](https://github.com/cisco-en-programmability/dnacenter-ansible/blob/main/playbooks) you can find more examples and use cases.
 
 
 ## Update
