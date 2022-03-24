@@ -54,6 +54,7 @@ options:
         type: bool
     type: dict
   rfProfile:
+    version_added: '6.1.0'
     description: Pnp Device Claim To Site's rfProfile.
     type: str
   siteId:
