@@ -4,9 +4,11 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
         AnsibleArgSpecValidator,
@@ -28,6 +30,7 @@ argument_spec.update(dict(
     fileId=dict(type="str"),
     dirPath=dict(type="str"),
     saveFile=dict(type="bool"),
+    filename=dict(type="str"),
     headers=dict(type="dict"),
 ))
 
@@ -68,6 +71,7 @@ class ActionModule(ActionBase):
         new_object = dict(
             file_id=params.get("fileId"),
             dirpath=params.get("dirPath"),
+            filename=params.get("filename"),
             save_file=params.get("saveFile"),
             headers=params.get("headers"),
         )
@@ -85,11 +89,17 @@ class ActionModule(ActionBase):
 
         id = self._task.args.get("fileId")
         if id:
-            response = dnac.exec(
+            download_response = dnac.exec(
                 family="file",
                 function='download_a_file_by_fileid',
                 params=self.get_object(self._task.args)
-            ).data
+            )
+            response = dict(
+                data=download_response.data.decode(encoding='utf-8'),
+                filename=download_response.filename,
+                dirpath=download_response.dirpath,
+                path=download_response.path,
+            )
             self._result.update(dict(dnac_response=response))
             self._result.update(dnac.exit_json())
             return self._result
