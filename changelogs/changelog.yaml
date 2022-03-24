@@ -197,7 +197,7 @@ releases:
       minor_changes:
         - tag_membership - changes in memberToTags from list to object in the way the value is obtained.
   3.3.1:
-    release_date: '2022-02-13'
+    release_date: "2022-02-13"
     changes:
       release_summary: Add early check of status for SDA modules
       bugfixes:
@@ -215,7 +215,7 @@ releases:
         - sda_virtual_network_v2 - add early check of 'status' for module.
         - sda_virtual_network - add early check of 'status' for module.
   3.3.2:
-    release_date: '2022-02-13'
+    release_date: "2022-02-13"
     changes:
       release_summary: Add early check of status for SDA modules
       bugfixes:
@@ -454,7 +454,7 @@ releases:
       minor_changes:
         - tag_membership - Fixes module documentation
   5.1.2:
-    release_date: '2022-02-13'
+    release_date: "2022-02-13"
     changes:
       release_summary: Add early check of status for SDA modules
       bugfixes:
@@ -472,7 +472,7 @@ releases:
         - sda_virtual_network_v2 - add early check of 'status' for module.
         - sda_virtual_network - add early check of 'status' for module.
   5.2.0:
-    release_date: '2022-02-24'
+    release_date: "2022-02-24"
     changes:
       release_summary: Added siteNameHierarchy option to sda_virtual_network_ip_pool_info and sda_virtual_network_ip_pool
       minor_changes:
@@ -494,19 +494,28 @@ releases:
         - sda_virtual_network_ip_pool_info - add early check of 'status' for module when state is absent.
         - sda_virtual_network_v2 - add early check of 'status' for module when state is absent.
   6.0.0:
-    release_date: '2022-03-14'
+    release_date: "2022-03-14"
     changes:
       release_summary: Fixes update sda_fabric_border_device for Cisco DNA Center v2.2.3.3
       major_changes:
         - Update dnacentersdk requirement from 2.4.5 to 2.4.6
         - sda_fabric_border_device - changes in externalConnectivitySettings from object to list.
   6.1.0:
-    release_date: '2022-03-22'
+    release_date: "2022-03-22"
     changes:
       release_summary: Add new param on pnp_device_claim_to_site request
       minor_changes:
         - Update dnacentersdk requirement from 2.4.6 to 2.4.7
-        - Add parameter rfProfile to pnp_device_claim_to_site request.
+        - pnp_device_claim_to_site - add parameter rfProfile.
       bugfixes:
         - Fixed module documentation to have elements.
         - Fixed the type of dnac_port in the documentation from string to int.
+  6.2.0:
+    release_date: "2022-03-24"
+    changes:
+      release_summary: Change download modules response to include file details
+      minor_changes:
+        - file_info - Instead of returning the data string, it now returns a dictionary. The dictionary has property data with the previous string value.
+        - file_info - add parameter filename.
+        - reports_executions_info - Instead of returning the data string, it now returns a dictionary. The dictionary has property data with the previous string value.
+        - reports_executions_info - add parameter filename.
