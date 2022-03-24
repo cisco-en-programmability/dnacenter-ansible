@@ -54,6 +54,7 @@ options:
         type: bool
     type: dict
   rfProfile:
+    version_added: '6.1.0'
     description: Pnp Device Claim To Site's rfProfile.
     type: str
   siteId:
@@ -63,7 +64,7 @@ options:
     description: Pnp Device Claim To Site's type.
     type: str
 requirements:
-- dnacentersdk >= 2.4.7
+- dnacentersdk >= 2.4.8
 - python >= 3.5
 notes:
   - SDK Method used are

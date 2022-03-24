@@ -30,7 +30,7 @@ options:
     description: SiteId in uuid format. For Global Site "-1" to be used.
     type: str
 requirements:
-- dnacentersdk >= 2.4.7
+- dnacentersdk >= 2.4.8
 - python >= 3.5
 notes:
   - SDK Method used are
