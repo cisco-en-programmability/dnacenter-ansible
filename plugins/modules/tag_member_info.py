@@ -50,7 +50,7 @@ options:
     - Level query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.7
+- dnacentersdk >= 2.4.8
 - python >= 3.5
 notes:
   - SDK Method used are
