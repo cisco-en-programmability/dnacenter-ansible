@@ -36,7 +36,7 @@ options:
     - Name query parameter. Name of network profile to be retrieved.
     type: str
 requirements:
-- dnacentersdk >= 2.4.7
+- dnacentersdk >= 2.4.8
 - python >= 3.5
 notes:
   - SDK Method used are

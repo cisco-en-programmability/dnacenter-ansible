@@ -30,7 +30,7 @@ options:
     description: PkPassword query parameter. Private Key Passsword.
     type: str
 requirements:
-- dnacentersdk >= 2.4.7
+- dnacentersdk >= 2.4.8
 - python >= 3.5
 notes:
   - SDK Method used are
