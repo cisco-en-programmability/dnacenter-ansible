@@ -7,6 +7,30 @@ Cisco.Dnac
 
 Collection version 6.2.1
 
+.. contents::
+   :local:
+   :depth: 1
+
+Description
+-----------
+
+Ansible Modules for Cisco DNA Center
+
+**Authors:**
+
+* Rafael Campos <rcampos@altus.cr>
+* William Astorga <wastorga@altus.cr>
+* Jose Bogarin <jbogarin@altus.cr>
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+
+
 .. toctree::
     :maxdepth: 1
 
