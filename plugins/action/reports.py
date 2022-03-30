@@ -72,10 +72,10 @@ class Reports(object):
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['tags'] = self.new_object.get('tags')
-        new_object_params['deliveries'] = self.new_object.get('deliveries')
+        new_object_params['tags'] = self.new_object.get('tags') if self.new_object.get('tags')[0] is not None else list()
+        new_object_params['deliveries'] = self.new_object.get('deliveries') if self.new_object.get('deliveries')[0] is not None else list()
         new_object_params['name'] = self.new_object.get('name')
-        new_object_params['schedule'] = self.new_object.get('schedule')
+        new_object_params['schedule'] = self.new_object.get('schedule') 
         new_object_params['view'] = self.new_object.get('view')
         new_object_params['viewGroupId'] = self.new_object.get('viewGroupId')
         new_object_params['viewGroupVersion'] = self.new_object.get('viewGroupVersion')
