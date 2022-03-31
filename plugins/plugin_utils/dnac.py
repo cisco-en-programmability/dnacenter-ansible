@@ -5,6 +5,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
+
 __metaclass__ = type
 try:
     from dnacentersdk import api, exceptions
@@ -222,6 +223,16 @@ class DNACSDK(object):
     def exit_json(self):
         return self.result
 
+    def verify_array(self, verify_interface, **kwargs):
+        if isinstance(verify_interface,None) :
+            return list()
+        
+        if isinstance(verify_interface,list):
+            if len(verify_interface) == 0:
+                return list()
+            if verify_interface[0] is None:
+                return list()
+        return verify_interface
 
 def main():
     pass
