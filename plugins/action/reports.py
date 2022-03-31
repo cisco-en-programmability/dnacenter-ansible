@@ -71,15 +71,10 @@ class Reports(object):
         return new_object_params
 
     def create_params(self):
+        
         new_object_params = {}
-        if self.new_object.get('tags')[0] is not None:
-            new_object_params['tags'] = self.new_object.get('tags')
-        else:
-            new_object_params['tags'] = list()
-        if self.new_object.get('deliveries')[0] is not None:
-            new_object_params['deliveries'] = self.new_object.get('deliveries')
-        else:
-            new_object_params['deliveries'] = list()
+        new_object_params['tags'] = self.dnac.verify_array((self.new_object.get('tags')))
+        new_object_params['deliveries'] = self.dnac.verify_array(self.new_object.get('deliveries'))
         new_object_params['name'] = self.new_object.get('name')
         new_object_params['schedule'] = self.new_object.get('schedule')
         new_object_params['view'] = self.new_object.get('view')
