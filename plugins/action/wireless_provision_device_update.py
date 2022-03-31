@@ -26,6 +26,7 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     payload=dict(type="list"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -64,6 +65,8 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             payload=params.get("payload"),
+            headers=params.get("headers") if params.get("headers") is not None
+            else dict(__persistbapioutput='true'),
         )
         return new_object
 
