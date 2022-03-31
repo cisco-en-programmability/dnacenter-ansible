@@ -17,6 +17,7 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   headers:
+    version_added: '6.3.0'
     description: Additional headers.
     type: dict
   payload:
