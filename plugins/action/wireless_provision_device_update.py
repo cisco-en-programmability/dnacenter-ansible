@@ -63,7 +63,6 @@ class ActionModule(ActionBase):
             raise AnsibleActionFail(errors)
 
     def get_object(self, params):
-        
         new_object = dict(
             payload=params.get("payload"),
             headers=params.get("headers") if params.get("headers") is not None
