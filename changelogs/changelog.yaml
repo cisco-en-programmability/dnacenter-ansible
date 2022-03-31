@@ -525,3 +525,10 @@ releases:
       release_summary: Update README
       bugfixes:
         - Update README, update Compatibility matrix.
+  6.3.0:
+    release_date: "2022-03-31"
+    changes:
+      release_summary: Adds headers parameter to wireless provision device update.
+      minor_changes:
+        - Adds ``headers`` parameter to wireless provision device update.
+        - reports - `tag` and `deliveries` now support empty format
