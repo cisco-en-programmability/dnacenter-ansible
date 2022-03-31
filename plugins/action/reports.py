@@ -71,7 +71,6 @@ class Reports(object):
         return new_object_params
 
     def create_params(self):
-        
         new_object_params = {}
         new_object_params['tags'] = self.dnac.verify_array((self.new_object.get('tags')))
         new_object_params['deliveries'] = self.dnac.verify_array(self.new_object.get('deliveries'))
