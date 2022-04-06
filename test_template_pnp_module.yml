@@ -1,0 +1,62 @@
+- hosts: dnac_servers
+  vars_files:
+    - credentials_dnac.yml
+  gather_facts: no
+  connection: local
+  tasks:
+#
+# Project Info  Section
+#
+
+    - name: Test project template      
+      cisco.dnac.template_module:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        state: "merged"
+        config:
+        - project_name: "Onboarding Configuration"
+          template_content: "hostname TEST\n"
+          language: "velocity"
+          device_types:
+          - productFamily: "Switches and Hubs"
+          software_type: "IOS-XE"
+          software_variant: "XE"
+          template_name: "ANSIBLE-TEST"
+          version_description: "MS Test Template"
+          template_tag: "Ansible Template"
+      register: project_result
+      tags:
+        - template
+
+    - name: Create pnp
+      cisco.dnac.pnp_module:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_debug: "{{dnac_debug}}"
+        config:
+        - type: "building"
+          site:
+            building:
+              latitude: 12.93570674358 
+              longitude: 80.24982195822832
+              name: "MS_Test_1"
+              parentName: "Global/Chennai"
+          project_name: "Onboarding Configuration" 
+          template_name: "ANSIBLE-TEST"
+          #golden_image: True
+          image_name: "cat9k_iosxe.17.04.01.SPA.bin"
+          device_version: 2
+          deviceInfo:
+            serialNumber: RC2425L8M7 
+            name: RC2425L8M7
+            state: Unclaimed
+            pid: C9300-25UX
+      tags:
+        - pnp
