@@ -44,6 +44,7 @@ class DnacTemplate:
         dnac_params = self.get_dnac_params(self.params)
         log(str(dnac_params))
         self.dnac = DNACSDK(params=dnac_params)
+        self.log = dnac_params.get("dnac_log")
 
         self.result = dict(changed=False, diff=[], response=[], warnings=[])
 
@@ -76,9 +77,10 @@ class DnacTemplate:
                 )
                 self.module.fail_json(msg=msg)
 
-            log(str(valid_temp))
             self.validated = valid_temp
-            log(str(self.validated))
+            if self.log:
+                log(str(valid_temp))
+                log(str(self.validated))
 
 
     def get_dnac_params(self, params):
@@ -89,6 +91,7 @@ class DnacTemplate:
             dnac_password=params.get("dnac_password"),
             dnac_verify=params.get("dnac_verify"),
             dnac_debug=params.get("dnac_debug"),
+            dnac_log=params.get("dnac_log")
         )
         return dnac_params
 
@@ -150,7 +153,8 @@ class DnacTemplate:
             )
             if items:
                 result = items
-                log(str(items))
+                if self.log:
+                    log(str(items))
 
         self.result['response'] = items 
         return result
@@ -172,7 +176,8 @@ class DnacTemplate:
                 if template_details:
                     temp["templateId"] = template_details.get("templateId")
                     prev_obj = self.get_template()
-                    log(str(prev_obj))
+                    if self.log:
+                        log(str(prev_obj))
 
                 temp_exists = prev_obj is not None and isinstance(prev_obj, dict)
                 return(temp_exists, prev_obj)
@@ -185,37 +190,36 @@ class DnacTemplate:
             requested_obj = self.get_temp_params(temp)
 
             obj_params = [
-                ("tags", "tags"),
-                ("author", "author"),
-                ("composite", "composite"),
-                ("containingTemplates", "containingTemplates"),
-                ("createTime", "createTime"),
-                ("customParamsOrder", "customParamsOrder"),
-                ("description", "description"),
-                ("deviceTypes", "deviceTypes"),
-                ("failurePolicy", "failurePolicy"),
-                ("id", "id"),
-                ("language", "language"),
-                ("lastUpdateTime", "lastUpdateTime"),
-                ("latestVersionTime", "latestVersionTime"),
-                ("name", "name"),
-                ("parentTemplateId", "parentTemplateId"),
-                ("projectId", "projectId"),
-                ("projectName", "projectName"),
-                ("rollbackTemplateContent", "rollbackTemplateContent"),
-                ("rollbackTemplateParams", "rollbackTemplateParams"),
-                ("softwareType", "softwareType"),
-                ("softwareVariant", "softwareVariant"),
-                ("softwareVersion", "softwareVersion"),
-                ("templateContent", "templateContent"),
-                ("templateParams", "templateParams"),
-                ("validationErrors", "validationErrors"),
-                ("version", "version"),
-                #("templateId", "template_id"),
+                ("tags", "tags", ""),
+                ("author", "author", ""),
+                ("composite", "composite", False),
+                ("containingTemplates", "containingTemplates", []),
+                ("createTime", "createTime", ""),
+                ("customParamsOrder", "customParamsOrder", False),
+                ("description", "description", ""),
+                ("deviceTypes", "deviceTypes", []),
+                ("failurePolicy", "failurePolicy", ""),
+                ("id", "id", ""),
+                ("language", "language", "VELOCITY"),
+                ("lastUpdateTime", "lastUpdateTime", ""),
+                ("latestVersionTime", "latestVersionTime", ""),
+                ("name", "name", ""),
+                ("parentTemplateId", "parentTemplateId", ""),
+                ("projectId", "projectId", ""),
+                ("projectName", "projectName", ""),
+                ("rollbackTemplateContent", "rollbackTemplateContent", ""),
+                ("rollbackTemplateParams", "rollbackTemplateParams", []),
+                ("softwareType", "softwareType", ""),
+                ("softwareVariant", "softwareVariant", ""),
+                ("softwareVersion", "softwareVersion", ""),
+                ("templateContent", "templateContent", ""),
+                ("templateParams", "templateParams", []),
+                ("validationErrors", "validationErrors", {}),
+                ("version", "version", ""),
             ]
-            return any(not dnac_compare_equality(current_obj.get(dnac_param),
+            return any(not dnac_compare_equality(current_obj.get(dnac_param, default),
                                                  requested_obj.get(ansible_param))
-                       for (dnac_param, ansible_param) in obj_params)
+                       for (dnac_param, ansible_param, default) in obj_params)
 
     def version_template(self):
             
@@ -227,8 +231,8 @@ class DnacTemplate:
                 params=self.get_version_params(temp)
             )
  
-
-        log("Template Committed")
+        if self.log:
+            log("Template Committed")
         self.result['changed'] = True
         self.result['response'] = response
         self.result['diff'] = self.validated
@@ -243,7 +247,8 @@ class DnacTemplate:
                 op_modifies=True,
             )
 
-        log("Updating Existing Template")
+        if self.log:
+            log("Updating Existing Template")
         self.version_template()
         self.dnac.object_updated()
 
@@ -258,7 +263,8 @@ class DnacTemplate:
 
             temp["projectId"] = items[0].get("id")
 
-        log(str(self.validated))
+        if self.log:
+            log(str(self.validated))
 
     def get_task_details(self, id):
         result = None
@@ -267,6 +273,8 @@ class DnacTemplate:
             function='get_task_by_id',
             params={"task_id":id},
         )
+        if self.log:
+            log(str(response))
         if isinstance(response, dict):
             result = response.get("response")
         return result
@@ -283,22 +291,30 @@ class DnacTemplate:
                 op_modifies=True,
                 params=self.get_temp_params(temp),
             )
-            time.sleep(10) 
-            log("Template created. Get template_id for versioning")
+            if self.log:
+                log("Template created. Get template_id for versioning")
             if isinstance(response, dict):
+                create_error = False
+                task_details = {}
                 task_id = response.get("response").get("taskId")
                 if task_id:
-                    task_details = self.get_task_details(task_id)
-                    log(str(task_details))
-                    if task_details and isinstance(task_details, dict) \
-                        and (task_details.get("isError")==False):
+                    while(True):
+                        task_details = self.get_task_details(task_id)
+                        if task_details and (task_details.get("isError")==True):
+                            create_error = True
+                            break
+                        if task_details and \
+                            ("Successfully created template" in task_details.get("progress")):
+                            break
+                    if not create_error:
                         template_id = task_details.get("data")
             if template_id:
                 temp["templateId"] = template_id
                 self.version_template()
                 self.dnac.object_created()
-
-        log(str(self.validated))
+        
+        if self.log:
+            log(str(self.validated))
 
     def delete_template(self):
         for temp in self.validated:
@@ -324,6 +340,7 @@ def main():
         dnac_password=dict(required=False, type='str', no_log=True),
         dnac_verify=dict(required=False, type='bool', default='False'),
         dnac_debug=dict(required=False, type='bool', default='False'),
+        dnac_log=dict(required=False, type='bool', default='False'),
         config=dict(required=False, type='list', elements='dict'),
         state=dict(default='merged',
             choices=['merged', 'delete', 'query']),
@@ -347,11 +364,10 @@ def main():
             if dnac_template.requires_update(prev_template):
                 dnac_template.update()
             else:
-                log("Template does not need update")
+                #Template does not need update
                 dnac_template.result['response'] = prev_template
                 module.exit_json(msg="Template does not need update")
         else:
-            log("Create new template")
             dnac_template.create_template()
 
     elif state == "query":

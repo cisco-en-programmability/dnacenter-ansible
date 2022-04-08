@@ -1,6 +1,6 @@
 - hosts: dnac_servers
   vars_files:
-    - credentials_dnac.yml
+    - credentials.yml
   gather_facts: no
   connection: local
   tasks:
@@ -16,6 +16,7 @@
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
         state: "merged"
         config:
         - project_name: "Onboarding Configuration"
@@ -26,7 +27,7 @@
           software_type: "IOS-XE"
           software_variant: "XE"
           template_name: "ANSIBLE-TEST"
-          version_description: "MS Test Template"
+          version_description: "Test Template"
           template_tag: "Ansible Template"
       register: project_result
       tags:
@@ -40,6 +41,7 @@
         dnac_verify: "{{dnac_verify}}"
         dnac_port: "{{dnac_port}}"
         dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
         config:
         - type: "building"
           site:
