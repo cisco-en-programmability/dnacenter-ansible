@@ -132,8 +132,6 @@ class DnacPnp:
             deviceId=params.get("deviceId"),
             siteId=params.get("siteId"),
             type=params.get("pnp_type"),
-            #imageInfo={},
-            #configInfo={},
             imageInfo=params.get("imageInfo"),
             configInfo=params.get("configInfo"),
             hostname=params.get("hostname"),
