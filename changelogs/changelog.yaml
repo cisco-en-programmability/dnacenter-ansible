@@ -532,3 +532,9 @@ releases:
       minor_changes:
         - Adds ``headers`` parameter to wireless provision device update.
         - reports - `tag` and `deliveries` now support empty format
+  6.4.0:
+    release_date: "2022-04-20"
+    changes:
+      release_summary: Adds parameters to pnp_device_claim_to_site.
+      minor_changes:
+        - Adds following ``parameters`` to pnp_device_claim_to_site, gateway, imageId, ipInterfaceName, staticIP, subnetMask, vlanId

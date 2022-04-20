@@ -38,9 +38,16 @@ options:
   deviceId:
     description: Pnp Device Claim To Site's deviceId.
     type: str
+  gateway:
+    version_added: '6.4.0'
+    description: Pnp Device Claim To Site's gateway.
+    type: str
   hostname:
     version_added: '4.2.0'
     description: Pnp Device Claim To Site's hostname.
+    type: str
+  imageId:
+    description: Pnp Device Claim To Site's imageId.
     type: str
   imageInfo:
     version_added: '4.2.0'
@@ -49,10 +56,18 @@ options:
       imageId:
         description: Pnp Device Claim To Site's imageId.
         type: str
+      removeInactive:
+        version_added: '6.4.0'
+        description: RemoveInactive flag.
+        type: bool
       skip:
         description: Skip flag.
         type: bool
     type: dict
+  ipInterfaceName:
+    version_added: '6.4.0'
+    description: Pnp Device Claim To Site's ipInterfaceName.
+    type: str
   rfProfile:
     version_added: '6.1.0'
     description: Pnp Device Claim To Site's rfProfile.
@@ -60,11 +75,22 @@ options:
   siteId:
     description: Pnp Device Claim To Site's siteId.
     type: str
+  staticIP:
+    version_added: '6.4.0'
+    description: Pnp Device Claim To Site's staticIP.
+    type: str
+  subnetMask:
+    description: Pnp Device Claim To Site's subnetMask.
+    type: str
   type:
     description: Pnp Device Claim To Site's type.
     type: str
+  vlanId:
+    version_added: '6.4.0'
+    description: Pnp Device Claim To Site's vlanId.
+    type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 notes:
   - SDK Method used are
@@ -91,13 +117,20 @@ EXAMPLES = r"""
       - key: string
         value: string
     deviceId: string
+    gateway: string
     hostname: string
+    imageId: string
     imageInfo:
       imageId: string
+      removeInactive: true
       skip: true
-    siteId: string
+    ipInterfaceName: string
     rfProfile: string
+    siteId: string
+    staticIP: string
+    subnetMask: string
     type: string
+    vlanId: string
 
 """
 
