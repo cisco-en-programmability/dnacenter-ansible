@@ -32,7 +32,7 @@ options:
       'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 notes:
   - SDK Method used are

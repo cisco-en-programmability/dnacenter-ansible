@@ -24,7 +24,7 @@ options:
     - InstanceId query parameter. Instance Id of the failed event as in the Runtime Dashboard.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 notes:
   - SDK Method used are
