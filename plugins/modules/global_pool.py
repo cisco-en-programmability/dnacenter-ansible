@@ -48,7 +48,7 @@ options:
         type: list
     type: dict
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 notes:
   - SDK Method used are

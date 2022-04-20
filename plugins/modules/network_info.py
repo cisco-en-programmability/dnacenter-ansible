@@ -24,7 +24,7 @@ options:
     - SiteId query parameter. Site id to get the network settings associated with the site.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 notes:
   - SDK Method used are

@@ -44,7 +44,7 @@ options:
     - The filename used to save the download file. It defaults to the header Content-Disposition's filename.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 notes:
   - SDK Method used are
