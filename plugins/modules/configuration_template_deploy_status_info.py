@@ -24,7 +24,7 @@ options:
     - DeploymentId path parameter. UUID of deployment to retrieve template deployment status.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 notes:
   - SDK Method used are

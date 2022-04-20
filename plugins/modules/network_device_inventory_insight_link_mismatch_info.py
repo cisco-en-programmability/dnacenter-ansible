@@ -44,7 +44,7 @@ options:
     - Order query parameter. Order. Value can be asc or desc. Default value is asc.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 notes:
   - SDK Method used are

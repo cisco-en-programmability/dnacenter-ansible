@@ -28,7 +28,7 @@ options:
     - RecordsToReturn path parameter. Number of records to return.
     type: int
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 notes:
   - SDK Method used are

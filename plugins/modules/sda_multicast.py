@@ -49,7 +49,7 @@ options:
     description: Full path of sda fabric siteNameHierarchy.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 notes:
   - SDK Method used are
