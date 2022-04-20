@@ -405,7 +405,7 @@
 <h1>cisco.dnac.pnp_device_claim_to_site module – Resource module for Pnp Device Claim To Site<a class="headerlink" href="#cisco-dnac-pnp-device-claim-to-site-module-resource-module-for-pnp-device-claim-to-site" title="Permalink to this headline"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.3.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.4.0).</p>
 <p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
 It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
 To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
@@ -440,7 +440,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
-<li><p>dnacentersdk &gt;= 2.4.8</p></li>
+<li><p>dnacentersdk &gt;= 2.4.9</p></li>
 <li><p>python &gt;= 3.5</p></li>
 </ul>
 </section>
@@ -561,11 +561,26 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-gateway"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-claim-to-site-module-parameter-gateway"><strong>gateway</strong></p>
+<a class="ansibleOptionLink" href="#parameter-gateway" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<p><span class="ansible-option-versionadded">added in 6.4.0 of cisco.dnac</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Pnp Device Claim To Site’s gateway.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-hostname"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-claim-to-site-module-parameter-hostname"><strong>hostname</strong></p>
 <a class="ansibleOptionLink" href="#parameter-hostname" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 <p><span class="ansible-option-versionadded">added in 4.2.0 of cisco.dnac</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Pnp Device Claim To Site’s hostname.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-imageId"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-claim-to-site-module-parameter-imageid"><strong>imageId</strong></p>
+<a class="ansibleOptionLink" href="#parameter-imageId" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Pnp Device Claim To Site’s imageId.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -584,6 +599,19 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-imageInfo/removeInactive"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-claim-to-site-module-parameter-imageinfo-removeinactive"><strong>removeInactive</strong></p>
+<a class="ansibleOptionLink" href="#parameter-imageInfo/removeInactive" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+<p><span class="ansible-option-versionadded">added in 6.4.0 of cisco.dnac</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>RemoveInactive flag.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><span class="ansible-option-choices-entry">no</span></p></li>
+<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-imageInfo/skip"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-claim-to-site-module-parameter-imageinfo-skip"><strong>skip</strong></p>
 <a class="ansibleOptionLink" href="#parameter-imageInfo/skip" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -593,6 +621,14 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <li><p><span class="ansible-option-choices-entry">no</span></p></li>
 <li><p><span class="ansible-option-choices-entry">yes</span></p></li>
 </ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-ipInterfaceName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-claim-to-site-module-parameter-ipinterfacename"><strong>ipInterfaceName</strong></p>
+<a class="ansibleOptionLink" href="#parameter-ipInterfaceName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<p><span class="ansible-option-versionadded">added in 6.4.0 of cisco.dnac</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Pnp Device Claim To Site’s ipInterfaceName.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -608,6 +644,21 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <a class="ansibleOptionLink" href="#parameter-siteId" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Pnp Device Claim To Site’s siteId.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-staticIP"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-claim-to-site-module-parameter-staticip"><strong>staticIP</strong></p>
+<a class="ansibleOptionLink" href="#parameter-staticIP" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<p><span class="ansible-option-versionadded">added in 6.4.0 of cisco.dnac</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Pnp Device Claim To Site’s staticIP.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-subnetMask"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-claim-to-site-module-parameter-subnetmask"><strong>subnetMask</strong></p>
+<a class="ansibleOptionLink" href="#parameter-subnetMask" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Pnp Device Claim To Site’s subnetMask.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -627,6 +678,14 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <li><p><span class="ansible-option-choices-entry">no</span></p></li>
 <li><p><span class="ansible-option-default-bold">yes</span> <span class="ansible-option-default">← (default)</span></p></li>
 </ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-vlanId"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-pnp-device-claim-to-site-module-parameter-vlanid"><strong>vlanId</strong></p>
+<a class="ansibleOptionLink" href="#parameter-vlanId" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<p><span class="ansible-option-versionadded">added in 6.4.0 of cisco.dnac</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Pnp Device Claim To Site’s vlanId.</p>
 </div></td>
 </tr>
 </tbody>
@@ -662,13 +721,20 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
 <span class="w">        </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
 <span class="w">    </span><span class="nt">deviceId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">    </span><span class="nt">gateway</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
 <span class="w">    </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">    </span><span class="nt">imageId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
 <span class="w">    </span><span class="nt">imageInfo</span><span class="p">:</span><span class="w"></span>
 <span class="w">      </span><span class="nt">imageId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">      </span><span class="nt">removeInactive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
 <span class="w">      </span><span class="nt">skip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
-<span class="w">    </span><span class="nt">siteId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">    </span><span class="nt">ipInterfaceName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
 <span class="w">    </span><span class="nt">rfProfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">    </span><span class="nt">siteId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">    </span><span class="nt">staticIP</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">    </span><span class="nt">subnetMask</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
 <span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
+<span class="w">    </span><span class="nt">vlanId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
