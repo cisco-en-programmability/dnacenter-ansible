@@ -1,13 +1,13 @@
 - hosts: dnac_servers
   vars_files:
-    - credentials.yml
+    - credentials_dnac.yml
+    - device_details.yml
   gather_facts: no
   connection: local
   tasks:
 #
 # Project Info  Section
 #
-
     - name: Test project template      
       cisco.dnac.template_module:
         dnac_host: "{{ dnac_host }}"
@@ -18,20 +18,22 @@
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: True
         state: "merged"
+        #ignore_errors: true        #Enable this to continue execution even the task fails
         config:
-        - project_name: "Onboarding Configuration"
-          template_content: "hostname TEST\n"
-          language: "velocity"
+        - project_name: "{{ item.proj_name }}"
+          template_content: "{{ item.device_config }}"
+          language: "{{ item.language }}"
           device_types:
-          - productFamily: "Switches and Hubs"
-          software_type: "IOS-XE"
-          software_variant: "XE"
-          template_name: "ANSIBLE-TEST"
-          version_description: "Test Template"
-          template_tag: "Ansible Template"
-      register: project_result
+          - productFamily: "{{ item.family }}"
+          software_type: "{{ item.type }}"
+          software_variant: "{{ item.variant }}"
+          template_name: "{{ item.temp_name }}"
+          version_description: "{{ item.description }}"
+      register: template_result
+      with_items: '{{ template_details }}'
       tags:
         - template
+
 
     - name: Create pnp
       cisco.dnac.pnp_module:
@@ -43,22 +45,24 @@
         dnac_debug: "{{dnac_debug}}"
         dnac_log: True
         config:
-        - type: "building"
+        - type: "{{ item.site_type }}"
           site:
             building:
-              latitude: 12.93570674358 
-              longitude: 80.24982195822832
-              name: "MS_Test_1"
-              parentName: "Global/Chennai"
-          project_name: "Onboarding Configuration" 
-          template_name: "ANSIBLE-TEST"
+              latitude: "{{ item.bld_lat }}"
+              longitude: "{{ item.bld_long }}"
+              name: "{{ item.bld_name }}"
+              parentName: "{{ item.site_name }}"
+          project_name: "{{ item.proj_name }}"
+          template_name: "{{ item.temp_name }}"
           #golden_image: True
-          image_name: "cat9k_iosxe.17.04.01.SPA.bin"
-          device_version: 2
+          image_name: "{{ item.image_name }}"
+          device_version: "{{ item.device_version }}"
           deviceInfo:
-            serialNumber: RC2425L8M7 
-            name: RC2425L8M7
-            state: Unclaimed
-            pid: C9300-25UX
+            serialNumber: "{{ item.device_number }}"
+            hostname: "{{ item.device_name}}"
+            state: "{{ item.device_state }}"
+            pid: "{{ item.device_id }}"
+      register: pnp_result
+      with_items: '{{ device_details }}'
       tags:
         - pnp
