@@ -10,7 +10,7 @@ module: projects_details_info
 short_description: Information module for Projects Details
 description:
 - Get all Projects Details.
-- Get project(s) details.
+- Get projects details.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -61,8 +61,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     id: string
     name: string
     offset: 0

@@ -10,7 +10,9 @@ module: device_health_info
 short_description: Information module for Device Health
 description:
 - Get all Device Health.
-- Intent API for accessing DNA Assurance Device object for generating reports, creating dashboards or creating additional value added services.
+- >
+   Intent API for accessing DNA Assurance Device object for generating reports, creating dashboards or creating
+   additional value added services.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -69,8 +71,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceRole: string
     siteId: string
     health: string

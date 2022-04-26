@@ -26,6 +26,7 @@ options:
     suboptions:
       ippool:
         description: Global Pool's ippool.
+        elements: dict
         suboptions:
           dhcpServerIps:
             description: Dhcp Server Ips.
@@ -44,7 +45,6 @@ options:
           ipPoolName:
             description: Ip Pool Name.
             type: str
-        elements: dict
         type: list
     type: dict
 requirements:

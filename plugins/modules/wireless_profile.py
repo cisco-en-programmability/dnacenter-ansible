@@ -12,7 +12,9 @@ description:
 - Manage operations create, update and delete of the resource Wireless Profile.
 - Creates Wireless Network Profile on DNAC and associates sites and SSIDs to it.
 - Delete the Wireless Profile from DNAC whose name is provided.
-- Updates the wireless Network Profile with updated details provided. All sites to be present in the network profile should be provided.
+- >
+   Updates the wireless Network Profile with updated details provided. All sites to be present in the network profile
+   should be provided.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

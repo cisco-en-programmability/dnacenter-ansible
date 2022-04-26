@@ -165,10 +165,10 @@ EXAMPLES = r"""
       indicativeNetworkIdentity:
       - displayName: string
         id: string
-        lowerPort: 1
+        lowerPort: 0
         ports: string
         protocol: string
-        upperPort: 1
+        upperPort: 0
       name: string
       networkApplications:
       - appProtocol: string

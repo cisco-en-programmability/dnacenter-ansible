@@ -12,6 +12,7 @@ description:
 - Manage operations create, update and delete of the resource Pnp Device.
 - Adds a device to the PnP database.
 - Deletes specified device from PnP database.
+- Updates device details specified by device id in PnP database.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -833,6 +834,7 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/onboarding/pnp-device,
     delete /dna/intent/api/v1/onboarding/pnp-device/{id},
+    put /dna/intent/api/v1/onboarding/pnp-device/{id},
 
 """
 

@@ -18,42 +18,42 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   authenticateTemplateName:
-    version_added: "4.0.0"
     description: Authenticate TemplateName associated to siteNameHierarchy. Allowed
       values are 'Open Authentication', 'Closed Authentication', 'Low Impact', 'No Authentication',
       ''.
     type: str
+    version_added: 4.0.0
   dataIpAddressPoolName:
-    version_added: "4.0.0"
     description: Ip Pool Name, that is assigned to virtual network with traffic type
       as DATA(can't be empty if voiceIpAddressPoolName is empty).
     type: str
+    version_added: 4.0.0
   deviceManagementIpAddress:
     description: DeviceManagementIpAddress query parameter.
     type: str
   interfaceDescription:
-    version_added: "4.0.0"
     description: Details or note of interface assignment.
     type: str
+    version_added: 4.0.0
   interfaceName:
     description: InterfaceName query parameter.
     type: str
   scalableGroupName:
-    version_added: "4.0.0"
     description: Valid name of a scalable group associated with virtual network(Scalable
       groups are only supported on No Auth profile because the other profiles assign
       SGTs from ISE).
     type: str
+    version_added: 4.0.0
   siteNameHierarchy:
-    version_added: "4.0.0"
     description: Site Name Hierarchy should be a valid fabric site name hierarchy. E.g
       Global/USA/San Jose.
     type: str
+    version_added: 4.0.0
   voiceIpAddressPoolName:
-    version_added: "4.0.0"
     description: Ip Pool Name, that is assigned to virtual network with traffic type
       as VOICE(can't be empty if dataIpAddressPoolName is emty).
     type: str
+    version_added: 4.0.0
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5

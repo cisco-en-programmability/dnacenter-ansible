@@ -10,7 +10,7 @@ module: global_credential_update
 short_description: Resource module for Global Credential Update
 description:
 - Manage operation update of the resource Global Credential Update.
-- Update global credential for network devices in site(s).
+- Update global credential for network devices in sites.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,7 +31,7 @@ notes:
     discovery.Discovery.update_global_credentials,
 
   - Paths used are
-    put /dna/intent/api/v1/global-credential/{globalCredentialId}
+    put /dna/intent/api/v1/global-credential/{globalCredentialId},
 
 """
 

@@ -10,7 +10,7 @@ module: app_policy_queuing_profile_count_info
 short_description: Information module for App Policy Queuing Profile Count
 description:
 - Get all App Policy Queuing Profile Count.
-- Get the number of all existing  application policy queuing profile.
+- Get the number of all existing application policy queuing profile.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -41,8 +41,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
   register: result
 
 """

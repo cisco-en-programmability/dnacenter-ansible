@@ -11,7 +11,7 @@ short_description: Resource module for Wireless Rf Profile
 description:
 - Manage operations create and delete of the resource Wireless Rf Profile.
 - Create or Update RF profile.
-- Delete RF profile(s).
+- Delete RF profiles.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

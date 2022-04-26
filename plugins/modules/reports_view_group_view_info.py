@@ -10,8 +10,9 @@ module: reports_view_group_view_info
 short_description: Information module for Reports View Group View
 description:
 - Get Reports View Group View by id.
-- Gives complete information of the view that is required to configure a report.
-  Use "Get views for a given view group" API to get the viewIds required as a query param for this API for available views.
+- >
+   Gives complete information of the view that is required to configure a report. Use "Get views for a given view
+   group" API to get the viewIds required as a query param for this API for available views.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -50,8 +51,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     viewGroupId: string
     viewId: string
   register: result

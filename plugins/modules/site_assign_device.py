@@ -24,6 +24,9 @@ options:
         description: Device ip (eg 10.104.240.64).
         type: str
     type: list
+  headers:
+    description: Additional headers.
+    type: dict
   siteId:
     description: SiteId path parameter. Site id to which site the device to assign.
     type: str
@@ -51,6 +54,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     device:
     - ip: string
+    headers: '{{my_headers | from_json}}'
     siteId: string
 
 """

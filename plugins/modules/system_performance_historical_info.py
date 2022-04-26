@@ -10,7 +10,7 @@ module: system_performance_historical_info
 short_description: Information module for System Performance Historical
 description:
 - Get all System Performance Historical.
-- This API retrieves the historical performance indicators . The data can be retrieved for the last 3 months.
+- This API retrieves the historical performance indicators. The data can be retrieved for the last 3 months.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -57,8 +57,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     kpi: string
     startTime: 0
     endTime: 0

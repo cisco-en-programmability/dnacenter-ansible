@@ -10,8 +10,9 @@ module: qos_device_interface
 short_description: Resource module for Qos Device Interface
 description:
 - Manage operations create, update and delete of the resource Qos Device Interface.
-- Create qos device interface infos associate with network device id to allow the user to mark specific interfaces as WAN,
-  to associate WAN interfaces with specific SP Profile and to be able to define a shaper on WAN interfaces.
+- >
+   Create qos device interface infos associate with network device id to allow the user to mark specific interfaces
+   as WAN, to associate WAN interfaces with specific SP Profile and to be able to define a shaper on WAN interfaces.
 - Delete all qos device interface infos associate with network device id.
 - Update existing qos device interface infos associate with network device id.
 version_added: '4.0.0'
@@ -103,13 +104,13 @@ EXAMPLES = r"""
       networkDeviceId: string
       qosDeviceInterfaceInfo:
       - dmvpnRemoteSitesBw:
-        - 1
-        instanceId: 1
+        - 0
+        instanceId: 0
         interfaceId: string
         interfaceName: string
         label: string
         role: string
-        uploadBW: 1
+        uploadBW: 0
 
 - name: Create
   cisco.dnac.qos_device_interface:
@@ -128,12 +129,12 @@ EXAMPLES = r"""
       networkDeviceId: string
       qosDeviceInterfaceInfo:
       - dmvpnRemoteSitesBw:
-        - 1
+        - 0
         interfaceId: string
         interfaceName: string
         label: string
         role: string
-        uploadBW: 1
+        uploadBW: 0
 
 - name: Delete by id
   cisco.dnac.qos_device_interface:

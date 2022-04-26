@@ -10,7 +10,9 @@ module: discovery_device_count_info
 short_description: Information module for Discovery Device Count
 description:
 - Get all Discovery Device Count.
-- Returns the count of network devices discovered in the given discovery. Discovery ID can be obtained using the "Get Discoveries by range" API.
+- >
+   Returns the count of network devices discovered in the given discovery. Discovery ID can be obtained using the
+   "Get Discoveries by range" API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -49,8 +51,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     taskId: string
     id: string
   register: result

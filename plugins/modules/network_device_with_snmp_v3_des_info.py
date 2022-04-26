@@ -10,7 +10,9 @@ module: network_device_with_snmp_v3_des_info
 short_description: Information module for Network Device With Snmp V3 Des
 description:
 - Get all Network Device With Snmp V3 Des.
-- Returns devices added to DNAC with snmp v3 DES, where siteId is mandatory & accepts offset, limit, sortby, order which are optional.
+- >
+   Returns devices added to DNAC with snmp v3 DES, where siteId is mandatory & accepts offset, limit, sortby, order
+   which are optional.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -61,8 +63,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     offset: string
     limit: string
     sortBy: string

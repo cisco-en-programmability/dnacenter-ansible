@@ -10,7 +10,9 @@ module: issues_info
 short_description: Information module for Issues
 description:
 - Get all Issues.
-- Intent API to get a list of global issues, issues for a specific device, or issue for a specific client device's MAC address.
+- >
+   Intent API to get a list of global issues, issues for a specific device, or issue for a specific client device's
+   MAC address.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -77,8 +79,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     startTime: 0
     endTime: 0
     siteId: string

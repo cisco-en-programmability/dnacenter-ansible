@@ -18,9 +18,9 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   fabricName:
-    version_added: "4.0.0"
     description: Fabric Name (should be existing fabric name).
     type: str
+    version_added: 4.0.0
   siteNameHierarchy:
     description: SiteNameHierarchy query parameter. Site Name Hierarchy.
     type: str

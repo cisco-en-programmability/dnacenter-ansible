@@ -82,9 +82,9 @@ EXAMPLES = r"""
       - interfaceGateway: string
         interfaceIPAddress: string
         interfaceName: string
-        interfaceNetmaskInCIDR: 1
-        lagOrPortNumber: 1
-        vlanId: 1
+        interfaceNetmaskInCIDR: 0
+        lagOrPortNumber: 0
+        vlanId: 0
       managedAPLocations:
       - string
       site: string

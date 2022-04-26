@@ -19,6 +19,9 @@ options:
   cliId:
     description: Cli Id.
     type: str
+  headers:
+    description: Additional headers.
+    type: dict
   httpRead:
     description: Http Read.
     type: str
@@ -60,6 +63,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     cliId: string
+    headers: '{{my_headers | from_json}}'
     httpRead: string
     httpWrite: string
     siteId: string

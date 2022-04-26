@@ -10,7 +10,9 @@ module: swim_trigger_distribution
 short_description: Resource module for Swim Trigger Distribution
 description:
 - Manage operation create of the resource Swim Trigger Distribution.
-- Distributes a software image on a given device. Software image must be imported successfully into DNA Center before it can be distributed.
+- >
+   Distributes a software image on a given device. Software image must be imported successfully into DNA Center
+   before it can be distributed.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

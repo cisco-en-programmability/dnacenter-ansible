@@ -10,7 +10,7 @@ module: compliance_check_run
 short_description: Resource module for Compliance Check Run
 description:
 - Manage operation create of the resource Compliance Check Run.
-- Run compliance check for device(s).
+- Run compliance check for devices.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

@@ -10,7 +10,7 @@ module: wireless_dynamic_interface_info
 short_description: Information module for Wireless Dynamic Interface
 description:
 - Get all Wireless Dynamic Interface.
-- Get one or all dynamic interface(s).
+- Get one or all dynamic interfaces.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -47,8 +47,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     interface_name: string
   register: result
 

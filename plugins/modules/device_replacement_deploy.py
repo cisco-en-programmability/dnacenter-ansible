@@ -10,7 +10,9 @@ module: device_replacement_deploy
 short_description: Resource module for Device Replacement Deploy
 description:
 - Manage operation create of the resource Device Replacement Deploy.
-- API to trigger RMA workflow that will replace faulty device with replacement device with same configuration and images.
+- >
+   API to trigger RMA workflow that will replace faulty device with replacement device with same configuration and
+   images.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

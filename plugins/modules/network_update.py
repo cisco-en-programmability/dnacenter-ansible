@@ -141,7 +141,7 @@ notes:
     network_settings.NetworkSettings.update_network,
 
   - Paths used are
-    put /dna/intent/api/v1/network/{siteId}
+    put /dna/intent/api/v1/network/{siteId},
 
 """
 

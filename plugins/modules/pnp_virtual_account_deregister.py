@@ -10,9 +10,10 @@ module: pnp_virtual_account_deregister
 short_description: Resource module for Pnp Virtual Account Deregister
 description:
 - Manage operation delete of the resource Pnp Virtual Account Deregister.
-- Deregisters the specified smart account & virtual account info and the associated device information from the PnP System & database.
-  The devices associated with the deregistered virtual account are removed from the PnP database as well.
-  The response payload contains the deregistered smart & virtual account information.
+- >
+   Deregisters the specified smart account & virtual account info and the associated device information from the PnP
+   System & database. The devices associated with the deregistered virtual account are removed from the PnP database
+   as well. The response payload contains the deregistered smart & virtual account information.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

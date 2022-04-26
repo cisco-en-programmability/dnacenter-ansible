@@ -10,7 +10,9 @@ module: discovery_device_info
 short_description: Information module for Discovery Device
 description:
 - Get all Discovery Device.
-- Returns the network devices discovered for the given Discovery ID. Discovery ID can be obtained using the "Get Discoveries by range" API.
+- >
+   Returns the network devices discovered for the given Discovery ID. Discovery ID can be obtained using the "Get
+   Discoveries by range" API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -49,8 +51,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     taskId: string
     id: string
   register: result

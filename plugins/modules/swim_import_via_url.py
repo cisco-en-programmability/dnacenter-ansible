@@ -10,8 +10,9 @@ module: swim_import_via_url
 short_description: Resource module for Swim Import Via Url
 description:
 - Manage operation create of the resource Swim Import Via Url.
-- Fetches a software image from remote file system using URL for HTTP/FTP and uploads to DNA Center.
-  Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
+- >
+   Fetches a software image from remote file system using URL for HTTP/FTP and uploads to DNA Center. Supported image
+   files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -69,10 +70,15 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    payload:
+    - applicationType: string
+      imageFamily: string
+      sourceURL: string
+      thirdParty: true
+      vendor: string
     scheduleAt: string
     scheduleDesc: string
     scheduleOrigin: string
-    payload:
 
 """
 

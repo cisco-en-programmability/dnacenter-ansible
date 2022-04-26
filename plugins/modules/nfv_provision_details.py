@@ -19,6 +19,9 @@ options:
   device_ip:
     description: Device Ip.
     type: str
+  headers:
+    description: Additional headers.
+    type: dict
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
@@ -42,6 +45,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     device_ip: string
+    headers: '{{my_headers | from_json}}'
 
 """
 

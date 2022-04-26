@@ -10,7 +10,7 @@ module: license_device_registration
 short_description: Resource module for License Device Registration
 description:
 - Manage operation update of the resource License Device Registration.
-- Register device(s) in CSSM(Cisco Smart Software Manager).
+- Register devices in CSSM Cisco Smart Software Manager .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

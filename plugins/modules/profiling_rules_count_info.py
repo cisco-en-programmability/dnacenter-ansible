@@ -10,8 +10,9 @@ module: profiling_rules_count_info
 short_description: Information module for Profiling Rules Count
 description:
 - Get all Profiling Rules Count.
-- This API fetches the count of profiling rules based on the filter values provided in the query parameters.
-  The filter parameters are same as that of 'GET /profiling-rules' API, excluding the pagination and sort parameters.
+- >
+   This API fetches the count of profiling rules based on the filter values provided in the query parameters. The
+   filter parameters are same as that of 'GET /profiling-rules' API, excluding the pagination and sort parameters.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -50,8 +51,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     ruleType: string
     includeDeleted: True
   register: result

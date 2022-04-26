@@ -18,69 +18,61 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   borderSessionType:
-    version_added: "4.0.0"
     description: Border Session Type.
     type: str
+    version_added: 4.0.0
   connectedToInternet:
-    version_added: "4.0.0"
     description: Connected to Internet.
     type: bool
+    version_added: 4.0.0
   deviceManagementIpAddress:
-    version_added: "4.0.0"
     description: Management Ip Address of the Device which is provisioned successfully.
     type: str
+    version_added: 4.0.0
+  externalAutonomouSystemNumber:
+    description: External Autonomous System Number will be used to automate IP routing
+      between Border Node and remote peer (e.g.,1-65535).
+    type: str
+    version_added: 4.0.0
   externalConnectivityIpPoolName:
-    version_added: "4.0.0"
     description: IP pool to use to automate IP routing between the border node and remote
       peer.
     type: str
+    version_added: 4.0.0
   externalConnectivitySettings:
-    version_added: "4.0.0"
-    description: Sda Fabric Border Device's externalConnectivitySettings.
-    suboptions:
-      externalAutonomouSystemNumber:
-        version_added: "4.0.0"
-        description: External Autonomous System Number peer (e.g.,1-65535).
-        type: str
-      interfaceName:
-        version_added: "4.0.0"
-        description: Interface Name.
-        type: str
-      l3Handoff:
-        version_added: "4.0.0"
-        description: Sda Fabric Border Device's l3Handoff.
-        suboptions:
-          virtualNetwork:
-            version_added: "4.0.0"
-            description: Sda Fabric Border Device's virtualNetwork.
-            suboptions:
-              virtualNetworkName:
-                version_added: "4.0.0"
-                description: Virtual Network Name, that is associated to Fabric Site.
-                type: str
-              vlanId:
-                version_added: "4.0.0"
-                description: Vlan Id (e.g.,2-4096 except for reserved VLANs (1002-1005,
-                  2046, 4095)).
-                type: str
-            type: dict
-        elements: dict
-        type: list
-    elements: dict
-    type: list
+    description: External Connectivity Settings information of L3 Handoff.
+    type: dict
+    version_added: 4.0.0
   externalDomainRoutingProtocolName:
-    version_added: "4.0.0"
     description: External Domain Routing Protocol Name. (Example BGP).
     type: str
+  interfaceName:
+    description: Interface Name.
+    type: str
+    version_added: 4.0.0
   internalAutonomouSystemNumber:
-    version_added: "4.0.0"
     description: Internal Autonomouns System Number used by border node to communicate
       with remote peer (e.g.,1-65535).
     type: str
+  l3Handoff:
+    description: L3 Handoff information.
+    type: dict
+    version_added: 4.0.0
   siteNameHierarchy:
-    version_added: "4.0.0"
     description: Site Name Hierarchy for device location(site should be fabric site).
     type: str
+  virtualNetwork:
+    description: Virtual Network information of L3 Hand off.
+    type: dict
+    version_added: 4.0.0
+  virtualNetworkName:
+    description: Virtual Network Name assigned to site.
+    type: str
+    version_added: 4.0.0
+  vlanId:
+    description: Vlan Id (e.g.,2-4096 except for reserved VLANs (1002-1005, 2046, 4095)).
+    type: str
+    version_added: 4.0.0
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
@@ -109,17 +101,17 @@ EXAMPLES = r"""
     borderSessionType: string
     connectedToInternet: true
     deviceManagementIpAddress: string
+    externalAutonomouSystemNumber: string
     externalConnectivityIpPoolName: string
-    externalConnectivitySettings:
-    - externalAutonomouSystemNumber: string
-      interfaceName: string
-      l3Handoff:
-      - virtualNetwork:
-          virtualNetworkName: string
-          vlanId: string
+    externalConnectivitySettings: {}
     externalDomainRoutingProtocolName: string
+    interfaceName: string
     internalAutonomouSystemNumber: string
+    l3Handoff: {}
     siteNameHierarchy: string
+    virtualNetwork: {}
+    virtualNetworkName: string
+    vlanId: string
 
 - name: Delete all
   cisco.dnac.sda_fabric_border_device:

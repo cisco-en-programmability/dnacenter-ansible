@@ -17,7 +17,6 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   headers:
-    version_added: '6.3.0'
     description: Additional headers.
     type: dict
   payload:
@@ -77,17 +76,16 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: string
+    headers: '{{my_headers | from_json}}'
     payload:
     - deviceName: string
       dynamicInterfaces:
       - interfaceGateway: string
         interfaceIPAddress: string
         interfaceName: string
-        interfaceNetmaskInCIDR: 1
-        lagOrPortNumber: 1
-        vlanId: 1
+        interfaceNetmaskInCIDR: 0
+        lagOrPortNumber: 0
+        vlanId: 0
       managedAPLocations:
       - string
 

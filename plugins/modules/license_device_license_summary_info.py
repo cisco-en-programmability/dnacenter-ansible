@@ -10,7 +10,7 @@ module: license_device_license_summary_info
 short_description: Information module for License Device License Summary
 description:
 - Get all License Device License Summary.
-- Show license summary of device(s).
+- Show license summary of devices.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -81,8 +81,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     page_number: 0
     order: string
     sort_by: string

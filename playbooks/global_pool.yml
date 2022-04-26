@@ -24,3 +24,4 @@
           ipPoolName: v4pool-test2
           type: Generic
     register: discovery_range_result
+

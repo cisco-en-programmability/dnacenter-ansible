@@ -61,8 +61,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     name: string
     siteId: string
     type: string
@@ -84,7 +83,24 @@ dnac_response:
         "parentId": "string",
         "name": "string",
         "additionalInfo": [
-          "string"
+          {
+            "nameSpace": "string",
+            "attributes": {
+              "country": "string",
+              "address": "string",
+              "latitude": "string",
+              "addressInheritedFrom": "string",
+              "type": "string",
+              "longitude": "string",
+              "offsetX": "string",
+              "offsetY": "string",
+              "length": "string",
+              "width": "string",
+              "height": "string",
+              "rfModel": "string",
+              "floorIndex": "string"
+            }
+          }
         ],
         "siteHierarchy": "string",
         "siteNameHierarchy": "string",

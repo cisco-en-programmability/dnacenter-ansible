@@ -63,7 +63,7 @@ EXAMPLES = r"""
     - id: string
       instanceTenantId: string
       instanceUuid: string
-      intValue: 1
+      intValue: 0
       systemPropertyName: string
 
 """

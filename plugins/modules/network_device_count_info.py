@@ -11,7 +11,9 @@ short_description: Information module for Network Device Count
 description:
 - Get all Network Device Count.
 - Get Network Device Count by id.
-- Returns the count of network devices based on the filter criteria by management IP address, mac address, hostname and location name.
+- >
+   Returns the count of network devices based on the filter criteria by management IP address, mac address, hostname
+   and location name.
 - Returns the interface count for the given device.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -49,8 +51,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
   register: result
 
 - name: Get Network Device Count by id
@@ -62,8 +63,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceId: string
   register: result
 

@@ -10,7 +10,9 @@ module: device_enrichment_details_info
 short_description: Information module for Device Enrichment Details
 description:
 - Get all Device Enrichment Details.
-- Enriches a given network device context (device id or device Mac Address or device management IP address) with details about the device and neighbor topology.
+- >
+   Enriches a given network device context device id or device Mac Address or device management IP address with
+   details about the device and neighbor topology.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -41,8 +43,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
   register: result
 
 """

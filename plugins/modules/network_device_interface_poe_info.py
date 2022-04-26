@@ -10,9 +10,10 @@ module: network_device_interface_poe_info
 short_description: Information module for Network Device Interface Poe
 description:
 - Get all Network Device Interface Poe.
-- Returns POE interface details for the device, where deviceuuid is mandatory &
-  accepts comma seperated interface names which is optional
-  and returns information for that particular interfaces where operStatus = operationalStatus.
+- >
+   Returns POE interface details for the device, where deviceuuid is mandatory & accepts comma seperated interface
+   names which is optional and returns information for that particular interfaces where operStatus =
+   operationalStatus .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -51,8 +52,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     interfaceNameList: string
     deviceUuid: string
   register: result

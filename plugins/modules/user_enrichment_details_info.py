@@ -10,8 +10,9 @@ module: user_enrichment_details_info
 short_description: Information module for User Enrichment Details
 description:
 - Get all User Enrichment Details.
-- Enriches a given network End User context (a network user-id or end user's device Mac Address)
-  with details about the user and devices that the user is connected to.
+- >
+   Enriches a given network End User context a network user-id or end user's device Mac Address with details about
+   the user and devices that the user is connected to.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -42,8 +43,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
   register: result
 
 """

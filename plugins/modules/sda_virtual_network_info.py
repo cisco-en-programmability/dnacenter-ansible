@@ -10,7 +10,7 @@ module: sda_virtual_network_info
 short_description: Information module for Sda Virtual Network
 description:
 - Get all Sda Virtual Network.
-- Get virtual network (VN) from SDA Fabric.
+- Get virtual network VN from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -49,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     virtualNetworkName: string
     siteNameHierarchy: string
   register: result

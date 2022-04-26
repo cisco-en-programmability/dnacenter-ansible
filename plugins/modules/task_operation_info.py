@@ -30,8 +30,8 @@ options:
   limit:
     description:
     - >
-      Limit path parameter. The maximum value of {limit} supported is 500. Base 1 indexing for {limit},
-      minimum value is 1.
+      Limit path parameter. The maximum value of {limit} supported is 500. Base 1 indexing for {limit}, minimum
+      value is 1.
     type: int
 requirements:
 - dnacentersdk >= 2.4.9
@@ -55,8 +55,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     operationId: string
     offset: 0
     limit: 0

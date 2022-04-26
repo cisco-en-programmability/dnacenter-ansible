@@ -10,7 +10,9 @@ module: pnp_server_profile_update
 short_description: Resource module for Pnp Server Profile Update
 description:
 - Manage operation update of the resource Pnp Server Profile Update.
-- Updates the PnP Server profile in a registered Virtual Account in the PnP database. The response payload returns the updated smart & virtual account info.
+- >
+   Updates the PnP Server profile in a registered Virtual Account in the PnP database. The response payload returns
+   the updated smart & virtual account info.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

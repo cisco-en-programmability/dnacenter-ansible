@@ -45,8 +45,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     serialNumber: string
   register: result
 
@@ -74,7 +73,7 @@ dnac_response:
         "instanceUuid": "string",
         "interfaceCount": "string",
         "inventoryStatusDetail": "string",
-        "lastUpdateTime": "string",
+        "lastUpdateTime": 0,
         "lastUpdated": "string",
         "lineCardCount": "string",
         "lineCardId": "string",

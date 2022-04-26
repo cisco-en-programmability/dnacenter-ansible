@@ -90,7 +90,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - creationTime: 1
+    - creationTime: 0
       family: string
       faultyDeviceId: string
       faultyDeviceName: string
@@ -102,7 +102,7 @@ EXAMPLES = r"""
       replacementDevicePlatform: string
       replacementDeviceSerialNumber: string
       replacementStatus: string
-      replacementTime: 1
+      replacementTime: 0
       workflowId: string
 
 - name: Create
@@ -116,7 +116,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - creationTime: 1
+    - creationTime: 0
       family: string
       faultyDeviceId: string
       faultyDeviceName: string
@@ -128,7 +128,7 @@ EXAMPLES = r"""
       replacementDevicePlatform: string
       replacementDeviceSerialNumber: string
       replacementStatus: string
-      replacementTime: 1
+      replacementTime: 0
       workflowId: string
 
 """

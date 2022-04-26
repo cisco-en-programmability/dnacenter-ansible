@@ -17,6 +17,9 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   interfaceName:
     description: Dynamic-interface name.
     type: str
@@ -48,6 +51,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    headers: '{{my_headers | from_json}}'
     interfaceName: string
     vlanId: 0
 
@@ -61,6 +65,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: absent
+    headers: '{{my_headers | from_json}}'
     interfaceName: string
 
 """

@@ -53,7 +53,8 @@ EXAMPLES = r"""
     state: present
     id: string
     payload:
-      networkinterface: ["string"]
+      networkinterface:
+      - string
 
 - name: Delete by id
   cisco.dnac.tag_member:

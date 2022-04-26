@@ -850,7 +850,7 @@ EXAMPLES = r"""
         aaaCredentials:
           password: string
           username: string
-        addedOn: 1
+        addedOn: 0
         addnMacAddrs:
         - string
         agentType: string
@@ -866,13 +866,13 @@ EXAMPLES = r"""
         featuresSupported:
         - string
         fileSystemList:
-        - freespace: 1
+        - freespace: 0
           name: string
           readable: true
-          size: 1
+          size: 0
           type: string
           writeable: true
-        firstContact: 1
+        firstContact: 0
         hostname: string
         httpHeaders:
         - key: string
@@ -886,9 +886,9 @@ EXAMPLES = r"""
           macAddress: string
           name: string
           status: string
-        lastContact: 1
-        lastSyncTime: 1
-        lastUpdateOn: 1
+        lastContact: 0
+        lastSyncTime: 0
+        lastUpdateOn: 0
         location:
           address: string
           altitude: string
@@ -918,7 +918,7 @@ EXAMPLES = r"""
             fqdn: string
             ipv4Address: {}
             ipv6Address: {}
-            port: 1
+            port: 0
             protocol: string
           profileName: string
           secondaryEndpoint:
@@ -926,7 +926,7 @@ EXAMPLES = r"""
             fqdn: string
             ipv4Address: {}
             ipv6Address: {}
-            port: 1
+            port: 0
             protocol: string
         populateInventory: true
         preWorkflowCliOuputs:
@@ -947,16 +947,16 @@ EXAMPLES = r"""
             licenseType: string
             macAddress: string
             pid: string
-            priority: 1
+            priority: 0
             role: string
             serialNumber: string
             softwareVersion: string
-            stackNumber: 1
+            stackNumber: 0
             state: string
             sudiSerialNumber: string
           stackRingProtocol: string
           supportsStackWorkflows: true
-          totalMemberCount: 1
+          totalMemberCount: 0
           validLicenseLevels:
           - string
         state: string
@@ -975,123 +975,123 @@ EXAMPLES = r"""
           - key: string
             value: string
           name: string
-          timeTaken: 1
+          timeTaken: 0
           type: string
           workItemList:
           - command: string
-            endTime: 1
+            endTime: 0
             outputStr: string
-            startTime: 1
+            startTime: 0
             state: string
-            timeTaken: 1
-        timestamp: 1
+            timeTaken: 0
+        timestamp: 0
       systemResetWorkflow:
         _id: string
         addToInventory: true
-        addedOn: 1
+        addedOn: 0
         configId: string
-        currTaskIdx: 1
+        currTaskIdx: 0
         description: string
-        endTime: 1
-        execTime: 1
+        endTime: 0
+        execTime: 0
         imageId: string
         instanceType: string
-        lastupdateOn: 1
+        lastupdateOn: 0
         name: string
-        startTime: 1
+        startTime: 0
         state: string
         tasks:
-        - currWorkItemIdx: 1
-          endTime: 1
+        - currWorkItemIdx: 0
+          endTime: 0
           name: string
-          startTime: 1
+          startTime: 0
           state: string
-          taskSeqNo: 1
-          timeTaken: 1
+          taskSeqNo: 0
+          timeTaken: 0
           type: string
           workItemList:
           - command: string
-            endTime: 1
+            endTime: 0
             outputStr: string
-            startTime: 1
+            startTime: 0
             state: string
-            timeTaken: 1
+            timeTaken: 0
         tenantId: string
         type: string
         useState: string
-        version: 1
+        version: 0
       systemWorkflow:
         _id: string
         addToInventory: true
-        addedOn: 1
+        addedOn: 0
         configId: string
-        currTaskIdx: 1
+        currTaskIdx: 0
         description: string
-        endTime: 1
-        execTime: 1
+        endTime: 0
+        execTime: 0
         imageId: string
         instanceType: string
-        lastupdateOn: 1
+        lastupdateOn: 0
         name: string
-        startTime: 1
+        startTime: 0
         state: string
         tasks:
-        - currWorkItemIdx: 1
-          endTime: 1
+        - currWorkItemIdx: 0
+          endTime: 0
           name: string
-          startTime: 1
+          startTime: 0
           state: string
-          taskSeqNo: 1
-          timeTaken: 1
+          taskSeqNo: 0
+          timeTaken: 0
           type: string
           workItemList:
           - command: string
-            endTime: 1
+            endTime: 0
             outputStr: string
-            startTime: 1
+            startTime: 0
             state: string
-            timeTaken: 1
+            timeTaken: 0
         tenantId: string
         type: string
         useState: string
-        version: 1
+        version: 0
       tenantId: string
-      version: 1
+      version: 0
       workflow:
         _id: string
         addToInventory: true
-        addedOn: 1
+        addedOn: 0
         configId: string
-        currTaskIdx: 1
+        currTaskIdx: 0
         description: string
-        endTime: 1
-        execTime: 1
+        endTime: 0
+        execTime: 0
         imageId: string
         instanceType: string
-        lastupdateOn: 1
+        lastupdateOn: 0
         name: string
-        startTime: 1
+        startTime: 0
         state: string
         tasks:
-        - currWorkItemIdx: 1
-          endTime: 1
+        - currWorkItemIdx: 0
+          endTime: 0
           name: string
-          startTime: 1
+          startTime: 0
           state: string
-          taskSeqNo: 1
-          timeTaken: 1
+          taskSeqNo: 0
+          timeTaken: 0
           type: string
           workItemList:
           - command: string
-            endTime: 1
+            endTime: 0
             outputStr: string
-            startTime: 1
+            startTime: 0
             state: string
-            timeTaken: 1
+            timeTaken: 0
         tenantId: string
         type: string
         useState: string
-        version: 1
+        version: 0
       workflowParameters:
         configList:
         - configId: string

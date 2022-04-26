@@ -10,7 +10,7 @@ module: compliance_device_details_count_info
 short_description: Information module for Compliance Device Details Count
 description:
 - Get all Compliance Device Details Count.
-- Return  Compliance Count Detail.
+- Return Compliance Count Detail.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -53,8 +53,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     complianceType: string
     complianceStatus: string
   register: result

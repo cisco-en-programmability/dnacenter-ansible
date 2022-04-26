@@ -11,9 +11,9 @@ short_description: Information module for Discovery Job
 description:
 - Get all Discovery Job.
 - Get Discovery Job by id.
-- Returns the list of discovery jobs for the given Discovery ID.
-  The results can be optionally filtered based on IP.
-  Discovery ID can be obtained using the "Get Discoveries by range" API.
+- >
+   Returns the list of discovery jobs for the given Discovery ID. The results can be optionally filtered based on IP.
+   Discovery ID can be obtained using the "Get Discoveries by range" API.
 - Returns the list of discovery jobs for the given IP.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -67,8 +67,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     offset: 0
     limit: 0
     ipAddress: string
@@ -84,8 +83,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     offset: 0
     limit: 0
     ipAddress: string

@@ -10,9 +10,10 @@ module: tag_membership
 short_description: Resource module for Tag Membership
 description:
 - Manage operation update of the resource Tag Membership.
-- Updates tag membership. As part of the request payload through this API,
-  only the specified members are added / retained to the given input tags.
-  Possible values of memberType attribute in the request payload can be queried by using the /tag/member/type API.
+- >
+   Updates tag membership. As part of the request payload through this API, only the specified members are added /
+   retained to the given input tags. Possible values of memberType attribute in the request payload can be queried by
+   using the /tag/member/type API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -21,6 +22,11 @@ options:
   memberToTags:
     description: Tag Membership's memberToTags.
     elements: dict
+    suboptions:
+      key:
+        description: Tag Membership's key.
+        elements: str
+        type: list
     type: list
   memberType:
     description: Tag Membership's memberType.
@@ -48,8 +54,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     memberToTags:
-      - 8bf887f3-7cc2-4bd2-9407-df0fe6b7f63a:
-        - 7bf887f3-7cc2-7bd2-9407-df0fe6b7f63a
+    - key:
+      - string
     memberType: string
 
 """

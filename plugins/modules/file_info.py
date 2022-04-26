@@ -32,9 +32,8 @@ options:
     - Enable or disable automatic file creation of raw response.
     type: bool
   filename:
-    version_added: '6.2.0'
     description:
-    - The filename used to save the download file. It defaults to the header Content-Disposition's filename.
+    - The filename used to save the download file.
     type: str
 requirements:
 - dnacentersdk >= 2.4.9
@@ -58,8 +57,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     fileId: string
   register: result
 

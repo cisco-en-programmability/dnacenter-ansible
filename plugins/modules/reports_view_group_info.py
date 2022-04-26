@@ -12,8 +12,9 @@ description:
 - Get all Reports View Group.
 - Get Reports View Group by id.
 - Gives a list of summary of all view groups.
-- Gives a list of summary of all views in a viewgroup.
-  Use "Get all view groups" API to get the viewGroupIds required as a query param for this API for available viewgroups.
+- >
+   Gives a list of summary of all views in a viewgroup. Use "Get all view groups" API to get the viewGroupIds
+   required as a query param for this API for available viewgroups.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -50,8 +51,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
   register: result
 
 - name: Get Reports View Group by id
@@ -63,8 +63,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     viewGroupId: string
   register: result
 

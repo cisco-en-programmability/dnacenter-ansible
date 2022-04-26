@@ -10,9 +10,11 @@ module: itsm_cmdb_sync_status_info
 short_description: Information module for Itsm Cmdb Sync Status
 description:
 - Get all Itsm Cmdb Sync Status.
-- This API allows to retrieve the detail of CMDB sync status.It accepts two query parameter "status","date".
-  The supported values for status field are "Success","Failed","Unknown" and date field should be in "YYYY-MM-DD" format.
-  By default all the cmdb sync status will be send as response and based on the query parameter filtered detail will be send as response.
+- >
+   This API allows to retrieve the detail of CMDB sync status.It accepts two query parameter "status","date".The
+   supported values for status field are "Success","Failed","Unknown" and date field should be in "YYYY-MM-DD"
+   format. By default all the cmdb sync status will be send as response and based on the query parameter filtered
+   detail will be send as response.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -53,8 +55,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     status: string
     date: string
   register: result

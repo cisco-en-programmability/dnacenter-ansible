@@ -10,8 +10,9 @@ module: applications_health_info
 short_description: Information module for Applications Health
 description:
 - Get all Applications Health.
-- Intent API to get a list of applications for a specific site, a device, or a client device's MAC address.
-  For a combination of a specific application with site and/or device the API gets list of issues/devices/endpoints.
+- >
+   Intent API to get a list of applications for a specific site, a device, or a client device's MAC address. For a
+   combination of a specific application with site and/or device the API gets list of issues/devices/endpoints.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -59,7 +60,6 @@ options:
       siteId only).
     type: int
   applicationName:
-    version_added: "4.0.0"
     description:
     - ApplicationName query parameter. The name of the application to get information on.
     type: str
@@ -85,8 +85,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     siteId: string
     deviceId: string
     macAddress: string

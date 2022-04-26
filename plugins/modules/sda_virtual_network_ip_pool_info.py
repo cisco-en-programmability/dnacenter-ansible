@@ -20,10 +20,12 @@ options:
     description: Additional headers.
     type: dict
   siteNameHierarchy:
+    version_added: "4.0.0"
     description:
     - SiteNameHierarchy query parameter.
     type: str
   ipPoolName:
+    version_added: "4.0.0"
     description:
     - IpPoolName query parameter.
     type: str
@@ -53,8 +55,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     siteNameHierarchy: string
     ipPoolName: string
     virtualNetworkName: string

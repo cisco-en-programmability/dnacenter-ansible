@@ -12,6 +12,7 @@ description:
 - Manage operations create, update and delete of the resource Pnp Workflow.
 - Adds a PnP Workflow along with the relevant tasks in the workflow into the PnP database.
 - Deletes a workflow specified by id.
+- Updates an existing workflow.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -138,6 +139,7 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/onboarding/pnp-workflow,
     delete /dna/intent/api/v1/onboarding/pnp-workflow/{id},
+    put /dna/intent/api/v1/onboarding/pnp-workflow/{id},
 
 """
 

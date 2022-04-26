@@ -10,7 +10,7 @@ module: network_device_linecard_details_info
 short_description: Information module for Network Device Linecard Details
 description:
 - Get all Network Device Linecard Details.
-- Get line card detail for a given deviceuuid.  Response will contain serial no, part no, switch no and slot no.
+- Get line card detail for a given deviceuuid. Response will contain serial no, part no, switch no and slot no.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -45,8 +45,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceUuid: string
   register: result
 

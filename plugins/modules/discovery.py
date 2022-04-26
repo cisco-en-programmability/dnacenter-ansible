@@ -12,7 +12,9 @@ description:
 - Manage operations create, update and delete of the resource Discovery.
 - Initiates discovery with the given parameters.
 - Stops all the discoveries and removes them.
-- Stops the discovery for the given Discovery ID and removes it. Discovery ID can be obtained using the "Get Discoveries by range" API.
+- >
+   Stops the discovery for the given Discovery ID and removes it. Discovery ID can be obtained using the "Get
+   Discoveries by range" API.
 - Stops or starts an existing discovery.
 version_added: '3.1.0'
 extends_documentation_fragment:

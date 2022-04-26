@@ -10,7 +10,7 @@ module: disasterrecovery_system_status_info
 short_description: Information module for Disasterrecovery System Status
 description:
 - Get all Disasterrecovery System Status.
-- Detailed and Summarized status of DR components (Active, Standby and Witness system's health).
+- Detailed and Summarized status of DR components Active, Standby and Witness system's health .
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -41,8 +41,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
   register: result
 
 """

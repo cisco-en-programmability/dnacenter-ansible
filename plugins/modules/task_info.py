@@ -12,7 +12,7 @@ description:
 - Get all Task.
 - Get Task by id.
 - Returns a task by specified id.
-- Returns task(s) based on filter criteria.
+- Returns tasks based on filter criteria.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -105,8 +105,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     startTime: string
     endTime: string
     data: string
@@ -132,8 +131,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     taskId: string
   register: result
 

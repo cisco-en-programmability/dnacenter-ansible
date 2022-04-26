@@ -12,6 +12,7 @@ description:
 - Manage operations create, update and delete of the resource Site Design Floormap.
 - Service to create a floor map with callback.
 - Service to delete an empty floor map with callback.
+- Service to update a floor map with callback.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -35,6 +36,7 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/wireless/floormap,
     delete /dna/intent/api/v1/wireless/floormap/{floorId},
+    put /dna/intent/api/v1/wireless/floormap/{floorId},
 
 """
 
@@ -49,7 +51,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    payload:
+    payload: {}
 
 - name: Delete by id
   cisco.dnac.site_design_floormap:
@@ -74,7 +76,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     floorId: string
-    payload:
+    payload: {}
 
 """
 

@@ -10,8 +10,8 @@ module: sda_virtual_network
 short_description: Resource module for Sda Virtual Network
 description:
 - Manage operations create and delete of the resource Sda Virtual Network.
-- Add virtual network (VN) in SDA Fabric.
-- Delete virtual network (VN) from SDA Fabric.
+- Add virtual network VN in SDA Fabric.
+- Delete virtual network VN from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

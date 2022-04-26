@@ -12,13 +12,15 @@ description:
 - Get all Endpoint Analytics Profiling Rules.
 - Get Endpoint Analytics Profiling Rules by id.
 - Fetches details of the profiling rule for the given 'ruleId'.
-- This API fetches the list of profiling rules. It can be used to show profiling rules in client applications, or export those from an environment.
-  'POST /profiling-rules/bulk' API can be used to import such exported rules into another environment.
-  If this API is used to export rules to be imported into another Cisco DNA Center system, then ensure that 'includeDeleted' parameter is 'true',
-  so that deleted rules get synchronized correctly.
-  Use query parameters to filter the data, as required. If no filter is provided, then it will include only rules of type 'Custom Rule' in the response.
-  By default, the response is limited to 500 records. Use 'limit' parameter to fetch higher number of records, if required.
-  'GET /profiling-rules/count' API can be used to find out the total number of rules in the system.
+- >
+   This API fetches the list of profiling rules. It can be used to show profiling rules in client applications, or
+   export those from an environment. 'POST /profiling-rules/bulk' API can be used to import such exported rules into
+   another environment. If this API is used to export rules to be imported into another Cisco DNA Center system, then
+   ensure that 'includeDeleted' parameter is 'true', so that deleted rules get synchronized correctly. Use query
+   parameters to filter the data, as required. If no filter is provided, then it will include only rules of type
+   'Custom Rule' in the response. By default, the response is limited to 500 records. Use 'limit' parameter to fetch
+   higher number of records, if required. 'GET /profiling-rules/count' API can be used to find out the total number
+   of rules in the system.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -83,8 +85,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     ruleType: string
     includeDeleted: True
     limit: 0
@@ -102,8 +103,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     ruleId: string
   register: result
 

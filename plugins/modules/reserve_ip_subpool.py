@@ -12,6 +12,7 @@ description:
 - Manage operations create, update and delete of the resource Reserve Ip Subpool.
 - API to reserve an ip subpool from the global pool.
 - API to delete the reserved ip subpool.
+- API to update ip subpool from the global pool.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -29,9 +30,9 @@ options:
     elements: str
     type: list
   ipv4GateWay:
-    version_added: "4.0.0"
     description: Gateway ip address details, example 175.175.0.1.
     type: str
+    version_added: 4.0.0
   ipv4GlobalPool:
     description: IP v4 Global pool address with cidr, example 175.175.0.0/16.
     type: str
@@ -104,6 +105,7 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
     delete /dna/intent/api/v1/reserve-ip-subpool/{id},
+    put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
 
 """
 

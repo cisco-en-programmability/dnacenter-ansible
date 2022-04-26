@@ -16,6 +16,9 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   payload:
     description: Swim Trigger Activation's payload.
     elements: dict
@@ -67,8 +70,17 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    scheduleValidate: true
+    headers: '{{my_headers | from_json}}'
     payload:
+    - activateLowerImageVersion: true
+      deviceUpgradeMode: string
+      deviceUuid: string
+      distributeIfNeeded: true
+      imageUuidList:
+      - string
+      smuImageUuidList:
+      - string
+    scheduleValidate: true
 
 """
 

@@ -117,18 +117,18 @@ EXAMPLES = r"""
     state: present
     payload:
     - clause:
-      - instanceId: 1
+      - instanceId: 0
         interfaceSpeedBandwidthClauses:
-        - instanceId: 1
+        - instanceId: 0
           interfaceSpeed: string
           tcBandwidthSettings:
-          - bandwidthPercentage: 1
-            instanceId: 1
+          - bandwidthPercentage: 0
+            instanceId: 0
             trafficClass: string
         isCommonBetweenAllInterfaceSpeeds: true
         tcDscpSettings:
         - dscp: string
-          instanceId: 1
+          instanceId: 0
           trafficClass: string
         type: string
       description: string
@@ -150,7 +150,7 @@ EXAMPLES = r"""
       - interfaceSpeedBandwidthClauses:
         - interfaceSpeed: string
           tcBandwidthSettings:
-          - bandwidthPercentage: 1
+          - bandwidthPercentage: 0
             trafficClass: string
         isCommonBetweenAllInterfaceSpeeds: true
         tcDscpSettings:

@@ -79,10 +79,11 @@ notes:
     network_settings.NetworkSettings.update_reserve_ip_subpool,
 
   - Paths used are
-    put /dna/intent/api/v1/reserve-ip-subpool/{siteId}
+    put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
 
-  - Removed 'type', 'ipv4GlobalPool', 'ipv4Prefix', 'ipv4PrefixLength', 'ipv4Subnet' and 'ipv4TotalHost' options
-    in v4.3.0.
+  - >
+     Removed 'type', 'ipv4GlobalPool', 'ipv4Prefix', 'ipv4PrefixLength', 'ipv4Subnet' and 'ipv4TotalHost' options
+     in v4.3.0.
 """
 
 EXAMPLES = r"""

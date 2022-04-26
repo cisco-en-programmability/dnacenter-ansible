@@ -12,6 +12,7 @@ description:
 - Manage operations create, update and delete of the resource Endpoint Analytics Profiling Rules.
 - Creates profiling rule from the request body.
 - Deletes the profiling rule for the given 'ruleId'.
+- Updates the profiling rule for the given 'ruleId'.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -125,6 +126,7 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/endpoint-analytics/profiling-rules,
     delete /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
+    put /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
 
 """
 
