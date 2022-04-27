@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Application Policy GetQosDeviceInterfaceInfoCount
+  description: Complete reference of the GetQosDeviceInterfaceInfoCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-qos-device-interface-info-count
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_qos_device_interface_info_count,

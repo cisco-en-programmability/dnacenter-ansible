@@ -48,6 +48,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Compliance ComplianceDetailsOfDevice
+  description: Complete reference of the ComplianceDetailsOfDevice API.
+  link: https://developer.cisco.com/docs/dna-center/#!compliance-details-of-device
 notes:
   - SDK Method used are
     compliance.Compliance.compliance_details_of_device,

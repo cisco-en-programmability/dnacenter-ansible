@@ -102,6 +102,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) AddVirtualAccount
+  description: Complete reference of the AddVirtualAccount API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-virtual-account
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.add_virtual_account,

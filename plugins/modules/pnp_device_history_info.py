@@ -35,6 +35,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceHistory
+  description: Complete reference of the GetDeviceHistory API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-history
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.get_device_history,

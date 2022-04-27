@@ -136,6 +136,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Network Settings UpdateNetwork
+  description: Complete reference of the UpdateNetwork API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-network
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.update_network,

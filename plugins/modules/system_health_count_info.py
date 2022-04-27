@@ -34,6 +34,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Health and Performance SystemHealthCountAPI
+  description: Complete reference of the SystemHealthCountAPI API.
+  link: https://developer.cisco.com/docs/dna-center/#!system-health-count-api
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.system_health_count,

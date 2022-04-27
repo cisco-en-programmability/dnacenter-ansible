@@ -34,6 +34,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) RemoveGoldenTagForImage
+  description: Complete reference of the RemoveGoldenTagForImage API.
+  link: https://developer.cisco.com/docs/dna-center/#!remove-golden-tag-for-image
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.remove_golden_tag_for_image,

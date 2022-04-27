@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetLinecardDetails
+  description: Complete reference of the GetLinecardDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-linecard-details
 notes:
   - SDK Method used are
     devices.Devices.get_linecard_details,

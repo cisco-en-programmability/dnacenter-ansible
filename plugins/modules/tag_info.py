@@ -74,6 +74,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Tag GetTag
+  description: Complete reference of the GetTag API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-tag
+- name: Cisco DNA Center documentation for Tag GetTagById
+  description: Complete reference of the GetTagById API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-tag-by-id
 notes:
   - SDK Method used are
     tag.Tag.get_tag,

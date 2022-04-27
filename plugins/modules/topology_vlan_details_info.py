@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Topology GetVLANDetails
+  description: Complete reference of the GetVLANDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-vlan-details
 notes:
   - SDK Method used are
     topology.Topology.get_vlan_details,

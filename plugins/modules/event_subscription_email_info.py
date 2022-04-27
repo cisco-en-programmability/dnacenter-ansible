@@ -44,6 +44,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management GetEmailEventSubscriptions
+  description: Complete reference of the GetEmailEventSubscriptions API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-email-event-subscriptions
 notes:
   - SDK Method used are
     event_management.EventManagement.get_email_event_subscriptions,

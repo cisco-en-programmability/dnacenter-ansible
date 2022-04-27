@@ -56,6 +56,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery CreateSNMPv3Credentials
+  description: Complete reference of the CreateSNMPv3Credentials API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-snm-pv-3-credentials
+- name: Cisco DNA Center documentation for Discovery UpdateSNMPv3Credentials
+  description: Complete reference of the UpdateSNMPv3Credentials API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-snm-pv-3-credentials
 notes:
   - SDK Method used are
     discovery.Discovery.create_snmpv3_credentials,

@@ -28,6 +28,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Compliance GetComplianceStatusCount
+  description: Complete reference of the GetComplianceStatusCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-compliance-status-count
 notes:
   - SDK Method used are
     compliance.Compliance.get_compliance_status_count,

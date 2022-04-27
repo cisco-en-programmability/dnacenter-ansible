@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Sensors Sensors
+  description: Complete reference of the Sensors API.
+  link: https://developer.cisco.com/docs/dna-center/#!sensors-sensors
 notes:
   - SDK Method used are
     sensors.Sensors.sensors,

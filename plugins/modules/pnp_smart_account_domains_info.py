@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetSmartAccountList
+  description: Complete reference of the GetSmartAccountList API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-smart-account-list
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.get_smart_account_list,

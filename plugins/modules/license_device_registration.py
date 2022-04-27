@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Licenses DeviceRegistration
+  description: Complete reference of the DeviceRegistration API.
+  link: https://developer.cisco.com/docs/dna-center/#!device-registration
 notes:
   - SDK Method used are
     licenses.Licenses.device_registration,

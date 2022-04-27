@@ -57,6 +57,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA AddPortAssignmentForUserDeviceInSDAFabric
+  description: Complete reference of the AddPortAssignmentForUserDeviceInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-port-assignment-for-user-device-in-sda-fabric
+- name: Cisco DNA Center documentation for SDA DeletePortAssignmentForUserDeviceInSDAFabric
+  description: Complete reference of the DeletePortAssignmentForUserDeviceInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-for-user-device-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_port_assignment_for_user_device,

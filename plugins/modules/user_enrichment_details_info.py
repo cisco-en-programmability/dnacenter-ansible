@@ -24,6 +24,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Users GetUserEnrichmentDetails
+  description: Complete reference of the GetUserEnrichmentDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-user-enrichment-details
 notes:
   - SDK Method used are
     users.Users.get_user_enrichment_details,

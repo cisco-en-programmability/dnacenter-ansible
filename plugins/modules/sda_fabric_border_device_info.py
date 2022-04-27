@@ -27,6 +27,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetsBorderDeviceDetailFromSDAFabric
+  description: Complete reference of the GetsBorderDeviceDetailFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!gets-border-device-detail-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.gets_border_device_detail,

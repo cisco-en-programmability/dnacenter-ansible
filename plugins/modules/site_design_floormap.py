@@ -27,6 +27,16 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Site Design CreateFloormap
+  description: Complete reference of the CreateFloormap API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-floormap
+- name: Cisco DNA Center documentation for Site Design DeleteFloormap
+  description: Complete reference of the DeleteFloormap API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-floormap
+- name: Cisco DNA Center documentation for Site Design UpdateFloormap
+  description: Complete reference of the UpdateFloormap API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-floormap
 notes:
   - SDK Method used are
     site_design.SiteDesign.create_floormap,

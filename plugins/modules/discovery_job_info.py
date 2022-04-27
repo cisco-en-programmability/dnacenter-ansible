@@ -46,6 +46,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery GetDiscoveryJobsByIP
+  description: Complete reference of the GetDiscoveryJobsByIP API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-discovery-jobs-by-ip
+- name: Cisco DNA Center documentation for Discovery GetListOfDiscoveriesByDiscoveryId
+  description: Complete reference of the GetListOfDiscoveriesByDiscoveryId API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-discoveries-by-discovery-id
 notes:
   - SDK Method used are
     discovery.Discovery.get_discovery_jobs_by_ip,

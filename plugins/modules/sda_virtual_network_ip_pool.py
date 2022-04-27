@@ -65,6 +65,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA AddIPPoolInSDAVirtualNetwork
+  description: Complete reference of the AddIPPoolInSDAVirtualNetwork API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-ip-pool-in-sda-virtual-network
+- name: Cisco DNA Center documentation for SDA DeleteIPPoolFromSDAVirtualNetwork
+  description: Complete reference of the DeleteIPPoolFromSDAVirtualNetwork API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-ip-pool-from-sda-virtual-network
 notes:
   - SDK Method used are
     sda.Sda.add_ip_pool_in_sda_virtual_network,

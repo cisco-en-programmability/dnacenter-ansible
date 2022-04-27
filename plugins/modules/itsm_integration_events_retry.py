@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for ITSM RetryIntegrationEvents
+  description: Complete reference of the RetryIntegrationEvents API.
+  link: https://developer.cisco.com/docs/dna-center/#!retry-integration-events
 notes:
   - SDK Method used are
     itsm.Itsm.retry_integration_events,

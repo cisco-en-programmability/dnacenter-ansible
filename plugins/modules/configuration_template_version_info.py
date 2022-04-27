@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates GetsAllTheVersionsOfAGivenTemplate
+  description: Complete reference of the GetsAllTheVersionsOfAGivenTemplate API.
+  link: https://developer.cisco.com/docs/dna-center/#!gets-all-the-versions-of-a-given-template
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_template_versions,

@@ -101,6 +101,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) SyncVirtualAccountDevices
+  description: Complete reference of the SyncVirtualAccountDevices API.
+  link: https://developer.cisco.com/docs/dna-center/#!sync-virtual-account-devices
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.sync_virtual_account_devices,

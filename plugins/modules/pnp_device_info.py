@@ -128,6 +128,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceById
+  description: Complete reference of the GetDeviceById API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-by-id
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceList2
+  description: Complete reference of the GetDeviceList2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-list-2
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.get_device_by_id,

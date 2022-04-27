@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management CountOfEventSubscriptions
+  description: Complete reference of the CountOfEventSubscriptions API.
+  link: https://developer.cisco.com/docs/dna-center/#!count-of-event-subscriptions
 notes:
   - SDK Method used are
     event_management.EventManagement.count_of_event_subscriptions,

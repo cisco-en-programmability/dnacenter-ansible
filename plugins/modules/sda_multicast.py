@@ -51,6 +51,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA AddMulticastInSDAFabric
+  description: Complete reference of the AddMulticastInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-multicast-in-sda-fabric
+- name: Cisco DNA Center documentation for SDA DeleteMulticastFromSDAFabric
+  description: Complete reference of the DeleteMulticastFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-multicast-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_multicast_in_sda_fabric,

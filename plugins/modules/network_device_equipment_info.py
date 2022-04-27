@@ -30,6 +30,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices ReturnPowerSupplyFanDetailsForTheGivenDevice
+  description: Complete reference of the ReturnPowerSupplyFanDetailsForTheGivenDevice API.
+  link: https://developer.cisco.com/docs/dna-center/#!return-power-supply-fan-details-for-the-given-device
 notes:
   - SDK Method used are
     devices.Devices.return_power_supply_fan_details_for_the_given_device,

@@ -26,6 +26,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA AddVNInSDAFabric
+  description: Complete reference of the AddVNInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-vn-in-sda-fabric
+- name: Cisco DNA Center documentation for SDA DeleteVNFromSDAFabric
+  description: Complete reference of the DeleteVNFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-vn-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_vn,

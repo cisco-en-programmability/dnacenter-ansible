@@ -228,6 +228,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Application Policy ApplicationPolicyIntent
+  description: Complete reference of the ApplicationPolicyIntent API.
+  link: https://developer.cisco.com/docs/dna-center/#!application-policy-intent
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.application_policy_intent,

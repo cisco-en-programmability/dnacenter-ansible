@@ -38,6 +38,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Tag GetTagMemberCount
+  description: Complete reference of the GetTagMemberCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-tag-member-count
 notes:
   - SDK Method used are
     tag.Tag.get_tag_member_count,

@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management GetStatusAPIForEvents
+  description: Complete reference of the GetStatusAPIForEvents API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-status-api-for-events
 notes:
   - SDK Method used are
     event_management.EventManagement.get_status_api_for_events,

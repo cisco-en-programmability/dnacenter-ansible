@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetSiteFromSDAFabric
+  description: Complete reference of the GetSiteFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-site-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_site,

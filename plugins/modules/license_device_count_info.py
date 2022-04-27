@@ -42,6 +42,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Licenses DeviceCountDetails
+  description: Complete reference of the DeviceCountDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!device-count-details
 notes:
   - SDK Method used are
     licenses.Licenses.device_count_details,

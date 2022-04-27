@@ -46,6 +46,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetModuleCount
+  description: Complete reference of the GetModuleCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-module-count
 notes:
   - SDK Method used are
     devices.Devices.get_module_count,

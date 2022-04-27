@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentials
+  description: Complete reference of the UpdateGlobalCredentials API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials
 notes:
   - SDK Method used are
     discovery.Discovery.update_global_credentials,

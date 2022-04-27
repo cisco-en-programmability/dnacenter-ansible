@@ -30,6 +30,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetSyncResultForVirtualAccount
+  description: Complete reference of the GetSyncResultForVirtualAccount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-sync-result-for-virtual-account
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.get_sync_result_for_virtual_account,

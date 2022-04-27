@@ -30,6 +30,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery GetDiscoveriesByRange
+  description: Complete reference of the GetDiscoveriesByRange API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-discoveries-by-range
 notes:
   - SDK Method used are
     discovery.Discovery.get_discoveries_by_range,

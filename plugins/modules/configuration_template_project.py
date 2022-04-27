@@ -554,6 +554,16 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates CreateProject
+  description: Complete reference of the CreateProject API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-project
+- name: Cisco DNA Center documentation for Configuration Templates DeletesTheProject
+  description: Complete reference of the DeletesTheProject API.
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-the-project
+- name: Cisco DNA Center documentation for Configuration Templates UpdateProject
+  description: Complete reference of the UpdateProject API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-project
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.create_project,

@@ -29,6 +29,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices SyncDevices
+  description: Complete reference of the SyncDevices API.
+  link: https://developer.cisco.com/docs/dna-center/#!sync-devices-2
 notes:
   - SDK Method used are
     devices.Devices.sync_devices_using_forcesync,

@@ -139,6 +139,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Network Settings CreateNetwork
+  description: Complete reference of the CreateNetwork API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-network
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.create_network,

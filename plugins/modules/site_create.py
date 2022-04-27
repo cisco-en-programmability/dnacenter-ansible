@@ -81,6 +81,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Sites CreateSite
+  description: Complete reference of the CreateSite API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-site
 notes:
   - SDK Method used are
     sites.Sites.create_site,

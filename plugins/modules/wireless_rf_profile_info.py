@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Wireless RetrieveRFProfiles
+  description: Complete reference of the RetrieveRFProfiles API.
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-rf-profiles
 notes:
   - SDK Method used are
     wireless.Wireless.retrieve_rf_profiles,

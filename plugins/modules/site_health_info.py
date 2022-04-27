@@ -38,6 +38,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Sites GetSiteHealth
+  description: Complete reference of the GetSiteHealth API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-site-health
 notes:
   - SDK Method used are
     sites.Sites.get_site_health,

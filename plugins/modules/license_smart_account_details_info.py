@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Licenses SmartAccountDetails
+  description: Complete reference of the SmartAccountDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!smart-account-details
 notes:
   - SDK Method used are
     licenses.Licenses.smart_account_details,

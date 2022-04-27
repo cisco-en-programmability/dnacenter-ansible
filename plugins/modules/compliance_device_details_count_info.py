@@ -34,6 +34,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Compliance GetComplianceDetailCount
+  description: Complete reference of the GetComplianceDetailCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-compliance-detail-count
 notes:
   - SDK Method used are
     compliance.Compliance.get_compliance_detail_count,

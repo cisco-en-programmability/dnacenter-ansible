@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Security Advisories GetAdvisoriesSummary
+  description: Complete reference of the GetAdvisoriesSummary API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-advisories-summary
 notes:
   - SDK Method used are
     security_advisories.SecurityAdvisories.get_advisories_summary,

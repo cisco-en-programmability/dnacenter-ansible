@@ -27,6 +27,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA AddEdgeDeviceInSDAFabric
+  description: Complete reference of the AddEdgeDeviceInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-edge-device-in-sda-fabric
+- name: Cisco DNA Center documentation for SDA DeleteEdgeDeviceFromSDAFabric
+  description: Complete reference of the DeleteEdgeDeviceFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-edge-device-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_edge_device,

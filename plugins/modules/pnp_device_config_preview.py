@@ -28,6 +28,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) PreviewConfig
+  description: Complete reference of the PreviewConfig API.
+  link: https://developer.cisco.com/docs/dna-center/#!preview-config
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.preview_config,

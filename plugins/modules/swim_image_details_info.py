@@ -94,6 +94,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) GetSoftwareImageDetails
+  description: Complete reference of the GetSoftwareImageDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-software-image-details
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.get_software_image_details,

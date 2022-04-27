@@ -25,6 +25,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Platform Configuration CiscoDNACenterNodesConfigurationSummary
+  description: Complete reference of the CiscoDNACenterNodesConfigurationSummary API.
+  link: https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-nodes-configuration-summary
 notes:
   - SDK Method used are
     platform_configuration.PlatformConfiguration.nodes_configuration_summary,

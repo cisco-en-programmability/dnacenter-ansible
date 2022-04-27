@@ -64,6 +64,16 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Wireless CreateWirelessProfile
+  description: Complete reference of the CreateWirelessProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-wireless-profile
+- name: Cisco DNA Center documentation for Wireless DeleteWirelessProfile
+  description: Complete reference of the DeleteWirelessProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile
+- name: Cisco DNA Center documentation for Wireless UpdateWirelessProfile
+  description: Complete reference of the UpdateWirelessProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-wireless-profile
 notes:
   - SDK Method used are
     wireless.Wireless.create_wireless_profile,

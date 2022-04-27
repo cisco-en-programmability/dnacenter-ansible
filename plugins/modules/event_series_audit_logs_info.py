@@ -124,6 +124,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management GetAuditLogRecords
+  description: Complete reference of the GetAuditLogRecords API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-records
 notes:
   - SDK Method used are
     event_management.EventManagement.get_auditlog_records,

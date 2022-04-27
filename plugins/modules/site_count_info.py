@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Sites GetSiteCount
+  description: Complete reference of the GetSiteCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-site-count
 notes:
   - SDK Method used are
     sites.Sites.get_site_count,

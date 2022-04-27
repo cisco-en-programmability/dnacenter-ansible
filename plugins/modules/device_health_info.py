@@ -52,6 +52,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices Devices
+  description: Complete reference of the Devices API.
+  link: https://developer.cisco.com/docs/dna-center/#!api-devices-devices
 notes:
   - SDK Method used are
     devices.Devices.devices,

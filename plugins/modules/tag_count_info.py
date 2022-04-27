@@ -46,6 +46,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Tag GetTagCount
+  description: Complete reference of the GetTagCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-tag-count
 notes:
   - SDK Method used are
     tag.Tag.get_tag_count,

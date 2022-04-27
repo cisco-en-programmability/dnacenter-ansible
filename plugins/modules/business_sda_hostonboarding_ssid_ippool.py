@@ -33,6 +33,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Fabric Wireless AddSSIDToIPPoolMapping
+  description: Complete reference of the AddSSIDToIPPoolMapping API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-ssid-to-ip-pool-mapping
+- name: Cisco DNA Center documentation for Fabric Wireless UpdateSSIDToIPPoolMapping
+  description: Complete reference of the UpdateSSIDToIPPoolMapping API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-ssid-to-ip-pool-mapping
 notes:
   - SDK Method used are
     fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping,

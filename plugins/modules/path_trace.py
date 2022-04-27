@@ -50,6 +50,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Path Trace InitiateANewPathtrace
+  description: Complete reference of the InitiateANewPathtrace API.
+  link: https://developer.cisco.com/docs/dna-center/#!initiate-a-new-pathtrace
+- name: Cisco DNA Center documentation for Path Trace DeletesPathtraceById
+  description: Complete reference of the DeletesPathtraceById API.
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-pathtrace-by-id
 notes:
   - SDK Method used are
     path_trace.PathTrace.deletes_pathtrace_by_id,

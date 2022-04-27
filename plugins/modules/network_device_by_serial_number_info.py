@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetDeviceBySerialNumber
+  description: Complete reference of the GetDeviceBySerialNumber API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-by-serial-number
 notes:
   - SDK Method used are
     devices.Devices.get_device_by_serial_number,

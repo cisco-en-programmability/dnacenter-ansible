@@ -36,6 +36,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Licenses LicenseUsageDetails
+  description: Complete reference of the LicenseUsageDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!license-usage-details
 notes:
   - SDK Method used are
     licenses.Licenses.license_usage_details,

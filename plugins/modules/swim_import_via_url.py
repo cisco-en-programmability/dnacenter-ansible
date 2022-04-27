@@ -51,6 +51,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) ImportSoftwareImageViaURL
+  description: Complete reference of the ImportSoftwareImageViaURL API.
+  link: https://developer.cisco.com/docs/dna-center/#!import-software-image-via-url
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url,

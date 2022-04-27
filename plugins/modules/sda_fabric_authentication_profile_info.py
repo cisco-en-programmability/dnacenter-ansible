@@ -31,6 +31,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetDefaultAuthenticationProfileFromSDAFabric
+  description: Complete reference of the GetDefaultAuthenticationProfileFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-default-authentication-profile-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_default_authentication_profile,

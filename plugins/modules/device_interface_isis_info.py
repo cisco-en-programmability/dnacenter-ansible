@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetISISInterfaces
+  description: Complete reference of the GetISISInterfaces API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-isis-interfaces
 notes:
   - SDK Method used are
     devices.Devices.get_isis_interfaces,

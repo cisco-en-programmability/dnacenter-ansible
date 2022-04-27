@@ -46,6 +46,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices InventoryInsightDeviceLinkMismatchAPI
+  description: Complete reference of the InventoryInsightDeviceLinkMismatchAPI API.
+  link: https://developer.cisco.com/docs/dna-center/#!inventory-insight-device-link-mismatch-api
 notes:
   - SDK Method used are
     devices.Devices.inventory_insight_device_link_mismatch,

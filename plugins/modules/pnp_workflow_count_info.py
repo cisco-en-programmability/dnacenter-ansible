@@ -27,6 +27,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowCount
+  description: Complete reference of the GetWorkflowCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-workflow-count
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.get_workflow_count,

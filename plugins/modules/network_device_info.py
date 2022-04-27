@@ -184,6 +184,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetDeviceByID
+  description: Complete reference of the GetDeviceByID API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-by-id
+- name: Cisco DNA Center documentation for Devices GetDeviceList
+  description: Complete reference of the GetDeviceList API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-list
 notes:
   - SDK Method used are
     devices.Devices.get_device_by_id,

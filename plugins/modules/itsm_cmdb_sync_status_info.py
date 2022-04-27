@@ -36,6 +36,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for ITSM GetCMDBSyncStatus
+  description: Complete reference of the GetCMDBSyncStatus API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-cmdb-sync-status
 notes:
   - SDK Method used are
     itsm.Itsm.get_cmdb_sync_status,

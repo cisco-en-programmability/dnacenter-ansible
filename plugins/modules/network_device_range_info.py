@@ -30,6 +30,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetNetworkDeviceByPaginationRange
+  description: Complete reference of the GetNetworkDeviceByPaginationRange API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-network-device-by-pagination-range
 notes:
   - SDK Method used are
     devices.Devices.get_network_device_by_pagination_range,

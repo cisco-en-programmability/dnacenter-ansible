@@ -51,6 +51,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) TriggerSoftwareImageActivation
+  description: Complete reference of the TriggerSoftwareImageActivation API.
+  link: https://developer.cisco.com/docs/dna-center/#!trigger-software-image-activation
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation,

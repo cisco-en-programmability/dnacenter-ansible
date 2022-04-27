@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for File GetListOfAvailableNamespaces
+  description: Complete reference of the GetListOfAvailableNamespaces API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-available-namespaces
 notes:
   - SDK Method used are
     file.File.get_list_of_available_namespaces,

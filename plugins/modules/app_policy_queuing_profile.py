@@ -91,6 +91,16 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Application Policy CreateApplicationPolicyQueuingProfile
+  description: Complete reference of the CreateApplicationPolicyQueuingProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-application-policy-queuing-profile
+- name: Cisco DNA Center documentation for Application Policy DeleteApplicationPolicyQueuingProfile
+  description: Complete reference of the DeleteApplicationPolicyQueuingProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-application-policy-queuing-profile
+- name: Cisco DNA Center documentation for Application Policy UpdateApplicationPolicyQueuingProfile
+  description: Complete reference of the UpdateApplicationPolicyQueuingProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-application-policy-queuing-profile
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.create_application_policy_queuing_profile,

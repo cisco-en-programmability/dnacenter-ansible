@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetDeviceSummary
+  description: Complete reference of the GetDeviceSummary API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-summary
 notes:
   - SDK Method used are
     devices.Devices.get_device_summary,

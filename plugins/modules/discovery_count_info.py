@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery GetCountOfAllDiscoveryJobs
+  description: Complete reference of the GetCountOfAllDiscoveryJobs API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-count-of-all-discovery-jobs
 notes:
   - SDK Method used are
     discovery.Discovery.get_count_of_all_discovery_jobs,

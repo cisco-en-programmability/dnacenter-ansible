@@ -33,6 +33,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Sites AssignDeviceToSite
+  description: Complete reference of the AssignDeviceToSite API.
+  link: https://developer.cisco.com/docs/dna-center/#!assign-device-to-site
 notes:
   - SDK Method used are
     sites.Sites.assign_device_to_site,

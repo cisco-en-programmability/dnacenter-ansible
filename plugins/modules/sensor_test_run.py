@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Sensors RunNowSensorTest
+  description: Complete reference of the RunNowSensorTest API.
+  link: https://developer.cisco.com/docs/dna-center/#!run-now-sensor-test
 notes:
   - SDK Method used are
     sensors.Sensors.run_now_sensor_test,

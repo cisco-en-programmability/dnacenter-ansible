@@ -36,6 +36,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetIPPoolFromSDAVirtualNetwork
+  description: Complete reference of the GetIPPoolFromSDAVirtualNetwork API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-ip-pool-from-sda-virtual-network
 notes:
   - SDK Method used are
     sda.Sda.get_ip_pool_from_sda_virtual_network,

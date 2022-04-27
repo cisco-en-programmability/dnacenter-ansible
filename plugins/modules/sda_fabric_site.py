@@ -27,6 +27,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA AddSiteInSDAFabric
+  description: Complete reference of the AddSiteInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-site-in-sda-fabric
+- name: Cisco DNA Center documentation for SDA DeleteSiteFromSDAFabric
+  description: Complete reference of the DeleteSiteFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-site-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_site,

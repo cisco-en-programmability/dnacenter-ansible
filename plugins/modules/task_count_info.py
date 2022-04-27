@@ -62,6 +62,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Task GetTaskCount
+  description: Complete reference of the GetTaskCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-task-count
 notes:
   - SDK Method used are
     task.Task.get_task_count,

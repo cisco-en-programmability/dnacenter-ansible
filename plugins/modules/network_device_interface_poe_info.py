@@ -33,6 +33,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices ReturnsPOEInterfaceDetailsForTheDevice
+  description: Complete reference of the ReturnsPOEInterfaceDetailsForTheDevice API.
+  link: https://developer.cisco.com/docs/dna-center/#!returns-poe-interface-details-for-the-device
 notes:
   - SDK Method used are
     devices.Devices.poe_interface_details,

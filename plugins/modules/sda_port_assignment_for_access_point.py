@@ -44,6 +44,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA AddPortAssignmentForAccessPointInSDAFabric
+  description: Complete reference of the AddPortAssignmentForAccessPointInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-port-assignment-for-access-point-in-sda-fabric
+- name: Cisco DNA Center documentation for SDA DeletePortAssignmentForAccessPointInSDAFabric
+  description: Complete reference of the DeletePortAssignmentForAccessPointInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-for-access-point-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_port_assignment_for_access_point,

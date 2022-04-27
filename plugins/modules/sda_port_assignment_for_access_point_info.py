@@ -31,6 +31,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetPortAssignmentForAccessPointInSDAFabric
+  description: Complete reference of the GetPortAssignmentForAccessPointInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-port-assignment-for-access-point-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_port_assignment_for_access_point,

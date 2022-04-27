@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetPollingIntervalById
+  description: Complete reference of the GetPollingIntervalById API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-polling-interval-by-id
 notes:
   - SDK Method used are
     devices.Devices.get_polling_interval_by_id,

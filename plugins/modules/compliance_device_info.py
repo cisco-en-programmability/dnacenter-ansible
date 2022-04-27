@@ -42,6 +42,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Compliance DeviceComplianceStatus
+  description: Complete reference of the DeviceComplianceStatus API.
+  link: https://developer.cisco.com/docs/dna-center/#!device-compliance-status
+- name: Cisco DNA Center documentation for Compliance GetComplianceStatus
+  description: Complete reference of the GetComplianceStatus API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-compliance-status
 notes:
   - SDK Method used are
     compliance.Compliance.device_compliance_status,

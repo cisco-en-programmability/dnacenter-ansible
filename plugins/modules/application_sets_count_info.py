@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Application Policy GetApplicationSetsCount
+  description: Complete reference of the GetApplicationSetsCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-application-sets-count
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_application_sets_count,

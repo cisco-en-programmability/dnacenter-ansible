@@ -67,6 +67,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Replacement MarkDeviceForReplacement
+  description: Complete reference of the MarkDeviceForReplacement API.
+  link: https://developer.cisco.com/docs/dna-center/#!mark-device-for-replacement
+- name: Cisco DNA Center documentation for Device Replacement UnMarkDeviceForReplacement
+  description: Complete reference of the UnMarkDeviceForReplacement API.
+  link: https://developer.cisco.com/docs/dna-center/#!un-mark-device-for-replacement
 notes:
   - SDK Method used are
     device_replacement.DeviceReplacement.mark_device_for_replacement,

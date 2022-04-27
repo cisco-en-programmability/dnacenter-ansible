@@ -32,6 +32,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery GetDiscoveredNetworkDevicesByDiscoveryId
+  description: Complete reference of the GetDiscoveredNetworkDevicesByDiscoveryId API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-discovered-network-devices-by-discovery-id
 notes:
   - SDK Method used are
     discovery.Discovery.get_discovered_network_devices_by_discovery_id,

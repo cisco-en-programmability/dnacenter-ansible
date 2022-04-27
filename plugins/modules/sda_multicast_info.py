@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetMulticastDetailsFromSDAFabric
+  description: Complete reference of the GetMulticastDetailsFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-multicast-details-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_multicast_details_from_sda_fabric,

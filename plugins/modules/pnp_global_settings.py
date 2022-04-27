@@ -160,6 +160,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdatePnPGlobalSettings
+  description: Complete reference of the UpdatePnPGlobalSettings API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-pn-p-global-settings
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.update_pnp_global_settings,

@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Security Advisories GetAdvisoryIDsPerDevice
+  description: Complete reference of the GetAdvisoryIDsPerDevice API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-advisory-i-ds-per-device
 notes:
   - SDK Method used are
     security_advisories.SecurityAdvisories.get_advisory_ids_per_device,

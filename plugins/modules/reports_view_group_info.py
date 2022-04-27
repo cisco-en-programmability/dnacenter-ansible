@@ -30,6 +30,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Reports GetAllViewGroups
+  description: Complete reference of the GetAllViewGroups API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-view-groups
+- name: Cisco DNA Center documentation for Reports GetViewsForAGivenViewGroup
+  description: Complete reference of the GetViewsForAGivenViewGroup API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-views-for-a-given-view-group
 notes:
   - SDK Method used are
     reports.Reports.get_all_view_groups,

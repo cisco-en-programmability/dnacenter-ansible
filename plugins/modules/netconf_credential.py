@@ -41,6 +41,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery CreateNetconfCredentials
+  description: Complete reference of the CreateNetconfCredentials API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-netconf-credentials
+- name: Cisco DNA Center documentation for Discovery UpdateNetconfCredentials
+  description: Complete reference of the UpdateNetconfCredentials API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-netconf-credentials
 notes:
   - SDK Method used are
     discovery.Discovery.create_netconf_credentials,

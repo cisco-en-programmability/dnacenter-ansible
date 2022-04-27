@@ -825,6 +825,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) ImportDevicesInBulk
+  description: Complete reference of the ImportDevicesInBulk API.
+  link: https://developer.cisco.com/docs/dna-center/#!import-devices-in-bulk
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.import_devices_in_bulk,

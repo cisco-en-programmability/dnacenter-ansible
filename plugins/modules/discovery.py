@@ -216,6 +216,19 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery StartDiscovery
+  description: Complete reference of the StartDiscovery API.
+  link: https://developer.cisco.com/docs/dna-center/#!start-discovery
+- name: Cisco DNA Center documentation for Discovery DeleteAllDiscovery
+  description: Complete reference of the DeleteAllDiscovery API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-all-discovery
+- name: Cisco DNA Center documentation for Discovery DeleteDiscoveryById
+  description: Complete reference of the DeleteDiscoveryById API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-id
+- name: Cisco DNA Center documentation for Discovery UpdatesAnExistingDiscoveryBySpecifiedId
+  description: Complete reference of the UpdatesAnExistingDiscoveryBySpecifiedId API.
+  link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-discovery-by-specified-id
 notes:
   - SDK Method used are
     discovery.Discovery.delete_discovery_by_id,

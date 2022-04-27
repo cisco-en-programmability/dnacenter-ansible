@@ -84,6 +84,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Task GetTaskById
+  description: Complete reference of the GetTaskById API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-task-by-id
+- name: Cisco DNA Center documentation for Task GetTasks
+  description: Complete reference of the GetTasks API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-tasks
 notes:
   - SDK Method used are
     task.Task.get_task_by_id,

@@ -42,6 +42,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery GetCredentialSubTypeByCredentialId
+  description: Complete reference of the GetCredentialSubTypeByCredentialId API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-credential-sub-type-by-credential-id
+- name: Cisco DNA Center documentation for Discovery GetGlobalCredentials
+  description: Complete reference of the GetGlobalCredentials API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-global-credentials
 notes:
   - SDK Method used are
     discovery.Discovery.get_credential_sub_type_by_credential_id,

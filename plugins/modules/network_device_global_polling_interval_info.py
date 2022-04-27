@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetPollingIntervalForAllDevices
+  description: Complete reference of the GetPollingIntervalForAllDevices API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-polling-interval-for-all-devices
 notes:
   - SDK Method used are
     devices.Devices.get_polling_interval_for_all_devices,

@@ -28,6 +28,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) DeregisterVirtualAccount
+  description: Complete reference of the DeregisterVirtualAccount API.
+  link: https://developer.cisco.com/docs/dna-center/#!deregister-virtual-account
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.deregister_virtual_account,

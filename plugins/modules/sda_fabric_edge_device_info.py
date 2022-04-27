@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetEdgeDeviceFromSDAFabric
+  description: Complete reference of the GetEdgeDeviceFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-edge-device-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_edge_device,

@@ -30,6 +30,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Fabric Wireless GetSSIDToIPPoolMapping
+  description: Complete reference of the GetSSIDToIPPoolMapping API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-ssid-to-ip-pool-mapping
 notes:
   - SDK Method used are
     fabric_wireless.FabricWireless.get_ssid_to_ip_pool_mapping,

@@ -30,6 +30,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices RegisterDeviceForWSA
+  description: Complete reference of the RegisterDeviceForWSA API.
+  link: https://developer.cisco.com/docs/dna-center/#!register-device-for-wsa
 notes:
   - SDK Method used are
     devices.Devices.register_device_for_wsa,

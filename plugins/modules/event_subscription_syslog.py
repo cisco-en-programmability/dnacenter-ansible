@@ -60,6 +60,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management CreateSyslogEventSubscription
+  description: Complete reference of the CreateSyslogEventSubscription API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-syslog-event-subscription
+- name: Cisco DNA Center documentation for Event Management UpdateSyslogEventSubscription
+  description: Complete reference of the UpdateSyslogEventSubscription API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-syslog-event-subscription
 notes:
   - SDK Method used are
     event_management.EventManagement.create_syslog_event_subscription,

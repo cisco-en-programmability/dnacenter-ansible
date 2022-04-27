@@ -23,6 +23,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates ExportsTheProjectsForAGivenCriteria
+  description: Complete reference of the ExportsTheProjectsForAGivenCriteria API.
+  link: https://developer.cisco.com/docs/dna-center/#!exports-the-projects-for-a-given-criteria
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.export_projects,

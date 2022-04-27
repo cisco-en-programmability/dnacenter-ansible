@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetDeviceInterfaceCount
+  description: Complete reference of the GetDeviceInterfaceCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-count
 notes:
   - SDK Method used are
     devices.Devices.get_device_interface_count,

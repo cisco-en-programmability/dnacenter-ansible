@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices POEDetails
+  description: Complete reference of the POEDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!p-oe-details
 notes:
   - SDK Method used are
     devices.Devices.poe_details,

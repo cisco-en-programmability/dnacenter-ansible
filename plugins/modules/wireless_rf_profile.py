@@ -101,6 +101,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Wireless CreateOrUpdateRFProfile
+  description: Complete reference of the CreateOrUpdateRFProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-or-update-rf-profile
+- name: Cisco DNA Center documentation for Wireless DeleteRFProfiles
+  description: Complete reference of the DeleteRFProfiles API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-rf-profiles
 notes:
   - SDK Method used are
     wireless.Wireless.create_or_update_rf_profile,

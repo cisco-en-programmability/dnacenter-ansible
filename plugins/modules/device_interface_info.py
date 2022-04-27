@@ -36,6 +36,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetAllInterfaces
+  description: Complete reference of the GetAllInterfaces API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-interfaces
+- name: Cisco DNA Center documentation for Devices GetInterfaceById
+  description: Complete reference of the GetInterfaceById API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-interface-by-id
 notes:
   - SDK Method used are
     devices.Devices.get_all_interfaces,

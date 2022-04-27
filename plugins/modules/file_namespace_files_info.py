@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for File GetListOfFiles
+  description: Complete reference of the GetListOfFiles API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-files
 notes:
   - SDK Method used are
     file.File.get_list_of_files,

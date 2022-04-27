@@ -57,6 +57,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowById
+  description: Complete reference of the GetWorkflowById API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-workflow-by-id
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflows
+  description: Complete reference of the GetWorkflows API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-workflows
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.get_workflow_by_id,

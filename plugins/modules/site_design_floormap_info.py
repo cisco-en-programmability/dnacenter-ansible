@@ -28,6 +28,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Site Design ListFloormaps
+  description: Complete reference of the ListFloormaps API.
+  link: https://developer.cisco.com/docs/dna-center/#!list-floormaps
+- name: Cisco DNA Center documentation for Site Design ListSpecifiedFloormaps
+  description: Complete reference of the ListSpecifiedFloormaps API.
+  link: https://developer.cisco.com/docs/dna-center/#!list-specified-floormap-s
 notes:
   - SDK Method used are
     site_design.SiteDesign.get_floormap,

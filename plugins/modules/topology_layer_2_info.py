@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Topology GetTopologyDetails
+  description: Complete reference of the GetTopologyDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-topology-details
 notes:
   - SDK Method used are
     topology.Topology.get_topology_details,

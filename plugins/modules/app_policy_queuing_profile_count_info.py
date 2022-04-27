@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Application Policy GetApplicationPolicyQueuingProfileCount
+  description: Complete reference of the GetApplicationPolicyQueuingProfileCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-application-policy-queuing-profile-count
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_application_policy_queuing_profile_count,

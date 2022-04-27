@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Tag GetTagResourceTypes
+  description: Complete reference of the GetTagResourceTypes API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-tag-resource-types
 notes:
   - SDK Method used are
     tag.Tag.get_tag_resource_types,

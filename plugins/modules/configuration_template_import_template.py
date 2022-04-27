@@ -527,6 +527,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates ImportsTheTemplatesProvided
+  description: Complete reference of the ImportsTheTemplatesProvided API.
+  link: https://developer.cisco.com/docs/dna-center/#!imports-the-templates-provided
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.imports_the_templates_provided,

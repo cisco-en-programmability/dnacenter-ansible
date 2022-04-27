@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Sites DeleteSite
+  description: Complete reference of the DeleteSite API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-site
 notes:
   - SDK Method used are
     sites.Sites.delete_site,

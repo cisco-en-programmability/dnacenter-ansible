@@ -36,6 +36,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates GetsAListOfProjects
+  description: Complete reference of the GetsAListOfProjects API.
+  link: https://developer.cisco.com/docs/dna-center/#!gets-a-list-of-projects
+- name: Cisco DNA Center documentation for Configuration Templates GetsTheDetailsOfAGivenProject
+  description: Complete reference of the GetsTheDetailsOfAGivenProject API.
+  link: https://developer.cisco.com/docs/dna-center/#!gets-the-details-of-a-given-project
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_project_details,

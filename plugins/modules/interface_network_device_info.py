@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetInterfaceInfoById
+  description: Complete reference of the GetInterfaceInfoById API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-interface-info-by-id
 notes:
   - SDK Method used are
     devices.Devices.get_interface_info_by_id,

@@ -34,6 +34,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Tag UpdatesTagMembership
+  description: Complete reference of the UpdatesTagMembership API.
+  link: https://developer.cisco.com/docs/dna-center/#!updates-tag-membership
 notes:
   - SDK Method used are
     tag.Tag.updates_tag_membership,

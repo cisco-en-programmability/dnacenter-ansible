@@ -78,6 +78,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates GetsDetailsOfAGivenTemplate
+  description: Complete reference of the GetsDetailsOfAGivenTemplate API.
+  link: https://developer.cisco.com/docs/dna-center/#!gets-details-of-a-given-template
+- name: Cisco DNA Center documentation for Configuration Templates GetsTheTemplatesAvailable
+  description: Complete reference of the GetsTheTemplatesAvailable API.
+  link: https://developer.cisco.com/docs/dna-center/#!gets-the-templates-available
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_template_details,

@@ -34,6 +34,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Network Settings GetReserveIPSubpool
+  description: Complete reference of the GetReserveIPSubpool API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-reserve-ip-subpool
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.get_reserve_ip_subpool,

@@ -30,6 +30,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Clients GetClientDetail
+  description: Complete reference of the GetClientDetail API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-client-detail
 notes:
   - SDK Method used are
     clients.Clients.get_client_detail,

@@ -74,6 +74,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpool
+  description: Complete reference of the UpdateReserveIPSubpool API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.update_reserve_ip_subpool,

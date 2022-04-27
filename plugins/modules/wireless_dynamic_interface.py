@@ -29,6 +29,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Wireless CreateUpdateDynamicInterface
+  description: Complete reference of the CreateUpdateDynamicInterface API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-update-dynamic-interface
+- name: Cisco DNA Center documentation for Wireless DeleteDynamicInterface
+  description: Complete reference of the DeleteDynamicInterface API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-dynamic-interface
 notes:
   - SDK Method used are
     wireless.Wireless.create_update_dynamic_interface,

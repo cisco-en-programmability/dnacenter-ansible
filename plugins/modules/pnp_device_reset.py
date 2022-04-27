@@ -61,6 +61,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) ResetDevice
+  description: Complete reference of the ResetDevice API.
+  link: https://developer.cisco.com/docs/dna-center/#!reset-device
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.reset_device,

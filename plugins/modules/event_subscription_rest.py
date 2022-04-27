@@ -60,6 +60,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management CreateRestWebhookEventSubscription
+  description: Complete reference of the CreateRestWebhookEventSubscription API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-rest-webhook-event-subscription
+- name: Cisco DNA Center documentation for Event Management UpdateRestWebhookEventSubscription
+  description: Complete reference of the UpdateRestWebhookEventSubscription API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-rest-webhook-event-subscription
 notes:
   - SDK Method used are
     event_management.EventManagement.create_rest_webhook_event_subscription,

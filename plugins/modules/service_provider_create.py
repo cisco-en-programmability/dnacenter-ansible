@@ -37,6 +37,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Network Settings CreateSPProfile
+  description: Complete reference of the CreateSPProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-sp-profile
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.create_sp_profile,

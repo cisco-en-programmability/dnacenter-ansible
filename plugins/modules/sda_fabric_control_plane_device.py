@@ -28,6 +28,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA AddControlPlaneDeviceInSDAFabric
+  description: Complete reference of the AddControlPlaneDeviceInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-control-plane-device-in-sda-fabric
+- name: Cisco DNA Center documentation for SDA DeleteControlPlaneDeviceInSDAFabric
+  description: Complete reference of the DeleteControlPlaneDeviceInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-control-plane-device-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_control_plane_device,

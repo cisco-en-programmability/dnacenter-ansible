@@ -38,6 +38,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for File DownloadAFileByFileId
+  description: Complete reference of the DownloadAFileByFileId API.
+  link: https://developer.cisco.com/docs/dna-center/#!download-a-file-by-file-id
 notes:
   - SDK Method used are
     file.File.download_a_file_by_fileid,

@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) GetDeviceFamilyIdentifiers
+  description: Complete reference of the GetDeviceFamilyIdentifiers API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-family-identifiers
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.get_device_family_identifiers,

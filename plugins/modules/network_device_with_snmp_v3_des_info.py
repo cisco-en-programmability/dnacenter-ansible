@@ -44,6 +44,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices ReturnsDevicesAddedToDNACWithSnmpV3DES
+  description: Complete reference of the ReturnsDevicesAddedToDNACWithSnmpV3DES API.
+  link: https://developer.cisco.com/docs/dna-center/#!returns-devices-added-to-dnac-with-snmp-v-3-des
 notes:
   - SDK Method used are
     devices.Devices.get_devices_with_snmpv3_des,

@@ -130,6 +130,16 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) AddAWorkflow
+  description: Complete reference of the AddAWorkflow API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-a-workflow
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) DeleteWorkflowById
+  description: Complete reference of the DeleteWorkflowById API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-workflow-by-id
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdateWorkflow
+  description: Complete reference of the UpdateWorkflow API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-workflow
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.add_a_workflow,

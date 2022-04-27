@@ -30,6 +30,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetDeviceInterfaceVLANs
+  description: Complete reference of the GetDeviceInterfaceVLANs API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-vla-ns
 notes:
   - SDK Method used are
     devices.Devices.get_device_interface_vlans,

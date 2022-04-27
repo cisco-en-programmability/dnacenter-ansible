@@ -110,6 +110,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetDeviceValuesThatMatchFullyOrPartiallyAnAttribute
+  description: Complete reference of the GetDeviceValuesThatMatchFullyOrPartiallyAnAttribute API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-values-that-match-fully-or-partially-an-attribute
 notes:
   - SDK Method used are
     devices.Devices.get_device_values_that_match_fully_or_partially_an_attribute,

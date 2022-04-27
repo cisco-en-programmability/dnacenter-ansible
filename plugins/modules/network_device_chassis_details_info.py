@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetChassisDetailsForDevice
+  description: Complete reference of the GetChassisDetailsForDevice API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-chassis-details-for-device
 notes:
   - SDK Method used are
     devices.Devices.get_chassis_details_for_device,

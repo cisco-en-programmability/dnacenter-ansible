@@ -23,6 +23,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA AddFabric
+  description: Complete reference of the AddFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-fabric
+- name: Cisco DNA Center documentation for SDA DeleteSDAFabric
+  description: Complete reference of the DeleteSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_fabric,

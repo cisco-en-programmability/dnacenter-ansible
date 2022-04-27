@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetDeviceRoleInSDAFabric
+  description: Complete reference of the GetDeviceRoleInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-role-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_device_role_in_sda_fabric,

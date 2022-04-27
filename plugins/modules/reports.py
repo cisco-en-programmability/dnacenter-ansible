@@ -105,6 +105,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Reports CreateOrScheduleAReport
+  description: Complete reference of the CreateOrScheduleAReport API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-or-schedule-a-report
+- name: Cisco DNA Center documentation for Reports DeleteAScheduledReport
+  description: Complete reference of the DeleteAScheduledReport API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-a-scheduled-report
 notes:
   - SDK Method used are
     reports.Reports.create_or_schedule_a_report,

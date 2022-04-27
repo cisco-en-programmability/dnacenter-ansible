@@ -91,6 +91,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceCount
+  description: Complete reference of the GetDeviceCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-count-2
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.get_device_count,

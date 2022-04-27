@@ -153,6 +153,16 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Site Design CreateNFVProfile
+  description: Complete reference of the CreateNFVProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-nfv-profile
+- name: Cisco DNA Center documentation for Site Design DeleteNFVProfile
+  description: Complete reference of the DeleteNFVProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-nfv-profile
+- name: Cisco DNA Center documentation for Site Design UpdateNFVProfile
+  description: Complete reference of the UpdateNFVProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-nfv-profile
 notes:
   - SDK Method used are
     site_design.SiteDesign.create_nfv_profile,

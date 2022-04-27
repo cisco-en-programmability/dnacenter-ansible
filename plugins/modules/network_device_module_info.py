@@ -60,6 +60,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetModuleInfoById
+  description: Complete reference of the GetModuleInfoById API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-module-info-by-id
+- name: Cisco DNA Center documentation for Devices GetModules
+  description: Complete reference of the GetModules API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-modules
 notes:
   - SDK Method used are
     devices.Devices.get_module_info_by_id,

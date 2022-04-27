@@ -26,6 +26,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Wireless GetWirelessProfile
+  description: Complete reference of the GetWirelessProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profile
 notes:
   - SDK Method used are
     wireless.Wireless.get_wireless_profile,

@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Command Runner GetAllKeywordsOfCLIsAcceptedByCommandRunner
+  description: Complete reference of the GetAllKeywordsOfCLIsAcceptedByCommandRunner API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-keywords-of-cl-is-accepted-by-command-runner
 notes:
   - SDK Method used are
     command_runner.CommandRunner.get_all_keywords_of_clis_accepted,

@@ -73,6 +73,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Replacement ReturnListOfReplacementDevicesWithReplacementDetails
+  description: Complete reference of the ReturnListOfReplacementDevicesWithReplacementDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!return-list-of-replacement-devices-with-replacement-details
 notes:
   - SDK Method used are
     device_replacement.DeviceReplacement.return_replacement_devices_with_details,

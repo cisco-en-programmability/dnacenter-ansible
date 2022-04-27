@@ -76,6 +76,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA AddsBorderDeviceInSDAFabric
+  description: Complete reference of the AddsBorderDeviceInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!adds-border-device-in-sda-fabric
+- name: Cisco DNA Center documentation for SDA DeletesBorderDeviceFromSDAFabric
+  description: Complete reference of the DeletesBorderDeviceFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-border-device-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.adds_border_device,

@@ -825,6 +825,16 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) AddDevice
+  description: Complete reference of the AddDevice API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-device-2
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) DeleteDeviceByIdFromPnP
+  description: Complete reference of the DeleteDeviceByIdFromPnP API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-from-pn-p
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdateDevice
+  description: Complete reference of the UpdateDevice API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-device
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.add_device,

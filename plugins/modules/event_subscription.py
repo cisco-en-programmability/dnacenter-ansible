@@ -73,6 +73,16 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management CreateEventSubscriptions
+  description: Complete reference of the CreateEventSubscriptions API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-event-subscriptions
+- name: Cisco DNA Center documentation for Event Management DeleteEventSubscriptions
+  description: Complete reference of the DeleteEventSubscriptions API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-event-subscriptions
+- name: Cisco DNA Center documentation for Event Management UpdateEventSubscriptions
+  description: Complete reference of the UpdateEventSubscriptions API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-event-subscriptions
 notes:
   - SDK Method used are
     event_management.EventManagement.create_event_subscriptions,

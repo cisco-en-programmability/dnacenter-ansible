@@ -56,6 +56,16 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA DeployAuthenticationTemplateInSDAFabric
+  description: Complete reference of the DeployAuthenticationTemplateInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!deploy-authentication-template-in-sda-fabric
+- name: Cisco DNA Center documentation for SDA DeleteDefaultAuthenticationProfileFromSDAFabric
+  description: Complete reference of the DeleteDefaultAuthenticationProfileFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-default-authentication-profile-from-sda-fabric
+- name: Cisco DNA Center documentation for SDA UpdateDefaultAuthenticationProfileInSDAFabric
+  description: Complete reference of the UpdateDefaultAuthenticationProfileInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-default-authentication-profile-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_default_authentication_profile,

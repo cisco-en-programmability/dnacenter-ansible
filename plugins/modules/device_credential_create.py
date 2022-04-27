@@ -122,6 +122,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Network Settings CreateDeviceCredentials
+  description: Complete reference of the CreateDeviceCredentials API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-device-credentials
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.create_device_credentials,

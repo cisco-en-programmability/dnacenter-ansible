@@ -42,6 +42,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Clients ClientProximity
+  description: Complete reference of the ClientProximity API.
+  link: https://developer.cisco.com/docs/dna-center/#!client-proximity
 notes:
   - SDK Method used are
     clients.Clients.client_proximity,

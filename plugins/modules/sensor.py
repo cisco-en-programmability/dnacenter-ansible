@@ -89,6 +89,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Sensors CreateSensorTestTemplate
+  description: Complete reference of the CreateSensorTestTemplate API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-sensor-test-template
+- name: Cisco DNA Center documentation for Sensors DeleteSensorTest
+  description: Complete reference of the DeleteSensorTest API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-sensor-test
 notes:
   - SDK Method used are
     sensors.Sensors.create_sensor_test_template,

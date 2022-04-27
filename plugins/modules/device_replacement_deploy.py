@@ -27,6 +27,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Replacement DeployDeviceReplacementWorkflow
+  description: Complete reference of the DeployDeviceReplacementWorkflow API.
+  link: https://developer.cisco.com/docs/dna-center/#!deploy-device-replacement-workflow
 notes:
   - SDK Method used are
     device_replacement.DeviceReplacement.deploy_device_replacement_workflow,

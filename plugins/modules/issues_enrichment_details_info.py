@@ -24,6 +24,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Issues GetIssueEnrichmentDetails
+  description: Complete reference of the GetIssueEnrichmentDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-issue-enrichment-details
 notes:
   - SDK Method used are
     issues.Issues.get_issue_enrichment_details,

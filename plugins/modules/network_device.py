@@ -119,6 +119,16 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices AddDevice2
+  description: Complete reference of the AddDevice2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-device
+- name: Cisco DNA Center documentation for Devices DeleteDeviceById
+  description: Complete reference of the DeleteDeviceById API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id
+- name: Cisco DNA Center documentation for Devices SyncDevices2
+  description: Complete reference of the SyncDevices2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!sync-devices
 notes:
   - SDK Method used are
     devices.Devices.add_device,

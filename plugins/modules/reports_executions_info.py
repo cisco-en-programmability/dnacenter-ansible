@@ -46,6 +46,13 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Reports DownloadReportContent
+  description: Complete reference of the DownloadReportContent API.
+  link: https://developer.cisco.com/docs/dna-center/#!download-report-content
+- name: Cisco DNA Center documentation for Reports GetAllExecutionDetailsForAGivenReport
+  description: Complete reference of the GetAllExecutionDetailsForAGivenReport API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-execution-details-for-a-given-report
 notes:
   - SDK Method used are
     reports.Reports.download_report_content,

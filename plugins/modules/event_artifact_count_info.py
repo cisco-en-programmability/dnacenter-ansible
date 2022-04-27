@@ -22,6 +22,10 @@ options:
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management EventArtifactCount
+  description: Complete reference of the EventArtifactCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!event-artifact-count
 notes:
   - SDK Method used are
     event_management.EventManagement.eventartifact_count,
