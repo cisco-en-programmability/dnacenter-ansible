@@ -95,7 +95,7 @@ class PathTrace(object):
 
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name method, using get all
+        # NOTE: Does not have a get by name method, using get all
         try:
             items = self.dnac.exec(
                 family="path_trace",

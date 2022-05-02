@@ -70,8 +70,8 @@ class SiteDesignFloormap(object):
 
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name method or it is in another action
-        # NOTICE: Does not have get all
+        # NOTE: Does not have a get by name method or it is in another action
+        # NOTE: Does not have get all
         return result
 
     def get_object_by_id(self, id):

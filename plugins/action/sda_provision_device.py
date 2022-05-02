@@ -77,7 +77,7 @@ class SdaProvisionDevice(object):
 
     def get_object_by_name(self, name, is_absent=False):
         result = None
-        # NOTICE: Does not have a get by name method or it is in another action
+        # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
                 family="sda",
