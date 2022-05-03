@@ -111,10 +111,10 @@ class PathTrace(object):
                 function="retrives_all_previous_pathtraces_summary",
                 params=self.get_all_params(name=name),
             )
-                if isinstance(items, dict):
-                    if 'response' in items:
-                        items = items.get('response')
-                result = items
+            if isinstance(items, dict):
+                if 'response' in items:
+                    items = items.get('response')
+            result = items
         except Exception:
             result = None
         return result

@@ -77,10 +77,10 @@ class EventSubscriptionEmail(object):
                 function="get_email_event_subscriptions",
                 params=self.get_all_params(name=name),
             )
-                if isinstance(items, dict):
-                    if 'response' in items:
-                        items = items.get('response')
-                result = get_dict_result(items, 'name', name)
+            if isinstance(items, dict):
+                if 'response' in items:
+                    items = items.get('response')
+            result = get_dict_result(items, 'name', name)
         except Exception:
             result = None
         return result

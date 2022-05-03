@@ -95,10 +95,10 @@ class Reports(object):
                 function="get_list_of_scheduled_reports",
                 params=self.get_all_params(name=name),
             )
-                if isinstance(items, dict):
-                    if 'response' in items:
-                        items = items.get('response')
-                result = get_dict_result(items, 'name', name)
+            if isinstance(items, dict):
+                if 'response' in items:
+                    items = items.get('response')
+            result = get_dict_result(items, 'name', name)
         except Exception:
             result = None
         return result

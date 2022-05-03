@@ -81,10 +81,10 @@ class WirelessDynamicInterface(object):
                 function="get_dynamic_interface",
                 params=self.get_all_params(name=name),
             )
-                if isinstance(items, dict):
-                    if 'response' in items:
-                        items = items.get('response')
-                result = get_dict_result(items, 'interfaceName', name)
+            if isinstance(items, dict):
+                if 'response' in items:
+                    items = items.get('response')
+            result = get_dict_result(items, 'interfaceName', name)
         except Exception:
             result = None
         return result

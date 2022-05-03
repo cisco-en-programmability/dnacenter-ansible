@@ -161,10 +161,10 @@ class ConfigurationTemplate(object):
                 function="gets_the_templates_available",
                 params=self.get_all_params(name=name),
             )
-                if isinstance(items, dict):
-                    if 'response' in items:
-                        items = items.get('response')
-                result = get_dict_result(items, 'name', name)
+            if isinstance(items, dict):
+                if 'response' in items:
+                    items = items.get('response')
+            result = get_dict_result(items, 'name', name)
         except Exception:
             result = None
         return result
