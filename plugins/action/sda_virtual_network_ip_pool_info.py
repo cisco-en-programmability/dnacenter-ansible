@@ -66,7 +66,7 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            siteNameHierarchy=params.get("siteNameHierarchy"),
+            site_name_hierarchy=params.get("siteNameHierarchy"),
             ip_pool_name=params.get("ipPoolName"),
             virtual_network_name=params.get("virtualNetworkName"),
             headers=params.get("headers"),

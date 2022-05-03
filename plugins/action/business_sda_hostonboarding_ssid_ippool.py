@@ -48,18 +48,18 @@ class BusinessSdaHostonboardingSsidIppool(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
-            vlanName=params.get("vlanName"),
             vlan_name=params.get("vlanName"),
+            site_name_hierarchy=params.get("siteNameHierarchy"),
+            vlanName=params.get("vlanName"),
             scalableGroupName=params.get("scalableGroupName"),
             ssidNames=params.get("ssidNames"),
             siteNameHierarchy=params.get("siteNameHierarchy"),
-            site_name_hierarchy=params.get("siteNameHierarchy"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['vlan_name'] = self.new_object.get('vlan_name')
-        new_object_params['site_name_hierarchy'] = self.new_object.get('site_name_hierarchy')
+        new_object_params['vlan_name'] = self.new_object.get('vlanName') or self.new_object.get('vlan_name')
+        new_object_params['site_name_hierarchy'] = self.new_object.get('siteNameHierarchy') or self.new_object.get('site_name_hierarchy')
         return new_object_params
 
     def create_params(self):
@@ -87,10 +87,10 @@ class BusinessSdaHostonboardingSsidIppool(object):
                 function="get_ssid_to_ip_pool_mapping",
                 params=self.get_all_params(name=name),
             )
-            if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-            result = get_dict_result(items, 'name', name)
+                if isinstance(items, dict):
+                    if 'response' in items:
+                        items = items.get('response')
+                result = get_dict_result(items, 'name', name)
         except Exception:
             result = None
         return result
@@ -104,7 +104,7 @@ class BusinessSdaHostonboardingSsidIppool(object):
         name = self.new_object.get("name")
         prev_obj = self.get_object_by_name(name)
         it_exists = prev_obj is not None and isinstance(prev_obj, dict) and 'vlanName' in prev_obj
-        return (it_exists, prev_obj)
+    return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
         requested_obj = self.new_object

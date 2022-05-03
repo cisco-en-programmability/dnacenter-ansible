@@ -65,8 +65,7 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             payload=params.get("payload"),
-            headers=params.get("headers") if params.get("headers") is not None
-            else dict(__persistbapioutput='true'),
+            headers=params.get("headers"),
         )
         return new_object
 

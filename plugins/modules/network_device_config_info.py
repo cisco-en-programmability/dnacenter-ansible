@@ -10,6 +10,7 @@ module: network_device_config_info
 short_description: Information module for Network Device Config
 description:
 - Get all Network Device Config.
+- Get Network Device Config by id.
 - Returns the config for all devices.
 - Returns the device config by specified device ID.
 version_added: '3.1.0'
@@ -37,6 +38,7 @@ seealso:
 notes:
   - SDK Method used are
     devices.Devices.get_device_config_by_id,
+    devices.Devices.get_device_config_for_all_devices,
 
   - Paths used are
     get /dna/intent/api/v1/network-device/config,
@@ -46,6 +48,18 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Network Device Config
+  cisco.dnac.network_device_config_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    headers: "{{my_headers | from_json}}"
+  register: result
+
+- name: Get Network Device Config by id
   cisco.dnac.network_device_config_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

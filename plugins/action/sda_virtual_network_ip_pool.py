@@ -24,7 +24,6 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
     InconsistentParameters,
-
     AnsibleSDAException,
 )
 
@@ -57,6 +56,7 @@ class SdaVirtualNetworkIpPool(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
+            site_name_hierarchy=params.get("siteNameHierarchy"),
             siteNameHierarchy=params.get("siteNameHierarchy"),
             virtualNetworkName=params.get("virtualNetworkName"),
             ipPoolName=params.get("ipPoolName"),
@@ -68,7 +68,6 @@ class SdaVirtualNetworkIpPool(object):
             poolType=params.get("poolType"),
             vlanName=params.get("vlanName"),
             isWirelessPool=params.get("isWirelessPool"),
-            site_name_hierarchy=params.get("siteNameHierarchy"),
             ip_pool_name=params.get("ipPoolName"),
             virtual_network_name=params.get("virtualNetworkName"),
         )
@@ -76,8 +75,8 @@ class SdaVirtualNetworkIpPool(object):
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params['siteNameHierarchy'] = self.new_object.get('site_name_hierarchy')
-        new_object_params['ip_pool_name'] = self.new_object.get('ip_pool_name')
-        new_object_params['virtual_network_name'] = self.new_object.get('virtual_network_name')
+        new_object_params['ip_pool_name'] = self.new_object.get('ipPoolName') or self.new_object.get('ip_pool_name')
+        new_object_params['virtual_network_name'] = self.new_object.get('virtualNetworkName') or self.new_object.get('virtual_network_name')
         return new_object_params
 
     def create_params(self):
@@ -135,7 +134,7 @@ class SdaVirtualNetworkIpPool(object):
         name = self.new_object.get("name")
         prev_obj = self.get_object_by_name(name, is_absent=is_absent)
         it_exists = prev_obj is not None and isinstance(prev_obj, dict) and prev_obj.get("status") != "failed"
-        return (it_exists, prev_obj)
+    return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
         requested_obj = self.new_object
@@ -152,7 +151,6 @@ class SdaVirtualNetworkIpPool(object):
             ("poolType", "poolType"),
             ("vlanName", "vlanName"),
             ("isWirelessPool", "isWirelessPool"),
-            ("siteNameHierarchy", "site_name_hierarchy"),
             ("ipPoolName", "ip_pool_name"),
             ("virtualNetworkName", "virtual_network_name"),
         ]

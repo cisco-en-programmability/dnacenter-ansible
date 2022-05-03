@@ -4,11 +4,9 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import absolute_import, division, print_function
-
+from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
-
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
         AnsibleArgSpecValidator,
@@ -71,8 +69,8 @@ class ActionModule(ActionBase):
         new_object = dict(
             file_id=params.get("fileId"),
             dirpath=params.get("dirPath"),
-            filename=params.get("filename"),
             save_file=params.get("saveFile"),
+            filename=params.get("filename"),
             headers=params.get("headers"),
         )
         return new_object
@@ -92,7 +90,7 @@ class ActionModule(ActionBase):
             download_response = dnac.exec(
                 family="file",
                 function='download_a_file_by_fileid',
-                params=self.get_object(self._task.args)
+                params=self.get_object(self._task.args),
             )
             response = dict(
                 data=download_response.data.decode(encoding='utf-8'),

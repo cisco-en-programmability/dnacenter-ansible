@@ -90,7 +90,7 @@ class ActionModule(ActionBase):
             response = dnac.exec(
                 family="site_design",
                 function='get_nfv_profile',
-                params=self.get_object(self._task.args)
+                params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))
             self._result.update(dnac.exit_json())

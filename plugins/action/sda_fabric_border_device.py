@@ -24,7 +24,6 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
     InconsistentParameters,
-
     AnsibleSDAException,
 )
 
@@ -40,7 +39,13 @@ argument_spec.update(dict(
     internalAutonomouSystemNumber=dict(type="str"),
     borderSessionType=dict(type="str"),
     connectedToInternet=dict(type="bool"),
-    externalConnectivitySettings=dict(type="list"),
+    externalConnectivitySettings=dict(type="dict"),
+    interfaceName=dict(type="str"),
+    externalAutonomouSystemNumber=dict(type="str"),
+    l3Handoff=dict(type="dict"),
+    virtualNetwork=dict(type="dict"),
+    virtualNetworkName=dict(type="str"),
+    vlanId=dict(type="str"),
 ))
 
 required_if = [
@@ -62,12 +67,18 @@ class SdaFabricBorderDevice(object):
             borderSessionType=params.get("borderSessionType"),
             connectedToInternet=params.get("connectedToInternet"),
             externalConnectivitySettings=params.get("externalConnectivitySettings"),
+            interfaceName=params.get("interfaceName"),
+            externalAutonomouSystemNumber=params.get("externalAutonomouSystemNumber"),
+            l3Handoff=params.get("l3Handoff"),
+            virtualNetwork=params.get("virtualNetwork"),
+            virtualNetworkName=params.get("virtualNetworkName"),
+            vlanId=params.get("vlanId"),
             device_management_ip_address=params.get("deviceManagementIpAddress"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['device_management_ip_address'] = self.new_object.get('device_management_ip_address')
+        new_object_params['device_management_ip_address'] = self.new_object.get('deviceManagementIpAddress') or self.new_object.get('device_management_ip_address')
         return new_object_params
 
     def create_params(self):
@@ -80,6 +91,12 @@ class SdaFabricBorderDevice(object):
         new_object_params['borderSessionType'] = self.new_object.get('borderSessionType')
         new_object_params['connectedToInternet'] = self.new_object.get('connectedToInternet')
         new_object_params['externalConnectivitySettings'] = self.new_object.get('externalConnectivitySettings')
+        new_object_params['interfaceName'] = self.new_object.get('interfaceName')
+        new_object_params['externalAutonomouSystemNumber'] = self.new_object.get('externalAutonomouSystemNumber')
+        new_object_params['l3Handoff'] = self.new_object.get('l3Handoff')
+        new_object_params['virtualNetwork'] = self.new_object.get('virtualNetwork')
+        new_object_params['virtualNetworkName'] = self.new_object.get('virtualNetworkName')
+        new_object_params['vlanId'] = self.new_object.get('vlanId')
         return new_object_params
 
     def delete_all_params(self):
@@ -120,7 +137,7 @@ class SdaFabricBorderDevice(object):
         name = self.new_object.get("name")
         prev_obj = self.get_object_by_name(name, is_absent=is_absent)
         it_exists = prev_obj is not None and isinstance(prev_obj, dict) and prev_obj.get("status") != "failed"
-        return (it_exists, prev_obj)
+    return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
         requested_obj = self.new_object
@@ -134,6 +151,12 @@ class SdaFabricBorderDevice(object):
             ("borderSessionType", "borderSessionType"),
             ("connectedToInternet", "connectedToInternet"),
             ("externalConnectivitySettings", "externalConnectivitySettings"),
+            ("interfaceName", "interfaceName"),
+            ("externalAutonomouSystemNumber", "externalAutonomouSystemNumber"),
+            ("l3Handoff", "l3Handoff"),
+            ("virtualNetwork", "virtualNetwork"),
+            ("virtualNetworkName", "virtualNetworkName"),
+            ("vlanId", "vlanId"),
             ("deviceManagementIpAddress", "device_management_ip_address"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params

@@ -52,6 +52,10 @@ class SiteDesignFloormap(object):
             payload=params.get("payload"),
         )
 
+    def get_all_params(self, name=None, id=None):
+        new_object_params = {}
+        return new_object_params
+
     def create_params(self):
         new_object_params = {}
         new_object_params['payload'] = self.new_object.get('payload')
@@ -71,7 +75,18 @@ class SiteDesignFloormap(object):
     def get_object_by_name(self, name):
         result = None
         # NOTE: Does not have a get by name method or it is in another action
-        # NOTE: Does not have get all
+        try:
+            items = self.dnac.exec(
+                family="site_design",
+                function="get_floormaps",
+                params=self.get_all_params(name=name),
+            )
+            if isinstance(items, dict):
+                if 'response' in items:
+                    items = items.get('response')
+            result = get_dict_result(items, 'name', name)
+        except Exception:
+            result = None
         return result
 
     def get_object_by_id(self, id):

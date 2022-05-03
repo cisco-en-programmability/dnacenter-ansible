@@ -88,7 +88,7 @@ class WirelessEnterpriseSsid(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['ssid_name'] = self.new_object.get('ssid_name')
+        new_object_params['ssid_name'] = self.new_object.get('ssidName') or self.new_object.get('ssid_name')
         return new_object_params
 
     def create_params(self):

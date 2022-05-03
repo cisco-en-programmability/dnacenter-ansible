@@ -56,7 +56,7 @@ class QosDeviceInterface(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['network_device_id'] = self.new_object.get('network_device_id')
+        new_object_params['network_device_id'] = self.new_object.get('networkDeviceId') or self.new_object.get('network_device_id')
         return new_object_params
 
     def create_params(self):

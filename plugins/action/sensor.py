@@ -62,7 +62,7 @@ class Sensor(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['site_id'] = self.new_object.get('site_id')
+        new_object_params['site_id'] = self.new_object.get('siteId') or self.new_object.get('site_id')
         return new_object_params
 
     def create_params(self):
@@ -88,10 +88,10 @@ class Sensor(object):
                 function="sensors",
                 params=self.get_all_params(name=name),
             )
-            if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-            result = get_dict_result(items, 'name', name)
+                if isinstance(items, dict):
+                    if 'response' in items:
+                        items = items.get('response')
+                result = get_dict_result(items, 'name', name)
         except Exception:
             result = None
         return result

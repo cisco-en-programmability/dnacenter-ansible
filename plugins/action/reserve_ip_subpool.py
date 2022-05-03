@@ -94,7 +94,7 @@ class ReserveIpSubpool(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['site_id'] = self.new_object.get('site_id')
+        new_object_params['site_id'] = self.new_object.get('siteId') or self.new_object.get('site_id')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['limit'] = self.new_object.get('limit')
         return new_object_params

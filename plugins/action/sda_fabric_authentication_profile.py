@@ -53,7 +53,6 @@ class SdaFabricAuthenticationProfile(object):
         self.new_object = dict(
             siteNameHierarchy=params.get("siteNameHierarchy"),
             authenticateTemplateName=params.get("authenticateTemplateName"),
-            authenticate_template_name=params.get("authenticateTemplateName"),
             authenticationOrder=params.get("authenticationOrder"),
             dot1xToMabFallbackTimeout=params.get("dot1xToMabFallbackTimeout"),
             wakeOnLan=params.get("wakeOnLan"),
@@ -63,8 +62,8 @@ class SdaFabricAuthenticationProfile(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['site_name_hierarchy'] = self.new_object.get('site_name_hierarchy')
-        new_object_params['authenticate_template_name'] = self.new_object.get('authenticate_template_name')
+        new_object_params['site_name_hierarchy'] = self.new_object.get('siteNameHierarchy') or self.new_object.get('site_name_hierarchy')
+        new_object_params['authenticate_template_name'] = self.new_object.get('authenticateTemplateName') or self.new_object.get('authenticate_template_name')
         return new_object_params
 
     def create_params(self):
@@ -121,7 +120,7 @@ class SdaFabricAuthenticationProfile(object):
         name = self.new_object.get("name")
         prev_obj = self.get_object_by_name(name, is_absent=is_absent)
         it_exists = prev_obj is not None and isinstance(prev_obj, dict) and 'siteNameHierarchy' in prev_obj
-        return (it_exists, prev_obj)
+    return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
         requested_obj = self.new_object

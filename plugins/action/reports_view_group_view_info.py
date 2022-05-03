@@ -86,7 +86,7 @@ class ActionModule(ActionBase):
             response = dnac.exec(
                 family="reports",
                 function='get_view_details_for_a_given_view_group_and_view',
-                params=self.get_object(self._task.args)
+                params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))
             self._result.update(dnac.exit_json())

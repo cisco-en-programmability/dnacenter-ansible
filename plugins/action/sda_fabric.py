@@ -47,11 +47,12 @@ class SdaFabric(object):
         self.dnac = dnac
         self.new_object = dict(
             fabricName=params.get("fabricName"),
+            fabric_name=params.get("fabricName"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['fabric_name'] = self.new_object.get('fabricName')
+        new_object_params['fabric_name'] = self.new_object.get('fabricName') or self.new_object.get('fabric_name')
         return new_object_params
 
     def create_params(self):
@@ -61,7 +62,7 @@ class SdaFabric(object):
 
     def delete_all_params(self):
         new_object_params = {}
-        new_object_params['fabric_name'] = self.new_object.get('fabricName')
+        new_object_params['fabric_name'] = self.new_object.get('fabric_name')
         return new_object_params
 
     def get_object_by_name(self, name, is_absent=False):
@@ -97,13 +98,14 @@ class SdaFabric(object):
         name = self.new_object.get("fabricName")
         prev_obj = self.get_object_by_name(name, is_absent=is_absent)
         it_exists = prev_obj is not None and isinstance(prev_obj, dict) and prev_obj.get("status") != "failed"
-        return (it_exists, prev_obj)
+    return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
         requested_obj = self.new_object
 
         obj_params = [
             ("fabricName", "fabricName"),
+            ("fabricName", "fabric_name"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update

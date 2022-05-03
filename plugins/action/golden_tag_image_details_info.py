@@ -90,7 +90,7 @@ class ActionModule(ActionBase):
             response = dnac.exec(
                 family="software_image_management_swim",
                 function='get_golden_tag_status_of_an_image',
-                params=self.get_object(self._task.args)
+                params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))
             self._result.update(dnac.exit_json())

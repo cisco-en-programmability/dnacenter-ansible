@@ -24,7 +24,6 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
     InconsistentParameters,
-
     AnsibleSDAException,
 )
 
@@ -59,7 +58,7 @@ class SdaVirtualNetworkV2(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['virtual_network_name'] = self.new_object.get('virtual_network_name')
+        new_object_params['virtual_network_name'] = self.new_object.get('virtualNetworkName') or self.new_object.get('virtual_network_name')
         return new_object_params
 
     def create_params(self):
@@ -116,7 +115,7 @@ class SdaVirtualNetworkV2(object):
         name = self.new_object.get("name")
         prev_obj = self.get_object_by_name(name, is_absent=is_absent)
         it_exists = prev_obj is not None and isinstance(prev_obj, dict) and prev_obj.get("status") != "failed"
-        return (it_exists, prev_obj)
+    return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
         requested_obj = self.new_object

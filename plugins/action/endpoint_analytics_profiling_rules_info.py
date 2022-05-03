@@ -96,7 +96,7 @@ class ActionModule(ActionBase):
             response = dnac.exec(
                 family="policy",
                 function='get_details_of_a_single_profiling_rule',
-                params=self.get_object(self._task.args)
+                params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))
             self._result.update(dnac.exit_json())

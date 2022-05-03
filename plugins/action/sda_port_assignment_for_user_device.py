@@ -24,7 +24,6 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
     InconsistentParameters,
-
     AnsibleSDAException,
 )
 
@@ -68,8 +67,8 @@ class SdaPortAssignmentForUserDevice(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['device_management_ip_address'] = self.new_object.get('device_management_ip_address')
-        new_object_params['interface_name'] = self.new_object.get('interface_name')
+        new_object_params['device_management_ip_address'] = self.new_object.get('deviceManagementIpAddress') or self.new_object.get('device_management_ip_address')
+        new_object_params['interface_name'] = self.new_object.get('interfaceName') or self.new_object.get('interface_name')
         return new_object_params
 
     def create_params(self):
@@ -123,7 +122,7 @@ class SdaPortAssignmentForUserDevice(object):
         name = self.new_object.get("name")
         prev_obj = self.get_object_by_name(name, is_absent=is_absent)
         it_exists = prev_obj is not None and isinstance(prev_obj, dict) and prev_obj.get("status") != "failed"
-        return (it_exists, prev_obj)
+    return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
         requested_obj = self.new_object

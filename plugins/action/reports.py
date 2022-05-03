@@ -66,7 +66,7 @@ class Reports(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['view_group_id'] = self.new_object.get('viewGroupId')
+        new_object_params['view_group_id'] = self.new_object.get('viewGroupId') or self.new_object.get('view_group_id')
         new_object_params['view_id'] = self.new_object.get('view', {}).get('viewId')
         return new_object_params
 
@@ -95,10 +95,10 @@ class Reports(object):
                 function="get_list_of_scheduled_reports",
                 params=self.get_all_params(name=name),
             )
-            if isinstance(items, dict):
-                if 'response' in items:
-                    items = items.get('response')
-            result = get_dict_result(items, 'name', name)
+                if isinstance(items, dict):
+                    if 'response' in items:
+                        items = items.get('response')
+                result = get_dict_result(items, 'name', name)
         except Exception:
             result = None
         return result
