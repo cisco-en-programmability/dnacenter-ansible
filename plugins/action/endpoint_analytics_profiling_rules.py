@@ -81,11 +81,14 @@ class EndpointAnalyticsProfilingRules(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['rule_type'] = self.new_object.get('ruleType') or self.new_object.get('rule_type')
-        new_object_params['include_deleted'] = self.new_object.get('includeDeleted') or self.new_object.get('include_deleted')
+        new_object_params['rule_type'] = self.new_object.get('ruleType') or \
+            self.new_object.get('rule_type')
+        new_object_params['include_deleted'] = self.new_object.get('includeDeleted') or \
+            self.new_object.get('include_deleted')
         new_object_params['limit'] = self.new_object.get('limit')
         new_object_params['offset'] = self.new_object.get('offset')
-        new_object_params['sort_by'] = self.new_object.get('sortBy') or self.new_object.get('sort_by')
+        new_object_params['sort_by'] = self.new_object.get('sortBy') or \
+            self.new_object.get('sort_by')
         new_object_params['order'] = self.new_object.get('order')
         return new_object_params
 

@@ -52,7 +52,8 @@ class SdaFabric(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['fabric_name'] = self.new_object.get('fabricName') or self.new_object.get('fabric_name')
+        new_object_params['fabric_name'] = self.new_object.get('fabricName') or \
+            self.new_object.get('fabric_name')
         return new_object_params
 
     def create_params(self):

@@ -67,7 +67,8 @@ class ConfigurationTemplateProject(object):
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params['name'] = name or self.new_object.get('name')
-        new_object_params['sort_order'] = self.new_object.get('sortOrder') or self.new_object.get('sort_order')
+        new_object_params['sort_order'] = self.new_object.get('sortOrder') or \
+            self.new_object.get('sort_order')
         return new_object_params
 
     def create_params(self):

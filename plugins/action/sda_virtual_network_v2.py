@@ -58,7 +58,8 @@ class SdaVirtualNetworkV2(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['virtual_network_name'] = self.new_object.get('virtualNetworkName') or self.new_object.get('virtual_network_name')
+        new_object_params['virtual_network_name'] = self.new_object.get('virtualNetworkName') or \
+            self.new_object.get('virtual_network_name')
         return new_object_params
 
     def create_params(self):

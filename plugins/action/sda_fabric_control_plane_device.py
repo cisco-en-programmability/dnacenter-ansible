@@ -54,7 +54,8 @@ class SdaFabricControlPlaneDevice(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['device_management_ip_address'] = self.new_object.get('deviceManagementIpAddress') or self.new_object.get('device_management_ip_address')
+        new_object_params['device_management_ip_address'] = self.new_object.get('deviceManagementIpAddress') or \
+            self.new_object.get('device_management_ip_address')
         return new_object_params
 
     def create_params(self):

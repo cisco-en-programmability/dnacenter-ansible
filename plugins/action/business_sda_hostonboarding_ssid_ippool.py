@@ -58,8 +58,10 @@ class BusinessSdaHostonboardingSsidIppool(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['vlan_name'] = self.new_object.get('vlanName') or self.new_object.get('vlan_name')
-        new_object_params['site_name_hierarchy'] = self.new_object.get('siteNameHierarchy') or self.new_object.get('site_name_hierarchy')
+        new_object_params['vlan_name'] = self.new_object.get('vlanName') or \
+            self.new_object.get('vlan_name')
+        new_object_params['site_name_hierarchy'] = self.new_object.get('siteNameHierarchy') or \
+            self.new_object.get('site_name_hierarchy')
         return new_object_params
 
     def create_params(self):

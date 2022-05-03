@@ -51,15 +51,23 @@ class DeviceReplacement(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['faulty_device_name'] = self.new_object.get('faultyDeviceName') or self.new_object.get('faulty_device_name')
-        new_object_params['faulty_device_platform'] = self.new_object.get('faultyDevicePlatform') or self.new_object.get('faulty_device_platform')
-        new_object_params['replacement_device_platform'] = self.new_object.get('replacementDevicePlatform') or self.new_object.get('replacement_device_platform')
-        new_object_params['faulty_device_serial_number'] = self.new_object.get('faultyDeviceSerialNumber') or self.new_object.get('faulty_device_serial_number')
-        new_object_params['replacement_device_serial_number'] = self.new_object.get('replacementDeviceSerialNumber') or self.new_object.get('replacement_device_serial_number')
-        new_object_params['replacement_status'] = self.new_object.get('replacementStatus') or self.new_object.get('replacement_status')
+        new_object_params['faulty_device_name'] = self.new_object.get('faultyDeviceName') or \
+            self.new_object.get('faulty_device_name')
+        new_object_params['faulty_device_platform'] = self.new_object.get('faultyDevicePlatform') or \
+            self.new_object.get('faulty_device_platform')
+        new_object_params['replacement_device_platform'] = self.new_object.get('replacementDevicePlatform') or \
+            self.new_object.get('replacement_device_platform')
+        new_object_params['faulty_device_serial_number'] = self.new_object.get('faultyDeviceSerialNumber') or \
+            self.new_object.get('faulty_device_serial_number')
+        new_object_params['replacement_device_serial_number'] = self.new_object.get('replacementDeviceSerialNumber') or \
+            self.new_object.get('replacement_device_serial_number')
+        new_object_params['replacement_status'] = self.new_object.get('replacementStatus') or \
+            self.new_object.get('replacement_status')
         new_object_params['family'] = self.new_object.get('family')
-        new_object_params['sort_by'] = self.new_object.get('sortBy') or self.new_object.get('sort_by')
-        new_object_params['sort_order'] = self.new_object.get('sortOrder') or self.new_object.get('sort_order')
+        new_object_params['sort_by'] = self.new_object.get('sortBy') or \
+            self.new_object.get('sort_by')
+        new_object_params['sort_order'] = self.new_object.get('sortOrder') or \
+            self.new_object.get('sort_order')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['limit'] = self.new_object.get('limit')
         return new_object_params

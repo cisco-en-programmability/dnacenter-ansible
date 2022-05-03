@@ -104,17 +104,27 @@ class ConfigurationTemplate(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['project_id'] = self.new_object.get('projectId') or self.new_object.get('project_id')
-        new_object_params['software_type'] = self.new_object.get('softwareType') or self.new_object.get('software_type')
-        new_object_params['software_version'] = self.new_object.get('softwareVersion') or self.new_object.get('software_version')
-        new_object_params['product_family'] = self.new_object.get('productFamily') or self.new_object.get('product_family')
-        new_object_params['product_series'] = self.new_object.get('productSeries') or self.new_object.get('product_series')
-        new_object_params['product_type'] = self.new_object.get('productType') or self.new_object.get('product_type')
-        new_object_params['filter_conflicting_templates'] = self.new_object.get('filterConflictingTemplates') or self.new_object.get('filter_conflicting_templates')
+        new_object_params['project_id'] = self.new_object.get('projectId') or \
+            self.new_object.get('project_id')
+        new_object_params['software_type'] = self.new_object.get('softwareType') or \
+            self.new_object.get('software_type')
+        new_object_params['software_version'] = self.new_object.get('softwareVersion') or \
+            self.new_object.get('software_version')
+        new_object_params['product_family'] = self.new_object.get('productFamily') or \
+            self.new_object.get('product_family')
+        new_object_params['product_series'] = self.new_object.get('productSeries') or \
+            self.new_object.get('product_series')
+        new_object_params['product_type'] = self.new_object.get('productType') or \
+            self.new_object.get('product_type')
+        new_object_params['filter_conflicting_templates'] = self.new_object.get('filterConflictingTemplates') or \
+            self.new_object.get('filter_conflicting_templates')
         new_object_params['tags'] = self.new_object.get('tags')
-        new_object_params['project_names'] = self.new_object.get('projectName') or self.new_object.get('projectNames') or self.new_object.get('project_names')
-        new_object_params['un_committed'] = self.new_object.get('unCommitted') or self.new_object.get('un_committed')
-        new_object_params['sort_order'] = self.new_object.get('sortOrder') or self.new_object.get('sort_order')
+        new_object_params['project_names'] = self.new_object.get('projectName') or self.new_object.get('projectNames') or \
+            self.new_object.get('project_names')
+        new_object_params['un_committed'] = self.new_object.get('unCommitted') or \
+            self.new_object.get('un_committed')
+        new_object_params['sort_order'] = self.new_object.get('sortOrder') or \
+            self.new_object.get('sort_order')
         return new_object_params
 
     def delete_by_id_params(self):
