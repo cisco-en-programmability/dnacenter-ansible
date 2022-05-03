@@ -120,7 +120,7 @@ class SdaFabricAuthenticationProfile(object):
         name = self.new_object.get("name")
         prev_obj = self.get_object_by_name(name, is_absent=is_absent)
         it_exists = prev_obj is not None and isinstance(prev_obj, dict) and 'siteNameHierarchy' in prev_obj
-    return (it_exists, prev_obj)
+        return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
         requested_obj = self.new_object
