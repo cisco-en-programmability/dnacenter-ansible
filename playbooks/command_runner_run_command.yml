@@ -1,14 +1,15 @@
+---
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
-  gather_facts: no
+  gather_facts: false
   tasks:
     - name: Run command
       cisco.dnac.command_runner_run_command:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
         commands:
           - pwd
         deviceUuids:
@@ -16,15 +17,15 @@
       register: result
 
     - name: Show result
-      debug:
+      ansible.builtin.debug:
         msg: "{{ result }}"
 
     - name: Get task info
       cisco.dnac.task_info:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
         taskId: "{{ result.dnac_response.response.taskId }}"
       when:
         - result.dnac_response is defined
@@ -33,7 +34,7 @@
       register: task_result
 
     - name: Show retrieved task
-      debug:
+      ansible.builtin.debug:
         msg: "{{ task_result.dnac_response.response }}"
       when:
         - task_result is defined

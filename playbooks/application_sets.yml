@@ -1,15 +1,16 @@
+---
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
-  gather_facts: no
+  gather_facts: false
   tasks:
     - name: Create an application set
       cisco.dnac.application_sets:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_debug: "{{dnac_debug}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
         state: present
         payload:
           - name: AppSet1
@@ -17,10 +18,10 @@
 
     - name: Get task info
       cisco.dnac.task_info:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
         taskId: "{{ application_set_result.dnac_response.response.taskId }}"
       when:
         - application_set_result.dnac_response is defined
@@ -29,13 +30,13 @@
       register: task_result
 
     - name: Show new application_set
-      debug:
+      ansible.builtin.debug:
         msg: "{{ application_set_result }}"
       when:
         - application_set_result is defined
 
     - name: Show retrieved task
-      debug:
+      ansible.builtin.debug:
         msg: "{{ task_result.dnac_response.response }}"
       when:
         - task_result is defined
