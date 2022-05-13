@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
@@ -28,17 +27,14 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 )
 from ansible.module_utils.basic import AnsibleModule
 
-
-
 class DnacTemplate:
-
 
     def __init__(self, module):
         self.module = module
         self.params = module.params
         self.config = copy.deepcopy(module.params.get("config"))
-        self.have_create = []
-        self.want_create = []
+        self.have_create = {} 
+        self.want_create = {} 
         self.diff_create = []
         self.validated = []
         dnac_params = self.get_dnac_params(self.params)
@@ -48,8 +44,10 @@ class DnacTemplate:
 
         self.result = dict(changed=False, diff=[], response=[], warnings=[])
 
+
     def get_state(self):
         return self.params.get("state")
+
 
     def validate_input(self):
         
@@ -82,6 +80,13 @@ class DnacTemplate:
                 log(str(valid_temp))
                 log(str(self.validated))
 
+            if self.params.get("state") == "merged":
+                for temp in self.validated:
+                    if not temp.get("language") or not temp.get("device_types") \
+                            or not temp.get("software_type"):
+                        msg = "missing required arguments: language or deviceTypes or softwareType"
+                        self.module.fail_json(msg=msg)
+
 
     def get_dnac_params(self, params):
         dnac_params = dict(
@@ -95,7 +100,8 @@ class DnacTemplate:
         )
         return dnac_params
 
-    def get_temp_params(self, params):
+
+    def get_template_params(self, params):
         temp_params = dict(
             tags=params.get("template_tag"),
             author=params.get("author"),
@@ -128,20 +134,6 @@ class DnacTemplate:
         return temp_params
 
 
-    def get_version_params(self, params):
-        version_params = dict(
-            comments=params.get("version_description"),
-            templateId=params.get("templateId"),
-        )
-        return version_params
-
-    def check_required_parameters(self):
-        for temp in self.validated:
-            if not temp.get("language") or not temp.get("device_types") \
-                    or not temp.get("software_type"):
-                    msg = "missing required arguments: language or deviceTypes or softwareType"
-                    self.module.fail_json(msg=msg)
-
     def get_template(self):
 
         result = None
@@ -159,9 +151,11 @@ class DnacTemplate:
         self.result['response'] = items 
         return result
 
-    def template_exists(self):
-        prev_obj = None
-        temp_exists = False
+
+    def get_have(self):
+        prev_template = None
+        template_exists = False
+        have_create = {}
 
         #Get available templates. Filter templates based on provided projectName
         for temp in self.validated:
@@ -175,96 +169,82 @@ class DnacTemplate:
                 template_details = get_dict_result(template_list, 'name', temp.get("template_name"))
                 if template_details:
                     temp["templateId"] = template_details.get("templateId")
-                    prev_obj = self.get_template()
+                    have_create["templateId"] = template_details.get("templateId")
+                    prev_template = self.get_template()
                     if self.log:
-                        log(str(prev_obj))
+                        log(str(prev_template))
 
-                temp_exists = prev_obj is not None and isinstance(prev_obj, dict)
-                return(temp_exists, prev_obj)
+                template_exists = prev_template is not None and isinstance(prev_template, dict)
             else:
                 self.module.fail_json(msg="Project Not Found")
 
-    def requires_update(self, current_obj):
+        have_create['template'] = prev_template
+        have_create['template_found'] = template_exists
+        self.have_create = have_create
+
+    def get_want(self):
+        want_create = {}
 
         for temp in self.validated:
-            requested_obj = self.get_temp_params(temp)
+            template_params = self.get_template_params(temp)
+            version_comments = temp.get("version_description")
 
-            obj_params = [
-                ("tags", "tags", ""),
-                ("author", "author", ""),
-                ("composite", "composite", False),
-                ("containingTemplates", "containingTemplates", []),
-                ("createTime", "createTime", ""),
-                ("customParamsOrder", "customParamsOrder", False),
-                ("description", "description", ""),
-                ("deviceTypes", "deviceTypes", []),
-                ("failurePolicy", "failurePolicy", ""),
-                ("id", "id", ""),
-                ("language", "language", "VELOCITY"),
-                ("lastUpdateTime", "lastUpdateTime", ""),
-                ("latestVersionTime", "latestVersionTime", ""),
-                ("name", "name", ""),
-                ("parentTemplateId", "parentTemplateId", ""),
-                ("projectId", "projectId", ""),
-                ("projectName", "projectName", ""),
-                ("rollbackTemplateContent", "rollbackTemplateContent", ""),
-                ("rollbackTemplateParams", "rollbackTemplateParams", []),
-                ("softwareType", "softwareType", ""),
-                ("softwareVariant", "softwareVariant", ""),
-                ("softwareVersion", "softwareVersion", ""),
-                ("templateContent", "templateContent", ""),
-                ("templateParams", "templateParams", []),
-                ("validationErrors", "validationErrors", {}),
-                ("version", "version", ""),
-            ]
-            return any(not dnac_compare_equality(current_obj.get(dnac_param, default),
-                                                 requested_obj.get(ansible_param))
-                       for (dnac_param, ansible_param, default) in obj_params)
+            if self.params.get("state") == "merged" and \
+                    not self.have_create.get("template_found"):
+                #ProjectId is required for creating a new template.
+                #Store it with other template parameters.
+                items = self.dnac.exec(
+                    family="configuration_templates",
+                    function='get_projects',
+                    params={"name":temp.get("project_name")},
+                )
+                template_params["projectId"] = items[0].get("id")
+                template_params["project_id"] = items[0].get("id")
 
-    def version_template(self):
-            
-        for temp in self.validated:
-            response = self.dnac.exec(
-                family="configuration_templates",
-                function='version_template',
-                op_modifies=True,
-                params=self.get_version_params(temp)
-            )
- 
-        if self.log:
-            log("Template Committed")
-        self.result['changed'] = True
-        self.result['response'] = response
-        self.result['diff'] = self.validated
+        want_create["template_params"] = template_params
+        want_create["comments"] = version_comments
 
-    def update(self):
+        self.want_create = want_create
 
-        for temp in self.validated:
-            response = self.dnac.exec(
-                family="configuration_templates",
-                function="update_template",
-                params=self.get_temp_params(temp),
-                op_modifies=True,
-            )
 
-        if self.log:
-            log("Updating Existing Template")
-        self.version_template()
-        self.dnac.object_updated()
+    def requires_update(self):
 
-    def get_project_id(self):
+        current_obj = self.have_create.get("template")
+        requested_obj = self.want_create.get("template_params")
 
-        for temp in self.validated:
-            items = self.dnac.exec(
-                family="configuration_templates",
-                function='get_projects',
-                params={"name":temp.get("project_name")},
-            )
+        obj_params = [
+            ("tags", "tags", ""),
+            ("author", "author", ""),
+            ("composite", "composite", False),
+            ("containingTemplates", "containingTemplates", []),
+            ("createTime", "createTime", ""),
+            ("customParamsOrder", "customParamsOrder", False),
+            ("description", "description", ""),
+            ("deviceTypes", "deviceTypes", []),
+            ("failurePolicy", "failurePolicy", ""),
+            ("id", "id", ""),
+            ("language", "language", "VELOCITY"),
+            ("lastUpdateTime", "lastUpdateTime", ""),
+            ("latestVersionTime", "latestVersionTime", ""),
+            ("name", "name", ""),
+            ("parentTemplateId", "parentTemplateId", ""),
+            ("projectId", "projectId", ""),
+            ("projectName", "projectName", ""),
+            ("rollbackTemplateContent", "rollbackTemplateContent", ""),
+            ("rollbackTemplateParams", "rollbackTemplateParams", []),
+            ("softwareType", "softwareType", ""),
+            ("softwareVariant", "softwareVariant", ""),
+            ("softwareVersion", "softwareVersion", ""),
+            ("templateContent", "templateContent", ""),
+            ("templateParams", "templateParams", []),
+            ("validationErrors", "validationErrors", {}),
+            ("version", "version", ""),
+        ]
 
-            temp["projectId"] = items[0].get("id")
+        return any(not dnac_compare_equality(current_obj.get(dnac_param, default),
+                                             requested_obj.get(ansible_param))
+                   for (dnac_param, ansible_param, default) in obj_params)
 
-        if self.log:
-            log(str(self.validated))
 
     def get_task_details(self, id):
         result = None
@@ -279,17 +259,41 @@ class DnacTemplate:
             result = response.get("response")
         return result
 
-    def create_template(self):
 
-        self.get_project_id()
+    def get_diff_merge(self):
+
+        diff_create = []
+        diff_create_update = []
+
         template_id = None
+        template_ceated = False
+        template_updated = False
+        template_exists = self.have_create.get("template_found")
 
-        for temp in self.validated:
+        if template_exists:
+            if self.requires_update():
+                response = self.dnac.exec(
+                    family="configuration_templates",
+                    function="update_template",
+                    params=self.want_create.get("template_params"),
+                    op_modifies=True,
+                )
+
+                template_updated = True
+                template_id = self.have_create.get("templateId")
+
+                if self.log:
+                    log("Updating Existing Template")
+            else:
+                #Template does not need update
+                self.result['response'] = self.have_create.get("template") 
+                self.module.exit_json(msg="Template does not need update")
+        else:
             response = self.dnac.exec(
                 family="configuration_templates",
                 function='create_template',
                 op_modifies=True,
-                params=self.get_temp_params(temp),
+                params=self.want_create.get("template_params"),
             )
             if self.log:
                 log("Template created. Get template_id for versioning")
@@ -309,24 +313,64 @@ class DnacTemplate:
                     if not create_error:
                         template_id = task_details.get("data")
             if template_id:
-                temp["templateId"] = template_id
-                self.version_template()
-                self.dnac.object_created()
-        
-        if self.log:
-            log(str(self.validated))
+                template_created = True
 
-    def delete_template(self):
-        for temp in self.validated:
+        if template_updated or template_created:
+            #Template needs to be versioned
+            version_params = dict(
+                comments=self.want_create.get("comments"),
+                templateId=template_id
+            )
+
+            response = self.dnac.exec(
+                family="configuration_templates",
+                function='version_template',
+                op_modifies=True,
+                params=version_params
+            )
+
+            task_details = {}
+            task_id = response.get("response").get("taskId")
+            if task_id:
+                task_details = self.get_task_details(task_id)
+                if self.log:
+                    log(str(task_details))
+                self.result['changed'] = True
+                self.result['diff'] = self.validated
+                
+            self.result['response'] = task_details if task_details else response
+
+
+    def get_diff_query(self):
+
+        template_exists = self.have_create.get("template_found")
+
+        if template_exists:
+            self.result['response'] = self.have_create.get("template")
+        else:
+            self.module.exit_json(msg="Template not found")
+
+
+    def get_diff_delete(self):
+        template_exists = self.have_create.get("template_found")
+
+        if template_exists:
             response = self.dnac.exec(
                 family="configuration_templates",
                 function="deletes_the_template",
-                params={"template_id": temp.get("templateId")},
+                params={"template_id": self.have_create.get("templateId")},
             )
 
-        self.dnac.object_deleted()
-        self.result['changed'] = True
-        self.result['response'] = response
+            task_details = {}
+            task_id = response.get("response").get("taskId")
+            if task_id:
+                task_details = self.get_task_details(task_id)
+                if self.log:
+                    log(str(task_details))
+                self.result['changed'] = True
+            self.result['response'] = task_details if task_details else response
+        else:
+            self.module.exit_json(msg="Template not found")
 
 
 def main():
@@ -334,18 +378,19 @@ def main():
     """
 
     element_spec = dict(
-        dnac_host=dict(required=False, type='str'),
+        dnac_host=dict(required=True, type='str'),
         dnac_port=dict(required=False, type='str', default='443'),
-        dnac_username=dict(required=False, type='str', no_log=True),
-        dnac_password=dict(required=False, type='str', no_log=True),
+        dnac_username=dict(required=True, type='str', no_log=True),
+        dnac_password=dict(required=True, type='str', no_log=True),
         dnac_verify=dict(required=False, type='bool', default='False'),
         dnac_debug=dict(required=False, type='bool', default='False'),
         dnac_log=dict(required=False, type='bool', default='False'),
-        config=dict(required=False, type='list', elements='dict'),
-        state=dict(default='merged',
+        config=dict(required=True, type='list', elements='dict'),
+        state=dict(
+            default='merged',
             choices=['merged', 'delete', 'query']),
         )
-
+    
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
 
@@ -353,37 +398,18 @@ def main():
     dnac_template.validate_input()
     state = dnac_template.get_state()
 
-    prev_template = None
-    template_exists = False
-    (template_exists, prev_template) = dnac_template.template_exists()
-    
+    dnac_template.get_have()
+    dnac_template.get_want()
+
     if state == "merged":
-        dnac_template.check_required_parameters()
-        if template_exists:
-            #if template exists, update if needed.
-            if dnac_template.requires_update(prev_template):
-                dnac_template.update()
-            else:
-                #Template does not need update
-                dnac_template.result['response'] = prev_template
-                module.exit_json(msg="Template does not need update")
-        else:
-            dnac_template.create_template()
+        dnac_template.get_diff_merge()
 
-    elif state == "query":
-        if template_exists:
-            dnac_template.get_template()
-        else:
-            #module.fail_json(msg="Template not found")
-            module.exit_json(msg="Template not found")
+    if state == "query":
+        dnac_template.get_diff_query()
 
-    elif state == "delete":
-        if template_exists:
-            dnac_template.delete_template()
-        else:
-            #module.fail_json("Template not found")
-            module.exit_json(msg="Template not found")
-    
+    if state == "delete":
+        dnac_template.get_diff_delete()
+
     module.exit_json(**dnac_template.result)
 
 if __name__ == '__main__':
