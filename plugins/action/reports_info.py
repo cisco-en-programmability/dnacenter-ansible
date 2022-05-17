@@ -88,7 +88,7 @@ class ActionModule(ActionBase):
             response = dnac.exec(
                 family="reports",
                 function='get_a_scheduled_report',
-                params=self.get_object(self._task.args)
+                params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))
             self._result.update(dnac.exit_json())

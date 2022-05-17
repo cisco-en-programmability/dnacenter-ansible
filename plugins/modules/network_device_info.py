@@ -24,152 +24,122 @@ options:
   hostname:
     description:
     - Hostname query parameter.
-    elements: str
     type: list
   managementIpAddress:
     description:
     - ManagementIpAddress query parameter.
-    elements: str
     type: list
   macAddress:
     description:
     - MacAddress query parameter.
-    elements: str
     type: list
   locationName:
     description:
     - LocationName query parameter.
-    elements: str
     type: list
   serialNumber:
     description:
     - SerialNumber query parameter.
-    elements: str
     type: list
   location:
     description:
     - Location query parameter.
-    elements: str
     type: list
   family:
     description:
     - Family query parameter.
-    elements: str
     type: list
   type:
     description:
     - Type query parameter.
-    elements: str
     type: list
   series:
     description:
     - Series query parameter.
-    elements: str
     type: list
   collectionStatus:
     description:
     - CollectionStatus query parameter.
-    elements: str
     type: list
   collectionInterval:
     description:
     - CollectionInterval query parameter.
-    elements: str
     type: list
   notSyncedForMinutes:
     description:
     - NotSyncedForMinutes query parameter.
-    elements: str
     type: list
   errorCode:
     description:
     - ErrorCode query parameter.
-    elements: str
     type: list
   errorDescription:
     description:
     - ErrorDescription query parameter.
-    elements: str
     type: list
   softwareVersion:
     description:
     - SoftwareVersion query parameter.
-    elements: str
     type: list
   softwareType:
     description:
     - SoftwareType query parameter.
-    elements: str
     type: list
   platformId:
     description:
     - PlatformId query parameter.
-    elements: str
     type: list
   role:
     description:
     - Role query parameter.
-    elements: str
     type: list
   reachabilityStatus:
     description:
     - ReachabilityStatus query parameter.
-    elements: str
     type: list
   upTime:
     description:
     - UpTime query parameter.
-    elements: str
     type: list
   associatedWlcIp:
     description:
     - AssociatedWlcIp query parameter.
-    elements: str
     type: list
   license_name:
     description:
     - License.name query parameter.
-    elements: str
     type: list
   license_type:
     description:
     - License.type query parameter.
-    elements: str
     type: list
   license_status:
     description:
     - License.status query parameter.
-    elements: str
     type: list
   module_name:
     description:
     - Module+name query parameter.
-    elements: str
     type: list
   module_equpimenttype:
     description:
     - Module+equpimenttype query parameter.
-    elements: str
     type: list
   module_servicestate:
     description:
     - Module+servicestate query parameter.
-    elements: str
     type: list
   module_vendorequipmenttype:
     description:
     - Module+vendorequipmenttype query parameter.
-    elements: str
     type: list
   module_partnumber:
     description:
     - Module+partnumber query parameter.
-    elements: str
     type: list
   module_operationstatecode:
     description:
     - Module+operationstatecode query parameter.
-    elements: str
     type: list
   id:
     description:
@@ -181,9 +151,24 @@ options:
     description:
     - DeviceSupportLevel query parameter.
     type: str
+  offset:
+    description:
+    - Offset query parameter. Offset >= 1 X gives results from Xth device onwards.
+    type: int
+  limit:
+    description:
+    - Limit query parameter. 1 <= limit <= 500 max. No. Of devices to be returned in the result.
+    type: int
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetDeviceByID
+  description: Complete reference of the GetDeviceByID API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-by-id
+- name: Cisco DNA Center documentation for Devices GetDeviceList
+  description: Complete reference of the GetDeviceList API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-list
 notes:
   - SDK Method used are
     devices.Devices.get_device_by_id,
@@ -205,8 +190,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     hostname: []
     managementIpAddress: []
     macAddress: []
@@ -239,6 +223,8 @@ EXAMPLES = r"""
     module_operationstatecode: []
     id: string
     deviceSupportLevel: string
+    offset: 0
+    limit: 0
   register: result
 
 - name: Get Network Device by id
@@ -250,8 +236,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     id: string
   register: result
 

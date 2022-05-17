@@ -10,7 +10,9 @@ module: discovery_device_info
 short_description: Information module for Discovery Device
 description:
 - Get all Discovery Device.
-- Returns the network devices discovered for the given Discovery ID. Discovery ID can be obtained using the "Get Discoveries by range" API.
+- >
+   Returns the network devices discovered for the given Discovery ID. Discovery ID can be obtained using the "Get
+   Discoveries by range" API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -28,8 +30,12 @@ options:
     - TaskId query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery GetDiscoveredNetworkDevicesByDiscoveryId
+  description: Complete reference of the GetDiscoveredNetworkDevicesByDiscoveryId API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-discovered-network-devices-by-discovery-id
 notes:
   - SDK Method used are
     discovery.Discovery.get_discovered_network_devices_by_discovery_id,
@@ -49,8 +55,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     taskId: string
     id: string
   register: result

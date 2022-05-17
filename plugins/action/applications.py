@@ -76,7 +76,7 @@ class Applications(object):
 
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name method or it is in another action
+        # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
                 family="application_policy",

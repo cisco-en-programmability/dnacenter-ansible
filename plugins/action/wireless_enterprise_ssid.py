@@ -49,6 +49,7 @@ argument_spec.update(dict(
     enableDirectedMulticastService=dict(type="bool"),
     enableNeighborList=dict(type="bool"),
     mfpClientProtection=dict(type="str"),
+    nasOptions=dict(type="list"),
     ssidName=dict(type="str"),
 ))
 
@@ -83,12 +84,14 @@ class WirelessEnterpriseSsid(object):
             enableDirectedMulticastService=params.get("enableDirectedMulticastService"),
             enableNeighborList=params.get("enableNeighborList"),
             mfpClientProtection=params.get("mfpClientProtection"),
+            nasOptions=params.get("nasOptions"),
             ssid_name=params.get("ssidName"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['ssid_name'] = self.new_object.get('ssid_name')
+        new_object_params['ssid_name'] = self.new_object.get('ssidName') or \
+            self.new_object.get('ssid_name')
         return new_object_params
 
     def create_params(self):
@@ -111,6 +114,7 @@ class WirelessEnterpriseSsid(object):
         new_object_params['enableDirectedMulticastService'] = self.new_object.get('enableDirectedMulticastService')
         new_object_params['enableNeighborList'] = self.new_object.get('enableNeighborList')
         new_object_params['mfpClientProtection'] = self.new_object.get('mfpClientProtection')
+        new_object_params['nasOptions'] = self.new_object.get('nasOptions')
         return new_object_params
 
     def delete_by_name_params(self):
@@ -138,11 +142,12 @@ class WirelessEnterpriseSsid(object):
         new_object_params['enableDirectedMulticastService'] = self.new_object.get('enableDirectedMulticastService')
         new_object_params['enableNeighborList'] = self.new_object.get('enableNeighborList')
         new_object_params['mfpClientProtection'] = self.new_object.get('mfpClientProtection')
+        new_object_params['nasOptions'] = self.new_object.get('nasOptions')
         return new_object_params
 
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name method or it is in another action
+        # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
                 family="wireless",
@@ -225,6 +230,7 @@ class WirelessEnterpriseSsid(object):
             ("enableDirectedMulticastService", "enableDirectedMulticastService"),
             ("enableNeighborList", "enableNeighborList"),
             ("mfpClientProtection", "mfpClientProtection"),
+            ("nasOptions", "nasOptions"),
             ("ssidName", "ssid_name"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params

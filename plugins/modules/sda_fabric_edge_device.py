@@ -18,15 +18,31 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   deviceManagementIpAddress:
-    description: Management Ip Address of the Device which is provisioned successfully.
+    description: DeviceManagementIpAddress query parameter.
     type: str
-  siteNameHierarchy:
-    version_added: "4.0.0"
-    description: Site Name Hierarchy of provisioned Device.
-    type: str
+  payload:
+    description: Sda Fabric Edge Device's payload.
+    elements: dict
+    suboptions:
+      deviceManagementIpAddress:
+        description: Management Ip Address of the Device which is provisioned successfully.
+        type: str
+      siteNameHierarchy:
+        description: SiteNameHierarchy of the Provisioned Device(site should be part
+          of Fabric Site).
+        type: str
+        version_added: 4.0.0
+    type: list
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA AddEdgeDeviceInSDAFabric
+  description: Complete reference of the AddEdgeDeviceInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-edge-device-in-sda-fabric
+- name: Cisco DNA Center documentation for SDA DeleteEdgeDeviceFromSDAFabric
+  description: Complete reference of the DeleteEdgeDeviceFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-edge-device-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_edge_device,
@@ -49,8 +65,9 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    deviceManagementIpAddress: string
-    siteNameHierarchy: string
+    payload:
+    - deviceManagementIpAddress: string
+      siteNameHierarchy: string
 
 - name: Delete all
   cisco.dnac.sda_fabric_edge_device:

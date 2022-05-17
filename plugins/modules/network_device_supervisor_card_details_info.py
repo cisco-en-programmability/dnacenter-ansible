@@ -24,8 +24,12 @@ options:
     - DeviceUuid path parameter. Instanceuuid of device.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetSupervisorCardDetail
+  description: Complete reference of the GetSupervisorCardDetail API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-supervisor-card-detail
 notes:
   - SDK Method used are
     devices.Devices.get_supervisor_card_detail,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceUuid: string
   register: result
 

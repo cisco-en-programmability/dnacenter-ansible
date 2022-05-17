@@ -11,7 +11,9 @@ short_description: Information module for Network Device Count
 description:
 - Get all Network Device Count.
 - Get Network Device Count by id.
-- Returns the count of network devices based on the filter criteria by management IP address, mac address, hostname and location name.
+- >
+   Returns the count of network devices based on the filter criteria by management IP address, mac address, hostname
+   and location name.
 - Returns the interface count for the given device.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -26,8 +28,15 @@ options:
     - DeviceId path parameter. Device ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetDeviceCount2
+  description: Complete reference of the GetDeviceCount2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-count
+- name: Cisco DNA Center documentation for Devices GetDeviceInterfaceCount2
+  description: Complete reference of the GetDeviceInterfaceCount2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-count-2
 notes:
   - SDK Method used are
     devices.Devices.get_device_count,
@@ -49,8 +58,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
   register: result
 
 - name: Get Network Device Count by id
@@ -62,8 +70,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceId: string
   register: result
 

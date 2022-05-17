@@ -98,7 +98,7 @@ class ActionModule(ActionBase):
             response = dnac.exec(
                 family="devices",
                 function='get_module_info_by_id',
-                params=self.get_object(self._task.args)
+                params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))
             self._result.update(dnac.exit_json())

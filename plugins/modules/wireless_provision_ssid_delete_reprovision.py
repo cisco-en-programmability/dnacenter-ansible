@@ -10,12 +10,15 @@ module: wireless_provision_ssid_delete_reprovision
 short_description: Resource module for Wireless Provision Ssid Delete Reprovision
 description:
 - Manage operation delete of the resource Wireless Provision Ssid Delete Reprovision.
-- Removes SSID or WLAN from the network profile, reprovision the device(s) and deletes the SSID or WLAN from DNA Center.
+- Removes SSID or WLAN from the network profile, reprovision the devices and deletes the SSID or WLAN from DNA Center.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   managedAPLocations:
     description: ManagedAPLocations path parameter.
     type: str
@@ -23,8 +26,12 @@ options:
     description: SsidName path parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Wireless DeleteSSIDAndProvisionItToDevices
+  description: Complete reference of the DeleteSSIDAndProvisionItToDevices API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-ssid-and-provision-it-to-devices
 notes:
   - SDK Method used are
     wireless.Wireless.delete_ssid_and_provision_it_to_devices,
@@ -44,6 +51,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers: '{{my_headers | from_json}}'
     managedAPLocations: string
     ssidName: string
 

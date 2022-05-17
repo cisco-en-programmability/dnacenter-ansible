@@ -75,7 +75,7 @@ class GlobalPool(object):
 
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name method or it is in another action
+        # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
                 family="network_settings",
@@ -104,11 +104,12 @@ class GlobalPool(object):
 
     def get_object_by_id(self, id):
         result = None
-        # Note: Does not have a get by id method or it is in another action
+        # NOTE: Does not have a get by id method or it is in another action
         try:
             items = self.dnac.exec(
                 family="network_settings",
                 function="get_global_pool",
+                params=self.get_all_params(id=id),
             )
             if isinstance(items, dict):
                 if 'response' in items:

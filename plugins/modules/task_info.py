@@ -12,7 +12,7 @@ description:
 - Get all Task.
 - Get Task by id.
 - Returns a task by specified id.
-- Returns task(s) based on filter criteria.
+- Returns tasks based on filter criteria.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -82,8 +82,15 @@ options:
     - TaskId path parameter. UUID of the Task.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Task GetTaskById
+  description: Complete reference of the GetTaskById API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-task-by-id
+- name: Cisco DNA Center documentation for Task GetTasks
+  description: Complete reference of the GetTasks API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-tasks
 notes:
   - SDK Method used are
     task.Task.get_task_by_id,
@@ -105,8 +112,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     startTime: string
     endTime: string
     data: string
@@ -132,8 +138,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     taskId: string
   register: result
 

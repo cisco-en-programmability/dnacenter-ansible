@@ -34,8 +34,15 @@ options:
     - ReportId path parameter. ReportId of report.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Reports GetAScheduledReport
+  description: Complete reference of the GetAScheduledReport API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-a-scheduled-report
+- name: Cisco DNA Center documentation for Reports GetListOfScheduledReports
+  description: Complete reference of the GetListOfScheduledReports API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-scheduled-reports
 notes:
   - SDK Method used are
     reports.Reports.get_a_scheduled_report,
@@ -57,8 +64,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     viewGroupId: string
     viewId: string
   register: result
@@ -72,8 +78,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     reportId: string
   register: result
 

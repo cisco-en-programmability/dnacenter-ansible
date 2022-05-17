@@ -10,7 +10,7 @@ module: wireless_dynamic_interface_info
 short_description: Information module for Wireless Dynamic Interface
 description:
 - Get all Wireless Dynamic Interface.
-- Get one or all dynamic interface(s).
+- Get one or all dynamic interfaces.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,8 +26,12 @@ options:
       will be retrieved.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Wireless GetDynamicInterface
+  description: Complete reference of the GetDynamicInterface API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-dynamic-interface
 notes:
   - SDK Method used are
     wireless.Wireless.get_dynamic_interface,
@@ -47,8 +51,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     interface_name: string
   register: result
 

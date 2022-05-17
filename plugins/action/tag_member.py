@@ -32,6 +32,7 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
     payload=dict(type="dict"),
+    object=dict(type="str"),
     id=dict(type="str"),
     memberId=dict(type="str"),
 ))
@@ -50,6 +51,7 @@ class TagMember(object):
         self.dnac = dnac
         self.new_object = dict(
             payload=params.get("payload"),
+            object=params.get("object"),
             id=params.get("id"),
             member_id=params.get("memberId"),
         )
@@ -58,6 +60,7 @@ class TagMember(object):
         new_object_params = {}
         new_object_params['payload'] = self.new_object.get('payload')
         new_object_params['id'] = self.new_object.get('id')
+        new_object_params['object'] = self.new_object.get('object')
         return new_object_params
 
     def delete_by_id_params(self):
@@ -68,11 +71,12 @@ class TagMember(object):
 
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name and get all
+        # NOTE: Does not have a get by name method, using get all
         return result
 
     def get_object_by_id(self, id):
         result = None
+        # NOTE: Does not have a get by id method or it is in another action
         try:
             items = self.dnac.exec(
                 family="tag",
@@ -117,6 +121,7 @@ class TagMember(object):
         requested_obj = self.new_object
 
         obj_params = [
+            ("object", "object"),
             ("id", "id"),
             ("memberId", "member_id"),
         ]

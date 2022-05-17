@@ -538,3 +538,41 @@ releases:
       release_summary: Adds parameters to pnp_device_claim_to_site.
       minor_changes:
         - Adds following ``parameters`` to pnp_device_claim_to_site, gateway, imageId, ipInterfaceName, staticIP, subnetMask, vlanId
+  7.0.0:
+    release_date: "2022-*-*"
+    changes:
+      release_summary: New Dna Center API version 2.3.3.0.
+      minor_changes:
+        - assign_device_to_site - new module.
+        - buildings_planned_access_points_info - new module.
+        - business_sda_virtual_network_summary_info - new module.
+        - event_config_connector_types_info - new module.
+        - event_email_config_create - new module.
+        - event_email_config_update - new module.
+        - event_webhook_create - new module.
+        - event_webhook_update - new module.
+        - file_import - new module.
+        - interface_info - new module.
+        - interface_operation_create - new module.
+        - interface_update - new module.
+        - lan_automation_count_info - new module.
+        - lan_automation_create - new module.
+        - lan_automation_delete - new module.
+        - lan_automation_log_info - new module.
+        - lan_automation_status_info - new module.
+      major_changes:
+        - disasterrecovery_system_operationstatus_info - removed module.
+        - disasterrecovery_system_status_info - removed module.
+        - endpoint_analytics_profiling_rules - removed module.
+        - endpoint_analytics_profiling_rules_info - removed module.
+        - profiling_rules_count_info - removed module.
+        - profiling_rules_in_bulk_create - removed module.
+        - sda_count_info - removed module.
+        - sda_fabric - removed module.
+        - sda_fabric_info - removed module.
+        - site_assign_device - removed module.
+        - site_design_floormap - removed module.
+        - site_design_floormap_info - removed module.
+        - threat_detail - removed module.
+        - threat_detail_count - removed module.
+        - threat_summary - removed module.

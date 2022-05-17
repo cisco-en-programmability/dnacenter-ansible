@@ -24,7 +24,6 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
     InconsistentParameters,
-
     AnsibleSDAException,
 )
 
@@ -35,15 +34,19 @@ argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
     siteNameHierarchy=dict(type="str"),
     virtualNetworkName=dict(type="str"),
+    isLayer2Only=dict(type="bool"),
     ipPoolName=dict(type="str"),
+    vlanId=dict(type="str"),
+    vlanName=dict(type="str"),
+    autoGenerateVlanName=dict(type="bool"),
     trafficType=dict(type="str"),
-    authenticationPolicyName=dict(type="str"),
     scalableGroupName=dict(type="str"),
     isL2FloodingEnabled=dict(type="bool"),
     isThisCriticalPool=dict(type="bool"),
+    isWirelessPool=dict(type="bool"),
+    isIpDirectedBroadcast=dict(type="bool"),
+    isCommonPool=dict(type="bool"),
     poolType=dict(type="str"),
-    vlanName=dict(type="str"),
-    isWirelessPool=dict(type="str"),
 ))
 
 required_if = [
@@ -57,54 +60,66 @@ class SdaVirtualNetworkIpPool(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
+            site_name_hierarchy=params.get("siteNameHierarchy"),
             siteNameHierarchy=params.get("siteNameHierarchy"),
             virtualNetworkName=params.get("virtualNetworkName"),
+            isLayer2Only=params.get("isLayer2Only"),
             ipPoolName=params.get("ipPoolName"),
+            vlanId=params.get("vlanId"),
+            vlanName=params.get("vlanName"),
+            autoGenerateVlanName=params.get("autoGenerateVlanName"),
             trafficType=params.get("trafficType"),
-            authenticationPolicyName=params.get("authenticationPolicyName"),
             scalableGroupName=params.get("scalableGroupName"),
             isL2FloodingEnabled=params.get("isL2FloodingEnabled"),
             isThisCriticalPool=params.get("isThisCriticalPool"),
-            poolType=params.get("poolType"),
-            vlanName=params.get("vlanName"),
             isWirelessPool=params.get("isWirelessPool"),
+            isIpDirectedBroadcast=params.get("isIpDirectedBroadcast"),
+            isCommonPool=params.get("isCommonPool"),
+            poolType=params.get("poolType"),
             site_name_hierarchy=params.get("siteNameHierarchy"),
-            ip_pool_name=params.get("ipPoolName"),
             virtual_network_name=params.get("virtualNetworkName"),
+            ip_pool_name=params.get("ipPoolName"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params['siteNameHierarchy'] = self.new_object.get('site_name_hierarchy')
-        new_object_params['ip_pool_name'] = self.new_object.get('ip_pool_name')
-        new_object_params['virtual_network_name'] = self.new_object.get('virtual_network_name')
+        new_object_params['virtual_network_name'] = self.new_object.get('virtualNetworkName') or \
+            self.new_object.get('virtual_network_name')
+        new_object_params['ip_pool_name'] = self.new_object.get('ipPoolName') or \
+            self.new_object.get('ip_pool_name')
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
         new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
         new_object_params['virtualNetworkName'] = self.new_object.get('virtualNetworkName')
+        new_object_params['isLayer2Only'] = self.new_object.get('isLayer2Only')
         new_object_params['ipPoolName'] = self.new_object.get('ipPoolName')
+        new_object_params['vlanId'] = self.new_object.get('vlanId')
+        new_object_params['vlanName'] = self.new_object.get('vlanName')
+        new_object_params['autoGenerateVlanName'] = self.new_object.get('autoGenerateVlanName')
         new_object_params['trafficType'] = self.new_object.get('trafficType')
-        new_object_params['authenticationPolicyName'] = self.new_object.get('authenticationPolicyName')
         new_object_params['scalableGroupName'] = self.new_object.get('scalableGroupName')
         new_object_params['isL2FloodingEnabled'] = self.new_object.get('isL2FloodingEnabled')
         new_object_params['isThisCriticalPool'] = self.new_object.get('isThisCriticalPool')
-        new_object_params['poolType'] = self.new_object.get('poolType')
-        new_object_params['vlanName'] = self.new_object.get('vlanName')
         new_object_params['isWirelessPool'] = self.new_object.get('isWirelessPool')
+        new_object_params['isIpDirectedBroadcast'] = self.new_object.get('isIpDirectedBroadcast')
+        new_object_params['isCommonPool'] = self.new_object.get('isCommonPool')
+        new_object_params['poolType'] = self.new_object.get('poolType')
         return new_object_params
 
     def delete_all_params(self):
         new_object_params = {}
         new_object_params['siteNameHierarchy'] = self.new_object.get('site_name_hierarchy')
-        new_object_params['ip_pool_name'] = self.new_object.get('ip_pool_name')
+        new_object_params['site_name_hierarchy'] = self.new_object.get('site_name_hierarchy')
         new_object_params['virtual_network_name'] = self.new_object.get('virtual_network_name')
+        new_object_params['ip_pool_name'] = self.new_object.get('ip_pool_name')
         return new_object_params
 
     def get_object_by_name(self, name, is_absent=False):
         result = None
-        # NOTICE: Does not have a get by name method, using get all
+        # NOTE: Does not have a get by name method, using get all
         try:
             items = self.dnac.exec(
                 family="sda",
@@ -143,18 +158,22 @@ class SdaVirtualNetworkIpPool(object):
         obj_params = [
             ("siteNameHierarchy", "siteNameHierarchy"),
             ("virtualNetworkName", "virtualNetworkName"),
+            ("isLayer2Only", "isLayer2Only"),
             ("ipPoolName", "ipPoolName"),
+            ("vlanId", "vlanId"),
+            ("vlanName", "vlanName"),
+            ("autoGenerateVlanName", "autoGenerateVlanName"),
             ("trafficType", "trafficType"),
-            ("authenticationPolicyName", "authenticationPolicyName"),
             ("scalableGroupName", "scalableGroupName"),
             ("isL2FloodingEnabled", "isL2FloodingEnabled"),
             ("isThisCriticalPool", "isThisCriticalPool"),
-            ("poolType", "poolType"),
-            ("vlanName", "vlanName"),
             ("isWirelessPool", "isWirelessPool"),
+            ("isIpDirectedBroadcast", "isIpDirectedBroadcast"),
+            ("isCommonPool", "isCommonPool"),
+            ("poolType", "poolType"),
             ("siteNameHierarchy", "site_name_hierarchy"),
-            ("ipPoolName", "ip_pool_name"),
             ("virtualNetworkName", "virtual_network_name"),
+            ("ipPoolName", "ip_pool_name"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update

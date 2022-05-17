@@ -24,8 +24,12 @@ options:
     - DeviceManagementIpAddress query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetEdgeDeviceFromSDAFabric
+  description: Complete reference of the GetEdgeDeviceFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-edge-device-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_edge_device,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceManagementIpAddress: string
   register: result
 

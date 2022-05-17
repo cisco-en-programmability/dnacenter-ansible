@@ -90,13 +90,13 @@ class ActionModule(ActionBase):
             response = dnac.exec(
                 family="software_image_management_swim",
                 function='get_golden_tag_status_of_an_image',
-                params=self.get_object(self._task.args)
+                params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))
             self._result.update(dnac.exit_json())
             return self._result
         if not id:
-            # NOTICE: Does not have a get all method or it is in another action
+            # NOTE: Does not have a get all method or it is in another action
             response = None
             dnac.object_modify_result(changed=False, result="Module does not have get all, check arguments of module")
             self._result.update(dict(dnac_response=response))

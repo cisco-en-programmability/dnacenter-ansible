@@ -10,7 +10,7 @@ module: license_device_count_info
 short_description: Information module for License Device Count
 description:
 - Get all License Device Count.
-- Get total number of managed device(s).
+- Get total number of managed devices.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -40,8 +40,12 @@ options:
     - Smart_account_id query parameter. Id of smart account.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Licenses DeviceCountDetails
+  description: Complete reference of the DeviceCountDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!device-count-details
 notes:
   - SDK Method used are
     licenses.Licenses.device_count_details,
@@ -61,8 +65,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     device_type: string
     registration_status: string
     dna_level: string

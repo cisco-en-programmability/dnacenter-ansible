@@ -12,7 +12,9 @@ description:
 - Manage operations create, update and delete of the resource Discovery.
 - Initiates discovery with the given parameters.
 - Stops all the discoveries and removes them.
-- Stops the discovery for the given Discovery ID and removes it. Discovery ID can be obtained using the "Get Discoveries by range" API.
+- >
+   Stops the discovery for the given Discovery ID and removes it. Discovery ID can be obtained using the "Get
+   Discoveries by range" API.
 - Stops or starts an existing discovery.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -212,8 +214,21 @@ options:
     description: Discovery's userNameList.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery StartDiscovery
+  description: Complete reference of the StartDiscovery API.
+  link: https://developer.cisco.com/docs/dna-center/#!start-discovery
+- name: Cisco DNA Center documentation for Discovery DeleteAllDiscovery
+  description: Complete reference of the DeleteAllDiscovery API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-all-discovery
+- name: Cisco DNA Center documentation for Discovery DeleteDiscoveryById
+  description: Complete reference of the DeleteDiscoveryById API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-id
+- name: Cisco DNA Center documentation for Discovery UpdatesAnExistingDiscoveryBySpecifiedId
+  description: Complete reference of the UpdatesAnExistingDiscoveryBySpecifiedId API.
+  link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-discovery-by-specified-id
 notes:
   - SDK Method used are
     discovery.Discovery.delete_discovery_by_id,

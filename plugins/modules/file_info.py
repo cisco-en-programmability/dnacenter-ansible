@@ -32,13 +32,16 @@ options:
     - Enable or disable automatic file creation of raw response.
     type: bool
   filename:
-    version_added: '6.2.0'
     description:
-    - The filename used to save the download file. It defaults to the header Content-Disposition's filename.
+    - The filename used to save the download file.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for File DownloadAFileByFileId
+  description: Complete reference of the DownloadAFileByFileId API.
+  link: https://developer.cisco.com/docs/dna-center/#!download-a-file-by-file-id
 notes:
   - SDK Method used are
     file.File.download_a_file_by_fileid,
@@ -58,8 +61,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     fileId: string
   register: result
 

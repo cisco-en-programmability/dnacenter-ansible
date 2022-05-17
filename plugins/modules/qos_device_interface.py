@@ -10,8 +10,9 @@ module: qos_device_interface
 short_description: Resource module for Qos Device Interface
 description:
 - Manage operations create, update and delete of the resource Qos Device Interface.
-- Create qos device interface infos associate with network device id to allow the user to mark specific interfaces as WAN,
-  to associate WAN interfaces with specific SP Profile and to be able to define a shaper on WAN interfaces.
+- >
+   Create qos device interface infos associate with network device id to allow the user to mark specific interfaces
+   as WAN, to associate WAN interfaces with specific SP Profile and to be able to define a shaper on WAN interfaces.
 - Delete all qos device interface infos associate with network device id.
 - Update existing qos device interface infos associate with network device id.
 version_added: '4.0.0'
@@ -69,8 +70,18 @@ options:
         type: list
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Application Policy CreateQosDeviceInterfaceInfo
+  description: Complete reference of the CreateQosDeviceInterfaceInfo API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-qos-device-interface-info
+- name: Cisco DNA Center documentation for Application Policy DeleteQosDeviceInterfaceInfo
+  description: Complete reference of the DeleteQosDeviceInterfaceInfo API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-qos-device-interface-info
+- name: Cisco DNA Center documentation for Application Policy UpdateQosDeviceInterfaceInfo
+  description: Complete reference of the UpdateQosDeviceInterfaceInfo API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-qos-device-interface-info
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.create_qos_device_interface_info,
@@ -103,13 +114,13 @@ EXAMPLES = r"""
       networkDeviceId: string
       qosDeviceInterfaceInfo:
       - dmvpnRemoteSitesBw:
-        - 1
-        instanceId: 1
+        - 0
+        instanceId: 0
         interfaceId: string
         interfaceName: string
         label: string
         role: string
-        uploadBW: 1
+        uploadBW: 0
 
 - name: Create
   cisco.dnac.qos_device_interface:
@@ -128,12 +139,12 @@ EXAMPLES = r"""
       networkDeviceId: string
       qosDeviceInterfaceInfo:
       - dmvpnRemoteSitesBw:
-        - 1
+        - 0
         interfaceId: string
         interfaceName: string
         label: string
         role: string
-        uploadBW: 1
+        uploadBW: 0
 
 - name: Delete by id
   cisco.dnac.qos_device_interface:

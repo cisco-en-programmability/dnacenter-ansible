@@ -40,8 +40,15 @@ options:
     - Id path parameter. Global Credential ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery GetCredentialSubTypeByCredentialId
+  description: Complete reference of the GetCredentialSubTypeByCredentialId API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-credential-sub-type-by-credential-id
+- name: Cisco DNA Center documentation for Discovery GetGlobalCredentials
+  description: Complete reference of the GetGlobalCredentials API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-global-credentials
 notes:
   - SDK Method used are
     discovery.Discovery.get_credential_sub_type_by_credential_id,
@@ -63,8 +70,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     credentialSubType: string
     sortBy: string
     order: string
@@ -79,8 +85,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     id: string
   register: result
 

@@ -86,8 +86,15 @@ options:
     - FlowAnalysisId path parameter. Flow analysis request id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Path Trace RetrievesPreviousPathtrace
+  description: Complete reference of the RetrievesPreviousPathtrace API.
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-previous-pathtrace
+- name: Cisco DNA Center documentation for Path Trace RetrivesAllPreviousPathtracesSummary
+  description: Complete reference of the RetrivesAllPreviousPathtracesSummary API.
+  link: https://developer.cisco.com/docs/dna-center/#!retrives-all-previous-pathtraces-summary
 notes:
   - SDK Method used are
     path_trace.PathTrace.retrieves_previous_pathtrace,
@@ -109,8 +116,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     periodicRefresh: True
     sourceIP: string
     destIP: string
@@ -137,8 +143,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     flowAnalysisId: string
   register: result
 

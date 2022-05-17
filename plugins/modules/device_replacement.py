@@ -65,8 +65,15 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Replacement MarkDeviceForReplacement
+  description: Complete reference of the MarkDeviceForReplacement API.
+  link: https://developer.cisco.com/docs/dna-center/#!mark-device-for-replacement
+- name: Cisco DNA Center documentation for Device Replacement UnMarkDeviceForReplacement
+  description: Complete reference of the UnMarkDeviceForReplacement API.
+  link: https://developer.cisco.com/docs/dna-center/#!un-mark-device-for-replacement
 notes:
   - SDK Method used are
     device_replacement.DeviceReplacement.mark_device_for_replacement,
@@ -90,7 +97,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - creationTime: 1
+    - creationTime: 0
       family: string
       faultyDeviceId: string
       faultyDeviceName: string
@@ -102,7 +109,7 @@ EXAMPLES = r"""
       replacementDevicePlatform: string
       replacementDeviceSerialNumber: string
       replacementStatus: string
-      replacementTime: 1
+      replacementTime: 0
       workflowId: string
 
 - name: Create
@@ -116,7 +123,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - creationTime: 1
+    - creationTime: 0
       family: string
       faultyDeviceId: string
       faultyDeviceName: string
@@ -128,7 +135,7 @@ EXAMPLES = r"""
       replacementDevicePlatform: string
       replacementDeviceSerialNumber: string
       replacementStatus: string
-      replacementTime: 1
+      replacementTime: 0
       workflowId: string
 
 """

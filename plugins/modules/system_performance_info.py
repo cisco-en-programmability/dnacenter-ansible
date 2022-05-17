@@ -40,8 +40,12 @@ options:
       be fetched.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Health and Performance SystemPerformanceAPI
+  description: Complete reference of the SystemPerformanceAPI API.
+  link: https://developer.cisco.com/docs/dna-center/#!system-performance-api
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.system_performance,
@@ -61,8 +65,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     kpi: string
     function: string
     startTime: 0
