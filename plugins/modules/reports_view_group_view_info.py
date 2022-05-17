@@ -10,8 +10,9 @@ module: reports_view_group_view_info
 short_description: Information module for Reports View Group View
 description:
 - Get Reports View Group View by id.
-- Gives complete information of the view that is required to configure a report.
-  Use "Get views for a given view group" API to get the viewIds required as a query param for this API for available views.
+- >
+   Gives complete information of the view that is required to configure a report. Use "Get views for a given view
+   group" API to get the viewIds required as a query param for this API for available views.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -29,8 +30,12 @@ options:
     - ViewId path parameter. View id of view.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Reports GetViewDetailsForAGivenViewGroup_View
+  description: Complete reference of the GetViewDetailsForAGivenViewGroup_View API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-view-details-for-a-given-view-group-view
 notes:
   - SDK Method used are
     reports.Reports.get_view_details_for_a_given_view_group_and_view,
@@ -50,8 +55,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     viewGroupId: string
     viewId: string
   register: result

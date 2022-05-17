@@ -40,6 +40,7 @@ argument_spec.update(dict(
     slaacSupport=dict(type="bool"),
     ipv4GateWay=dict(type="str"),
     siteId=dict(type="str"),
+    id=dict(type="str"),
 ))
 
 required_if = []
@@ -92,6 +93,7 @@ class ActionModule(ActionBase):
             slaacSupport=params.get("slaacSupport"),
             ipv4GateWay=params.get("ipv4GateWay"),
             site_id=params.get("siteId"),
+            id=params.get("id"),
         )
         return new_object
 

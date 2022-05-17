@@ -52,12 +52,10 @@ options:
   tags:
     description:
     - Tags query parameter. Filter template(s) based on tags.
-    elements: str
     type: list
   projectNames:
     description:
     - ProjectNames query parameter. Filter template(s) based on project names.
-    elements: str
     type: list
   unCommitted:
     description:
@@ -76,8 +74,15 @@ options:
     - LatestVersion query parameter. LatestVersion flag to get the latest versioned template.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates GetsDetailsOfAGivenTemplate
+  description: Complete reference of the GetsDetailsOfAGivenTemplate API.
+  link: https://developer.cisco.com/docs/dna-center/#!gets-details-of-a-given-template
+- name: Cisco DNA Center documentation for Configuration Templates GetsTheTemplatesAvailable
+  description: Complete reference of the GetsTheTemplatesAvailable API.
+  link: https://developer.cisco.com/docs/dna-center/#!gets-the-templates-available
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_template_details,
@@ -99,8 +104,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     projectId: string
     softwareType: string
     softwareVersion: string
@@ -123,8 +127,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     latestVersion: True
     templateId: string
   register: result
@@ -251,7 +254,6 @@ dnac_response:
           "productType": "string"
         }
       ],
-      "documentDatabase": true,
       "failurePolicy": "string",
       "id": "string",
       "language": "string",
@@ -259,7 +261,6 @@ dnac_response:
       "latestVersionTime": 0,
       "name": "string",
       "parentTemplateId": "string",
-      "projectAssociated": true,
       "projectId": "string",
       "projectName": "string",
       "rollbackTemplateContent": "string",

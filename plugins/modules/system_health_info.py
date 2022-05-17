@@ -44,8 +44,12 @@ options:
     - Offset query parameter.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Health and Performance SystemHealthAPI
+  description: Complete reference of the SystemHealthAPI API.
+  link: https://developer.cisco.com/docs/dna-center/#!system-health-api
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.system_health,
@@ -65,8 +69,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     summary: True
     domain: string
     subdomain: string
@@ -97,6 +100,9 @@ dnac_response:
         }
       ],
       "version": "string",
-      "hostName": "string"
+      "hostName": "string",
+      "cimcaddress": [
+        "string"
+      ]
     }
 """

@@ -10,7 +10,7 @@ module: license_device_deregistration
 short_description: Resource module for License Device Deregistration
 description:
 - Manage operation update of the resource License Device Deregistration.
-- Deregister device(s) from CSSM(Cisco Smart Software Manager).
+- Deregister devices from CSSM Cisco Smart Software Manager .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -21,8 +21,12 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Licenses DeviceDeregistration
+  description: Complete reference of the DeviceDeregistration API.
+  link: https://developer.cisco.com/docs/dna-center/#!device-deregistration
 notes:
   - SDK Method used are
     licenses.Licenses.device_deregistration,

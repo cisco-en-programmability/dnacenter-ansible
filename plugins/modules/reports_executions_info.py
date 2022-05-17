@@ -12,8 +12,9 @@ description:
 - Get all Reports Executions.
 - Get Reports Executions by id.
 - Get details of all executions for a given report.
-- Returns report content.
-  Save the response to a file by converting the response data as a blob and setting the file format available from content-disposition response header.
+- >
+   Returns report content. Save the response to a file by converting the response data as a blob and setting the file
+   format available from content-disposition response header.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -39,13 +40,19 @@ options:
     - Enable or disable automatic file creation of raw response.
     type: bool
   filename:
-    version_added: '6.2.0'
     description:
-    - The filename used to save the download file. It defaults to the header Content-Disposition's filename.
+    - The filename used to save the download file.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Reports DownloadReportContent
+  description: Complete reference of the DownloadReportContent API.
+  link: https://developer.cisco.com/docs/dna-center/#!download-report-content
+- name: Cisco DNA Center documentation for Reports GetAllExecutionDetailsForAGivenReport
+  description: Complete reference of the GetAllExecutionDetailsForAGivenReport API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-execution-details-for-a-given-report
 notes:
   - SDK Method used are
     reports.Reports.download_report_content,
@@ -67,8 +74,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     reportId: string
   register: result
 
@@ -81,8 +87,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     reportId: string
     executionId: string
   register: result

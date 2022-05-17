@@ -48,8 +48,15 @@ options:
     description: Http Read Credential's username.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery CreateHTTPReadCredentials
+  description: Complete reference of the CreateHTTPReadCredentials API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-http-read-credentials
+- name: Cisco DNA Center documentation for Discovery UpdateHTTPReadCredential
+  description: Complete reference of the UpdateHTTPReadCredential API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-http-read-credential
 notes:
   - SDK Method used are
     discovery.Discovery.create_http_read_credentials,

@@ -24,8 +24,12 @@ options:
     - SerialNumber path parameter. Device serial number.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetDeviceBySerialNumber
+  description: Complete reference of the GetDeviceBySerialNumber API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-by-serial-number
 notes:
   - SDK Method used are
     devices.Devices.get_device_by_serial_number,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     serialNumber: string
   register: result
 
@@ -74,7 +77,7 @@ dnac_response:
         "instanceUuid": "string",
         "interfaceCount": "string",
         "inventoryStatusDetail": "string",
-        "lastUpdateTime": "string",
+        "lastUpdateTime": 0,
         "lastUpdated": "string",
         "lineCardCount": "string",
         "lineCardId": "string",

@@ -66,7 +66,8 @@ class Reports(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['view_group_id'] = self.new_object.get('viewGroupId')
+        new_object_params['view_group_id'] = self.new_object.get('viewGroupId') or \
+            self.new_object.get('view_group_id')
         new_object_params['view_id'] = self.new_object.get('view', {}).get('viewId')
         return new_object_params
 
@@ -88,7 +89,7 @@ class Reports(object):
 
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name method, using get all
+        # NOTE: Does not have a get by name method, using get all
         try:
             items = self.dnac.exec(
                 family="reports",

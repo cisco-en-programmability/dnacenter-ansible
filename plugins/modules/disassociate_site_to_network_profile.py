@@ -23,8 +23,12 @@ options:
     description: SiteId path parameter. Site Id to be associated.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Site Design Disassociate
+  description: Complete reference of the Disassociate API.
+  link: https://developer.cisco.com/docs/dna-center/#!disassociate
 notes:
   - SDK Method used are
     site_design.SiteDesign.disassociate,

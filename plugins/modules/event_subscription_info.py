@@ -10,7 +10,7 @@ module: event_subscription_info
 short_description: Information module for Event Subscription
 description:
 - Get all Event Subscription.
-- Gets the list of Subscriptions's based on provided offset and limit.
+- Gets the list of Subscriptions's based on provided offset and limit Deprecated .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -40,8 +40,12 @@ options:
     - Order query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management GetEventSubscriptions
+  description: Complete reference of the GetEventSubscriptions API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-event-subscriptions
 notes:
   - SDK Method used are
     event_management.EventManagement.get_event_subscriptions,
@@ -61,8 +65,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     eventIds: string
     offset: 0
     limit: 0
@@ -81,29 +84,78 @@ dnac_response:
   sample: >
     [
       {
-        "subscriptionId": "string",
-        "isPrivate": true,
-        "tenantId": "string",
         "version": "string",
+        "subscriptionId": "string",
         "name": "string",
         "description": "string",
         "subscriptionEndpoints": [
           {
             "instanceId": "string",
-            "id": "string",
             "subscriptionDetails": {
+              "connectorType": "string",
+              "instanceId": "string",
               "name": "string",
+              "description": "string",
               "url": "string",
+              "basePath": "string",
+              "resource": "string",
               "method": "string",
-              "connectorType": "string"
-            }
+              "trustCert": "string",
+              "headers": [
+                {
+                  "string": "string"
+                }
+              ],
+              "queryParams": [
+                {
+                  "string": "string"
+                }
+              ],
+              "pathParams": [
+                {
+                  "string": "string"
+                }
+              ],
+              "body": "string",
+              "connectTimeout": "string",
+              "readTimeout": "string"
+            },
+            "connectorType": "string"
           }
         ],
         "filter": {
           "eventIds": [
             "string"
+          ],
+          "others": [
+            "string"
+          ],
+          "domainsSubdomains": [
+            {
+              "domain": "string",
+              "subDomains": [
+                "string"
+              ]
+            }
+          ],
+          "types": [
+            "string"
+          ],
+          "categories": [
+            "string"
+          ],
+          "severities": [
+            "string"
+          ],
+          "sources": [
+            "string"
+          ],
+          "siteIds": [
+            "string"
           ]
-        }
+        },
+        "isPrivate": true,
+        "tenantId": "string"
       }
     ]
 """

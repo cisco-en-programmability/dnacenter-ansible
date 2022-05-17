@@ -10,8 +10,9 @@ module: swim_import_via_url
 short_description: Resource module for Swim Import Via Url
 description:
 - Manage operation create of the resource Swim Import Via Url.
-- Fetches a software image from remote file system using URL for HTTP/FTP and uploads to DNA Center.
-  Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
+- >
+   Fetches a software image from remote file system using URL for HTTP/FTP and uploads to DNA Center. Supported image
+   files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -48,8 +49,12 @@ options:
     description: ScheduleOrigin query parameter. Originator of this call (Optional).
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) ImportSoftwareImageViaURL
+  description: Complete reference of the ImportSoftwareImageViaURL API.
+  link: https://developer.cisco.com/docs/dna-center/#!import-software-image-via-url
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url,
@@ -69,10 +74,15 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    payload:
+    - applicationType: string
+      imageFamily: string
+      sourceURL: string
+      thirdParty: true
+      vendor: string
     scheduleAt: string
     scheduleDesc: string
     scheduleOrigin: string
-    payload:
 
 """
 

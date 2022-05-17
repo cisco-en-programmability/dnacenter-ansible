@@ -30,8 +30,12 @@ options:
     description: UUID of template to get template preview.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates PreviewTemplate
+  description: Complete reference of the PreviewTemplate API.
+  link: https://developer.cisco.com/docs/dna-center/#!preview-template
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.preview_template,

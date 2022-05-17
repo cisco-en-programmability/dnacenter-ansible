@@ -24,8 +24,12 @@ options:
     - NetworkDeviceId query parameter. Network device id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Application Policy GetQosDeviceInterfaceInfo
+  description: Complete reference of the GetQosDeviceInterfaceInfo API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-qos-device-interface-info
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_qos_device_interface_info,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     networkDeviceId: string
   register: result
 

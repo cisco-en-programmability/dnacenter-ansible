@@ -118,8 +118,12 @@ options:
       values asc, desc.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management GetAuditLogParentRecords
+  description: Complete reference of the GetAuditLogParentRecords API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-parent-records
 notes:
   - SDK Method used are
     event_management.EventManagement.get_auditlog_parent_records,
@@ -139,8 +143,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     instanceId: string
     name: string
     eventId: string

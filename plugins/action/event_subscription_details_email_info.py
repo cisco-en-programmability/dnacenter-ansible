@@ -25,9 +25,12 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    connectorType=dict(type="str"),
     name=dict(type="str"),
     instanceId=dict(type="str"),
+    offset=dict(type="int"),
+    limit=dict(type="int"),
+    sortBy=dict(type="str"),
+    order=dict(type="str"),
     headers=dict(type="dict"),
 ))
 
@@ -66,9 +69,12 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            connector_type=params.get("connectorType"),
             name=params.get("name"),
             instance_id=params.get("instanceId"),
+            offset=params.get("offset"),
+            limit=params.get("limit"),
+            sort_by=params.get("sortBy"),
+            order=params.get("order"),
             headers=params.get("headers"),
         )
         return new_object

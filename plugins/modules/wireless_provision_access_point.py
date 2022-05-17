@@ -16,6 +16,9 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   payload:
     description: Wireless Provision Access Point's payload.
     elements: dict
@@ -44,8 +47,12 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Wireless APProvision
+  description: Complete reference of the APProvision API.
+  link: https://developer.cisco.com/docs/dna-center/#!a-p-provision
 notes:
   - SDK Method used are
     wireless.Wireless.ap_provision,
@@ -65,6 +72,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers: '{{my_headers | from_json}}'
     payload:
     - customApGroupName: string
       customFlexGroupName:
@@ -81,11 +89,13 @@ RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: dict
+  type: list
   sample: >
-    {
-      "executionId": "string",
-      "executionUrl": "string",
-      "message": "string"
-    }
+    [
+      {
+        "executionId": "string",
+        "executionUrl": "string",
+        "message": "string"
+      }
+    ]
 """

@@ -28,8 +28,12 @@ options:
     - RecordsToReturn path parameter. Number of records to return.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetNetworkDeviceByPaginationRange
+  description: Complete reference of the GetNetworkDeviceByPaginationRange API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-network-device-by-pagination-range
 notes:
   - SDK Method used are
     devices.Devices.get_network_device_by_pagination_range,
@@ -49,8 +53,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     startIndex: 0
     recordsToReturn: 0
   register: result
@@ -80,7 +83,7 @@ dnac_response:
           "instanceUuid": "string",
           "interfaceCount": "string",
           "inventoryStatusDetail": "string",
-          "lastUpdateTime": "string",
+          "lastUpdateTime": 0,
           "lastUpdated": "string",
           "lineCardCount": "string",
           "lineCardId": "string",

@@ -24,8 +24,12 @@ options:
     - DeviceIp query parameter. Device to which the provisioning detail has to be retrieved.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Site Design GetDeviceDetailsByIP
+  description: Complete reference of the GetDeviceDetailsByIP API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-details-by-ip
 notes:
   - SDK Method used are
     site_design.SiteDesign.get_device_details_by_ip,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceIp: string
   register: result
 

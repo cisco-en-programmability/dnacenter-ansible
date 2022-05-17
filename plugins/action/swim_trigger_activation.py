@@ -27,6 +27,7 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     payload=dict(type="list"),
     scheduleValidate=dict(type="bool"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -66,6 +67,7 @@ class ActionModule(ActionBase):
         new_object = dict(
             payload=params.get("payload"),
             schedule_validate=params.get("scheduleValidate"),
+            headers=params.get("headers"),
         )
         return new_object
 

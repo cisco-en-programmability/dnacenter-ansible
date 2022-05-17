@@ -48,8 +48,15 @@ options:
     description: Http Write Credential's username.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery CreateHTTPWriteCredentials
+  description: Complete reference of the CreateHTTPWriteCredentials API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-http-write-credentials
+- name: Cisco DNA Center documentation for Discovery UpdateHTTPWriteCredentials
+  description: Complete reference of the UpdateHTTPWriteCredentials API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-http-write-credentials
 notes:
   - SDK Method used are
     discovery.Discovery.create_http_write_credentials,

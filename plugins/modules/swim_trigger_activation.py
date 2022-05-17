@@ -16,6 +16,9 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   payload:
     description: Swim Trigger Activation's payload.
     elements: dict
@@ -46,8 +49,12 @@ options:
       before schedule (Optional).
     type: bool
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) TriggerSoftwareImageActivation
+  description: Complete reference of the TriggerSoftwareImageActivation API.
+  link: https://developer.cisco.com/docs/dna-center/#!trigger-software-image-activation
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation,
@@ -67,8 +74,17 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    scheduleValidate: true
+    headers: '{{my_headers | from_json}}'
     payload:
+    - activateLowerImageVersion: true
+      deviceUpgradeMode: string
+      deviceUuid: string
+      distributeIfNeeded: true
+      imageUuidList:
+      - string
+      smuImageUuidList:
+      - string
+    scheduleValidate: true
 
 """
 

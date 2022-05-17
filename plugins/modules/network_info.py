@@ -10,7 +10,7 @@ module: network_info
 short_description: Information module for Network
 description:
 - Get all Network.
-- API to get  DHCP and DNS center server details.
+- API to get DHCP and DNS center server details.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,8 +24,12 @@ options:
     - SiteId query parameter. Site id to get the network settings associated with the site.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Network Settings GetNetwork
+  description: Complete reference of the GetNetwork API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-network
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.get_network,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     siteId: string
   register: result
 

@@ -24,8 +24,12 @@ options:
     - InstanceId query parameter. Instance Id of the failed event as in the Runtime Dashboard.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for ITSM GetFailedITSMEvents
+  description: Complete reference of the GetFailedITSMEvents API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-failed-itsm-events
 notes:
   - SDK Method used are
     itsm.Itsm.get_failed_itsm_events,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     instanceId: string
   register: result
 

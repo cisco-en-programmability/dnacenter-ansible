@@ -16,6 +16,9 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   provisioning:
     description: Nfv Provision's provisioning.
     elements: dict
@@ -372,8 +375,12 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Site Design ProvisionNFV
+  description: Complete reference of the ProvisionNFV API.
+  link: https://developer.cisco.com/docs/dna-center/#!provision-nfv
 notes:
   - SDK Method used are
     site_design.SiteDesign.provision_nfv,
@@ -393,6 +400,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers: '{{my_headers | from_json}}'
     provisioning:
     - device:
       - customNetworks:

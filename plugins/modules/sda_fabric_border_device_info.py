@@ -10,7 +10,7 @@ module: sda_fabric_border_device_info
 short_description: Information module for Sda Fabric Border Device
 description:
 - Get all Sda Fabric Border Device.
-- Gets border device detail from SDA Fabric.
+- Get border device detail from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,8 +25,12 @@ options:
     - DeviceManagementIpAddress query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetBorderDeviceDetailFromSDAFabric
+  description: Complete reference of the GetBorderDeviceDetailFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-border-device-detail-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.gets_border_device_detail,
@@ -46,8 +50,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceManagementIpAddress: string
   register: result
 

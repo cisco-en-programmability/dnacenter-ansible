@@ -37,8 +37,12 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery CreateUpdateSNMPProperties
+  description: Complete reference of the CreateUpdateSNMPProperties API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-update-snmp-properties
 notes:
   - SDK Method used are
     discovery.Discovery.create_update_snmp_properties,
@@ -63,7 +67,7 @@ EXAMPLES = r"""
     - id: string
       instanceTenantId: string
       instanceUuid: string
-      intValue: 1
+      intValue: 0
       systemPropertyName: string
 
 """

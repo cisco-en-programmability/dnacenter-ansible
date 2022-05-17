@@ -10,7 +10,9 @@ module: device_health_info
 short_description: Information module for Device Health
 description:
 - Get all Device Health.
-- Intent API for accessing DNA Assurance Device object for generating reports, creating dashboards or creating additional value added services.
+- >
+   Intent API for accessing DNA Assurance Device object for generating reports, creating dashboards or creating
+   additional value added services.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -48,8 +50,12 @@ options:
     - Offset query parameter. The offset of the first device in the returned data.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices Devices
+  description: Complete reference of the Devices API.
+  link: https://developer.cisco.com/docs/dna-center/#!api-devices-devices
 notes:
   - SDK Method used are
     devices.Devices.devices,
@@ -69,8 +75,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceRole: string
     siteId: string
     health: string

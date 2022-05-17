@@ -17,6 +17,9 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   interfaceName:
     description: Dynamic-interface name.
     type: str
@@ -24,8 +27,15 @@ options:
     description: Vlan Id.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Wireless CreateUpdateDynamicInterface
+  description: Complete reference of the CreateUpdateDynamicInterface API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-update-dynamic-interface
+- name: Cisco DNA Center documentation for Wireless DeleteDynamicInterface
+  description: Complete reference of the DeleteDynamicInterface API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-dynamic-interface
 notes:
   - SDK Method used are
     wireless.Wireless.create_update_dynamic_interface,
@@ -48,6 +58,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    headers: '{{my_headers | from_json}}'
     interfaceName: string
     vlanId: 0
 
@@ -61,6 +72,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: absent
+    headers: '{{my_headers | from_json}}'
     interfaceName: string
 
 """
@@ -69,11 +81,13 @@ RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: dict
+  type: list
   sample: >
-    {
-      "executionId": "string",
-      "executionUrl": "string",
-      "message": "string"
-    }
+    [
+      {
+        "executionId": "string",
+        "executionUrl": "string",
+        "message": "string"
+      }
+    ]
 """

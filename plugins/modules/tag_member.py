@@ -23,12 +23,22 @@ options:
   memberId:
     description: MemberId path parameter. TagMember id to be removed from tag.
     type: str
+  object:
+    description: Object.
+    type: str
   payload:
     description: Map of member type and member ids.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Tag AddMembersToTheTag
+  description: Complete reference of the AddMembersToTheTag API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-members-to-the-tag
+- name: Cisco DNA Center documentation for Tag RemoveTagMember
+  description: Complete reference of the RemoveTagMember API.
+  link: https://developer.cisco.com/docs/dna-center/#!remove-tag-member
 notes:
   - SDK Method used are
     tag.Tag.add_members_to_the_tag,
@@ -52,8 +62,10 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     id: string
+    object: string
     payload:
-      networkinterface: ["string"]
+      networkinterface:
+      - string
 
 - name: Delete by id
   cisco.dnac.tag_member:

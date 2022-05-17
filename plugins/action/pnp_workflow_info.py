@@ -96,7 +96,7 @@ class ActionModule(ActionBase):
             response = dnac.exec(
                 family="device_onboarding_pnp",
                 function='get_workflow_by_id',
-                params=self.get_object(self._task.args)
+                params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))
             self._result.update(dnac.exit_json())

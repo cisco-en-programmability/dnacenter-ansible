@@ -34,8 +34,15 @@ options:
     - Id path parameter. Interface ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetAllInterfaces
+  description: Complete reference of the GetAllInterfaces API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-interfaces
+- name: Cisco DNA Center documentation for Devices GetInterfaceById
+  description: Complete reference of the GetInterfaceById API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-interface-by-id
 notes:
   - SDK Method used are
     devices.Devices.get_all_interfaces,
@@ -57,8 +64,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     offset: 0
     limit: 0
   register: result
@@ -72,8 +78,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     id: string
   register: result
 

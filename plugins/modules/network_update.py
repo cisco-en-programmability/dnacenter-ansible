@@ -23,7 +23,7 @@ options:
         description: Network Update's clientAndEndpoint_aaa.
         suboptions:
           ipAddress:
-            description: IP address for ISE serve (eg 1.1.1.4). Mandatory for ISE servers.
+            description: IP address for ISE serve (eg 1.1.1.4).
             type: str
           network:
             description: IP address for AAA or ISE server (eg 2.2.2.1).
@@ -35,7 +35,7 @@ options:
             description: Server type AAA or ISE server (eg AAA).
             type: str
           sharedSecret:
-            description: Shared secret for ISE server. Supported only by ISE servers.
+            description: Shared secret for ISE server.
             type: str
         type: dict
       dhcpServer:
@@ -46,16 +46,13 @@ options:
         description: Network Update's dnsServer.
         suboptions:
           domainName:
-            description: Domain name of DHCP (eg; cisco). It can only contain alphanumeric
-              characters or hyphen.
+            description: Domain name of DHCP (eg; cisco).
             type: str
           primaryIpAddress:
-            description: Primary ip address for DHCP (eg 2.2.2.2). Valid range 1.0.0.0
-              - 223.255.255.255.
+            description: Primary ip address for DHCP (eg 2.2.2.2).
             type: str
           secondaryIpAddress:
-            description: Secondary ip address for DHCP (eg 3.3.3.3. Valid range 1.0.0.0
-              - 223.255.255.255).
+            description: Secondary ip address for DHCP (eg 3.3.3.3).
             type: str
         type: dict
       messageOfTheday:
@@ -82,12 +79,10 @@ options:
         description: Network Update's network_aaa.
         suboptions:
           ipAddress:
-            description: IP address for AAA and ISE server (eg 1.1.1.1). Mandatory for
-              ISE servers and for AAA consider this as additional Ip.
+            description: IP address for AAA and ISE server (eg 1.1.1.1).
             type: str
           network:
-            description: IP address for AAA or ISE server (eg 2.2.2.2). For AAA server
-              consider it as primary IP and For ISE consider as Network.
+            description: IP address for AAA or ISE server (eg 2.2.2.2).
             type: str
           protocol:
             description: Protocol for AAA or ISE serve (eg RADIUS).
@@ -96,7 +91,7 @@ options:
             description: Server type for AAA network (eg AAA).
             type: str
           sharedSecret:
-            description: Shared secret for ISE server. Supported only by ISE servers.
+            description: Shared secret for ISE server.
             type: str
         type: dict
       ntpServer:
@@ -134,14 +129,18 @@ options:
       is associated with the site.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Network Settings UpdateNetwork
+  description: Complete reference of the UpdateNetwork API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-network
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.update_network,
 
   - Paths used are
-    put /dna/intent/api/v1/network/{siteId}
+    put /dna/intent/api/v1/network/{siteId},
 
 """
 

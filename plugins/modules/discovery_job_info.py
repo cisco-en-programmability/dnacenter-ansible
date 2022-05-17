@@ -11,9 +11,9 @@ short_description: Information module for Discovery Job
 description:
 - Get all Discovery Job.
 - Get Discovery Job by id.
-- Returns the list of discovery jobs for the given Discovery ID.
-  The results can be optionally filtered based on IP.
-  Discovery ID can be obtained using the "Get Discoveries by range" API.
+- >
+   Returns the list of discovery jobs for the given Discovery ID. The results can be optionally filtered based on IP.
+   Discovery ID can be obtained using the "Get Discoveries by range" API.
 - Returns the list of discovery jobs for the given IP.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -44,8 +44,15 @@ options:
     - Id path parameter. Discovery ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery GetDiscoveryJobsByIP
+  description: Complete reference of the GetDiscoveryJobsByIP API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-discovery-jobs-by-ip
+- name: Cisco DNA Center documentation for Discovery GetListOfDiscoveriesByDiscoveryId
+  description: Complete reference of the GetListOfDiscoveriesByDiscoveryId API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-discoveries-by-discovery-id
 notes:
   - SDK Method used are
     discovery.Discovery.get_discovery_jobs_by_ip,
@@ -67,8 +74,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     offset: 0
     limit: 0
     ipAddress: string
@@ -84,8 +90,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     offset: 0
     limit: 0
     ipAddress: string

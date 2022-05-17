@@ -56,7 +56,8 @@ class QosDeviceInterface(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['network_device_id'] = self.new_object.get('network_device_id')
+        new_object_params['network_device_id'] = self.new_object.get('networkDeviceId') or \
+            self.new_object.get('network_device_id')
         return new_object_params
 
     def create_params(self):
@@ -76,7 +77,7 @@ class QosDeviceInterface(object):
 
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name method or it is in another action
+        # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
                 family="application_policy",

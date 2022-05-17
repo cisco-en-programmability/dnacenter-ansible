@@ -18,32 +18,38 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   authenticateTemplateName:
-    version_added: "4.0.0"
-    description: Authenticate TemplateName associated to siteNameHierarchy.
+    description: Authenticate TemplateName associated to Fabric Site.
     type: str
+    version_added: 4.0.0
   dataIpAddressPoolName:
-    version_added: "4.0.0"
     description: Ip Pool Name, that is assigned to INFRA_VN.
     type: str
+    version_added: 4.0.0
   deviceManagementIpAddress:
-    version_added: "4.0.0"
     description: Management Ip Address of the edge device.
     type: str
+    version_added: 4.0.0
   interfaceDescription:
-    version_added: "4.0.0"
-    description: Details or note of interface assignment.
+    description: Details or note of interface port assignment.
     type: str
+    version_added: 4.0.0
   interfaceName:
     description: Interface Name of the edge device.
     type: str
   siteNameHierarchy:
-    version_added: "4.0.0"
-    description: Site Name Hierarchy should be a valid fabric site name hierarchy. E.g
-      Global/USA/San Jose.
+    description: Path of sda Fabric Site.
     type: str
+    version_added: 4.0.0
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA AddPortAssignmentForAccessPointInSDAFabric
+  description: Complete reference of the AddPortAssignmentForAccessPointInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-port-assignment-for-access-point-in-sda-fabric
+- name: Cisco DNA Center documentation for SDA DeletePortAssignmentForAccessPointInSDAFabric
+  description: Complete reference of the DeletePortAssignmentForAccessPointInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-for-access-point-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_port_assignment_for_access_point,

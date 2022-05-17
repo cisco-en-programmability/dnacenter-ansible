@@ -26,15 +26,18 @@ options:
   sort:
     description:
     - Sort query parameter. Comma seperated list of fields to sort on.
-    elements: str
     type: list
   sortOrder:
     description:
     - SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceHistory
+  description: Complete reference of the GetDeviceHistory API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-history
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.get_device_history,
@@ -54,8 +57,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     serialNumber: string
     sort: []
     sortOrder: string

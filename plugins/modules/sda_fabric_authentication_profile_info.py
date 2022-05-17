@@ -29,8 +29,12 @@ options:
     - AuthenticateTemplateName query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetDefaultAuthenticationProfileFromSDAFabric
+  description: Complete reference of the GetDefaultAuthenticationProfileFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-default-authentication-profile-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_default_authentication_profile,
@@ -50,8 +54,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     siteNameHierarchy: string
     authenticateTemplateName: string
   register: result

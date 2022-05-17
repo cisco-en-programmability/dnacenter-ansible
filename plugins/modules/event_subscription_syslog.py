@@ -27,8 +27,40 @@ options:
       filter:
         description: Event Subscription Syslog's filter.
         suboptions:
+          categories:
+            description: Categories.
+            elements: str
+            type: list
+          domainsSubdomains:
+            description: Event Subscription Syslog's domainsSubdomains.
+            elements: dict
+            suboptions:
+              domain:
+                description: Domain.
+                type: str
+              subDomains:
+                description: Sub Domains.
+                elements: str
+                type: list
+            type: list
           eventIds:
             description: Event Ids (Comma separated event ids).
+            elements: str
+            type: list
+          severities:
+            description: Severities.
+            elements: str
+            type: list
+          siteIds:
+            description: Site Ids.
+            elements: str
+            type: list
+          sources:
+            description: Sources.
+            elements: str
+            type: list
+          types:
+            description: Types.
             elements: str
             type: list
         type: dict
@@ -58,8 +90,15 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management CreateSyslogEventSubscription
+  description: Complete reference of the CreateSyslogEventSubscription API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-syslog-event-subscription
+- name: Cisco DNA Center documentation for Event Management UpdateSyslogEventSubscription
+  description: Complete reference of the UpdateSyslogEventSubscription API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-syslog-event-subscription
 notes:
   - SDK Method used are
     event_management.EventManagement.create_syslog_event_subscription,
@@ -85,7 +124,21 @@ EXAMPLES = r"""
     payload:
     - description: string
       filter:
+        categories:
+        - string
+        domainsSubdomains:
+        - domain: string
+          subDomains:
+          - string
         eventIds:
+        - string
+        severities:
+        - string
+        siteIds:
+        - string
+        sources:
+        - string
+        types:
         - string
       name: string
       subscriptionEndpoints:
@@ -108,7 +161,21 @@ EXAMPLES = r"""
     payload:
     - description: string
       filter:
+        categories:
+        - string
+        domainsSubdomains:
+        - domain: string
+          subDomains:
+          - string
         eventIds:
+        - string
+        severities:
+        - string
+        siteIds:
+        - string
+        sources:
+        - string
+        types:
         - string
       name: string
       subscriptionEndpoints:

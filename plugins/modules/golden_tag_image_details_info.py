@@ -38,8 +38,12 @@ options:
     - ImageId path parameter. Image Id in uuid format.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) GetGoldenTagStatusOfAnImage
+  description: Complete reference of the GetGoldenTagStatusOfAnImage API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-golden-tag-status-of-an-image
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.get_golden_tag_status_of_an_image,
@@ -59,8 +63,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     siteId: string
     deviceFamilyIdentifier: string
     deviceRole: string

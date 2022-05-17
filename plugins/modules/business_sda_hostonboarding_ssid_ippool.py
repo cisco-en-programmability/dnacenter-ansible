@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: business_sda_hostonboarding_ssid_ippool
 short_description: Resource module for Business Sda Hostonboarding Ssid Ippool
 description:
-- Manage operations create and update of the resource Business Sda Hostonboarding Ssid Ippool.
-- Add SSID to IP Pool Mapping.
+- Manage operation update of the resource Business Sda Hostonboarding Ssid Ippool.
 - Update SSID to IP Pool Mapping.
 version_added: '4.0.0'
 extends_documentation_fragment:
@@ -31,36 +30,22 @@ options:
     description: VLAN Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Fabric Wireless UpdateSSIDToIPPoolMapping2
+  description: Complete reference of the UpdateSSIDToIPPoolMapping2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-ssid-to-ip-pool-mapping-2
 notes:
   - SDK Method used are
-    fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping,
-    fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping,
+    fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping2,
 
   - Paths used are
-    post /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
     put /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
 
 """
 
 EXAMPLES = r"""
-- name: Create
-  cisco.dnac.business_sda_hostonboarding_ssid_ippool:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: present
-    scalableGroupName: string
-    siteNameHierarchy: string
-    ssidNames:
-    - string
-    vlanName: string
-
 - name: Update all
   cisco.dnac.business_sda_hostonboarding_ssid_ippool:
     dnac_host: "{{dnac_host}}"

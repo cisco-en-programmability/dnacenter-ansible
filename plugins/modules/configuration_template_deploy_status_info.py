@@ -24,8 +24,12 @@ options:
     - DeploymentId path parameter. UUID of deployment to retrieve template deployment status.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates StatusOfTemplateDeployment
+  description: Complete reference of the StatusOfTemplateDeployment API.
+  link: https://developer.cisco.com/docs/dna-center/#!status-of-template-deployment
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_template_deployment_status,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deploymentId: string
   register: result
 

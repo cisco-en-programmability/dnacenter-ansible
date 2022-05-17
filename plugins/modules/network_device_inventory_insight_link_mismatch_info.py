@@ -10,7 +10,7 @@ module: network_device_inventory_insight_link_mismatch_info
 short_description: Information module for Network Device Inventory Insight Link Mismatch
 description:
 - Get all Network Device Inventory Insight Link Mismatch.
-- Find all devices with link mismatch (speed /  vlan).
+- Find all devices with link mismatch speed / vlan .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -44,8 +44,12 @@ options:
     - Order query parameter. Order. Value can be asc or desc. Default value is asc.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 3.0.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices InventoryInsightDeviceLinkMismatchAPI
+  description: Complete reference of the InventoryInsightDeviceLinkMismatchAPI API.
+  link: https://developer.cisco.com/docs/dna-center/#!inventory-insight-device-link-mismatch-api
 notes:
   - SDK Method used are
     devices.Devices.inventory_insight_device_link_mismatch,
@@ -65,8 +69,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     offset: string
     limit: string
     category: string
