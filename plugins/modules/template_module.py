@@ -4,6 +4,739 @@
 # Copyright (c) 2022, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+DOCUMENTATION = r"""
+---
+module: template_module
+short_description: Resource module for Template functions
+description:
+- Manage operations create, update, query and delete of the resource Configuration Template Create.
+- API to create a template by project name and template name.
+- API to update a template by template name and project name.
+- API to query a template by template name and project name.
+- API to delete a template by template name and project name.
+version_added: '6.4.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
+author: Rishita Chowdhary (@rischowd)
+options:
+  state:
+    description: The state of DNAC after module completion.
+    type: str
+    choices:
+      - merged
+      - deleted
+      - query
+    default: merged
+  config:
+    description:
+    - List of details of templates being managed. 
+    type: list
+    elements: dict
+    suboptions:
+      author:
+        description: Author of template.
+        type: str
+      composite:
+        description: Is it composite template.
+        type: bool
+      containingTemplates:
+        description: Configuration Template Create's containingTemplates.
+        suboptions:
+          composite:
+            description: Is it composite template.
+            type: bool
+          description:
+            description: Description of template.
+            type: str
+          deviceTypes:
+            description: Configuration Template Create's deviceTypes.
+            type: list
+            elements: dict
+            suboptions:
+              productFamily:
+                description: Device family.
+                type: str
+              productSeries:
+                description: Device series.
+                type: str
+              productType:
+                description: Device type.
+                type: str
+          id:
+            description: UUID of template.
+            type: str
+          language:
+            description: Template language
+            choices:
+              - JINJA
+              - VELOCITY
+            type: str
+          name:
+            description: Name of template.
+            type: str
+          projectName:
+            description: Project name.
+            type: str
+          rollbackTemplateParams:
+            description: Configuration Template Create's rollbackTemplateParams.
+            type: list
+            elements: dict
+            suboptions:
+              binding:
+                description: Bind to source.
+                type: str
+              customOrder:
+                description: CustomOrder of template param.
+                type: int
+              dataType:
+                description: Datatype of template param.
+                type: str
+              defaultValue:
+                description: Default value of template param.
+                type: str
+              description:
+                description: Description of template param.
+                type: str
+              displayName:
+                description: Display name of param.
+                type: str
+              group:
+                description: Group.
+                type: str
+              id:
+                description: UUID of template param.
+                type: str
+              instructionText:
+                description: Instruction text for param.
+                type: str
+              key:
+                description: Key.
+                type: str
+              notParam:
+                description: Is it not a variable.
+                type: bool
+              order:
+                description: Order of template param.
+                type: int
+              paramArray:
+                description: Is it an array.
+                type: bool
+              parameterName:
+                description: Name of template param.
+                type: str
+              provider:
+                description: Provider.
+                type: str
+              range:
+                description: Configuration Template Create's range.
+                suboptions:
+                  id:
+                    description: UUID of range.
+                    type: str
+                  maxValue:
+                    description: Max value of range.
+                    type: int
+                  minValue:
+                    description: Min value of range.
+                    type: int
+                type: list
+                elements: dict
+              required:
+                description: Is param required.
+                type: bool
+              selection:
+                description: Configuration Template Create's selection.
+                suboptions:
+                  defaultSelectedValues:
+                    description: Default selection values.
+                      elements: str
+                      type: list
+                  id:
+                    description: UUID of selection.
+                    type: str
+                  selectionType:
+                    description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                    type: str
+                  selectionValues:
+                    description: Selection values.
+                    type: dict
+                type: dict
+          tags:
+            description: Configuration Template Create's tags.
+            suboptions:
+              id:
+                description: UUID of tag.
+                type: str
+              name:
+                description: Name of tag.
+                type: str
+            type: list
+            elements: dict
+          templateContent:
+            description: Template content.
+            type: str
+          templateParams:
+            description: Configuration Template Create's templateParams.
+            suboptions:
+              binding:
+                description: Bind to source.
+                type: str
+              customOrder:
+                description: CustomOrder of template param.
+                type: int
+              dataType:
+                description: Datatype of template param.
+                type: str
+              defaultValue:
+                description: Default value of template param.
+                type: str
+              description:
+                description: Description of template param.
+                type: str
+              displayName:
+                description: Display name of param.
+                type: str
+              group:
+                description: Group.
+                type: str
+              id:
+                description: UUID of template param.
+                type: str
+              instructionText:
+                description: Instruction text for param.
+                type: str
+              key:
+                description: Key.
+                type: str
+              notParam:
+                description: Is it not a variable.
+                type: bool
+              order:
+                description: Order of template param.
+                type: int
+              paramArray:
+                description: Is it an array.
+                type: bool
+              parameterName:
+                description: Name of template param.
+                type: str
+              provider:
+                description: Provider.
+                type: str
+              range:
+                description: Configuration Template Create's range.
+                suboptions:
+                  id:
+                    description: UUID of range.
+                    type: str
+                  maxValue:
+                    description: Max value of range.
+                    type: int
+                  minValue:
+                    description: Min value of range.
+                    type: int
+                type: list
+                elements: dict
+              required:
+                description: Is param required.
+                type: bool
+              selection:
+                description: Configuration Template Create's selection.
+                suboptions:
+                  defaultSelectedValues:
+                    description: Default selection values.
+                    elements: str
+                    type: list
+                  id:
+                    description: UUID of selection.
+                    type: str
+                  selectionType:
+                    description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                    type: str
+                  selectionValues:
+                    description: Selection values.
+                    type: dict
+                type: dict
+            type: list
+          version:
+            description: Current version of template.
+            type: str
+        type: list
+        elements: dict
+      createTime:
+        description: Create time of template.
+        type: int
+      customParamsOrder:
+        description: Custom Params Order.
+        type: bool
+      template_description:
+        description: Description of template.
+        type: str
+      device_types:
+        description: Configuration Template Create's deviceTypes.
+        suboptions:
+          productFamily:
+            description: Device family.
+            type: str
+          productSeries:
+            description: Device series.
+            type: str
+          productType:
+            description: Device type.
+            type: str
+        type: list
+        elements: dict
+      failurePolicy:
+        description: Define failure policy if template provisioning fails.
+        type: str
+      language:
+        description: Template language
+        choices:
+          - JINJA
+          - VELOCITY
+        type: str
+      lastUpdateTime:
+        description: Update time of template.
+        type: int
+      latestVersionTime:
+        description: Latest versioned template time.
+        type: int
+      template_name:
+        description: Name of template.
+        type: str
+      parentTemplateId:
+        description: Parent templateID.
+        type: str
+      projectId:
+        description: Project UUID.
+        type: str
+      project_name:
+        description: Project name.
+        type: str
+      rollbackTemplateContent:
+        description: Rollback template content.
+        type: str
+      rollbackTemplateParams:
+        description: Configuration Template Create's rollbackTemplateParams.
+        suboptions:
+          binding:
+            description: Bind to source.
+            type: str
+          customOrder:
+            description: CustomOrder of template param.
+            type: int
+          dataType:
+            description: Datatype of template param.
+            type: str
+          defaultValue:
+            description: Default value of template param.
+            type: str
+          description:
+            description: Description of template param.
+            type: str
+          displayName:
+            description: Display name of param.
+            type: str
+          group:
+            description: Group.
+            type: str
+          id:
+            description: UUID of template param.
+            type: str
+          instructionText:
+            description: Instruction text for param.
+            type: str
+          key:
+            description: Key.
+            type: str
+          notParam:
+            description: Is it not a variable.
+            type: bool
+          order:
+            description: Order of template param.
+            type: int
+          paramArray:
+            description: Is it an array.
+            type: bool
+          parameterName:
+            description: Name of template param.
+            type: str
+          provider:
+            description: Provider.
+            type: str
+          range:
+            description: Configuration Template Create's range.
+            suboptions:
+              id:
+                description: UUID of range.
+                type: str
+              maxValue:
+                description: Max value of range.
+                type: int
+              minValue:
+                description: Min value of range.
+                type: int
+            type: list
+            elements: dict
+          required:
+            description: Is param required.
+            type: bool
+          selection:
+            description: Configuration Template Create's selection.
+            suboptions:
+              defaultSelectedValues:
+                description: Default selection values.
+                elements: str
+                type: list
+              id:
+                description: UUID of selection.
+                type: str
+              selectionType:
+                description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                type: str
+              selectionValues:
+                description: Selection values.
+                type: dict
+            type: dict
+        type: list
+        elements: dict
+      software_type:
+        description: Applicable device software type.
+        type: str
+      software_variant:
+        description: Applicable device software variant.
+        type: str
+      softwareVersion:
+        description: Applicable device software version.
+        type: str
+      template_tag:
+        description: Configuration Template Create's tags.
+        suboptions:
+          id:
+            description: UUID of tag.
+            type: str
+          name:
+            description: Name of tag.
+            type: str
+        type: list
+        elements: dict
+      template_content:
+        description: Template content.
+        type: str
+      templateParams:
+        description: Configuration Template Create's templateParams.
+        suboptions:
+          binding:
+            description: Bind to source.
+            type: str
+          customOrder:
+            description: CustomOrder of template param.
+            type: int
+          dataType:
+            description: Datatype of template param.
+            type: str
+          defaultValue:
+            description: Default value of template param.
+            type: str
+          description:
+            description: Description of template param.
+            type: str
+          displayName:
+            description: Display name of param.
+            type: str
+          group:
+            description: Group.
+            type: str
+          id:
+            description: UUID of template param.
+            type: str
+          instructionText:
+            description: Instruction text for param.
+            type: str
+          key:
+            description: Key.
+            type: str
+          notParam:
+            description: Is it not a variable.
+            type: bool
+          order:
+            description: Order of template param.
+            type: int
+          paramArray:
+            description: Is it an array.
+            type: bool
+          parameterName:
+            description: Name of template param.
+            type: str
+          provider:
+            description: Provider.
+            type: str
+          range:
+            description: Configuration Template Create's range.
+            suboptions:
+              id:
+                description: UUID of range.
+                type: str
+              maxValue:
+                description: Max value of range.
+                type: int
+              minValue:
+                description: Min value of range.
+                type: int
+            type: list
+            elements: dict
+          required:
+            description: Is param required.
+            type: bool
+          selection:
+            description: Configuration Template Create's selection.
+            suboptions:
+              defaultSelectedValues:
+                description: Default selection values.
+                elements: str
+                type: list
+              id:
+                description: UUID of selection.
+                type: str
+              selectionType:
+                description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
+                type: str
+              selectionValues:
+                description: Selection values.
+                type: dict
+            type: dict
+        type: list
+        elements: dict
+      validationErrors:
+        description: Configuration Template Create's validationErrors.
+        suboptions:
+          rollbackTemplateErrors:
+            description: Validation or design conflicts errors of rollback template.
+            elements: dict
+            type: list
+          templateErrors:
+            description: Validation or design conflicts errors.
+            elements: dict
+            type: list
+          templateId:
+            description: UUID of template.
+            type: str
+          templateVersion:
+            description: Current version of template.
+            type: str
+        type: dict
+      version:
+        description: Current version of template.
+        type: str
+      version_description:
+        description: Template version comments.
+       type: str
+requirements:
+- dnacentersdk == 2.4.5
+- python >= 3.5
+notes:
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.create_template,
+    configuration_templates.ConfigurationTemplates.deletes_the_template,
+    configuration_templates.ConfigurationTemplates.update_template,
+    configuration_templates.ConfigurationTemplates.get_template_details,
+
+  - Paths used are
+    post /dna/intent/api/v1/template-programmer/project/{projectId}/template,
+    delete /dna/intent/api/v1/template-programmer/template/{templateId},
+    put /dna/intent/api/v1/template-programmer/template,
+    get /dna/intent/api/v1/template-programmer/template/{templateId},
+
+"""
+
+EXAMPLES = r"""
+- name: Create
+  cisco.dnac.configuration_template_create:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    author: string
+    composite: true
+    containingTemplates:
+    - composite: true
+      description: string
+      deviceTypes:
+      - productFamily: string
+        productSeries: string
+        productType: string
+      id: string
+      language: string
+      name: string
+      projectName: string
+      rollbackTemplateParams:
+      - binding: string
+        customOrder: 0
+        dataType: string
+        defaultValue: string
+        description: string
+        displayName: string
+        group: string
+        id: string
+        instructionText: string
+        key: string
+        notParam: true
+        order: 0
+        paramArray: true
+        parameterName: string
+        provider: string
+        range:
+        - id: string
+          maxValue: 0
+          minValue: 0
+        required: true
+        selection:
+          defaultSelectedValues:
+          - string
+          id: string
+          selectionType: string
+          selectionValues: {}
+      tags:
+      - id: string
+        name: string
+      templateContent: string
+      templateParams:
+      - binding: string
+        customOrder: 0
+        dataType: string
+        defaultValue: string
+        description: string
+        displayName: string
+        group: string
+        id: string
+        instructionText: string
+        key: string
+        notParam: true
+        order: 0
+        paramArray: true
+        parameterName: string
+        provider: string
+        range:
+        - id: string
+          maxValue: 0
+          minValue: 0
+        required: true
+        selection:
+          defaultSelectedValues:
+          - string
+          id: string
+          selectionType: string
+          selectionValues: {}
+      version: string
+    createTime: 0
+    customParamsOrder: true
+    description: string
+    deviceTypes:
+    - productFamily: string
+      productSeries: string
+      productType: string
+    failurePolicy: string
+    id: string
+    language: string
+    lastUpdateTime: 0
+    latestVersionTime: 0
+    name: string
+    parentTemplateId: string
+    projectId: string
+    projectName: string
+    rollbackTemplateContent: string
+    rollbackTemplateParams:
+    - binding: string
+      customOrder: 0
+      dataType: string
+      defaultValue: string
+      description: string
+      displayName: string
+      group: string
+      id: string
+      instructionText: string
+      key: string
+      notParam: true
+      order: 0
+      paramArray: true
+      parameterName: string
+      provider: string
+      range:
+      - id: string
+        maxValue: 0
+        minValue: 0
+      required: true
+      selection:
+        defaultSelectedValues:
+        - string
+        id: string
+        selectionType: string
+        selectionValues: {}
+    softwareType: string
+    softwareVariant: string
+    softwareVersion: string
+    tags:
+    - id: string
+      name: string
+    templateContent: string
+    templateParams:
+    - binding: string
+      customOrder: 0
+      dataType: string
+      defaultValue: string
+      description: string
+      displayName: string
+      group: string
+      id: string
+      instructionText: string
+      key: string
+      notParam: true
+      order: 0
+      paramArray: true
+      parameterName: string
+      provider: string
+      range:
+      - id: string
+        maxValue: 0
+        minValue: 0
+      required: true
+      selection:
+        defaultSelectedValues:
+        - string
+        id: string
+        selectionType: string
+        selectionValues: {}
+    validationErrors:
+      rollbackTemplateErrors:
+      - {}
+      templateErrors:
+      - {}
+      templateId: string
+      templateVersion: string
+    version: string
+
+"""
+
+RETURN = r"""
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
+"""
+
+
+
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
@@ -109,7 +842,7 @@ class DnacTemplate:
             containingTemplates=params.get("containingTemplates"),
             createTime=params.get("createTime"),
             customParamsOrder=params.get("customParamsOrder"),
-            description=params.get("description"),
+            description=params.get("template_description"),
             deviceTypes=params.get("device_types"),
             failurePolicy=params.get("failurePolicy"),
             id=params.get("templateId"),
