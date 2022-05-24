@@ -25,6 +25,20 @@
         	"template_name": "ANSIBLE-TEST",
         	"version_description": "MS Test Template"
     	}],
+
+    	"playbook_config_invalid_param": [
+		{
+        	"project_name": "Onboarding Configuration",
+        	"template_content": "hostname Test-2",
+		"language": "velocty",
+	        "device_types": [{
+	            "productFamily": "Switches and Hubs"
+       		 }],
+        	"software_type": "IOS-XE",
+        	"sofwtare_variant": "XE",
+        	"template_name": "ANSIBLE-TEST",
+        	"version_description": "MS Test Template"
+    	}],
 		
 	"create_template_list_response":[
 		{
