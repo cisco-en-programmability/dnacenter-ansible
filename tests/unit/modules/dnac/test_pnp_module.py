@@ -27,7 +27,7 @@ from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 import json
 import copy
 
-class TestDnacTemplateModule(TestDnacModule):
+class TestDnacPnPModule(TestDnacModule):
 
     module = pnp_module 
 
@@ -38,7 +38,7 @@ class TestDnacTemplateModule(TestDnacModule):
 
 
     def setUp(self):
-        super(TestDnacTemplateModule, self).setUp()
+        super(TestDnacPnPModule, self).setUp()
    
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
@@ -52,7 +52,7 @@ class TestDnacTemplateModule(TestDnacModule):
 
 
     def tearDown(self):
-        super(TestDnacTemplateModule, self).tearDown()
+        super(TestDnacPnPModule, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
@@ -108,6 +108,12 @@ class TestDnacTemplateModule(TestDnacModule):
                 self.test_data.get("claim_response")
             ]
 
+        elif "unclaim_device" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("device_exists_response"),
+                self.test_data.get("unclaim_response")
+            ]
+
         elif "image_doesnot_exist" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("image_doesnot_exist_response")
@@ -122,6 +128,10 @@ class TestDnacTemplateModule(TestDnacModule):
         elif "project_not_found" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("image_exists_response"),
+                []
+            ]
+        elif "unclaim_nonexisting_device" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
                 []
             ]
 
@@ -263,5 +273,62 @@ class TestDnacTemplateModule(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Project Not Found"
+            )
+
+    def test_pnp_module_missing_param(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.test_data.get("playbook_config_missing_parameter")
+            )
+        )
+        
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'),
+            "Invalid parameters in playbook: image_name : Required parameter not found"
+            )
+
+    def test_pnp_module_unclaim_device(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="delete",
+                config=self.playbook_config
+            )
+        )
+        
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get('response').get('message'),
+            "Device(s) Unclaimed"
+            )
+
+    def test_pnp_module_unclaim_nonexisting_device(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="delete",
+                config=self.playbook_config
+            )
+        )
+        
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'),
+            "Device Not Found"
             )
 
