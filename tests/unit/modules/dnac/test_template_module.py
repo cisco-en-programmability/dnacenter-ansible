@@ -28,7 +28,7 @@ import copy
 
 class TestDnacTemplateModule(TestDnacModule):
 
-    module = pnp_module 
+    module = template_module 
 
     test_data = loadPlaybookData("template_module")
 
@@ -65,6 +65,43 @@ class TestDnacTemplateModule(TestDnacModule):
                 self.test_data.get("create_template_version_template_response"),
                 self.test_data.get("create_template_task_details_for_versioning")
             ]
+        elif "update_not_needed" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("update_template_list"),
+                self.test_data.get("update_template_existing_template"),
+            ]
+        elif "update_needed" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("update_template_list"),
+                self.test_data.get("update_template_existing_template_needs_update"),
+                self.test_data.get("update_template_response"),
+                self.test_data.get("update_template_version_template_response"),
+                self.test_data.get("update_template_task_details_for_versioning")
+            ]
+        elif "project_not_found" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                [],
+            ]
+        elif "query_non_existing_template" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("create_template_list_response")
+            ]
+        elif "query_template" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("update_template_list"),
+                self.test_data.get("update_template_existing_template")
+            ]
+        elif "delete_non_existing_template" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("create_template_list_response")
+            ]
+        elif "delete_template" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("update_template_list"),
+                self.test_data.get("update_template_existing_template_needs_update"),
+                self.test_data.get("delete_template_response"),
+                self.test_data.get("delete_template_task_details"),
+            ]
 
 
     def test_template_module_create_template(self):
@@ -84,5 +121,195 @@ class TestDnacTemplateModule(TestDnacModule):
         self.assertEqual(
             result.get('response').get('progress'),
             "Successfully committed template ANSIBLE-TEST to version 1"
+            )
+
+    def test_template_module_update_not_needed(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_config
+            )
+        )
+       
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "Template does not need update"
+            )
+
+    def test_template_module_update_needed(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_config
+            )
+        )
+       
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get('response').get('progress'), 
+            "Successfully committed template ANSIBLE-TEST to version 2"
+            )
+
+    def test_template_module_project_not_found(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_config
+            )
+        )
+       
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'), 
+            "Project Not Found"
+            )
+
+    def test_template_module_query_template(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="query",
+                config=self.playbook_config
+            )
+        )
+       
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('response').get('name'),
+            "ANSIBLE-TEST"
+            )
+
+    def test_template_module_query_non_existing_template(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="query",
+                config=self.playbook_config
+            )
+        )
+       
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('msg'), 
+            "Template not found"
+            )
+
+    def test_template_module_delete_non_existing_template(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="delete",
+                config=self.playbook_config
+            )
+        )
+       
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('msg'), 
+            "Template not found"
+            )
+
+    def test_template_module_delete_template(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="delete",
+                config=self.playbook_config
+            )
+        )
+       
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get('response').get('progress'),
+            "Successfully deleted template with name fd74ab6c-fdda-465e-9f59-fb7eac7d6b15"
+            )
+
+    def test_template_module_missing_param(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_config_missing_param
+            )
+        )
+       
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'), 
+            "missing required arguments: language or deviceTypes or softwareType"
+            )
+
+    def test_template_module_invalid_state(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merge",
+                config=self.playbook_config
+            )
+        )
+       
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'), 
+            "value of state must be one of: merged, delete, query, got: merge"
+            )
+
+    def test_template_module_invalid_param(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.test_data.get("playbook_config_invalid_param")
+            )
+        )
+       
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'), 
+            "Invalid parameters in playbook: velocty : Invalid choice provided"
             )
 
