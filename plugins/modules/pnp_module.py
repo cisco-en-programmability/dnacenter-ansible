@@ -13,7 +13,7 @@ __author__ = (
 
 DOCUMENTATION = r"""
 ---
-module: template_module
+module: pnp_module
 short_description: Resource module for Site and PnP related functions
 description:
 - Manage operations add device, claim device and unclaim device of Onboarding Configuration(PnP) resource 
@@ -639,8 +639,6 @@ from ansible.module_utils.basic import AnsibleModule
 
 
 class DnacPnp:
-
-
     def __init__(self, module):
         self.module = module
         self.params = module.params
@@ -662,7 +660,6 @@ class DnacPnp:
 
 
     def validate_input(self):
-        
         pnp_spec = dict(
             type=dict(required=False, type='str'),
             template_name=dict(required=True, type='str'),
@@ -678,6 +675,7 @@ class DnacPnp:
 
         if self.config:
             msg = None
+
             # Validate template params
             if self.log:
                 log(str(self.config))
@@ -692,6 +690,7 @@ class DnacPnp:
                 self.module.fail_json(msg=msg)
 
             self.validated = valid_pnp
+
             if self.log:
                 log(str(valid_pnp))
                 log(str(self.validated))
@@ -713,7 +712,8 @@ class DnacPnp:
     def get_current_site(self,site):
         site_info = {}
         type = site[0].get("additionalInfo")[0].get("attributes").get("type")
-        if (type=="building"):
+
+        if (type == "building"):
             site_info = dict(
                 building=dict(
                     name= site[0].get("name"),
@@ -723,13 +723,16 @@ class DnacPnp:
                     longitude = site[0].get("additionalInfo")[0].get("attributes").get("longitude"),
                 )
             )
+
         current_site = dict(
             type=type,
             site=site_info,
             site_id=site[0].get("id")
         )
+
         if self.log:
             log(str(current_site))
+
         return current_site
 
 
@@ -743,6 +746,7 @@ class DnacPnp:
                 function='get_site',
                 params={"name":self.want.get("site_name")},
              )
+
         except:
             if self.log:
                 log("The input site is not valid or site is not present.")
@@ -751,22 +755,25 @@ class DnacPnp:
         if response:
             if self.log:
                 log(str(response))
+
             response = response.get("response")
             current_site = self.get_current_site(response) 
             site_exists = True
     
         if self.log:
             log(str(self.validated))
+
         return (site_exists, current_site)
 
 
     def get_site_name(self, site):
         parent_name = site.get("site").get("building").get("parentName")
         building_name = site.get("site").get("building").get("name")
-
         site_name = '/'.join([parent_name, building_name])
+
         if self.log:
             log(site_name)
+
         return site_name
 
     def get_pnp_params(self,params):
@@ -780,6 +787,7 @@ class DnacPnp:
         pnp_params['version'] = params.get('device_version')
         pnp_params['workflow'] = params.get('workflow')
         pnp_params['workflowParameters'] = params.get('workflowParameters')
+
         return pnp_params
 
 
@@ -788,6 +796,7 @@ class DnacPnp:
             type=params.get("type"),
             site=params.get("site"),
         )
+
         return site_params
 
 
@@ -796,6 +805,7 @@ class DnacPnp:
             image_name=params.get("image_name"),
             is_tagged_golden=params.get("golden_image"),
         )
+
         return image_params
 
 
@@ -811,6 +821,7 @@ class DnacPnp:
             ("type", "type"),
             ("site", "site")
         ]
+
         return any(not dnac_compare_equality(current_site.get(dnac_param),
                                              requested_site.get(ansible_param))
                    for (dnac_param, ansible_param) in obj_params)
@@ -819,13 +830,13 @@ class DnacPnp:
     def update_site(self):
         site_params = self.want.get("site_params")
         site_params["site_id"] = self.have.get("site_id")
-
         response = self.dnac.exec(
             family="sites",
             function='update_site',
             op_modifies=True,
             params=site_params,
         )
+
         if self.log:
             log(str(response))
 
@@ -837,8 +848,10 @@ class DnacPnp:
             function='get_business_api_execution_details',
             params={"execution_id":id}
         )
+
         if self.log:
             log(str(response))
+
         if response and isinstance(response, dict):
             return response
 
@@ -850,6 +863,7 @@ class DnacPnp:
             op_modifies=True,
             params=self.want.get("site_params"),
         )
+
         if self.log:
             log(str(response))
 
@@ -859,21 +873,23 @@ class DnacPnp:
                 execution_details = self.get_execution_details(executionId)
                 if (execution_details.get("status")=="SUCCESS"):
                     break
+
                 if execution_details.get("bapiError"):
                     self.module.fail_json(msg=execution_details.get("bapiError"))
                     break
             self.result['changed'] = True
+
             if self.log:
                 log("Site Created Successfully")
                                                    
-            #Get the site id of the newly created site.                                                   
+            #Get the site id of the newly created site.
             (site_exists, current_site) = self.site_exists()
+
             if site_exists:
                 self.have["site_id"] = current_site.get("site_id") 
 
     
     def get_claim_params(self):
-       
         imageinfo = dict(
             imageId = self.have.get("image_id")
         )
@@ -892,25 +908,27 @@ class DnacPnp:
             imageInfo=imageinfo,
             configInfo=configinfo,
         )
+
         return claim_params
 
 
     def get_have(self):
-
         have = {}
 
         if self.params.get("state") == "merged":
-
             #check if given image exists, if exists store image_id
             image_response = self.dnac.exec(
                 family="software_image_management_swim",
                 function='get_software_image_details',
                 params=self.want.get("image_params"),
             )
+
             if self.log:
                 log(str(image_response))
+
             image_list = image_response.get("response")
-            if (len(image_list)==1):
+
+            if (len(image_list) == 1):
                 have["image_id"]=image_list[0].get("imageUuid")
                 if self.log:
                     log("Image Id: " + str(have["image_id"]))
@@ -924,6 +942,7 @@ class DnacPnp:
                 function='gets_the_templates_available',
                 params={"project_names":self.want.get("project_name")},
             )
+
             if self.log:
                 log(str(template_list))
 
@@ -931,6 +950,7 @@ class DnacPnp:
                 template_details = get_dict_result(template_list, 'name', self.want.get("template_name"))
                 if template_details:
                     have["template_id"] = template_details.get("templateId")
+
                     if self.log:
                         log("Template Id: " + str(have["template_id"]))
                 else:
@@ -941,8 +961,10 @@ class DnacPnp:
 
             #check if given site exits, if exists store current site info
             (site_exists, current_site) = self.site_exists()
+
             if self.log:
                 log("Site Exists: " + str(site_exists) + "\n Current Site:" + str(current_site))
+
             if site_exists:
                 have["site_id"] = current_site.get("site_id")
 
@@ -956,11 +978,14 @@ class DnacPnp:
             function='get_device_list',
             params={"serial_number":self.want.get("serial_number")}
         )
+
         if self.log:
             log(str(device_response))
+
         if device_response and (len(device_response)==1):
             have["device_id"] = device_response[0].get("id")
             have["device_found"] = True
+
             if self.log:
                 log("Device Id: " + str(have["device_id"]))
         else:
@@ -969,9 +994,7 @@ class DnacPnp:
         self.have = have
 
 
-
     def get_want(self):
-
         for params in self.validated:
             want = dict(
                 site_params = self.get_site_params(params), 
@@ -989,7 +1012,6 @@ class DnacPnp:
 
 
     def get_diff_merge(self):
-
         #check if the given site exists and/or needs to be updated/created.
         if self.have.get("site_exists"):
             if self.site_requires_update():
@@ -1009,6 +1031,7 @@ class DnacPnp:
                 op_modifies=True,
             )
             self.have["device_id"] = response.get("id")
+
             if self.log:
                 log(str(response))
                 log(self.have.get("device_id"))
@@ -1020,8 +1043,10 @@ class DnacPnp:
             op_modifies=True,
             params=claim_params,
         )
+
         if self.log:
             log(str(claim_response))
+
         if (claim_response.get("response")=="Device Claimed"):
             self.result['changed'] = True
             self.result['response'] = claim_response
@@ -1031,9 +1056,7 @@ class DnacPnp:
 
 
     def get_diff_delete(self):
-
         if self.have.get("device_found"):
-
             unclaim_params = dict(
                 deviceIdList=[self.have.get("device_id")],
             )
@@ -1043,6 +1066,7 @@ class DnacPnp:
                 op_modifies=True,
                 params=unclaim_params,
             )
+
             if self.log:
                 log(str(unclaim_response))
              
@@ -1055,7 +1079,6 @@ class DnacPnp:
         else:
             self.module.fail_json(msg="Device Not Found")
         
-
 
 def main():
     """ main entry point for module execution
