@@ -671,7 +671,6 @@ class DnacTemplate:
 
 
     def validate_input(self):
-        
         temp_spec = dict(
             project_name=dict(required=True, type='str'),
             template_content=dict(required=False, type='str'),
@@ -697,6 +696,7 @@ class DnacTemplate:
                 self.module.fail_json(msg=msg)
 
             self.validated = valid_temp
+
             if self.log:
                 log(str(valid_temp))
                 log(str(self.validated))
@@ -756,16 +756,18 @@ class DnacTemplate:
 
 
     def get_template(self):
-
         result = None
+
         for temp in self.validated:
             items = self.dnac.exec(
                 family="configuration_templates",
                 function="get_template_details",
                 params={"template_id": temp.get("templateId")}
             )
+
             if items:
                 result = items
+
                 if self.log:
                     log(str(items))
 
@@ -788,10 +790,12 @@ class DnacTemplate:
             #API execution error returns a dict
             if template_list and isinstance(template_list, list):
                 template_details = get_dict_result(template_list, 'name', temp.get("template_name"))
+
                 if template_details:
                     temp["templateId"] = template_details.get("templateId")
                     have_create["templateId"] = template_details.get("templateId")
                     prev_template = self.get_template()
+
                     if self.log:
                         log(str(prev_template))
 
@@ -829,10 +833,8 @@ class DnacTemplate:
 
 
     def requires_update(self):
-
         current_obj = self.have_create.get("template")
         requested_obj = self.want_create.get("template_params")
-
         obj_params = [
             ("tags", "tags", ""),
             ("author", "author", ""),
@@ -874,18 +876,19 @@ class DnacTemplate:
             function='get_task_by_id',
             params={"task_id":id},
         )
+
         if self.log:
             log(str(response))
+
         if isinstance(response, dict):
             result = response.get("response")
+
         return result
 
 
     def get_diff_merge(self):
-
         diff_create = []
         diff_create_update = []
-
         template_id = None
         template_ceated = False
         template_updated = False
@@ -916,23 +919,29 @@ class DnacTemplate:
                 op_modifies=True,
                 params=self.want_create.get("template_params"),
             )
+
             if self.log:
                 log("Template created. Get template_id for versioning")
+
             if isinstance(response, dict):
                 create_error = False
                 task_details = {}
                 task_id = response.get("response").get("taskId")
+
                 if task_id:
                     while(True):
                         task_details = self.get_task_details(task_id)
                         if task_details and (task_details.get("isError")==True):
                             create_error = True
                             break
+
                         if task_details and \
                             ("Successfully created template" in task_details.get("progress")):
                             break
+                        
                     if not create_error:
                         template_id = task_details.get("data")
+
             if template_id:
                 template_created = True
 
@@ -942,18 +951,18 @@ class DnacTemplate:
                 comments=self.want_create.get("comments"),
                 templateId=template_id
             )
-
             response = self.dnac.exec(
                 family="configuration_templates",
                 function='version_template',
                 op_modifies=True,
                 params=version_params
             )
-
             task_details = {}
             task_id = response.get("response").get("taskId")
+
             if task_id:
                 task_details = self.get_task_details(task_id)
+
                 if self.log:
                     log(str(task_details))
                 self.result['changed'] = True
@@ -963,7 +972,6 @@ class DnacTemplate:
 
 
     def get_diff_query(self):
-
         template_exists = self.have_create.get("template_found")
 
         if template_exists:
@@ -981,11 +989,12 @@ class DnacTemplate:
                 function="deletes_the_template",
                 params={"template_id": self.have_create.get("templateId")},
             )
-
             task_details = {}
             task_id = response.get("response").get("taskId")
+
             if task_id:
                 task_details = self.get_task_details(task_id)
+
                 if self.log:
                     log(str(task_details))
                 self.result['changed'] = True
