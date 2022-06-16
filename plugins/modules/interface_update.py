@@ -94,8 +94,6 @@ dnac_response:
           "string"
         ]
       },
-      "version": {
-        "type": "string"
-      }
+      "version": "string"
     }
 """
