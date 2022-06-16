@@ -61,8 +61,8 @@ dnac_response:
       {
         "connectorType": "string",
         "displayName": "string",
-        "isDefaultSupported": "string",
-        "isCustomConnector": "string"
+        "isDefaultSupported": true,
+        "isCustomConnector": true
       }
     ]
 """
