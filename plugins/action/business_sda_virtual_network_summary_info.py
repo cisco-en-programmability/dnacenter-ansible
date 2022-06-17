@@ -80,7 +80,7 @@ class ActionModule(ActionBase):
         dnac = DNACSDK(params=self._task.args)
 
         response = dnac.exec(
-            family="",
+            family="sda",
             function='get_virtual_network_summary',
             params=self.get_object(self._task.args),
         )

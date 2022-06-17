@@ -79,7 +79,7 @@ class TransitPeerNetwork(object):
         # NOTE: Does not have a get by name method, using get all
         try:
             items = self.dnac.exec(
-                family="",
+                family="sda",
                 function="get_transit_peer_network_info",
                 params=self.get_all_params(name=name),
             )
@@ -101,7 +101,7 @@ class TransitPeerNetwork(object):
         id_exists = False
         name_exists = False
         o_id = self.new_object.get("id")
-        name = self.new_object.get("name")
+        name = self.new_object.get("transitPeerNetworkName")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -135,7 +135,7 @@ class TransitPeerNetwork(object):
 
     def create(self):
         result = self.dnac.exec(
-            family="",
+            family="sda",
             function="add_transit_peer_network",
             params=self.create_params(),
             op_modifies=True,
@@ -147,7 +147,7 @@ class TransitPeerNetwork(object):
         name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
-            family="",
+            family="sda",
             function="delete_transit_peer_network",
             params=self.delete_all_params(),
         )
