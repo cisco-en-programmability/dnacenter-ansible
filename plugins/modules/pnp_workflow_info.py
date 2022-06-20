@@ -34,6 +34,7 @@ options:
   sort:
     description:
     - Sort query parameter. Comma seperated lost of fields to sort on.
+    elements: str
     type: list
   sortOrder:
     description:
@@ -42,6 +43,7 @@ options:
   type:
     description:
     - Type query parameter. Workflow Type.
+    elements: str
     type: list
   name:
     description:
