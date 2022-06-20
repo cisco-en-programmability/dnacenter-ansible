@@ -32,7 +32,7 @@ options:
       'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
     type: str
 requirements:
-- dnacentersdk >= 3.0.0
+- dnacentersdk >= 2.5.0
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Compliance GetComplianceDetailCount

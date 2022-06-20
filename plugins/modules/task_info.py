@@ -82,7 +82,7 @@ options:
     - TaskId path parameter. UUID of the Task.
     type: str
 requirements:
-- dnacentersdk >= 3.0.0
+- dnacentersdk >= 2.5.0
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Task GetTaskById

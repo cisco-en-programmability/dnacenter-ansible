@@ -24,7 +24,7 @@ options:
     - SiteId query parameter. Site id to get the network settings associated with the site.
     type: str
 requirements:
-- dnacentersdk >= 3.0.0
+- dnacentersdk >= 2.5.0
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings GetNetwork

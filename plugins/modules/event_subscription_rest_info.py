@@ -60,7 +60,7 @@ options:
     - Name query parameter. List of subscriptions related to the respective name.
     type: str
 requirements:
-- dnacentersdk >= 3.0.0
+- dnacentersdk >= 2.5.0
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetRestWebhookEventSubscriptions
