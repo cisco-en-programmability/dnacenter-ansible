@@ -20,7 +20,7 @@ options:
     description: Id path parameter. Id of reserve ip subpool to be deleted.
     type: str
 requirements:
-- dnacentersdk >= 3.0.0
+- dnacentersdk >= 2.5.0
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings ReleaseReserveIPSubpool

@@ -28,7 +28,7 @@ options:
     - DeviceId path parameter. Device ID.
     type: str
 requirements:
-- dnacentersdk >= 3.0.0
+- dnacentersdk >= 2.5.0
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceCount2
