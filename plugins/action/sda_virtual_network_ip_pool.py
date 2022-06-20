@@ -60,7 +60,6 @@ class SdaVirtualNetworkIpPool(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
-            site_name_hierarchy=params.get("siteNameHierarchy"),
             siteNameHierarchy=params.get("siteNameHierarchy"),
             virtualNetworkName=params.get("virtualNetworkName"),
             isLayer2Only=params.get("isLayer2Only"),
