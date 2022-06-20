@@ -11,7 +11,7 @@ short_description: Information module for Business Sda Virtual Network Summary
 description:
 - Get all Business Sda Virtual Network Summary.
 - Get Virtual Network Summary.
-version_added: '6.4.1'
+version_added: '6.5.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)

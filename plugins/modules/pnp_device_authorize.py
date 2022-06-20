@@ -11,7 +11,7 @@ short_description: Resource module for Pnp Device Authorize
 description:
 - Manage operation create of the resource Pnp Device Authorize.
 - Authorizes one of more devices. A device can only be authorized if Authorization is set in Device Settings.
-version_added: '6.4.1'
+version_added: '6.5.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
