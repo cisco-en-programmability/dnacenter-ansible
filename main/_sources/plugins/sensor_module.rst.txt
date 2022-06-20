@@ -42,7 +42,7 @@ cisco.dnac.sensor module -- Resource module for Sensor
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -84,14 +84,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -108,7 +113,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-apCoverage"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_module__parameter-apCoverage:
+      .. _ansible_collections.cisco.dnac.sensor_module__parameter-apcoverage:
 
       .. rst-class:: ansible-option-title
 
@@ -142,7 +147,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-apCoverage/bands"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_module__parameter-apCoverage/bands:
+      .. _ansible_collections.cisco.dnac.sensor_module__parameter-apcoverage/bands:
 
       .. rst-class:: ansible-option-title
 
@@ -176,7 +181,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-apCoverage/numberOfApsToTest"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_module__parameter-apCoverage/numberOfApsToTest:
+      .. _ansible_collections.cisco.dnac.sensor_module__parameter-apcoverage/numberofapstotest:
 
       .. rst-class:: ansible-option-title
 
@@ -210,7 +215,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-apCoverage/rssiThreshold"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_module__parameter-apCoverage/rssiThreshold:
+      .. _ansible_collections.cisco.dnac.sensor_module__parameter-apcoverage/rssithreshold:
 
       .. rst-class:: ansible-option-title
 
@@ -538,7 +543,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -549,7 +554,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-modelVersion"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_module__parameter-modelVersion:
+      .. _ansible_collections.cisco.dnac.sensor_module__parameter-modelversion:
 
       .. rst-class:: ansible-option-title
 
@@ -651,7 +656,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ssids/authType"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_module__parameter-ssids/authType:
+      .. _ansible_collections.cisco.dnac.sensor_module__parameter-ssids/authtype:
 
       .. rst-class:: ansible-option-title
 
@@ -719,7 +724,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ssids/profileName"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_module__parameter-ssids/profileName:
+      .. _ansible_collections.cisco.dnac.sensor_module__parameter-ssids/profilename:
 
       .. rst-class:: ansible-option-title
 
@@ -787,7 +792,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ssids/qosPolicy"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_module__parameter-ssids/qosPolicy:
+      .. _ansible_collections.cisco.dnac.sensor_module__parameter-ssids/qospolicy:
 
       .. rst-class:: ansible-option-title
 
@@ -958,7 +963,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ssids/thirdParty"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_module__parameter-ssids/thirdParty:
+      .. _ansible_collections.cisco.dnac.sensor_module__parameter-ssids/thirdparty:
 
       .. rst-class:: ansible-option-title
 
@@ -992,7 +997,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ssids/thirdParty/selected"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_module__parameter-ssids/thirdParty/selected:
+      .. _ansible_collections.cisco.dnac.sensor_module__parameter-ssids/thirdparty/selected:
 
       .. rst-class:: ansible-option-title
 
@@ -1035,7 +1040,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-templateName"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_module__parameter-templateName:
+      .. _ansible_collections.cisco.dnac.sensor_module__parameter-templatename:
 
       .. rst-class:: ansible-option-title
 
@@ -1123,6 +1128,15 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Sensors CreateSensorTestTemplate <https://developer.cisco.com/docs/dna-center/#!create-sensor-test-template>`_
+       Complete reference of the CreateSensorTestTemplate API.
+   `Cisco DNA Center documentation for Sensors DeleteSensorTest <https://developer.cisco.com/docs/dna-center/#!delete-sensor-test>`_
+       Complete reference of the DeleteSensorTest API.
 
 .. Examples
 

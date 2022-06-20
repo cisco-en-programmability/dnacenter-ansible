@@ -42,7 +42,7 @@ cisco.dnac.snmp_properties module -- Resource module for Snmp Properties
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -366,7 +371,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -445,7 +450,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/instanceTenantId"></div>
 
-      .. _ansible_collections.cisco.dnac.snmp_properties_module__parameter-payload/instanceTenantId:
+      .. _ansible_collections.cisco.dnac.snmp_properties_module__parameter-payload/instancetenantid:
 
       .. rst-class:: ansible-option-title
 
@@ -479,7 +484,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/instanceUuid"></div>
 
-      .. _ansible_collections.cisco.dnac.snmp_properties_module__parameter-payload/instanceUuid:
+      .. _ansible_collections.cisco.dnac.snmp_properties_module__parameter-payload/instanceuuid:
 
       .. rst-class:: ansible-option-title
 
@@ -513,7 +518,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/intValue"></div>
 
-      .. _ansible_collections.cisco.dnac.snmp_properties_module__parameter-payload/intValue:
+      .. _ansible_collections.cisco.dnac.snmp_properties_module__parameter-payload/intvalue:
 
       .. rst-class:: ansible-option-title
 
@@ -547,7 +552,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/systemPropertyName"></div>
 
-      .. _ansible_collections.cisco.dnac.snmp_properties_module__parameter-payload/systemPropertyName:
+      .. _ansible_collections.cisco.dnac.snmp_properties_module__parameter-payload/systempropertyname:
 
       .. rst-class:: ansible-option-title
 
@@ -636,6 +641,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Discovery CreateUpdateSNMPProperties <https://developer.cisco.com/docs/dna-center/#!create-update-snmp-properties>`_
+       Complete reference of the CreateUpdateSNMPProperties API.
 
 .. Examples
 
@@ -659,7 +671,7 @@ Examples
         - id: string
           instanceTenantId: string
           instanceUuid: string
-          intValue: 1
+          intValue: 0
           systemPropertyName: string
 
 

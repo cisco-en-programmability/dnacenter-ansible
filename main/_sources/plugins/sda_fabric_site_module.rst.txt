@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_site module -- Resource module for Sda Fabric Site
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -84,14 +84,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -367,7 +372,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -378,7 +383,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-fabricName"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_fabric_site_module__parameter-fabricName:
+      .. _ansible_collections.cisco.dnac.sda_fabric_site_module__parameter-fabricname:
 
       .. rst-class:: ansible-option-title
 
@@ -403,7 +408,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Fabric Name (should be existing fabric name).
+      Warning - Starting DNA Center 2.2.3.5 release, this field has been deprecated. SD-Access Fabric does not need it anymore. It will be removed in future DNA Center releases.
 
 
       .. raw:: html
@@ -415,7 +420,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-siteNameHierarchy"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_fabric_site_module__parameter-siteNameHierarchy:
+      .. _ansible_collections.cisco.dnac.sda_fabric_site_module__parameter-sitenamehierarchy:
 
       .. rst-class:: ansible-option-title
 
@@ -503,6 +508,15 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for SDA AddSiteInSDAFabric <https://developer.cisco.com/docs/dna-center/#!add-site-in-sda-fabric>`_
+       Complete reference of the AddSiteInSDAFabric API.
+   `Cisco DNA Center documentation for SDA DeleteSiteFromSDAFabric <https://developer.cisco.com/docs/dna-center/#!delete-site-from-sda-fabric>`_
+       Complete reference of the DeleteSiteFromSDAFabric API.
 
 .. Examples
 

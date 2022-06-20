@@ -42,7 +42,7 @@ cisco.dnac.wireless_rf_profile module -- Resource module for Wireless Rf Profile
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -70,7 +70,7 @@ Synopsis
 
 - Manage operations create and delete of the resource Wireless Rf Profile.
 - Create or Update RF profile.
-- Delete RF profile(s).
+- Delete RF profiles.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,14 +84,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -108,7 +113,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-channelWidth"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-channelWidth:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-channelwidth:
 
       .. rst-class:: ansible-option-title
 
@@ -130,7 +135,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Rf-profile channel width.
+      Channel Width.
 
 
       .. raw:: html
@@ -142,7 +147,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-defaultRfProfile"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-defaultRfProfile:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-defaultrfprofile:
 
       .. rst-class:: ansible-option-title
 
@@ -164,7 +169,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      IsDefault rf-profile.
+      Is Default Rf Profile.
 
 
       .. rst-class:: ansible-option-line
@@ -442,7 +447,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -453,7 +458,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-enableBrownField"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-enableBrownField:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-enablebrownfield:
 
       .. rst-class:: ansible-option-title
 
@@ -475,7 +480,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      True if enable brown field for rf-profile else false.
+      Enable Brown Field.
 
 
       .. rst-class:: ansible-option-line
@@ -494,7 +499,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-enableCustom"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-enableCustom:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-enablecustom:
 
       .. rst-class:: ansible-option-title
 
@@ -516,7 +521,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      True if enable custom rf-profile else false.
+      Enable Custom.
 
 
       .. rst-class:: ansible-option-line
@@ -535,7 +540,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-enableRadioTypeA"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-enableRadioTypeA:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-enableradiotypea:
 
       .. rst-class:: ansible-option-title
 
@@ -557,7 +562,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Tru if Enable Radio Type A else false.
+      Enable Radio Type A.
 
 
       .. rst-class:: ansible-option-line
@@ -576,7 +581,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-enableRadioTypeB"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-enableRadioTypeB:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-enableradiotypeb:
 
       .. rst-class:: ansible-option-title
 
@@ -598,7 +603,48 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      True if Enable Radio Type B else false.
+      Enable Radio Type B.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-enableRadioTypeC"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-enableradiotypec:
+
+      .. rst-class:: ansible-option-title
+
+      **enableRadioTypeC**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-enableRadioTypeC" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enable Radio Type C (6GHz).
 
 
       .. rst-class:: ansible-option-line
@@ -639,7 +685,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Custom RF profile name.
+      RF Profile Name.
 
 
       .. raw:: html
@@ -651,7 +697,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeAProperties:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypeaproperties:
 
       .. rst-class:: ansible-option-title
 
@@ -685,7 +731,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/dataRates"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeAProperties/dataRates:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypeaproperties/datarates:
 
       .. rst-class:: ansible-option-title
 
@@ -719,7 +765,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/mandatoryDataRates"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeAProperties/mandatoryDataRates:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypeaproperties/mandatorydatarates:
 
       .. rst-class:: ansible-option-title
 
@@ -753,7 +799,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/maxPowerLevel"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeAProperties/maxPowerLevel:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypeaproperties/maxpowerlevel:
 
       .. rst-class:: ansible-option-title
 
@@ -787,7 +833,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/minPowerLevel"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeAProperties/minPowerLevel:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypeaproperties/minpowerlevel:
 
       .. rst-class:: ansible-option-title
 
@@ -809,7 +855,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Min Power Level.
+      Rx Sop Threshold.
 
 
       .. raw:: html
@@ -821,7 +867,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/parentProfile"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeAProperties/parentProfile:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypeaproperties/parentprofile:
 
       .. rst-class:: ansible-option-title
 
@@ -843,7 +889,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Parent rf-profile name.
+      Parent Profile.
 
 
       .. raw:: html
@@ -855,7 +901,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/powerThresholdV1"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeAProperties/powerThresholdV1:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypeaproperties/powerthresholdv1:
 
       .. rst-class:: ansible-option-title
 
@@ -889,7 +935,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/radioChannels"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeAProperties/radioChannels:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypeaproperties/radiochannels:
 
       .. rst-class:: ansible-option-title
 
@@ -923,7 +969,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/rxSopThreshold"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeAProperties/rxSopThreshold:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypeaproperties/rxsopthreshold:
 
       .. rst-class:: ansible-option-title
 
@@ -958,7 +1004,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeBProperties:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypebproperties:
 
       .. rst-class:: ansible-option-title
 
@@ -992,7 +1038,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/dataRates"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeBProperties/dataRates:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypebproperties/datarates:
 
       .. rst-class:: ansible-option-title
 
@@ -1026,7 +1072,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/mandatoryDataRates"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeBProperties/mandatoryDataRates:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypebproperties/mandatorydatarates:
 
       .. rst-class:: ansible-option-title
 
@@ -1060,7 +1106,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/maxPowerLevel"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeBProperties/maxPowerLevel:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypebproperties/maxpowerlevel:
 
       .. rst-class:: ansible-option-title
 
@@ -1094,7 +1140,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/minPowerLevel"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeBProperties/minPowerLevel:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypebproperties/minpowerlevel:
 
       .. rst-class:: ansible-option-title
 
@@ -1128,7 +1174,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/parentProfile"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeBProperties/parentProfile:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypebproperties/parentprofile:
 
       .. rst-class:: ansible-option-title
 
@@ -1150,7 +1196,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Parent rf-profile name.
+      Parent Profile.
 
 
       .. raw:: html
@@ -1162,7 +1208,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/powerThresholdV1"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeBProperties/powerThresholdV1:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypebproperties/powerthresholdv1:
 
       .. rst-class:: ansible-option-title
 
@@ -1196,7 +1242,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/radioChannels"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeBProperties/radioChannels:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypebproperties/radiochannels:
 
       .. rst-class:: ansible-option-title
 
@@ -1230,7 +1276,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/rxSopThreshold"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radioTypeBProperties/rxSopThreshold:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypebproperties/rxsopthreshold:
 
       .. rst-class:: ansible-option-title
 
@@ -1263,9 +1309,316 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeCProperties"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypecproperties:
+
+      .. rst-class:: ansible-option-title
+
+      **radioTypeCProperties**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeCProperties" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Rf Profile's radioTypeCProperties.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeCProperties/dataRates"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypecproperties/datarates:
+
+      .. rst-class:: ansible-option-title
+
+      **dataRates**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeCProperties/dataRates" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Data Rates.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeCProperties/mandatoryDataRates"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypecproperties/mandatorydatarates:
+
+      .. rst-class:: ansible-option-title
+
+      **mandatoryDataRates**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeCProperties/mandatoryDataRates" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Mandatory Data Rates.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeCProperties/maxPowerLevel"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypecproperties/maxpowerlevel:
+
+      .. rst-class:: ansible-option-title
+
+      **maxPowerLevel**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeCProperties/maxPowerLevel" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Max Power Level.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeCProperties/minPowerLevel"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypecproperties/minpowerlevel:
+
+      .. rst-class:: ansible-option-title
+
+      **minPowerLevel**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeCProperties/minPowerLevel" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Min Power Level.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeCProperties/parentProfile"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypecproperties/parentprofile:
+
+      .. rst-class:: ansible-option-title
+
+      **parentProfile**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeCProperties/parentProfile" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Parent Profile.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeCProperties/powerThresholdV1"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypecproperties/powerthresholdv1:
+
+      .. rst-class:: ansible-option-title
+
+      **powerThresholdV1**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeCProperties/powerThresholdV1" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Power Threshold V1.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeCProperties/radioChannels"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypecproperties/radiochannels:
+
+      .. rst-class:: ansible-option-title
+
+      **radioChannels**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeCProperties/radioChannels" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Radio Channels.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeCProperties/rxSopThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-radiotypecproperties/rxsopthreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **rxSopThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeCProperties/rxSopThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Rx Sop Threshold.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-rfProfileName"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-rfProfileName:
+      .. _ansible_collections.cisco.dnac.wireless_rf_profile_module__parameter-rfprofilename:
 
       .. rst-class:: ansible-option-title
 
@@ -1287,7 +1640,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      RfProfileName path parameter. RF profile name to be deleted(required) non-custom RF profile cannot be deleted.
+      RfProfileName path parameter. RF profile name to be deleted(required) *non-custom RF profile cannot be deleted.
 
 
       .. raw:: html
@@ -1353,6 +1706,15 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Wireless CreateOrUpdateRFProfile <https://developer.cisco.com/docs/dna-center/#!create-or-update-rf-profile>`_
+       Complete reference of the CreateOrUpdateRFProfile API.
+   `Cisco DNA Center documentation for Wireless DeleteRFProfiles <https://developer.cisco.com/docs/dna-center/#!delete-rf-profiles>`_
+       Complete reference of the DeleteRFProfiles API.
 
 .. Examples
 
@@ -1378,6 +1740,7 @@ Examples
         enableCustom: true
         enableRadioTypeA: true
         enableRadioTypeB: true
+        enableRadioTypeC: true
         name: string
         radioTypeAProperties:
           dataRates: string
@@ -1389,6 +1752,15 @@ Examples
           radioChannels: string
           rxSopThreshold: string
         radioTypeBProperties:
+          dataRates: string
+          mandatoryDataRates: string
+          maxPowerLevel: 0
+          minPowerLevel: 0
+          parentProfile: string
+          powerThresholdV1: 0
+          radioChannels: string
+          rxSopThreshold: string
+        radioTypeCProperties:
           dataRates: string
           mandatoryDataRates: string
           maxPowerLevel: 0

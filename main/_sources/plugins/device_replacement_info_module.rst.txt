@@ -42,7 +42,7 @@ cisco.dnac.device_replacement_info module -- Information module for Device Repla
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,7 +69,8 @@ Synopsis
 .. Description
 
 - Get all Device Replacement.
-- Get list of replacement devices with replacement details and it can filter replacement devices based on Faulty Device Name, Faulty Device Platform, Replacement Device Platform, Faulty Device Serial Number, Replacement Device Serial Number, Device Replacement status, Product Family.
+- Get list of replacement devices with replacement details and it can filter replacement devices based on Faulty Device Name,Faulty Device Platform, Replacement Device Platform, Faulty Device Serial Number,Replacement Device Serial Number, Device Replacement status, Product Family.
+
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -83,14 +84,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -366,7 +372,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -411,7 +417,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-faultyDeviceName"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_info_module__parameter-faultyDeviceName:
+      .. _ansible_collections.cisco.dnac.device_replacement_info_module__parameter-faultydevicename:
 
       .. rst-class:: ansible-option-title
 
@@ -445,7 +451,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-faultyDevicePlatform"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_info_module__parameter-faultyDevicePlatform:
+      .. _ansible_collections.cisco.dnac.device_replacement_info_module__parameter-faultydeviceplatform:
 
       .. rst-class:: ansible-option-title
 
@@ -479,7 +485,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-faultyDeviceSerialNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_info_module__parameter-faultyDeviceSerialNumber:
+      .. _ansible_collections.cisco.dnac.device_replacement_info_module__parameter-faultydeviceserialnumber:
 
       .. rst-class:: ansible-option-title
 
@@ -615,7 +621,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-replacementDevicePlatform"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_info_module__parameter-replacementDevicePlatform:
+      .. _ansible_collections.cisco.dnac.device_replacement_info_module__parameter-replacementdeviceplatform:
 
       .. rst-class:: ansible-option-title
 
@@ -649,7 +655,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-replacementDeviceSerialNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_info_module__parameter-replacementDeviceSerialNumber:
+      .. _ansible_collections.cisco.dnac.device_replacement_info_module__parameter-replacementdeviceserialnumber:
 
       .. rst-class:: ansible-option-title
 
@@ -683,7 +689,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-replacementStatus"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_info_module__parameter-replacementStatus:
+      .. _ansible_collections.cisco.dnac.device_replacement_info_module__parameter-replacementstatus:
 
       .. rst-class:: ansible-option-title
 
@@ -718,7 +724,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortBy"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_info_module__parameter-sortBy:
+      .. _ansible_collections.cisco.dnac.device_replacement_info_module__parameter-sortby:
 
       .. rst-class:: ansible-option-title
 
@@ -752,7 +758,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortOrder"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_info_module__parameter-sortOrder:
+      .. _ansible_collections.cisco.dnac.device_replacement_info_module__parameter-sortorder:
 
       .. rst-class:: ansible-option-title
 
@@ -840,6 +846,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Device Replacement ReturnListOfReplacementDevicesWithReplacementDetails <https://developer.cisco.com/docs/dna-center/#!return-list-of-replacement-devices-with-replacement-details>`_
+       Complete reference of the ReturnListOfReplacementDevicesWithReplacementDetails API.
 
 .. Examples
 
@@ -858,8 +871,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         faultyDeviceName: string
         faultyDevicePlatform: string
         replacementDevicePlatform: string

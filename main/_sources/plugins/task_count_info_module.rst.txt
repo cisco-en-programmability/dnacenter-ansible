@@ -42,7 +42,7 @@ cisco.dnac.task_count_info module -- Information module for Task Count
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -400,7 +405,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -411,7 +416,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.task_count_info_module__parameter-endTime:
+      .. _ansible_collections.cisco.dnac.task_count_info_module__parameter-endtime:
 
       .. rst-class:: ansible-option-title
 
@@ -445,7 +450,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-errorCode"></div>
 
-      .. _ansible_collections.cisco.dnac.task_count_info_module__parameter-errorCode:
+      .. _ansible_collections.cisco.dnac.task_count_info_module__parameter-errorcode:
 
       .. rst-class:: ansible-option-title
 
@@ -479,7 +484,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-failureReason"></div>
 
-      .. _ansible_collections.cisco.dnac.task_count_info_module__parameter-failureReason:
+      .. _ansible_collections.cisco.dnac.task_count_info_module__parameter-failurereason:
 
       .. rst-class:: ansible-option-title
 
@@ -547,7 +552,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-isError"></div>
 
-      .. _ansible_collections.cisco.dnac.task_count_info_module__parameter-isError:
+      .. _ansible_collections.cisco.dnac.task_count_info_module__parameter-iserror:
 
       .. rst-class:: ansible-option-title
 
@@ -581,7 +586,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-parentId"></div>
 
-      .. _ansible_collections.cisco.dnac.task_count_info_module__parameter-parentId:
+      .. _ansible_collections.cisco.dnac.task_count_info_module__parameter-parentid:
 
       .. rst-class:: ansible-option-title
 
@@ -649,7 +654,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-serviceType"></div>
 
-      .. _ansible_collections.cisco.dnac.task_count_info_module__parameter-serviceType:
+      .. _ansible_collections.cisco.dnac.task_count_info_module__parameter-servicetype:
 
       .. rst-class:: ansible-option-title
 
@@ -683,7 +688,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.task_count_info_module__parameter-startTime:
+      .. _ansible_collections.cisco.dnac.task_count_info_module__parameter-starttime:
 
       .. rst-class:: ansible-option-title
 
@@ -805,6 +810,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Task GetTaskCount <https://developer.cisco.com/docs/dna-center/#!get-task-count>`_
+       Complete reference of the GetTaskCount API.
 
 .. Examples
 
@@ -823,8 +835,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         startTime: string
         endTime: string
         data: string

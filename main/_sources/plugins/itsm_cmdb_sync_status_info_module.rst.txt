@@ -42,7 +42,7 @@ cisco.dnac.itsm_cmdb_sync_status_info module -- Information module for Itsm Cmdb
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,7 +69,8 @@ Synopsis
 .. Description
 
 - Get all Itsm Cmdb Sync Status.
-- This API allows to retrieve the detail of CMDB sync status.It accepts two query parameter "status","date". The supported values for status field are "Success","Failed","Unknown" and date field should be in "YYYY-MM-DD" format. By default all the cmdb sync status will be send as response and based on the query parameter filtered detail will be send as response.
+- This API allows to retrieve the detail of CMDB sync status.It accepts two query parameter "status","date".The supported values for status field are "Success","Failed","Unknown" and date field should be in "YYYY-MM-DD" format. By default all the cmdb sync status will be send as response and based on the query parameter filtered detail will be send as response.
+
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -83,14 +84,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -400,7 +406,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -534,6 +540,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for ITSM GetCMDBSyncStatus <https://developer.cisco.com/docs/dna-center/#!get-cmdb-sync-status>`_
+       Complete reference of the GetCMDBSyncStatus API.
 
 .. Examples
 
@@ -552,8 +565,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         status: string
         date: string
       register: result
