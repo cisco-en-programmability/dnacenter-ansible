@@ -6,12 +6,12 @@
 
 DOCUMENTATION = r"""
 ---
-module: business_sda_virtual_network_summary_info
-short_description: Information module for Business Sda Virtual Network Summary
+module: sda_count_info
+short_description: Information module for Sda Count
 description:
-- Get all Business Sda Virtual Network Summary.
-- Get Virtual Network Summary.
-version_added: '6.5.0'
+- Get all Sda Count.
+- Get SDA Fabric Count.
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
@@ -19,29 +19,21 @@ options:
   headers:
     description: Additional headers.
     type: dict
-  siteNameHierarchy:
-    description:
-    - SiteNameHierarchy query parameter. Complete fabric siteNameHierarchy Path.
-    type: str
 requirements:
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-seealso:
-- name: Cisco DNA Center documentation for  GetVirtualNetworkSummary
-  description: Complete reference of the GetVirtualNetworkSummary API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-summary
 notes:
   - SDK Method used are
-    ..get_virtual_network_summary,
+    sda.Sda.get_sda_fabric_count,
 
   - Paths used are
-    get /dna/intent/api/v1/business/sda/virtual-network/summary,
+    get /dna/intent/api/v1/business/sda/fabric/count,
 
 """
 
 EXAMPLES = r"""
-- name: Get all Business Sda Virtual Network Summary
-  cisco.dnac.business_sda_virtual_network_summary_info:
+- name: Get all Sda Count
+  cisco.dnac.sda_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -49,8 +41,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers: "{{my_headers | from_json}}"
-    siteNameHierarchy: string
+    headers:
+      custom: value
   register: result
 
 """
