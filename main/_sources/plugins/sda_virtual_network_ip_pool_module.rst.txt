@@ -42,7 +42,7 @@ cisco.dnac.sda_virtual_network_ip_pool module -- Resource module for Sda Virtual
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -84,14 +84,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -106,24 +111,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-authenticationPolicyName"></div>
+        <div class="ansibleOptionAnchor" id="parameter-autoGenerateVlanName"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-authenticationPolicyName:
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-autogeneratevlanname:
 
       .. rst-class:: ansible-option-title
 
-      **authenticationPolicyName**
+      **autoGenerateVlanName**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-authenticationPolicyName" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-autoGenerateVlanName" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in 4.0.0 of cisco.dnac`
-
+      :ansible-option-type:`boolean`
 
       .. raw:: html
 
@@ -133,8 +135,15 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Deprecated, same as vlanName, please use vlanName.
+      It will auto generate vlanName, if vlanName is empty(applicable for L3 and INFRA_VN).
 
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
 
       .. raw:: html
 
@@ -404,7 +413,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -415,7 +424,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipPoolName"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-ipPoolName:
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-ippoolname:
 
       .. rst-class:: ansible-option-title
 
@@ -450,9 +459,91 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isCommonPool"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-iscommonpool:
+
+      .. rst-class:: ansible-option-title
+
+      **isCommonPool**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isCommonPool" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Common Pool enablement flag(applicable for L3 and L2 and default value is False ).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isIpDirectedBroadcast"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-isipdirectedbroadcast:
+
+      .. rst-class:: ansible-option-title
+
+      **isIpDirectedBroadcast**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isIpDirectedBroadcast" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Ip Directed Broadcast enablement flag(applicable for L3 and default value is False ).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-isL2FloodingEnabled"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-isL2FloodingEnabled:
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-isl2floodingenabled:
 
       .. rst-class:: ansible-option-title
 
@@ -477,7 +568,48 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Layer2 flooding enablement flag.
+      Layer2 flooding enablement flag(applicable for L3 , L2 and always true for L2 and default value is False ).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isLayer2Only"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-islayer2only:
+
+      .. rst-class:: ansible-option-title
+
+      **isLayer2Only**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isLayer2Only" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Layer2 Only enablement flag and default value is False.
 
 
       .. rst-class:: ansible-option-line
@@ -496,7 +628,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-isThisCriticalPool"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-isThisCriticalPool:
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-isthiscriticalpool:
 
       .. rst-class:: ansible-option-title
 
@@ -521,7 +653,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Critical pool enablement flag where depending on the pool type (data or voice), a corresponding Critical Vlan gets assigned to the Critical Pool.
+      Critical pool enablement(applicable for L3 and default value is False ).
 
 
       .. rst-class:: ansible-option-line
@@ -540,7 +672,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-isWirelessPool"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-isWirelessPool:
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-iswirelesspool:
 
       .. rst-class:: ansible-option-title
 
@@ -552,7 +684,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`boolean`
 
       :ansible-option-versionadded:`added in 4.0.0 of cisco.dnac`
 
@@ -565,8 +697,15 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wireless Pool enablement flag.
+      Wireless Pool enablement flag(applicable for L3 and L2 and default value is False ).
 
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
 
       .. raw:: html
 
@@ -577,7 +716,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-poolType"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-poolType:
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-pooltype:
 
       .. rst-class:: ansible-option-title
 
@@ -602,7 +741,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pool Type (needed when assigning segment to INFRA_VN) (Example AP.).
+      Pool Type (applicable for INFRA_VN).
 
 
       .. raw:: html
@@ -614,7 +753,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-scalableGroupName"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-scalableGroupName:
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-scalablegroupname:
 
       .. rst-class:: ansible-option-title
 
@@ -639,7 +778,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Scalable Group, that is associated to Virtual Network.
+      Scalable Group Name(applicable for L3).
 
 
       .. raw:: html
@@ -651,7 +790,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-siteNameHierarchy"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-siteNameHierarchy:
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-sitenamehierarchy:
 
       .. rst-class:: ansible-option-title
 
@@ -676,7 +815,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Full path of sda fabric siteNameHierarchy.
+      SiteNameHierarchy query parameter.
 
 
       .. raw:: html
@@ -688,7 +827,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-trafficType"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-trafficType:
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-traffictype:
 
       .. rst-class:: ansible-option-title
 
@@ -713,7 +852,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Traffic type.
+      Traffic type(applicable for L3 and L2).
 
 
       .. raw:: html
@@ -766,7 +905,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-virtualNetworkName"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-virtualNetworkName:
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-virtualnetworkname:
 
       .. rst-class:: ansible-option-title
 
@@ -798,9 +937,43 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-vlanId"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-vlanid:
+
+      .. rst-class:: ansible-option-title
+
+      **vlanId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-vlanId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Vlan Id(applicable for L3 , L2 and INFRA_VN).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-vlanName"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-vlanName:
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-vlanname:
 
       .. rst-class:: ansible-option-title
 
@@ -825,7 +998,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Vlan name for this segment, represent the segment name, if empty, vlanName would be auto generated by API.
+      Vlan name represent the segment name, if empty, vlanName would be auto generated by API.
 
 
       .. raw:: html
@@ -850,6 +1023,15 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for SDA AddIPPoolInSDAVirtualNetwork <https://developer.cisco.com/docs/dna-center/#!add-ip-pool-in-sda-virtual-network>`_
+       Complete reference of the AddIPPoolInSDAVirtualNetwork API.
+   `Cisco DNA Center documentation for SDA DeleteIPPoolFromSDAVirtualNetwork <https://developer.cisco.com/docs/dna-center/#!delete-ip-pool-from-sda-virtual-network>`_
+       Complete reference of the DeleteIPPoolFromSDAVirtualNetwork API.
 
 .. Examples
 
@@ -883,16 +1065,20 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
-        authenticationPolicyName: string
+        autoGenerateVlanName: true
         ipPoolName: string
+        isCommonPool: true
+        isIpDirectedBroadcast: true
         isL2FloodingEnabled: true
+        isLayer2Only: true
         isThisCriticalPool: true
-        isWirelessPool: string
+        isWirelessPool: true
         poolType: string
         scalableGroupName: string
         siteNameHierarchy: string
         trafficType: string
         virtualNetworkName: string
+        vlanId: string
         vlanName: string
 
 

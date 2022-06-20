@@ -42,7 +42,7 @@ cisco.dnac.reserve_ip_subpool_create module -- Resource module for Reserve Ip Su
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -366,7 +371,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -377,7 +382,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipv4DhcpServers"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv4DhcpServers:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv4dhcpservers:
 
       .. rst-class:: ansible-option-title
 
@@ -411,7 +416,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipv4DnsServers"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv4DnsServers:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv4dnsservers:
 
       .. rst-class:: ansible-option-title
 
@@ -445,7 +450,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipv4GateWay"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv4GateWay:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv4gateway:
 
       .. rst-class:: ansible-option-title
 
@@ -479,7 +484,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipv4GlobalPool"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv4GlobalPool:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv4globalpool:
 
       .. rst-class:: ansible-option-title
 
@@ -513,7 +518,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipv4Prefix"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv4Prefix:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv4prefix:
 
       .. rst-class:: ansible-option-title
 
@@ -554,7 +559,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipv4PrefixLength"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv4PrefixLength:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv4prefixlength:
 
       .. rst-class:: ansible-option-title
 
@@ -588,7 +593,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipv4Subnet"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv4Subnet:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv4subnet:
 
       .. rst-class:: ansible-option-title
 
@@ -622,7 +627,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipv4TotalHost"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv4TotalHost:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv4totalhost:
 
       .. rst-class:: ansible-option-title
 
@@ -656,7 +661,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipv6AddressSpace"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6AddressSpace:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6addressspace:
 
       .. rst-class:: ansible-option-title
 
@@ -697,7 +702,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipv6DhcpServers"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6DhcpServers:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6dhcpservers:
 
       .. rst-class:: ansible-option-title
 
@@ -731,7 +736,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipv6DnsServers"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6DnsServers:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6dnsservers:
 
       .. rst-class:: ansible-option-title
 
@@ -765,7 +770,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipv6GateWay"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6GateWay:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6gateway:
 
       .. rst-class:: ansible-option-title
 
@@ -799,7 +804,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipv6GlobalPool"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6GlobalPool:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6globalpool:
 
       .. rst-class:: ansible-option-title
 
@@ -833,7 +838,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipv6Prefix"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6Prefix:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6prefix:
 
       .. rst-class:: ansible-option-title
 
@@ -874,7 +879,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipv6PrefixLength"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6PrefixLength:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6prefixlength:
 
       .. rst-class:: ansible-option-title
 
@@ -908,7 +913,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipv6Subnet"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6Subnet:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6subnet:
 
       .. rst-class:: ansible-option-title
 
@@ -942,7 +947,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipv6TotalHost"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6TotalHost:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-ipv6totalhost:
 
       .. rst-class:: ansible-option-title
 
@@ -1010,7 +1015,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-siteId"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-siteId:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-siteid:
 
       .. rst-class:: ansible-option-title
 
@@ -1044,7 +1049,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-slaacSupport"></div>
 
-      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-slaacSupport:
+      .. _ansible_collections.cisco.dnac.reserve_ip_subpool_create_module__parameter-slaacsupport:
 
       .. rst-class:: ansible-option-title
 
@@ -1173,6 +1178,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Network Settings ReserveIPSubpool <https://developer.cisco.com/docs/dna-center/#!reserve-ip-subpool>`_
+       Complete reference of the ReserveIPSubpool API.
 
 .. Examples
 

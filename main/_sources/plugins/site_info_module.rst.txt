@@ -42,7 +42,7 @@ cisco.dnac.site_info module -- Information module for Site
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -366,7 +371,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -433,7 +438,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter. Number of sites to be retrieved.
+      Limit query parameter. Number of sites to be retrieved. The default value is 500.
 
 
       .. raw:: html
@@ -501,7 +506,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter. Offset/starting row.
+      Offset query parameter. Offset/starting row. The default value is 1.
 
 
       .. raw:: html
@@ -513,7 +518,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-siteId"></div>
 
-      .. _ansible_collections.cisco.dnac.site_info_module__parameter-siteId:
+      .. _ansible_collections.cisco.dnac.site_info_module__parameter-siteid:
 
       .. rst-class:: ansible-option-title
 
@@ -635,6 +640,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Sites GetSite <https://developer.cisco.com/docs/dna-center/#!get-site>`_
+       Complete reference of the GetSite API.
 
 .. Examples
 
@@ -653,8 +665,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         name: string
         siteId: string
         type: string
@@ -722,7 +733,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "[\\n  {\\n    \\"parentId\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"additionalInfo\\": [\\n      \\"string\\"\\n    ],\\n    \\"siteHierarchy\\": \\"string\\",\\n    \\"siteNameHierarchy\\": \\"string\\",\\n    \\"instanceTenantId\\": \\"string\\",\\n    \\"id\\": \\"string\\"\\n  }\\n]\\n"
+      :ansible-option-sample-bold:`Sample:` "[\\n  {\\n    \\"parentId\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"additionalInfo\\": [\\n      {\\n        \\"nameSpace\\": \\"string\\",\\n        \\"attributes\\": {\\n          \\"country\\": \\"string\\",\\n          \\"address\\": \\"string\\",\\n          \\"latitude\\": \\"string\\",\\n          \\"addressInheritedFrom\\": \\"string\\",\\n          \\"type\\": \\"string\\",\\n          \\"longitude\\": \\"string\\",\\n          \\"offsetX\\": \\"string\\",\\n          \\"offsetY\\": \\"string\\",\\n          \\"length\\": \\"string\\",\\n          \\"width\\": \\"string\\",\\n          \\"height\\": \\"string\\",\\n          \\"rfModel\\": \\"string\\",\\n          \\"floorIndex\\": \\"string\\"\\n        }\\n      }\\n    ],\\n    \\"siteHierarchy\\": \\"string\\",\\n    \\"siteNameHierarchy\\": \\"string\\",\\n    \\"instanceTenantId\\": \\"string\\",\\n    \\"id\\": \\"string\\"\\n  }\\n]\\n"
 
 
       .. raw:: html

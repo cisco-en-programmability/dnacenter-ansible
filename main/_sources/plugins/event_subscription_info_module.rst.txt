@@ -42,7 +42,7 @@ cisco.dnac.event_subscription_info module -- Information module for Event Subscr
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Event Subscription.
-- Gets the list of Subscriptions's based on provided offset and limit.
+- Gets the list of Subscriptions's based on provided offset and limit Deprecated .
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -366,7 +371,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -377,7 +382,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-eventIds"></div>
 
-      .. _ansible_collections.cisco.dnac.event_subscription_info_module__parameter-eventIds:
+      .. _ansible_collections.cisco.dnac.event_subscription_info_module__parameter-eventids:
 
       .. rst-class:: ansible-option-title
 
@@ -547,7 +552,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortBy"></div>
 
-      .. _ansible_collections.cisco.dnac.event_subscription_info_module__parameter-sortBy:
+      .. _ansible_collections.cisco.dnac.event_subscription_info_module__parameter-sortby:
 
       .. rst-class:: ansible-option-title
 
@@ -635,6 +640,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Event Management GetEventSubscriptions <https://developer.cisco.com/docs/dna-center/#!get-event-subscriptions>`_
+       Complete reference of the GetEventSubscriptions API.
 
 .. Examples
 
@@ -653,8 +665,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         eventIds: string
         offset: 0
         limit: 0
@@ -722,7 +733,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "[\\n  {\\n    \\"subscriptionId\\": \\"string\\",\\n    \\"isPrivate\\": true,\\n    \\"tenantId\\": \\"string\\",\\n    \\"version\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"description\\": \\"string\\",\\n    \\"subscriptionEndpoints\\": [\\n      {\\n        \\"instanceId\\": \\"string\\",\\n        \\"id\\": \\"string\\",\\n        \\"subscriptionDetails\\": {\\n          \\"name\\": \\"string\\",\\n          \\"url\\": \\"string\\",\\n          \\"method\\": \\"string\\",\\n          \\"connectorType\\": \\"string\\"\\n        }\\n      }\\n    ],\\n    \\"filter\\": {\\n      \\"eventIds\\": [\\n        \\"string\\"\\n      ]\\n    }\\n  }\\n]\\n"
+      :ansible-option-sample-bold:`Sample:` "[\\n  {\\n    \\"version\\": \\"string\\",\\n    \\"subscriptionId\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"description\\": \\"string\\",\\n    \\"subscriptionEndpoints\\": [\\n      {\\n        \\"instanceId\\": \\"string\\",\\n        \\"subscriptionDetails\\": {\\n          \\"connectorType\\": \\"string\\",\\n          \\"instanceId\\": \\"string\\",\\n          \\"name\\": \\"string\\",\\n          \\"description\\": \\"string\\",\\n          \\"url\\": \\"string\\",\\n          \\"basePath\\": \\"string\\",\\n          \\"resource\\": \\"string\\",\\n          \\"method\\": \\"string\\",\\n          \\"trustCert\\": \\"string\\",\\n          \\"headers\\": [\\n            {\\n              \\"string\\": \\"string\\"\\n            }\\n          ],\\n          \\"queryParams\\": [\\n            {\\n              \\"string\\": \\"string\\"\\n            }\\n          ],\\n          \\"pathParams\\": [\\n            {\\n              \\"string\\": \\"string\\"\\n            }\\n          ],\\n          \\"body\\": \\"string\\",\\n          \\"connectTimeout\\": \\"string\\",\\n          \\"readTimeout\\": \\"string\\"\\n        },\\n        \\"connectorType\\": \\"string\\"\\n      }\\n    ],\\n    \\"filter\\": {\\n      \\"eventIds\\": [\\n        \\"string\\"\\n      ],\\n      \\"others\\": [\\n        \\"string\\"\\n      ],\\n      \\"domainsSubdomains\\": [\\n        {\\n          \\"domain\\": \\"string\\",\\n          \\"subDomains\\": [\\n            \\"string\\"\\n          ]\\n        }\\n      ],\\n      \\"types\\": [\\n        \\"string\\"\\n      ],\\n      \\"categories\\": [\\n        \\"string\\"\\n      ],\\n      \\"severities\\": [\\n        \\"string\\"\\n      ],\\n      \\"sources\\": [\\n        \\"string\\"\\n      ],\\n      \\"siteIds\\": [\\n        \\"string\\"\\n      ]\\n    },\\n    \\"isPrivate\\": true,\\n    \\"tenantId\\": \\"string\\"\\n  }\\n]\\n"
 
 
       .. raw:: html

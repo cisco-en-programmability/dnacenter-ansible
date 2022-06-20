@@ -42,7 +42,7 @@ cisco.dnac.pnp_device_reset module -- Resource module for Pnp Device Reset
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -107,7 +112,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceResetList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceResetList:
+      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceresetlist:
 
       .. rst-class:: ansible-option-title
 
@@ -141,7 +146,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceResetList/configList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceResetList/configList:
+      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceresetlist/configlist:
 
       .. rst-class:: ansible-option-title
 
@@ -175,7 +180,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceResetList/configList/configId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceResetList/configList/configId:
+      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceresetlist/configlist/configid:
 
       .. rst-class:: ansible-option-title
 
@@ -209,7 +214,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceResetList/configList/configParameters"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceResetList/configList/configParameters:
+      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceresetlist/configlist/configparameters:
 
       .. rst-class:: ansible-option-title
 
@@ -243,7 +248,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceResetList/configList/configParameters/key"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceResetList/configList/configParameters/key:
+      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceresetlist/configlist/configparameters/key:
 
       .. rst-class:: ansible-option-title
 
@@ -277,7 +282,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceResetList/configList/configParameters/value"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceResetList/configList/configParameters/value:
+      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceresetlist/configlist/configparameters/value:
 
       .. rst-class:: ansible-option-title
 
@@ -313,7 +318,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceResetList/deviceId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceResetList/deviceId:
+      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceresetlist/deviceid:
 
       .. rst-class:: ansible-option-title
 
@@ -347,7 +352,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceResetList/licenseLevel"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceResetList/licenseLevel:
+      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceresetlist/licenselevel:
 
       .. rst-class:: ansible-option-title
 
@@ -381,7 +386,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceResetList/licenseType"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceResetList/licenseType:
+      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceresetlist/licensetype:
 
       .. rst-class:: ansible-option-title
 
@@ -415,7 +420,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceResetList/topOfStackSerialNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceResetList/topOfStackSerialNumber:
+      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-deviceresetlist/topofstackserialnumber:
 
       .. rst-class:: ansible-option-title
 
@@ -709,7 +714,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -720,7 +725,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-projectId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-projectId:
+      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-projectid:
 
       .. rst-class:: ansible-option-title
 
@@ -795,7 +800,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflowId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-workflowId:
+      .. _ansible_collections.cisco.dnac.pnp_device_reset_module__parameter-workflowid:
 
       .. rst-class:: ansible-option-title
 
@@ -842,6 +847,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Device Onboarding (PnP) ResetDevice <https://developer.cisco.com/docs/dna-center/#!reset-device>`_
+       Complete reference of the ResetDevice API.
 
 .. Examples
 

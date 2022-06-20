@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_border_device_info module -- Information module for Sda Fa
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Sda Fabric Border Device.
-- Gets border device detail from SDA Fabric.
+- Get border device detail from SDA Fabric.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -107,7 +112,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceManagementIpAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_fabric_border_device_info_module__parameter-deviceManagementIpAddress:
+      .. _ansible_collections.cisco.dnac.sda_fabric_border_device_info_module__parameter-devicemanagementipaddress:
 
       .. rst-class:: ansible-option-title
 
@@ -403,7 +408,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -502,6 +507,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for SDA GetBorderDeviceDetailFromSDAFabric <https://developer.cisco.com/docs/dna-center/#!get-border-device-detail-from-sda-fabric>`_
+       Complete reference of the GetBorderDeviceDetailFromSDAFabric API.
 
 .. Examples
 
@@ -520,8 +532,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         deviceManagementIpAddress: string
       register: result
 

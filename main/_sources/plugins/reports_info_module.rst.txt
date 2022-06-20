@@ -42,7 +42,7 @@ cisco.dnac.reports_info module -- Information module for Reports
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -85,14 +85,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -368,7 +373,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -413,7 +418,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-reportId"></div>
 
-      .. _ansible_collections.cisco.dnac.reports_info_module__parameter-reportId:
+      .. _ansible_collections.cisco.dnac.reports_info_module__parameter-reportid:
 
       .. rst-class:: ansible-option-title
 
@@ -488,7 +493,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-viewGroupId"></div>
 
-      .. _ansible_collections.cisco.dnac.reports_info_module__parameter-viewGroupId:
+      .. _ansible_collections.cisco.dnac.reports_info_module__parameter-viewgroupid:
 
       .. rst-class:: ansible-option-title
 
@@ -522,7 +527,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-viewId"></div>
 
-      .. _ansible_collections.cisco.dnac.reports_info_module__parameter-viewId:
+      .. _ansible_collections.cisco.dnac.reports_info_module__parameter-viewid:
 
       .. rst-class:: ansible-option-title
 
@@ -569,6 +574,15 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Reports GetAScheduledReport <https://developer.cisco.com/docs/dna-center/#!get-a-scheduled-report>`_
+       Complete reference of the GetAScheduledReport API.
+   `Cisco DNA Center documentation for Reports GetListOfScheduledReports <https://developer.cisco.com/docs/dna-center/#!get-list-of-scheduled-reports>`_
+       Complete reference of the GetListOfScheduledReports API.
 
 .. Examples
 
@@ -587,8 +601,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         viewGroupId: string
         viewId: string
       register: result
@@ -602,8 +615,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         reportId: string
       register: result
 

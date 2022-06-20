@@ -42,7 +42,7 @@ cisco.dnac.swim_import_local module -- Resource module for Swim Import Local
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -71,6 +71,7 @@ Synopsis
 - Manage operation create of the resource Swim Import Local.
 - Fetches a software image from local file system and uploads to DNA Center. Supported software image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
 
+
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
 
@@ -83,14 +84,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -366,7 +372,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -377,7 +383,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-filePath"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_import_local_module__parameter-filePath:
+      .. _ansible_collections.cisco.dnac.swim_import_local_module__parameter-filepath:
 
       .. rst-class:: ansible-option-title
 
@@ -411,7 +417,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-isThirdParty"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_import_local_module__parameter-isThirdParty:
+      .. _ansible_collections.cisco.dnac.swim_import_local_module__parameter-isthirdparty:
 
       .. rst-class:: ansible-option-title
 
@@ -452,7 +458,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-thirdPartyApplicationType"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_import_local_module__parameter-thirdPartyApplicationType:
+      .. _ansible_collections.cisco.dnac.swim_import_local_module__parameter-thirdpartyapplicationtype:
 
       .. rst-class:: ansible-option-title
 
@@ -486,7 +492,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-thirdPartyImageFamily"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_import_local_module__parameter-thirdPartyImageFamily:
+      .. _ansible_collections.cisco.dnac.swim_import_local_module__parameter-thirdpartyimagefamily:
 
       .. rst-class:: ansible-option-title
 
@@ -520,7 +526,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-thirdPartyVendor"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_import_local_module__parameter-thirdPartyVendor:
+      .. _ansible_collections.cisco.dnac.swim_import_local_module__parameter-thirdpartyvendor:
 
       .. rst-class:: ansible-option-title
 
@@ -608,6 +614,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Software Image Management (SWIM) ImportLocalSoftwareImage <https://developer.cisco.com/docs/dna-center/#!import-local-software-image>`_
+       Complete reference of the ImportLocalSoftwareImage API.
 
 .. Examples
 

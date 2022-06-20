@@ -42,7 +42,7 @@ cisco.dnac.swim_import_via_url module -- Resource module for Swim Import Via Url
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -71,6 +71,7 @@ Synopsis
 - Manage operation create of the resource Swim Import Via Url.
 - Fetches a software image from remote file system using URL for HTTP/FTP and uploads to DNA Center. Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
 
+
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
 
@@ -83,14 +84,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -366,7 +372,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -411,7 +417,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/applicationType"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_import_via_url_module__parameter-payload/applicationType:
+      .. _ansible_collections.cisco.dnac.swim_import_via_url_module__parameter-payload/applicationtype:
 
       .. rst-class:: ansible-option-title
 
@@ -445,7 +451,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/imageFamily"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_import_via_url_module__parameter-payload/imageFamily:
+      .. _ansible_collections.cisco.dnac.swim_import_via_url_module__parameter-payload/imagefamily:
 
       .. rst-class:: ansible-option-title
 
@@ -479,7 +485,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/sourceURL"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_import_via_url_module__parameter-payload/sourceURL:
+      .. _ansible_collections.cisco.dnac.swim_import_via_url_module__parameter-payload/sourceurl:
 
       .. rst-class:: ansible-option-title
 
@@ -513,7 +519,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/thirdParty"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_import_via_url_module__parameter-payload/thirdParty:
+      .. _ansible_collections.cisco.dnac.swim_import_via_url_module__parameter-payload/thirdparty:
 
       .. rst-class:: ansible-option-title
 
@@ -589,7 +595,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-scheduleAt"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_import_via_url_module__parameter-scheduleAt:
+      .. _ansible_collections.cisco.dnac.swim_import_via_url_module__parameter-scheduleat:
 
       .. rst-class:: ansible-option-title
 
@@ -623,7 +629,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-scheduleDesc"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_import_via_url_module__parameter-scheduleDesc:
+      .. _ansible_collections.cisco.dnac.swim_import_via_url_module__parameter-scheduledesc:
 
       .. rst-class:: ansible-option-title
 
@@ -657,7 +663,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-scheduleOrigin"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_import_via_url_module__parameter-scheduleOrigin:
+      .. _ansible_collections.cisco.dnac.swim_import_via_url_module__parameter-scheduleorigin:
 
       .. rst-class:: ansible-option-title
 
@@ -745,6 +751,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Software Image Management (SWIM) ImportSoftwareImageViaURL <https://developer.cisco.com/docs/dna-center/#!import-software-image-via-url>`_
+       Complete reference of the ImportSoftwareImageViaURL API.
 
 .. Examples
 
@@ -763,10 +776,15 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
+        payload:
+        - applicationType: string
+          imageFamily: string
+          sourceURL: string
+          thirdParty: true
+          vendor: string
         scheduleAt: string
         scheduleDesc: string
         scheduleOrigin: string
-        payload:
 
 
 
