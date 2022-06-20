@@ -42,7 +42,7 @@ cisco.dnac.global_pool module -- Resource module for Global Pool
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -85,14 +85,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -368,7 +373,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -481,7 +486,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/ippool/dhcpServerIps"></div>
 
-      .. _ansible_collections.cisco.dnac.global_pool_module__parameter-settings/ippool/dhcpServerIps:
+      .. _ansible_collections.cisco.dnac.global_pool_module__parameter-settings/ippool/dhcpserverips:
 
       .. rst-class:: ansible-option-title
 
@@ -515,7 +520,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/ippool/dnsServerIps"></div>
 
-      .. _ansible_collections.cisco.dnac.global_pool_module__parameter-settings/ippool/dnsServerIps:
+      .. _ansible_collections.cisco.dnac.global_pool_module__parameter-settings/ippool/dnsserverips:
 
       .. rst-class:: ansible-option-title
 
@@ -617,7 +622,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/ippool/ipPoolName"></div>
 
-      .. _ansible_collections.cisco.dnac.global_pool_module__parameter-settings/ippool/ipPoolName:
+      .. _ansible_collections.cisco.dnac.global_pool_module__parameter-settings/ippool/ippoolname:
 
       .. rst-class:: ansible-option-title
 
@@ -707,6 +712,17 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Network Settings CreateGlobalPool <https://developer.cisco.com/docs/dna-center/#!create-global-pool>`_
+       Complete reference of the CreateGlobalPool API.
+   `Cisco DNA Center documentation for Network Settings DeleteGlobalIPPool <https://developer.cisco.com/docs/dna-center/#!delete-global-ip-pool>`_
+       Complete reference of the DeleteGlobalIPPool API.
+   `Cisco DNA Center documentation for Network Settings UpdateGlobalPool <https://developer.cisco.com/docs/dna-center/#!update-global-pool>`_
+       Complete reference of the UpdateGlobalPool API.
 
 .. Examples
 

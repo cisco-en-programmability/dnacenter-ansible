@@ -42,7 +42,7 @@ cisco.dnac.network_device_functional_capability_info module -- Information modul
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -85,14 +85,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -109,7 +114,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceId"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_functional_capability_info_module__parameter-deviceId:
+      .. _ansible_collections.cisco.dnac.network_device_functional_capability_info_module__parameter-deviceid:
 
       .. rst-class:: ansible-option-title
 
@@ -403,7 +408,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -414,7 +419,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-functionName"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_functional_capability_info_module__parameter-functionName:
+      .. _ansible_collections.cisco.dnac.network_device_functional_capability_info_module__parameter-functionname:
 
       .. rst-class:: ansible-option-title
 
@@ -570,6 +575,15 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Devices GetFunctionalCapabilityById <https://developer.cisco.com/docs/dna-center/#!get-functional-capability-by-id>`_
+       Complete reference of the GetFunctionalCapabilityById API.
+   `Cisco DNA Center documentation for Devices GetFunctionalCapabilityForDevices <https://developer.cisco.com/docs/dna-center/#!get-functional-capability-for-devices>`_
+       Complete reference of the GetFunctionalCapabilityForDevices API.
 
 .. Examples
 
@@ -588,8 +602,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         deviceId: string
         functionName: []
       register: result
@@ -603,8 +616,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         id: string
       register: result
 

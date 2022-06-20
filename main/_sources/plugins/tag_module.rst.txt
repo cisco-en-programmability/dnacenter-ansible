@@ -42,7 +42,7 @@ cisco.dnac.tag module -- Resource module for Tag
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -85,14 +85,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -402,7 +407,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -413,7 +418,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dynamicRules"></div>
 
-      .. _ansible_collections.cisco.dnac.tag_module__parameter-dynamicRules:
+      .. _ansible_collections.cisco.dnac.tag_module__parameter-dynamicrules:
 
       .. rst-class:: ansible-option-title
 
@@ -447,7 +452,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dynamicRules/memberType"></div>
 
-      .. _ansible_collections.cisco.dnac.tag_module__parameter-dynamicRules/memberType:
+      .. _ansible_collections.cisco.dnac.tag_module__parameter-dynamicrules/membertype:
 
       .. rst-class:: ansible-option-title
 
@@ -481,7 +486,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dynamicRules/rules"></div>
 
-      .. _ansible_collections.cisco.dnac.tag_module__parameter-dynamicRules/rules:
+      .. _ansible_collections.cisco.dnac.tag_module__parameter-dynamicrules/rules:
 
       .. rst-class:: ansible-option-title
 
@@ -515,7 +520,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dynamicRules/rules/items"></div>
 
-      .. _ansible_collections.cisco.dnac.tag_module__parameter-dynamicRules/rules/items:
+      .. _ansible_collections.cisco.dnac.tag_module__parameter-dynamicrules/rules/items:
 
       .. rst-class:: ansible-option-title
 
@@ -549,7 +554,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dynamicRules/rules/name"></div>
 
-      .. _ansible_collections.cisco.dnac.tag_module__parameter-dynamicRules/rules/name:
+      .. _ansible_collections.cisco.dnac.tag_module__parameter-dynamicrules/rules/name:
 
       .. rst-class:: ansible-option-title
 
@@ -583,7 +588,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dynamicRules/rules/operation"></div>
 
-      .. _ansible_collections.cisco.dnac.tag_module__parameter-dynamicRules/rules/operation:
+      .. _ansible_collections.cisco.dnac.tag_module__parameter-dynamicrules/rules/operation:
 
       .. rst-class:: ansible-option-title
 
@@ -617,7 +622,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dynamicRules/rules/value"></div>
 
-      .. _ansible_collections.cisco.dnac.tag_module__parameter-dynamicRules/rules/value:
+      .. _ansible_collections.cisco.dnac.tag_module__parameter-dynamicrules/rules/value:
 
       .. rst-class:: ansible-option-title
 
@@ -651,7 +656,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dynamicRules/rules/values"></div>
 
-      .. _ansible_collections.cisco.dnac.tag_module__parameter-dynamicRules/rules/values:
+      .. _ansible_collections.cisco.dnac.tag_module__parameter-dynamicrules/rules/values:
 
       .. rst-class:: ansible-option-title
 
@@ -721,7 +726,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-instanceTenantId"></div>
 
-      .. _ansible_collections.cisco.dnac.tag_module__parameter-instanceTenantId:
+      .. _ansible_collections.cisco.dnac.tag_module__parameter-instancetenantid:
 
       .. rst-class:: ansible-option-title
 
@@ -789,7 +794,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemTag"></div>
 
-      .. _ansible_collections.cisco.dnac.tag_module__parameter-systemTag:
+      .. _ansible_collections.cisco.dnac.tag_module__parameter-systemtag:
 
       .. rst-class:: ansible-option-title
 
@@ -884,6 +889,17 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Tag CreateTag <https://developer.cisco.com/docs/dna-center/#!create-tag>`_
+       Complete reference of the CreateTag API.
+   `Cisco DNA Center documentation for Tag DeleteTag <https://developer.cisco.com/docs/dna-center/#!delete-tag>`_
+       Complete reference of the DeleteTag API.
+   `Cisco DNA Center documentation for Tag UpdateTag <https://developer.cisco.com/docs/dna-center/#!update-tag>`_
+       Complete reference of the UpdateTag API.
 
 .. Examples
 

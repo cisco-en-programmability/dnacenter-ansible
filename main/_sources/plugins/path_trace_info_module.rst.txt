@@ -42,7 +42,7 @@ cisco.dnac.path_trace_info module -- Information module for Path Trace
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -85,14 +85,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -109,7 +114,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-destIP"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-destIP:
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-destip:
 
       .. rst-class:: ansible-option-title
 
@@ -143,7 +148,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-destPort"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-destPort:
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-destport:
 
       .. rst-class:: ansible-option-title
 
@@ -436,7 +441,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -447,7 +452,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-flowAnalysisId"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-flowAnalysisId:
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-flowanalysisid:
 
       .. rst-class:: ansible-option-title
 
@@ -481,7 +486,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-gtCreateTime"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-gtCreateTime:
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-gtcreatetime:
 
       .. rst-class:: ansible-option-title
 
@@ -549,7 +554,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-lastUpdateTime"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-lastUpdateTime:
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-lastupdatetime:
 
       .. rst-class:: ansible-option-title
 
@@ -617,7 +622,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ltCreateTime"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-ltCreateTime:
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-ltcreatetime:
 
       .. rst-class:: ansible-option-title
 
@@ -719,7 +724,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-periodicRefresh"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-periodicRefresh:
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-periodicrefresh:
 
       .. rst-class:: ansible-option-title
 
@@ -794,7 +799,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortBy"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-sortBy:
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-sortby:
 
       .. rst-class:: ansible-option-title
 
@@ -828,7 +833,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sourceIP"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-sourceIP:
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-sourceip:
 
       .. rst-class:: ansible-option-title
 
@@ -862,7 +867,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sourcePort"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-sourcePort:
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-sourceport:
 
       .. rst-class:: ansible-option-title
 
@@ -930,7 +935,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-taskId"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-taskId:
+      .. _ansible_collections.cisco.dnac.path_trace_info_module__parameter-taskid:
 
       .. rst-class:: ansible-option-title
 
@@ -1018,6 +1023,15 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Path Trace RetrievesPreviousPathtrace <https://developer.cisco.com/docs/dna-center/#!retrieves-previous-pathtrace>`_
+       Complete reference of the RetrievesPreviousPathtrace API.
+   `Cisco DNA Center documentation for Path Trace RetrivesAllPreviousPathtracesSummary <https://developer.cisco.com/docs/dna-center/#!retrives-all-previous-pathtraces-summary>`_
+       Complete reference of the RetrivesAllPreviousPathtracesSummary API.
 
 .. Examples
 
@@ -1036,8 +1050,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         periodicRefresh: True
         sourceIP: string
         destIP: string
@@ -1064,8 +1077,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         flowAnalysisId: string
       register: result
 

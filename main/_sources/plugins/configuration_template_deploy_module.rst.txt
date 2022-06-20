@@ -42,7 +42,7 @@ cisco.dnac.configuration_template_deploy module -- Resource module for Configura
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -366,7 +371,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -377,7 +382,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-forcePushTemplate"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-forcePushTemplate:
+      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-forcepushtemplate:
 
       .. rst-class:: ansible-option-title
 
@@ -418,7 +423,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-isComposite"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-isComposite:
+      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-iscomposite:
 
       .. rst-class:: ansible-option-title
 
@@ -459,7 +464,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-mainTemplateId"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-mainTemplateId:
+      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-maintemplateid:
 
       .. rst-class:: ansible-option-title
 
@@ -493,7 +498,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-memberTemplateDeploymentInfo"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-memberTemplateDeploymentInfo:
+      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-membertemplatedeploymentinfo:
 
       .. rst-class:: ansible-option-title
 
@@ -527,7 +532,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-targetInfo"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-targetInfo:
+      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-targetinfo:
 
       .. rst-class:: ansible-option-title
 
@@ -561,7 +566,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-targetInfo/hostName"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-targetInfo/hostName:
+      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-targetinfo/hostname:
 
       .. rst-class:: ansible-option-title
 
@@ -595,7 +600,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-targetInfo/id"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-targetInfo/id:
+      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-targetinfo/id:
 
       .. rst-class:: ansible-option-title
 
@@ -629,7 +634,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-targetInfo/params"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-targetInfo/params:
+      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-targetinfo/params:
 
       .. rst-class:: ansible-option-title
 
@@ -663,7 +668,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-targetInfo/resourceParams"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-targetInfo/resourceParams:
+      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-targetinfo/resourceparams:
 
       .. rst-class:: ansible-option-title
 
@@ -697,7 +702,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-targetInfo/type"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-targetInfo/type:
+      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-targetinfo/type:
 
       .. rst-class:: ansible-option-title
 
@@ -731,7 +736,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-targetInfo/versionedTemplateId"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-targetInfo/versionedTemplateId:
+      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-targetinfo/versionedtemplateid:
 
       .. rst-class:: ansible-option-title
 
@@ -766,7 +771,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-templateId"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-templateId:
+      .. _ansible_collections.cisco.dnac.configuration_template_deploy_module__parameter-templateid:
 
       .. rst-class:: ansible-option-title
 
@@ -854,6 +859,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Configuration Templates DeployTemplate <https://developer.cisco.com/docs/dna-center/#!deploy-template>`_
+       Complete reference of the DeployTemplate API.
 
 .. Examples
 

@@ -42,7 +42,7 @@ cisco.dnac.configuration_template_info module -- Information module for Configur
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -85,14 +85,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -368,7 +373,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -379,7 +384,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-filterConflictingTemplates"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-filterConflictingTemplates:
+      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-filterconflictingtemplates:
 
       .. rst-class:: ansible-option-title
 
@@ -454,7 +459,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-latestVersion"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-latestVersion:
+      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-latestversion:
 
       .. rst-class:: ansible-option-title
 
@@ -495,7 +500,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-productFamily"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-productFamily:
+      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-productfamily:
 
       .. rst-class:: ansible-option-title
 
@@ -529,7 +534,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-productSeries"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-productSeries:
+      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-productseries:
 
       .. rst-class:: ansible-option-title
 
@@ -563,7 +568,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-productType"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-productType:
+      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-producttype:
 
       .. rst-class:: ansible-option-title
 
@@ -597,7 +602,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-projectId"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-projectId:
+      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-projectid:
 
       .. rst-class:: ansible-option-title
 
@@ -631,7 +636,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-projectNames"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-projectNames:
+      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-projectnames:
 
       .. rst-class:: ansible-option-title
 
@@ -665,7 +670,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-softwareType"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-softwareType:
+      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-softwaretype:
 
       .. rst-class:: ansible-option-title
 
@@ -699,7 +704,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-softwareVersion"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-softwareVersion:
+      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-softwareversion:
 
       .. rst-class:: ansible-option-title
 
@@ -733,7 +738,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortOrder"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-sortOrder:
+      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-sortorder:
 
       .. rst-class:: ansible-option-title
 
@@ -801,7 +806,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-templateId"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-templateId:
+      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-templateid:
 
       .. rst-class:: ansible-option-title
 
@@ -835,7 +840,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-unCommitted"></div>
 
-      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-unCommitted:
+      .. _ansible_collections.cisco.dnac.configuration_template_info_module__parameter-uncommitted:
 
       .. rst-class:: ansible-option-title
 
@@ -930,6 +935,15 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Configuration Templates GetsDetailsOfAGivenTemplate <https://developer.cisco.com/docs/dna-center/#!gets-details-of-a-given-template>`_
+       Complete reference of the GetsDetailsOfAGivenTemplate API.
+   `Cisco DNA Center documentation for Configuration Templates GetsTheTemplatesAvailable <https://developer.cisco.com/docs/dna-center/#!gets-the-templates-available>`_
+       Complete reference of the GetsTheTemplatesAvailable API.
 
 .. Examples
 
@@ -948,8 +962,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         projectId: string
         softwareType: string
         softwareVersion: string
@@ -972,8 +985,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         latestVersion: True
         templateId: string
       register: result
@@ -1038,7 +1050,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"tags\\": [\\n    {\\n      \\"id\\": \\"string\\",\\n      \\"name\\": \\"string\\"\\n    }\\n  ],\\n  \\"author\\": \\"string\\",\\n  \\"composite\\": true,\\n  \\"containingTemplates\\": [\\n    {\\n      \\"tags\\": [\\n        {\\n          \\"id\\": \\"string\\",\\n          \\"name\\": \\"string\\"\\n        }\\n      ],\\n      \\"composite\\": true,\\n      \\"description\\": \\"string\\",\\n      \\"deviceTypes\\": [\\n        {\\n          \\"productFamily\\": \\"string\\",\\n          \\"productSeries\\": \\"string\\",\\n          \\"productType\\": \\"string\\"\\n        }\\n      ],\\n      \\"id\\": \\"string\\",\\n      \\"language\\": \\"string\\",\\n      \\"name\\": \\"string\\",\\n      \\"projectName\\": \\"string\\",\\n      \\"rollbackTemplateParams\\": [\\n        {\\n          \\"binding\\": \\"string\\",\\n          \\"customOrder\\": 0,\\n          \\"dataType\\": \\"string\\",\\n          \\"defaultValue\\": \\"string\\",\\n          \\"description\\": \\"string\\",\\n          \\"displayName\\": \\"string\\",\\n          \\"group\\": \\"string\\",\\n          \\"id\\": \\"string\\",\\n          \\"instructionText\\": \\"string\\",\\n          \\"key\\": \\"string\\",\\n          \\"notParam\\": true,\\n          \\"order\\": 0,\\n          \\"paramArray\\": true,\\n          \\"parameterName\\": \\"string\\",\\n          \\"provider\\": \\"string\\",\\n          \\"range\\": [\\n            {\\n              \\"id\\": \\"string\\",\\n              \\"maxValue\\": 0,\\n              \\"minValue\\": 0\\n            }\\n          ],\\n          \\"required\\": true,\\n          \\"selection\\": {\\n            \\"defaultSelectedValues\\": [\\n              \\"string\\"\\n            ],\\n            \\"id\\": \\"string\\",\\n            \\"selectionType\\": \\"string\\",\\n            \\"selectionValues\\": {}\\n          }\\n        }\\n      ],\\n      \\"templateContent\\": \\"string\\",\\n      \\"templateParams\\": [\\n        {\\n          \\"binding\\": \\"string\\",\\n          \\"customOrder\\": 0,\\n          \\"dataType\\": \\"string\\",\\n          \\"defaultValue\\": \\"string\\",\\n          \\"description\\": \\"string\\",\\n          \\"displayName\\": \\"string\\",\\n          \\"group\\": \\"string\\",\\n          \\"id\\": \\"string\\",\\n          \\"instructionText\\": \\"string\\",\\n          \\"key\\": \\"string\\",\\n          \\"notParam\\": true,\\n          \\"order\\": 0,\\n          \\"paramArray\\": true,\\n          \\"parameterName\\": \\"string\\",\\n          \\"provider\\": \\"string\\",\\n          \\"range\\": [\\n            {\\n              \\"id\\": \\"string\\",\\n              \\"maxValue\\": 0,\\n              \\"minValue\\": 0\\n            }\\n          ],\\n          \\"required\\": true,\\n          \\"selection\\": {\\n            \\"defaultSelectedValues\\": [\\n              \\"string\\"\\n            ],\\n            \\"id\\": \\"string\\",\\n            \\"selectionType\\": \\"string\\",\\n            \\"selectionValues\\": {}\\n          }\\n        }\\n      ],\\n      \\"version\\": \\"string\\"\\n    }\\n  ],\\n  \\"createTime\\": 0,\\n  \\"customParamsOrder\\": true,\\n  \\"description\\": \\"string\\",\\n  \\"deviceTypes\\": [\\n    {\\n      \\"productFamily\\": \\"string\\",\\n      \\"productSeries\\": \\"string\\",\\n      \\"productType\\": \\"string\\"\\n    }\\n  ],\\n  \\"documentDatabase\\": true,\\n  \\"failurePolicy\\": \\"string\\",\\n  \\"id\\": \\"string\\",\\n  \\"language\\": \\"string\\",\\n  \\"lastUpdateTime\\": 0,\\n  \\"latestVersionTime\\": 0,\\n  \\"name\\": \\"string\\",\\n  \\"parentTemplateId\\": \\"string\\",\\n  \\"projectAssociated\\": true,\\n  \\"projectId\\": \\"string\\",\\n  \\"projectName\\": \\"string\\",\\n  \\"rollbackTemplateContent\\": \\"string\\",\\n  \\"rollbackTemplateParams\\": [\\n    {\\n      \\"binding\\": \\"string\\",\\n      \\"customOrder\\": 0,\\n      \\"dataType\\": \\"string\\",\\n      \\"defaultValue\\": \\"string\\",\\n      \\"description\\": \\"string\\",\\n      \\"displayName\\": \\"string\\",\\n      \\"group\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"instructionText\\": \\"string\\",\\n      \\"key\\": \\"string\\",\\n      \\"notParam\\": true,\\n      \\"order\\": 0,\\n      \\"paramArray\\": true,\\n      \\"parameterName\\": \\"string\\",\\n      \\"provider\\": \\"string\\",\\n      \\"range\\": [\\n        {\\n          \\"id\\": \\"string\\",\\n          \\"maxValue\\": 0,\\n          \\"minValue\\": 0\\n        }\\n      ],\\n      \\"required\\": true,\\n      \\"selection\\": {\\n        \\"defaultSelectedValues\\": [\\n          \\"string\\"\\n        ],\\n        \\"id\\": \\"string\\",\\n        \\"selectionType\\": \\"string\\",\\n        \\"selectionValues\\": {}\\n      }\\n    }\\n  ],\\n  \\"softwareType\\": \\"string\\",\\n  \\"softwareVariant\\": \\"string\\",\\n  \\"softwareVersion\\": \\"string\\",\\n  \\"templateContent\\": \\"string\\",\\n  \\"templateParams\\": [\\n    {\\n      \\"binding\\": \\"string\\",\\n      \\"customOrder\\": 0,\\n      \\"dataType\\": \\"string\\",\\n      \\"defaultValue\\": \\"string\\",\\n      \\"description\\": \\"string\\",\\n      \\"displayName\\": \\"string\\",\\n      \\"group\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"instructionText\\": \\"string\\",\\n      \\"key\\": \\"string\\",\\n      \\"notParam\\": true,\\n      \\"order\\": 0,\\n      \\"paramArray\\": true,\\n      \\"parameterName\\": \\"string\\",\\n      \\"provider\\": \\"string\\",\\n      \\"range\\": [\\n        {\\n          \\"id\\": \\"string\\",\\n          \\"maxValue\\": 0,\\n          \\"minValue\\": 0\\n        }\\n      ],\\n      \\"required\\": true,\\n      \\"selection\\": {\\n        \\"defaultSelectedValues\\": [\\n          \\"string\\"\\n        ],\\n        \\"id\\": \\"string\\",\\n        \\"selectionType\\": \\"string\\",\\n        \\"selectionValues\\": {}\\n      }\\n    }\\n  ],\\n  \\"validationErrors\\": {\\n    \\"rollbackTemplateErrors\\": [\\n      {}\\n    ],\\n    \\"templateErrors\\": [\\n      {}\\n    ],\\n    \\"templateId\\": \\"string\\",\\n    \\"templateVersion\\": \\"string\\"\\n  },\\n  \\"version\\": \\"string\\"\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` "{\\n  \\"tags\\": [\\n    {\\n      \\"id\\": \\"string\\",\\n      \\"name\\": \\"string\\"\\n    }\\n  ],\\n  \\"author\\": \\"string\\",\\n  \\"composite\\": true,\\n  \\"containingTemplates\\": [\\n    {\\n      \\"tags\\": [\\n        {\\n          \\"id\\": \\"string\\",\\n          \\"name\\": \\"string\\"\\n        }\\n      ],\\n      \\"composite\\": true,\\n      \\"description\\": \\"string\\",\\n      \\"deviceTypes\\": [\\n        {\\n          \\"productFamily\\": \\"string\\",\\n          \\"productSeries\\": \\"string\\",\\n          \\"productType\\": \\"string\\"\\n        }\\n      ],\\n      \\"id\\": \\"string\\",\\n      \\"language\\": \\"string\\",\\n      \\"name\\": \\"string\\",\\n      \\"projectName\\": \\"string\\",\\n      \\"rollbackTemplateParams\\": [\\n        {\\n          \\"binding\\": \\"string\\",\\n          \\"customOrder\\": 0,\\n          \\"dataType\\": \\"string\\",\\n          \\"defaultValue\\": \\"string\\",\\n          \\"description\\": \\"string\\",\\n          \\"displayName\\": \\"string\\",\\n          \\"group\\": \\"string\\",\\n          \\"id\\": \\"string\\",\\n          \\"instructionText\\": \\"string\\",\\n          \\"key\\": \\"string\\",\\n          \\"notParam\\": true,\\n          \\"order\\": 0,\\n          \\"paramArray\\": true,\\n          \\"parameterName\\": \\"string\\",\\n          \\"provider\\": \\"string\\",\\n          \\"range\\": [\\n            {\\n              \\"id\\": \\"string\\",\\n              \\"maxValue\\": 0,\\n              \\"minValue\\": 0\\n            }\\n          ],\\n          \\"required\\": true,\\n          \\"selection\\": {\\n            \\"defaultSelectedValues\\": [\\n              \\"string\\"\\n            ],\\n            \\"id\\": \\"string\\",\\n            \\"selectionType\\": \\"string\\",\\n            \\"selectionValues\\": {}\\n          }\\n        }\\n      ],\\n      \\"templateContent\\": \\"string\\",\\n      \\"templateParams\\": [\\n        {\\n          \\"binding\\": \\"string\\",\\n          \\"customOrder\\": 0,\\n          \\"dataType\\": \\"string\\",\\n          \\"defaultValue\\": \\"string\\",\\n          \\"description\\": \\"string\\",\\n          \\"displayName\\": \\"string\\",\\n          \\"group\\": \\"string\\",\\n          \\"id\\": \\"string\\",\\n          \\"instructionText\\": \\"string\\",\\n          \\"key\\": \\"string\\",\\n          \\"notParam\\": true,\\n          \\"order\\": 0,\\n          \\"paramArray\\": true,\\n          \\"parameterName\\": \\"string\\",\\n          \\"provider\\": \\"string\\",\\n          \\"range\\": [\\n            {\\n              \\"id\\": \\"string\\",\\n              \\"maxValue\\": 0,\\n              \\"minValue\\": 0\\n            }\\n          ],\\n          \\"required\\": true,\\n          \\"selection\\": {\\n            \\"defaultSelectedValues\\": [\\n              \\"string\\"\\n            ],\\n            \\"id\\": \\"string\\",\\n            \\"selectionType\\": \\"string\\",\\n            \\"selectionValues\\": {}\\n          }\\n        }\\n      ],\\n      \\"version\\": \\"string\\"\\n    }\\n  ],\\n  \\"createTime\\": 0,\\n  \\"customParamsOrder\\": true,\\n  \\"description\\": \\"string\\",\\n  \\"deviceTypes\\": [\\n    {\\n      \\"productFamily\\": \\"string\\",\\n      \\"productSeries\\": \\"string\\",\\n      \\"productType\\": \\"string\\"\\n    }\\n  ],\\n  \\"failurePolicy\\": \\"string\\",\\n  \\"id\\": \\"string\\",\\n  \\"language\\": \\"string\\",\\n  \\"lastUpdateTime\\": 0,\\n  \\"latestVersionTime\\": 0,\\n  \\"name\\": \\"string\\",\\n  \\"parentTemplateId\\": \\"string\\",\\n  \\"projectId\\": \\"string\\",\\n  \\"projectName\\": \\"string\\",\\n  \\"rollbackTemplateContent\\": \\"string\\",\\n  \\"rollbackTemplateParams\\": [\\n    {\\n      \\"binding\\": \\"string\\",\\n      \\"customOrder\\": 0,\\n      \\"dataType\\": \\"string\\",\\n      \\"defaultValue\\": \\"string\\",\\n      \\"description\\": \\"string\\",\\n      \\"displayName\\": \\"string\\",\\n      \\"group\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"instructionText\\": \\"string\\",\\n      \\"key\\": \\"string\\",\\n      \\"notParam\\": true,\\n      \\"order\\": 0,\\n      \\"paramArray\\": true,\\n      \\"parameterName\\": \\"string\\",\\n      \\"provider\\": \\"string\\",\\n      \\"range\\": [\\n        {\\n          \\"id\\": \\"string\\",\\n          \\"maxValue\\": 0,\\n          \\"minValue\\": 0\\n        }\\n      ],\\n      \\"required\\": true,\\n      \\"selection\\": {\\n        \\"defaultSelectedValues\\": [\\n          \\"string\\"\\n        ],\\n        \\"id\\": \\"string\\",\\n        \\"selectionType\\": \\"string\\",\\n        \\"selectionValues\\": {}\\n      }\\n    }\\n  ],\\n  \\"softwareType\\": \\"string\\",\\n  \\"softwareVariant\\": \\"string\\",\\n  \\"softwareVersion\\": \\"string\\",\\n  \\"templateContent\\": \\"string\\",\\n  \\"templateParams\\": [\\n    {\\n      \\"binding\\": \\"string\\",\\n      \\"customOrder\\": 0,\\n      \\"dataType\\": \\"string\\",\\n      \\"defaultValue\\": \\"string\\",\\n      \\"description\\": \\"string\\",\\n      \\"displayName\\": \\"string\\",\\n      \\"group\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"instructionText\\": \\"string\\",\\n      \\"key\\": \\"string\\",\\n      \\"notParam\\": true,\\n      \\"order\\": 0,\\n      \\"paramArray\\": true,\\n      \\"parameterName\\": \\"string\\",\\n      \\"provider\\": \\"string\\",\\n      \\"range\\": [\\n        {\\n          \\"id\\": \\"string\\",\\n          \\"maxValue\\": 0,\\n          \\"minValue\\": 0\\n        }\\n      ],\\n      \\"required\\": true,\\n      \\"selection\\": {\\n        \\"defaultSelectedValues\\": [\\n          \\"string\\"\\n        ],\\n        \\"id\\": \\"string\\",\\n        \\"selectionType\\": \\"string\\",\\n        \\"selectionValues\\": {}\\n      }\\n    }\\n  ],\\n  \\"validationErrors\\": {\\n    \\"rollbackTemplateErrors\\": [\\n      {}\\n    ],\\n    \\"templateErrors\\": [\\n      {}\\n    ],\\n    \\"templateId\\": \\"string\\",\\n    \\"templateVersion\\": \\"string\\"\\n  },\\n  \\"version\\": \\"string\\"\\n}\\n"
 
 
       .. raw:: html

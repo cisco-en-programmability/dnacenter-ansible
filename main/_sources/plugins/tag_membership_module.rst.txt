@@ -42,7 +42,7 @@ cisco.dnac.tag_membership module -- Resource module for Tag Membership
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -71,6 +71,7 @@ Synopsis
 - Manage operation update of the resource Tag Membership.
 - Updates tag membership. As part of the request payload through this API, only the specified members are added / retained to the given input tags. Possible values of memberType attribute in the request payload can be queried by using the /tag/member/type API.
 
+
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
 
@@ -83,14 +84,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -366,7 +372,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -377,7 +383,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-memberToTags"></div>
 
-      .. _ansible_collections.cisco.dnac.tag_membership_module__parameter-memberToTags:
+      .. _ansible_collections.cisco.dnac.tag_membership_module__parameter-membertotags:
 
       .. rst-class:: ansible-option-title
 
@@ -405,13 +411,48 @@ Parameters
       .. raw:: html
 
         </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-memberToTags/key"></div>
+
+      .. _ansible_collections.cisco.dnac.tag_membership_module__parameter-membertotags/key:
+
+      .. rst-class:: ansible-option-title
+
+      **key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-memberToTags/key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Tag Membership's key.
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-memberType"></div>
 
-      .. _ansible_collections.cisco.dnac.tag_membership_module__parameter-memberType:
+      .. _ansible_collections.cisco.dnac.tag_membership_module__parameter-membertype:
 
       .. rst-class:: ansible-option-title
 
@@ -499,6 +540,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Tag UpdatesTagMembership <https://developer.cisco.com/docs/dna-center/#!updates-tag-membership>`_
+       Complete reference of the UpdatesTagMembership API.
 
 .. Examples
 
@@ -518,8 +566,8 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         memberToTags:
-          - 8bf887f3-7cc2-4bd2-9407-df0fe6b7f63a:
-            - 7bf887f3-7cc2-7bd2-9407-df0fe6b7f63a
+        - key:
+          - string
         memberType: string
 
 

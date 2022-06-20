@@ -42,7 +42,7 @@ cisco.dnac.pnp_virtual_account_deregister module -- Resource module for Pnp Virt
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -71,6 +71,7 @@ Synopsis
 - Manage operation delete of the resource Pnp Virtual Account Deregister.
 - Deregisters the specified smart account & virtual account info and the associated device information from the PnP System & database. The devices associated with the deregistered virtual account are removed from the PnP database as well. The response payload contains the deregistered smart & virtual account information.
 
+
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
 
@@ -83,14 +84,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -366,7 +372,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -499,6 +505,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Device Onboarding (PnP) DeregisterVirtualAccount <https://developer.cisco.com/docs/dna-center/#!deregister-virtual-account>`_
+       Complete reference of the DeregisterVirtualAccount API.
 
 .. Examples
 

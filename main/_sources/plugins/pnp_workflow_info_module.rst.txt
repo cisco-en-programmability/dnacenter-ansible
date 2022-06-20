@@ -42,7 +42,7 @@ cisco.dnac.pnp_workflow_info module -- Information module for Pnp Workflow
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -73,6 +73,7 @@ Synopsis
 - Returns a workflow specified by id.
 - Returns the list of workflows based on filter criteria. If a limit is not specified, it will default to return 50 workflows. Pagination and sorting are also supported by this endpoint.
 
+
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
 
@@ -85,14 +86,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -368,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -583,7 +589,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortOrder"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_info_module__parameter-sortOrder:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_info_module__parameter-sortorder:
 
       .. rst-class:: ansible-option-title
 
@@ -705,6 +711,15 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowById <https://developer.cisco.com/docs/dna-center/#!get-workflow-by-id>`_
+       Complete reference of the GetWorkflowById API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflows <https://developer.cisco.com/docs/dna-center/#!get-workflows>`_
+       Complete reference of the GetWorkflows API.
 
 .. Examples
 
@@ -723,8 +738,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         limit: 0
         offset: 0
         sort: []
@@ -742,8 +756,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         id: string
       register: result
 

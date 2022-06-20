@@ -42,7 +42,7 @@ cisco.dnac.compliance_device_details_info module -- Information module for Compl
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -107,7 +112,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-complianceStatus"></div>
 
-      .. _ansible_collections.cisco.dnac.compliance_device_details_info_module__parameter-complianceStatus:
+      .. _ansible_collections.cisco.dnac.compliance_device_details_info_module__parameter-compliancestatus:
 
       .. rst-class:: ansible-option-title
 
@@ -142,7 +147,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-complianceType"></div>
 
-      .. _ansible_collections.cisco.dnac.compliance_device_details_info_module__parameter-complianceType:
+      .. _ansible_collections.cisco.dnac.compliance_device_details_info_module__parameter-compliancetype:
 
       .. rst-class:: ansible-option-title
 
@@ -177,7 +182,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceUuid"></div>
 
-      .. _ansible_collections.cisco.dnac.compliance_device_details_info_module__parameter-deviceUuid:
+      .. _ansible_collections.cisco.dnac.compliance_device_details_info_module__parameter-deviceuuid:
 
       .. rst-class:: ansible-option-title
 
@@ -470,7 +475,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -637,6 +642,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Compliance GetComplianceDetail <https://developer.cisco.com/docs/dna-center/#!get-compliance-detail>`_
+       Complete reference of the GetComplianceDetail API.
 
 .. Examples
 
@@ -655,8 +667,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         complianceType: string
         complianceStatus: string
         deviceUuid: string
@@ -724,7 +735,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"version\\": \\"string\\",\\n  \\"response\\": [\\n    {\\n      \\"complianceType\\": \\"string\\",\\n      \\"lastSyncTime\\": 0,\\n      \\"deviceUuid\\": \\"string\\",\\n      \\"displayName\\": \\"string\\",\\n      \\"status\\": \\"string\\",\\n      \\"category\\": \\"string\\",\\n      \\"lastUpdateTime\\": 0,\\n      \\"state\\": \\"string\\"\\n    }\\n  ]\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` "{\\n  \\"version\\": \\"string\\",\\n  \\"response\\": [\\n    {\\n      \\"complianceType\\": \\"string\\",\\n      \\"lastSyncTime\\": \\"string\\",\\n      \\"deviceUuid\\": \\"string\\",\\n      \\"displayName\\": \\"string\\",\\n      \\"status\\": \\"string\\",\\n      \\"category\\": \\"string\\",\\n      \\"lastUpdateTime\\": 0,\\n      \\"state\\": \\"string\\"\\n    }\\n  ]\\n}\\n"
 
 
       .. raw:: html

@@ -42,7 +42,7 @@ cisco.dnac.event_series_audit_logs_parent_records_info module -- Information mod
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -211,7 +216,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceId"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-deviceId:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-deviceid:
 
       .. rst-class:: ansible-option-title
 
@@ -504,7 +509,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -549,7 +554,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-endTime:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-endtime:
 
       .. rst-class:: ansible-option-title
 
@@ -584,7 +589,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-eventHierarchy"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-eventHierarchy:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-eventhierarchy:
 
       .. rst-class:: ansible-option-title
 
@@ -619,7 +624,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-eventId"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-eventId:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-eventid:
 
       .. rst-class:: ansible-option-title
 
@@ -687,7 +692,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-instanceId"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-instanceId:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-instanceid:
 
       .. rst-class:: ansible-option-title
 
@@ -721,7 +726,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-isSystemEvents"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-isSystemEvents:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-issystemevents:
 
       .. rst-class:: ansible-option-title
 
@@ -933,7 +938,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-siteId"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-siteId:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-siteid:
 
       .. rst-class:: ansible-option-title
 
@@ -967,7 +972,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortBy"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-sortBy:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-sortby:
 
       .. rst-class:: ansible-option-title
 
@@ -1036,7 +1041,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-startTime:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-starttime:
 
       .. rst-class:: ansible-option-title
 
@@ -1071,7 +1076,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-subDomain"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-subDomain:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-subdomain:
 
       .. rst-class:: ansible-option-title
 
@@ -1105,7 +1110,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-userId"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-userId:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_parent_records_info_module__parameter-userid:
 
       .. rst-class:: ansible-option-title
 
@@ -1193,6 +1198,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Event Management GetAuditLogParentRecords <https://developer.cisco.com/docs/dna-center/#!get-audit-log-parent-records>`_
+       Complete reference of the GetAuditLogParentRecords API.
 
 .. Examples
 
@@ -1211,8 +1223,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         instanceId: string
         name: string
         eventId: string
@@ -1296,7 +1307,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "[\\n  {\\n    \\"version\\": \\"string\\",\\n    \\"instanceId\\": \\"string\\",\\n    \\"eventId\\": \\"string\\",\\n    \\"namespace\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"description\\": \\"string\\",\\n    \\"type\\": \\"string\\",\\n    \\"category\\": \\"string\\",\\n    \\"domain\\": \\"string\\",\\n    \\"subDomain\\": \\"string\\",\\n    \\"severity\\": 0,\\n    \\"source\\": \\"string\\",\\n    \\"timestamp\\": 0,\\n    \\"tags\\": [\\n      {}\\n    ],\\n    \\"details\\": {},\\n    \\"ciscoDnaEventLink\\": \\"string\\",\\n    \\"note\\": \\"string\\",\\n    \\"tntId\\": \\"string\\",\\n    \\"context\\": \\"string\\",\\n    \\"userId\\": \\"string\\",\\n    \\"i18n\\": \\"string\\",\\n    \\"eventHierarchy\\": \\"string\\",\\n    \\"message\\": \\"string\\",\\n    \\"messageParams\\": \\"string\\",\\n    \\"additionalDetails\\": {},\\n    \\"parentInstanceId\\": \\"string\\",\\n    \\"network\\": \\"string\\",\\n    \\"childCount\\": 0,\\n    \\"tenantId\\": \\"string\\"\\n  }\\n]\\n"
+      :ansible-option-sample-bold:`Sample:` "[\\n  {\\n    \\"version\\": \\"string\\",\\n    \\"instanceId\\": \\"string\\",\\n    \\"eventId\\": \\"string\\",\\n    \\"namespace\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"description\\": \\"string\\",\\n    \\"type\\": \\"string\\",\\n    \\"category\\": \\"string\\",\\n    \\"domain\\": \\"string\\",\\n    \\"subDomain\\": \\"string\\",\\n    \\"severity\\": 0,\\n    \\"source\\": \\"string\\",\\n    \\"timestamp\\": 0,\\n    \\"tags\\": [\\n      {}\\n    ],\\n    \\"details\\": {},\\n    \\"ciscoDnaEventLink\\": {},\\n    \\"note\\": {},\\n    \\"tntId\\": \\"string\\",\\n    \\"context\\": \\"string\\",\\n    \\"userId\\": \\"string\\",\\n    \\"i18n\\": \\"string\\",\\n    \\"eventHierarchy\\": {},\\n    \\"message\\": \\"string\\",\\n    \\"messageParams\\": {},\\n    \\"additionalDetails\\": {},\\n    \\"parentInstanceId\\": {},\\n    \\"network\\": {},\\n    \\"childCount\\": 0,\\n    \\"tenantId\\": \\"string\\"\\n  }\\n]\\n"
 
 
       .. raw:: html

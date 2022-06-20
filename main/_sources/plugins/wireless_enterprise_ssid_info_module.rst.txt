@@ -42,7 +42,7 @@ cisco.dnac.wireless_enterprise_ssid_info module -- Information module for Wirele
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -366,7 +371,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -411,7 +416,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ssidName"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_info_module__parameter-ssidName:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_info_module__parameter-ssidname:
 
       .. rst-class:: ansible-option-title
 
@@ -500,6 +505,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Wireless GetEnterpriseSSID <https://developer.cisco.com/docs/dna-center/#!get-enterprise-ssid>`_
+       Complete reference of the GetEnterpriseSSID API.
 
 .. Examples
 
@@ -518,8 +530,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         ssidName: string
       register: result
 
@@ -583,7 +594,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "[\\n  {\\n    \\"instanceUuid\\": \\"string\\",\\n    \\"version\\": 0,\\n    \\"ssidDetails\\": [\\n      {\\n        \\"name\\": \\"string\\",\\n        \\"wlanType\\": \\"string\\",\\n        \\"enableFastLane\\": true,\\n        \\"securityLevel\\": \\"string\\",\\n        \\"authServer\\": \\"string\\",\\n        \\"passphrase\\": \\"string\\",\\n        \\"trafficType\\": \\"string\\",\\n        \\"enableMACFiltering\\": true,\\n        \\"isEnabled\\": true,\\n        \\"isFabric\\": true,\\n        \\"fastTransition\\": \\"string\\",\\n        \\"radioPolicy\\": \\"string\\",\\n        \\"enableBroadcastSSID\\": true\\n      }\\n    ],\\n    \\"groupUuid\\": \\"string\\",\\n    \\"inheritedGroupUuid\\": \\"string\\",\\n    \\"inheritedGroupName\\": \\"string\\"\\n  }\\n]\\n"
+      :ansible-option-sample-bold:`Sample:` "[\\n  {\\n    \\"instanceUuid\\": \\"string\\",\\n    \\"version\\": 0,\\n    \\"ssidDetails\\": [\\n      {\\n        \\"name\\": \\"string\\",\\n        \\"wlanType\\": \\"string\\",\\n        \\"enableFastLane\\": true,\\n        \\"securityLevel\\": \\"string\\",\\n        \\"authServer\\": \\"string\\",\\n        \\"passphrase\\": \\"string\\",\\n        \\"trafficType\\": \\"string\\",\\n        \\"enableMACFiltering\\": true,\\n        \\"isEnabled\\": true,\\n        \\"isFabric\\": true,\\n        \\"fastTransition\\": \\"string\\",\\n        \\"radioPolicy\\": \\"string\\",\\n        \\"enableBroadcastSSID\\": true,\\n        \\"nasOptions\\": [\\n          \\"string\\"\\n        ]\\n      }\\n    ],\\n    \\"groupUuid\\": \\"string\\",\\n    \\"inheritedGroupUuid\\": \\"string\\",\\n    \\"inheritedGroupName\\": \\"string\\"\\n  }\\n]\\n"
 
 
       .. raw:: html

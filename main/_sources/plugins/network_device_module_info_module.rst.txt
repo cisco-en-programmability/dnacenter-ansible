@@ -42,7 +42,7 @@ cisco.dnac.network_device_module_info module -- Information module for Network D
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -70,7 +70,7 @@ Synopsis
 
 - Get all Network Device Module.
 - Get Network Device Module by id.
-- Returns Module info by id.
+- Returns Module info by 'module id'.
 - Returns modules by specified device id.
 
 .. note::
@@ -85,14 +85,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -109,7 +114,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceId"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module_info_module__parameter-deviceId:
+      .. _ansible_collections.cisco.dnac.network_device_module_info_module__parameter-deviceid:
 
       .. rst-class:: ansible-option-title
 
@@ -402,7 +407,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -469,7 +474,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter.
+      Id path parameter. Module id.
 
 
       .. raw:: html
@@ -515,7 +520,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-nameList"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module_info_module__parameter-nameList:
+      .. _ansible_collections.cisco.dnac.network_device_module_info_module__parameter-namelist:
 
       .. rst-class:: ansible-option-title
 
@@ -583,7 +588,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-operationalStateCodeList"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module_info_module__parameter-operationalStateCodeList:
+      .. _ansible_collections.cisco.dnac.network_device_module_info_module__parameter-operationalstatecodelist:
 
       .. rst-class:: ansible-option-title
 
@@ -617,7 +622,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-partNumberList"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module_info_module__parameter-partNumberList:
+      .. _ansible_collections.cisco.dnac.network_device_module_info_module__parameter-partnumberlist:
 
       .. rst-class:: ansible-option-title
 
@@ -692,7 +697,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-vendorEquipmentTypeList"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module_info_module__parameter-vendorEquipmentTypeList:
+      .. _ansible_collections.cisco.dnac.network_device_module_info_module__parameter-vendorequipmenttypelist:
 
       .. rst-class:: ansible-option-title
 
@@ -739,6 +744,15 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Devices GetModuleInfoById <https://developer.cisco.com/docs/dna-center/#!get-module-info-by-id>`_
+       Complete reference of the GetModuleInfoById API.
+   `Cisco DNA Center documentation for Devices GetModules <https://developer.cisco.com/docs/dna-center/#!get-modules>`_
+       Complete reference of the GetModules API.
 
 .. Examples
 
@@ -757,8 +771,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         deviceId: string
         limit: string
         offset: string
@@ -777,8 +790,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         id: string
       register: result
 

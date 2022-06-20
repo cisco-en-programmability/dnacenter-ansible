@@ -42,7 +42,7 @@ cisco.dnac.sda_port_assignment_for_user_device module -- Resource module for Sda
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -84,14 +84,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -108,7 +113,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-authenticateTemplateName"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_port_assignment_for_user_device_module__parameter-authenticateTemplateName:
+      .. _ansible_collections.cisco.dnac.sda_port_assignment_for_user_device_module__parameter-authenticatetemplatename:
 
       .. rst-class:: ansible-option-title
 
@@ -133,7 +138,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Authenticate TemplateName associated to siteNameHierarchy. Allowed values are 'Open Authentication', 'Closed Authentication', 'Low Impact', 'No Authentication', ''.
+      Authenticate TemplateName associated with siteNameHierarchy.
 
 
       .. raw:: html
@@ -145,7 +150,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dataIpAddressPoolName"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_port_assignment_for_user_device_module__parameter-dataIpAddressPoolName:
+      .. _ansible_collections.cisco.dnac.sda_port_assignment_for_user_device_module__parameter-dataipaddresspoolname:
 
       .. rst-class:: ansible-option-title
 
@@ -182,7 +187,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceManagementIpAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_port_assignment_for_user_device_module__parameter-deviceManagementIpAddress:
+      .. _ansible_collections.cisco.dnac.sda_port_assignment_for_user_device_module__parameter-devicemanagementipaddress:
 
       .. rst-class:: ansible-option-title
 
@@ -475,7 +480,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -486,7 +491,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-interfaceDescription"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_port_assignment_for_user_device_module__parameter-interfaceDescription:
+      .. _ansible_collections.cisco.dnac.sda_port_assignment_for_user_device_module__parameter-interfacedescription:
 
       .. rst-class:: ansible-option-title
 
@@ -511,7 +516,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Details or note of interface assignment.
+      User defined text message for this port.
 
 
       .. raw:: html
@@ -523,7 +528,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-interfaceName"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_port_assignment_for_user_device_module__parameter-interfaceName:
+      .. _ansible_collections.cisco.dnac.sda_port_assignment_for_user_device_module__parameter-interfacename:
 
       .. rst-class:: ansible-option-title
 
@@ -557,7 +562,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-scalableGroupName"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_port_assignment_for_user_device_module__parameter-scalableGroupName:
+      .. _ansible_collections.cisco.dnac.sda_port_assignment_for_user_device_module__parameter-scalablegroupname:
 
       .. rst-class:: ansible-option-title
 
@@ -582,7 +587,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Valid name of a scalable group associated with virtual network(Scalable groups are only supported on No Auth profile because the other profiles assign SGTs from ISE).
+      Scalable Group name associated with VN.
 
 
       .. raw:: html
@@ -594,7 +599,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-siteNameHierarchy"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_port_assignment_for_user_device_module__parameter-siteNameHierarchy:
+      .. _ansible_collections.cisco.dnac.sda_port_assignment_for_user_device_module__parameter-sitenamehierarchy:
 
       .. rst-class:: ansible-option-title
 
@@ -619,7 +624,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Site Name Hierarchy should be a valid fabric site name hierarchy. E.g Global/USA/San Jose.
+      Complete Path of SD-Access Fabric Site.
 
 
       .. raw:: html
@@ -672,7 +677,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-voiceIpAddressPoolName"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_port_assignment_for_user_device_module__parameter-voiceIpAddressPoolName:
+      .. _ansible_collections.cisco.dnac.sda_port_assignment_for_user_device_module__parameter-voiceipaddresspoolname:
 
       .. rst-class:: ansible-option-title
 
@@ -697,7 +702,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Ip Pool Name, that is assigned to virtual network with traffic type as VOICE(can't be empty if dataIpAddressPoolName is emty).
+      Ip Pool Name, that is assigned to virtual network with traffic type as VOICE(can't be empty if dataIpAddressPoolName is empty).
 
 
       .. raw:: html
@@ -722,6 +727,15 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for SDA AddPortAssignmentForUserDeviceInSDAFabric <https://developer.cisco.com/docs/dna-center/#!add-port-assignment-for-user-device-in-sda-fabric>`_
+       Complete reference of the AddPortAssignmentForUserDeviceInSDAFabric API.
+   `Cisco DNA Center documentation for SDA DeletePortAssignmentForUserDeviceInSDAFabric <https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-for-user-device-in-sda-fabric>`_
+       Complete reference of the DeletePortAssignmentForUserDeviceInSDAFabric API.
 
 .. Examples
 

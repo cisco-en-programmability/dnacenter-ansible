@@ -42,7 +42,7 @@ cisco.dnac.network_device_count_info module -- Information module for Network De
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -71,6 +71,7 @@ Synopsis
 - Get all Network Device Count.
 - Get Network Device Count by id.
 - Returns the count of network devices based on the filter criteria by management IP address, mac address, hostname and location name.
+
 - Returns the interface count for the given device.
 
 .. note::
@@ -85,14 +86,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -109,7 +115,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceId"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_count_info_module__parameter-deviceId:
+      .. _ansible_collections.cisco.dnac.network_device_count_info_module__parameter-deviceid:
 
       .. rst-class:: ansible-option-title
 
@@ -402,7 +408,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -501,6 +507,15 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Devices GetDeviceCount2 <https://developer.cisco.com/docs/dna-center/#!get-device-count>`_
+       Complete reference of the GetDeviceCount2 API.
+   `Cisco DNA Center documentation for Devices GetDeviceInterfaceCount2 <https://developer.cisco.com/docs/dna-center/#!get-device-interface-count-2>`_
+       Complete reference of the GetDeviceInterfaceCount2 API.
 
 .. Examples
 
@@ -519,8 +534,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
       register: result
 
     - name: Get Network Device Count by id
@@ -532,8 +546,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         deviceId: string
       register: result
 

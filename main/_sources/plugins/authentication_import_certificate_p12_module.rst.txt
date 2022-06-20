@@ -42,7 +42,7 @@ cisco.dnac.authentication_import_certificate_p12 module -- Resource module for A
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -366,7 +371,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -377,7 +382,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-listOfUsers"></div>
 
-      .. _ansible_collections.cisco.dnac.authentication_import_certificate_p12_module__parameter-listOfUsers:
+      .. _ansible_collections.cisco.dnac.authentication_import_certificate_p12_module__parameter-listofusers:
 
       .. rst-class:: ansible-option-title
 
@@ -411,7 +416,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-p12FilePath"></div>
 
-      .. _ansible_collections.cisco.dnac.authentication_import_certificate_p12_module__parameter-p12FilePath:
+      .. _ansible_collections.cisco.dnac.authentication_import_certificate_p12_module__parameter-p12filepath:
 
       .. rst-class:: ansible-option-title
 
@@ -445,7 +450,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-p12Password"></div>
 
-      .. _ansible_collections.cisco.dnac.authentication_import_certificate_p12_module__parameter-p12Password:
+      .. _ansible_collections.cisco.dnac.authentication_import_certificate_p12_module__parameter-p12password:
 
       .. rst-class:: ansible-option-title
 
@@ -479,7 +484,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-pkPassword"></div>
 
-      .. _ansible_collections.cisco.dnac.authentication_import_certificate_p12_module__parameter-pkPassword:
+      .. _ansible_collections.cisco.dnac.authentication_import_certificate_p12_module__parameter-pkpassword:
 
       .. rst-class:: ansible-option-title
 
@@ -567,6 +572,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Authentication Management ImportCertificateP12 <https://developer.cisco.com/docs/dna-center/#!import-certificate-p-12>`_
+       Complete reference of the ImportCertificateP12 API.
 
 .. Examples
 
