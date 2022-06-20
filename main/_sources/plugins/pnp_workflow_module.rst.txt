@@ -42,7 +42,7 @@ cisco.dnac.pnp_workflow module -- Resource module for Pnp Workflow
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -71,7 +71,6 @@ Synopsis
 - Manage operations create, update and delete of the resource Pnp Workflow.
 - Adds a PnP Workflow along with the relevant tasks in the workflow into the PnP database.
 - Deletes a workflow specified by id.
-- Updates an existing workflow.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,19 +84,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -148,7 +142,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-addedOn"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-addedon:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-addedOn:
 
       .. rst-class:: ansible-option-title
 
@@ -182,7 +176,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-addToInventory"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-addtoinventory:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-addToInventory:
 
       .. rst-class:: ansible-option-title
 
@@ -223,7 +217,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-configId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-configid:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-configId:
 
       .. rst-class:: ansible-option-title
 
@@ -257,7 +251,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-currTaskIdx"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-currtaskidx:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-currTaskIdx:
 
       .. rst-class:: ansible-option-title
 
@@ -584,7 +578,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -595,7 +589,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-endtime:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-endTime:
 
       .. rst-class:: ansible-option-title
 
@@ -629,7 +623,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-execTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-exectime:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-execTime:
 
       .. rst-class:: ansible-option-title
 
@@ -697,7 +691,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-imageId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-imageid:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-imageId:
 
       .. rst-class:: ansible-option-title
 
@@ -731,7 +725,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-instanceType"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-instancetype:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-instanceType:
 
       .. rst-class:: ansible-option-title
 
@@ -765,7 +759,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-lastupdateOn"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-lastupdateon:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-lastupdateOn:
 
       .. rst-class:: ansible-option-title
 
@@ -833,7 +827,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-starttime:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-startTime:
 
       .. rst-class:: ansible-option-title
 
@@ -935,7 +929,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-tasks/currWorkItemIdx"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/currworkitemidx:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/currWorkItemIdx:
 
       .. rst-class:: ansible-option-title
 
@@ -969,7 +963,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-tasks/endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/endtime:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/endTime:
 
       .. rst-class:: ansible-option-title
 
@@ -1037,7 +1031,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-tasks/startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/starttime:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/startTime:
 
       .. rst-class:: ansible-option-title
 
@@ -1105,7 +1099,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-tasks/taskSeqNo"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/taskseqno:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/taskSeqNo:
 
       .. rst-class:: ansible-option-title
 
@@ -1139,7 +1133,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-tasks/timeTaken"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/timetaken:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/timeTaken:
 
       .. rst-class:: ansible-option-title
 
@@ -1207,7 +1201,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workitemlist:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workItemList:
 
       .. rst-class:: ansible-option-title
 
@@ -1241,7 +1235,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/command"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workitemlist/command:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workItemList/command:
 
       .. rst-class:: ansible-option-title
 
@@ -1275,7 +1269,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workitemlist/endtime:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workItemList/endTime:
 
       .. rst-class:: ansible-option-title
 
@@ -1309,7 +1303,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/outputStr"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workitemlist/outputstr:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workItemList/outputStr:
 
       .. rst-class:: ansible-option-title
 
@@ -1343,7 +1337,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workitemlist/starttime:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workItemList/startTime:
 
       .. rst-class:: ansible-option-title
 
@@ -1377,7 +1371,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/state"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workitemlist/state:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workItemList/state:
 
       .. rst-class:: ansible-option-title
 
@@ -1411,7 +1405,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-tasks/workItemList/timeTaken"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workitemlist/timetaken:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tasks/workItemList/timeTaken:
 
       .. rst-class:: ansible-option-title
 
@@ -1447,7 +1441,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-tenantId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tenantid:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-tenantId:
 
       .. rst-class:: ansible-option-title
 
@@ -1515,7 +1509,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-useState"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-usestate:
+      .. _ansible_collections.cisco.dnac.pnp_workflow_module__parameter-useState:
 
       .. rst-class:: ansible-option-title
 
@@ -1630,24 +1624,13 @@ Notes
 
 .. note::
    - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.add_a_workflow, device_onboarding_pnp.DeviceOnboardingPnp.delete_workflow_by_id, device_onboarding_pnp.DeviceOnboardingPnp.update_workflow,
-   - Paths used are post /dna/intent/api/v1/onboarding/pnp-workflow, delete /dna/intent/api/v1/onboarding/pnp-workflow/{id}, put /dna/intent/api/v1/onboarding/pnp-workflow/{id},
+   - Paths used are post /dna/intent/api/v1/onboarding/pnp-workflow, delete /dna/intent/api/v1/onboarding/pnp-workflow/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Device Onboarding (PnP) AddAWorkflow <https://developer.cisco.com/docs/dna-center/#!add-a-workflow>`_
-       Complete reference of the AddAWorkflow API.
-   `Cisco DNA Center documentation for Device Onboarding (PnP) DeleteWorkflowById <https://developer.cisco.com/docs/dna-center/#!delete-workflow-by-id>`_
-       Complete reference of the DeleteWorkflowById API.
-   `Cisco DNA Center documentation for Device Onboarding (PnP) UpdateWorkflow <https://developer.cisco.com/docs/dna-center/#!update-workflow>`_
-       Complete reference of the UpdateWorkflow API.
 
 .. Examples
 

@@ -42,7 +42,7 @@ cisco.dnac.task_info module -- Information module for Task
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -71,7 +71,7 @@ Synopsis
 - Get all Task.
 - Get Task by id.
 - Returns a task by specified id.
-- Returns tasks based on filter criteria.
+- Returns task(s) based on filter criteria.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,19 +85,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -407,7 +402,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -418,7 +413,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.task_info_module__parameter-endtime:
+      .. _ansible_collections.cisco.dnac.task_info_module__parameter-endTime:
 
       .. rst-class:: ansible-option-title
 
@@ -452,7 +447,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-errorCode"></div>
 
-      .. _ansible_collections.cisco.dnac.task_info_module__parameter-errorcode:
+      .. _ansible_collections.cisco.dnac.task_info_module__parameter-errorCode:
 
       .. rst-class:: ansible-option-title
 
@@ -486,7 +481,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-failureReason"></div>
 
-      .. _ansible_collections.cisco.dnac.task_info_module__parameter-failurereason:
+      .. _ansible_collections.cisco.dnac.task_info_module__parameter-failureReason:
 
       .. rst-class:: ansible-option-title
 
@@ -554,7 +549,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-isError"></div>
 
-      .. _ansible_collections.cisco.dnac.task_info_module__parameter-iserror:
+      .. _ansible_collections.cisco.dnac.task_info_module__parameter-isError:
 
       .. rst-class:: ansible-option-title
 
@@ -690,7 +685,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-parentId"></div>
 
-      .. _ansible_collections.cisco.dnac.task_info_module__parameter-parentid:
+      .. _ansible_collections.cisco.dnac.task_info_module__parameter-parentId:
 
       .. rst-class:: ansible-option-title
 
@@ -758,7 +753,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-serviceType"></div>
 
-      .. _ansible_collections.cisco.dnac.task_info_module__parameter-servicetype:
+      .. _ansible_collections.cisco.dnac.task_info_module__parameter-serviceType:
 
       .. rst-class:: ansible-option-title
 
@@ -792,7 +787,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortBy"></div>
 
-      .. _ansible_collections.cisco.dnac.task_info_module__parameter-sortby:
+      .. _ansible_collections.cisco.dnac.task_info_module__parameter-sortBy:
 
       .. rst-class:: ansible-option-title
 
@@ -826,7 +821,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.task_info_module__parameter-starttime:
+      .. _ansible_collections.cisco.dnac.task_info_module__parameter-startTime:
 
       .. rst-class:: ansible-option-title
 
@@ -860,7 +855,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-taskId"></div>
 
-      .. _ansible_collections.cisco.dnac.task_info_module__parameter-taskid:
+      .. _ansible_collections.cisco.dnac.task_info_module__parameter-taskId:
 
       .. rst-class:: ansible-option-title
 
@@ -982,15 +977,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Task GetTaskById <https://developer.cisco.com/docs/dna-center/#!get-task-by-id>`_
-       Complete reference of the GetTaskById API.
-   `Cisco DNA Center documentation for Task GetTasks <https://developer.cisco.com/docs/dna-center/#!get-tasks>`_
-       Complete reference of the GetTasks API.
 
 .. Examples
 
@@ -1009,7 +995,8 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
+        headers:
+          custom: value
         startTime: string
         endTime: string
         data: string
@@ -1035,7 +1022,8 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
+        headers:
+          custom: value
         taskId: string
       register: result
 

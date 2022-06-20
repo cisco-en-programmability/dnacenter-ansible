@@ -42,7 +42,7 @@ cisco.dnac.app_policy_queuing_profile module -- Resource module for App Policy Q
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -85,19 +85,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -373,7 +368,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -486,7 +481,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/clause/instanceId"></div>
 
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/instanceid:
+      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/instanceId:
 
       .. rst-class:: ansible-option-title
 
@@ -520,7 +515,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/clause/interfaceSpeedBandwidthClauses"></div>
 
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/interfacespeedbandwidthclauses:
+      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/interfaceSpeedBandwidthClauses:
 
       .. rst-class:: ansible-option-title
 
@@ -554,7 +549,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/clause/interfaceSpeedBandwidthClauses/instanceId"></div>
 
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/interfacespeedbandwidthclauses/instanceid:
+      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/interfaceSpeedBandwidthClauses/instanceId:
 
       .. rst-class:: ansible-option-title
 
@@ -588,7 +583,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/clause/interfaceSpeedBandwidthClauses/interfaceSpeed"></div>
 
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/interfacespeedbandwidthclauses/interfacespeed:
+      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/interfaceSpeedBandwidthClauses/interfaceSpeed:
 
       .. rst-class:: ansible-option-title
 
@@ -622,7 +617,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/clause/interfaceSpeedBandwidthClauses/tcBandwidthSettings"></div>
 
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/interfacespeedbandwidthclauses/tcbandwidthsettings:
+      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/interfaceSpeedBandwidthClauses/tcBandwidthSettings:
 
       .. rst-class:: ansible-option-title
 
@@ -656,7 +651,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/clause/interfaceSpeedBandwidthClauses/tcBandwidthSettings/bandwidthPercentage"></div>
 
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/interfacespeedbandwidthclauses/tcbandwidthsettings/bandwidthpercentage:
+      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/interfaceSpeedBandwidthClauses/tcBandwidthSettings/bandwidthPercentage:
 
       .. rst-class:: ansible-option-title
 
@@ -690,7 +685,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/clause/interfaceSpeedBandwidthClauses/tcBandwidthSettings/instanceId"></div>
 
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/interfacespeedbandwidthclauses/tcbandwidthsettings/instanceid:
+      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/interfaceSpeedBandwidthClauses/tcBandwidthSettings/instanceId:
 
       .. rst-class:: ansible-option-title
 
@@ -724,7 +719,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/clause/interfaceSpeedBandwidthClauses/tcBandwidthSettings/trafficClass"></div>
 
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/interfacespeedbandwidthclauses/tcbandwidthsettings/trafficclass:
+      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/interfaceSpeedBandwidthClauses/tcBandwidthSettings/trafficClass:
 
       .. rst-class:: ansible-option-title
 
@@ -760,7 +755,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/clause/isCommonBetweenAllInterfaceSpeeds"></div>
 
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/iscommonbetweenallinterfacespeeds:
+      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/isCommonBetweenAllInterfaceSpeeds:
 
       .. rst-class:: ansible-option-title
 
@@ -801,7 +796,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/clause/tcDscpSettings"></div>
 
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/tcdscpsettings:
+      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/tcDscpSettings:
 
       .. rst-class:: ansible-option-title
 
@@ -835,7 +830,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/clause/tcDscpSettings/dscp"></div>
 
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/tcdscpsettings/dscp:
+      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/tcDscpSettings/dscp:
 
       .. rst-class:: ansible-option-title
 
@@ -869,7 +864,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/clause/tcDscpSettings/instanceId"></div>
 
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/tcdscpsettings/instanceid:
+      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/tcDscpSettings/instanceId:
 
       .. rst-class:: ansible-option-title
 
@@ -903,7 +898,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/clause/tcDscpSettings/trafficClass"></div>
 
-      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/tcdscpsettings/trafficclass:
+      .. _ansible_collections.cisco.dnac.app_policy_queuing_profile_module__parameter-payload/clause/tcDscpSettings/trafficClass:
 
       .. rst-class:: ansible-option-title
 
@@ -1130,17 +1125,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Application Policy CreateApplicationPolicyQueuingProfile <https://developer.cisco.com/docs/dna-center/#!create-application-policy-queuing-profile>`_
-       Complete reference of the CreateApplicationPolicyQueuingProfile API.
-   `Cisco DNA Center documentation for Application Policy DeleteApplicationPolicyQueuingProfile <https://developer.cisco.com/docs/dna-center/#!delete-application-policy-queuing-profile>`_
-       Complete reference of the DeleteApplicationPolicyQueuingProfile API.
-   `Cisco DNA Center documentation for Application Policy UpdateApplicationPolicyQueuingProfile <https://developer.cisco.com/docs/dna-center/#!update-application-policy-queuing-profile>`_
-       Complete reference of the UpdateApplicationPolicyQueuingProfile API.
 
 .. Examples
 
@@ -1162,18 +1146,18 @@ Examples
         state: present
         payload:
         - clause:
-          - instanceId: 0
+          - instanceId: 1
             interfaceSpeedBandwidthClauses:
-            - instanceId: 0
+            - instanceId: 1
               interfaceSpeed: string
               tcBandwidthSettings:
-              - bandwidthPercentage: 0
-                instanceId: 0
+              - bandwidthPercentage: 1
+                instanceId: 1
                 trafficClass: string
             isCommonBetweenAllInterfaceSpeeds: true
             tcDscpSettings:
             - dscp: string
-              instanceId: 0
+              instanceId: 1
               trafficClass: string
             type: string
           description: string
@@ -1195,7 +1179,7 @@ Examples
           - interfaceSpeedBandwidthClauses:
             - interfaceSpeed: string
               tcBandwidthSettings:
-              - bandwidthPercentage: 0
+              - bandwidthPercentage: 1
                 trafficClass: string
             isCommonBetweenAllInterfaceSpeeds: true
             tcDscpSettings:

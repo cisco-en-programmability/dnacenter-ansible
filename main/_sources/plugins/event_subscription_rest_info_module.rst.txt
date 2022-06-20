@@ -42,7 +42,7 @@ cisco.dnac.event_subscription_rest_info module -- Information module for Event S
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Event Subscription Rest.
-- Gets the list of Rest/Webhook Subscriptions's based on provided query params.
+- Gets the list of Rest/Webhook Subscriptions's based on provided offset and limit.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -83,19 +83,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -106,40 +101,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-category"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_rest_info_module__parameter-category:
-
-      .. rst-class:: ansible-option-title
-
-      **category**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-category" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Category query parameter. List of subscriptions related to the respective category.
-
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -405,41 +366,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-domain"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_rest_info_module__parameter-domain:
-
-      .. rst-class:: ansible-option-title
-
-      **domain**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-domain" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Domain query parameter. List of subscriptions related to the respective domain.
-
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -450,7 +377,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-eventIds"></div>
 
-      .. _ansible_collections.cisco.dnac.event_subscription_rest_info_module__parameter-eventids:
+      .. _ansible_collections.cisco.dnac.event_subscription_rest_info_module__parameter-eventIds:
 
       .. rst-class:: ansible-option-title
 
@@ -550,40 +477,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-name"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_rest_info_module__parameter-name:
-
-      .. rst-class:: ansible-option-title
-
-      **name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Name query parameter. List of subscriptions related to the respective name.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-offset"></div>
 
       .. _ansible_collections.cisco.dnac.event_subscription_rest_info_module__parameter-offset:
@@ -654,7 +547,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortBy"></div>
 
-      .. _ansible_collections.cisco.dnac.event_subscription_rest_info_module__parameter-sortby:
+      .. _ansible_collections.cisco.dnac.event_subscription_rest_info_module__parameter-sortBy:
 
       .. rst-class:: ansible-option-title
 
@@ -677,74 +570,6 @@ Parameters
         <div class="ansible-option-cell">
 
       SortBy query parameter. SortBy field name.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-subDomain"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_rest_info_module__parameter-subdomain:
-
-      .. rst-class:: ansible-option-title
-
-      **subDomain**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-subDomain" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      SubDomain query parameter. List of subscriptions related to the respective sub-domain.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-type"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_rest_info_module__parameter-type:
-
-      .. rst-class:: ansible-option-title
-
-      **type**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-type" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Type query parameter. List of subscriptions related to the respective type.
 
 
       .. raw:: html
@@ -810,13 +635,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Event Management GetRestWebhookEventSubscriptions <https://developer.cisco.com/docs/dna-center/#!get-rest-webhook-event-subscriptions>`_
-       Complete reference of the GetRestWebhookEventSubscriptions API.
 
 .. Examples
 
@@ -835,17 +653,13 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
+        headers:
+          custom: value
         eventIds: string
         offset: 0
         limit: 0
         sortBy: string
         order: string
-        domain: string
-        subDomain: string
-        category: string
-        type: string
-        name: string
       register: result
 
 
@@ -908,7 +722,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "[\\n  {\\n    \\"version\\": \\"string\\",\\n    \\"subscriptionId\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"description\\": \\"string\\",\\n    \\"subscriptionEndpoints\\": [\\n      {\\n        \\"instanceId\\": \\"string\\",\\n        \\"subscriptionDetails\\": {\\n          \\"connectorType\\": \\"string\\",\\n          \\"instanceId\\": \\"string\\",\\n          \\"name\\": \\"string\\",\\n          \\"description\\": \\"string\\",\\n          \\"url\\": \\"string\\",\\n          \\"basePath\\": \\"string\\",\\n          \\"resource\\": \\"string\\",\\n          \\"method\\": \\"string\\",\\n          \\"trustCert\\": \\"string\\",\\n          \\"headers\\": [\\n            {\\n              \\"string\\": \\"string\\"\\n            }\\n          ],\\n          \\"queryParams\\": [\\n            {\\n              \\"string\\": \\"string\\"\\n            }\\n          ],\\n          \\"pathParams\\": [\\n            {\\n              \\"string\\": \\"string\\"\\n            }\\n          ],\\n          \\"body\\": \\"string\\",\\n          \\"connectTimeout\\": \\"string\\",\\n          \\"readTimeout\\": \\"string\\"\\n        },\\n        \\"connectorType\\": \\"string\\"\\n      }\\n    ],\\n    \\"filter\\": {\\n      \\"eventIds\\": [\\n        \\"string\\"\\n      ],\\n      \\"others\\": [\\n        \\"string\\"\\n      ],\\n      \\"domainsSubdomains\\": [\\n        {\\n          \\"domain\\": \\"string\\",\\n          \\"subDomains\\": [\\n            \\"string\\"\\n          ]\\n        }\\n      ],\\n      \\"types\\": [\\n        \\"string\\"\\n      ],\\n      \\"categories\\": [\\n        \\"string\\"\\n      ],\\n      \\"severities\\": [\\n        \\"string\\"\\n      ],\\n      \\"sources\\": [\\n        \\"string\\"\\n      ],\\n      \\"siteIds\\": [\\n        \\"string\\"\\n      ]\\n    },\\n    \\"isPrivate\\": true,\\n    \\"tenantId\\": \\"string\\"\\n  }\\n]\\n"
+      :ansible-option-sample-bold:`Sample:` "[\\n  {\\n    \\"version\\": \\"string\\",\\n    \\"subscriptionId\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"description\\": \\"string\\",\\n    \\"subscriptionEndpoints\\": [\\n      {\\n        \\"instanceId\\": \\"string\\",\\n        \\"subscriptionDetails\\": {\\n          \\"connectorType\\": \\"string\\",\\n          \\"instanceId\\": \\"string\\",\\n          \\"name\\": \\"string\\",\\n          \\"description\\": \\"string\\",\\n          \\"url\\": \\"string\\",\\n          \\"basePath\\": \\"string\\",\\n          \\"resource\\": \\"string\\",\\n          \\"method\\": \\"string\\",\\n          \\"trustCert\\": \\"string\\",\\n          \\"headers\\": [\\n            {\\n              \\"string\\": \\"string\\"\\n            }\\n          ],\\n          \\"queryParams\\": [\\n            {\\n              \\"string\\": \\"string\\"\\n            }\\n          ],\\n          \\"pathParams\\": [\\n            {\\n              \\"string\\": \\"string\\"\\n            }\\n          ],\\n          \\"body\\": \\"string\\",\\n          \\"connectTimeout\\": \\"string\\",\\n          \\"readTimeout\\": \\"string\\"\\n        },\\n        \\"connectorType\\": \\"string\\"\\n      }\\n    ],\\n    \\"filter\\": {\\n      \\"eventIds\\": [\\n        \\"string\\"\\n      ],\\n      \\"others\\": [\\n        \\"string\\"\\n      ],\\n      \\"domainsSubdomains\\": [\\n        \\"string\\"\\n      ],\\n      \\"types\\": [\\n        \\"string\\"\\n      ],\\n      \\"categories\\": [\\n        \\"string\\"\\n      ],\\n      \\"severities\\": [\\n        \\"string\\"\\n      ],\\n      \\"sources\\": [\\n        \\"string\\"\\n      ]\\n    },\\n    \\"isPrivate\\": true,\\n    \\"tenantId\\": \\"string\\"\\n  }\\n]\\n"
 
 
       .. raw:: html

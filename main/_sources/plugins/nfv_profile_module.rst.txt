@@ -42,7 +42,7 @@ cisco.dnac.nfv_profile module -- Resource module for Nfv Profile
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -71,7 +71,6 @@ Synopsis
 - Manage operations create, update and delete of the resource Nfv Profile.
 - API to create network profile for different NFV topologies.
 - API to delete nfv network profile.
-- API to update a NFV Network profile.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,19 +84,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -148,7 +142,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/customNetworks"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customnetworks:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customNetworks:
 
       .. rst-class:: ansible-option-title
 
@@ -182,7 +176,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/customNetworks/connectionType"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customnetworks/connectiontype:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customNetworks/connectionType:
 
       .. rst-class:: ansible-option-title
 
@@ -216,7 +210,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/customNetworks/networkName"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customnetworks/networkname:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customNetworks/networkName:
 
       .. rst-class:: ansible-option-title
 
@@ -250,7 +244,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/customNetworks/servicesToConnect"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customnetworks/servicestoconnect:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customNetworks/servicesToConnect:
 
       .. rst-class:: ansible-option-title
 
@@ -284,7 +278,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/customNetworks/servicesToConnect/serviceName"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customnetworks/servicestoconnect/servicename:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customNetworks/servicesToConnect/serviceName:
 
       .. rst-class:: ansible-option-title
 
@@ -319,7 +313,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/customNetworks/vlanId"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customnetworks/vlanid:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customNetworks/vlanId:
 
       .. rst-class:: ansible-option-title
 
@@ -353,7 +347,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/customNetworks/vlanMode"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customnetworks/vlanmode:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customNetworks/vlanMode:
 
       .. rst-class:: ansible-option-title
 
@@ -388,7 +382,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/customTemplate"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customtemplate:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customTemplate:
 
       .. rst-class:: ansible-option-title
 
@@ -422,7 +416,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/customTemplate/deviceType"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customtemplate/devicetype:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customTemplate/deviceType:
 
       .. rst-class:: ansible-option-title
 
@@ -444,7 +438,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Type of the device(eg Cisco 5400 Enterprise Network Compute System), 'Cisco Integrated Services Virtual Router', 'Cisco Adaptive Security Virtual Appliance (ASAv)', 'NFVIS', 'ASAV'.
+      Type of the device. Allowed values are 'Cisco 5400 Enterprise Network Compute System', 'Cisco Integrated Services Virtual Router', 'Cisco Adaptive Security Virtual Appliance (ASAv)', 'NFVIS', 'ASAV'.
 
 
       .. raw:: html
@@ -456,7 +450,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/customTemplate/template"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customtemplate/template:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customTemplate/template:
 
       .. rst-class:: ansible-option-title
 
@@ -490,7 +484,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/customTemplate/templateType"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customtemplate/templatetype:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/customTemplate/templateType:
 
       .. rst-class:: ansible-option-title
 
@@ -525,7 +519,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/deviceTag"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/devicetag:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/deviceTag:
 
       .. rst-class:: ansible-option-title
 
@@ -559,7 +553,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/deviceType"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/devicetype:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/deviceType:
 
       .. rst-class:: ansible-option-title
 
@@ -593,7 +587,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/directInternetAccessForFirewall"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/directinternetaccessforfirewall:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/directInternetAccessForFirewall:
 
       .. rst-class:: ansible-option-title
 
@@ -634,7 +628,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/serviceProviderProfile"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/serviceproviderprofile:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/serviceProviderProfile:
 
       .. rst-class:: ansible-option-title
 
@@ -668,7 +662,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/serviceProviderProfile/connect"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/serviceproviderprofile/connect:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/serviceProviderProfile/connect:
 
       .. rst-class:: ansible-option-title
 
@@ -709,7 +703,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/serviceProviderProfile/connectDefaultGatewayOnWan"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/serviceproviderprofile/connectdefaultgatewayonwan:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/serviceProviderProfile/connectDefaultGatewayOnWan:
 
       .. rst-class:: ansible-option-title
 
@@ -750,7 +744,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/serviceProviderProfile/linkType"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/serviceproviderprofile/linktype:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/serviceProviderProfile/linkType:
 
       .. rst-class:: ansible-option-title
 
@@ -784,7 +778,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/serviceProviderProfile/serviceProvider"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/serviceproviderprofile/serviceprovider:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/serviceProviderProfile/serviceProvider:
 
       .. rst-class:: ansible-option-title
 
@@ -853,7 +847,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/services/firewallMode"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/services/firewallmode:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/services/firewallMode:
 
       .. rst-class:: ansible-option-title
 
@@ -887,7 +881,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/services/imageName"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/services/imagename:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/services/imageName:
 
       .. rst-class:: ansible-option-title
 
@@ -921,7 +915,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/services/profileType"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/services/profiletype:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/services/profileType:
 
       .. rst-class:: ansible-option-title
 
@@ -955,7 +949,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/services/serviceName"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/services/servicename:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/services/serviceName:
 
       .. rst-class:: ansible-option-title
 
@@ -989,7 +983,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/services/serviceType"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/services/servicetype:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/services/serviceType:
 
       .. rst-class:: ansible-option-title
 
@@ -1023,7 +1017,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/services/vNicMapping"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/services/vnicmapping:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/services/vNicMapping:
 
       .. rst-class:: ansible-option-title
 
@@ -1057,7 +1051,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/services/vNicMapping/assignIpAddressToNetwork"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/services/vnicmapping/assignipaddresstonetwork:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/services/vNicMapping/assignIpAddressToNetwork:
 
       .. rst-class:: ansible-option-title
 
@@ -1091,7 +1085,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/services/vNicMapping/networkType"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/services/vnicmapping/networktype:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/services/vNicMapping/networkType:
 
       .. rst-class:: ansible-option-title
 
@@ -1127,7 +1121,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/vlanForL2"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/vlanforl2:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/vlanForL2:
 
       .. rst-class:: ansible-option-title
 
@@ -1161,7 +1155,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/vlanForL2/vlanDescription"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/vlanforl2/vlandescription:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/vlanForL2/vlanDescription:
 
       .. rst-class:: ansible-option-title
 
@@ -1195,7 +1189,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/vlanForL2/vlanId"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/vlanforl2/vlanid:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/vlanForL2/vlanId:
 
       .. rst-class:: ansible-option-title
 
@@ -1229,7 +1223,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-device/vlanForL2/vlanType"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/vlanforl2/vlantype:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-device/vlanForL2/vlanType:
 
       .. rst-class:: ansible-option-title
 
@@ -1524,7 +1518,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -1603,7 +1597,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profileName"></div>
 
-      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-profilename:
+      .. _ansible_collections.cisco.dnac.nfv_profile_module__parameter-profileName:
 
       .. rst-class:: ansible-option-title
 
@@ -1684,24 +1678,13 @@ Notes
 
 .. note::
    - SDK Method used are site_design.SiteDesign.create_nfv_profile, site_design.SiteDesign.delete_nfv_profile, site_design.SiteDesign.update_nfv_profile,
-   - Paths used are post /dna/intent/api/v1/nfv/network-profile, delete /dna/intent/api/v1/nfv/network-profile/{id}, put /dna/intent/api/v1/nfv/network-profile/{id},
+   - Paths used are post /dna/intent/api/v1/nfv/network-profile, delete /dna/intent/api/v1/nfv/network-profile/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Site Design CreateNFVProfile <https://developer.cisco.com/docs/dna-center/#!create-nfv-profile>`_
-       Complete reference of the CreateNFVProfile API.
-   `Cisco DNA Center documentation for Site Design DeleteNFVProfile <https://developer.cisco.com/docs/dna-center/#!delete-nfv-profile>`_
-       Complete reference of the DeleteNFVProfile API.
-   `Cisco DNA Center documentation for Site Design UpdateNFVProfile <https://developer.cisco.com/docs/dna-center/#!update-nfv-profile>`_
-       Complete reference of the UpdateNFVProfile API.
 
 .. Examples
 

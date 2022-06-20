@@ -42,7 +42,7 @@ cisco.dnac.sensor_test_template_edit module -- Resource module for Sensor Test T
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,19 +83,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -371,7 +366,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -382,7 +377,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-locationInfoList"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-locationinfolist:
+      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-locationInfoList:
 
       .. rst-class:: ansible-option-title
 
@@ -416,7 +411,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-locationInfoList/allSensors"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-locationinfolist/allsensors:
+      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-locationInfoList/allSensors:
 
       .. rst-class:: ansible-option-title
 
@@ -457,7 +452,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-locationInfoList/locationId"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-locationinfolist/locationid:
+      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-locationInfoList/locationId:
 
       .. rst-class:: ansible-option-title
 
@@ -491,7 +486,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-locationInfoList/locationType"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-locationinfolist/locationtype:
+      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-locationInfoList/locationType:
 
       .. rst-class:: ansible-option-title
 
@@ -525,7 +520,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-locationInfoList/siteHierarchy"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-locationinfolist/sitehierarchy:
+      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-locationInfoList/siteHierarchy:
 
       .. rst-class:: ansible-option-title
 
@@ -697,7 +692,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/schedulerange:
+      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/scheduleRange:
 
       .. rst-class:: ansible-option-title
 
@@ -731,7 +726,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/day"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/schedulerange/day:
+      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/scheduleRange/day:
 
       .. rst-class:: ansible-option-title
 
@@ -765,7 +760,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/schedulerange/timerange:
+      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/scheduleRange/timeRange:
 
       .. rst-class:: ansible-option-title
 
@@ -799,7 +794,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange/frequency"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/schedulerange/timerange/frequency:
+      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/scheduleRange/timeRange/frequency:
 
       .. rst-class:: ansible-option-title
 
@@ -833,7 +828,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange/frequency/unit"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/schedulerange/timerange/frequency/unit:
+      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/scheduleRange/timeRange/frequency/unit:
 
       .. rst-class:: ansible-option-title
 
@@ -867,7 +862,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange/frequency/value"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/schedulerange/timerange/frequency/value:
+      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/scheduleRange/timeRange/frequency/value:
 
       .. rst-class:: ansible-option-title
 
@@ -902,7 +897,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange/from"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/schedulerange/timerange/from:
+      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/scheduleRange/timeRange/from:
 
       .. rst-class:: ansible-option-title
 
@@ -936,7 +931,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-schedule/scheduleRange/timeRange/to"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/schedulerange/timerange/to:
+      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/scheduleRange/timeRange/to:
 
       .. rst-class:: ansible-option-title
 
@@ -972,7 +967,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-schedule/testScheduleMode"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/testschedulemode:
+      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-schedule/testScheduleMode:
 
       .. rst-class:: ansible-option-title
 
@@ -1007,7 +1002,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-templateName"></div>
 
-      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-templatename:
+      .. _ansible_collections.cisco.dnac.sensor_test_template_edit_module__parameter-templateName:
 
       .. rst-class:: ansible-option-title
 
@@ -1095,13 +1090,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Sensors EditSensorTestTemplate <https://developer.cisco.com/docs/dna-center/#!edit-sensor-test-template>`_
-       Complete reference of the EditSensorTestTemplate API.
 
 .. Examples
 

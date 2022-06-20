@@ -42,7 +42,7 @@ cisco.dnac.device_replacement module -- Resource module for Device Replacement
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -84,19 +84,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -372,7 +367,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -417,7 +412,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/creationTime"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/creationtime:
+      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/creationTime:
 
       .. rst-class:: ansible-option-title
 
@@ -485,7 +480,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/faultyDeviceId"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/faultydeviceid:
+      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/faultyDeviceId:
 
       .. rst-class:: ansible-option-title
 
@@ -519,7 +514,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/faultyDeviceName"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/faultydevicename:
+      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/faultyDeviceName:
 
       .. rst-class:: ansible-option-title
 
@@ -553,7 +548,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/faultyDevicePlatform"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/faultydeviceplatform:
+      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/faultyDevicePlatform:
 
       .. rst-class:: ansible-option-title
 
@@ -587,7 +582,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/faultyDeviceSerialNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/faultydeviceserialnumber:
+      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/faultyDeviceSerialNumber:
 
       .. rst-class:: ansible-option-title
 
@@ -655,7 +650,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/neighbourDeviceId"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/neighbourdeviceid:
+      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/neighbourDeviceId:
 
       .. rst-class:: ansible-option-title
 
@@ -689,7 +684,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkReadinessTaskId"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/networkreadinesstaskid:
+      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/networkReadinessTaskId:
 
       .. rst-class:: ansible-option-title
 
@@ -723,7 +718,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/replacementDevicePlatform"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/replacementdeviceplatform:
+      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/replacementDevicePlatform:
 
       .. rst-class:: ansible-option-title
 
@@ -757,7 +752,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/replacementDeviceSerialNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/replacementdeviceserialnumber:
+      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/replacementDeviceSerialNumber:
 
       .. rst-class:: ansible-option-title
 
@@ -791,7 +786,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/replacementStatus"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/replacementstatus:
+      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/replacementStatus:
 
       .. rst-class:: ansible-option-title
 
@@ -825,7 +820,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/replacementTime"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/replacementtime:
+      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/replacementTime:
 
       .. rst-class:: ansible-option-title
 
@@ -859,7 +854,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/workflowId"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/workflowid:
+      .. _ansible_collections.cisco.dnac.device_replacement_module__parameter-payload/workflowId:
 
       .. rst-class:: ansible-option-title
 
@@ -948,15 +943,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Device Replacement MarkDeviceForReplacement <https://developer.cisco.com/docs/dna-center/#!mark-device-for-replacement>`_
-       Complete reference of the MarkDeviceForReplacement API.
-   `Cisco DNA Center documentation for Device Replacement UnMarkDeviceForReplacement <https://developer.cisco.com/docs/dna-center/#!un-mark-device-for-replacement>`_
-       Complete reference of the UnMarkDeviceForReplacement API.
 
 .. Examples
 
@@ -977,7 +963,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - creationTime: 0
+        - creationTime: 1
           family: string
           faultyDeviceId: string
           faultyDeviceName: string
@@ -989,7 +975,7 @@ Examples
           replacementDevicePlatform: string
           replacementDeviceSerialNumber: string
           replacementStatus: string
-          replacementTime: 0
+          replacementTime: 1
           workflowId: string
 
     - name: Create
@@ -1003,7 +989,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - creationTime: 0
+        - creationTime: 1
           family: string
           faultyDeviceId: string
           faultyDeviceName: string
@@ -1015,7 +1001,7 @@ Examples
           replacementDevicePlatform: string
           replacementDeviceSerialNumber: string
           replacementStatus: string
-          replacementTime: 0
+          replacementTime: 1
           workflowId: string
 
 

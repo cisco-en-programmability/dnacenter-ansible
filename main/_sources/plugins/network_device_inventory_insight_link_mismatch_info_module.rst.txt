@@ -42,7 +42,7 @@ cisco.dnac.network_device_inventory_insight_link_mismatch_info module -- Informa
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Network Device Inventory Insight Link Mismatch.
-- Find all devices with link mismatch speed / vlan .
+- Find all devices with link mismatch (speed /  vlan).
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -83,19 +83,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -405,7 +400,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -552,7 +547,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-siteId"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_inventory_insight_link_mismatch_info_module__parameter-siteid:
+      .. _ansible_collections.cisco.dnac.network_device_inventory_insight_link_mismatch_info_module__parameter-siteId:
 
       .. rst-class:: ansible-option-title
 
@@ -586,7 +581,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortBy"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_inventory_insight_link_mismatch_info_module__parameter-sortby:
+      .. _ansible_collections.cisco.dnac.network_device_inventory_insight_link_mismatch_info_module__parameter-sortBy:
 
       .. rst-class:: ansible-option-title
 
@@ -674,13 +669,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Devices InventoryInsightDeviceLinkMismatchAPI <https://developer.cisco.com/docs/dna-center/#!inventory-insight-device-link-mismatch-api>`_
-       Complete reference of the InventoryInsightDeviceLinkMismatchAPI API.
 
 .. Examples
 
@@ -699,7 +687,8 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
+        headers:
+          custom: value
         offset: string
         limit: string
         category: string

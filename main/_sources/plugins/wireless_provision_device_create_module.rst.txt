@@ -42,7 +42,7 @@ cisco.dnac.wireless_provision_device_create module -- Resource module for Wirele
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,19 +83,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -371,7 +366,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -416,7 +411,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/deviceName"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/devicename:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/deviceName:
 
       .. rst-class:: ansible-option-title
 
@@ -450,7 +445,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/dynamicInterfaces"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/dynamicinterfaces:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/dynamicInterfaces:
 
       .. rst-class:: ansible-option-title
 
@@ -484,7 +479,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/dynamicInterfaces/interfaceGateway"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/dynamicinterfaces/interfacegateway:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/dynamicInterfaces/interfaceGateway:
 
       .. rst-class:: ansible-option-title
 
@@ -518,7 +513,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/dynamicInterfaces/interfaceIPAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/dynamicinterfaces/interfaceipaddress:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/dynamicInterfaces/interfaceIPAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -552,7 +547,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/dynamicInterfaces/interfaceName"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/dynamicinterfaces/interfacename:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/dynamicInterfaces/interfaceName:
 
       .. rst-class:: ansible-option-title
 
@@ -586,7 +581,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/dynamicInterfaces/interfaceNetmaskInCIDR"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/dynamicinterfaces/interfacenetmaskincidr:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/dynamicInterfaces/interfaceNetmaskInCIDR:
 
       .. rst-class:: ansible-option-title
 
@@ -620,7 +615,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/dynamicInterfaces/lagOrPortNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/dynamicinterfaces/lagorportnumber:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/dynamicInterfaces/lagOrPortNumber:
 
       .. rst-class:: ansible-option-title
 
@@ -654,7 +649,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/dynamicInterfaces/vlanId"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/dynamicinterfaces/vlanid:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/dynamicInterfaces/vlanId:
 
       .. rst-class:: ansible-option-title
 
@@ -689,7 +684,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/managedAPLocations"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/managedaplocations:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_create_module__parameter-payload/managedAPLocations:
 
       .. rst-class:: ansible-option-title
 
@@ -812,13 +807,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Wireless Provision <https://developer.cisco.com/docs/dna-center/#!provision>`_
-       Complete reference of the Provision API.
 
 .. Examples
 
@@ -843,9 +831,9 @@ Examples
           - interfaceGateway: string
             interfaceIPAddress: string
             interfaceName: string
-            interfaceNetmaskInCIDR: 0
-            lagOrPortNumber: 0
-            vlanId: 0
+            interfaceNetmaskInCIDR: 1
+            lagOrPortNumber: 1
+            vlanId: 1
           managedAPLocations:
           - string
           site: string

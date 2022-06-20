@@ -42,7 +42,7 @@ cisco.dnac.path_trace module -- Resource module for Path Trace
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -70,7 +70,6 @@ Synopsis
 
 - Manage operations create and delete of the resource Path Trace.
 - Initiates a new flow analysis with periodic refresh and stat collection options. Returns a request id and a task id to get results and follow progress.
-
 - Deletes a flow analysis request by its id.
 
 .. note::
@@ -85,19 +84,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -114,7 +108,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-controlPath"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_module__parameter-controlpath:
+      .. _ansible_collections.cisco.dnac.path_trace_module__parameter-controlPath:
 
       .. rst-class:: ansible-option-title
 
@@ -155,7 +149,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-destIP"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_module__parameter-destip:
+      .. _ansible_collections.cisco.dnac.path_trace_module__parameter-destIP:
 
       .. rst-class:: ansible-option-title
 
@@ -189,7 +183,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-destPort"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_module__parameter-destport:
+      .. _ansible_collections.cisco.dnac.path_trace_module__parameter-destPort:
 
       .. rst-class:: ansible-option-title
 
@@ -482,7 +476,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -493,7 +487,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-flowAnalysisId"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_module__parameter-flowanalysisid:
+      .. _ansible_collections.cisco.dnac.path_trace_module__parameter-flowAnalysisId:
 
       .. rst-class:: ansible-option-title
 
@@ -561,7 +555,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-periodicRefresh"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_module__parameter-periodicrefresh:
+      .. _ansible_collections.cisco.dnac.path_trace_module__parameter-periodicRefresh:
 
       .. rst-class:: ansible-option-title
 
@@ -636,7 +630,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sourceIP"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_module__parameter-sourceip:
+      .. _ansible_collections.cisco.dnac.path_trace_module__parameter-sourceIP:
 
       .. rst-class:: ansible-option-title
 
@@ -670,7 +664,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sourcePort"></div>
 
-      .. _ansible_collections.cisco.dnac.path_trace_module__parameter-sourceport:
+      .. _ansible_collections.cisco.dnac.path_trace_module__parameter-sourcePort:
 
       .. rst-class:: ansible-option-title
 
@@ -758,15 +752,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Path Trace InitiateANewPathtrace <https://developer.cisco.com/docs/dna-center/#!initiate-a-new-pathtrace>`_
-       Complete reference of the InitiateANewPathtrace API.
-   `Cisco DNA Center documentation for Path Trace DeletesPathtraceById <https://developer.cisco.com/docs/dna-center/#!deletes-pathtrace-by-id>`_
-       Complete reference of the DeletesPathtraceById API.
 
 .. Examples
 

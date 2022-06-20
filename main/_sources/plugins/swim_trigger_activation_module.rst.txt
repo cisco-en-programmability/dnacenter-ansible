@@ -42,7 +42,7 @@ cisco.dnac.swim_trigger_activation module -- Resource module for Swim Trigger Ac
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,19 +83,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -371,41 +366,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-headers"></div>
-
-      .. _ansible_collections.cisco.dnac.swim_trigger_activation_module__parameter-headers:
-
-      .. rst-class:: ansible-option-title
-
-      **headers**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Additional headers.
-
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -450,7 +411,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/activateLowerImageVersion"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_trigger_activation_module__parameter-payload/activatelowerimageversion:
+      .. _ansible_collections.cisco.dnac.swim_trigger_activation_module__parameter-payload/activateLowerImageVersion:
 
       .. rst-class:: ansible-option-title
 
@@ -491,7 +452,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/deviceUpgradeMode"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_trigger_activation_module__parameter-payload/deviceupgrademode:
+      .. _ansible_collections.cisco.dnac.swim_trigger_activation_module__parameter-payload/deviceUpgradeMode:
 
       .. rst-class:: ansible-option-title
 
@@ -525,7 +486,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/deviceUuid"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_trigger_activation_module__parameter-payload/deviceuuid:
+      .. _ansible_collections.cisco.dnac.swim_trigger_activation_module__parameter-payload/deviceUuid:
 
       .. rst-class:: ansible-option-title
 
@@ -559,7 +520,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/distributeIfNeeded"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_trigger_activation_module__parameter-payload/distributeifneeded:
+      .. _ansible_collections.cisco.dnac.swim_trigger_activation_module__parameter-payload/distributeIfNeeded:
 
       .. rst-class:: ansible-option-title
 
@@ -600,7 +561,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/imageUuidList"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_trigger_activation_module__parameter-payload/imageuuidlist:
+      .. _ansible_collections.cisco.dnac.swim_trigger_activation_module__parameter-payload/imageUuidList:
 
       .. rst-class:: ansible-option-title
 
@@ -634,7 +595,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/smuImageUuidList"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_trigger_activation_module__parameter-payload/smuimageuuidlist:
+      .. _ansible_collections.cisco.dnac.swim_trigger_activation_module__parameter-payload/smuImageUuidList:
 
       .. rst-class:: ansible-option-title
 
@@ -669,7 +630,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-scheduleValidate"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_trigger_activation_module__parameter-schedulevalidate:
+      .. _ansible_collections.cisco.dnac.swim_trigger_activation_module__parameter-scheduleValidate:
 
       .. rst-class:: ansible-option-title
 
@@ -764,13 +725,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Software Image Management (SWIM) TriggerSoftwareImageActivation <https://developer.cisco.com/docs/dna-center/#!trigger-software-image-activation>`_
-       Complete reference of the TriggerSoftwareImageActivation API.
 
 .. Examples
 
@@ -789,17 +743,8 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers: '{{my_headers | from_json}}'
-        payload:
-        - activateLowerImageVersion: true
-          deviceUpgradeMode: string
-          deviceUuid: string
-          distributeIfNeeded: true
-          imageUuidList:
-          - string
-          smuImageUuidList:
-          - string
         scheduleValidate: true
+        payload:
 
 
 

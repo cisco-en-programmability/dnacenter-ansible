@@ -42,7 +42,7 @@ cisco.dnac.network_device_lexicographically_sorted_info module -- Information mo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,19 +83,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -112,7 +107,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-associatedWlcIp"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-associatedwlcip:
+      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-associatedWlcIp:
 
       .. rst-class:: ansible-option-title
 
@@ -146,7 +141,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-collectionInterval"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-collectioninterval:
+      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-collectionInterval:
 
       .. rst-class:: ansible-option-title
 
@@ -180,7 +175,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-collectionStatus"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-collectionstatus:
+      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-collectionStatus:
 
       .. rst-class:: ansible-option-title
 
@@ -473,7 +468,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -484,7 +479,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-errorCode"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-errorcode:
+      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-errorCode:
 
       .. rst-class:: ansible-option-title
 
@@ -654,7 +649,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-macAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-macaddress:
+      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-macAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -688,7 +683,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-managementIpAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-managementipaddress:
+      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-managementIpAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -756,7 +751,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-platformId"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-platformid:
+      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-platformId:
 
       .. rst-class:: ansible-option-title
 
@@ -790,7 +785,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-reachabilityFailureReason"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-reachabilityfailurereason:
+      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-reachabilityFailureReason:
 
       .. rst-class:: ansible-option-title
 
@@ -824,7 +819,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-reachabilityStatus"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-reachabilitystatus:
+      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-reachabilityStatus:
 
       .. rst-class:: ansible-option-title
 
@@ -892,7 +887,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-roleSource"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-rolesource:
+      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-roleSource:
 
       .. rst-class:: ansible-option-title
 
@@ -926,7 +921,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-serialNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-serialnumber:
+      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-serialNumber:
 
       .. rst-class:: ansible-option-title
 
@@ -994,7 +989,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-softwareType"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-softwaretype:
+      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-softwareType:
 
       .. rst-class:: ansible-option-title
 
@@ -1028,7 +1023,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-softwareVersion"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-softwareversion:
+      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-softwareVersion:
 
       .. rst-class:: ansible-option-title
 
@@ -1096,7 +1091,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-upTime"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-uptime:
+      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-upTime:
 
       .. rst-class:: ansible-option-title
 
@@ -1171,7 +1166,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-vrfName"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-vrfname:
+      .. _ansible_collections.cisco.dnac.network_device_lexicographically_sorted_info_module__parameter-vrfName:
 
       .. rst-class:: ansible-option-title
 
@@ -1218,13 +1213,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Devices GetDeviceValuesThatMatchFullyOrPartiallyAnAttribute <https://developer.cisco.com/docs/dna-center/#!get-device-values-that-match-fully-or-partially-an-attribute>`_
-       Complete reference of the GetDeviceValuesThatMatchFullyOrPartiallyAnAttribute API.
 
 .. Examples
 
@@ -1243,7 +1231,8 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
+        headers:
+          custom: value
         vrfName: string
         managementIpAddress: string
         hostname: string

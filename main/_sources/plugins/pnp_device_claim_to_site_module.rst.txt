@@ -42,7 +42,7 @@ cisco.dnac.pnp_device_claim_to_site module -- Resource module for Pnp Device Cla
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -71,7 +71,6 @@ Synopsis
 - Manage operation create of the resource Pnp Device Claim To Site.
 - Claim a device based on DNA-C Site based design process. Different parameters are required for different device platforms.
 
-
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
 
@@ -84,19 +83,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -113,7 +107,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-configInfo"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-configinfo:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-configInfo:
 
       .. rst-class:: ansible-option-title
 
@@ -150,7 +144,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-configInfo/configId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-configinfo/configid:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-configInfo/configId:
 
       .. rst-class:: ansible-option-title
 
@@ -184,7 +178,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-configInfo/configParameters"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-configinfo/configparameters:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-configInfo/configParameters:
 
       .. rst-class:: ansible-option-title
 
@@ -218,7 +212,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-configInfo/configParameters/key"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-configinfo/configparameters/key:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-configInfo/configParameters/key:
 
       .. rst-class:: ansible-option-title
 
@@ -252,7 +246,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-configInfo/configParameters/value"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-configinfo/configparameters/value:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-configInfo/configParameters/value:
 
       .. rst-class:: ansible-option-title
 
@@ -288,7 +282,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-deviceid:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-deviceId:
 
       .. rst-class:: ansible-option-title
 
@@ -581,7 +575,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -666,7 +660,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-imageId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-imageid:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-imageId:
 
       .. rst-class:: ansible-option-title
 
@@ -700,7 +694,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-imageInfo"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-imageinfo:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-imageInfo:
 
       .. rst-class:: ansible-option-title
 
@@ -737,7 +731,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-imageInfo/imageId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-imageinfo/imageid:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-imageInfo/imageId:
 
       .. rst-class:: ansible-option-title
 
@@ -769,9 +763,53 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-imageInfo/removeInactive"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-imageInfo/removeInactive:
+
+      .. rst-class:: ansible-option-title
+
+      **removeInactive**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-imageInfo/removeInactive" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      :ansible-option-versionadded:`added in 6.4.0 of cisco.dnac`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      RemoveInactive flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-imageInfo/skip"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-imageinfo/skip:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-imageInfo/skip:
 
       .. rst-class:: ansible-option-title
 
@@ -813,7 +851,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipInterfaceName"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-ipinterfacename:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-ipInterfaceName:
 
       .. rst-class:: ansible-option-title
 
@@ -848,53 +886,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-removeInactive"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-removeinactive:
-
-      .. rst-class:: ansible-option-title
-
-      **removeInactive**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-removeInactive" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      :ansible-option-versionadded:`added in 6.4.0 of cisco.dnac`
-
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      RemoveInactive flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-rfProfile"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-rfprofile:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-rfProfile:
 
       .. rst-class:: ansible-option-title
 
@@ -931,7 +925,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-siteId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-siteid:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-siteId:
 
       .. rst-class:: ansible-option-title
 
@@ -965,7 +959,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-staticIP"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-staticip:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-staticIP:
 
       .. rst-class:: ansible-option-title
 
@@ -1002,7 +996,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-subnetMask"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-subnetmask:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-subnetMask:
 
       .. rst-class:: ansible-option-title
 
@@ -1111,7 +1105,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-vlanId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-vlanid:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-vlanId:
 
       .. rst-class:: ansible-option-title
 
@@ -1161,13 +1155,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Device Onboarding (PnP) ClaimADeviceToASite <https://developer.cisco.com/docs/dna-center/#!claim-a-device-to-a-site>`_
-       Complete reference of the ClaimADeviceToASite API.
 
 .. Examples
 
@@ -1197,9 +1184,9 @@ Examples
         imageId: string
         imageInfo:
           imageId: string
+          removeInactive: true
           skip: true
         ipInterfaceName: string
-        removeInactive: true
         rfProfile: string
         siteId: string
         staticIP: string

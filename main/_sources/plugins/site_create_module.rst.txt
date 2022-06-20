@@ -42,7 +42,7 @@ cisco.dnac.site_create module -- Resource module for Site Create
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,19 +83,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -371,41 +366,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-headers"></div>
-
-      .. _ansible_collections.cisco.dnac.site_create_module__parameter-headers:
-
-      .. rst-class:: ansible-option-title
-
-      **headers**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Additional headers.
-
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -518,7 +479,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-site/area/parentName"></div>
 
-      .. _ansible_collections.cisco.dnac.site_create_module__parameter-site/area/parentname:
+      .. _ansible_collections.cisco.dnac.site_create_module__parameter-site/area/parentName:
 
       .. rst-class:: ansible-option-title
 
@@ -610,40 +571,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Address of the building to be created.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-site/building/country"></div>
-
-      .. _ansible_collections.cisco.dnac.site_create_module__parameter-site/building/country:
-
-      .. rst-class:: ansible-option-title
-
-      **country**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-site/building/country" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Country (eg United States).
 
 
       .. raw:: html
@@ -757,7 +684,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-site/building/parentName"></div>
 
-      .. _ansible_collections.cisco.dnac.site_create_module__parameter-site/building/parentname:
+      .. _ansible_collections.cisco.dnac.site_create_module__parameter-site/building/parentName:
 
       .. rst-class:: ansible-option-title
 
@@ -824,40 +751,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-site/floor/floorNumber"></div>
-
-      .. _ansible_collections.cisco.dnac.site_create_module__parameter-site/floor/floornumber:
-
-      .. rst-class:: ansible-option-title
-
-      **floorNumber**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-site/floor/floorNumber" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Floor number. (eg 5).
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-site/floor/height"></div>
 
       .. _ansible_collections.cisco.dnac.site_create_module__parameter-site/floor/height:
@@ -882,7 +775,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Height of the floor. Unit of measure is ft. (eg 15).
+      Height of the floor (eg 15).
 
 
       .. raw:: html
@@ -916,7 +809,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Length of the floor. Unit of measure is ft. (eg 100).
+      Length of the floor (eg 100).
 
 
       .. raw:: html
@@ -962,7 +855,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-site/floor/parentName"></div>
 
-      .. _ansible_collections.cisco.dnac.site_create_module__parameter-site/floor/parentname:
+      .. _ansible_collections.cisco.dnac.site_create_module__parameter-site/floor/parentName:
 
       .. rst-class:: ansible-option-title
 
@@ -996,7 +889,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-site/floor/rfModel"></div>
 
-      .. _ansible_collections.cisco.dnac.site_create_module__parameter-site/floor/rfmodel:
+      .. _ansible_collections.cisco.dnac.site_create_module__parameter-site/floor/rfModel:
 
       .. rst-class:: ansible-option-title
 
@@ -1018,7 +911,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Type of floor (eg Cubes And Walled Offices0.
+      Type of floor. Allowed values are 'Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling', 'Outdoor Open Space'.
 
 
       .. raw:: html
@@ -1052,7 +945,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Width of the floor. Unit of measure is ft. (eg 100).
+      Width of the floor (eg 100).
 
 
       .. raw:: html
@@ -1154,13 +1047,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Sites CreateSite <https://developer.cisco.com/docs/dna-center/#!create-site>`_
-       Complete reference of the CreateSite API.
 
 .. Examples
 
@@ -1179,20 +1065,17 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers: '{{my_headers | from_json}}'
         site:
           area:
             name: string
             parentName: string
           building:
             address: string
-            country: string
             latitude: 0
             longitude: 0
             name: string
             parentName: string
           floor:
-            floorNumber: 0
             height: 0
             length: 0
             name: string

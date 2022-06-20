@@ -42,7 +42,7 @@ cisco.dnac.business_sda_wireless_controller_delete module -- Resource module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,19 +83,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -112,7 +107,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceIPAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.business_sda_wireless_controller_delete_module__parameter-deviceipaddress:
+      .. _ansible_collections.cisco.dnac.business_sda_wireless_controller_delete_module__parameter-deviceIPAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -405,7 +400,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -471,13 +466,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Fabric Wireless RemoveWLCFromFabricDomain <https://developer.cisco.com/docs/dna-center/#!remove-wlc-from-fabric-domain>`_
-       Complete reference of the RemoveWLCFromFabricDomain API.
 
 .. Examples
 

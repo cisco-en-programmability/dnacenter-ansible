@@ -42,7 +42,7 @@ cisco.dnac.discovery module -- Resource module for Discovery
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -72,7 +72,6 @@ Synopsis
 - Initiates discovery with the given parameters.
 - Stops all the discoveries and removes them.
 - Stops the discovery for the given Discovery ID and removes it. Discovery ID can be obtained using the "Get Discoveries by range" API.
-
 - Stops or starts an existing discovery.
 
 .. note::
@@ -87,19 +86,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -116,7 +110,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-attributeInfo"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-attributeinfo:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-attributeInfo:
 
       .. rst-class:: ansible-option-title
 
@@ -150,7 +144,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cdpLevel"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-cdplevel:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-cdpLevel:
 
       .. rst-class:: ansible-option-title
 
@@ -184,7 +178,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceIds"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-deviceids:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-deviceIds:
 
       .. rst-class:: ansible-option-title
 
@@ -218,7 +212,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-discoveryCondition"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-discoverycondition:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-discoveryCondition:
 
       .. rst-class:: ansible-option-title
 
@@ -252,7 +246,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-discoveryStatus"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-discoverystatus:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-discoveryStatus:
 
       .. rst-class:: ansible-option-title
 
@@ -286,7 +280,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-discoveryType"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-discoverytype:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-discoveryType:
 
       .. rst-class:: ansible-option-title
 
@@ -579,7 +573,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -590,7 +584,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-enablePasswordList"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-enablepasswordlist:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-enablePasswordList:
 
       .. rst-class:: ansible-option-title
 
@@ -624,7 +618,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-globalCredentialIdList"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-globalcredentialidlist:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-globalCredentialIdList:
 
       .. rst-class:: ansible-option-title
 
@@ -658,7 +652,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpReadCredential"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpreadcredential:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpReadCredential:
 
       .. rst-class:: ansible-option-title
 
@@ -692,7 +686,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/comments"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpreadcredential/comments:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpReadCredential/comments:
 
       .. rst-class:: ansible-option-title
 
@@ -726,7 +720,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/credentialType"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpreadcredential/credentialtype:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpReadCredential/credentialType:
 
       .. rst-class:: ansible-option-title
 
@@ -760,7 +754,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/description"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpreadcredential/description:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpReadCredential/description:
 
       .. rst-class:: ansible-option-title
 
@@ -794,7 +788,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/id"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpreadcredential/id:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpReadCredential/id:
 
       .. rst-class:: ansible-option-title
 
@@ -828,7 +822,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/instanceTenantId"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpreadcredential/instancetenantid:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpReadCredential/instanceTenantId:
 
       .. rst-class:: ansible-option-title
 
@@ -862,7 +856,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/instanceUuid"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpreadcredential/instanceuuid:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpReadCredential/instanceUuid:
 
       .. rst-class:: ansible-option-title
 
@@ -896,7 +890,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/password"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpreadcredential/password:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpReadCredential/password:
 
       .. rst-class:: ansible-option-title
 
@@ -930,7 +924,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/port"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpreadcredential/port:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpReadCredential/port:
 
       .. rst-class:: ansible-option-title
 
@@ -964,7 +958,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/secure"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpreadcredential/secure:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpReadCredential/secure:
 
       .. rst-class:: ansible-option-title
 
@@ -1005,7 +999,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpReadCredential/username"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpreadcredential/username:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpReadCredential/username:
 
       .. rst-class:: ansible-option-title
 
@@ -1040,7 +1034,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpwritecredential:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpWriteCredential:
 
       .. rst-class:: ansible-option-title
 
@@ -1074,7 +1068,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/comments"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpwritecredential/comments:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpWriteCredential/comments:
 
       .. rst-class:: ansible-option-title
 
@@ -1108,7 +1102,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/credentialType"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpwritecredential/credentialtype:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpWriteCredential/credentialType:
 
       .. rst-class:: ansible-option-title
 
@@ -1142,7 +1136,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/description"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpwritecredential/description:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpWriteCredential/description:
 
       .. rst-class:: ansible-option-title
 
@@ -1176,7 +1170,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/id"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpwritecredential/id:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpWriteCredential/id:
 
       .. rst-class:: ansible-option-title
 
@@ -1210,7 +1204,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/instanceTenantId"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpwritecredential/instancetenantid:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpWriteCredential/instanceTenantId:
 
       .. rst-class:: ansible-option-title
 
@@ -1244,7 +1238,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/instanceUuid"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpwritecredential/instanceuuid:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpWriteCredential/instanceUuid:
 
       .. rst-class:: ansible-option-title
 
@@ -1278,7 +1272,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/password"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpwritecredential/password:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpWriteCredential/password:
 
       .. rst-class:: ansible-option-title
 
@@ -1312,7 +1306,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/port"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpwritecredential/port:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpWriteCredential/port:
 
       .. rst-class:: ansible-option-title
 
@@ -1346,7 +1340,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/secure"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpwritecredential/secure:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpWriteCredential/secure:
 
       .. rst-class:: ansible-option-title
 
@@ -1387,7 +1381,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpWriteCredential/username"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpwritecredential/username:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-httpWriteCredential/username:
 
       .. rst-class:: ansible-option-title
 
@@ -1456,7 +1450,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipAddressList"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-ipaddresslist:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-ipAddressList:
 
       .. rst-class:: ansible-option-title
 
@@ -1490,7 +1484,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipFilterList"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-ipfilterlist:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-ipFilterList:
 
       .. rst-class:: ansible-option-title
 
@@ -1524,7 +1518,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-isAutoCdp"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-isautocdp:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-isAutoCdp:
 
       .. rst-class:: ansible-option-title
 
@@ -1565,7 +1559,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-lldpLevel"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-lldplevel:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-lldpLevel:
 
       .. rst-class:: ansible-option-title
 
@@ -1633,7 +1627,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netconfPort"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-netconfport:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-netconfPort:
 
       .. rst-class:: ansible-option-title
 
@@ -1667,7 +1661,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-numDevices"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-numdevices:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-numDevices:
 
       .. rst-class:: ansible-option-title
 
@@ -1701,7 +1695,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-parentDiscoveryId"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-parentdiscoveryid:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-parentDiscoveryId:
 
       .. rst-class:: ansible-option-title
 
@@ -1735,7 +1729,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-passwordList"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-passwordlist:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-passwordList:
 
       .. rst-class:: ansible-option-title
 
@@ -1769,7 +1763,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-preferredMgmtIPMethod"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-preferredmgmtipmethod:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-preferredMgmtIPMethod:
 
       .. rst-class:: ansible-option-title
 
@@ -1803,7 +1797,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-protocolOrder"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-protocolorder:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-protocolOrder:
 
       .. rst-class:: ansible-option-title
 
@@ -1871,7 +1865,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-retryCount"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-retrycount:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-retryCount:
 
       .. rst-class:: ansible-option-title
 
@@ -1905,7 +1899,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpAuthPassphrase"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpauthpassphrase:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpAuthPassphrase:
 
       .. rst-class:: ansible-option-title
 
@@ -1939,7 +1933,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpAuthProtocol"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpauthprotocol:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpAuthProtocol:
 
       .. rst-class:: ansible-option-title
 
@@ -1973,7 +1967,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpMode"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpmode:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpMode:
 
       .. rst-class:: ansible-option-title
 
@@ -2007,7 +2001,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpPrivPassphrase"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpprivpassphrase:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpPrivPassphrase:
 
       .. rst-class:: ansible-option-title
 
@@ -2041,7 +2035,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpPrivProtocol"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpprivprotocol:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpPrivProtocol:
 
       .. rst-class:: ansible-option-title
 
@@ -2075,7 +2069,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpROCommunity"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmprocommunity:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpROCommunity:
 
       .. rst-class:: ansible-option-title
 
@@ -2109,7 +2103,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpRoCommunity"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmprocommunity:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpRoCommunity:
 
       .. rst-class:: ansible-option-title
 
@@ -2143,7 +2137,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpROCommunityDesc"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmprocommunitydesc:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpROCommunityDesc:
 
       .. rst-class:: ansible-option-title
 
@@ -2177,7 +2171,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpRoCommunityDesc"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmprocommunitydesc:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpRoCommunityDesc:
 
       .. rst-class:: ansible-option-title
 
@@ -2211,7 +2205,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpRWCommunity"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmprwcommunity:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpRWCommunity:
 
       .. rst-class:: ansible-option-title
 
@@ -2245,7 +2239,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpRwCommunity"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmprwcommunity:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpRwCommunity:
 
       .. rst-class:: ansible-option-title
 
@@ -2279,7 +2273,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpRWCommunityDesc"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmprwcommunitydesc:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpRWCommunityDesc:
 
       .. rst-class:: ansible-option-title
 
@@ -2313,7 +2307,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpRwCommunityDesc"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmprwcommunitydesc:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpRwCommunityDesc:
 
       .. rst-class:: ansible-option-title
 
@@ -2347,7 +2341,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpUserName"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpusername:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpUserName:
 
       .. rst-class:: ansible-option-title
 
@@ -2381,7 +2375,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpVersion"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpversion:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-snmpVersion:
 
       .. rst-class:: ansible-option-title
 
@@ -2415,7 +2409,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-timeOut"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-timeout:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-timeOut:
 
       .. rst-class:: ansible-option-title
 
@@ -2483,7 +2477,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-updateMgmtIp"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-updatemgmtip:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-updateMgmtIp:
 
       .. rst-class:: ansible-option-title
 
@@ -2524,7 +2518,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-userNameList"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_module__parameter-usernamelist:
+      .. _ansible_collections.cisco.dnac.discovery_module__parameter-userNameList:
 
       .. rst-class:: ansible-option-title
 
@@ -2612,19 +2606,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Discovery StartDiscovery <https://developer.cisco.com/docs/dna-center/#!start-discovery>`_
-       Complete reference of the StartDiscovery API.
-   `Cisco DNA Center documentation for Discovery DeleteAllDiscovery <https://developer.cisco.com/docs/dna-center/#!delete-all-discovery>`_
-       Complete reference of the DeleteAllDiscovery API.
-   `Cisco DNA Center documentation for Discovery DeleteDiscoveryById <https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-id>`_
-       Complete reference of the DeleteDiscoveryById API.
-   `Cisco DNA Center documentation for Discovery UpdatesAnExistingDiscoveryBySpecifiedId <https://developer.cisco.com/docs/dna-center/#!updates-an-existing-discovery-by-specified-id>`_
-       Complete reference of the UpdatesAnExistingDiscoveryBySpecifiedId API.
 
 .. Examples
 

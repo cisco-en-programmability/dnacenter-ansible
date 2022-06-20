@@ -42,7 +42,7 @@ cisco.dnac.pnp_device module -- Resource module for Pnp Device
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -71,7 +71,6 @@ Synopsis
 - Manage operations create, update and delete of the resource Pnp Device.
 - Adds a device to the PnP database.
 - Deletes specified device from PnP database.
-- Updates device details specified by device id in PnP database.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,19 +84,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -148,7 +142,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo:
 
       .. rst-class:: ansible-option-title
 
@@ -182,7 +176,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/aaaCredentials"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/aaacredentials:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/aaaCredentials:
 
       .. rst-class:: ansible-option-title
 
@@ -216,7 +210,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/aaaCredentials/password"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/aaacredentials/password:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/aaaCredentials/password:
 
       .. rst-class:: ansible-option-title
 
@@ -250,7 +244,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/aaaCredentials/username"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/aaacredentials/username:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/aaaCredentials/username:
 
       .. rst-class:: ansible-option-title
 
@@ -285,7 +279,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/addedOn"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/addedon:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/addedOn:
 
       .. rst-class:: ansible-option-title
 
@@ -319,7 +313,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/addnMacAddrs"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/addnmacaddrs:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/addnMacAddrs:
 
       .. rst-class:: ansible-option-title
 
@@ -353,7 +347,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/agentType"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/agenttype:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/agentType:
 
       .. rst-class:: ansible-option-title
 
@@ -387,7 +381,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/authenticatedSudiSerialNo"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/authenticatedsudiserialno:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/authenticatedSudiSerialNo:
 
       .. rst-class:: ansible-option-title
 
@@ -421,7 +415,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/authStatus"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/authstatus:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/authStatus:
 
       .. rst-class:: ansible-option-title
 
@@ -455,7 +449,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/capabilitiesSupported"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/capabilitiessupported:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/capabilitiesSupported:
 
       .. rst-class:: ansible-option-title
 
@@ -489,7 +483,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/cmState"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/cmstate:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/cmState:
 
       .. rst-class:: ansible-option-title
 
@@ -523,7 +517,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/description"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/description:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/description:
 
       .. rst-class:: ansible-option-title
 
@@ -557,7 +551,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/deviceSudiSerialNos"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/devicesudiserialnos:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/deviceSudiSerialNos:
 
       .. rst-class:: ansible-option-title
 
@@ -591,7 +585,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/deviceType"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/devicetype:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/deviceType:
 
       .. rst-class:: ansible-option-title
 
@@ -625,7 +619,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/featuresSupported"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/featuressupported:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/featuresSupported:
 
       .. rst-class:: ansible-option-title
 
@@ -659,7 +653,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/fileSystemList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/filesystemlist:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/fileSystemList:
 
       .. rst-class:: ansible-option-title
 
@@ -693,7 +687,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/fileSystemList/freespace"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/filesystemlist/freespace:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/fileSystemList/freespace:
 
       .. rst-class:: ansible-option-title
 
@@ -727,7 +721,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/fileSystemList/name"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/filesystemlist/name:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/fileSystemList/name:
 
       .. rst-class:: ansible-option-title
 
@@ -761,7 +755,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/fileSystemList/readable"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/filesystemlist/readable:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/fileSystemList/readable:
 
       .. rst-class:: ansible-option-title
 
@@ -802,7 +796,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/fileSystemList/size"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/filesystemlist/size:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/fileSystemList/size:
 
       .. rst-class:: ansible-option-title
 
@@ -836,7 +830,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/fileSystemList/type"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/filesystemlist/type:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/fileSystemList/type:
 
       .. rst-class:: ansible-option-title
 
@@ -870,7 +864,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/fileSystemList/writeable"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/filesystemlist/writeable:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/fileSystemList/writeable:
 
       .. rst-class:: ansible-option-title
 
@@ -912,7 +906,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/firstContact"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/firstcontact:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/firstContact:
 
       .. rst-class:: ansible-option-title
 
@@ -946,7 +940,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/hostname"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/hostname:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/hostname:
 
       .. rst-class:: ansible-option-title
 
@@ -980,7 +974,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/httpHeaders"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/httpheaders:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/httpHeaders:
 
       .. rst-class:: ansible-option-title
 
@@ -1014,7 +1008,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/httpHeaders/key"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/httpheaders/key:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/httpHeaders/key:
 
       .. rst-class:: ansible-option-title
 
@@ -1048,7 +1042,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/httpHeaders/value"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/httpheaders/value:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/httpHeaders/value:
 
       .. rst-class:: ansible-option-title
 
@@ -1083,7 +1077,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/imageFile"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/imagefile:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/imageFile:
 
       .. rst-class:: ansible-option-title
 
@@ -1117,7 +1111,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/imageVersion"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/imageversion:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/imageVersion:
 
       .. rst-class:: ansible-option-title
 
@@ -1151,7 +1145,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/ipInterfaces"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/ipinterfaces:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/ipInterfaces:
 
       .. rst-class:: ansible-option-title
 
@@ -1185,7 +1179,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/ipInterfaces/ipv4Address"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/ipinterfaces/ipv4address:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/ipInterfaces/ipv4Address:
 
       .. rst-class:: ansible-option-title
 
@@ -1219,7 +1213,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/ipInterfaces/ipv6AddressList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/ipinterfaces/ipv6addresslist:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/ipInterfaces/ipv6AddressList:
 
       .. rst-class:: ansible-option-title
 
@@ -1253,7 +1247,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/ipInterfaces/macAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/ipinterfaces/macaddress:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/ipInterfaces/macAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -1287,7 +1281,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/ipInterfaces/name"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/ipinterfaces/name:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/ipInterfaces/name:
 
       .. rst-class:: ansible-option-title
 
@@ -1321,7 +1315,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/ipInterfaces/status"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/ipinterfaces/status:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/ipInterfaces/status:
 
       .. rst-class:: ansible-option-title
 
@@ -1356,7 +1350,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/lastContact"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/lastcontact:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/lastContact:
 
       .. rst-class:: ansible-option-title
 
@@ -1390,7 +1384,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/lastSyncTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/lastsynctime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/lastSyncTime:
 
       .. rst-class:: ansible-option-title
 
@@ -1424,7 +1418,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/lastUpdateOn"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/lastupdateon:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/lastUpdateOn:
 
       .. rst-class:: ansible-option-title
 
@@ -1458,7 +1452,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/location"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/location:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/location:
 
       .. rst-class:: ansible-option-title
 
@@ -1492,7 +1486,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/location/address"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/location/address:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/location/address:
 
       .. rst-class:: ansible-option-title
 
@@ -1526,7 +1520,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/location/altitude"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/location/altitude:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/location/altitude:
 
       .. rst-class:: ansible-option-title
 
@@ -1560,7 +1554,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/location/latitude"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/location/latitude:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/location/latitude:
 
       .. rst-class:: ansible-option-title
 
@@ -1594,7 +1588,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/location/longitude"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/location/longitude:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/location/longitude:
 
       .. rst-class:: ansible-option-title
 
@@ -1628,7 +1622,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/location/siteId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/location/siteid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/location/siteId:
 
       .. rst-class:: ansible-option-title
 
@@ -1663,7 +1657,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/macAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/macaddress:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/macAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -1697,7 +1691,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/mode"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/mode:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/mode:
 
       .. rst-class:: ansible-option-title
 
@@ -1731,7 +1725,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/name"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/name:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/name:
 
       .. rst-class:: ansible-option-title
 
@@ -1765,7 +1759,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/neighborLinks"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/neighborlinks:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/neighborLinks:
 
       .. rst-class:: ansible-option-title
 
@@ -1799,7 +1793,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/neighborLinks/localInterfaceName"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/neighborlinks/localinterfacename:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/neighborLinks/localInterfaceName:
 
       .. rst-class:: ansible-option-title
 
@@ -1833,7 +1827,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/neighborLinks/localMacAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/neighborlinks/localmacaddress:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/neighborLinks/localMacAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -1867,7 +1861,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/neighborLinks/localShortInterfaceName"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/neighborlinks/localshortinterfacename:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/neighborLinks/localShortInterfaceName:
 
       .. rst-class:: ansible-option-title
 
@@ -1901,7 +1895,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/neighborLinks/remoteDeviceName"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/neighborlinks/remotedevicename:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/neighborLinks/remoteDeviceName:
 
       .. rst-class:: ansible-option-title
 
@@ -1935,7 +1929,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/neighborLinks/remoteInterfaceName"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/neighborlinks/remoteinterfacename:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/neighborLinks/remoteInterfaceName:
 
       .. rst-class:: ansible-option-title
 
@@ -1969,7 +1963,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/neighborLinks/remoteMacAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/neighborlinks/remotemacaddress:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/neighborLinks/remoteMacAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -2003,7 +1997,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/neighborLinks/remotePlatform"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/neighborlinks/remoteplatform:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/neighborLinks/remotePlatform:
 
       .. rst-class:: ansible-option-title
 
@@ -2037,7 +2031,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/neighborLinks/remoteShortInterfaceName"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/neighborlinks/remoteshortinterfacename:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/neighborLinks/remoteShortInterfaceName:
 
       .. rst-class:: ansible-option-title
 
@@ -2071,7 +2065,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/neighborLinks/remoteVersion"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/neighborlinks/remoteversion:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/neighborLinks/remoteVersion:
 
       .. rst-class:: ansible-option-title
 
@@ -2106,7 +2100,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/onbState"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/onbstate:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/onbState:
 
       .. rst-class:: ansible-option-title
 
@@ -2140,7 +2134,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pid"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pid:
 
       .. rst-class:: ansible-option-title
 
@@ -2174,7 +2168,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList:
 
       .. rst-class:: ansible-option-title
 
@@ -2208,7 +2202,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList/createdBy"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist/createdby:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList/createdBy:
 
       .. rst-class:: ansible-option-title
 
@@ -2242,7 +2236,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList/discoveryCreated"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist/discoverycreated:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList/discoveryCreated:
 
       .. rst-class:: ansible-option-title
 
@@ -2283,7 +2277,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList/primaryEndpoint"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist/primaryendpoint:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList/primaryEndpoint:
 
       .. rst-class:: ansible-option-title
 
@@ -2317,7 +2311,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList/primaryEndpoint/certificate"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist/primaryendpoint/certificate:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList/primaryEndpoint/certificate:
 
       .. rst-class:: ansible-option-title
 
@@ -2351,7 +2345,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList/primaryEndpoint/fqdn"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist/primaryendpoint/fqdn:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList/primaryEndpoint/fqdn:
 
       .. rst-class:: ansible-option-title
 
@@ -2385,7 +2379,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList/primaryEndpoint/ipv4Address"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist/primaryendpoint/ipv4address:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList/primaryEndpoint/ipv4Address:
 
       .. rst-class:: ansible-option-title
 
@@ -2419,7 +2413,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList/primaryEndpoint/ipv6Address"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist/primaryendpoint/ipv6address:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList/primaryEndpoint/ipv6Address:
 
       .. rst-class:: ansible-option-title
 
@@ -2453,7 +2447,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList/primaryEndpoint/port"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist/primaryendpoint/port:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList/primaryEndpoint/port:
 
       .. rst-class:: ansible-option-title
 
@@ -2487,7 +2481,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList/primaryEndpoint/protocol"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist/primaryendpoint/protocol:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList/primaryEndpoint/protocol:
 
       .. rst-class:: ansible-option-title
 
@@ -2522,7 +2516,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList/profileName"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist/profilename:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList/profileName:
 
       .. rst-class:: ansible-option-title
 
@@ -2556,7 +2550,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList/secondaryEndpoint"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist/secondaryendpoint:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList/secondaryEndpoint:
 
       .. rst-class:: ansible-option-title
 
@@ -2590,7 +2584,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList/secondaryEndpoint/certificate"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist/secondaryendpoint/certificate:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList/secondaryEndpoint/certificate:
 
       .. rst-class:: ansible-option-title
 
@@ -2624,7 +2618,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList/secondaryEndpoint/fqdn"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist/secondaryendpoint/fqdn:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList/secondaryEndpoint/fqdn:
 
       .. rst-class:: ansible-option-title
 
@@ -2658,7 +2652,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList/secondaryEndpoint/ipv4Address"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist/secondaryendpoint/ipv4address:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList/secondaryEndpoint/ipv4Address:
 
       .. rst-class:: ansible-option-title
 
@@ -2692,7 +2686,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList/secondaryEndpoint/ipv6Address"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist/secondaryendpoint/ipv6address:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList/secondaryEndpoint/ipv6Address:
 
       .. rst-class:: ansible-option-title
 
@@ -2726,7 +2720,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList/secondaryEndpoint/port"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist/secondaryendpoint/port:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList/secondaryEndpoint/port:
 
       .. rst-class:: ansible-option-title
 
@@ -2760,7 +2754,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/pnpProfileList/secondaryEndpoint/protocol"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/pnpprofilelist/secondaryendpoint/protocol:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/pnpProfileList/secondaryEndpoint/protocol:
 
       .. rst-class:: ansible-option-title
 
@@ -2796,7 +2790,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/populateInventory"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/populateinventory:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/populateInventory:
 
       .. rst-class:: ansible-option-title
 
@@ -2837,7 +2831,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/preWorkflowCliOuputs"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/preworkflowcliouputs:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/preWorkflowCliOuputs:
 
       .. rst-class:: ansible-option-title
 
@@ -2871,7 +2865,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/preWorkflowCliOuputs/cli"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/preworkflowcliouputs/cli:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/preWorkflowCliOuputs/cli:
 
       .. rst-class:: ansible-option-title
 
@@ -2905,7 +2899,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/preWorkflowCliOuputs/cliOutput"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/preworkflowcliouputs/clioutput:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/preWorkflowCliOuputs/cliOutput:
 
       .. rst-class:: ansible-option-title
 
@@ -2940,7 +2934,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/projectId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/projectid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/projectId:
 
       .. rst-class:: ansible-option-title
 
@@ -2974,7 +2968,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/projectName"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/projectname:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/projectName:
 
       .. rst-class:: ansible-option-title
 
@@ -3008,7 +3002,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/reloadRequested"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/reloadrequested:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/reloadRequested:
 
       .. rst-class:: ansible-option-title
 
@@ -3049,7 +3043,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/serialNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/serialnumber:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/serialNumber:
 
       .. rst-class:: ansible-option-title
 
@@ -3083,7 +3077,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/smartAccountId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/smartaccountid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/smartAccountId:
 
       .. rst-class:: ansible-option-title
 
@@ -3117,7 +3111,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/source"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/source:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/source:
 
       .. rst-class:: ansible-option-title
 
@@ -3151,7 +3145,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stack"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stack:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stack:
 
       .. rst-class:: ansible-option-title
 
@@ -3192,7 +3186,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo:
 
       .. rst-class:: ansible-option-title
 
@@ -3226,7 +3220,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/isFullRing"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/isfullring:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/isFullRing:
 
       .. rst-class:: ansible-option-title
 
@@ -3267,7 +3261,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/stackMemberList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/stackmemberlist:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/stackMemberList:
 
       .. rst-class:: ansible-option-title
 
@@ -3301,7 +3295,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/stackMemberList/hardwareVersion"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/stackmemberlist/hardwareversion:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/stackMemberList/hardwareVersion:
 
       .. rst-class:: ansible-option-title
 
@@ -3335,7 +3329,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/stackMemberList/licenseLevel"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/stackmemberlist/licenselevel:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/stackMemberList/licenseLevel:
 
       .. rst-class:: ansible-option-title
 
@@ -3369,7 +3363,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/stackMemberList/licenseType"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/stackmemberlist/licensetype:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/stackMemberList/licenseType:
 
       .. rst-class:: ansible-option-title
 
@@ -3403,7 +3397,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/stackMemberList/macAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/stackmemberlist/macaddress:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/stackMemberList/macAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -3437,7 +3431,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/stackMemberList/pid"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/stackmemberlist/pid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/stackMemberList/pid:
 
       .. rst-class:: ansible-option-title
 
@@ -3471,7 +3465,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/stackMemberList/priority"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/stackmemberlist/priority:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/stackMemberList/priority:
 
       .. rst-class:: ansible-option-title
 
@@ -3505,7 +3499,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/stackMemberList/role"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/stackmemberlist/role:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/stackMemberList/role:
 
       .. rst-class:: ansible-option-title
 
@@ -3539,7 +3533,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/stackMemberList/serialNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/stackmemberlist/serialnumber:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/stackMemberList/serialNumber:
 
       .. rst-class:: ansible-option-title
 
@@ -3573,7 +3567,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/stackMemberList/softwareVersion"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/stackmemberlist/softwareversion:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/stackMemberList/softwareVersion:
 
       .. rst-class:: ansible-option-title
 
@@ -3607,7 +3601,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/stackMemberList/stackNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/stackmemberlist/stacknumber:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/stackMemberList/stackNumber:
 
       .. rst-class:: ansible-option-title
 
@@ -3641,7 +3635,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/stackMemberList/state"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/stackmemberlist/state:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/stackMemberList/state:
 
       .. rst-class:: ansible-option-title
 
@@ -3675,7 +3669,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/stackMemberList/sudiSerialNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/stackmemberlist/sudiserialnumber:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/stackMemberList/sudiSerialNumber:
 
       .. rst-class:: ansible-option-title
 
@@ -3710,7 +3704,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/stackRingProtocol"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/stackringprotocol:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/stackRingProtocol:
 
       .. rst-class:: ansible-option-title
 
@@ -3744,7 +3738,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/supportsStackWorkflows"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/supportsstackworkflows:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/supportsStackWorkflows:
 
       .. rst-class:: ansible-option-title
 
@@ -3785,7 +3779,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/totalMemberCount"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/totalmembercount:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/totalMemberCount:
 
       .. rst-class:: ansible-option-title
 
@@ -3819,7 +3813,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/stackInfo/validLicenseLevels"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/stackinfo/validlicenselevels:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/stackInfo/validLicenseLevels:
 
       .. rst-class:: ansible-option-title
 
@@ -3854,7 +3848,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/state"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/state:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/state:
 
       .. rst-class:: ansible-option-title
 
@@ -3888,7 +3882,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/sudiRequired"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/sudirequired:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/sudiRequired:
 
       .. rst-class:: ansible-option-title
 
@@ -3929,7 +3923,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/tags"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/tags:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/tags:
 
       .. rst-class:: ansible-option-title
 
@@ -3963,7 +3957,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/userSudiSerialNos"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/usersudiserialnos:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/userSudiSerialNos:
 
       .. rst-class:: ansible-option-title
 
@@ -3997,7 +3991,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/virtualAccountId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/virtualaccountid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/virtualAccountId:
 
       .. rst-class:: ansible-option-title
 
@@ -4031,7 +4025,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/workflowId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/workflowid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/workflowId:
 
       .. rst-class:: ansible-option-title
 
@@ -4065,7 +4059,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/workflowName"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/workflowname:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceInfo/workflowName:
 
       .. rst-class:: ansible-option-title
 
@@ -4359,7 +4353,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -4404,7 +4398,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList:
 
       .. rst-class:: ansible-option-title
 
@@ -4438,7 +4432,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList/details"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist/details:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList/details:
 
       .. rst-class:: ansible-option-title
 
@@ -4472,7 +4466,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList/errorFlag"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist/errorflag:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList/errorFlag:
 
       .. rst-class:: ansible-option-title
 
@@ -4513,7 +4507,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList/historyTaskInfo"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist/historytaskinfo:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList/historyTaskInfo:
 
       .. rst-class:: ansible-option-title
 
@@ -4547,7 +4541,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList/historyTaskInfo/addnDetails"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist/historytaskinfo/addndetails:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList/historyTaskInfo/addnDetails:
 
       .. rst-class:: ansible-option-title
 
@@ -4581,7 +4575,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList/historyTaskInfo/addnDetails/key"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist/historytaskinfo/addndetails/key:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList/historyTaskInfo/addnDetails/key:
 
       .. rst-class:: ansible-option-title
 
@@ -4615,7 +4609,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList/historyTaskInfo/addnDetails/value"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist/historytaskinfo/addndetails/value:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList/historyTaskInfo/addnDetails/value:
 
       .. rst-class:: ansible-option-title
 
@@ -4650,7 +4644,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList/historyTaskInfo/name"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist/historytaskinfo/name:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList/historyTaskInfo/name:
 
       .. rst-class:: ansible-option-title
 
@@ -4684,7 +4678,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList/historyTaskInfo/timeTaken"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist/historytaskinfo/timetaken:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList/historyTaskInfo/timeTaken:
 
       .. rst-class:: ansible-option-title
 
@@ -4718,7 +4712,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList/historyTaskInfo/type"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist/historytaskinfo/type:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList/historyTaskInfo/type:
 
       .. rst-class:: ansible-option-title
 
@@ -4752,7 +4746,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList/historyTaskInfo/workItemList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist/historytaskinfo/workitemlist:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList/historyTaskInfo/workItemList:
 
       .. rst-class:: ansible-option-title
 
@@ -4786,7 +4780,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList/historyTaskInfo/workItemList/command"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist/historytaskinfo/workitemlist/command:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList/historyTaskInfo/workItemList/command:
 
       .. rst-class:: ansible-option-title
 
@@ -4820,7 +4814,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList/historyTaskInfo/workItemList/endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist/historytaskinfo/workitemlist/endtime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList/historyTaskInfo/workItemList/endTime:
 
       .. rst-class:: ansible-option-title
 
@@ -4854,7 +4848,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList/historyTaskInfo/workItemList/outputStr"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist/historytaskinfo/workitemlist/outputstr:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList/historyTaskInfo/workItemList/outputStr:
 
       .. rst-class:: ansible-option-title
 
@@ -4888,7 +4882,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList/historyTaskInfo/workItemList/startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist/historytaskinfo/workitemlist/starttime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList/historyTaskInfo/workItemList/startTime:
 
       .. rst-class:: ansible-option-title
 
@@ -4922,7 +4916,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList/historyTaskInfo/workItemList/state"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist/historytaskinfo/workitemlist/state:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList/historyTaskInfo/workItemList/state:
 
       .. rst-class:: ansible-option-title
 
@@ -4956,7 +4950,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList/historyTaskInfo/workItemList/timeTaken"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist/historytaskinfo/workitemlist/timetaken:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList/historyTaskInfo/workItemList/timeTaken:
 
       .. rst-class:: ansible-option-title
 
@@ -4992,7 +4986,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-runSummaryList/timestamp"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runsummarylist/timestamp:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-runSummaryList/timestamp:
 
       .. rst-class:: ansible-option-title
 
@@ -5027,7 +5021,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow:
 
       .. rst-class:: ansible-option-title
 
@@ -5061,7 +5055,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/_id"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/_id:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/_id:
 
       .. rst-class:: ansible-option-title
 
@@ -5095,7 +5089,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/addedOn"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/addedon:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/addedOn:
 
       .. rst-class:: ansible-option-title
 
@@ -5129,7 +5123,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/addToInventory"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/addtoinventory:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/addToInventory:
 
       .. rst-class:: ansible-option-title
 
@@ -5170,7 +5164,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/configId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/configid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/configId:
 
       .. rst-class:: ansible-option-title
 
@@ -5204,7 +5198,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/currTaskIdx"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/currtaskidx:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/currTaskIdx:
 
       .. rst-class:: ansible-option-title
 
@@ -5238,7 +5232,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/description"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/description:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/description:
 
       .. rst-class:: ansible-option-title
 
@@ -5272,7 +5266,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/endtime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/endTime:
 
       .. rst-class:: ansible-option-title
 
@@ -5306,7 +5300,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/execTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/exectime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/execTime:
 
       .. rst-class:: ansible-option-title
 
@@ -5340,7 +5334,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/imageId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/imageid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/imageId:
 
       .. rst-class:: ansible-option-title
 
@@ -5374,7 +5368,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/instanceType"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/instancetype:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/instanceType:
 
       .. rst-class:: ansible-option-title
 
@@ -5408,7 +5402,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/lastupdateOn"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/lastupdateon:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/lastupdateOn:
 
       .. rst-class:: ansible-option-title
 
@@ -5442,7 +5436,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/name"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/name:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/name:
 
       .. rst-class:: ansible-option-title
 
@@ -5476,7 +5470,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/starttime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/startTime:
 
       .. rst-class:: ansible-option-title
 
@@ -5510,7 +5504,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/state"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/state:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/state:
 
       .. rst-class:: ansible-option-title
 
@@ -5544,7 +5538,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/tasks:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/tasks:
 
       .. rst-class:: ansible-option-title
 
@@ -5578,7 +5572,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks/currWorkItemIdx"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/tasks/currworkitemidx:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/tasks/currWorkItemIdx:
 
       .. rst-class:: ansible-option-title
 
@@ -5612,7 +5606,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks/endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/tasks/endtime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/tasks/endTime:
 
       .. rst-class:: ansible-option-title
 
@@ -5646,7 +5640,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks/name"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/tasks/name:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/tasks/name:
 
       .. rst-class:: ansible-option-title
 
@@ -5680,7 +5674,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks/startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/tasks/starttime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/tasks/startTime:
 
       .. rst-class:: ansible-option-title
 
@@ -5714,7 +5708,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks/state"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/tasks/state:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/tasks/state:
 
       .. rst-class:: ansible-option-title
 
@@ -5748,7 +5742,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks/taskSeqNo"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/tasks/taskseqno:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/tasks/taskSeqNo:
 
       .. rst-class:: ansible-option-title
 
@@ -5782,7 +5776,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks/timeTaken"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/tasks/timetaken:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/tasks/timeTaken:
 
       .. rst-class:: ansible-option-title
 
@@ -5816,7 +5810,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks/type"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/tasks/type:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/tasks/type:
 
       .. rst-class:: ansible-option-title
 
@@ -5850,7 +5844,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks/workItemList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/tasks/workitemlist:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/tasks/workItemList:
 
       .. rst-class:: ansible-option-title
 
@@ -5884,7 +5878,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks/workItemList/command"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/tasks/workitemlist/command:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/tasks/workItemList/command:
 
       .. rst-class:: ansible-option-title
 
@@ -5918,7 +5912,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks/workItemList/endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/tasks/workitemlist/endtime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/tasks/workItemList/endTime:
 
       .. rst-class:: ansible-option-title
 
@@ -5952,7 +5946,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks/workItemList/outputStr"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/tasks/workitemlist/outputstr:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/tasks/workItemList/outputStr:
 
       .. rst-class:: ansible-option-title
 
@@ -5986,7 +5980,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks/workItemList/startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/tasks/workitemlist/starttime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/tasks/workItemList/startTime:
 
       .. rst-class:: ansible-option-title
 
@@ -6020,7 +6014,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks/workItemList/state"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/tasks/workitemlist/state:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/tasks/workItemList/state:
 
       .. rst-class:: ansible-option-title
 
@@ -6054,7 +6048,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tasks/workItemList/timeTaken"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/tasks/workitemlist/timetaken:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/tasks/workItemList/timeTaken:
 
       .. rst-class:: ansible-option-title
 
@@ -6090,7 +6084,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/tenantId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/tenantid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/tenantId:
 
       .. rst-class:: ansible-option-title
 
@@ -6124,7 +6118,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/type"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/type:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/type:
 
       .. rst-class:: ansible-option-title
 
@@ -6158,7 +6152,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/useState"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/usestate:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/useState:
 
       .. rst-class:: ansible-option-title
 
@@ -6192,7 +6186,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemResetWorkflow/version"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemresetworkflow/version:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemResetWorkflow/version:
 
       .. rst-class:: ansible-option-title
 
@@ -6227,7 +6221,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow:
 
       .. rst-class:: ansible-option-title
 
@@ -6261,7 +6255,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/_id"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/_id:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/_id:
 
       .. rst-class:: ansible-option-title
 
@@ -6295,7 +6289,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/addedOn"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/addedon:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/addedOn:
 
       .. rst-class:: ansible-option-title
 
@@ -6329,7 +6323,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/addToInventory"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/addtoinventory:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/addToInventory:
 
       .. rst-class:: ansible-option-title
 
@@ -6370,7 +6364,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/configId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/configid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/configId:
 
       .. rst-class:: ansible-option-title
 
@@ -6404,7 +6398,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/currTaskIdx"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/currtaskidx:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/currTaskIdx:
 
       .. rst-class:: ansible-option-title
 
@@ -6438,7 +6432,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/description"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/description:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/description:
 
       .. rst-class:: ansible-option-title
 
@@ -6472,7 +6466,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/endtime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/endTime:
 
       .. rst-class:: ansible-option-title
 
@@ -6506,7 +6500,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/execTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/exectime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/execTime:
 
       .. rst-class:: ansible-option-title
 
@@ -6540,7 +6534,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/imageId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/imageid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/imageId:
 
       .. rst-class:: ansible-option-title
 
@@ -6574,7 +6568,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/instanceType"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/instancetype:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/instanceType:
 
       .. rst-class:: ansible-option-title
 
@@ -6608,7 +6602,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/lastupdateOn"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/lastupdateon:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/lastupdateOn:
 
       .. rst-class:: ansible-option-title
 
@@ -6642,7 +6636,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/name"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/name:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/name:
 
       .. rst-class:: ansible-option-title
 
@@ -6676,7 +6670,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/starttime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/startTime:
 
       .. rst-class:: ansible-option-title
 
@@ -6710,7 +6704,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/state"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/state:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/state:
 
       .. rst-class:: ansible-option-title
 
@@ -6744,7 +6738,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/tasks:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/tasks:
 
       .. rst-class:: ansible-option-title
 
@@ -6778,7 +6772,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks/currWorkItemIdx"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/tasks/currworkitemidx:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/tasks/currWorkItemIdx:
 
       .. rst-class:: ansible-option-title
 
@@ -6812,7 +6806,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks/endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/tasks/endtime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/tasks/endTime:
 
       .. rst-class:: ansible-option-title
 
@@ -6846,7 +6840,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks/name"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/tasks/name:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/tasks/name:
 
       .. rst-class:: ansible-option-title
 
@@ -6880,7 +6874,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks/startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/tasks/starttime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/tasks/startTime:
 
       .. rst-class:: ansible-option-title
 
@@ -6914,7 +6908,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks/state"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/tasks/state:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/tasks/state:
 
       .. rst-class:: ansible-option-title
 
@@ -6948,7 +6942,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks/taskSeqNo"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/tasks/taskseqno:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/tasks/taskSeqNo:
 
       .. rst-class:: ansible-option-title
 
@@ -6982,7 +6976,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks/timeTaken"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/tasks/timetaken:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/tasks/timeTaken:
 
       .. rst-class:: ansible-option-title
 
@@ -7016,7 +7010,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks/type"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/tasks/type:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/tasks/type:
 
       .. rst-class:: ansible-option-title
 
@@ -7050,7 +7044,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks/workItemList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/tasks/workitemlist:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/tasks/workItemList:
 
       .. rst-class:: ansible-option-title
 
@@ -7084,7 +7078,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks/workItemList/command"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/tasks/workitemlist/command:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/tasks/workItemList/command:
 
       .. rst-class:: ansible-option-title
 
@@ -7118,7 +7112,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks/workItemList/endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/tasks/workitemlist/endtime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/tasks/workItemList/endTime:
 
       .. rst-class:: ansible-option-title
 
@@ -7152,7 +7146,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks/workItemList/outputStr"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/tasks/workitemlist/outputstr:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/tasks/workItemList/outputStr:
 
       .. rst-class:: ansible-option-title
 
@@ -7186,7 +7180,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks/workItemList/startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/tasks/workitemlist/starttime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/tasks/workItemList/startTime:
 
       .. rst-class:: ansible-option-title
 
@@ -7220,7 +7214,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks/workItemList/state"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/tasks/workitemlist/state:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/tasks/workItemList/state:
 
       .. rst-class:: ansible-option-title
 
@@ -7254,7 +7248,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tasks/workItemList/timeTaken"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/tasks/workitemlist/timetaken:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/tasks/workItemList/timeTaken:
 
       .. rst-class:: ansible-option-title
 
@@ -7290,7 +7284,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/tenantId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/tenantid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/tenantId:
 
       .. rst-class:: ansible-option-title
 
@@ -7324,7 +7318,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/type"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/type:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/type:
 
       .. rst-class:: ansible-option-title
 
@@ -7358,7 +7352,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/useState"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/usestate:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/useState:
 
       .. rst-class:: ansible-option-title
 
@@ -7392,7 +7386,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemWorkflow/version"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemworkflow/version:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-systemWorkflow/version:
 
       .. rst-class:: ansible-option-title
 
@@ -7427,7 +7421,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-tenantId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-tenantid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-tenantId:
 
       .. rst-class:: ansible-option-title
 
@@ -7604,7 +7598,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/addedOn"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/addedon:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/addedOn:
 
       .. rst-class:: ansible-option-title
 
@@ -7638,7 +7632,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/addToInventory"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/addtoinventory:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/addToInventory:
 
       .. rst-class:: ansible-option-title
 
@@ -7679,7 +7673,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/configId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/configid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/configId:
 
       .. rst-class:: ansible-option-title
 
@@ -7713,7 +7707,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/currTaskIdx"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/currtaskidx:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/currTaskIdx:
 
       .. rst-class:: ansible-option-title
 
@@ -7781,7 +7775,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/endtime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/endTime:
 
       .. rst-class:: ansible-option-title
 
@@ -7815,7 +7809,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/execTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/exectime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/execTime:
 
       .. rst-class:: ansible-option-title
 
@@ -7849,7 +7843,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/imageId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/imageid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/imageId:
 
       .. rst-class:: ansible-option-title
 
@@ -7883,7 +7877,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/instanceType"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/instancetype:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/instanceType:
 
       .. rst-class:: ansible-option-title
 
@@ -7917,7 +7911,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/lastupdateOn"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/lastupdateon:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/lastupdateOn:
 
       .. rst-class:: ansible-option-title
 
@@ -7985,7 +7979,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/starttime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/startTime:
 
       .. rst-class:: ansible-option-title
 
@@ -8087,7 +8081,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/tasks/currWorkItemIdx"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/currworkitemidx:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/currWorkItemIdx:
 
       .. rst-class:: ansible-option-title
 
@@ -8121,7 +8115,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/tasks/endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/endtime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/endTime:
 
       .. rst-class:: ansible-option-title
 
@@ -8189,7 +8183,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/tasks/startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/starttime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/startTime:
 
       .. rst-class:: ansible-option-title
 
@@ -8257,7 +8251,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/tasks/taskSeqNo"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/taskseqno:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/taskSeqNo:
 
       .. rst-class:: ansible-option-title
 
@@ -8291,7 +8285,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/tasks/timeTaken"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/timetaken:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/timeTaken:
 
       .. rst-class:: ansible-option-title
 
@@ -8359,7 +8353,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/tasks/workItemList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/workitemlist:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/workItemList:
 
       .. rst-class:: ansible-option-title
 
@@ -8393,7 +8387,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/tasks/workItemList/command"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/workitemlist/command:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/workItemList/command:
 
       .. rst-class:: ansible-option-title
 
@@ -8427,7 +8421,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/tasks/workItemList/endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/workitemlist/endtime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/workItemList/endTime:
 
       .. rst-class:: ansible-option-title
 
@@ -8461,7 +8455,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/tasks/workItemList/outputStr"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/workitemlist/outputstr:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/workItemList/outputStr:
 
       .. rst-class:: ansible-option-title
 
@@ -8495,7 +8489,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/tasks/workItemList/startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/workitemlist/starttime:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/workItemList/startTime:
 
       .. rst-class:: ansible-option-title
 
@@ -8529,7 +8523,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/tasks/workItemList/state"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/workitemlist/state:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/workItemList/state:
 
       .. rst-class:: ansible-option-title
 
@@ -8563,7 +8557,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/tasks/workItemList/timeTaken"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/workitemlist/timetaken:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tasks/workItemList/timeTaken:
 
       .. rst-class:: ansible-option-title
 
@@ -8599,7 +8593,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/tenantId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tenantid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/tenantId:
 
       .. rst-class:: ansible-option-title
 
@@ -8667,7 +8661,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflow/useState"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/usestate:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflow/useState:
 
       .. rst-class:: ansible-option-title
 
@@ -8736,7 +8730,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflowParameters"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowparameters:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowParameters:
 
       .. rst-class:: ansible-option-title
 
@@ -8770,7 +8764,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflowParameters/configList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowparameters/configlist:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowParameters/configList:
 
       .. rst-class:: ansible-option-title
 
@@ -8804,7 +8798,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflowParameters/configList/configId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowparameters/configlist/configid:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowParameters/configList/configId:
 
       .. rst-class:: ansible-option-title
 
@@ -8838,7 +8832,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflowParameters/configList/configParameters"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowparameters/configlist/configparameters:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowParameters/configList/configParameters:
 
       .. rst-class:: ansible-option-title
 
@@ -8872,7 +8866,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflowParameters/configList/configParameters/key"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowparameters/configlist/configparameters/key:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowParameters/configList/configParameters/key:
 
       .. rst-class:: ansible-option-title
 
@@ -8906,7 +8900,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflowParameters/configList/configParameters/value"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowparameters/configlist/configparameters/value:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowParameters/configList/configParameters/value:
 
       .. rst-class:: ansible-option-title
 
@@ -8942,7 +8936,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflowParameters/licenseLevel"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowparameters/licenselevel:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowParameters/licenseLevel:
 
       .. rst-class:: ansible-option-title
 
@@ -8976,7 +8970,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflowParameters/licenseType"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowparameters/licensetype:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowParameters/licenseType:
 
       .. rst-class:: ansible-option-title
 
@@ -9010,7 +9004,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflowParameters/topOfStackSerialNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowparameters/topofstackserialnumber:
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-workflowParameters/topOfStackSerialNumber:
 
       .. rst-class:: ansible-option-title
 
@@ -9051,24 +9045,13 @@ Notes
 
 .. note::
    - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.add_device, device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp, device_onboarding_pnp.DeviceOnboardingPnp.update_device,
-   - Paths used are post /dna/intent/api/v1/onboarding/pnp-device, delete /dna/intent/api/v1/onboarding/pnp-device/{id}, put /dna/intent/api/v1/onboarding/pnp-device/{id},
+   - Paths used are post /dna/intent/api/v1/onboarding/pnp-device, delete /dna/intent/api/v1/onboarding/pnp-device/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Device Onboarding (PnP) AddDevice <https://developer.cisco.com/docs/dna-center/#!add-device-2>`_
-       Complete reference of the AddDevice API.
-   `Cisco DNA Center documentation for Device Onboarding (PnP) DeleteDeviceByIdFromPnP <https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-from-pn-p>`_
-       Complete reference of the DeleteDeviceByIdFromPnP API.
-   `Cisco DNA Center documentation for Device Onboarding (PnP) UpdateDevice <https://developer.cisco.com/docs/dna-center/#!update-device>`_
-       Complete reference of the UpdateDevice API.
 
 .. Examples
 

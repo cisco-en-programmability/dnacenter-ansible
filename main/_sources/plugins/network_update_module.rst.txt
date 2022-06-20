@@ -42,7 +42,7 @@ cisco.dnac.network_update module -- Resource module for Network Update
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,19 +83,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -371,7 +366,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -416,7 +411,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/clientAndEndpoint_aaa"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/clientandendpoint_aaa:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/clientAndEndpoint_aaa:
 
       .. rst-class:: ansible-option-title
 
@@ -450,7 +445,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/clientAndEndpoint_aaa/ipAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/clientandendpoint_aaa/ipaddress:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/clientAndEndpoint_aaa/ipAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -472,7 +467,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP address for ISE serve (eg 1.1.1.4).
+      IP address for ISE serve (eg 1.1.1.4). Mandatory for ISE servers.
 
 
       .. raw:: html
@@ -484,7 +479,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/clientAndEndpoint_aaa/network"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/clientandendpoint_aaa/network:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/clientAndEndpoint_aaa/network:
 
       .. rst-class:: ansible-option-title
 
@@ -518,7 +513,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/clientAndEndpoint_aaa/protocol"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/clientandendpoint_aaa/protocol:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/clientAndEndpoint_aaa/protocol:
 
       .. rst-class:: ansible-option-title
 
@@ -552,7 +547,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/clientAndEndpoint_aaa/servers"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/clientandendpoint_aaa/servers:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/clientAndEndpoint_aaa/servers:
 
       .. rst-class:: ansible-option-title
 
@@ -586,7 +581,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/clientAndEndpoint_aaa/sharedSecret"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/clientandendpoint_aaa/sharedsecret:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/clientAndEndpoint_aaa/sharedSecret:
 
       .. rst-class:: ansible-option-title
 
@@ -608,7 +603,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Shared secret for ISE server.
+      Shared secret for ISE server. Supported only by ISE servers.
 
 
       .. raw:: html
@@ -621,7 +616,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/dhcpServer"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/dhcpserver:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/dhcpServer:
 
       .. rst-class:: ansible-option-title
 
@@ -655,7 +650,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/dnsServer"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/dnsserver:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/dnsServer:
 
       .. rst-class:: ansible-option-title
 
@@ -689,7 +684,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/dnsServer/domainName"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/dnsserver/domainname:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/dnsServer/domainName:
 
       .. rst-class:: ansible-option-title
 
@@ -711,7 +706,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Domain name of DHCP (eg; cisco).
+      Domain name of DHCP (eg; cisco). It can only contain alphanumeric characters or hyphen.
 
 
       .. raw:: html
@@ -723,7 +718,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/dnsServer/primaryIpAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/dnsserver/primaryipaddress:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/dnsServer/primaryIpAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -745,7 +740,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Primary ip address for DHCP (eg 2.2.2.2).
+      Primary ip address for DHCP (eg 2.2.2.2). Valid range 1.0.0.0 - 223.255.255.255.
 
 
       .. raw:: html
@@ -757,7 +752,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/dnsServer/secondaryIpAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/dnsserver/secondaryipaddress:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/dnsServer/secondaryIpAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -779,7 +774,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Secondary ip address for DHCP (eg 3.3.3.3).
+      Secondary ip address for DHCP (eg 3.3.3.3. Valid range 1.0.0.0 - 223.255.255.255).
 
 
       .. raw:: html
@@ -792,7 +787,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/messageOfTheday"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/messageoftheday:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/messageOfTheday:
 
       .. rst-class:: ansible-option-title
 
@@ -826,7 +821,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/messageOfTheday/bannerMessage"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/messageoftheday/bannermessage:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/messageOfTheday/bannerMessage:
 
       .. rst-class:: ansible-option-title
 
@@ -860,7 +855,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/messageOfTheday/retainExistingBanner"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/messageoftheday/retainexistingbanner:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/messageOfTheday/retainExistingBanner:
 
       .. rst-class:: ansible-option-title
 
@@ -929,7 +924,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/netflowcollector/ipAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/netflowcollector/ipaddress:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/netflowcollector/ipAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -1032,7 +1027,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/network_aaa/ipAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/network_aaa/ipaddress:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/network_aaa/ipAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -1054,7 +1049,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP address for AAA and ISE server (eg 1.1.1.1).
+      IP address for AAA and ISE server (eg 1.1.1.1). Mandatory for ISE servers and for AAA consider this as additional Ip.
 
 
       .. raw:: html
@@ -1088,7 +1083,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP address for AAA or ISE server (eg 2.2.2.2).
+      IP address for AAA or ISE server (eg 2.2.2.2). For AAA server consider it as primary IP and For ISE consider as Network.
 
 
       .. raw:: html
@@ -1168,7 +1163,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/network_aaa/sharedSecret"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/network_aaa/sharedsecret:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/network_aaa/sharedSecret:
 
       .. rst-class:: ansible-option-title
 
@@ -1190,7 +1185,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Shared secret for ISE server.
+      Shared secret for ISE server. Supported only by ISE servers.
 
 
       .. raw:: html
@@ -1203,7 +1198,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/ntpServer"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/ntpserver:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/ntpServer:
 
       .. rst-class:: ansible-option-title
 
@@ -1237,7 +1232,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/snmpServer"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/snmpserver:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/snmpServer:
 
       .. rst-class:: ansible-option-title
 
@@ -1271,7 +1266,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/snmpServer/configureDnacIP"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/snmpserver/configurednacip:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/snmpServer/configureDnacIP:
 
       .. rst-class:: ansible-option-title
 
@@ -1312,7 +1307,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/snmpServer/ipAddresses"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/snmpserver/ipaddresses:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/snmpServer/ipAddresses:
 
       .. rst-class:: ansible-option-title
 
@@ -1347,7 +1342,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/syslogServer"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/syslogserver:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/syslogServer:
 
       .. rst-class:: ansible-option-title
 
@@ -1381,7 +1376,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/syslogServer/configureDnacIP"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/syslogserver/configurednacip:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/syslogServer/configureDnacIP:
 
       .. rst-class:: ansible-option-title
 
@@ -1422,7 +1417,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-settings/syslogServer/ipAddresses"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/syslogserver/ipaddresses:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-settings/syslogServer/ipAddresses:
 
       .. rst-class:: ansible-option-title
 
@@ -1492,7 +1487,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-siteId"></div>
 
-      .. _ansible_collections.cisco.dnac.network_update_module__parameter-siteid:
+      .. _ansible_collections.cisco.dnac.network_update_module__parameter-siteId:
 
       .. rst-class:: ansible-option-title
 
@@ -1573,20 +1568,13 @@ Notes
 
 .. note::
    - SDK Method used are network_settings.NetworkSettings.update_network,
-   - Paths used are put /dna/intent/api/v1/network/{siteId},
+   - Paths used are put /dna/intent/api/v1/network/{siteId}
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Network Settings UpdateNetwork <https://developer.cisco.com/docs/dna-center/#!update-network>`_
-       Complete reference of the UpdateNetwork API.
 
 .. Examples
 

@@ -42,7 +42,7 @@ cisco.dnac.network_device module -- Resource module for Network Device
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -85,19 +85,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -114,7 +109,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cleanConfig"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-cleanconfig:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-cleanConfig:
 
       .. rst-class:: ansible-option-title
 
@@ -158,7 +153,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cliTransport"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-clitransport:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-cliTransport:
 
       .. rst-class:: ansible-option-title
 
@@ -192,7 +187,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-computeDevice"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-computedevice:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-computeDevice:
 
       .. rst-class:: ansible-option-title
 
@@ -492,7 +487,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -503,7 +498,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-enablePassword"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-enablepassword:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-enablePassword:
 
       .. rst-class:: ansible-option-title
 
@@ -537,7 +532,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-extendedDiscoveryInfo"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-extendeddiscoveryinfo:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-extendedDiscoveryInfo:
 
       .. rst-class:: ansible-option-title
 
@@ -571,7 +566,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpPassword"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-httppassword:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-httpPassword:
 
       .. rst-class:: ansible-option-title
 
@@ -605,7 +600,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpPort"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-httpport:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-httpPort:
 
       .. rst-class:: ansible-option-title
 
@@ -639,7 +634,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpSecure"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-httpsecure:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-httpSecure:
 
       .. rst-class:: ansible-option-title
 
@@ -680,7 +675,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpUserName"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-httpusername:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-httpUserName:
 
       .. rst-class:: ansible-option-title
 
@@ -736,7 +731,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. Device ID.
+      Network Device's id.
 
 
       .. raw:: html
@@ -748,7 +743,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-ipaddress:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-ipAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -782,7 +777,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-merakiOrgId"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-merakiorgid:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-merakiOrgId:
 
       .. rst-class:: ansible-option-title
 
@@ -816,7 +811,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netconfPort"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-netconfport:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-netconfPort:
 
       .. rst-class:: ansible-option-title
 
@@ -884,7 +879,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-serialNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-serialnumber:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-serialNumber:
 
       .. rst-class:: ansible-option-title
 
@@ -918,7 +913,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpAuthPassphrase"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpauthpassphrase:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpAuthPassphrase:
 
       .. rst-class:: ansible-option-title
 
@@ -952,7 +947,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpAuthProtocol"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpauthprotocol:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpAuthProtocol:
 
       .. rst-class:: ansible-option-title
 
@@ -986,7 +981,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpMode"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpmode:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpMode:
 
       .. rst-class:: ansible-option-title
 
@@ -1020,7 +1015,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpPrivPassphrase"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpprivpassphrase:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpPrivPassphrase:
 
       .. rst-class:: ansible-option-title
 
@@ -1054,7 +1049,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpPrivProtocol"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpprivprotocol:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpPrivProtocol:
 
       .. rst-class:: ansible-option-title
 
@@ -1088,7 +1083,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpRetry"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpretry:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpRetry:
 
       .. rst-class:: ansible-option-title
 
@@ -1122,7 +1117,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpROCommunity"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmprocommunity:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpROCommunity:
 
       .. rst-class:: ansible-option-title
 
@@ -1156,7 +1151,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpRWCommunity"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmprwcommunity:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpRWCommunity:
 
       .. rst-class:: ansible-option-title
 
@@ -1190,7 +1185,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpTimeout"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmptimeout:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpTimeout:
 
       .. rst-class:: ansible-option-title
 
@@ -1224,7 +1219,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpUserName"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpusername:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpUserName:
 
       .. rst-class:: ansible-option-title
 
@@ -1258,7 +1253,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpVersion"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpversion:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-snmpVersion:
 
       .. rst-class:: ansible-option-title
 
@@ -1326,7 +1321,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-updateMgmtIPaddressList"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-updatemgmtipaddresslist:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-updateMgmtIPaddressList:
 
       .. rst-class:: ansible-option-title
 
@@ -1360,7 +1355,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-updateMgmtIPaddressList/existMgmtIpAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-updatemgmtipaddresslist/existmgmtipaddress:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-updateMgmtIPaddressList/existMgmtIpAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -1394,7 +1389,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-updateMgmtIPaddressList/newMgmtIpAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-updatemgmtipaddresslist/newmgmtipaddress:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-updateMgmtIPaddressList/newMgmtIpAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -1429,7 +1424,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-userName"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_module__parameter-username:
+      .. _ansible_collections.cisco.dnac.network_device_module__parameter-userName:
 
       .. rst-class:: ansible-option-title
 
@@ -1518,17 +1513,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Devices AddDevice2 <https://developer.cisco.com/docs/dna-center/#!add-device>`_
-       Complete reference of the AddDevice2 API.
-   `Cisco DNA Center documentation for Devices DeleteDeviceById <https://developer.cisco.com/docs/dna-center/#!delete-device-by-id>`_
-       Complete reference of the DeleteDeviceById API.
-   `Cisco DNA Center documentation for Devices SyncDevices2 <https://developer.cisco.com/docs/dna-center/#!sync-devices>`_
-       Complete reference of the SyncDevices2 API.
 
 .. Examples
 
@@ -1598,6 +1582,7 @@ Examples
         httpPort: string
         httpSecure: true
         httpUserName: string
+        id: string
         ipAddress:
         - string
         merakiOrgId:
