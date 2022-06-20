@@ -11,7 +11,7 @@ short_description: Information module for Transit Peer Network
 description:
 - Get all Transit Peer Network.
 - Get Transit Peer Network Info from SD-Access.
-version_added: '7.0.0'
+version_added: '6.5.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
