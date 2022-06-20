@@ -28,8 +28,12 @@ options:
     - InterfaceType query parameter. Vlan assocaited with sub-interface.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetDeviceInterfaceVLANs
+  description: Complete reference of the GetDeviceInterfaceVLANs API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-vla-ns
 notes:
   - SDK Method used are
     devices.Devices.get_device_interface_vlans,
@@ -49,8 +53,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     interfaceType: string
     id: string
   register: result

@@ -20,8 +20,12 @@ options:
     description: Id path parameter. Global credential id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Network Settings DeleteDeviceCredential
+  description: Complete reference of the DeleteDeviceCredential API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-device-credential
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.delete_device_credential,

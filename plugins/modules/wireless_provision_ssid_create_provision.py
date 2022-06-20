@@ -10,7 +10,9 @@ module: wireless_provision_ssid_create_provision
 short_description: Resource module for Wireless Provision Ssid Create Provision
 description:
 - Manage operation create of the resource Wireless Provision Ssid Create Provision.
-- Creates SSID, updates the SSID to the corresponding site profiles and provision it to the devices matching the given sites.
+- >
+   Creates SSID, updates the SSID to the corresponding site profiles and provision it to the devices matching the
+   given sites.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -28,6 +30,9 @@ options:
       localToVlan:
         description: Local To Vlan (range is 1 to 4094).
         type: int
+    type: dict
+  headers:
+    description: Additional headers.
     type: dict
   managedAPLocations:
     description: Managed AP Locations (Enter entire Site(s) hierarchy).
@@ -74,8 +79,12 @@ options:
     description: SSID Type.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Wireless CreateAndProvisionSSID
+  description: Complete reference of the CreateAndProvisionSSID API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-and-provision-ssid
 notes:
   - SDK Method used are
     wireless.Wireless.create_and_provision_ssid,
@@ -99,6 +108,7 @@ EXAMPLES = r"""
     flexConnect:
       enableFlexConnect: true
       localToVlan: 0
+    headers: '{{my_headers | from_json}}'
     managedAPLocations:
     - string
     ssidDetails:

@@ -90,7 +90,7 @@ class ActionModule(ActionBase):
             response = dnac.exec(
                 family="discovery",
                 function='get_credential_sub_type_by_credential_id',
-                params=self.get_object(self._task.args)
+                params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))
             self._result.update(dnac.exit_json())

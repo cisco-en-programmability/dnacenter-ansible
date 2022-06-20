@@ -72,8 +72,15 @@ options:
     - Id path parameter. Tag ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Tag GetTag
+  description: Complete reference of the GetTag API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-tag
+- name: Cisco DNA Center documentation for Tag GetTagById
+  description: Complete reference of the GetTagById API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-tag-by-id
 notes:
   - SDK Method used are
     tag.Tag.get_tag,
@@ -95,8 +102,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     name: string
     additionalInfo_nameSpace: string
     additionalInfo_attributes: string
@@ -119,8 +125,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     id: string
   register: result
 

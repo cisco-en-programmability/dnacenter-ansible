@@ -19,10 +19,6 @@ options:
   headers:
     description: Additional headers.
     type: dict
-  connectorType:
-    description:
-    - ConnectorType query parameter. Connector Type EMAIL.
-    type: str
   name:
     description:
     - Name query parameter. Name of the specific configuration.
@@ -31,9 +27,29 @@ options:
     description:
     - InstanceId query parameter. Instance Id of the specific configuration.
     type: str
+  offset:
+    description:
+    - Offset query parameter. The number of Email Subscription detail's to offset in the resultset whose default value 0.
+    type: int
+  limit:
+    description:
+    - Limit query parameter. The number of Email Subscription detail's to limit in the resultset whose default value 10.
+    type: int
+  sortBy:
+    description:
+    - SortBy query parameter. SortBy field name.
+    type: str
+  order:
+    description:
+    - Order query parameter.
+    type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management GetEmailSubscriptionDetails
+  description: Complete reference of the GetEmailSubscriptionDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-email-subscription-details
 notes:
   - SDK Method used are
     event_management.EventManagement.get_email_subscription_details,
@@ -53,11 +69,13 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
-    connectorType: string
+    headers: "{{my_headers | from_json}}"
     name: string
     instanceId: string
+    offset: 0
+    limit: 0
+    sortBy: string
+    order: string
   register: result
 
 """

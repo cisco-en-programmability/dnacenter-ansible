@@ -24,8 +24,12 @@ options:
     - VlanID path parameter. Vlan Name for e.g Vlan1, Vlan23 etc.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Topology GetTopologyDetails
+  description: Complete reference of the GetTopologyDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-topology-details
 notes:
   - SDK Method used are
     topology.Topology.get_topology_details,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     vlanID: string
   register: result
 

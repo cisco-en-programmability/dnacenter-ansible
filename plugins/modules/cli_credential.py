@@ -45,8 +45,15 @@ options:
     description: Cli Credential's username.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery CreateCLICredentials
+  description: Complete reference of the CreateCLICredentials API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-cli-credentials
+- name: Cisco DNA Center documentation for Discovery UpdateCLICredentials
+  description: Complete reference of the UpdateCLICredentials API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-cli-credentials
 notes:
   - SDK Method used are
     discovery.Discovery.create_cli_credentials,

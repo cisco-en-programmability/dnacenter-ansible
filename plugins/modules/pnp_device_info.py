@@ -12,8 +12,9 @@ description:
 - Get all Pnp Device.
 - Get Pnp Device by id.
 - Returns device details specified by device id.
-- Returns list of devices based on filter crieteria. If a limit is not specified, it will default to return 50 devices.
-  Pagination and sorting are also supported by this endpoint.
+- >
+   Returns list of devices based on filter crieteria. If a limit is not specified, it will default to return 50
+   devices. Pagination and sorting are also supported by this endpoint.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -125,8 +126,15 @@ options:
     - Id path parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceById
+  description: Complete reference of the GetDeviceById API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-by-id
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceList2
+  description: Complete reference of the GetDeviceList2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-list-2
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.get_device_by_id,
@@ -148,8 +156,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     limit: 0
     offset: 0
     sort: []
@@ -182,8 +189,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     id: string
   register: result
 

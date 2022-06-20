@@ -33,8 +33,15 @@ options:
     description: SNMP read community. NO!$DATA!$ for no value change.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery CreateSNMPReadCommunity
+  description: Complete reference of the CreateSNMPReadCommunity API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-snmp-read-community
+- name: Cisco DNA Center documentation for Discovery UpdateSNMPReadCommunity
+  description: Complete reference of the UpdateSNMPReadCommunity API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-snmp-read-community
 notes:
   - SDK Method used are
     discovery.Discovery.create_snmp_read_community,

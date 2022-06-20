@@ -51,11 +51,19 @@ class EventSubscriptionSyslog(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['event_ids'] = self.new_object.get('event_ids')
+        new_object_params['event_ids'] = self.new_object.get('eventIds') or \
+            self.new_object.get('event_ids')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['limit'] = self.new_object.get('limit')
-        new_object_params['sort_by'] = self.new_object.get('sort_by')
+        new_object_params['sort_by'] = self.new_object.get('sortBy') or \
+            self.new_object.get('sort_by')
         new_object_params['order'] = self.new_object.get('order')
+        new_object_params['domain'] = self.new_object.get('domain')
+        new_object_params['sub_domain'] = self.new_object.get('subDomain') or \
+            self.new_object.get('sub_domain')
+        new_object_params['category'] = self.new_object.get('category')
+        new_object_params['type'] = self.new_object.get('type')
+        new_object_params['name'] = name or self.new_object.get('name')
         return new_object_params
 
     def create_params(self):
@@ -70,7 +78,7 @@ class EventSubscriptionSyslog(object):
 
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name method, using get all
+        # NOTE: Does not have a get by name method, using get all
         try:
             items = self.dnac.exec(
                 family="event_management",

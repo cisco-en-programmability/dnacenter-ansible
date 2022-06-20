@@ -36,8 +36,12 @@ options:
     - Name query parameter. Name of network profile to be retrieved.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Site Design GetNFVProfile
+  description: Complete reference of the GetNFVProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-nfv-profile
 notes:
   - SDK Method used are
     site_design.SiteDesign.get_nfv_profile,
@@ -57,8 +61,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     offset: string
     limit: string
     name: string

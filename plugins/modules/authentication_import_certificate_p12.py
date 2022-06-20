@@ -30,8 +30,12 @@ options:
     description: PkPassword query parameter. Private Key Passsword.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Authentication Management ImportCertificateP12
+  description: Complete reference of the ImportCertificateP12 API.
+  link: https://developer.cisco.com/docs/dna-center/#!import-certificate-p-12
 notes:
   - SDK Method used are
     authentication_management.AuthenticationManagement.import_certificate_p12,

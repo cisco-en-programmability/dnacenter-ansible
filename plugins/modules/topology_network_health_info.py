@@ -10,7 +10,9 @@ module: topology_network_health_info
 short_description: Information module for Topology Network Health
 description:
 - Get all Topology Network Health.
-- Returns Overall Network Health information by Device category (Access, Distribution, Core, Router, Wireless) for any given point of time.
+- >
+   Returns Overall Network Health information by Device category Access, Distribution, Core, Router, Wireless for any
+   given point of time.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,8 +26,12 @@ options:
     - Timestamp query parameter. Epoch time(in milliseconds) when the Network health data is required.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Topology GetOverallNetworkHealth
+  description: Complete reference of the GetOverallNetworkHealth API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-overall-network-health
 notes:
   - SDK Method used are
     topology.Topology.get_overall_network_health,
@@ -45,8 +51,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     timestamp: string
   register: result
 

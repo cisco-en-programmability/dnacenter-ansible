@@ -27,8 +27,40 @@ options:
       filter:
         description: Event Subscription Email's filter.
         suboptions:
+          categories:
+            description: Categories.
+            elements: str
+            type: list
+          domainsSubdomains:
+            description: Event Subscription Email's domainsSubdomains.
+            elements: dict
+            suboptions:
+              domain:
+                description: Domain.
+                type: str
+              subDomains:
+                description: Sub Domains.
+                elements: str
+                type: list
+            type: list
           eventIds:
-            description: Event Ids (Comma separated event ids).
+            description: Event Ids.
+            elements: str
+            type: list
+          severities:
+            description: Severities.
+            elements: int
+            type: list
+          siteIds:
+            description: Site Ids.
+            elements: str
+            type: list
+          sources:
+            description: Sources.
+            elements: str
+            type: list
+          types:
+            description: Types.
             elements: str
             type: list
         type: dict
@@ -48,8 +80,14 @@ options:
               connectorType:
                 description: Connector Type (Must be EMAIL).
                 type: str
+              description:
+                description: Description.
+                type: str
               fromEmailAddress:
                 description: Senders Email Address.
+                type: str
+              name:
+                description: Name.
                 type: str
               subject:
                 description: Email Subject.
@@ -68,8 +106,15 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management CreateEmailEventSubscription
+  description: Complete reference of the CreateEmailEventSubscription API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-email-event-subscription
+- name: Cisco DNA Center documentation for Event Management UpdateEmailEventSubscription
+  description: Complete reference of the UpdateEmailEventSubscription API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-email-event-subscription
 notes:
   - SDK Method used are
     event_management.EventManagement.create_email_event_subscription,
@@ -95,14 +140,30 @@ EXAMPLES = r"""
     payload:
     - description: string
       filter:
+        categories:
+        - string
+        domainsSubdomains:
+        - domain: string
+          subDomains:
+          - string
         eventIds:
+        - string
+        severities:
+        - 0
+        siteIds:
+        - string
+        sources:
+        - string
+        types:
         - string
       name: string
       subscriptionEndpoints:
       - instanceId: string
         subscriptionDetails:
           connectorType: string
+          description: string
           fromEmailAddress: string
+          name: string
           subject: string
           toEmailAddresses:
           - string
@@ -122,14 +183,30 @@ EXAMPLES = r"""
     payload:
     - description: string
       filter:
+        categories:
+        - string
+        domainsSubdomains:
+        - domain: string
+          subDomains:
+          - string
         eventIds:
+        - string
+        severities:
+        - 0
+        siteIds:
+        - string
+        sources:
+        - string
+        types:
         - string
       name: string
       subscriptionEndpoints:
       - instanceId: string
         subscriptionDetails:
           connectorType: string
+          description: string
           fromEmailAddress: string
+          name: string
           subject: string
           toEmailAddresses:
           - string

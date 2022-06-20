@@ -10,9 +10,9 @@ module: event_subscription
 short_description: Resource module for Event Subscription
 description:
 - Manage operations create, update and delete of the resource Event Subscription.
-- Subscribe SubscriptionEndpoint to list of registered events.
+- Subscribe SubscriptionEndpoint to list of registered events Deprecated .
 - Delete EventSubscriptions.
-- Update SubscriptionEndpoint to list of registered events.
+- Update SubscriptionEndpoint to list of registered events Deprecated .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -28,8 +28,40 @@ options:
       filter:
         description: Event Subscription's filter.
         suboptions:
+          categories:
+            description: Categories.
+            elements: str
+            type: list
+          domainsSubdomains:
+            description: Event Subscription's domainsSubdomains.
+            elements: dict
+            suboptions:
+              domain:
+                description: Domain.
+                type: str
+              subDomains:
+                description: Sub Domains.
+                elements: str
+                type: list
+            type: list
           eventIds:
-            description: Event Ids.
+            description: Event Ids (Comma separated event ids).
+            elements: str
+            type: list
+          severities:
+            description: Severities.
+            elements: str
+            type: list
+          siteIds:
+            description: Site Ids.
+            elements: str
+            type: list
+          sources:
+            description: Sources.
+            elements: str
+            type: list
+          types:
+            description: Types.
             elements: str
             type: list
         type: dict
@@ -41,27 +73,18 @@ options:
         elements: dict
         suboptions:
           instanceId:
-            description: Instance Id.
+            description: (From Get Rest/Webhook Subscription Details --> pick instanceId).
             type: str
           subscriptionDetails:
             description: Event Subscription's subscriptionDetails.
             suboptions:
               connectorType:
-                description: Connector Type.
-                type: str
-              method:
-                description: Method.
-                type: str
-              name:
-                description: Name.
-                type: str
-              url:
-                description: Url.
+                description: Connector Type (Must be REST).
                 type: str
             type: dict
         type: list
       subscriptionId:
-        description: Subscription Id.
+        description: Subscription Id (Unique UUID).
         type: str
       version:
         description: Version.
@@ -71,8 +94,18 @@ options:
     description: Subscriptions query parameter. List of EventSubscriptionId's for removal.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management CreateEventSubscriptions
+  description: Complete reference of the CreateEventSubscriptions API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-event-subscriptions
+- name: Cisco DNA Center documentation for Event Management DeleteEventSubscriptions
+  description: Complete reference of the DeleteEventSubscriptions API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-event-subscriptions
+- name: Cisco DNA Center documentation for Event Management UpdateEventSubscriptions
+  description: Complete reference of the UpdateEventSubscriptions API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-event-subscriptions
 notes:
   - SDK Method used are
     event_management.EventManagement.create_event_subscriptions,
@@ -112,16 +145,27 @@ EXAMPLES = r"""
     payload:
     - description: string
       filter:
+        categories:
+        - string
+        domainsSubdomains:
+        - domain: string
+          subDomains:
+          - string
         eventIds:
+        - string
+        severities:
+        - string
+        siteIds:
+        - string
+        sources:
+        - string
+        types:
         - string
       name: string
       subscriptionEndpoints:
       - instanceId: string
         subscriptionDetails:
           connectorType: string
-          method: string
-          name: string
-          url: string
       subscriptionId: string
       version: string
 
@@ -138,16 +182,27 @@ EXAMPLES = r"""
     payload:
     - description: string
       filter:
+        categories:
+        - string
+        domainsSubdomains:
+        - domain: string
+          subDomains:
+          - string
         eventIds:
+        - string
+        severities:
+        - string
+        siteIds:
+        - string
+        sources:
+        - string
+        types:
         - string
       name: string
       subscriptionEndpoints:
       - instanceId: string
         subscriptionDetails:
           connectorType: string
-          method: string
-          name: string
-          url: string
       subscriptionId: string
       version: string
 

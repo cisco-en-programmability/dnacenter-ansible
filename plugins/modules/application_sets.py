@@ -29,8 +29,15 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Application Policy CreateApplicationSet
+  description: Complete reference of the CreateApplicationSet API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-application-set
+- name: Cisco DNA Center documentation for Application Policy DeleteApplicationSet
+  description: Complete reference of the DeleteApplicationSet API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-application-set
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.create_application_set,

@@ -10,8 +10,9 @@ module: swim_import_local
 short_description: Resource module for Swim Import Local
 description:
 - Manage operation create of the resource Swim Import Local.
-- Fetches a software image from local file system and uploads to DNA Center.
-  Supported software image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
+- >
+   Fetches a software image from local file system and uploads to DNA Center. Supported software image files
+   extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -34,8 +35,12 @@ options:
     description: ThirdPartyVendor query parameter. Third Party Vendor.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) ImportLocalSoftwareImage
+  description: Complete reference of the ImportLocalSoftwareImage API.
+  link: https://developer.cisco.com/docs/dna-center/#!import-local-software-image
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.import_local_software_image,

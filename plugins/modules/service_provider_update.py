@@ -38,8 +38,12 @@ options:
         type: list
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Network Settings UpdateSPProfile
+  description: Complete reference of the UpdateSPProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-sp-profile
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.update_sp_profile,

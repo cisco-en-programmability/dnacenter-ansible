@@ -116,7 +116,7 @@ def dnac_argument_spec():
         dnac_username=dict(type="str", default="admin", aliases=["user"]),
         dnac_password=dict(type="str", no_log=True),
         dnac_verify=dict(type="bool", default=True),
-        dnac_version=dict(type="str", default="2.2.3.3"),
+        dnac_version=dict(type="str", default="2.3.3.0"),
         dnac_debug=dict(type="bool", default=False),
         validate_response_schema=dict(type="bool", default=True),
     )

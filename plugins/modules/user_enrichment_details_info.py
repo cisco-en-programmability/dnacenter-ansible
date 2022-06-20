@@ -10,8 +10,9 @@ module: user_enrichment_details_info
 short_description: Information module for User Enrichment Details
 description:
 - Get all User Enrichment Details.
-- Enriches a given network End User context (a network user-id or end user's device Mac Address)
-  with details about the user and devices that the user is connected to.
+- >
+   Enriches a given network End User context a network user-id or end user's device Mac Address with details about
+   the user and devices that the user is connected to.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,8 +22,12 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Users GetUserEnrichmentDetails
+  description: Complete reference of the GetUserEnrichmentDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-user-enrichment-details
 notes:
   - SDK Method used are
     users.Users.get_user_enrichment_details,
@@ -42,8 +47,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
   register: result
 
 """

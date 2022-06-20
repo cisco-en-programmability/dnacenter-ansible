@@ -48,26 +48,20 @@ class BusinessSdaHostonboardingSsidIppool(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
-            vlanName=params.get("vlanName"),
             vlan_name=params.get("vlanName"),
+            site_name_hierarchy=params.get("siteNameHierarchy"),
+            vlanName=params.get("vlanName"),
             scalableGroupName=params.get("scalableGroupName"),
             ssidNames=params.get("ssidNames"),
             siteNameHierarchy=params.get("siteNameHierarchy"),
-            site_name_hierarchy=params.get("siteNameHierarchy"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['vlan_name'] = self.new_object.get('vlan_name')
-        new_object_params['site_name_hierarchy'] = self.new_object.get('site_name_hierarchy')
-        return new_object_params
-
-    def create_params(self):
-        new_object_params = {}
-        new_object_params['vlanName'] = self.new_object.get('vlanName')
-        new_object_params['scalableGroupName'] = self.new_object.get('scalableGroupName')
-        new_object_params['ssidNames'] = self.new_object.get('ssidNames')
-        new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
+        new_object_params['vlan_name'] = self.new_object.get('vlanName') or \
+            self.new_object.get('vlan_name')
+        new_object_params['site_name_hierarchy'] = self.new_object.get('siteNameHierarchy') or \
+            self.new_object.get('site_name_hierarchy')
         return new_object_params
 
     def update_all_params(self):
@@ -80,7 +74,7 @@ class BusinessSdaHostonboardingSsidIppool(object):
 
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name method, using get all
+        # NOTE: Does not have a get by name method, using get all
         try:
             items = self.dnac.exec(
                 family="fabric_wireless",
@@ -121,22 +115,13 @@ class BusinessSdaHostonboardingSsidIppool(object):
                                              requested_obj.get(ansible_param))
                    for (dnac_param, ansible_param) in obj_params)
 
-    def create(self):
-        result = self.dnac.exec(
-            family="fabric_wireless",
-            function="add_ssid_to_ip_pool_mapping",
-            params=self.create_params(),
-            op_modifies=True,
-        )
-        return result
-
     def update(self):
         id = self.new_object.get("id")
         name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
             family="fabric_wireless",
-            function="update_ssid_to_ip_pool_mapping",
+            function="update_ssid_to_ip_pool_mapping2",
             params=self.update_all_params(),
             op_modifies=True,
         )
@@ -192,8 +177,7 @@ class ActionModule(ActionBase):
                     response = prev_obj
                     dnac.object_already_present()
             else:
-                response = obj.create()
-                dnac.object_created()
+                dnac.fail_json("Object does not exists, plugin only has update")
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

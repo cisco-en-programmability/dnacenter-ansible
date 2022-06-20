@@ -28,8 +28,12 @@ options:
     - InterfaceName query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetPortAssignmentForUserDeviceInSDAFabric
+  description: Complete reference of the GetPortAssignmentForUserDeviceInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-port-assignment-for-user-device-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_port_assignment_for_user_device,
@@ -49,8 +53,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceManagementIpAddress: string
     interfaceName: string
   register: result

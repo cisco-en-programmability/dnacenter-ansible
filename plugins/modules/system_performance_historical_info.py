@@ -10,7 +10,7 @@ module: system_performance_historical_info
 short_description: Information module for System Performance Historical
 description:
 - Get all System Performance Historical.
-- This API retrieves the historical performance indicators . The data can be retrieved for the last 3 months.
+- This API retrieves the historical performance indicators. The data can be retrieved for the last 3 months.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -36,8 +36,12 @@ options:
       be fetched.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Health and Performance SystemPerformanceHistoricalAPI
+  description: Complete reference of the SystemPerformanceHistoricalAPI API.
+  link: https://developer.cisco.com/docs/dna-center/#!system-performance-historical-api
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.system_performance_historical,
@@ -57,8 +61,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     kpi: string
     startTime: 0
     endTime: 0

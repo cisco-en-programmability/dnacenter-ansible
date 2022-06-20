@@ -63,16 +63,20 @@ class Tag(object):
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params['name'] = name or self.new_object.get('name')
-        new_object_params['additional_info_name_space'] = self.new_object.get('additional_info_name_space')
-        new_object_params['additional_info_attributes'] = self.new_object.get('additional_info_attributes')
+        new_object_params['additional_info_name_space'] = self.new_object.get('additionalInfo_nameSpace') or \
+            self.new_object.get('additional_info_name_space')
+        new_object_params['additional_info_attributes'] = self.new_object.get('additionalInfo_attributes') or \
+            self.new_object.get('additional_info_attributes')
         new_object_params['level'] = self.new_object.get('level')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['limit'] = self.new_object.get('limit')
         new_object_params['size'] = self.new_object.get('size')
         new_object_params['field'] = self.new_object.get('field')
-        new_object_params['sort_by'] = self.new_object.get('sort_by')
+        new_object_params['sort_by'] = self.new_object.get('sortBy') or \
+            self.new_object.get('sort_by')
         new_object_params['order'] = self.new_object.get('order')
-        new_object_params['system_tag'] = self.new_object.get('system_tag')
+        new_object_params['system_tag'] = self.new_object.get('systemTag') or \
+            self.new_object.get('system_tag')
         return new_object_params
 
     def create_params(self):
@@ -102,7 +106,7 @@ class Tag(object):
 
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name method or it is in another action
+        # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
                 family="tag",

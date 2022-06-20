@@ -33,6 +33,7 @@ argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
     interfaceName=dict(type="str"),
     vlanId=dict(type="int"),
+    headers=dict(type="dict"),
 ))
 
 required_if = [
@@ -50,6 +51,7 @@ class WirelessDynamicInterface(object):
         self.new_object = dict(
             interfaceName=params.get("interfaceName"),
             vlanId=params.get("vlanId"),
+            headers=params.get("headers"),
             interface_name=params.get("interfaceName"),
         )
 
@@ -67,11 +69,12 @@ class WirelessDynamicInterface(object):
     def delete_by_name_params(self):
         new_object_params = {}
         new_object_params['interface_name'] = self.new_object.get('interface_name')
+        new_object_params['headers'] = self.new_object.get('headers')
         return new_object_params
 
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name method, using get all
+        # NOTE: Does not have a get by name method, using get all
         try:
             items = self.dnac.exec(
                 family="wireless",
