@@ -79,7 +79,7 @@ class ActionModule(ActionBase):
         self._result.update(dict(dnac_response={}))
 
         dnac = DNACSDK(params=self._task.args)
-                            
+
         response = dnac.exec(
             family="disaster_recovery",
             function='disaster_recovery_operational_status',

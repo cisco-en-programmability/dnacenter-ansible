@@ -538,11 +538,11 @@ releases:
       release_summary: Adds parameters to pnp_device_claim_to_site.
       minor_changes:
         - Adds following ``parameters`` to pnp_device_claim_to_site, gateway, imageId, ipInterfaceName, staticIP, subnetMask, vlanId
-  6.4.1:
+  6.5.0:
     release_date: "2022-06-20"
     changes:
       release_summary: New Dna Center API version 2.3.3.0.
-      bugfixes:
+      minor_changes:
         - Update dnacentersdk requirement from 2.4.7 to 2.5.0
         - assign_device_to_site - new module.
         - buildings_planned_access_points_info - new module.

@@ -11,7 +11,7 @@ short_description: Resource module for Assign Device To Site
 description:
 - Manage operation create of the resource Assign Device To Site.
 - Assigns unassigned devices to a site. This API does not move assigned devices to other sites.
-version_added: '6.4.1'
+version_added: '6.5.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
