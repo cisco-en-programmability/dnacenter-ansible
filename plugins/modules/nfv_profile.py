@@ -12,6 +12,7 @@ description:
 - Manage operations create, update and delete of the resource Nfv Profile.
 - API to create network profile for different NFV topologies.
 - API to delete nfv network profile.
+- API to update a NFV Network profile.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -52,9 +53,9 @@ options:
         elements: dict
         suboptions:
           deviceType:
-            description: Type of the device. Allowed values are 'Cisco 5400 Enterprise
-              Network Compute System', 'Cisco Integrated Services Virtual Router', 'Cisco
-              Adaptive Security Virtual Appliance (ASAv)', 'NFVIS', 'ASAV'.
+            description: Type of the device(eg Cisco 5400 Enterprise Network Compute
+              System), 'Cisco Integrated Services Virtual Router', 'Cisco Adaptive Security
+              Virtual Appliance (ASAv)', 'NFVIS', 'ASAV'.
             type: str
           template:
             description: Name of the template(eg NFVIS template).
@@ -150,8 +151,18 @@ options:
     description: Name of the profile to create NFV profile.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Site Design CreateNFVProfile
+  description: Complete reference of the CreateNFVProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-nfv-profile
+- name: Cisco DNA Center documentation for Site Design DeleteNFVProfile
+  description: Complete reference of the DeleteNFVProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-nfv-profile
+- name: Cisco DNA Center documentation for Site Design UpdateNFVProfile
+  description: Complete reference of the UpdateNFVProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-nfv-profile
 notes:
   - SDK Method used are
     site_design.SiteDesign.create_nfv_profile,
@@ -161,6 +172,7 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/nfv/network-profile,
     delete /dna/intent/api/v1/nfv/network-profile/{id},
+    put /dna/intent/api/v1/nfv/network-profile/{id},
 
 """
 

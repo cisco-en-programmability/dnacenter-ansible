@@ -23,11 +23,21 @@ options:
       device currently provisioned in a fabric site.
     type: str
   siteNameHierarchy:
-    description: Site Name Hierarchy for device location(only building / floor level).
+    description: SiteNameHierarchy of the provisioned device.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA ProvisionWiredDevice
+  description: Complete reference of the ProvisionWiredDevice API.
+  link: https://developer.cisco.com/docs/dna-center/#!provision-wired-device
+- name: Cisco DNA Center documentation for SDA DeleteProvisionedWiredDevice
+  description: Complete reference of the DeleteProvisionedWiredDevice API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-wired-device
+- name: Cisco DNA Center documentation for SDA ReProvisionWiredDevice
+  description: Complete reference of the ReProvisionWiredDevice API.
+  link: https://developer.cisco.com/docs/dna-center/#!re-provision-wired-device
 notes:
   - SDK Method used are
     sda.Sda.delete_provisioned_wired_device,

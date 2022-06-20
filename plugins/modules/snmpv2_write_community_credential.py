@@ -33,8 +33,15 @@ options:
     description: SNMP write community. NO!$DATA!$ for no value change.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery CreateSNMPWriteCommunity
+  description: Complete reference of the CreateSNMPWriteCommunity API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-snmp-write-community
+- name: Cisco DNA Center documentation for Discovery UpdateSNMPWriteCommunity
+  description: Complete reference of the UpdateSNMPWriteCommunity API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-snmp-write-community
 notes:
   - SDK Method used are
     discovery.Discovery.create_snmp_write_community,

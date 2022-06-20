@@ -56,8 +56,12 @@ options:
     - Source query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management CountOfNotifications
+  description: Complete reference of the CountOfNotifications API.
+  link: https://developer.cisco.com/docs/dna-center/#!count-of-notifications
 notes:
   - SDK Method used are
     event_management.EventManagement.count_of_notifications,
@@ -77,8 +81,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     eventIds: string
     startTime: 0
     endTime: 0

@@ -20,8 +20,12 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Application Policy GetApplicationSetsCount
+  description: Complete reference of the GetApplicationSetsCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-application-sets-count
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_application_sets_count,
@@ -41,8 +45,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
   register: result
 
 """

@@ -10,7 +10,7 @@ module: templates_details_info
 short_description: Information module for Templates Details
 description:
 - Get all Templates Details.
-- Get template(s) details.
+- Get templates details.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -89,8 +89,12 @@ options:
     - Limit query parameter. Limits number of results.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates GetTemplatesDetails
+  description: Complete reference of the GetTemplatesDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-template-s-details
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_templates_details,
@@ -110,8 +114,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     id: string
     name: string
     projectId: string

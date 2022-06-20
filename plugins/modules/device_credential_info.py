@@ -24,8 +24,12 @@ options:
     - SiteId query parameter. Site id to retrieve the credential details associated with the site.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Network Settings GetDeviceCredentialDetails
+  description: Complete reference of the GetDeviceCredentialDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-credential-details
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.get_device_credential_details,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     siteId: string
   register: result
 

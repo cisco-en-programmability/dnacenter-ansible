@@ -10,7 +10,9 @@ module: issues_info
 short_description: Information module for Issues
 description:
 - Get all Issues.
-- Intent API to get a list of global issues, issues for a specific device, or issue for a specific client device's MAC address.
+- >
+   Intent API to get a list of global issues, issues for a specific device, or issue for a specific client device's
+   MAC address.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -56,8 +58,12 @@ options:
     - IssueStatus query parameter. The issue's status value (One of ACTIVE, IGNORED, RESOLVED).
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Issues Issues
+  description: Complete reference of the Issues API.
+  link: https://developer.cisco.com/docs/dna-center/#!issues-issues
 notes:
   - SDK Method used are
     issues.Issues.issues,
@@ -77,8 +83,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     startTime: 0
     endTime: 0
     siteId: string

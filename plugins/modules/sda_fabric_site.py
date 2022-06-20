@@ -18,15 +18,24 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   fabricName:
-    version_added: "4.0.0"
-    description: Fabric Name (should be existing fabric name).
+    description: Warning - Starting DNA Center 2.2.3.5 release, this field has been
+      deprecated. SD-Access Fabric does not need it anymore. It will be removed in future
+      DNA Center releases.
     type: str
+    version_added: 4.0.0
   siteNameHierarchy:
     description: SiteNameHierarchy query parameter. Site Name Hierarchy.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA AddSiteInSDAFabric
+  description: Complete reference of the AddSiteInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-site-in-sda-fabric
+- name: Cisco DNA Center documentation for SDA DeleteSiteFromSDAFabric
+  description: Complete reference of the DeleteSiteFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-site-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_site,

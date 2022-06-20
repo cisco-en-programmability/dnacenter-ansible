@@ -18,39 +18,52 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   multicastMethod:
-    description: Multicast Methods.
+    description: Multicast Method.
+    type: str
+  multicastType:
+    description: Multicast Type.
     type: str
   multicastVnInfo:
     description: Sda Multicast's multicastVnInfo.
+    elements: dict
     suboptions:
       externalRpIpAddress:
-        description: External Rp Ip Address, required for muticastType=asm_with_external_rp.
+        description: ExternalRpIpAddress, required if multicastType is asm_with_external_rp.
         type: str
+      internalRpIpAddress:
+        description: InternalRpIpAddress, required if multicastType is asm_with_internal_rp.
+        elements: str
+        type: list
       ipPoolName:
-        description: Ip Pool Name, that is reserved to fabricSiteNameHierarchy.
-        type: str
-      ssmGroupRange:
-        description: Valid SSM group range ip address(e.g., 230.0.0.0).
+        description: Ip Pool Name, that is reserved to Fabric Site.
         type: str
       ssmInfo:
-        description: Source-specific multicast information, required if muticastType=ssm.
+        description: Sda Multicast's ssmInfo.
+        suboptions:
+          ssmGroupRange:
+            description: Valid SSM group range ip address(e.g., 230.0.0.0).
+            type: str
+          ssmWildcardMask:
+            description: Valid SSM Wildcard Mask ip address(e.g.,0.255.255.255).
+            type: str
         type: dict
-      ssmWildcardMask:
-        description: Valid SSM Wildcard Mask ip address(e.g.,0.255.255.255).
-        type: str
       virtualNetworkName:
-        description: Virtual Network Name, that is associated to fabricSiteNameHierarchy.
+        description: Virtual Network Name, that is associated to Fabric Site.
         type: str
-    type: dict
-  muticastType:
-    description: Muticast Type.
-    type: str
+    type: list
   siteNameHierarchy:
-    description: Full path of sda fabric siteNameHierarchy.
+    description: Full path of sda Fabric Site.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA AddMulticastInSDAFabric
+  description: Complete reference of the AddMulticastInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-multicast-in-sda-fabric
+- name: Cisco DNA Center documentation for SDA DeleteMulticastFromSDAFabric
+  description: Complete reference of the DeleteMulticastFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-multicast-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_multicast_in_sda_fabric,
@@ -74,14 +87,16 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     multicastMethod: string
+    multicastType: string
     multicastVnInfo:
-      externalRpIpAddress: string
+    - externalRpIpAddress: string
+      internalRpIpAddress:
+      - string
       ipPoolName: string
-      ssmGroupRange: string
-      ssmInfo: {}
-      ssmWildcardMask: string
+      ssmInfo:
+        ssmGroupRange: string
+        ssmWildcardMask: string
       virtualNetworkName: string
-    muticastType: string
     siteNameHierarchy: string
 
 - name: Delete all

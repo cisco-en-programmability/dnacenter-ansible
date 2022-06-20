@@ -24,8 +24,12 @@ options:
     - TopologyType path parameter. Type of topology(OSPF,ISIS,etc).
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Topology GetL3TopologyDetails
+  description: Complete reference of the GetL3TopologyDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-l-3-topology-details
 notes:
   - SDK Method used are
     topology.Topology.get_l3_topology_details,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     topologyType: string
   register: result
 

@@ -10,13 +10,24 @@ module: sda_virtual_network
 short_description: Resource module for Sda Virtual Network
 description:
 - Manage operations create and delete of the resource Sda Virtual Network.
-- Add virtual network (VN) in SDA Fabric.
-- Delete virtual network (VN) from SDA Fabric.
+- Add virtual network VN in SDA Fabric.
+- Delete virtual network VN from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  payload:
+    description: Sda Virtual Network's payload.
+    elements: dict
+    suboptions:
+      siteNameHierarchy:
+        description: Path of sda Fabric Site.
+        type: str
+      virtualNetworkName:
+        description: Virtual Network Name, that is created at Global level.
+        type: str
+    type: list
   siteNameHierarchy:
     description: SiteNameHierarchy query parameter.
     type: str
@@ -24,8 +35,15 @@ options:
     description: VirtualNetworkName query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA AddVNInFabric
+  description: Complete reference of the AddVNInFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-vn-in-fabric
+- name: Cisco DNA Center documentation for SDA DeleteVNFromSDAFabric
+  description: Complete reference of the DeleteVNFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-vn-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_vn,
@@ -61,8 +79,9 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    siteNameHierarchy: string
-    virtualNetworkName: string
+    payload:
+    - siteNameHierarchy: string
+      virtualNetworkName: string
 
 """
 

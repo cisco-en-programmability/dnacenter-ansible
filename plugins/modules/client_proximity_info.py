@@ -10,10 +10,11 @@ module: client_proximity_info
 short_description: Information module for Client Proximity
 description:
 - Get all Client Proximity.
-- This intent API will provide client proximity information for a specific wireless user.
-  Proximity is defined as presence on the same floor at the same time as the specified wireless user.
-  The Proximity workflow requires the subscription to the following event via the Event Notification workflow prior to making this API call
-  NETWORK-CLIENTS-3-506 - Client Proximity Report.
+- >
+   This intent API will provide client proximity information for a specific wireless user. Proximity is defined as
+   presence on the same floor at the same time as the specified wireless user. The Proximity workflow requires the
+   subscription to the following event via the Event Notification workflow prior to making this API call NETWORK-
+   CLIENTS-3-506 - Client Proximity Report.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -39,8 +40,12 @@ options:
       with a minimum 5 minutes.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Clients ClientProximity
+  description: Complete reference of the ClientProximity API.
+  link: https://developer.cisco.com/docs/dna-center/#!client-proximity
 notes:
   - SDK Method used are
     clients.Clients.client_proximity,
@@ -60,8 +65,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     username: string
     number_days: 0
     time_resolution: 0

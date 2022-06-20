@@ -12,8 +12,9 @@ description:
 - Get all Reports View Group.
 - Get Reports View Group by id.
 - Gives a list of summary of all view groups.
-- Gives a list of summary of all views in a viewgroup.
-  Use "Get all view groups" API to get the viewGroupIds required as a query param for this API for available viewgroups.
+- >
+   Gives a list of summary of all views in a viewgroup. Use "Get all view groups" API to get the viewGroupIds
+   required as a query param for this API for available viewgroups.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,8 +28,15 @@ options:
     - ViewGroupId path parameter. ViewGroupId of viewgroup.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Reports GetAllViewGroups
+  description: Complete reference of the GetAllViewGroups API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-view-groups
+- name: Cisco DNA Center documentation for Reports GetViewsForAGivenViewGroup
+  description: Complete reference of the GetViewsForAGivenViewGroup API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-views-for-a-given-view-group
 notes:
   - SDK Method used are
     reports.Reports.get_all_view_groups,
@@ -50,8 +58,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
   register: result
 
 - name: Get Reports View Group by id
@@ -63,8 +70,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     viewGroupId: string
   register: result
 

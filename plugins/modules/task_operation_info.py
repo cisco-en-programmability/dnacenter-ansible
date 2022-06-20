@@ -30,12 +30,16 @@ options:
   limit:
     description:
     - >
-      Limit path parameter. The maximum value of {limit} supported is 500. Base 1 indexing for {limit},
-      minimum value is 1.
+      Limit path parameter. The maximum value of {limit} supported is 500. Base 1 indexing for {limit}, minimum
+      value is 1.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Task GetTaskByOperationId
+  description: Complete reference of the GetTaskByOperationId API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-task-by-operation-id
 notes:
   - SDK Method used are
     task.Task.get_task_by_operationid,
@@ -55,8 +59,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     operationId: string
     offset: 0
     limit: 0

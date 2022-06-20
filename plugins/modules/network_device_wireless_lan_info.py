@@ -24,8 +24,12 @@ options:
     - Id path parameter. Device ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetWirelessLanControllerDetailsById
+  description: Complete reference of the GetWirelessLanControllerDetailsById API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-lan-controller-details-by-id
 notes:
   - SDK Method used are
     devices.Devices.get_wireless_lan_controller_details_by_id,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     id: string
   register: result
 

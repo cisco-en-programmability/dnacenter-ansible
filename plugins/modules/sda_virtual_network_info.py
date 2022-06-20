@@ -10,7 +10,7 @@ module: sda_virtual_network_info
 short_description: Information module for Sda Virtual Network
 description:
 - Get all Sda Virtual Network.
-- Get virtual network (VN) from SDA Fabric.
+- Get virtual network VN from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -28,8 +28,12 @@ options:
     - SiteNameHierarchy query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetVNFromSDAFabric
+  description: Complete reference of the GetVNFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-vn-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_vn,
@@ -49,8 +53,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     virtualNetworkName: string
     siteNameHierarchy: string
   register: result

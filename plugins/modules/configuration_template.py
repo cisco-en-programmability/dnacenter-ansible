@@ -514,8 +514,15 @@ options:
     description: Current version of template.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates DeletesTheTemplate
+  description: Complete reference of the DeletesTheTemplate API.
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-the-template
+- name: Cisco DNA Center documentation for Configuration Templates UpdateTemplate
+  description: Complete reference of the UpdateTemplate API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-template
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.deletes_the_template,

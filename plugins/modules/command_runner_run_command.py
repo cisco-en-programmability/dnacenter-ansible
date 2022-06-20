@@ -34,8 +34,12 @@ options:
     description: Command Runner Run Command's timeout.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Command Runner RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfiguration
+  description: Complete reference of the RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfiguration API.
+  link: https://developer.cisco.com/docs/dna-center/#!run-read-only-commands-on-devices-to-get-their-real-time-configuration
 notes:
   - SDK Method used are
     command_runner.CommandRunner.run_read_only_commands_on_devices,

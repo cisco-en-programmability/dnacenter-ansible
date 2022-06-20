@@ -10,7 +10,7 @@ module: event_subscription_email_info
 short_description: Information module for Event Subscription Email
 description:
 - Get all Event Subscription Email.
-- Gets the list of email Subscriptions's based on provided offset and limit.
+- Gets the list of email Subscriptions's based on provided query params.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -41,9 +41,33 @@ options:
     description:
     - Order query parameter.
     type: str
+  domain:
+    description:
+    - Domain query parameter. List of email subscriptions related to the respective domain.
+    type: str
+  subDomain:
+    description:
+    - SubDomain query parameter. List of email subscriptions related to the respective sub-domain.
+    type: str
+  category:
+    description:
+    - Category query parameter. List of email subscriptions related to the respective category.
+    type: str
+  type:
+    description:
+    - Type query parameter. List of email subscriptions related to the respective type.
+    type: str
+  name:
+    description:
+    - Name query parameter. List of email subscriptions related to the respective name.
+    type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management GetEmailEventSubscriptions
+  description: Complete reference of the GetEmailEventSubscriptions API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-email-event-subscriptions
 notes:
   - SDK Method used are
     event_management.EventManagement.get_email_event_subscriptions,
@@ -63,13 +87,17 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     eventIds: string
     offset: 0
     limit: 0
     sortBy: string
     order: string
+    domain: string
+    subDomain: string
+    category: string
+    type: string
+    name: string
   register: result
 
 """
@@ -112,7 +140,12 @@ dnac_response:
             "string"
           ],
           "domainsSubdomains": [
-            "string"
+            {
+              "domain": "string",
+              "subDomains": [
+                "string"
+              ]
+            }
           ],
           "types": [
             "string"
@@ -124,6 +157,9 @@ dnac_response:
             "string"
           ],
           "sources": [
+            "string"
+          ],
+          "siteIds": [
             "string"
           ]
         },

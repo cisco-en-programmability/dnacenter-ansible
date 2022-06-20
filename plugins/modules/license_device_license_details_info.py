@@ -24,8 +24,12 @@ options:
     - Device_uuid path parameter. Id of device.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Licenses DeviceLicenseDetails
+  description: Complete reference of the DeviceLicenseDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!device-license-details
 notes:
   - SDK Method used are
     licenses.Licenses.device_license_details,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     device_uuid: string
   register: result
 

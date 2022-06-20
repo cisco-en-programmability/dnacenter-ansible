@@ -55,8 +55,12 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Wireless Provision
+  description: Complete reference of the Provision API.
+  link: https://developer.cisco.com/docs/dna-center/#!provision
 notes:
   - SDK Method used are
     wireless.Wireless.provision,
@@ -82,9 +86,9 @@ EXAMPLES = r"""
       - interfaceGateway: string
         interfaceIPAddress: string
         interfaceName: string
-        interfaceNetmaskInCIDR: 1
-        lagOrPortNumber: 1
-        vlanId: 1
+        interfaceNetmaskInCIDR: 0
+        lagOrPortNumber: 0
+        vlanId: 0
       managedAPLocations:
       - string
       site: string

@@ -26,6 +26,7 @@ options:
     suboptions:
       ippool:
         description: Global Pool's ippool.
+        elements: dict
         suboptions:
           dhcpServerIps:
             description: Dhcp Server Ips.
@@ -44,12 +45,21 @@ options:
           ipPoolName:
             description: Ip Pool Name.
             type: str
-        elements: dict
         type: list
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Network Settings CreateGlobalPool
+  description: Complete reference of the CreateGlobalPool API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-global-pool
+- name: Cisco DNA Center documentation for Network Settings DeleteGlobalIPPool
+  description: Complete reference of the DeleteGlobalIPPool API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-global-ip-pool
+- name: Cisco DNA Center documentation for Network Settings UpdateGlobalPool
+  description: Complete reference of the UpdateGlobalPool API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-global-pool
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.create_global_pool,

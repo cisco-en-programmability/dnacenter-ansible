@@ -71,9 +71,25 @@ options:
     description:
     - Order query parameter. Ascending/Descending order asc/desc.
     type: str
+  tags:
+    description:
+    - Tags query parameter.
+    type: str
+  namespace:
+    description:
+    - Namespace query parameter.
+    type: str
+  siteId:
+    description:
+    - SiteId query parameter. Site Id.
+    type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management GetNotifications
+  description: Complete reference of the GetNotifications API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-notifications
 notes:
   - SDK Method used are
     event_management.EventManagement.get_notifications,
@@ -93,8 +109,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     eventIds: string
     startTime: 0
     endTime: 0
@@ -108,6 +123,9 @@ EXAMPLES = r"""
     limit: 0
     sortBy: string
     order: string
+    tags: string
+    namespace: string
+    siteId: string
   register: result
 
 """
@@ -123,7 +141,7 @@ dnac_response:
       {
         "eventId": "string",
         "instanceId": "string",
-        "nameSpace": "string",
+        "namespace": "string",
         "name": "string",
         "description": "string",
         "version": "string",
@@ -135,7 +153,11 @@ dnac_response:
         "source": "string",
         "timestamp": "string",
         "details": "string",
-        "eventHierarchy": "string"
+        "eventHierarchy": "string",
+        "network": {
+          "siteId": "string",
+          "deviceId": "string"
+        }
       }
     ]
 """

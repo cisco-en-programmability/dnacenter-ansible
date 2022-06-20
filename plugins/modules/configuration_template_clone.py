@@ -21,15 +21,19 @@ options:
       different than existing template name within same project).
     type: str
   projectId:
-    description: ProjectId path parameter. UUID of the project in which the template
+    description: ProjectId query parameter. UUID of the project in which the template
       needs to be created.
     type: str
   templateId:
     description: TemplateId path parameter. UUID of the template to clone it.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates CreatesACloneOfTheGivenTemplate
+  description: Complete reference of the CreatesACloneOfTheGivenTemplate API.
+  link: https://developer.cisco.com/docs/dna-center/#!creates-a-clone-of-the-given-template
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.clone_given_template,

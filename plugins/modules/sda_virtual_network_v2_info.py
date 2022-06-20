@@ -24,8 +24,12 @@ options:
     - VirtualNetworkName query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetVirtualNetworkWithScalableGroups
+  description: Complete reference of the GetVirtualNetworkWithScalableGroups API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-with-scalable-groups
 notes:
   - SDK Method used are
     sda.Sda.get_virtual_network_with_scalable_groups,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     virtualNetworkName: string
   register: result
 

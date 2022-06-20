@@ -34,8 +34,15 @@ options:
     - ProjectId path parameter. ProjectId(UUID) of project to get project details.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates GetsAListOfProjects
+  description: Complete reference of the GetsAListOfProjects API.
+  link: https://developer.cisco.com/docs/dna-center/#!gets-a-list-of-projects
+- name: Cisco DNA Center documentation for Configuration Templates GetsTheDetailsOfAGivenProject
+  description: Complete reference of the GetsTheDetailsOfAGivenProject API.
+  link: https://developer.cisco.com/docs/dna-center/#!gets-the-details-of-a-given-project
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_project_details,
@@ -57,8 +64,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     name: string
     sortOrder: string
   register: result
@@ -72,8 +78,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     projectId: string
   register: result
 
@@ -212,7 +217,6 @@ dnac_response:
               "productType": "string"
             }
           ],
-          "documentDatabase": true,
           "failurePolicy": "string",
           "id": "string",
           "language": "string",
@@ -220,7 +224,6 @@ dnac_response:
           "latestVersionTime": 0,
           "name": "string",
           "parentTemplateId": "string",
-          "projectAssociated": true,
           "projectId": "string",
           "projectName": "string",
           "rollbackTemplateContent": "string",

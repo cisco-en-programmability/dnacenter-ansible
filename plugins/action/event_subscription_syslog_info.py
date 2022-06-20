@@ -30,6 +30,11 @@ argument_spec.update(dict(
     limit=dict(type="int"),
     sortBy=dict(type="str"),
     order=dict(type="str"),
+    domain=dict(type="str"),
+    subDomain=dict(type="str"),
+    category=dict(type="str"),
+    type=dict(type="str"),
+    name=dict(type="str"),
     headers=dict(type="dict"),
 ))
 
@@ -73,6 +78,11 @@ class ActionModule(ActionBase):
             limit=params.get("limit"),
             sort_by=params.get("sortBy"),
             order=params.get("order"),
+            domain=params.get("domain"),
+            sub_domain=params.get("subDomain"),
+            category=params.get("category"),
+            type=params.get("type"),
+            name=params.get("name"),
             headers=params.get("headers"),
         )
         return new_object

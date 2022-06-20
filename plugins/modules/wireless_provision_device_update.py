@@ -17,7 +17,6 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   headers:
-    version_added: '6.3.0'
     description: Additional headers.
     type: dict
   payload:
@@ -56,8 +55,12 @@ options:
         type: list
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Wireless ProvisionUpdate
+  description: Complete reference of the ProvisionUpdate API.
+  link: https://developer.cisco.com/docs/dna-center/#!provision-update
 notes:
   - SDK Method used are
     wireless.Wireless.provision_update,
@@ -77,17 +80,16 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: string
+    headers: '{{my_headers | from_json}}'
     payload:
     - deviceName: string
       dynamicInterfaces:
       - interfaceGateway: string
         interfaceIPAddress: string
         interfaceName: string
-        interfaceNetmaskInCIDR: 1
-        lagOrPortNumber: 1
-        vlanId: 1
+        interfaceNetmaskInCIDR: 0
+        lagOrPortNumber: 0
+        vlanId: 0
       managedAPLocations:
       - string
 

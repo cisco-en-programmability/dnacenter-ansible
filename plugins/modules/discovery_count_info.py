@@ -20,8 +20,12 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery GetCountOfAllDiscoveryJobs
+  description: Complete reference of the GetCountOfAllDiscoveryJobs API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-count-of-all-discovery-jobs
 notes:
   - SDK Method used are
     discovery.Discovery.get_count_of_all_discovery_jobs,
@@ -41,8 +45,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
   register: result
 
 """
