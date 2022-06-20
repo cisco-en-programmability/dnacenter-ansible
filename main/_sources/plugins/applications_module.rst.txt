@@ -42,7 +42,7 @@ cisco.dnac.applications module -- Resource module for Applications
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -85,19 +85,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -373,7 +368,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -452,7 +447,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/applicationSet"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/applicationset:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/applicationSet:
 
       .. rst-class:: ansible-option-title
 
@@ -486,7 +481,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/applicationSet/idRef"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/applicationset/idref:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/applicationSet/idRef:
 
       .. rst-class:: ansible-option-title
 
@@ -521,7 +516,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativenetworkidentity:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativeNetworkIdentity:
 
       .. rst-class:: ansible-option-title
 
@@ -555,7 +550,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity/displayName"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativenetworkidentity/displayname:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativeNetworkIdentity/displayName:
 
       .. rst-class:: ansible-option-title
 
@@ -589,7 +584,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity/id"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativenetworkidentity/id:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativeNetworkIdentity/id:
 
       .. rst-class:: ansible-option-title
 
@@ -623,7 +618,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity/lowerPort"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativenetworkidentity/lowerport:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativeNetworkIdentity/lowerPort:
 
       .. rst-class:: ansible-option-title
 
@@ -657,7 +652,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity/ports"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativenetworkidentity/ports:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativeNetworkIdentity/ports:
 
       .. rst-class:: ansible-option-title
 
@@ -691,7 +686,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity/protocol"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativenetworkidentity/protocol:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativeNetworkIdentity/protocol:
 
       .. rst-class:: ansible-option-title
 
@@ -725,7 +720,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity/upperPort"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativenetworkidentity/upperport:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/indicativeNetworkIdentity/upperPort:
 
       .. rst-class:: ansible-option-title
 
@@ -794,7 +789,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkapplications:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkApplications:
 
       .. rst-class:: ansible-option-title
 
@@ -828,7 +823,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/applicationSubType"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkapplications/applicationsubtype:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkApplications/applicationSubType:
 
       .. rst-class:: ansible-option-title
 
@@ -862,7 +857,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/applicationType"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkapplications/applicationtype:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkApplications/applicationType:
 
       .. rst-class:: ansible-option-title
 
@@ -896,7 +891,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/appProtocol"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkapplications/appprotocol:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkApplications/appProtocol:
 
       .. rst-class:: ansible-option-title
 
@@ -930,7 +925,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/categoryId"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkapplications/categoryid:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkApplications/categoryId:
 
       .. rst-class:: ansible-option-title
 
@@ -964,7 +959,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/displayName"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkapplications/displayname:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkApplications/displayName:
 
       .. rst-class:: ansible-option-title
 
@@ -998,7 +993,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/dscp"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkapplications/dscp:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkApplications/dscp:
 
       .. rst-class:: ansible-option-title
 
@@ -1032,7 +1027,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/engineId"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkapplications/engineid:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkApplications/engineId:
 
       .. rst-class:: ansible-option-title
 
@@ -1066,7 +1061,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/helpString"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkapplications/helpstring:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkApplications/helpString:
 
       .. rst-class:: ansible-option-title
 
@@ -1100,7 +1095,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/ignoreConflict"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkapplications/ignoreconflict:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkApplications/ignoreConflict:
 
       .. rst-class:: ansible-option-title
 
@@ -1134,7 +1129,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/longDescription"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkapplications/longdescription:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkApplications/longDescription:
 
       .. rst-class:: ansible-option-title
 
@@ -1168,7 +1163,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/name"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkapplications/name:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkApplications/name:
 
       .. rst-class:: ansible-option-title
 
@@ -1202,7 +1197,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/popularity"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkapplications/popularity:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkApplications/popularity:
 
       .. rst-class:: ansible-option-title
 
@@ -1236,7 +1231,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/rank"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkapplications/rank:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkApplications/rank:
 
       .. rst-class:: ansible-option-title
 
@@ -1270,7 +1265,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/serverName"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkapplications/servername:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkApplications/serverName:
 
       .. rst-class:: ansible-option-title
 
@@ -1304,7 +1299,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/trafficClass"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkapplications/trafficclass:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkApplications/trafficClass:
 
       .. rst-class:: ansible-option-title
 
@@ -1338,7 +1333,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/url"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkapplications/url:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkApplications/url:
 
       .. rst-class:: ansible-option-title
 
@@ -1373,7 +1368,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkIdentity"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkidentity:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkIdentity:
 
       .. rst-class:: ansible-option-title
 
@@ -1407,7 +1402,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkIdentity/displayName"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkidentity/displayname:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkIdentity/displayName:
 
       .. rst-class:: ansible-option-title
 
@@ -1441,7 +1436,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkIdentity/lowerPort"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkidentity/lowerport:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkIdentity/lowerPort:
 
       .. rst-class:: ansible-option-title
 
@@ -1475,7 +1470,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkIdentity/ports"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkidentity/ports:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkIdentity/ports:
 
       .. rst-class:: ansible-option-title
 
@@ -1509,7 +1504,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkIdentity/protocol"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkidentity/protocol:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkIdentity/protocol:
 
       .. rst-class:: ansible-option-title
 
@@ -1543,7 +1538,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkIdentity/upperPort"></div>
 
-      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkidentity/upperport:
+      .. _ansible_collections.cisco.dnac.applications_module__parameter-payload/networkIdentity/upperPort:
 
       .. rst-class:: ansible-option-title
 
@@ -1633,17 +1628,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Application Policy CreateApplication <https://developer.cisco.com/docs/dna-center/#!create-application>`_
-       Complete reference of the CreateApplication API.
-   `Cisco DNA Center documentation for Application Policy DeleteApplication <https://developer.cisco.com/docs/dna-center/#!delete-application>`_
-       Complete reference of the DeleteApplication API.
-   `Cisco DNA Center documentation for Application Policy EditApplication <https://developer.cisco.com/docs/dna-center/#!edit-application>`_
-       Complete reference of the EditApplication API.
 
 .. Examples
 
@@ -1669,10 +1653,10 @@ Examples
           indicativeNetworkIdentity:
           - displayName: string
             id: string
-            lowerPort: 0
+            lowerPort: 1
             ports: string
             protocol: string
-            upperPort: 0
+            upperPort: 1
           name: string
           networkApplications:
           - appProtocol: string

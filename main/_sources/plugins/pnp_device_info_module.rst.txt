@@ -42,7 +42,7 @@ cisco.dnac.pnp_device_info module -- Information module for Pnp Device
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -73,7 +73,6 @@ Synopsis
 - Returns device details specified by device id.
 - Returns list of devices based on filter crieteria. If a limit is not specified, it will default to return 50 devices. Pagination and sorting are also supported by this endpoint.
 
-
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
 
@@ -86,19 +85,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -115,7 +109,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cmState"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-cmstate:
+      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-cmState:
 
       .. rst-class:: ansible-option-title
 
@@ -408,7 +402,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -521,7 +515,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-lastContact"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-lastcontact:
+      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-lastContact:
 
       .. rst-class:: ansible-option-title
 
@@ -596,7 +590,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-macAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-macaddress:
+      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-macAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -698,7 +692,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-onbState"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-onbstate:
+      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-onbState:
 
       .. rst-class:: ansible-option-title
 
@@ -766,7 +760,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-projectId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-projectid:
+      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-projectId:
 
       .. rst-class:: ansible-option-title
 
@@ -800,7 +794,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-projectName"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-projectname:
+      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-projectName:
 
       .. rst-class:: ansible-option-title
 
@@ -834,7 +828,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-serialNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-serialnumber:
+      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-serialNumber:
 
       .. rst-class:: ansible-option-title
 
@@ -868,7 +862,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-siteName"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-sitename:
+      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-siteName:
 
       .. rst-class:: ansible-option-title
 
@@ -902,7 +896,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-smartAccountId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-smartaccountid:
+      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-smartAccountId:
 
       .. rst-class:: ansible-option-title
 
@@ -970,7 +964,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortOrder"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-sortorder:
+      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-sortOrder:
 
       .. rst-class:: ansible-option-title
 
@@ -1113,7 +1107,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-virtualAccountId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-virtualaccountid:
+      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-virtualAccountId:
 
       .. rst-class:: ansible-option-title
 
@@ -1147,7 +1141,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflowId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-workflowid:
+      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-workflowId:
 
       .. rst-class:: ansible-option-title
 
@@ -1181,7 +1175,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflowName"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-workflowname:
+      .. _ansible_collections.cisco.dnac.pnp_device_info_module__parameter-workflowName:
 
       .. rst-class:: ansible-option-title
 
@@ -1228,15 +1222,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceById <https://developer.cisco.com/docs/dna-center/#!get-device-by-id>`_
-       Complete reference of the GetDeviceById API.
-   `Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceList2 <https://developer.cisco.com/docs/dna-center/#!get-device-list-2>`_
-       Complete reference of the GetDeviceList2 API.
 
 .. Examples
 
@@ -1255,7 +1240,8 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
+        headers:
+          custom: value
         limit: 0
         offset: 0
         sort: []
@@ -1288,7 +1274,8 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
+        headers:
+          custom: value
         id: string
       register: result
 

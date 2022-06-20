@@ -42,7 +42,7 @@ cisco.dnac.sda_multicast module -- Resource module for Sda Multicast
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -84,19 +84,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -372,7 +367,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -383,7 +378,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-multicastMethod"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastmethod:
+      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastMethod:
 
       .. rst-class:: ansible-option-title
 
@@ -405,41 +400,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Multicast Method.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-multicastType"></div>
-
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicasttype:
-
-      .. rst-class:: ansible-option-title
-
-      **multicastType**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-multicastType" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Multicast Type.
+      Multicast Methods.
 
 
       .. raw:: html
@@ -451,7 +412,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastvninfo:
+      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastVnInfo:
 
       .. rst-class:: ansible-option-title
 
@@ -463,7 +424,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -485,7 +446,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo/externalRpIpAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastvninfo/externalrpipaddress:
+      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastVnInfo/externalRpIpAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -507,41 +468,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ExternalRpIpAddress, required if multicastType is asm_with_external_rp.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo/internalRpIpAddress"></div>
-
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastvninfo/internalrpipaddress:
-
-      .. rst-class:: ansible-option-title
-
-      **internalRpIpAddress**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-multicastVnInfo/internalRpIpAddress" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      InternalRpIpAddress, required if multicastType is asm_with_internal_rp.
+      External Rp Ip Address, required for muticastType=asm_with_external_rp.
 
 
       .. raw:: html
@@ -553,7 +480,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo/ipPoolName"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastvninfo/ippoolname:
+      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastVnInfo/ipPoolName:
 
       .. rst-class:: ansible-option-title
 
@@ -575,7 +502,41 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ip Pool Name, that is reserved to Fabric Site.
+      Ip Pool Name, that is reserved to fabricSiteNameHierarchy.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo/ssmGroupRange"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastVnInfo/ssmGroupRange:
+
+      .. rst-class:: ansible-option-title
+
+      **ssmGroupRange**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-multicastVnInfo/ssmGroupRange" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Valid SSM group range ip address(e.g., 230.0.0.0).
 
 
       .. raw:: html
@@ -587,7 +548,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo/ssmInfo"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastvninfo/ssminfo:
+      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastVnInfo/ssmInfo:
 
       .. rst-class:: ansible-option-title
 
@@ -609,41 +570,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sda Multicast's ssmInfo.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo/ssmInfo/ssmGroupRange"></div>
-
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastvninfo/ssminfo/ssmgrouprange:
-
-      .. rst-class:: ansible-option-title
-
-      **ssmGroupRange**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-multicastVnInfo/ssmInfo/ssmGroupRange" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Valid SSM group range ip address(e.g., 230.0.0.0).
+      Source-specific multicast information, required if muticastType=ssm.
 
 
       .. raw:: html
@@ -652,10 +579,10 @@ Parameters
 
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo/ssmInfo/ssmWildcardMask"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo/ssmWildcardMask"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastvninfo/ssminfo/ssmwildcardmask:
+      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastVnInfo/ssmWildcardMask:
 
       .. rst-class:: ansible-option-title
 
@@ -663,7 +590,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-multicastVnInfo/ssmInfo/ssmWildcardMask" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-multicastVnInfo/ssmWildcardMask" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -675,7 +602,7 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Valid SSM Wildcard Mask ip address(e.g.,0.255.255.255).
 
@@ -684,13 +611,12 @@ Parameters
 
         </div>
 
-
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo/virtualNetworkName"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastvninfo/virtualnetworkname:
+      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastVnInfo/virtualNetworkName:
 
       .. rst-class:: ansible-option-title
 
@@ -712,7 +638,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Virtual Network Name, that is associated to Fabric Site.
+      Virtual Network Name, that is associated to fabricSiteNameHierarchy.
 
 
       .. raw:: html
@@ -723,9 +649,43 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-muticastType"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-muticastType:
+
+      .. rst-class:: ansible-option-title
+
+      **muticastType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-muticastType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Muticast Type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-siteNameHierarchy"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-sitenamehierarchy:
+      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-siteNameHierarchy:
 
       .. rst-class:: ansible-option-title
 
@@ -747,7 +707,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Full path of sda Fabric Site.
+      Full path of sda fabric siteNameHierarchy.
 
 
       .. raw:: html
@@ -813,15 +773,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for SDA AddMulticastInSDAFabric <https://developer.cisco.com/docs/dna-center/#!add-multicast-in-sda-fabric>`_
-       Complete reference of the AddMulticastInSDAFabric API.
-   `Cisco DNA Center documentation for SDA DeleteMulticastFromSDAFabric <https://developer.cisco.com/docs/dna-center/#!delete-multicast-from-sda-fabric>`_
-       Complete reference of the DeleteMulticastFromSDAFabric API.
 
 .. Examples
 
@@ -842,16 +793,14 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         multicastMethod: string
-        multicastType: string
         multicastVnInfo:
-        - externalRpIpAddress: string
-          internalRpIpAddress:
-          - string
+          externalRpIpAddress: string
           ipPoolName: string
-          ssmInfo:
-            ssmGroupRange: string
-            ssmWildcardMask: string
+          ssmGroupRange: string
+          ssmInfo: {}
+          ssmWildcardMask: string
           virtualNetworkName: string
+        muticastType: string
         siteNameHierarchy: string
 
     - name: Delete all

@@ -42,7 +42,7 @@ cisco.dnac.discovery_summary_info module -- Information module for Discovery Sum
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -71,7 +71,6 @@ Synopsis
 - Get all Discovery Summary.
 - Returns the network devices from a discovery job based on given filters. Discovery ID can be obtained using the "Get Discoveries by range" API.
 
-
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
 
@@ -84,19 +83,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -113,7 +107,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cliStatus"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-clistatus:
+      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-cliStatus:
 
       .. rst-class:: ansible-option-title
 
@@ -406,7 +400,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -451,7 +445,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-httpStatus"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-httpstatus:
+      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-httpStatus:
 
       .. rst-class:: ansible-option-title
 
@@ -519,7 +513,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-ipaddress:
+      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-ipAddress:
 
       .. rst-class:: ansible-option-title
 
@@ -553,7 +547,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netconfStatus"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-netconfstatus:
+      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-netconfStatus:
 
       .. rst-class:: ansible-option-title
 
@@ -587,7 +581,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-pingStatus"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-pingstatus:
+      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-pingStatus:
 
       .. rst-class:: ansible-option-title
 
@@ -621,7 +615,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-snmpStatus"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-snmpstatus:
+      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-snmpStatus:
 
       .. rst-class:: ansible-option-title
 
@@ -655,7 +649,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortBy"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-sortby:
+      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-sortBy:
 
       .. rst-class:: ansible-option-title
 
@@ -689,7 +683,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortOrder"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-sortorder:
+      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-sortOrder:
 
       .. rst-class:: ansible-option-title
 
@@ -723,7 +717,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-taskId"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-taskid:
+      .. _ansible_collections.cisco.dnac.discovery_summary_info_module__parameter-taskId:
 
       .. rst-class:: ansible-option-title
 
@@ -811,13 +805,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Discovery GetNetworkDevicesFromDiscovery <https://developer.cisco.com/docs/dna-center/#!get-network-devices-from-discovery>`_
-       Complete reference of the GetNetworkDevicesFromDiscovery API.
 
 .. Examples
 
@@ -836,7 +823,8 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
+        headers:
+          custom: value
         taskId: string
         sortBy: string
         sortOrder: string

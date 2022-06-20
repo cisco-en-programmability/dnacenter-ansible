@@ -42,7 +42,7 @@ cisco.dnac.reports_executions_info module -- Information module for Reports Exec
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -73,7 +73,6 @@ Synopsis
 - Get details of all executions for a given report.
 - Returns report content. Save the response to a file by converting the response data as a blob and setting the file format available from content-disposition response header.
 
-
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
 
@@ -86,19 +85,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -115,7 +109,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-dirPath"></div>
 
-      .. _ansible_collections.cisco.dnac.reports_executions_info_module__parameter-dirpath:
+      .. _ansible_collections.cisco.dnac.reports_executions_info_module__parameter-dirPath:
 
       .. rst-class:: ansible-option-title
 
@@ -408,7 +402,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -419,7 +413,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-executionId"></div>
 
-      .. _ansible_collections.cisco.dnac.reports_executions_info_module__parameter-executionid:
+      .. _ansible_collections.cisco.dnac.reports_executions_info_module__parameter-executionId:
 
       .. rst-class:: ansible-option-title
 
@@ -467,6 +461,9 @@ Parameters
 
       :ansible-option-type:`string`
 
+      :ansible-option-versionadded:`added in 6.2.0 of cisco.dnac`
+
+
       .. raw:: html
 
         </div>
@@ -475,7 +472,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The filename used to save the download file.
+      The filename used to save the download file. It defaults to the header Content-Disposition's filename.
 
 
       .. raw:: html
@@ -521,7 +518,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-reportId"></div>
 
-      .. _ansible_collections.cisco.dnac.reports_executions_info_module__parameter-reportid:
+      .. _ansible_collections.cisco.dnac.reports_executions_info_module__parameter-reportId:
 
       .. rst-class:: ansible-option-title
 
@@ -555,7 +552,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-saveFile"></div>
 
-      .. _ansible_collections.cisco.dnac.reports_executions_info_module__parameter-savefile:
+      .. _ansible_collections.cisco.dnac.reports_executions_info_module__parameter-saveFile:
 
       .. rst-class:: ansible-option-title
 
@@ -650,15 +647,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Reports DownloadReportContent <https://developer.cisco.com/docs/dna-center/#!download-report-content>`_
-       Complete reference of the DownloadReportContent API.
-   `Cisco DNA Center documentation for Reports GetAllExecutionDetailsForAGivenReport <https://developer.cisco.com/docs/dna-center/#!get-all-execution-details-for-a-given-report>`_
-       Complete reference of the GetAllExecutionDetailsForAGivenReport API.
 
 .. Examples
 
@@ -677,7 +665,8 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
+        headers:
+          custom: value
         reportId: string
       register: result
 
@@ -690,7 +679,8 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
+        headers:
+          custom: value
         reportId: string
         executionId: string
       register: result

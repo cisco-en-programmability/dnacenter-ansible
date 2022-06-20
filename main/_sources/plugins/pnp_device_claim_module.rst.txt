@@ -42,7 +42,7 @@ cisco.dnac.pnp_device_claim module -- Resource module for Pnp Device Claim
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,19 +83,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -112,7 +107,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-configFileUrl"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-configfileurl:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-configFileUrl:
 
       .. rst-class:: ansible-option-title
 
@@ -146,7 +141,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-configId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-configid:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-configId:
 
       .. rst-class:: ansible-option-title
 
@@ -180,7 +175,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceClaimList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceclaimlist:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceClaimList:
 
       .. rst-class:: ansible-option-title
 
@@ -214,7 +209,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceClaimList/configList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceclaimlist/configlist:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceClaimList/configList:
 
       .. rst-class:: ansible-option-title
 
@@ -248,7 +243,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceClaimList/configList/configId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceclaimlist/configlist/configid:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceClaimList/configList/configId:
 
       .. rst-class:: ansible-option-title
 
@@ -282,7 +277,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceClaimList/configList/configParameters"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceclaimlist/configlist/configparameters:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceClaimList/configList/configParameters:
 
       .. rst-class:: ansible-option-title
 
@@ -316,7 +311,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceClaimList/configList/configParameters/key"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceclaimlist/configlist/configparameters/key:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceClaimList/configList/configParameters/key:
 
       .. rst-class:: ansible-option-title
 
@@ -350,7 +345,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceClaimList/configList/configParameters/value"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceclaimlist/configlist/configparameters/value:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceClaimList/configList/configParameters/value:
 
       .. rst-class:: ansible-option-title
 
@@ -386,7 +381,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceClaimList/deviceId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceclaimlist/deviceid:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceClaimList/deviceId:
 
       .. rst-class:: ansible-option-title
 
@@ -420,7 +415,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceClaimList/licenseLevel"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceclaimlist/licenselevel:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceClaimList/licenseLevel:
 
       .. rst-class:: ansible-option-title
 
@@ -454,7 +449,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceClaimList/licenseType"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceclaimlist/licensetype:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceClaimList/licenseType:
 
       .. rst-class:: ansible-option-title
 
@@ -488,7 +483,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceClaimList/topOfStackSerialNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceclaimlist/topofstackserialnumber:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-deviceClaimList/topOfStackSerialNumber:
 
       .. rst-class:: ansible-option-title
 
@@ -782,7 +777,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -793,7 +788,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-fileServiceId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-fileserviceid:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-fileServiceId:
 
       .. rst-class:: ansible-option-title
 
@@ -827,7 +822,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-imageId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-imageid:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-imageId:
 
       .. rst-class:: ansible-option-title
 
@@ -861,7 +856,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-imageUrl"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-imageurl:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-imageUrl:
 
       .. rst-class:: ansible-option-title
 
@@ -895,7 +890,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-populateInventory"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-populateinventory:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-populateInventory:
 
       .. rst-class:: ansible-option-title
 
@@ -936,7 +931,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-projectId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-projectid:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-projectId:
 
       .. rst-class:: ansible-option-title
 
@@ -1011,7 +1006,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-workflowId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-workflowid:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-workflowId:
 
       .. rst-class:: ansible-option-title
 
@@ -1058,13 +1053,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Device Onboarding (PnP) ClaimDevice <https://developer.cisco.com/docs/dna-center/#!claim-device>`_
-       Complete reference of the ClaimDevice API.
 
 .. Examples
 

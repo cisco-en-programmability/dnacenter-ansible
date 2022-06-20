@@ -42,7 +42,7 @@ cisco.dnac.device_replacement_deploy module -- Resource module for Device Replac
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -71,7 +71,6 @@ Synopsis
 - Manage operation create of the resource Device Replacement Deploy.
 - API to trigger RMA workflow that will replace faulty device with replacement device with same configuration and images.
 
-
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
 
@@ -84,19 +83,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -372,7 +366,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -383,7 +377,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-faultyDeviceSerialNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_deploy_module__parameter-faultydeviceserialnumber:
+      .. _ansible_collections.cisco.dnac.device_replacement_deploy_module__parameter-faultyDeviceSerialNumber:
 
       .. rst-class:: ansible-option-title
 
@@ -417,7 +411,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-replacementDeviceSerialNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.device_replacement_deploy_module__parameter-replacementdeviceserialnumber:
+      .. _ansible_collections.cisco.dnac.device_replacement_deploy_module__parameter-replacementDeviceSerialNumber:
 
       .. rst-class:: ansible-option-title
 
@@ -505,13 +499,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Device Replacement DeployDeviceReplacementWorkflow <https://developer.cisco.com/docs/dna-center/#!deploy-device-replacement-workflow>`_
-       Complete reference of the DeployDeviceReplacementWorkflow API.
 
 .. Examples
 

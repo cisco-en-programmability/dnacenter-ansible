@@ -42,7 +42,7 @@ cisco.dnac.pnp_global_settings module -- Resource module for Pnp Global Settings
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,19 +83,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -146,7 +141,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-aaaCredentials"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-aaacredentials:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-aaaCredentials:
 
       .. rst-class:: ansible-option-title
 
@@ -180,7 +175,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-aaaCredentials/password"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-aaacredentials/password:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-aaaCredentials/password:
 
       .. rst-class:: ansible-option-title
 
@@ -214,7 +209,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-aaaCredentials/username"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-aaacredentials/username:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-aaaCredentials/username:
 
       .. rst-class:: ansible-option-title
 
@@ -249,7 +244,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-acceptEula"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-accepteula:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-acceptEula:
 
       .. rst-class:: ansible-option-title
 
@@ -290,7 +285,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-defaultProfile"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultprofile:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultProfile:
 
       .. rst-class:: ansible-option-title
 
@@ -324,7 +319,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-defaultProfile/cert"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultprofile/cert:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultProfile/cert:
 
       .. rst-class:: ansible-option-title
 
@@ -358,7 +353,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-defaultProfile/fqdnAddresses"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultprofile/fqdnaddresses:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultProfile/fqdnAddresses:
 
       .. rst-class:: ansible-option-title
 
@@ -392,7 +387,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-defaultProfile/ipAddresses"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultprofile/ipaddresses:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultProfile/ipAddresses:
 
       .. rst-class:: ansible-option-title
 
@@ -426,7 +421,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-defaultProfile/port"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultprofile/port:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultProfile/port:
 
       .. rst-class:: ansible-option-title
 
@@ -460,7 +455,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-defaultProfile/proxy"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultprofile/proxy:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-defaultProfile/proxy:
 
       .. rst-class:: ansible-option-title
 
@@ -761,7 +756,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -772,7 +767,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList:
 
       .. rst-class:: ansible-option-title
 
@@ -806,7 +801,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/autoSyncPeriod"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/autosyncperiod:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/autoSyncPeriod:
 
       .. rst-class:: ansible-option-title
 
@@ -840,7 +835,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/ccoUser"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/ccouser:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/ccoUser:
 
       .. rst-class:: ansible-option-title
 
@@ -874,7 +869,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/expiry"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/expiry:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/expiry:
 
       .. rst-class:: ansible-option-title
 
@@ -908,7 +903,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/lastSync"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/lastsync:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/lastSync:
 
       .. rst-class:: ansible-option-title
 
@@ -942,7 +937,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/profile:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile:
 
       .. rst-class:: ansible-option-title
 
@@ -976,7 +971,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/addressFqdn"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/profile/addressfqdn:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile/addressFqdn:
 
       .. rst-class:: ansible-option-title
 
@@ -1010,7 +1005,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/addressIpV4"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/profile/addressipv4:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile/addressIpV4:
 
       .. rst-class:: ansible-option-title
 
@@ -1044,7 +1039,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/cert"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/profile/cert:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile/cert:
 
       .. rst-class:: ansible-option-title
 
@@ -1078,7 +1073,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/makeDefault"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/profile/makedefault:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile/makeDefault:
 
       .. rst-class:: ansible-option-title
 
@@ -1119,7 +1114,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/name"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/profile/name:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile/name:
 
       .. rst-class:: ansible-option-title
 
@@ -1153,7 +1148,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/port"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/profile/port:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile/port:
 
       .. rst-class:: ansible-option-title
 
@@ -1187,7 +1182,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/profileId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/profile/profileid:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile/profileId:
 
       .. rst-class:: ansible-option-title
 
@@ -1221,7 +1216,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/profile/proxy"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/profile/proxy:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/profile/proxy:
 
       .. rst-class:: ansible-option-title
 
@@ -1263,7 +1258,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/smartAccountId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/smartaccountid:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/smartAccountId:
 
       .. rst-class:: ansible-option-title
 
@@ -1297,7 +1292,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/syncresult:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/syncResult:
 
       .. rst-class:: ansible-option-title
 
@@ -1331,7 +1326,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult/syncList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/syncresult/synclist:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/syncResult/syncList:
 
       .. rst-class:: ansible-option-title
 
@@ -1365,7 +1360,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult/syncList/deviceSnList"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/syncresult/synclist/devicesnlist:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/syncResult/syncList/deviceSnList:
 
       .. rst-class:: ansible-option-title
 
@@ -1399,7 +1394,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult/syncList/syncType"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/syncresult/synclist/synctype:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/syncResult/syncList/syncType:
 
       .. rst-class:: ansible-option-title
 
@@ -1434,7 +1429,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResult/syncMsg"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/syncresult/syncmsg:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/syncResult/syncMsg:
 
       .. rst-class:: ansible-option-title
 
@@ -1469,7 +1464,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncResultStr"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/syncresultstr:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/syncResultStr:
 
       .. rst-class:: ansible-option-title
 
@@ -1503,7 +1498,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncStartTime"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/syncstarttime:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/syncStartTime:
 
       .. rst-class:: ansible-option-title
 
@@ -1537,7 +1532,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/syncStatus"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/syncstatus:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/syncStatus:
 
       .. rst-class:: ansible-option-title
 
@@ -1571,7 +1566,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/tenantId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/tenantid:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/tenantId:
 
       .. rst-class:: ansible-option-title
 
@@ -1605,7 +1600,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/token"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/token:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/token:
 
       .. rst-class:: ansible-option-title
 
@@ -1639,7 +1634,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-savaMappingList/virtualAccountId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savamappinglist/virtualaccountid:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-savaMappingList/virtualAccountId:
 
       .. rst-class:: ansible-option-title
 
@@ -1674,7 +1669,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-taskTimeOuts"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-tasktimeouts:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-taskTimeOuts:
 
       .. rst-class:: ansible-option-title
 
@@ -1708,7 +1703,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-taskTimeOuts/configTimeOut"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-tasktimeouts/configtimeout:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-taskTimeOuts/configTimeOut:
 
       .. rst-class:: ansible-option-title
 
@@ -1742,7 +1737,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-taskTimeOuts/generalTimeOut"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-tasktimeouts/generaltimeout:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-taskTimeOuts/generalTimeOut:
 
       .. rst-class:: ansible-option-title
 
@@ -1776,7 +1771,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-taskTimeOuts/imageDownloadTimeOut"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-tasktimeouts/imagedownloadtimeout:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-taskTimeOuts/imageDownloadTimeOut:
 
       .. rst-class:: ansible-option-title
 
@@ -1811,7 +1806,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-tenantId"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-tenantid:
+      .. _ansible_collections.cisco.dnac.pnp_global_settings_module__parameter-tenantId:
 
       .. rst-class:: ansible-option-title
 
@@ -1933,13 +1928,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Device Onboarding (PnP) UpdatePnPGlobalSettings <https://developer.cisco.com/docs/dna-center/#!update-pn-p-global-settings>`_
-       Complete reference of the UpdatePnPGlobalSettings API.
 
 .. Examples
 

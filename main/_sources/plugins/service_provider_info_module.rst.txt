@@ -42,7 +42,7 @@ cisco.dnac.service_provider_info module -- Information module for Service Provid
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Service Provider.
-- API to get service provider details QoS .
+- API to get service provider details (QoS).
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -83,19 +83,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -371,7 +366,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -470,13 +465,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Network Settings GetServiceProviderDetails <https://developer.cisco.com/docs/dna-center/#!get-service-provider-details>`_
-       Complete reference of the GetServiceProviderDetails API.
 
 .. Examples
 
@@ -495,7 +483,8 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
+        headers:
+          custom: value
       register: result
 
 
@@ -558,7 +547,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"response\\": [\\n    {\\n      \\"instanceType\\": \\"string\\",\\n      \\"instanceUuid\\": \\"string\\",\\n      \\"namespace\\": \\"string\\",\\n      \\"type\\": \\"string\\",\\n      \\"key\\": \\"string\\",\\n      \\"version\\": 0,\\n      \\"value\\": [\\n        {\\n          \\"wanProvider\\": \\"string\\",\\n          \\"spProfileName\\": \\"string\\",\\n          \\"slaProfileName\\": \\"string\\"\\n        }\\n      ],\\n      \\"groupUuid\\": \\"string\\",\\n      \\"inheritedGroupUuid\\": \\"string\\",\\n      \\"inheritedGroupName\\": \\"string\\"\\n    }\\n  ],\\n  \\"version\\": \\"string\\"\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` "{\\n  \\"response\\": [\\n    {\\n      \\"instanceType\\": \\"string\\",\\n      \\"instanceUuid\\": \\"string\\",\\n      \\"namespace\\": \\"string\\",\\n      \\"type\\": \\"string\\",\\n      \\"key\\": \\"string\\",\\n      \\"version\\": \\"string\\",\\n      \\"value\\": [\\n        {\\n          \\"wanProvider\\": \\"string\\",\\n          \\"spProfileName\\": \\"string\\",\\n          \\"slaProfileName\\": \\"string\\"\\n        }\\n      ],\\n      \\"groupUuid\\": \\"string\\",\\n      \\"inheritedGroupUuid\\": \\"string\\",\\n      \\"inheritedGroupName\\": \\"string\\"\\n    }\\n  ],\\n  \\"version\\": \\"string\\"\\n}\\n"
 
 
       .. raw:: html

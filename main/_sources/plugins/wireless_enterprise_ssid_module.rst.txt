@@ -42,7 +42,7 @@ cisco.dnac.wireless_enterprise_ssid module -- Resource module for Wireless Enter
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -85,19 +85,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -114,7 +109,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-basicServiceSetClientIdleTimeout"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-basicservicesetclientidletimeout:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-basicServiceSetClientIdleTimeout:
 
       .. rst-class:: ansible-option-title
 
@@ -148,7 +143,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-clientExclusionTimeout"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-clientexclusiontimeout:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-clientExclusionTimeout:
 
       .. rst-class:: ansible-option-title
 
@@ -441,7 +436,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -452,7 +447,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-enableBasicServiceSetMaxIdle"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-enablebasicservicesetmaxidle:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-enableBasicServiceSetMaxIdle:
 
       .. rst-class:: ansible-option-title
 
@@ -493,7 +488,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-enableBroadcastSSID"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-enablebroadcastssid:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-enableBroadcastSSID:
 
       .. rst-class:: ansible-option-title
 
@@ -515,7 +510,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Enable Broadcase SSID.
+      Enable Broadcast SSID.
 
 
       .. rst-class:: ansible-option-line
@@ -534,7 +529,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-enableClientExclusion"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-enableclientexclusion:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-enableClientExclusion:
 
       .. rst-class:: ansible-option-title
 
@@ -575,7 +570,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-enableDirectedMulticastService"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-enabledirectedmulticastservice:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-enableDirectedMulticastService:
 
       .. rst-class:: ansible-option-title
 
@@ -616,7 +611,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-enableFastLane"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-enablefastlane:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-enableFastLane:
 
       .. rst-class:: ansible-option-title
 
@@ -638,7 +633,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Enable FastLane.
+      Enable Fast Lane.
 
 
       .. rst-class:: ansible-option-line
@@ -657,7 +652,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-enableMACFiltering"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-enablemacfiltering:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-enableMACFiltering:
 
       .. rst-class:: ansible-option-title
 
@@ -698,7 +693,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-enableNeighborList"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-enableneighborlist:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-enableNeighborList:
 
       .. rst-class:: ansible-option-title
 
@@ -739,7 +734,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-enableSessionTimeOut"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-enablesessiontimeout:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-enableSessionTimeOut:
 
       .. rst-class:: ansible-option-title
 
@@ -780,7 +775,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-fastTransition"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-fasttransition:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-fastTransition:
 
       .. rst-class:: ansible-option-title
 
@@ -814,7 +809,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-mfpClientProtection"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-mfpclientprotection:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-mfpClientProtection:
 
       .. rst-class:: ansible-option-title
 
@@ -870,41 +865,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SSID NAME.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-nasOptions"></div>
-
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-nasoptions:
-
-      .. rst-class:: ansible-option-title
-
-      **nasOptions**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-nasOptions" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Nas Options.
+      Enter SSID Name.
 
 
       .. raw:: html
@@ -938,7 +899,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Passphrase.
+      Pass Phrase (Only applicable for SSID with PERSONAL security level).
 
 
       .. raw:: html
@@ -950,7 +911,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioPolicy"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-radiopolicy:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-radioPolicy:
 
       .. rst-class:: ansible-option-title
 
@@ -972,7 +933,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Radio Policy Enum (enum Triple band operation (2.4GHz, 5GHz and 6GHz), Triple band operation with band select, 5GHz only, 2.4GHz only, 6GHz only).
+      Radio Policy. Allowed values are 'Dual band operation (2.4GHz and 5GHz)', 'Dual band operation with band select', '5GHz only', '2.4GHz only'.
 
 
       .. raw:: html
@@ -984,7 +945,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-securityLevel"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-securitylevel:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-securityLevel:
 
       .. rst-class:: ansible-option-title
 
@@ -1018,7 +979,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sessionTimeOut"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-sessiontimeout:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-sessionTimeOut:
 
       .. rst-class:: ansible-option-title
 
@@ -1052,7 +1013,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ssidName"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-ssidname:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-ssidName:
 
       .. rst-class:: ansible-option-title
 
@@ -1086,7 +1047,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-trafficType"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-traffictype:
+      .. _ansible_collections.cisco.dnac.wireless_enterprise_ssid_module__parameter-trafficType:
 
       .. rst-class:: ansible-option-title
 
@@ -1108,7 +1069,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Traffic Type Enum (voicedata or data ).
+      Traffic Type.
 
 
       .. raw:: html
@@ -1174,17 +1135,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Wireless CreateEnterpriseSSID <https://developer.cisco.com/docs/dna-center/#!create-enterprise-ssid>`_
-       Complete reference of the CreateEnterpriseSSID API.
-   `Cisco DNA Center documentation for Wireless DeleteEnterpriseSSID <https://developer.cisco.com/docs/dna-center/#!delete-enterprise-ssid>`_
-       Complete reference of the DeleteEnterpriseSSID API.
-   `Cisco DNA Center documentation for Wireless UpdateEnterpriseSSID <https://developer.cisco.com/docs/dna-center/#!update-enterprise-ssid>`_
-       Complete reference of the UpdateEnterpriseSSID API.
 
 .. Examples
 
@@ -1217,8 +1167,6 @@ Examples
         fastTransition: string
         mfpClientProtection: string
         name: string
-        nasOptions:
-        - string
         passphrase: string
         radioPolicy: string
         securityLevel: string
@@ -1248,8 +1196,6 @@ Examples
         fastTransition: string
         mfpClientProtection: string
         name: string
-        nasOptions:
-        - string
         passphrase: string
         radioPolicy: string
         securityLevel: string

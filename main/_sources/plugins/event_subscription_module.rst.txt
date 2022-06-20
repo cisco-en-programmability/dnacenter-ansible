@@ -42,7 +42,7 @@ cisco.dnac.event_subscription module -- Resource module for Event Subscription
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,9 +69,9 @@ Synopsis
 .. Description
 
 - Manage operations create, update and delete of the resource Event Subscription.
-- Subscribe SubscriptionEndpoint to list of registered events Deprecated .
+- Subscribe SubscriptionEndpoint to list of registered events.
 - Delete EventSubscriptions.
-- Update SubscriptionEndpoint to list of registered events Deprecated .
+- Update SubscriptionEndpoint to list of registered events.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,19 +85,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -373,7 +368,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -484,146 +479,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/filter/categories"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/filter/categories:
-
-      .. rst-class:: ansible-option-title
-
-      **categories**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/filter/categories" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Categories.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/filter/domainsSubdomains"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/filter/domainssubdomains:
-
-      .. rst-class:: ansible-option-title
-
-      **domainsSubdomains**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/filter/domainsSubdomains" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Event Subscription's domainsSubdomains.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/filter/domainsSubdomains/domain"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/filter/domainssubdomains/domain:
-
-      .. rst-class:: ansible-option-title
-
-      **domain**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/filter/domainsSubdomains/domain" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Domain.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/filter/domainsSubdomains/subDomains"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/filter/domainssubdomains/subdomains:
-
-      .. rst-class:: ansible-option-title
-
-      **subDomains**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/filter/domainsSubdomains/subDomains" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Sub Domains.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/filter/eventIds"></div>
 
-      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/filter/eventids:
+      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/filter/eventIds:
 
       .. rst-class:: ansible-option-title
 
@@ -645,143 +503,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Event Ids (Comma separated event ids).
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/filter/severities"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/filter/severities:
-
-      .. rst-class:: ansible-option-title
-
-      **severities**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/filter/severities" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Severities.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/filter/siteIds"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/filter/siteids:
-
-      .. rst-class:: ansible-option-title
-
-      **siteIds**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/filter/siteIds" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Site Ids.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/filter/sources"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/filter/sources:
-
-      .. rst-class:: ansible-option-title
-
-      **sources**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/filter/sources" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Sources.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/filter/types"></div>
-
-      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/filter/types:
-
-      .. rst-class:: ansible-option-title
-
-      **types**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/filter/types" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Types.
+      Event Ids.
 
 
       .. raw:: html
@@ -828,7 +550,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionEndpoints"></div>
 
-      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/subscriptionendpoints:
+      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/subscriptionEndpoints:
 
       .. rst-class:: ansible-option-title
 
@@ -862,7 +584,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionEndpoints/instanceId"></div>
 
-      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/subscriptionendpoints/instanceid:
+      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/subscriptionEndpoints/instanceId:
 
       .. rst-class:: ansible-option-title
 
@@ -884,7 +606,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      (From Get Rest/Webhook Subscription Details --> pick instanceId).
+      Instance Id.
 
 
       .. raw:: html
@@ -896,7 +618,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionEndpoints/subscriptionDetails"></div>
 
-      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/subscriptionendpoints/subscriptiondetails:
+      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/subscriptionEndpoints/subscriptionDetails:
 
       .. rst-class:: ansible-option-title
 
@@ -930,7 +652,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionEndpoints/subscriptionDetails/connectorType"></div>
 
-      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/subscriptionendpoints/subscriptiondetails/connectortype:
+      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/subscriptionEndpoints/subscriptionDetails/connectorType:
 
       .. rst-class:: ansible-option-title
 
@@ -952,7 +674,109 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Connector Type (Must be REST).
+      Connector Type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionEndpoints/subscriptionDetails/method"></div>
+
+      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/subscriptionEndpoints/subscriptionDetails/method:
+
+      .. rst-class:: ansible-option-title
+
+      **method**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/subscriptionEndpoints/subscriptionDetails/method" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Method.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionEndpoints/subscriptionDetails/name"></div>
+
+      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/subscriptionEndpoints/subscriptionDetails/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/subscriptionEndpoints/subscriptionDetails/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionEndpoints/subscriptionDetails/url"></div>
+
+      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/subscriptionEndpoints/subscriptionDetails/url:
+
+      .. rst-class:: ansible-option-title
+
+      **url**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/subscriptionEndpoints/subscriptionDetails/url" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Url.
 
 
       .. raw:: html
@@ -966,7 +790,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionId"></div>
 
-      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/subscriptionid:
+      .. _ansible_collections.cisco.dnac.event_subscription_module__parameter-payload/subscriptionId:
 
       .. rst-class:: ansible-option-title
 
@@ -988,7 +812,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Subscription Id (Unique UUID).
+      Subscription Id.
 
 
       .. raw:: html
@@ -1123,17 +947,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Event Management CreateEventSubscriptions <https://developer.cisco.com/docs/dna-center/#!create-event-subscriptions>`_
-       Complete reference of the CreateEventSubscriptions API.
-   `Cisco DNA Center documentation for Event Management DeleteEventSubscriptions <https://developer.cisco.com/docs/dna-center/#!delete-event-subscriptions>`_
-       Complete reference of the DeleteEventSubscriptions API.
-   `Cisco DNA Center documentation for Event Management UpdateEventSubscriptions <https://developer.cisco.com/docs/dna-center/#!update-event-subscriptions>`_
-       Complete reference of the UpdateEventSubscriptions API.
 
 .. Examples
 
@@ -1168,27 +981,16 @@ Examples
         payload:
         - description: string
           filter:
-            categories:
-            - string
-            domainsSubdomains:
-            - domain: string
-              subDomains:
-              - string
             eventIds:
-            - string
-            severities:
-            - string
-            siteIds:
-            - string
-            sources:
-            - string
-            types:
             - string
           name: string
           subscriptionEndpoints:
           - instanceId: string
             subscriptionDetails:
               connectorType: string
+              method: string
+              name: string
+              url: string
           subscriptionId: string
           version: string
 
@@ -1205,27 +1007,16 @@ Examples
         payload:
         - description: string
           filter:
-            categories:
-            - string
-            domainsSubdomains:
-            - domain: string
-              subDomains:
-              - string
             eventIds:
-            - string
-            severities:
-            - string
-            siteIds:
-            - string
-            sources:
-            - string
-            types:
             - string
           name: string
           subscriptionEndpoints:
           - instanceId: string
             subscriptionDetails:
               connectorType: string
+              method: string
+              name: string
+              url: string
           subscriptionId: string
           version: string
 

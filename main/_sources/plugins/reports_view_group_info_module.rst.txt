@@ -42,7 +42,7 @@ cisco.dnac.reports_view_group_info module -- Information module for Reports View
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -73,7 +73,6 @@ Synopsis
 - Gives a list of summary of all view groups.
 - Gives a list of summary of all views in a viewgroup. Use "Get all view groups" API to get the viewGroupIds required as a query param for this API for available viewgroups.
 
-
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
 
@@ -86,19 +85,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -374,7 +368,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -460,7 +454,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-viewGroupId"></div>
 
-      .. _ansible_collections.cisco.dnac.reports_view_group_info_module__parameter-viewgroupid:
+      .. _ansible_collections.cisco.dnac.reports_view_group_info_module__parameter-viewGroupId:
 
       .. rst-class:: ansible-option-title
 
@@ -507,15 +501,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Reports GetAllViewGroups <https://developer.cisco.com/docs/dna-center/#!get-all-view-groups>`_
-       Complete reference of the GetAllViewGroups API.
-   `Cisco DNA Center documentation for Reports GetViewsForAGivenViewGroup <https://developer.cisco.com/docs/dna-center/#!get-views-for-a-given-view-group>`_
-       Complete reference of the GetViewsForAGivenViewGroup API.
 
 .. Examples
 
@@ -534,7 +519,8 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
+        headers:
+          custom: value
       register: result
 
     - name: Get Reports View Group by id
@@ -546,7 +532,8 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
+        headers:
+          custom: value
         viewGroupId: string
       register: result
 

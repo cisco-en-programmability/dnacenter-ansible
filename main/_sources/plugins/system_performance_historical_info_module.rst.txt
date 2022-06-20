@@ -42,7 +42,7 @@ cisco.dnac.system_performance_historical_info module -- Information module for S
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all System Performance Historical.
-- This API retrieves the historical performance indicators. The data can be retrieved for the last 3 months.
+- This API retrieves the historical performance indicators . The data can be retrieved for the last 3 months.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -83,19 +83,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -371,7 +366,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -382,7 +377,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.system_performance_historical_info_module__parameter-endtime:
+      .. _ansible_collections.cisco.dnac.system_performance_historical_info_module__parameter-endTime:
 
       .. rst-class:: ansible-option-title
 
@@ -485,7 +480,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.system_performance_historical_info_module__parameter-starttime:
+      .. _ansible_collections.cisco.dnac.system_performance_historical_info_module__parameter-startTime:
 
       .. rst-class:: ansible-option-title
 
@@ -574,13 +569,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Health and Performance SystemPerformanceHistoricalAPI <https://developer.cisco.com/docs/dna-center/#!system-performance-historical-api>`_
-       Complete reference of the SystemPerformanceHistoricalAPI API.
 
 .. Examples
 
@@ -599,7 +587,8 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
+        headers:
+          custom: value
         kpi: string
         startTime: 0
         endTime: 0

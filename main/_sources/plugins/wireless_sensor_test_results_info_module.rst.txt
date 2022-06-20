@@ -42,7 +42,7 @@ cisco.dnac.wireless_sensor_test_results_info module -- Information module for Wi
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 7.0.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,19 +83,14 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
-
-
-
-
 
 
 .. Options
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -371,7 +366,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -382,7 +377,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_sensor_test_results_info_module__parameter-endtime:
+      .. _ansible_collections.cisco.dnac.wireless_sensor_test_results_info_module__parameter-endTime:
 
       .. rst-class:: ansible-option-title
 
@@ -450,7 +445,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-siteId"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_sensor_test_results_info_module__parameter-siteid:
+      .. _ansible_collections.cisco.dnac.wireless_sensor_test_results_info_module__parameter-siteId:
 
       .. rst-class:: ansible-option-title
 
@@ -484,7 +479,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_sensor_test_results_info_module__parameter-starttime:
+      .. _ansible_collections.cisco.dnac.wireless_sensor_test_results_info_module__parameter-startTime:
 
       .. rst-class:: ansible-option-title
 
@@ -518,7 +513,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-testFailureBy"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_sensor_test_results_info_module__parameter-testfailureby:
+      .. _ansible_collections.cisco.dnac.wireless_sensor_test_results_info_module__parameter-testFailureBy:
 
       .. rst-class:: ansible-option-title
 
@@ -606,13 +601,6 @@ Notes
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Wireless SensorTestResults <https://developer.cisco.com/docs/dna-center/#!sensor-test-results>`_
-       Complete reference of the SensorTestResults API.
 
 .. Examples
 
@@ -631,7 +619,8 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
+        headers:
+          custom: value
         siteId: string
         startTime: 0
         endTime: 0
