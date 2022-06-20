@@ -42,7 +42,7 @@ cisco.dnac.templates_details_info module -- Information module for Templates Det
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Templates Details.
-- Get template(s) details.
+- Get templates details.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -107,7 +112,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-allTemplateAttributes"></div>
 
-      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-allTemplateAttributes:
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-alltemplateattributes:
 
       .. rst-class:: ansible-option-title
 
@@ -407,7 +412,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -418,7 +423,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-filterConflictingTemplates"></div>
 
-      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-filterConflictingTemplates:
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-filterconflictingtemplates:
 
       .. rst-class:: ansible-option-title
 
@@ -527,7 +532,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-includeVersionDetails"></div>
 
-      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-includeVersionDetails:
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-includeversiondetails:
 
       .. rst-class:: ansible-option-title
 
@@ -670,7 +675,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-productFamily"></div>
 
-      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-productFamily:
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-productfamily:
 
       .. rst-class:: ansible-option-title
 
@@ -704,7 +709,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-productSeries"></div>
 
-      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-productSeries:
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-productseries:
 
       .. rst-class:: ansible-option-title
 
@@ -738,7 +743,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-productType"></div>
 
-      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-productType:
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-producttype:
 
       .. rst-class:: ansible-option-title
 
@@ -772,7 +777,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-projectId"></div>
 
-      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-projectId:
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-projectid:
 
       .. rst-class:: ansible-option-title
 
@@ -806,7 +811,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-projectName"></div>
 
-      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-projectName:
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-projectname:
 
       .. rst-class:: ansible-option-title
 
@@ -840,7 +845,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-softwareType"></div>
 
-      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-softwareType:
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-softwaretype:
 
       .. rst-class:: ansible-option-title
 
@@ -874,7 +879,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-softwareVersion"></div>
 
-      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-softwareVersion:
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-softwareversion:
 
       .. rst-class:: ansible-option-title
 
@@ -908,7 +913,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortOrder"></div>
 
-      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-sortOrder:
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-sortorder:
 
       .. rst-class:: ansible-option-title
 
@@ -976,7 +981,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-unCommitted"></div>
 
-      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-unCommitted:
+      .. _ansible_collections.cisco.dnac.templates_details_info_module__parameter-uncommitted:
 
       .. rst-class:: ansible-option-title
 
@@ -1071,6 +1076,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Configuration Templates GetTemplatesDetails <https://developer.cisco.com/docs/dna-center/#!get-template-s-details>`_
+       Complete reference of the GetTemplatesDetails API.
 
 .. Examples
 
@@ -1089,8 +1101,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         id: string
         name: string
         projectId: string

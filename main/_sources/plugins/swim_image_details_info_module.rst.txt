@@ -42,7 +42,7 @@ cisco.dnac.swim_image_details_info module -- Information module for Swim Image D
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Swim Image Details.
-- Returns software image list based on a filter criteria. For example, "filterbyName = cat3k%".
+- Returns software image list based on a filter criteria. For example "filterbyName = cat3k%".
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.4
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -107,7 +112,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-applicationType"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-applicationType:
+      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-applicationtype:
 
       .. rst-class:: ansible-option-title
 
@@ -141,7 +146,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-createdTime"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-createdTime:
+      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-createdtime:
 
       .. rst-class:: ansible-option-title
 
@@ -434,7 +439,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -513,7 +518,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-imageIntegrityStatus"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-imageIntegrityStatus:
+      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-imageintegritystatus:
 
       .. rst-class:: ansible-option-title
 
@@ -547,7 +552,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-imageName"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-imageName:
+      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-imagename:
 
       .. rst-class:: ansible-option-title
 
@@ -581,7 +586,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-imageSeries"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-imageSeries:
+      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-imageseries:
 
       .. rst-class:: ansible-option-title
 
@@ -615,7 +620,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-imageSizeGreaterThan"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-imageSizeGreaterThan:
+      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-imagesizegreaterthan:
 
       .. rst-class:: ansible-option-title
 
@@ -649,7 +654,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-imageSizeLesserThan"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-imageSizeLesserThan:
+      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-imagesizelesserthan:
 
       .. rst-class:: ansible-option-title
 
@@ -683,7 +688,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-imageUuid"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-imageUuid:
+      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-imageuuid:
 
       .. rst-class:: ansible-option-title
 
@@ -717,7 +722,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-isCCOLatest"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-isCCOLatest:
+      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-isccolatest:
 
       .. rst-class:: ansible-option-title
 
@@ -758,7 +763,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-isCCORecommended"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-isCCORecommended:
+      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-isccorecommended:
 
       .. rst-class:: ansible-option-title
 
@@ -799,7 +804,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-isTaggedGolden"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-isTaggedGolden:
+      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-istaggedgolden:
 
       .. rst-class:: ansible-option-title
 
@@ -942,7 +947,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortBy"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-sortBy:
+      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-sortby:
 
       .. rst-class:: ansible-option-title
 
@@ -976,7 +981,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortOrder"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-sortOrder:
+      .. _ansible_collections.cisco.dnac.swim_image_details_info_module__parameter-sortorder:
 
       .. rst-class:: ansible-option-title
 
@@ -1098,6 +1103,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Software Image Management (SWIM) GetSoftwareImageDetails <https://developer.cisco.com/docs/dna-center/#!get-software-image-details>`_
+       Complete reference of the GetSoftwareImageDetails API.
 
 .. Examples
 
@@ -1116,8 +1128,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         imageUuid: string
         name: string
         family: string

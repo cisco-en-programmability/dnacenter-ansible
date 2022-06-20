@@ -42,7 +42,7 @@ cisco.dnac.wireless_provision_device_update module -- Resource module for Wirele
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -366,7 +371,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -390,9 +395,6 @@ Parameters
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
-
-      :ansible-option-versionadded:`added in 6.3.0 of cisco.dnac`
-
 
       .. raw:: html
 
@@ -448,7 +450,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/deviceName"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/deviceName:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/devicename:
 
       .. rst-class:: ansible-option-title
 
@@ -482,7 +484,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/dynamicInterfaces"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/dynamicInterfaces:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/dynamicinterfaces:
 
       .. rst-class:: ansible-option-title
 
@@ -516,7 +518,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/dynamicInterfaces/interfaceGateway"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/dynamicInterfaces/interfaceGateway:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/dynamicinterfaces/interfacegateway:
 
       .. rst-class:: ansible-option-title
 
@@ -550,7 +552,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/dynamicInterfaces/interfaceIPAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/dynamicInterfaces/interfaceIPAddress:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/dynamicinterfaces/interfaceipaddress:
 
       .. rst-class:: ansible-option-title
 
@@ -584,7 +586,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/dynamicInterfaces/interfaceName"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/dynamicInterfaces/interfaceName:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/dynamicinterfaces/interfacename:
 
       .. rst-class:: ansible-option-title
 
@@ -618,7 +620,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/dynamicInterfaces/interfaceNetmaskInCIDR"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/dynamicInterfaces/interfaceNetmaskInCIDR:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/dynamicinterfaces/interfacenetmaskincidr:
 
       .. rst-class:: ansible-option-title
 
@@ -652,7 +654,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/dynamicInterfaces/lagOrPortNumber"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/dynamicInterfaces/lagOrPortNumber:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/dynamicinterfaces/lagorportnumber:
 
       .. rst-class:: ansible-option-title
 
@@ -686,7 +688,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/dynamicInterfaces/vlanId"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/dynamicInterfaces/vlanId:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/dynamicinterfaces/vlanid:
 
       .. rst-class:: ansible-option-title
 
@@ -721,7 +723,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/managedAPLocations"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/managedAPLocations:
+      .. _ansible_collections.cisco.dnac.wireless_provision_device_update_module__parameter-payload/managedaplocations:
 
       .. rst-class:: ansible-option-title
 
@@ -810,6 +812,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Wireless ProvisionUpdate <https://developer.cisco.com/docs/dna-center/#!provision-update>`_
+       Complete reference of the ProvisionUpdate API.
 
 .. Examples
 
@@ -828,17 +837,16 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: string
+        headers: '{{my_headers | from_json}}'
         payload:
         - deviceName: string
           dynamicInterfaces:
           - interfaceGateway: string
             interfaceIPAddress: string
             interfaceName: string
-            interfaceNetmaskInCIDR: 1
-            lagOrPortNumber: 1
-            vlanId: 1
+            interfaceNetmaskInCIDR: 0
+            lagOrPortNumber: 0
+            vlanId: 0
           managedAPLocations:
           - string
 

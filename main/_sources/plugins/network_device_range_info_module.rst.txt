@@ -42,7 +42,7 @@ cisco.dnac.network_device_range_info module -- Information module for Network De
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -366,7 +371,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -411,7 +416,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-recordsToReturn"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_range_info_module__parameter-recordsToReturn:
+      .. _ansible_collections.cisco.dnac.network_device_range_info_module__parameter-recordstoreturn:
 
       .. rst-class:: ansible-option-title
 
@@ -445,7 +450,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-startIndex"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_range_info_module__parameter-startIndex:
+      .. _ansible_collections.cisco.dnac.network_device_range_info_module__parameter-startindex:
 
       .. rst-class:: ansible-option-title
 
@@ -533,6 +538,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Devices GetNetworkDeviceByPaginationRange <https://developer.cisco.com/docs/dna-center/#!get-network-device-by-pagination-range>`_
+       Complete reference of the GetNetworkDeviceByPaginationRange API.
 
 .. Examples
 
@@ -551,8 +563,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         startIndex: 0
         recordsToReturn: 0
       register: result
@@ -617,7 +628,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"response\\": [\\n    {\\n      \\"apManagerInterfaceIp\\": \\"string\\",\\n      \\"associatedWlcIp\\": \\"string\\",\\n      \\"bootDateTime\\": \\"string\\",\\n      \\"collectionInterval\\": \\"string\\",\\n      \\"collectionStatus\\": \\"string\\",\\n      \\"errorCode\\": \\"string\\",\\n      \\"errorDescription\\": \\"string\\",\\n      \\"family\\": \\"string\\",\\n      \\"hostname\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"instanceTenantId\\": \\"string\\",\\n      \\"instanceUuid\\": \\"string\\",\\n      \\"interfaceCount\\": \\"string\\",\\n      \\"inventoryStatusDetail\\": \\"string\\",\\n      \\"lastUpdateTime\\": \\"string\\",\\n      \\"lastUpdated\\": \\"string\\",\\n      \\"lineCardCount\\": \\"string\\",\\n      \\"lineCardId\\": \\"string\\",\\n      \\"location\\": \\"string\\",\\n      \\"locationName\\": \\"string\\",\\n      \\"macAddress\\": \\"string\\",\\n      \\"managementIpAddress\\": \\"string\\",\\n      \\"memorySize\\": \\"string\\",\\n      \\"platformId\\": \\"string\\",\\n      \\"reachabilityFailureReason\\": \\"string\\",\\n      \\"reachabilityStatus\\": \\"string\\",\\n      \\"role\\": \\"string\\",\\n      \\"roleSource\\": \\"string\\",\\n      \\"serialNumber\\": \\"string\\",\\n      \\"series\\": \\"string\\",\\n      \\"snmpContact\\": \\"string\\",\\n      \\"snmpLocation\\": \\"string\\",\\n      \\"softwareType\\": \\"string\\",\\n      \\"softwareVersion\\": \\"string\\",\\n      \\"tagCount\\": \\"string\\",\\n      \\"tunnelUdpPort\\": \\"string\\",\\n      \\"type\\": \\"string\\",\\n      \\"upTime\\": \\"string\\",\\n      \\"waasDeviceMode\\": \\"string\\"\\n    }\\n  ],\\n  \\"version\\": \\"string\\"\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` "{\\n  \\"response\\": [\\n    {\\n      \\"apManagerInterfaceIp\\": \\"string\\",\\n      \\"associatedWlcIp\\": \\"string\\",\\n      \\"bootDateTime\\": \\"string\\",\\n      \\"collectionInterval\\": \\"string\\",\\n      \\"collectionStatus\\": \\"string\\",\\n      \\"errorCode\\": \\"string\\",\\n      \\"errorDescription\\": \\"string\\",\\n      \\"family\\": \\"string\\",\\n      \\"hostname\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"instanceTenantId\\": \\"string\\",\\n      \\"instanceUuid\\": \\"string\\",\\n      \\"interfaceCount\\": \\"string\\",\\n      \\"inventoryStatusDetail\\": \\"string\\",\\n      \\"lastUpdateTime\\": 0,\\n      \\"lastUpdated\\": \\"string\\",\\n      \\"lineCardCount\\": \\"string\\",\\n      \\"lineCardId\\": \\"string\\",\\n      \\"location\\": \\"string\\",\\n      \\"locationName\\": \\"string\\",\\n      \\"macAddress\\": \\"string\\",\\n      \\"managementIpAddress\\": \\"string\\",\\n      \\"memorySize\\": \\"string\\",\\n      \\"platformId\\": \\"string\\",\\n      \\"reachabilityFailureReason\\": \\"string\\",\\n      \\"reachabilityStatus\\": \\"string\\",\\n      \\"role\\": \\"string\\",\\n      \\"roleSource\\": \\"string\\",\\n      \\"serialNumber\\": \\"string\\",\\n      \\"series\\": \\"string\\",\\n      \\"snmpContact\\": \\"string\\",\\n      \\"snmpLocation\\": \\"string\\",\\n      \\"softwareType\\": \\"string\\",\\n      \\"softwareVersion\\": \\"string\\",\\n      \\"tagCount\\": \\"string\\",\\n      \\"tunnelUdpPort\\": \\"string\\",\\n      \\"type\\": \\"string\\",\\n      \\"upTime\\": \\"string\\",\\n      \\"waasDeviceMode\\": \\"string\\"\\n    }\\n  ],\\n  \\"version\\": \\"string\\"\\n}\\n"
 
 
       .. raw:: html

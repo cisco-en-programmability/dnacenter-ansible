@@ -42,7 +42,7 @@ cisco.dnac.network_device_config_info module -- Information module for Network D
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,6 +69,7 @@ Synopsis
 .. Description
 
 - Get all Network Device Config.
+- Get Network Device Config by id.
 - Returns the config for all devices.
 - Returns the device config by specified device ID.
 
@@ -84,14 +85,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -367,7 +373,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -412,7 +418,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-networkDeviceId"></div>
 
-      .. _ansible_collections.cisco.dnac.network_device_config_info_module__parameter-networkDeviceId:
+      .. _ansible_collections.cisco.dnac.network_device_config_info_module__parameter-networkdeviceid:
 
       .. rst-class:: ansible-option-title
 
@@ -492,7 +498,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get_device_config_by_id,
+   - SDK Method used are devices.Devices.get_device_config_by_id, devices.Devices.get_device_config_for_all_devices,
    - Paths used are get /dna/intent/api/v1/network-device/config, get /dna/intent/api/v1/network-device/{networkDeviceId}/config,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -500,6 +506,15 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Devices GetDeviceConfigById <https://developer.cisco.com/docs/dna-center/#!get-device-config-by-id>`_
+       Complete reference of the GetDeviceConfigById API.
+   `Cisco DNA Center documentation for Devices GetDeviceConfigForAllDevices <https://developer.cisco.com/docs/dna-center/#!get-device-config-for-all-devices>`_
+       Complete reference of the GetDeviceConfigForAllDevices API.
 
 .. Examples
 
@@ -518,8 +533,19 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
+      register: result
+
+    - name: Get Network Device Config by id
+      cisco.dnac.network_device_config_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
         networkDeviceId: string
       register: result
 

@@ -42,7 +42,7 @@ cisco.dnac.system_health_info module -- Information module for System Health
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -366,7 +371,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -644,6 +649,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Health and Performance SystemHealthAPI <https://developer.cisco.com/docs/dna-center/#!system-health-api>`_
+       Complete reference of the SystemHealthAPI API.
 
 .. Examples
 
@@ -662,8 +674,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         summary: True
         domain: string
         subdomain: string
@@ -731,7 +742,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"healthEvents\\": [\\n    {\\n      \\"severity\\": \\"string\\",\\n      \\"hostname\\": \\"string\\",\\n      \\"instance\\": \\"string\\",\\n      \\"subDomain\\": \\"string\\",\\n      \\"domain\\": \\"string\\",\\n      \\"description\\": \\"string\\",\\n      \\"state\\": \\"string\\",\\n      \\"timestamp\\": \\"string\\",\\n      \\"status\\": \\"string\\"\\n    }\\n  ],\\n  \\"version\\": \\"string\\",\\n  \\"hostName\\": \\"string\\"\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` "{\\n  \\"healthEvents\\": [\\n    {\\n      \\"severity\\": \\"string\\",\\n      \\"hostname\\": \\"string\\",\\n      \\"instance\\": \\"string\\",\\n      \\"subDomain\\": \\"string\\",\\n      \\"domain\\": \\"string\\",\\n      \\"description\\": \\"string\\",\\n      \\"state\\": \\"string\\",\\n      \\"timestamp\\": \\"string\\",\\n      \\"status\\": \\"string\\"\\n    }\\n  ],\\n  \\"version\\": \\"string\\",\\n  \\"hostName\\": \\"string\\",\\n  \\"cimcaddress\\": [\\n    \\"string\\"\\n  ]\\n}\\n"
 
 
       .. raw:: html

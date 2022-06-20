@@ -42,7 +42,7 @@ cisco.dnac.wireless_profile module -- Resource module for Wireless Profile
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -69,9 +69,10 @@ Synopsis
 .. Description
 
 - Manage operations create, update and delete of the resource Wireless Profile.
-- Creates Wireless Network Profile on DNAC and associates sites and SSIDs to it.
-- Delete the Wireless Profile from DNAC whose name is provided.
+- Creates Wireless Network Profile on Cisco DNA Center and associates sites and SSIDs to it.
+- Delete the Wireless Profile from Cisco DNA Center whose name is provided.
 - Updates the wireless Network Profile with updated details provided. All sites to be present in the network profile should be provided.
+
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,14 +86,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -368,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -379,7 +385,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profileDetails"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profileDetails:
+      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profiledetails:
 
       .. rst-class:: ansible-option-title
 
@@ -413,7 +419,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profileDetails/name"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profileDetails/name:
+      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profiledetails/name:
 
       .. rst-class:: ansible-option-title
 
@@ -447,7 +453,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profileDetails/sites"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profileDetails/sites:
+      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profiledetails/sites:
 
       .. rst-class:: ansible-option-title
 
@@ -481,7 +487,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profileDetails/ssidDetails:
+      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profiledetails/ssiddetails:
 
       .. rst-class:: ansible-option-title
 
@@ -515,7 +521,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/enableFabric"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profileDetails/ssidDetails/enableFabric:
+      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profiledetails/ssiddetails/enablefabric:
 
       .. rst-class:: ansible-option-title
 
@@ -556,7 +562,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/flexConnect"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profileDetails/ssidDetails/flexConnect:
+      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profiledetails/ssiddetails/flexconnect:
 
       .. rst-class:: ansible-option-title
 
@@ -590,7 +596,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/flexConnect/enableFlexConnect"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profileDetails/ssidDetails/flexConnect/enableFlexConnect:
+      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profiledetails/ssiddetails/flexconnect/enableflexconnect:
 
       .. rst-class:: ansible-option-title
 
@@ -631,7 +637,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/flexConnect/localToVlan"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profileDetails/ssidDetails/flexConnect/localToVlan:
+      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profiledetails/ssiddetails/flexconnect/localtovlan:
 
       .. rst-class:: ansible-option-title
 
@@ -666,7 +672,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/interfaceName"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profileDetails/ssidDetails/interfaceName:
+      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profiledetails/ssiddetails/interfacename:
 
       .. rst-class:: ansible-option-title
 
@@ -700,7 +706,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/name"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profileDetails/ssidDetails/name:
+      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profiledetails/ssiddetails/name:
 
       .. rst-class:: ansible-option-title
 
@@ -734,7 +740,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/type"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profileDetails/ssidDetails/type:
+      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profiledetails/ssiddetails/type:
 
       .. rst-class:: ansible-option-title
 
@@ -811,7 +817,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-wirelessProfileName"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-wirelessProfileName:
+      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-wirelessprofilename:
 
       .. rst-class:: ansible-option-title
 
@@ -858,6 +864,17 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Wireless CreateWirelessProfile <https://developer.cisco.com/docs/dna-center/#!create-wireless-profile>`_
+       Complete reference of the CreateWirelessProfile API.
+   `Cisco DNA Center documentation for Wireless DeleteWirelessProfile <https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile>`_
+       Complete reference of the DeleteWirelessProfile API.
+   `Cisco DNA Center documentation for Wireless UpdateWirelessProfile <https://developer.cisco.com/docs/dna-center/#!update-wireless-profile>`_
+       Complete reference of the UpdateWirelessProfile API.
 
 .. Examples
 

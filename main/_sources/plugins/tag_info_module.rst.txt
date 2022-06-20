@@ -42,7 +42,7 @@ cisco.dnac.tag_info module -- Information module for Tag
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -85,14 +85,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -109,7 +114,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-additionalInfo_attributes"></div>
 
-      .. _ansible_collections.cisco.dnac.tag_info_module__parameter-additionalInfo_attributes:
+      .. _ansible_collections.cisco.dnac.tag_info_module__parameter-additionalinfo_attributes:
 
       .. rst-class:: ansible-option-title
 
@@ -143,7 +148,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-additionalInfo_nameSpace"></div>
 
-      .. _ansible_collections.cisco.dnac.tag_info_module__parameter-additionalInfo_nameSpace:
+      .. _ansible_collections.cisco.dnac.tag_info_module__parameter-additionalinfo_namespace:
 
       .. rst-class:: ansible-option-title
 
@@ -436,7 +441,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -754,7 +759,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortBy"></div>
 
-      .. _ansible_collections.cisco.dnac.tag_info_module__parameter-sortBy:
+      .. _ansible_collections.cisco.dnac.tag_info_module__parameter-sortby:
 
       .. rst-class:: ansible-option-title
 
@@ -788,7 +793,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-systemTag"></div>
 
-      .. _ansible_collections.cisco.dnac.tag_info_module__parameter-systemTag:
+      .. _ansible_collections.cisco.dnac.tag_info_module__parameter-systemtag:
 
       .. rst-class:: ansible-option-title
 
@@ -876,6 +881,15 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Tag GetTag <https://developer.cisco.com/docs/dna-center/#!get-tag>`_
+       Complete reference of the GetTag API.
+   `Cisco DNA Center documentation for Tag GetTagById <https://developer.cisco.com/docs/dna-center/#!get-tag-by-id>`_
+       Complete reference of the GetTagById API.
 
 .. Examples
 
@@ -894,8 +908,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         name: string
         additionalInfo_nameSpace: string
         additionalInfo_attributes: string
@@ -918,8 +931,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         id: string
       register: result
 

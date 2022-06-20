@@ -42,7 +42,7 @@ cisco.dnac.event_series_audit_logs_summary_info module -- Information module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -83,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -211,7 +216,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceId"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-deviceId:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-deviceid:
 
       .. rst-class:: ansible-option-title
 
@@ -504,7 +509,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -549,7 +554,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-endTime"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-endTime:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-endtime:
 
       .. rst-class:: ansible-option-title
 
@@ -584,7 +589,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-eventHierarchy"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-eventHierarchy:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-eventhierarchy:
 
       .. rst-class:: ansible-option-title
 
@@ -619,7 +624,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-eventId"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-eventId:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-eventid:
 
       .. rst-class:: ansible-option-title
 
@@ -687,7 +692,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-instanceId"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-instanceId:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-instanceid:
 
       .. rst-class:: ansible-option-title
 
@@ -721,7 +726,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-isParentOnly"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-isParentOnly:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-isparentonly:
 
       .. rst-class:: ansible-option-title
 
@@ -762,7 +767,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-isSystemEvents"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-isSystemEvents:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-issystemevents:
 
       .. rst-class:: ansible-option-title
 
@@ -837,7 +842,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-parentInstanceId"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-parentInstanceId:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-parentinstanceid:
 
       .. rst-class:: ansible-option-title
 
@@ -905,7 +910,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-siteId"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-siteId:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-siteid:
 
       .. rst-class:: ansible-option-title
 
@@ -973,7 +978,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-startTime"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-startTime:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-starttime:
 
       .. rst-class:: ansible-option-title
 
@@ -1008,7 +1013,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-subDomain"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-subDomain:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-subdomain:
 
       .. rst-class:: ansible-option-title
 
@@ -1042,7 +1047,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-userId"></div>
 
-      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-userId:
+      .. _ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module__parameter-userid:
 
       .. rst-class:: ansible-option-title
 
@@ -1130,6 +1135,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Event Management GetAuditLogSummary <https://developer.cisco.com/docs/dna-center/#!get-audit-log-summary>`_
+       Complete reference of the GetAuditLogSummary API.
 
 .. Examples
 
@@ -1148,8 +1160,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         parentInstanceId: string
         isParentOnly: True
         instanceId: string

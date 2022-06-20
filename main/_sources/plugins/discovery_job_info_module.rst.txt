@@ -42,7 +42,7 @@ cisco.dnac.discovery_job_info module -- Information module for Discovery Job
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -71,6 +71,7 @@ Synopsis
 - Get all Discovery Job.
 - Get Discovery Job by id.
 - Returns the list of discovery jobs for the given Discovery ID. The results can be optionally filtered based on IP. Discovery ID can be obtained using the "Get Discoveries by range" API.
+
 - Returns the list of discovery jobs for the given IP.
 
 .. note::
@@ -85,14 +86,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -368,7 +374,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -447,7 +453,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ipAddress"></div>
 
-      .. _ansible_collections.cisco.dnac.discovery_job_info_module__parameter-ipAddress:
+      .. _ansible_collections.cisco.dnac.discovery_job_info_module__parameter-ipaddress:
 
       .. rst-class:: ansible-option-title
 
@@ -637,6 +643,15 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Discovery GetDiscoveryJobsByIP <https://developer.cisco.com/docs/dna-center/#!get-discovery-jobs-by-ip>`_
+       Complete reference of the GetDiscoveryJobsByIP API.
+   `Cisco DNA Center documentation for Discovery GetListOfDiscoveriesByDiscoveryId <https://developer.cisco.com/docs/dna-center/#!get-list-of-discoveries-by-discovery-id>`_
+       Complete reference of the GetListOfDiscoveriesByDiscoveryId API.
 
 .. Examples
 
@@ -655,8 +670,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         offset: 0
         limit: 0
         ipAddress: string
@@ -672,8 +686,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         offset: 0
         limit: 0
         ipAddress: string

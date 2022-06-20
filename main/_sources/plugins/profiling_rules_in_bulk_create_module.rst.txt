@@ -42,7 +42,7 @@ cisco.dnac.profiling_rules_in_bulk_create module -- Resource module for Profilin
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -87,10 +87,15 @@ The below requirements are needed on the host that executes this module.
 - python >= 3.5
 
 
+
+
+
+
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -366,7 +371,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -377,7 +382,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules:
 
       .. rst-class:: ansible-option-title
 
@@ -411,7 +416,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/clusterId"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/clusterId:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/clusterid:
 
       .. rst-class:: ansible-option-title
 
@@ -445,7 +450,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/conditionGroups:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/conditiongroups:
 
       .. rst-class:: ansible-option-title
 
@@ -479,7 +484,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/condition"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/conditionGroups/condition:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/conditiongroups/condition:
 
       .. rst-class:: ansible-option-title
 
@@ -513,7 +518,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/condition/attribute"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/conditionGroups/condition/attribute:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/conditiongroups/condition/attribute:
 
       .. rst-class:: ansible-option-title
 
@@ -547,7 +552,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/condition/attributeDictionary"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/conditionGroups/condition/attributeDictionary:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/conditiongroups/condition/attributedictionary:
 
       .. rst-class:: ansible-option-title
 
@@ -581,7 +586,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/condition/operator"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/conditionGroups/condition/operator:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/conditiongroups/condition/operator:
 
       .. rst-class:: ansible-option-title
 
@@ -615,7 +620,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/condition/value"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/conditionGroups/condition/value:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/conditiongroups/condition/value:
 
       .. rst-class:: ansible-option-title
 
@@ -650,7 +655,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/conditionGroup"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/conditionGroups/conditionGroup:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/conditiongroups/conditiongroup:
 
       .. rst-class:: ansible-option-title
 
@@ -684,7 +689,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/operator"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/conditionGroups/operator:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/conditiongroups/operator:
 
       .. rst-class:: ansible-option-title
 
@@ -718,7 +723,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/conditionGroups/type"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/conditionGroups/type:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/conditiongroups/type:
 
       .. rst-class:: ansible-option-title
 
@@ -753,7 +758,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/isDeleted"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/isDeleted:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/isdeleted:
 
       .. rst-class:: ansible-option-title
 
@@ -794,7 +799,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/lastModifiedBy"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/lastModifiedBy:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/lastmodifiedby:
 
       .. rst-class:: ansible-option-title
 
@@ -828,7 +833,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/lastModifiedOn"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/lastModifiedOn:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/lastmodifiedon:
 
       .. rst-class:: ansible-option-title
 
@@ -862,7 +867,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/pluginId"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/pluginId:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/pluginid:
 
       .. rst-class:: ansible-option-title
 
@@ -896,7 +901,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/rejected"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/rejected:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/rejected:
 
       .. rst-class:: ansible-option-title
 
@@ -937,7 +942,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/result"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/result:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/result:
 
       .. rst-class:: ansible-option-title
 
@@ -971,7 +976,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/result/deviceType"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/result/deviceType:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/result/devicetype:
 
       .. rst-class:: ansible-option-title
 
@@ -1005,7 +1010,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/result/hardwareManufacturer"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/result/hardwareManufacturer:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/result/hardwaremanufacturer:
 
       .. rst-class:: ansible-option-title
 
@@ -1039,7 +1044,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/result/hardwareModel"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/result/hardwareModel:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/result/hardwaremodel:
 
       .. rst-class:: ansible-option-title
 
@@ -1073,7 +1078,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/result/operatingSystem"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/result/operatingSystem:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/result/operatingsystem:
 
       .. rst-class:: ansible-option-title
 
@@ -1108,7 +1113,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/ruleId"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/ruleId:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/ruleid:
 
       .. rst-class:: ansible-option-title
 
@@ -1142,7 +1147,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/ruleName"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/ruleName:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/rulename:
 
       .. rst-class:: ansible-option-title
 
@@ -1176,7 +1181,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/rulePriority"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/rulePriority:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/rulepriority:
 
       .. rst-class:: ansible-option-title
 
@@ -1210,7 +1215,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/ruleType"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/ruleType:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/ruletype:
 
       .. rst-class:: ansible-option-title
 
@@ -1244,7 +1249,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/ruleVersion"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/ruleVersion:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/ruleversion:
 
       .. rst-class:: ansible-option-title
 
@@ -1278,7 +1283,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/sourcePriority"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/sourcePriority:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/sourcepriority:
 
       .. rst-class:: ansible-option-title
 
@@ -1312,7 +1317,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profilingRules/usedAttributes"></div>
 
-      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingRules/usedAttributes:
+      .. _ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module__parameter-profilingrules/usedattributes:
 
       .. rst-class:: ansible-option-title
 

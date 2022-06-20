@@ -42,7 +42,7 @@ cisco.dnac.business_sda_hostonboarding_ssid_ippool module -- Resource module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.4.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create and update of the resource Business Sda Hostonboarding Ssid Ippool.
-- Add SSID to IP Pool Mapping.
+- Manage operation update of the resource Business Sda Hostonboarding Ssid Ippool.
 - Update SSID to IP Pool Mapping.
 
 .. note::
@@ -84,14 +83,19 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
+- dnacentersdk >= 2.5.0
 - python >= 3.5
+
+
+
+
 
 
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -367,7 +371,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.3.0"`
 
       .. raw:: html
 
@@ -378,7 +382,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-scalableGroupName"></div>
 
-      .. _ansible_collections.cisco.dnac.business_sda_hostonboarding_ssid_ippool_module__parameter-scalableGroupName:
+      .. _ansible_collections.cisco.dnac.business_sda_hostonboarding_ssid_ippool_module__parameter-scalablegroupname:
 
       .. rst-class:: ansible-option-title
 
@@ -412,7 +416,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-siteNameHierarchy"></div>
 
-      .. _ansible_collections.cisco.dnac.business_sda_hostonboarding_ssid_ippool_module__parameter-siteNameHierarchy:
+      .. _ansible_collections.cisco.dnac.business_sda_hostonboarding_ssid_ippool_module__parameter-sitenamehierarchy:
 
       .. rst-class:: ansible-option-title
 
@@ -446,7 +450,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ssidNames"></div>
 
-      .. _ansible_collections.cisco.dnac.business_sda_hostonboarding_ssid_ippool_module__parameter-ssidNames:
+      .. _ansible_collections.cisco.dnac.business_sda_hostonboarding_ssid_ippool_module__parameter-ssidnames:
 
       .. rst-class:: ansible-option-title
 
@@ -521,7 +525,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-vlanName"></div>
 
-      .. _ansible_collections.cisco.dnac.business_sda_hostonboarding_ssid_ippool_module__parameter-vlanName:
+      .. _ansible_collections.cisco.dnac.business_sda_hostonboarding_ssid_ippool_module__parameter-vlanname:
 
       .. rst-class:: ansible-option-title
 
@@ -560,14 +564,21 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping, fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping,
-   - Paths used are post /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool, put /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
+   - SDK Method used are fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping2,
+   - Paths used are put /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Fabric Wireless UpdateSSIDToIPPoolMapping2 <https://developer.cisco.com/docs/dna-center/#!update-ssid-to-ip-pool-mapping-2>`_
+       Complete reference of the UpdateSSIDToIPPoolMapping2 API.
 
 .. Examples
 
@@ -577,22 +588,6 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Create
-      cisco.dnac.business_sda_hostonboarding_ssid_ippool:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: present
-        scalableGroupName: string
-        siteNameHierarchy: string
-        ssidNames:
-        - string
-        vlanName: string
-
     - name: Update all
       cisco.dnac.business_sda_hostonboarding_ssid_ippool:
         dnac_host: "{{dnac_host}}"
