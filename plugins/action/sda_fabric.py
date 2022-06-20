@@ -171,7 +171,7 @@ class ActionModule(ActionBase):
         self._check_argspec()
 
         Display().warning("This module is currently unmaintained "
-                            "and will be removed in future releases.")
+                          "and will be removed in future releases.")
 
         dnac = DNACSDK(self._task.args)
         obj = SdaFabric(self._task.args, dnac)

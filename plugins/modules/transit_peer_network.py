@@ -12,7 +12,7 @@ description:
 - Manage operations create and delete of the resource Transit Peer Network.
 - Add Transit Peer Network in SD-Access.
 - Delete Transit Peer Network from SD-Access.
-version_added: '7.0.0'
+version_added: '6.4.1'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
