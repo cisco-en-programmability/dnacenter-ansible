@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 try:
@@ -9,6 +14,7 @@ else:
     DNAC_SDK_IS_INSTALLED = True
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils._text import to_native
+from ansible.module_utils.common import validation
 try:
     from ansible.errors import AnsibleActionFail
 except ImportError:
@@ -22,7 +28,17 @@ except ImportError:
 else:
     LOGGING_IN_STANDARD = True
 import os.path
+import datetime
+import inspect
 
+
+def log(msg):
+    with open('dnac.log', 'a') as of:
+        callerframerecord = inspect.stack()[1]
+        frame = callerframerecord[0]
+        info = inspect.getframeinfo(frame)
+        d = datetime.datetime.now().replace(microsecond=0).isoformat()
+        of.write("---- %s ---- %s@%s ---- %s \n" % (d, info.lineno, info.function, msg))
 
 def is_list_complex(x):
     return isinstance(x[0], dict) or isinstance(x[0], list)
@@ -103,18 +119,100 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
     return result
 
 
-def dnac_argument_spec(idempotent=False):
+def dnac_argument_spec():
     argument_spec = dict(
         dnac_host=dict(type="str", required=True),
         dnac_port=dict(type="int", required=False, default=443),
         dnac_username=dict(type="str", default="admin", aliases=["user"]),
         dnac_password=dict(type="str", no_log=True),
         dnac_verify=dict(type="bool", default=True),
-        dnac_version=dict(type="str", default="2.2.2.3"),
+        dnac_version=dict(type="str", default="2.2.3.3"),
         dnac_debug=dict(type="bool", default=False),
         validate_response_schema=dict(type="bool", default=True),
     )
     return argument_spec
+
+
+def validate_list_of_dicts(param_list, spec, module=None):
+    """Validate/Normalize playbook params. Will raise when invalid parameters found.
+    param_list: a playbook parameter list of dicts
+    spec: an argument spec dict
+          e.g. spec = dict(ip=dict(required=True, type='bool'),
+                           foo=dict(type='str', default='bar'))
+    return: list of normalized input data
+    """
+    v = validation
+    normalized = []
+    invalid_params = []
+    for list_entry in param_list:
+        valid_params_dict = {}
+        for param in spec:
+            item = list_entry.get(param)
+            log(str(item))
+            if item is None:
+                if spec[param].get("required"):
+                    invalid_params.append(
+                        "{0} : Required parameter not found".format(param)
+                    )
+                else:
+                    item = spec[param].get("default")
+            else:
+                type = spec[param].get("type")
+                if type == "str":
+                    item = v.check_type_str(item)
+                    if spec[param].get("length_max"):
+                        if 1 <= len(item) <= spec[param].get("length_max"):
+                            pass
+                        else:
+                            invalid_params.append(
+                                "{0}:{1} : The string exceeds the allowed "
+                                "range of max {2} char".format(
+                                    param, item, spec[param].get("length_max")
+                                )
+                            )
+                elif type == "int":
+                    item = v.check_type_int(item)
+                    min_value = 1
+                    if spec[param].get("range_min") is not None:
+                        min_value = spec[param].get("range_min")
+                    if spec[param].get("range_max"):
+                        if min_value <= item <= spec[param].get("range_max"):
+                            pass
+                        else:
+                            invalid_params.append(
+                                "{0}:{1} : The item exceeds the allowed "
+                                "range of max {2}".format(
+                                    param, item, spec[param].get("range_max")
+                                )
+                            )
+                elif type == "bool":
+                    item = v.check_type_bool(item)
+                elif type == "list":
+                    item = v.check_type_list(item)
+                elif type == "dict":
+                    item = v.check_type_dict(item)
+
+                choice = spec[param].get("choices")
+                if choice:
+                    if item not in choice:
+                        invalid_params.append(
+                            "{0} : Invalid choice provided".format(item)
+                        )
+
+                no_log = spec[param].get("no_log")
+                if no_log:
+                    if module is not None:
+                        module.no_log_values.add(item)
+                    else:
+                        msg = "\n\n'{0}' is a no_log parameter".format(param)
+                        msg += "\nAnsible module object must be passed to this "
+                        msg += "\nfunction to ensure it is not logged\n\n"
+                        raise Exception(msg)
+
+            valid_params_dict[param] = item
+        normalized.append(valid_params_dict)
+
+    return normalized, invalid_params
 
 
 class DNACSDK(object):
