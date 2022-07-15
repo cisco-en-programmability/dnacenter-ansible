@@ -1,6 +1,6 @@
 - hosts: dnac_servers
   vars_files:
-    - credentials_dnac.yml
+    - credentials.yml
     - device_details.yml
   gather_facts: no
   connection: local
@@ -9,7 +9,7 @@
 # Project Info  Section
 #
     - name: Test project template      
-      cisco.dnac.template_module:
+      cisco.dnac.template_intent:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -36,7 +36,7 @@
 
 
     - name: Create pnp
-      cisco.dnac.pnp_module:
+      cisco.dnac.pnp_intent:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
