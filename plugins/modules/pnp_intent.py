@@ -13,7 +13,7 @@ __author__ = (
 
 DOCUMENTATION = r"""
 ---
-module: pnp_module
+module: pnp_intent
 short_description: Resource module for Site and PnP related functions
 description:
 - Manage operations add device, claim device and unclaim device of Onboarding Configuration(PnP) resource 
@@ -23,7 +23,8 @@ description:
 version_added: '6.4.0'
 extends_documentation_fragment:
   - cisco.dnac.module
-author: Rishita Chowdhary (@rischowd)
+author: Madhan Sankaranarayanan (@madhansansel) 
+        Rishita Chowdhary (@rischowd)
 options:
   state:
     description: The state of DNAC after module completion.
@@ -462,7 +463,7 @@ notes:
 """
 EXAMPLES = r"""
 - name: claim device
-  cisco.dnac.pnp_module:
+  cisco.dnac.pnp_intent:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

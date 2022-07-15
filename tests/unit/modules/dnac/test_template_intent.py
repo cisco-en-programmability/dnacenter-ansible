@@ -18,27 +18,25 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 import pdb
 
-from dnacentersdk import exceptions
-from ansible_collections.ansible.netcommon.tests.unit.compat.mock import patch, MagicMock
-
-from ansible_collections.cisco.dnac.plugins.modules import pnp_module
+from unittest.mock import patch
+from ansible_collections.cisco.dnac.plugins.modules import template_intent
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 import json
 import copy
 
-class TestDnacPnPModule(TestDnacModule):
+class TestDnacTemplateIntent(TestDnacModule):
 
-    module = pnp_module 
+    module = template_intent 
 
-    test_data = loadPlaybookData("pnp_module")
+    test_data = loadPlaybookData("template_intent")
 
     playbook_config = test_data.get("playbook_config")
     playbook_config_missing_param = test_data.get("playbook_config_missing_param")
 
 
     def setUp(self):
-        super(TestDnacPnPModule, self).setUp()
+        super(TestDnacTemplateIntent, self).setUp()
    
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
@@ -50,93 +48,62 @@ class TestDnacPnPModule(TestDnacModule):
             )
         self.run_dnac_exec = self.mock_dnac_exec.start()
 
-
     def tearDown(self):
-        super(TestDnacPnPModule, self).tearDown()
+        super(TestDnacTemplateIntent, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
-
-    def raise_exception(self):
-        def raise_general_exception():
-            raise Exception 
-        return raise_general_exception
-
-
     def load_fixtures(self, response=None, device=""):
 
-        if "new_site_device" in self._testMethodName:
+        if "create_template" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("image_exists_response"),
-                self.test_data.get("template_exists_response"),
-                Exception(),
-                [],
-                self.test_data.get("create_site_response"),
-                self.test_data.get("execution_details_create_success"),
-                self.test_data.get("site_exists_response"),
-                self.test_data.get("add_device_response"),
-                self.test_data.get("claim_response")
+                self.test_data.get("create_template_list_response"),
+                self.test_data.get("create_template_get_project_response"),
+                self.test_data.get("create_template_response"),
+                self.test_data.get("create_template_task_details_for_create"),
+                self.test_data.get("create_template_version_template_response"),
+                self.test_data.get("create_template_task_details_for_versioning")
             ]
-
-        elif "site_exists" in self._testMethodName:
+        elif "update_not_needed" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("image_exists_response"),
-                self.test_data.get("template_exists_response"),
-                self.test_data.get("site_exists_response"),
-                [],
-                self.test_data.get("add_device_response"),
-                self.test_data.get("claim_response")
+                self.test_data.get("update_template_list"),
+                self.test_data.get("update_template_existing_template"),
             ]
-
-        elif "site_needs_update" in self._testMethodName:
+        elif "update_needed" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("image_exists_response"),
-                self.test_data.get("template_exists_response"),
-                self.test_data.get("site_needs_update_response"),
-                [],
-                self.test_data.get("execution_details_create_success"),
-                self.test_data.get("add_device_response"),
-                self.test_data.get("claim_response")
+                self.test_data.get("update_template_list"),
+                self.test_data.get("update_template_existing_template_needs_update"),
+                self.test_data.get("update_template_response"),
+                self.test_data.get("update_template_version_template_response"),
+                self.test_data.get("update_template_task_details_for_versioning")
             ]
-
-        elif "device_exists" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("image_exists_response"),
-                self.test_data.get("template_exists_response"),
-                self.test_data.get("site_exists_response"),
-                self.test_data.get("device_exists_response"),
-                self.test_data.get("claim_response")
-            ]
-
-        elif "unclaim_device" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("device_exists_response"),
-                self.test_data.get("unclaim_response")
-            ]
-
-        elif "image_doesnot_exist" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("image_doesnot_exist_response")
-            ]
-
-        elif "template_doesnot_exist" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("image_exists_response"),
-                self.test_data.get("template_doesnot_exist_response")
-            ]
-
         elif "project_not_found" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("image_exists_response"),
-                []
+                [],
             ]
-        elif "unclaim_nonexisting_device" in self._testMethodName:
+        elif "query_non_existing_template" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                []
+                self.test_data.get("create_template_list_response")
+            ]
+        elif "query_template" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("update_template_list"),
+                self.test_data.get("update_template_existing_template")
+            ]
+        elif "delete_non_existing_template" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("create_template_list_response")
+            ]
+        elif "delete_template" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("update_template_list"),
+                self.test_data.get("update_template_existing_template_needs_update"),
+                self.test_data.get("delete_template_response"),
+                self.test_data.get("delete_template_task_details"),
             ]
 
 
-    def test_pnp_module_new_site_device(self):
+    def test_template_intent_create_template(self):
 
         set_module_args(
             dict(
@@ -151,12 +118,30 @@ class TestDnacPnPModule(TestDnacModule):
         
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('response').get('response'),
-            "Device Claimed"
+            result.get('response').get('progress'),
+            "Successfully committed template ANSIBLE-TEST to version 1"
             )
 
+    def test_template_intent_update_not_needed(self):
 
-    def test_pnp_module_site_exists(self):
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_config
+            )
+        )
+       
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "Template does not need update"
+            )
+
+    def test_template_intent_update_needed(self):
 
         set_module_args(
             dict(
@@ -171,12 +156,11 @@ class TestDnacPnPModule(TestDnacModule):
        
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('response').get('response'),
-            "Device Claimed"
+            result.get('response').get('progress'), 
+            "Successfully committed template ANSIBLE-TEST to version 2"
             )
 
-
-    def test_pnp_module_site_needs_update(self):
+    def test_template_intent_project_not_found(self):
 
         set_module_args(
             dict(
@@ -189,93 +173,89 @@ class TestDnacPnPModule(TestDnacModule):
             )
         )
        
-        result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(
-            result.get('response').get('response'),
-            "Device Claimed"
-            )
-
-
-    def test_pnp_module_device_exists(self):
-
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config=self.playbook_config
-            )
-        )
-       
-        result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(
-            result.get('response').get('response'),
-            "Device Claimed"
-            )
-
-
-    def test_pnp_module_image_doesnot_exist(self):
-
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config=self.playbook_config
-            )
-        )
-        
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'),
-            "Image not found"
-            )
-
-    
-    def test_pnp_module_template_doesnot_exist(self):
-
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config=self.playbook_config
-            )
-        )
-        
-        result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'),
-            "Template not found"
-            )
-
-
-    def test_pnp_module_project_not_found(self):
-
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config=self.playbook_config
-            )
-        )
-        
-        result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'),
+            result.get('msg'), 
             "Project Not Found"
             )
 
-    def test_pnp_module_missing_param(self):
+    def test_template_intent_query_template(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="query",
+                config=self.playbook_config
+            )
+        )
+       
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('response').get('name'),
+            "ANSIBLE-TEST"
+            )
+
+    def test_template_intent_query_non_existing_template(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="query",
+                config=self.playbook_config
+            )
+        )
+       
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('msg'), 
+            "Template not found"
+            )
+
+    def test_template_intent_delete_non_existing_template(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="delete",
+                config=self.playbook_config
+            )
+        )
+       
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('msg'), 
+            "Template not found"
+            )
+
+    def test_template_intent_delete_template(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="delete",
+                config=self.playbook_config
+            )
+        )
+       
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get('response').get('progress'),
+            "Successfully deleted template with name fd74ab6c-fdda-465e-9f59-fb7eac7d6b15"
+            )
+
+    def test_template_intent_missing_param(self):
 
         set_module_args(
             dict(
@@ -284,17 +264,17 @@ class TestDnacPnPModule(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                config=self.test_data.get("playbook_config_missing_parameter")
+                config=self.playbook_config_missing_param
             )
         )
-        
+       
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'),
-            "Invalid parameters in playbook: image_name : Required parameter not found"
+            result.get('msg'), 
+            "missing required arguments: language or deviceTypes or softwareType"
             )
 
-    def test_pnp_module_unclaim_device(self):
+    def test_template_intent_invalid_state(self):
 
         set_module_args(
             dict(
@@ -302,18 +282,18 @@ class TestDnacPnPModule(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="delete",
+                state="merge",
                 config=self.playbook_config
             )
         )
-        
-        result = self.execute_module(changed=True, failed=False)
+       
+        result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('response').get('message'),
-            "Device(s) Unclaimed"
+            result.get('msg'), 
+            "value of state must be one of: merged, delete, query, got: merge"
             )
 
-    def test_pnp_module_unclaim_nonexisting_device(self):
+    def test_template_intent_invalid_param(self):
 
         set_module_args(
             dict(
@@ -321,14 +301,14 @@ class TestDnacPnPModule(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="delete",
-                config=self.playbook_config
+                state="merged",
+                config=self.test_data.get("playbook_config_invalid_param")
             )
         )
-        
+       
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'),
-            "Device Not Found"
+            result.get('msg'), 
+            "Invalid parameters in playbook: velocty : Invalid choice provided"
             )
 

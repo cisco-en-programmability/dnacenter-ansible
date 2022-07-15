@@ -21,24 +21,24 @@ import pdb
 from dnacentersdk import exceptions
 from ansible_collections.ansible.netcommon.tests.unit.compat.mock import patch, MagicMock
 
-from ansible_collections.cisco.dnac.plugins.modules import site_module
+from ansible_collections.cisco.dnac.plugins.modules import site_intent
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 import json
 import copy
 
-class TestDnacSiteModule(TestDnacModule):
+class TestDnacSiteIntent(TestDnacModule):
 
-    module = site_module 
+    module = site_intent 
 
-    test_data = loadPlaybookData("site_module")
+    test_data = loadPlaybookData("site_intent")
 
     playbook_config = test_data.get("playbook_config")
     playbook_config_missing_param = test_data.get("playbook_config_missing_param")
 
 
     def setUp(self):
-        super(TestDnacSiteModule, self).setUp()
+        super(TestDnacSiteIntent, self).setUp()
    
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
@@ -52,7 +52,7 @@ class TestDnacSiteModule(TestDnacModule):
 
 
     def tearDown(self):
-        super(TestDnacSiteModule, self).tearDown()
+        super(TestDnacSiteIntent, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
@@ -105,7 +105,7 @@ class TestDnacSiteModule(TestDnacModule):
                 self.test_data.get("delete_execution_details_error")
             ]
         
-    def test_site_module_create_site(self):
+    def test_site_intent_create_site(self):
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -123,7 +123,7 @@ class TestDnacSiteModule(TestDnacModule):
             "Site Created Successfully"
             )
 
-    def test_site_module_update_not_needed(self):
+    def test_site_intent_update_not_needed(self):
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -141,7 +141,7 @@ class TestDnacSiteModule(TestDnacModule):
             "Site does not need update"
             )
 
-    def test_site_module_update_needed(self):
+    def test_site_intent_update_needed(self):
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -158,7 +158,7 @@ class TestDnacSiteModule(TestDnacModule):
             result.get('msg'),
             "Site Updated Successfully"
             )
-    def test_site_module_delete_existing_site(self):
+    def test_site_intent_delete_existing_site(self):
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -175,7 +175,7 @@ class TestDnacSiteModule(TestDnacModule):
             result.get('response').get('status'),
             "SUCCESS"
             )
-    def test_site_module_delete_non_existing_site(self):
+    def test_site_intent_delete_non_existing_site(self):
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -192,7 +192,7 @@ class TestDnacSiteModule(TestDnacModule):
             result.get('msg'),
             "Site Not Found"
             )
-    def test_site_module_invalid_param(self):
+    def test_site_intent_invalid_param(self):
 
         set_module_args(
             dict(
@@ -210,7 +210,7 @@ class TestDnacSiteModule(TestDnacModule):
             "Invalid parameters in playbook:" in result.get('msg')
             )
     
-    def test_site_module_error_delete(self):
+    def test_site_intent_error_delete(self):
 
         set_module_args(
             dict(
@@ -229,7 +229,7 @@ class TestDnacSiteModule(TestDnacModule):
             "True"
             )
     
-    def test_site_module_error_create(self):
+    def test_site_intent_error_create(self):
 
         set_module_args(
             dict(

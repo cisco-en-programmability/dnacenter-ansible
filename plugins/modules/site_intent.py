@@ -13,7 +13,7 @@ __author__ = (
             
 DOCUMENTATION = r"""
 ---
-module: site_module
+module: site_intent
 short_description: Resource module for Site operations
 description:
 - Manage operation create, update and delete of the resource Sites.
@@ -23,7 +23,8 @@ description:
 version_added: '6.4.0'
 extends_documentation_fragment:
   - cisco.dnac.module
-author: Rishita Chowdhary (@rischowd)
+author: Madhan Sankaranarayanan (@madhansansel) 
+        Rishita Chowdhary (@rischowd)
 options:
   state:
     description: The state of DNAC after module completion.
@@ -115,7 +116,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Create
-  cisco.dnac.site_module:
+  cisco.dnac.site_intent:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
