@@ -13,7 +13,7 @@ __author__ = (
 
 DOCUMENTATION = r"""
 ---
-module: template_module
+module: template_intent
 short_description: Resource module for Template functions
 description:
 - Manage operations create, update, query and delete of the resource Configuration Template.
@@ -24,7 +24,8 @@ description:
 version_added: '6.4.0'
 extends_documentation_fragment:
   - cisco.dnac.module
-author: Rishita Chowdhary (@rischowd)
+author: Madhan Sankaranarayanan (@madhansansel) 
+        Rishita Chowdhary (@rischowd)
 options:
   state:
     description: The state of DNAC after module completion.
@@ -558,7 +559,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Create
-  cisco.dnac.template_module:
+  cisco.dnac.template_intent:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
