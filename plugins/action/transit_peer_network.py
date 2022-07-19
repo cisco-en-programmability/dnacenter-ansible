@@ -24,6 +24,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
     InconsistentParameters,
+    AnsibleSDAException,
 )
 
 # Get common arguments specification
@@ -74,7 +75,7 @@ class TransitPeerNetwork(object):
         new_object_params['transit_peer_network_name'] = self.new_object.get('transit_peer_network_name')
         return new_object_params
 
-    def get_object_by_name(self, name):
+    def get_object_by_name(self, name, is_absent=False):
         result = None
         # NOTE: Does not have a get by name method, using get all
         try:
@@ -86,8 +87,15 @@ class TransitPeerNetwork(object):
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
+                if isinstance(items, dict) and items.get("status") == "failed":
+                    if is_absent:
+                        raise AnsibleSDAException(response=items)
+                    result = None
+                    return result
             result = get_dict_result(items, 'name', name)
         except Exception:
+            if is_absent:
+                raise
             result = None
         return result
 
@@ -96,25 +104,10 @@ class TransitPeerNetwork(object):
         # NOTE: Does not have a get by id method or it is in another action
         return result
 
-    def exists(self):
-        prev_obj = None
-        id_exists = False
-        name_exists = False
-        o_id = self.new_object.get("id")
+    def exists(self, is_absent=False):
         name = self.new_object.get("transitPeerNetworkName")
-        if o_id:
-            prev_obj = self.get_object_by_id(o_id)
-            id_exists = prev_obj is not None and isinstance(prev_obj, dict)
-        if not id_exists and name:
-            prev_obj = self.get_object_by_name(name)
-            name_exists = prev_obj is not None and isinstance(prev_obj, dict)
-        if name_exists:
-            _id = prev_obj.get("id")
-            if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
-            if _id:
-                self.new_object.update(dict(id=_id))
-        it_exists = prev_obj is not None and isinstance(prev_obj, dict)
+        prev_obj = self.get_object_by_name(name, is_absent=is_absent)
+        it_exists = prev_obj is not None and isinstance(prev_obj, dict) and prev_obj.get("status") != "failed"
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
@@ -206,7 +199,7 @@ class ActionModule(ActionBase):
                 response = obj.create()
                 dnac.object_created()
         elif state == "absent":
-            (obj_exists, prev_obj) = obj.exists()
+            (obj_exists, prev_obj) = obj.exists(is_absent=True)
             if obj_exists:
                 response = obj.delete()
                 dnac.object_deleted()

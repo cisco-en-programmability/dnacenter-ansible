@@ -38,7 +38,7 @@ argument_spec.update(dict(
 
 required_if = [
     ("state", "present", ["payload"], True),
-    ("state", "absent", ["payload"], True),
+    ("state", "absent", ["deviceManagementIpAddress"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
