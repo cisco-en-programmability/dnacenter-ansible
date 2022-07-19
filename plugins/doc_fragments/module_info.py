@@ -51,7 +51,7 @@ options:
         default: false
     dnac_log:
         description:
-          - Flag for logging Cisco DNA Center SDK's API exectution details.
+          - Flag for logging playbook execution details.
             If set to true the log file will be created at the location of the execution with the name dnac.log
         type: bool
         default: false
