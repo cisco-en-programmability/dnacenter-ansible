@@ -63,6 +63,9 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     fileId: string
+    dirPath: /tmp/downloads/Test-242.bin
+    saveFile: true
+    filename: string
   register: result
 
 """

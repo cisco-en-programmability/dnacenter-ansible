@@ -563,3 +563,11 @@ releases:
         - lan_automation_status_info - new module.
         - network_device_custom_prompt_info - new module.
         - network_device_custom_prompt - new module.
+  6.5.1:
+    release_date: "2022-07-19"
+    changes:
+      release_summary: Added a status check, changed a required parameter and improved the doc.
+      bugfixes:
+        - sda_fabric_edge_device - Change required payload parameter to deviceManagementIpAddress
+        - transit_peer_network - Added status check
+        - file_info - Improve the module documentation.
