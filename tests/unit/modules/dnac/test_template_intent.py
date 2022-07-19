@@ -81,15 +81,6 @@ class TestDnacTemplateIntent(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 [],
             ]
-        elif "query_non_existing_template" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("create_template_list_response")
-            ]
-        elif "query_template" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("update_template_list"),
-                self.test_data.get("update_template_existing_template")
-            ]
         elif "delete_non_existing_template" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("create_template_list_response")
@@ -179,44 +170,6 @@ class TestDnacTemplateIntent(TestDnacModule):
             "Project Not Found"
             )
 
-    def test_template_intent_query_template(self):
-
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="query",
-                config=self.playbook_config
-            )
-        )
-       
-        result = self.execute_module(changed=False, failed=False)
-        self.assertEqual(
-            result.get('response').get('name'),
-            "ANSIBLE-TEST"
-            )
-
-    def test_template_intent_query_non_existing_template(self):
-
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="query",
-                config=self.playbook_config
-            )
-        )
-       
-        result = self.execute_module(changed=False, failed=False)
-        self.assertEqual(
-            result.get('msg'), 
-            "Template not found"
-            )
-
     def test_template_intent_delete_non_existing_template(self):
 
         set_module_args(
@@ -290,7 +243,7 @@ class TestDnacTemplateIntent(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'), 
-            "value of state must be one of: merged, delete, query, got: merge"
+            "value of state must be one of: merged, delete, got: merge"
             )
 
     def test_template_intent_invalid_param(self):
