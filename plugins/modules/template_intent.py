@@ -16,10 +16,9 @@ DOCUMENTATION = r"""
 module: template_intent
 short_description: Resource module for Template functions
 description:
-- Manage operations create, update, query and delete of the resource Configuration Template.
+- Manage operations create, update and delete of the resource Configuration Template.
 - API to create a template by project name and template name.
 - API to update a template by template name and project name.
-- API to query a template by template name and project name.
 - API to delete a template by template name and project name.
 version_added: '6.4.0'
 extends_documentation_fragment:
@@ -33,7 +32,6 @@ options:
     choices:
       - merged
       - deleted
-      - query
     default: merged
   config:
     description:
@@ -547,13 +545,11 @@ notes:
     configuration_templates.ConfigurationTemplates.create_template,
     configuration_templates.ConfigurationTemplates.deletes_the_template,
     configuration_templates.ConfigurationTemplates.update_template,
-    configuration_templates.ConfigurationTemplates.get_template_details,
 
   - Paths used are
     post /dna/intent/api/v1/template-programmer/project/{projectId}/template,
     delete /dna/intent/api/v1/template-programmer/template/{templateId},
     put /dna/intent/api/v1/template-programmer/template,
-    get /dna/intent/api/v1/template-programmer/template/{templateId},
 
 """
 
@@ -972,15 +968,6 @@ class DnacTemplate:
             self.result['response'] = task_details if task_details else response
 
 
-    def get_diff_query(self):
-        template_exists = self.have_create.get("template_found")
-
-        if template_exists:
-            self.result['response'] = self.have_create.get("template")
-        else:
-            self.module.exit_json(msg="Template not found")
-
-
     def get_diff_delete(self):
         template_exists = self.have_create.get("template_found")
 
@@ -1019,7 +1006,7 @@ def main():
         config=dict(required=True, type='list', elements='dict'),
         state=dict(
             default='merged',
-            choices=['merged', 'delete', 'query']),
+            choices=['merged', 'delete']),
         )
     
     module = AnsibleModule(argument_spec=element_spec,
@@ -1034,9 +1021,6 @@ def main():
 
     if state == "merged":
         dnac_template.get_diff_merge()
-
-    if state == "query":
-        dnac_template.get_diff_query()
 
     if state == "delete":
         dnac_template.get_diff_delete()
