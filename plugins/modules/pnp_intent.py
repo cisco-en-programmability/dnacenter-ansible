@@ -925,7 +925,7 @@ def main():
         config=dict(required=False, type='list', elements='dict'),
         state=dict(
             default='merged',
-            choices=['merged', 'delete']
+            choices=['merged', 'deleted']
         )
     )
 
@@ -942,7 +942,7 @@ def main():
     if state == "merged":
         dnac_pnp.get_diff_merge()
 
-    if state == "delete":
+    elif state == "deleted":
         dnac_pnp.get_diff_delete()
 
     module.exit_json(**dnac_pnp.result)

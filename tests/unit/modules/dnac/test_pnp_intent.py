@@ -301,7 +301,7 @@ class TestDnacPnPIntent(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="delete",
+                state="deleted",
                 config=self.playbook_config
             )
         )
@@ -320,7 +320,7 @@ class TestDnacPnPIntent(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="delete",
+                state="deleted",
                 config=self.playbook_config
             )
         )
