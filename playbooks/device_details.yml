@@ -25,11 +25,7 @@ template_details:
     description: "Test Template 3"
 
 device_details:
-  - site_type: "building"
-    bld_lat: 12.93570689258
-    bld_long: 80.24992245822832
-    bld_name: "Trill"
-    site_name: "Global/Chennai"
+  - site_name: "Global/Chennai/Trill"
     image_name: "cat9k_iosxe.17.04.01.SPA.bin"
     proj_name: "Onboarding Configuration"
     temp_name: "temp_cat9k-1"
@@ -38,11 +34,7 @@ device_details:
     device_name: "Cat9k-1"
     device_state: "Unclaimed"
     device_id: "C9300-25UX"
-  - site_type: "building"
-    bld_lat: 12.93570689258
-    bld_long: 80.24992245822832
-    bld_name: "Trill"
-    site_name: "Global/Chennai"
+  - site_name: "Global/Chennai/Trill"
     image_name: "cat9k_iosxe.17.04.01.SPA.bin"
     proj_name: "Onboarding Configuration"
     temp_name: "temp_cat9k-2"
@@ -51,11 +43,7 @@ device_details:
     device_name: "Cat9k-2"
     device_state: "Unclaimed"
     device_id: "C9300-25UX"
-  - site_type: "building"
-    bld_lat: 12.93570689258
-    bld_long: 80.24992245822832
-    bld_name: "Trill"
-    site_name: "Global/Chennai"
+  - site_name: "Global/Chennai/Trill"
     image_name: "cat9k_iosxe.17.04.01.SPA.bin"
     proj_name: "Onboarding Configuration"
     temp_name: "temp_cat9k-3"
