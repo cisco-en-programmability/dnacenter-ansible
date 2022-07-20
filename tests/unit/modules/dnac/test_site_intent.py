@@ -19,7 +19,7 @@ __metaclass__ = type
 import pdb
 
 from dnacentersdk import exceptions
-from ansible_collections.ansible.netcommon.tests.unit.compat.mock import patch, MagicMock
+from unittest.mock import patch
 
 from ansible_collections.cisco.dnac.plugins.modules import site_intent
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
@@ -165,7 +165,7 @@ class TestDnacSiteIntent(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="delete",
+                state="deleted",
                 config=self.playbook_config
             )
         )
@@ -182,7 +182,7 @@ class TestDnacSiteIntent(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="delete",
+                state="deleted",
                 config=self.playbook_config
             )
         )
@@ -218,7 +218,7 @@ class TestDnacSiteIntent(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="delete",
+                state="deleted",
                 config=self.playbook_config
             )
         )

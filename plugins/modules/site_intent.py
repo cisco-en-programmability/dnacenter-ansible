@@ -528,7 +528,7 @@ def main():
         config=dict(required=True, type='list', elements='dict'),
         state=dict(
             default='merged',
-            choices=['merged', 'delete']),
+            choices=['merged', 'deleted']),
         )
     
     module = AnsibleModule(argument_spec=element_spec,
@@ -544,7 +544,7 @@ def main():
     if state == "merged":
         dnac_site.get_diff_merge()
 
-    if state == "delete":
+    elif state == "deleted":
         dnac_site.get_diff_delete()
 
     module.exit_json(**dnac_site.result)

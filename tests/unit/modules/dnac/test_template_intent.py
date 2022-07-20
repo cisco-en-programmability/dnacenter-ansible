@@ -178,7 +178,7 @@ class TestDnacTemplateIntent(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="delete",
+                state="deleted",
                 config=self.playbook_config
             )
         )
@@ -197,7 +197,7 @@ class TestDnacTemplateIntent(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="delete",
+                state="deleted",
                 config=self.playbook_config
             )
         )
