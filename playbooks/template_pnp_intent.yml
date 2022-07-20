@@ -45,13 +45,7 @@
         dnac_debug: "{{dnac_debug}}"
         dnac_log: True
         config:
-        - type: "{{ item.site_type }}"
-          site:
-            building:
-              latitude: "{{ item.bld_lat }}"
-              longitude: "{{ item.bld_long }}"
-              name: "{{ item.bld_name }}"
-              parentName: "{{ item.site_name }}"
+        - site_name: "{{ item.site_name }}"
           project_name: "{{ item.proj_name }}"
           template_name: "{{ item.temp_name }}"
           #golden_image: True
