@@ -18,13 +18,12 @@ short_description: Resource module for Site and PnP related functions
 description:
 - Manage operations add device, claim device and unclaim device of Onboarding Configuration(PnP) resource 
 - API to add device to pnp inventory and claim it to a site.
-- API to unclaim a device from a site.
-- API will also create/add specified site it not found or needs update.
+- API to delete device from the pnp inventory.
 version_added: '6.4.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Madhan Sankaranarayanan (@madhansansel) 
-        Rishita Chowdhary (@rischowd)
+        Rishita Chowdhary (@rishitachowdhary)
 options:
   state:
     description: The state of DNAC after module completion.
@@ -35,7 +34,7 @@ options:
     default: merged
   config:
     description:
-    - List of details of device and site being managed. 
+    - List of details of device being managed. 
     type: list
     elements: dict
     suboptions:
@@ -48,32 +47,9 @@ options:
       golden_image:
         description: Is the image tagged golden_image
         type: bool
-      type:
-        description: Type of site to create (eg area, building, floor).
+      site_name:
+        description: Name of the site for which device will be claimed..
         type: str
-      site:
-        description: Site Details.
-        type: dict
-        suboptions:
-          building:
-            description: Building Details.
-            type: dict
-              suboptions:
-                address:
-                  description: Address of the building to be created.
-                  type: str
-                latitude:
-                  description: Latitude coordinate of the building (eg 37.338).
-                  type: int
-                longitude:
-                  description: Longitude coordinate of the building (eg -121.832).
-                  type: int
-                name:
-                  description: Name of the building (eg building1).
-                  type: str
-                parentName:
-                  description: Parent name of building to be created.
-                  type: str
       deviceInfo:
         description: Pnp Device's deviceInfo.
         type: dict
@@ -451,14 +427,12 @@ notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.add_device,
     device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site,
-    device_onboarding_pnp.DeviceOnboardingPnp.un_claim_device,
-    device_onboarding_pnp.DeviceOnboardingPnp.get_device_list
+    device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp,
 
   - Paths used are
     post /dna/intent/api/v1/onboarding/pnp-device
     post /dna/intent/api/v1/onboarding/pnp-device/site-claim
-    post /dna/intent/api/v1/onboarding/pnp-device/unclaim
-    get /dna/intent/api/v1/onboarding/pnp-device
+    post /dna/intent/api/v1/onboarding/pnp-device/{id}
 
 """
 EXAMPLES = r"""
@@ -476,14 +450,7 @@ EXAMPLES = r"""
     config:
         template_name: string
         image_name: string
-        type: string
-        site:
-        building:
-            address: string
-            latitude: 0
-            longitude: 0
-            name: string
-            parentName: string
+        site_name: string
         deviceInfo:
         aaaCredentials:
             password: string
@@ -498,7 +465,6 @@ EXAMPLES = r"""
         - string
         cmState: string
         description: string
-        deviceSudiSerialNos:
         - string
         deviceType: string
         featuresSupported:
@@ -636,6 +602,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     get_dict_result,
     dnac_compare_equality,
 )
+from ansible.errors import AnsibleActionFail
 from ansible.module_utils.basic import AnsibleModule
 
 
@@ -662,10 +629,9 @@ class DnacPnp:
 
     def validate_input(self):
         pnp_spec = dict(
-            type=dict(required=False, type='str'),
             template_name=dict(required=True, type='str'),
             project_name=dict(required=False, type='str', default="Onboarding Configuration"),
-            site=dict(required=True, type='dict'),
+            site_name=dict(required=True, type='str'),
             image_name=dict(required=True, type='str'),
             golden_image=dict(required=False, type='bool'),
             deviceInfo=dict(required=True, type='dict'),
@@ -710,36 +676,9 @@ class DnacPnp:
         return dnac_params
 
 
-    def get_current_site(self,site):
-        site_info = {}
-        type = site[0].get("additionalInfo")[0].get("attributes").get("type")
-
-        if (type == "building"):
-            site_info = dict(
-                building=dict(
-                    name= site[0].get("name"),
-                    parentName = site[0].get("siteNameHierarchy").split("/"+site[0].get("name"))[0],
-                    address=site[0].get("additionalInfo")[0].get("attributes").get("address"),
-                    latitude = site[0].get("additionalInfo")[0].get("attributes").get("latitude"),
-                    longitude = site[0].get("additionalInfo")[0].get("attributes").get("longitude"),
-                )
-            )
-
-        current_site = dict(
-            type=type,
-            site=site_info,
-            site_id=site[0].get("id")
-        )
-
-        if self.log:
-            log(str(current_site))
-
-        return current_site
-
-
     def site_exists(self):
         site_exists = False
-        current_site = {}
+        site_id = None
         response = None
         try:
             response = self.dnac.exec(
@@ -749,33 +688,18 @@ class DnacPnp:
              )
 
         except:
-            if self.log:
-                log("The input site is not valid or site is not present.")
-            pass
+            self.module.fail_json(msg="Site not found")
 
         if response:
             if self.log:
                 log(str(response))
 
-            response = response.get("response")
-            current_site = self.get_current_site(response) 
+            site = response.get("response")
+            site_id = site[0].get("id")
             site_exists = True
-    
-        if self.log:
-            log(str(self.validated))
 
-        return (site_exists, current_site)
+        return (site_exists, site_id)
 
-
-    def get_site_name(self, site):
-        parent_name = site.get("site").get("building").get("parentName")
-        building_name = site.get("site").get("building").get("name")
-        site_name = '/'.join([parent_name, building_name])
-
-        if self.log:
-            log(site_name)
-
-        return site_name
 
     def get_pnp_params(self,params):
         pnp_params = {}
@@ -792,15 +716,6 @@ class DnacPnp:
         return pnp_params
 
 
-    def get_site_params(self, params):
-        site_params = dict(
-            type=params.get("type"),
-            site=params.get("site"),
-        )
-
-        return site_params
-
-
     def get_image_params(self,params):
         image_params = dict(
             image_name=params.get("image_name"),
@@ -808,86 +723,6 @@ class DnacPnp:
         )
 
         return image_params
-
-
-    def site_requires_update(self):
-        requested_site = self.want.get("site_params")
-        current_site = self.have.get("current_site")
-
-        if self.log:
-            log("Current Site: " + str(current_site))
-            log("Requested Site: " + str(requested_site))
-
-        obj_params = [
-            ("type", "type"),
-            ("site", "site")
-        ]
-
-        return any(not dnac_compare_equality(current_site.get(dnac_param),
-                                             requested_site.get(ansible_param))
-                   for (dnac_param, ansible_param) in obj_params)
-
-
-    def update_site(self):
-        site_params = self.want.get("site_params")
-        site_params["site_id"] = self.have.get("site_id")
-        response = self.dnac.exec(
-            family="sites",
-            function='update_site',
-            op_modifies=True,
-            params=site_params,
-        )
-
-        if self.log:
-            log(str(response))
-
-    
-    def get_execution_details(self, id):
-        response = None
-        response = self.dnac.exec(
-            family="task",
-            function='get_business_api_execution_details',
-            params={"execution_id":id}
-        )
-
-        if self.log:
-            log(str(response))
-
-        if response and isinstance(response, dict):
-            return response
-
-
-    def create_site(self):
-        response = self.dnac.exec(
-            family="sites",
-            function='create_site',
-            op_modifies=True,
-            params=self.want.get("site_params"),
-        )
-
-        if self.log:
-            log(str(response))
-
-        if response and isinstance(response, dict):
-            executionId = response.get("executionId")
-            while (True):
-                execution_details = self.get_execution_details(executionId)
-                if (execution_details.get("status")=="SUCCESS"):
-                    break
-
-                if execution_details.get("bapiError"):
-                    self.module.fail_json(msg=execution_details.get("bapiError"))
-                    break
-            self.result['changed'] = True
-
-            if self.log:
-                log("Site Created Successfully")
-                                                   
-            #Get the site id of the newly created site.
-            (site_exists, current_site) = self.site_exists()
-
-            if site_exists:
-                self.have["site_id"] = current_site.get("site_id") 
 
     
     def get_claim_params(self):
@@ -961,17 +796,15 @@ class DnacPnp:
 
 
             #check if given site exits, if exists store current site info
-            (site_exists, current_site) = self.site_exists()
+            site_name = self.want.get("site_name")
 
-            if self.log:
-                log("Site Exists: " + str(site_exists) + "\n Current Site:" + str(current_site))
+            site_exists = False
+            (site_exists, site_id) = self.site_exists()
 
             if site_exists:
-                have["site_id"] = current_site.get("site_id")
-
-            have["site_exists"] = site_exists
-            have["current_site"] = current_site
-
+                have["site_id"] = site_id
+                if self.log:
+                    log("Site Exists: " + str(site_exists) + "\n Site_id:" + str(site_id))
 
         #check if given device exists in pnp inventory, store device Id
         device_response = self.dnac.exec(
@@ -998,11 +831,10 @@ class DnacPnp:
     def get_want(self):
         for params in self.validated:
             want = dict(
-                site_params = self.get_site_params(params), 
-                site_name = self.get_site_name(params),
                 image_params = self.get_image_params(params),
                 pnp_params = self.get_pnp_params(params),
                 pnp_type = params.get("pnp_type"),
+                site_name = params.get("site_name"),
                 serial_number = params.get("deviceInfo").get("serialNumber"),
                 hostname = params.get("deviceInfo").get("hostname"),
                 project_name = params.get("project_name"),
@@ -1013,14 +845,6 @@ class DnacPnp:
 
 
     def get_diff_merge(self):
-        #check if the given site exists and/or needs to be updated/created.
-        if self.have.get("site_exists"):
-            if self.site_requires_update():
-                log("Existing Site requires update")
-                self.update_site()
-        else:
-            log("Creating New Site")
-            self.create_site()
 
         #if given device doesnot exist then add it to pnp database and get the device id
         if not self.have.get("device_found"):
@@ -1058,25 +882,30 @@ class DnacPnp:
 
     def get_diff_delete(self):
         if self.have.get("device_found"):
-            unclaim_params = dict(
-                deviceIdList=[self.have.get("device_id")],
-            )
-            unclaim_response = self.dnac.exec(
-                family="device_onboarding_pnp",
-                function='un_claim_device',
-                op_modifies=True,
-                params=unclaim_params,
-            )
 
-            if self.log:
-                log(str(unclaim_response))
+            try:
+                response = self.dnac.exec(
+                    family="device_onboarding_pnp",
+                    function="delete_device_by_id_from_pnp",
+                    op_modifies=True,
+                    params={"id":self.have.get("device_id")},
+                )
+
+                if self.log:
+                    log(str(response))
+
+                if response.get("deviceInfo").get("state") == "Deleted":
+                    self.result['changed'] = True
+                    self.result['response'] = response
+                    self.result['diff'] = self.validated
+                    self.result['msg'] = "Device Deleted"
+                else:
+                    self.result['response'] = response
+
+            except AnsibleActionFail as e:
+                msg = "Device Deletion Failed: " + str(e)
+                self.module.fail_json(msg=msg)
              
-            if (unclaim_response.get("message")=="Device(s) Unclaimed"):
-                self.result['changed'] = True
-                self.result['response'] = unclaim_response
-                self.result['diff'] = self.validated
-            else:
-                self.module.fail_json(msg="Device Un-Claim Failed")
         else:
             self.module.fail_json(msg="Device Not Found")
         
