@@ -39,7 +39,6 @@ argument_spec.update(dict(
 
 required_if = [
     ("state", "present", ["payload"], True),
-    ("state", "absent", ["payload"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -141,11 +140,8 @@ class SdaVirtualNetwork(object):
         return result
 
     def delete(self):
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-        id = self.new_object.get("id") or requested_obj.get("id")
-        name = self.new_object.get("name") or requested_obj.get("name")
+        id = self.new_object.get("id")
+        name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
             family="sda",
