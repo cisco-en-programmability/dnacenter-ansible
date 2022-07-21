@@ -14,6 +14,8 @@ jobs:
     strategy:
       matrix:
         ansible:
+          - stable-2.9
+          - stable-2.10
           - stable-2.11
           - stable-2.12
           - stable-2.13
@@ -21,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: cisco-en-programmability/dnacenter-ansible
       - name: Create directory
@@ -29,7 +31,7 @@ jobs:
       - name: Move repository
         run: mv ./cisco-en-programmability/dnacenter-ansible ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: '3.10'
       - name: Install ansible-base (${{ matrix.ansible }})
