@@ -24,7 +24,7 @@ version_added: '6.4.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Madhan Sankaranarayanan (@madhansansel) 
-        Rishita Chowdhary (@rischowd)
+        Rishita Chowdhary (@rishitachowdhary)
 options:
   state:
     description: The state of DNAC after module completion.
