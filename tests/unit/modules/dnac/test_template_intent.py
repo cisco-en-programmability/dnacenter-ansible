@@ -243,7 +243,7 @@ class TestDnacTemplateIntent(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'), 
-            "value of state must be one of: merged, delete, got: merge"
+            "value of state must be one of: merged, deleted, got: merge"
             )
 
     def test_template_intent_invalid_param(self):

@@ -20,6 +20,7 @@ import pdb
 
 from dnacentersdk import exceptions
 from unittest.mock import patch
+from ansible.errors import AnsibleActionFail
 from ansible_collections.cisco.dnac.plugins.modules import pnp_intent
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
@@ -56,44 +57,21 @@ class TestDnacPnPIntent(TestDnacModule):
         self.mock_dnac_init.stop()
 
 
-    def raise_exception(self):
-        def raise_general_exception():
-            raise Exception 
-        return raise_general_exception
-
-
     def load_fixtures(self, response=None, device=""):
 
-        if "new_site_device" in self._testMethodName:
+        if "site_not_found" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("image_exists_response"),
                 self.test_data.get("template_exists_response"),
                 Exception(),
-                [],
-                self.test_data.get("create_site_response"),
-                self.test_data.get("execution_details_create_success"),
-                self.test_data.get("site_exists_response"),
-                self.test_data.get("add_device_response"),
-                self.test_data.get("claim_response")
             ]
 
-        elif "site_exists" in self._testMethodName:
+        elif "add_new_device" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("image_exists_response"),
                 self.test_data.get("template_exists_response"),
                 self.test_data.get("site_exists_response"),
                 [],
-                self.test_data.get("add_device_response"),
-                self.test_data.get("claim_response")
-            ]
-
-        elif "site_needs_update" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("image_exists_response"),
-                self.test_data.get("template_exists_response"),
-                self.test_data.get("site_needs_update_response"),
-                [],
-                self.test_data.get("execution_details_create_success"),
                 self.test_data.get("add_device_response"),
                 self.test_data.get("claim_response")
             ]
@@ -107,10 +85,16 @@ class TestDnacPnPIntent(TestDnacModule):
                 self.test_data.get("claim_response")
             ]
 
-        elif "unclaim_device" in self._testMethodName:
+        elif "delete_device" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("device_exists_response"),
-                self.test_data.get("unclaim_response")
+                self.test_data.get("delete_device_response")
+            ]
+
+        elif "deletion_error" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("device_exists_response"),
+                AnsibleActionFail("An error occured when executing operation. The error was: [400] Bad Request - NCOB01313: Delete device(FJC2416U047) from Inventory"),
             ]
 
         elif "image_doesnot_exist" in self._testMethodName:
@@ -129,13 +113,13 @@ class TestDnacPnPIntent(TestDnacModule):
                 self.test_data.get("image_exists_response"),
                 []
             ]
-        elif "unclaim_nonexisting_device" in self._testMethodName:
+        elif "delete_nonexisting_device" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 []
             ]
 
 
-    def test_pnp_intent_new_site_device(self):
+    def test_pnp_intent_site_not_found(self):
 
         set_module_args(
             dict(
@@ -148,34 +132,14 @@ class TestDnacPnPIntent(TestDnacModule):
             )
         )
         
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('response').get('response'),
-            "Device Claimed"
+            result.get('msg'),
+            "Site not found"
             )
 
 
-    def test_pnp_intent_site_exists(self):
-
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config=self.playbook_config
-            )
-        )
-       
-        result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(
-            result.get('response').get('response'),
-            "Device Claimed"
-            )
-
-
-    def test_pnp_intent_site_needs_update(self):
+    def test_pnp_intent_add_new_device(self):
 
         set_module_args(
             dict(
@@ -293,7 +257,7 @@ class TestDnacPnPIntent(TestDnacModule):
             "Invalid parameters in playbook: image_name : Required parameter not found"
             )
 
-    def test_pnp_intent_unclaim_device(self):
+    def test_pnp_intent_delete_device(self):
 
         set_module_args(
             dict(
@@ -305,14 +269,33 @@ class TestDnacPnPIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-        
+       
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('response').get('message'),
-            "Device(s) Unclaimed"
+            result.get('msg'),
+            "Device Deleted"
             )
 
-    def test_pnp_intent_unclaim_nonexisting_device(self):
+    def test_pnp_intent_deletion_error(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="deleted",
+                config=self.playbook_config
+            )
+        )
+       
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'),
+            "Device Deletion Failed: An error occured when executing operation. The error was: [400] Bad Request - NCOB01313: Delete device(FJC2416U047) from Inventory"
+            )
+
+    def test_pnp_intent_delete_nonexisting_device(self):
 
         set_module_args(
             dict(
