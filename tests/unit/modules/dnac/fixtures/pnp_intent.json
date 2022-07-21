@@ -1,17 +1,8 @@
 {
     	"playbook_config": [
 		{
-        		"type": "building",
 			"image_name": "cat9k_iosxe.17.04.01.SPA.bin",
-			"site": {
-				"building": {
-					"latitude": "12.93570674358",
-					"longitude": "80.24982195822832",
-					"name": "MS_Test_1",
-					"parentName": "Global/Chennai",
-					"address": null
-				}
-			},
+			"site_name": "Global/Chennai/MS_Test_1",
 			"device_version": 2,
 			"template_name": "ANSIBLE-TEST",
 			"deviceInfo": {
@@ -25,16 +16,7 @@
 		
     	"playbook_config_missing_parameter": [
 		{
-        		"type": "building",
-			"site": {
-				"building": {
-					"latitude": "12.93570674358",
-					"longitude": "80.24982195822832",
-					"name": "MS_Test_1",
-					"parentName": "Global/Chennai",
-					"address": null
-				}
-			},
+			"site_name": "Global/Chennai/MS_Test_1",
 			"device_version": 2,
 			"template_name": "ANSIBLE-TEST",
 			"deviceInfo": {
@@ -175,8 +157,10 @@
 		"version": "1.0"
 	},
 
-	"unclaim_response":{ 
-		"message": "Device(s) Unclaimed",
-	       	"statusCode": 200
-	} 
+	"delete_device_response":{
+		"deviceInfo":
+		{
+			"state": "Deleted"	
+		}	
+	}	
 }
