@@ -571,3 +571,16 @@ releases:
         - sda_fabric_edge_device - Change required payload parameter to deviceManagementIpAddress
         - transit_peer_network - Added status check
         - file_info - Improve the module documentation.
+  6.5.2:
+    release_date: "2022-07-20"
+    changes:
+      release_summary: Deletion function fixed in several modules.
+      bugfixes:
+        - application_sets - delete function fixed.
+        - applications - delete function fixed.
+        - event_subscription - delete function fixed.
+        - sda_fabric_authentication_profile - delete function fixed.
+        - sda_fabric_border_device - delete function fixed.
+        - sda_fabric_control_plane_device - delete function fixed.
+        - sda_fabric_edge_device - delete function fixed.
+        - sda_virtual_network - delete function fixed.
