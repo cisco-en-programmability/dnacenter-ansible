@@ -132,17 +132,27 @@
         "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/67f206ab-5377-46d4-99bf-dadf1543f84e", 
         "message": "The request has been accepted for execution"
     },
-    "delete_get_site_response":[
-        {
-            "type": "area", 
-            "site": {
-                "area": {
-                    "name": "Hebbal", 
-                    "parentName": "Global/Bangalore"
-                }
-            }
-        }
-    ],
+    "delete_get_site_response":{
+	"response": [
+	    {
+		"parentId": "4ee5983e-4e4b-4a91-96fa-3d526d593cb0", 
+		"additionalInfo": [
+		    {
+			"nameSpace": "Location", 
+			"attributes": {
+			    "addressInheritedFrom": "4ee5983e-4e4b-4a91-96fa-3d526d593cb0", 
+			    "type": "area"
+			}
+		    }
+		], 
+		"name": "Hebbal", 
+		"instanceTenantId": "5fa5559c4238fb00c6cc6801", 
+		"id": "e9b94916-e5b0-422c-9dac-16618ebb5f73", 
+		"siteHierarchy": "c6622c8a-ae49-47db-bc7c-5984fa61ca28/4ee5983e-4e4b-4a91-96fa-3d526d593cb0/e9b94916-e5b0-422c-9dac-16618ebb5f73", 
+		"siteNameHierarchy": "Global/Bangalore/Hebbal"
+	    }
+	]
+    },
     "delete_delete_site_response":{
         "executionId": "820b2ad9-4c31-48c1-b729-e029ad00ce95" 
     },
