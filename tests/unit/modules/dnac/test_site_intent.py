@@ -57,11 +57,6 @@ class TestDnacSiteIntent(TestDnacModule):
         self.mock_dnac_init.stop()
 
 
-    def raise_exception(self):
-        def raise_general_exception():
-            raise Exception 
-        return raise_general_exception
-
     def load_fixtures(self, response=None, device=""):
         if "create_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -104,7 +99,8 @@ class TestDnacSiteIntent(TestDnacModule):
                 self.test_data.get("create_site_response"),
                 self.test_data.get("delete_execution_details_error")
             ]
-        
+       
+
     def test_site_intent_create_site(self):
         set_module_args(
             dict(
@@ -116,7 +112,7 @@ class TestDnacSiteIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-       
+      
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
@@ -134,7 +130,7 @@ class TestDnacSiteIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-       
+      
         result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
             result.get('msg'),
@@ -152,7 +148,7 @@ class TestDnacSiteIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-       
+      
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
@@ -169,7 +165,7 @@ class TestDnacSiteIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-       
+      
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('response').get('status'),
@@ -222,7 +218,7 @@ class TestDnacSiteIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-       
+        
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
