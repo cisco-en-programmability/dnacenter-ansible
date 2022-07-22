@@ -314,3 +314,21 @@ class TestDnacPnPIntent(TestDnacModule):
             "Device Not Found"
             )
 
+    def test_pnp_intent_invalid_state(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merge",
+                config=self.playbook_config
+            )
+        )
+       
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'), 
+            "value of state must be one of: merged, deleted, got: merge"
+            )
