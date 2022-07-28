@@ -574,14 +574,40 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+#Case: When the device is claimed successfully.
+response:
+  description: A dictionary with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
+      "response": 
+        {
+          "response": String,
+          "version": String
+        },
+      "msg": String
+    }
+
+#Case: Given site/image/template/project not found or Device not found for deletion
+response:
+  description: A list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  sample: >
+    {
+      "response": [],
+      "msg": String
+    }
+
+#Case: Error while deleting/claiming a device
+response:
+  description: A string with the response returned by the Cisco DNAC Python SDK
+  type: string 
+  sample: >
+    {
       "response": String,
-	  "version": 0
+      "msg": String
     }
 """
 import copy
@@ -688,7 +714,7 @@ class DnacPnp:
              )
 
         except:
-            self.module.fail_json(msg="Site not found")
+            self.module.fail_json(msg="Site not found", response=[])
 
         if response:
             if self.log:
@@ -769,7 +795,7 @@ class DnacPnp:
                 if self.log:
                     log("Image Id: " + str(have["image_id"]))
             else:
-                self.module.fail_json(msg="Image not found")
+                self.module.fail_json(msg="Image not found", response=[]) 
 
 
             #check if given template exists, if exists store template id
@@ -790,9 +816,9 @@ class DnacPnp:
                     if self.log:
                         log("Template Id: " + str(have["template_id"]))
                 else:
-                    self.module.fail_json(msg="Template not found")
+                    self.module.fail_json(msg="Template not found", response=[])
             else:
-                self.module.fail_json(msg="Project Not Found")
+                self.module.fail_json(msg="Project Not Found", response=[])
 
 
             #check if given site exits, if exists store current site info
@@ -874,10 +900,11 @@ class DnacPnp:
 
         if (claim_response.get("response")=="Device Claimed"):
             self.result['changed'] = True
+            self.result['msg'] = "Device Claimed Successfully"
             self.result['response'] = claim_response
             self.result['diff'] = self.validated
         else:
-            self.module.fail_json(msg="Device Claim Failed")
+            self.module.fail_json(msg="Device Claim Failed", response=claim_response)
 
 
     def get_diff_delete(self):
@@ -898,16 +925,18 @@ class DnacPnp:
                     self.result['changed'] = True
                     self.result['response'] = response
                     self.result['diff'] = self.validated
-                    self.result['msg'] = "Device Deleted"
+                    self.result['msg'] = "Device Deleted Successfully"
                 else:
                     self.result['response'] = response
+                    self.result['msg'] = "Error while deleting the device"
 
             except AnsibleActionFail as e:
-                msg = "Device Deletion Failed: " + str(e)
-                self.module.fail_json(msg=msg)
+                response = str(e)
+                msg = "Device Deletion Failed" 
+                self.module.fail_json(msg=msg, response=response)
              
         else:
-            self.module.fail_json(msg="Device Not Found")
+            self.module.fail_json(msg="Device Not Found", response=[])
         
 
 def main():
