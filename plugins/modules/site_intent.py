@@ -147,16 +147,76 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+#Case: Site is successfully created/updated/deleted
+response:
+  description: A dictionary with API execution details as returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
-      "executionId": "string",
-      "executionStatusUrl": "string",
-      "message": "string"
+      "response": 
+        {
+             "bapiExecutionId": String,
+             "bapiKey": String,
+             "bapiName": String,
+             "endTime": String,
+             "endTimeEpoch": 0,
+             "runtimeInstanceId": String,
+             "startTime": String,
+             "startTimeEpoch": 0,
+             "status": String,
+             "timeDuration": 0
+
+        }
+      "msg": "string"
     }
+
+#Case: Site exits and does not need an update
+response:
+  description: A dictionary with existing site details.
+  resturned: always
+  type: dict
+  sample: >
+    {
+      "response": {},
+      "msg": String
+    }
+
+#Case: Error while creating/updating/deleting site
+response:
+  description: A dictionary with API execution details as returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": 
+        {
+             "bapiError": String,
+             "bapiExecutionId": String,
+             "bapiKey": String,
+             "bapiName": String,
+             "endTime": String,
+             "endTimeEpoch": 0,
+             "runtimeInstanceId": String,
+             "startTime": String,
+             "startTimeEpoch": 0,
+             "status": String,
+             "timeDuration": 0
+
+        }
+      "msg": "string"
+    }
+
+#Case" Site not found when atempting to delete site
+response:
+  description: A list with the response returned by the Cisco DNAC Python
+  return: always
+  type: list 
+  sample: >
+  {
+    "response": [],
+    "msg": String
+  }
 """
 
 
@@ -444,7 +504,8 @@ class DnacSite:
             else:
                 #Site does not neet update
                 self.result['response'] = self.have.get("current_site") 
-                self.module.exit_json(msg="Site does not need update")               
+                self.result['msg'] = "Site does not need update"
+                self.module.exit_json(**self.result)               
                 
         else:
             #Creating New Site
@@ -469,7 +530,8 @@ class DnacSite:
                         break
 
                     elif execution_details.get("bapiError"):
-                        self.module.fail_json(msg=execution_details.get("bapiError"))
+                        self.module.fail_json(msg=execution_details.get("bapiError"), 
+                                              response=execution_details)
                         break
                 
                 if site_updated:
@@ -503,14 +565,15 @@ class DnacSite:
                     if (execution_details.get("status")=="SUCCESS"):
                         self.result['changed'] = True
                         self.result['response'] = execution_details
+                        self.result['msg'] = "Site deleted successfully"
                         break
 
                     elif execution_details.get("bapiError"):
-                        self.module.fail_json(msg=execution_details.get("bapiError"))
+                        self.module.fail_json(msg=execution_details.get("bapiError"), response=execution_details)
                         break
 
         else:
-            self.module.exit_json(msg="Site Not Found")
+            self.module.fail_json(msg="Site Not Found", response=[])
 
 
 def main():
