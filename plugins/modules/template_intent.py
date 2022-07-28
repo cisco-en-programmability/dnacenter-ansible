@@ -24,7 +24,7 @@ version_added: '6.4.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Madhan Sankaranarayanan (@madhansansel) 
-        Rishita Chowdhary (@rishitachowdhary)
+        Rishita Chowdhary (@rischowd)
 options:
   state:
     description: The state of DNAC after module completion.
@@ -604,8 +604,9 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+#Case: Successful creartion/updatation/deletion of template
+response:
+  description: A dictionary with versioning details of the template as returned by the DNAC Python SDK
   returned: always
   type: dict
   sample: >
@@ -621,8 +622,31 @@ dnac_response:
 			"isError": bool, 
 			"instanceTenantId": String, 
 			"id": String
+                        "version": 0
 		}, 
-		"version": 0
+      "msg": String
+    }
+
+#Case: Error while deleting a template or when given project is not found 
+response:
+  description: A list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list 
+  sample: >
+    {
+      "response": [],
+      "msg": String
+    }
+
+#Case: Given template already exists and requires no udpate 
+response:
+  description: A dictionary with the exisiting template deatails as returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {},
+      "msg": String
     }
 """
 
@@ -798,7 +822,7 @@ class DnacTemplate:
 
                 template_exists = prev_template is not None and isinstance(prev_template, dict)
             else:
-                self.module.fail_json(msg="Project Not Found")
+                self.module.fail_json(msg="Project Not Found", response=[])
 
         have_create['template'] = prev_template
         have_create['template_found'] = template_exists
@@ -899,7 +923,6 @@ class DnacTemplate:
                     params=self.want_create.get("template_params"),
                     op_modifies=True,
                 )
-
                 template_updated = True
                 template_id = self.have_create.get("templateId")
 
@@ -908,7 +931,8 @@ class DnacTemplate:
             else:
                 #Template does not need update
                 self.result['response'] = self.have_create.get("template") 
-                self.module.exit_json(msg="Template does not need update")
+                self.result['msg'] = "Template does not need update"
+                self.module.exit_json(**self.result)
         else:
             response = self.dnac.exec(
                 family="configuration_templates",
@@ -959,13 +983,17 @@ class DnacTemplate:
 
             if task_id:
                 task_details = self.get_task_details(task_id)
+                self.result['changed'] = True
+                self.result['msg'] = task_details.get('progress')
+                self.result['diff'] = self.validated
 
                 if self.log:
                     log(str(task_details))
-                self.result['changed'] = True
-                self.result['diff'] = self.validated
                 
             self.result['response'] = task_details if task_details else response
+
+            if not self.result.get('msg'):
+                self.result['msg'] = "Error while versioning the template"
 
 
     def get_diff_delete(self):
@@ -982,13 +1010,19 @@ class DnacTemplate:
 
             if task_id:
                 task_details = self.get_task_details(task_id)
+                self.result['changed'] = True
+                self.result['msg'] = task_details.get('progress')
+                self.result['diff'] = self.validated
 
                 if self.log:
                     log(str(task_details))
-                self.result['changed'] = True
+
             self.result['response'] = task_details if task_details else response
+
+            if not self.result['msg']:
+                self.result['msg'] = "Error while deleting template"
         else:
-            self.module.exit_json(msg="Template not found")
+            self.module.fail_json(msg="Template not found", response=[])
 
 
 def main():
