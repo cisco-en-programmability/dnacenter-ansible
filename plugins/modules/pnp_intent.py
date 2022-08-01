@@ -30,7 +30,14 @@ options:
     type: str
     choices:
       - merged
+        description: 
+          - If the device defined in the playbook doesnot exists, it will be added
+            to the PnP inventory and then claimed as per the provided parameters
+          - If the device defined in the playbook already exists in the PnP inventory,
+            it will be claimed as per the provided parameters
       - deleted
+        description:
+          - The device defined in the playbook will be deleted form the PnP inventory.
     default: merged
   config:
     description:
@@ -39,16 +46,16 @@ options:
     elements: dict
     suboptions:
       template_name:
-        description: Name of template to be configured.
+        description: Name of template to be configured on the device.
         type: str
       image_name:
-        description: Name of image to be configured
+        description: Name of image to be configured on the device
         type: str
       golden_image:
-        description: Is the image tagged golden_image
+        description: Is the image to be condifgured tagged as golden image
         type: bool
       site_name:
-        description: Name of the site for which device will be claimed..
+        description: Name of the site for which device will be claimed.
         type: str
       deviceInfo:
         description: Pnp Device's deviceInfo.
@@ -435,8 +442,9 @@ notes:
     post /dna/intent/api/v1/onboarding/pnp-device/{id}
 
 """
+
 EXAMPLES = r"""
-- name: claim device
+- name: Add a new device and claim the device 
   cisco.dnac.pnp_intent:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -589,7 +597,7 @@ response:
       "msg": String
     }
 
-#Case: Given site/image/template/project not found or Device not found for deletion
+#Case: Given site/image/template/project not found or Device is not found for deletion
 response:
   description: A list with the response returned by the Cisco DNAC Python SDK
   returned: always
@@ -610,6 +618,7 @@ response:
       "msg": String
     }
 """
+
 import copy
 import time
 try:
