@@ -24,14 +24,20 @@ version_added: '6.4.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Madhan Sankaranarayanan (@madhansansel) 
-        Rishita Chowdhary (@rischowd)
+        Rishita Chowdhary (@rishitachowdhary)
 options:
   state:
     description: The state of DNAC after module completion.
     type: str
     choices:
       - merged
+        description:
+          - If the template defined in the playbook doesnot exits, it will be created.
+          - If the template defined in the playbook exists, but the properties managed
+            by the playbook are different, template will be updated with the new set of properties.
       - deleted
+        description:
+          - The template defined in the playbook will be deleted.
     default: merged
   config:
     description:
@@ -554,7 +560,7 @@ notes:
 """
 
 EXAMPLES = r"""
-- name: Create
+- name: Create a new template
   cisco.dnac.template_intent:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -604,7 +610,7 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-#Case: Successful creartion/updatation/deletion of template
+#Case: Successful creation/updation/deletion of template
 response:
   description: A dictionary with versioning details of the template as returned by the DNAC Python SDK
   returned: always

@@ -31,7 +31,13 @@ options:
     type: str
     choices:
       - merged
+        description: 
+          - If the site defined in the playbook doesnot exits, it will be created.
+          - If the site defined in the playbook exists, but the properties managed
+            by the playbook are different, site will be updated with the new set of properties.
       - deleted
+        description:
+          - The site defined in the playbook will be deleted.
     default: merged
   config:
     description:
@@ -115,7 +121,7 @@ notes:
 """
 
 EXAMPLES = r"""
-- name: Create
+- name: Create a new building site
   cisco.dnac.site_intent:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -127,22 +133,12 @@ EXAMPLES = r"""
     dnac_log: "{{dnac_log}}"
     config:
         site:
-          area:
-            name: string
-            parentName: string
           building:
             address: string
             latitude: 0
             longitude: 0
             name: string
             parentName: string
-          floor:
-            height: 0
-            length: 0
-            name: string
-            parentName: string
-            rfModel: string
-            width: 0
         type: string
 """
 
