@@ -183,7 +183,7 @@ class TestDnacTemplateIntent(TestDnacModule):
             )
         )
        
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'), 
             "Template not found"
