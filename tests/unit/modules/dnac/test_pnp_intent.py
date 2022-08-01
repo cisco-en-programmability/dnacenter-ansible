@@ -273,7 +273,7 @@ class TestDnacPnPIntent(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "Device Deleted"
+            "Device Deleted Successfully"
             )
 
     def test_pnp_intent_deletion_error(self):
@@ -292,7 +292,7 @@ class TestDnacPnPIntent(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            "Device Deletion Failed: An error occured when executing operation. The error was: [400] Bad Request - NCOB01313: Delete device(FJC2416U047) from Inventory"
+            "Device Deletion Failed"
             )
 
     def test_pnp_intent_delete_nonexisting_device(self):
