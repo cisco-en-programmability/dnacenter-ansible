@@ -22,7 +22,7 @@ description:
 - API to delete a template by template name and project name.
 version_added: '6.4.0'
 extends_documentation_fragment:
-  - cisco.dnac.module
+  - cisco.dnac.intent_params
 author: Madhan Sankaranarayanan (@madhansansel) 
         Rishita Chowdhary (@rishitachowdhary)
 options:
