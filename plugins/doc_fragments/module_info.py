@@ -49,12 +49,6 @@ options:
           - Flag for Cisco DNA Center SDK to enable debugging.
         type: bool
         default: false
-    dnac_log:
-        description:
-          - Flag for logging playbook execution details.
-            If set to true the log file will be created at the location of the execution with the name dnac.log
-        type: bool
-        default: false
     validate_response_schema:
         description:
           - Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.

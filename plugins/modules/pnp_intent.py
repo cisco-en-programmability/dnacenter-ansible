@@ -21,7 +21,7 @@ description:
 - API to delete device from the pnp inventory.
 version_added: '6.4.0'
 extends_documentation_fragment:
-  - cisco.dnac.module
+  - cisco.dnac.intent_params
 author: Madhan Sankaranarayanan (@madhansansel) 
         Rishita Chowdhary (@rishitachowdhary)
 options:
