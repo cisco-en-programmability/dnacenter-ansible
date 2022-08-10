@@ -43,10 +43,16 @@ options:
         description:
           - Informs the SDK which version of Cisco DNA Center to use.
         type: str
-        default: 2.3.3.0
+        default: 2.2.3.3
     dnac_debug:
         description:
           - Flag for Cisco DNA Center SDK to enable debugging.
+        type: bool
+        default: false
+    dnac_log:
+        description:
+            - Flag for logging playbook execution details.
+              If set to true the log file will be created at the location of the execution with the name dnac.log
         type: bool
         default: false
     validate_response_schema:
@@ -55,7 +61,7 @@ options:
         type: bool
         default: true
 notes:
-    - "Supports C(check_mode)"
+    - "Does not support C(check_mode)"
     - "The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK"
     - "The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection"
 '''
