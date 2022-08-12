@@ -24,7 +24,7 @@ options:
     - SiteId query parameter. Site id to retrieve the credential details associated with the site.
     type: str
 requirements:
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.5.4
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings GetDeviceCredentialDetails

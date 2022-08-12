@@ -36,7 +36,7 @@ options:
     - Radios query parameter. Inlcude planned radio details.
     type: bool
 requirements:
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.5.4
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetPlannedAccessPointsForFloor
