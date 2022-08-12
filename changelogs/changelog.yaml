@@ -584,3 +584,11 @@ releases:
         - sda_fabric_control_plane_device - delete function fixed.
         - sda_fabric_edge_device - delete function fixed.
         - sda_virtual_network - delete function fixed.
+  6.5.3:
+    release_date: "2022-08-12"
+    changes:
+      release_summary: Added new function and fixed module
+      bugfixes:
+        - Update dnacentersdk requirement from 2.5.0 to 2.5.4
+        - business_sda_hostonboarding_ssid_ippool - create function added.
+        - wireless_profile - create function fixed.

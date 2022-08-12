@@ -55,7 +55,7 @@ options:
     - Id path parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.5.4
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowById
