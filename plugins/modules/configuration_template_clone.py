@@ -28,7 +28,7 @@ options:
     description: TemplateId path parameter. UUID of the template to clone it.
     type: str
 requirements:
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.5.4
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates CreatesACloneOfTheGivenTemplate

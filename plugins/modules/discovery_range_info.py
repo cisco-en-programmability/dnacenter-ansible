@@ -28,7 +28,7 @@ options:
     - RecordsToReturn path parameter. Number of records to return.
     type: int
 requirements:
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.5.4
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery GetDiscoveriesByRange
