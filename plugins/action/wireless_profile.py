@@ -105,7 +105,7 @@ class WirelessProfile(object):
         name = self.new_object.get("name")
         name = name or self.new_object.get("wireless_profile_name")
         profile_details = self.new_object.get("profileDetails")
-        if profile_details.get("name"):
+        if profile_details and profile_details.get("name"):
             name = name or profile_details.get("name")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
