@@ -1,11 +1,12 @@
 
 
+
 .. _plugins_in_cisco.dnac:
 
 Cisco.Dnac
 ==========
 
-Collection version 6.5.2
+Collection version 6.5.3
 
 .. contents::
    :local:

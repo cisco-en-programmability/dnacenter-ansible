@@ -1,3 +1,4 @@
+
 .. Document meta
 
 :orphan:
@@ -42,7 +43,7 @@ cisco.dnac.business_sda_hostonboarding_ssid_ippool module -- Resource module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -68,7 +69,8 @@ Synopsis
 
 .. Description
 
-- Manage operation update of the resource Business Sda Hostonboarding Ssid Ippool.
+- Manage operations create and update of the resource Business Sda Hostonboarding Ssid Ippool.
+- Add SSID to IP Pool Mapping.
 - Update SSID to IP Pool Mapping.
 
 .. note::
@@ -83,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.5.4
 - python >= 3.5
 
 
@@ -564,8 +566,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping2,
-   - Paths used are put /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
+   - SDK Method used are fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping, fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping2,
+   - Paths used are post /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool, put /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -577,6 +579,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Fabric Wireless AddSSIDToIPPoolMapping <https://developer.cisco.com/docs/dna-center/#!add-ssid-to-ip-pool-mapping>`_
+       Complete reference of the AddSSIDToIPPoolMapping API.
    `Cisco DNA Center documentation for Fabric Wireless UpdateSSIDToIPPoolMapping2 <https://developer.cisco.com/docs/dna-center/#!update-ssid-to-ip-pool-mapping-2>`_
        Complete reference of the UpdateSSIDToIPPoolMapping2 API.
 
@@ -588,6 +592,22 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    - name: Create
+      cisco.dnac.business_sda_hostonboarding_ssid_ippool:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        scalableGroupName: string
+        siteNameHierarchy: string
+        ssidNames:
+        - string
+        vlanName: string
+
     - name: Update all
       cisco.dnac.business_sda_hostonboarding_ssid_ippool:
         dnac_host: "{{dnac_host}}"
@@ -644,7 +664,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -664,7 +684,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"executionId\\": \\"string\\",\\n  \\"executionStatusURL\\": \\"string\\",\\n  \\"message\\": \\"string\\"\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` "[\\n  {\\n    \\"executionId\\": \\"string\\",\\n    \\"executionStatusURL\\": \\"string\\",\\n    \\"message\\": \\"string\\"\\n  }\\n]\\n"
 
 
       .. raw:: html
