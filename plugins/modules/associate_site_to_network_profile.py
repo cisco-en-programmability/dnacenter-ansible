@@ -23,7 +23,7 @@ options:
     description: SiteId path parameter. Site Id to be associated.
     type: str
 requirements:
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.5.4
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Site Design Associate

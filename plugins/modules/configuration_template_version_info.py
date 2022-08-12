@@ -24,7 +24,7 @@ options:
     - TemplateId path parameter. TemplateId(UUID) to get list of versioned templates.
     type: str
 requirements:
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.5.4
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates GetsAllTheVersionsOfAGivenTemplate

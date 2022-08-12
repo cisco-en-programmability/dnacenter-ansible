@@ -64,6 +64,14 @@ class BusinessSdaHostonboardingSsidIppool(object):
             self.new_object.get('site_name_hierarchy')
         return new_object_params
 
+    def create_params(self):
+        new_object_params = {}
+        new_object_params['vlanName'] = self.new_object.get('vlanName')
+        new_object_params['scalableGroupName'] = self.new_object.get('scalableGroupName')
+        new_object_params['ssidNames'] = self.new_object.get('ssidNames')
+        new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
+        return new_object_params
+
     def update_all_params(self):
         new_object_params = {}
         new_object_params['vlanName'] = self.new_object.get('vlanName')
@@ -114,6 +122,15 @@ class BusinessSdaHostonboardingSsidIppool(object):
         return any(not dnac_compare_equality(current_obj.get(dnac_param),
                                              requested_obj.get(ansible_param))
                    for (dnac_param, ansible_param) in obj_params)
+
+    def create(self):
+        result = self.dnac.exec(
+            family="fabric_wireless",
+            function="add_ssid_to_ip_pool_mapping",
+            params=self.create_params(),
+            op_modifies=True,
+        )
+        return result
 
     def update(self):
         id = self.new_object.get("id")
@@ -177,7 +194,8 @@ class ActionModule(ActionBase):
                     response = prev_obj
                     dnac.object_already_present()
             else:
-                dnac.fail_json("Object does not exists, plugin only has update")
+                response = obj.create()
+                dnac.object_created()
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

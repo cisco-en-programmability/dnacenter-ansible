@@ -36,7 +36,7 @@ options:
     - Limit query parameter. The max number of sites in the returned data set. Default is 25, and max at 50.
     type: int
 requirements:
-- dnacentersdk >= 2.5.0
+- dnacentersdk >= 2.5.4
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sites GetSiteHealth
