@@ -1,16 +1,31 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2022, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
+import copy
+from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    DNACSDK,
+    validate_list_of_dicts,
+    log,
+    get_dict_result,
+    dnac_compare_equality,
+)
+import traceback
+try:
+    from ansible.errors import AnsibleActionFail
+except ImportError:
+    HAS_ANSIBLE_ACTION_FAIL = False
+    ANSIBLE_ACTION_FAIL_IMPORT_ERROR = traceback.format_exc()
+else:
+    HAS_ANSIBLE_ACTION_FAIL = True
 
 __metaclass__ = type
-__author__ = (
-            "Madhan Sankaranarayanan, Rishita Chowdhary"
-            )
-            
+__author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary")
+
 DOCUMENTATION = r"""
 ---
 module: site_intent
@@ -23,7 +38,7 @@ description:
 version_added: '6.4.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
-author: Madhan Sankaranarayanan (@madhansansel) 
+author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
 options:
   state:
@@ -31,7 +46,7 @@ options:
     type: str
     choices:
       - merged
-        description: 
+        description:
           - If the site defined in the playbook doesnot exits, it will be created.
           - If the site defined in the playbook exists, but the properties managed
             by the playbook are different, site will be updated with the new set of properties.
@@ -41,7 +56,7 @@ options:
     default: merged
   config:
     description:
-    - List of details of site being managed. 
+    - List of details of site being managed.
     type: list
     elements: dict/str
     suboptions:
@@ -104,7 +119,7 @@ options:
               width:
                 description: Width of the floor (eg 100).
                 type: int
-                
+
 requirements:
 - dnacentersdk == 2.4.5
 - python >= 3.5
@@ -150,7 +165,7 @@ response:
   type: dict
   sample: >
     {
-      "response": 
+      "response":
         {
              "bapiExecutionId": String,
              "bapiKey": String,
@@ -185,7 +200,7 @@ response:
   type: dict
   sample: >
     {
-      "response": 
+      "response":
         {
              "bapiError": String,
              "bapiExecutionId": String,
@@ -207,7 +222,7 @@ response:
 response:
   description: A list with the response returned by the Cisco DNAC Python
   return: always
-  type: list 
+  type: list
   sample: >
   {
     "response": [],
@@ -216,31 +231,12 @@ response:
 """
 
 
-import copy
-try:
-    from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
-except ImportError:
-    ANSIBLE_UTILS_IS_INSTALLED = False
-else:
-    ANSIBLE_UTILS_IS_INSTALLED = True
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DNACSDK,
-    dnac_argument_spec,
-    validate_list_of_dicts,
-    log,
-    get_dict_result,
-    dnac_compare_equality,
-)
-from ansible.module_utils.basic import AnsibleModule
-
-floor_plan = { 
-    '57057':'CUBES AND WALLED OFFICES',
-    '57058':'DRYWELL OFFICE ONLY',
-    '41541500':'FREE SPACE',
-    '57060':'INDOOR HIGH CEILING',
-    '57059':'OUTDOOR OPEN SPACE'
+floor_plan = {
+    '57057': 'CUBES AND WALLED OFFICES',
+    '57058': 'DRYWELL OFFICE ONLY',
+    '41541500': 'FREE SPACE',
+    '57060': 'INDOOR HIGH CEILING',
+    '57059': 'OUTDOOR OPEN SPACE'
 }
 
 
@@ -250,8 +246,8 @@ class DnacSite:
         self.module = module
         self.params = module.params
         self.config = copy.deepcopy(module.params.get("config"))
-        self.have = {} 
-        self.want_create = {} 
+        self.have = {}
+        self.want_create = {}
         self.diff_create = []
         self.validated = []
         dnac_params = self.get_dnac_params(self.params)
@@ -261,16 +257,14 @@ class DnacSite:
 
         self.result = dict(changed=False, diff=[], response=[], warnings=[])
 
-
     def get_state(self):
         return self.params.get("state")
-
 
     def validate_input(self):
         temp_spec = dict(
             type=dict(required=False, type='str'),
             site=dict(required=True, type='dict'),
-            )
+        )
 
         if self.config:
             msg = None
@@ -291,7 +285,6 @@ class DnacSite:
                 log(str(valid_temp))
                 log(str(self.validated))
 
-
     def get_dnac_params(self, params):
         dnac_params = dict(
             dnac_host=params.get("dnac_host"),
@@ -304,49 +297,49 @@ class DnacSite:
         )
         return dnac_params
 
-    def get_current_site(self,site):
+    def get_current_site(self, site):
         site_info = {}
 
-        location = get_dict_result(site[0].get("additionalInfo"),'nameSpace', "Location")
-        type = location.get("attributes").get("type")
-        
-        if (type == "area"):
+        location = get_dict_result(site[0].get("additionalInfo"), 'nameSpace', "Location")
+        typeinfo = location.get("attributes").get("type")
+
+        if typeinfo == "area":
             site_info = dict(
                 area=dict(
-                    name = site[0].get("name"),
-                    parentName = site[0].get("siteNameHierarchy").split("/"+site[0].get("name"))[0]
+                    name=site[0].get("name"),
+                    parentName=site[0].get("siteNameHierarchy").split("/" + site[0].get("name"))[0]
                 )
             )
 
-        elif (type == "building"):
+        elif typeinfo == "building":
             site_info = dict(
                 building=dict(
-                    name= site[0].get("name"),
-                    parentName = site[0].get("siteNameHierarchy").split("/"+site[0].get("name"))[0],
-                    address = location.get("attributes").get("address"),
-                    latitude = location.get("attributes").get("latitude"),
-                    longitude = location.get("attributes").get("longitude"),
+                    name=site[0].get("name"),
+                    parentName=site[0].get("siteNameHierarchy").split("/" + site[0].get("name"))[0],
+                    address=location.get("attributes").get("address"),
+                    latitude=location.get("attributes").get("latitude"),
+                    longitude=location.get("attributes").get("longitude"),
                 )
             )
 
-        elif (type == "floor"):
-            map_geometry = get_dict_result(site[0].get("additionalInfo"),'nameSpace', "mapGeometry")
-            map_summary = get_dict_result(site[0].get("additionalInfo"),'nameSpace', "mapsSummary")
+        elif typeinfo == "floor":
+            map_geometry = get_dict_result(site[0].get("additionalInfo"), 'nameSpace', "mapGeometry")
+            map_summary = get_dict_result(site[0].get("additionalInfo"), 'nameSpace', "mapsSummary")
             rf_model = map_summary.get("attributes").get("rfModel")
 
             site_info = dict(
                 floor=dict(
-                    name= site[0].get("name"),
-                    parentName = site[0].get("siteNameHierarchy").split("/"+site[0].get("name"))[0],
-                    rfModel = floor_plan.get(rf_model),
-                    width = map_geometry.get("attributes").get("width"),
-                    length = map_geometry.get("attributes").get("length"),
-                    height = map_geometry.get("attributes").get("height")
+                    name=site[0].get("name"),
+                    parentName=site[0].get("siteNameHierarchy").split("/" + site[0].get("name"))[0],
+                    rfModel=floor_plan.get(rf_model),
+                    width=map_geometry.get("attributes").get("width"),
+                    length=map_geometry.get("attributes").get("length"),
+                    height=map_geometry.get("attributes").get("height")
                 )
             )
 
         current_site = dict(
-            type=type,
+            type=typeinfo,
             site=site_info,
             site_id=site[0].get("id")
         )
@@ -355,8 +348,7 @@ class DnacSite:
             log(str(current_site))
 
         return current_site
-        
-        
+
     def site_exists(self):
         site_exists = False
         current_site = {}
@@ -365,42 +357,39 @@ class DnacSite:
             response = self.dnac.exec(
                 family="sites",
                 function='get_site',
-                params={"name":self.want.get("site_name")},
-             )
+                params={"name": self.want.get("site_name")},
+            )
 
-        except:
+        except Exception as e:
             if self.log:
                 log("The input site is not valid or site is not present.")
-            pass
 
         if response:
             if self.log:
                 log(str(response))
 
             response = response.get("response")
-            current_site = self.get_current_site(response) 
+            current_site = self.get_current_site(response)
             site_exists = True
-    
+
         if self.log:
             log(str(self.validated))
 
         return (site_exists, current_site)
 
-
     def get_site_params(self, params):
-        site=params.get("site")
-        type=params.get("type")
+        site = params.get("site")
+        typeinfo = params.get("type")
 
-        if type == "floor":
+        if typeinfo == "floor":
             site["floor"]["rfModel"] = site.get("floor").get("rfModel").upper()
 
         site_params = dict(
-            type=type,
+            type=typeinfo,
             site=site,
         )
 
         return site_params
-  
 
     def get_site_name(self, site):
         site_type = site.get("type")
@@ -412,7 +401,6 @@ class DnacSite:
             log(site_name)
 
         return site_name
-        
 
     def site_requires_update(self):
         requested_site = self.want.get("site_params")
@@ -431,14 +419,12 @@ class DnacSite:
                                              requested_site.get(ansible_param))
                    for (dnac_param, ansible_param) in obj_params)
 
-
-
-    def get_execution_details(self, id):
+    def get_execution_details(self, execid):
         response = None
         response = self.dnac.exec(
             family="task",
             function='get_business_api_execution_details',
-            params={"execution_id":id}
+            params={"execution_id": execid}
         )
 
         if self.log:
@@ -446,14 +432,13 @@ class DnacSite:
 
         if response and isinstance(response, dict):
             return response
-            
-            
+
     def get_have(self):
         site_exists = False
         current_site = None
         have = {}
 
-        #check if given site exits, if exists store current site info
+        # check if given site exits, if exists store current site info
         (site_exists, current_site) = self.site_exists()
 
         if self.log:
@@ -466,27 +451,25 @@ class DnacSite:
 
         self.have = have
 
-
     def get_want(self):
         want = {}
 
         for site in self.validated:
             want = dict(
-                site_params = self.get_site_params(site), 
-                site_name = self.get_site_name(site),
+                site_params=self.get_site_params(site),
+                site_name=self.get_site_name(site),
             )
 
         self.want = want
-
 
     def get_diff_merge(self):
         site_updated = False
         site_created = False
 
-        #check if the given site exists and/or needs to be updated/created.
+        # check if the given site exists and/or needs to be updated/created.
         if self.have.get("site_exists"):
             if self.site_requires_update():
-                #Existing Site requires update
+                # Existing Site requires update
                 site_params = self.want.get("site_params")
                 site_params["site_id"] = self.have.get("site_id")
                 response = self.dnac.exec(
@@ -498,13 +481,13 @@ class DnacSite:
                 site_updated = True
 
             else:
-                #Site does not neet update
-                self.result['response'] = self.have.get("current_site") 
+                # Site does not neet update
+                self.result['response'] = self.have.get("current_site")
                 self.result['msg'] = "Site does not need update"
-                self.module.exit_json(**self.result)               
-                
+                self.module.exit_json(**self.result)
+
         else:
-            #Creating New Site
+            # Creating New Site
             response = self.dnac.exec(
                 family="sites",
                 function='create_site',
@@ -514,35 +497,34 @@ class DnacSite:
 
             log(str(response))
             site_created = True
-               
+
         if site_created or site_updated:
             if response and isinstance(response, dict):
-                executionId = response.get("executionId")
-                while (True):
-                    execution_details = self.get_execution_details(executionId)
-                    if (execution_details.get("status")=="SUCCESS"):
+                executionid = response.get("executionId")
+                while True:
+                    execution_details = self.get_execution_details(executionid)
+                    if execution_details.get("status") == "SUCCESS":
                         self.result['changed'] = True
                         self.result['response'] = execution_details
                         break
 
                     elif execution_details.get("bapiError"):
-                        self.module.fail_json(msg=execution_details.get("bapiError"), 
+                        self.module.fail_json(msg=execution_details.get("bapiError"),
                                               response=execution_details)
                         break
-                
+
                 if site_updated:
                     log("Site Updated Successfully")
                     self.result['msg'] = "Site Updated Successfully"
 
                 else:
-                    #Get the site id of the newly created site.
+                    # Get the site id of the newly created site.
                     (site_exists, current_site) = self.site_exists()
-                
+
                     if site_exists:
                         log("Site Created Successfully")
+                        log("Current site:" + str(current_site))
                         self.result['msg'] = "Site Created Successfully"
-                        #self.result["site_id"] = current_site.get("site_id")
-        
 
     def get_diff_delete(self):
         site_exists = self.have.get("site_exists")
@@ -555,17 +537,18 @@ class DnacSite:
             )
 
             if response and isinstance(response, dict):
-                executionId = response.get("executionId")
-                while (True):
-                    execution_details = self.get_execution_details(executionId)
-                    if (execution_details.get("status")=="SUCCESS"):
+                executionid = response.get("executionId")
+                while True:
+                    execution_details = self.get_execution_details(executionid)
+                    if execution_details.get("status") == "SUCCESS":
                         self.result['changed'] = True
                         self.result['response'] = execution_details
                         self.result['msg'] = "Site deleted successfully"
                         break
 
                     elif execution_details.get("bapiError"):
-                        self.module.fail_json(msg=execution_details.get("bapiError"), response=execution_details)
+                        self.module.fail_json(msg=execution_details.get("bapiError"),
+                                              response=execution_details)
                         break
 
         else:
@@ -588,10 +571,12 @@ def main():
         state=dict(
             default='merged',
             choices=['merged', 'deleted']),
-        )
-    
+    )
+
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
+    if not HAS_ANSIBLE_ACTION_FAIL:
+        module.fail_json(msg="Missing required lib AnsibleActionFail", response=[])
 
     dnac_site = DnacSite(module)
     dnac_site.validate_input()
@@ -607,6 +592,7 @@ def main():
         dnac_site.get_diff_delete()
 
     module.exit_json(**dnac_site.result)
+
 
 if __name__ == '__main__':
     main()
