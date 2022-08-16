@@ -1,28 +1,41 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2022, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
-
+import copy
+import traceback
+from ansible.module_utils.basic import AnsibleModule
+try:
+    from ansible.errors import AnsibleActionFail
+except ImportError:
+    HAS_ANSIBLE_ACTION_FAIL = False
+    ANSIBLE_ACTION_FAIL_IMPORT_ERROR = traceback.format_exc()
+else:
+    HAS_ANSIBLE_ACTION_FAIL = True
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    DNACSDK,
+    validate_list_of_dicts,
+    log,
+    get_dict_result,
+)
 __metaclass__ = type
-__author__ = (
-            "Madhan Sankaranarayanan, Rishita Chowdhary"
-            )
+__author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary")
 
 DOCUMENTATION = r"""
 ---
 module: pnp_intent
 short_description: Resource module for Site and PnP related functions
 description:
-- Manage operations add device, claim device and unclaim device of Onboarding Configuration(PnP) resource 
+- Manage operations add device, claim device and unclaim device of Onboarding Configuration(PnP) resource
 - API to add device to pnp inventory and claim it to a site.
 - API to delete device from the pnp inventory.
 version_added: '6.4.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
-author: Madhan Sankaranarayanan (@madhansansel) 
+author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
 options:
   state:
@@ -30,7 +43,7 @@ options:
     type: str
     choices:
       - merged
-        description: 
+        description:
           - If the device defined in the playbook doesnot exists, it will be added
             to the PnP inventory and then claimed as per the provided parameters
           - If the device defined in the playbook already exists in the PnP inventory,
@@ -41,7 +54,7 @@ options:
     default: merged
   config:
     description:
-    - List of details of device being managed. 
+    - List of details of device being managed.
     type: list
     elements: dict
     suboptions:
@@ -70,7 +83,7 @@ options:
                 type: str
               username:
                 description: Pnp Device's username.
-                type: str        
+                type: str
           addedOn:
             description: Pnp Device's addedOn.
             type: int
@@ -130,7 +143,7 @@ options:
                 type: str
               writeable:
                 description: Writeable flag.
-                type: bool        
+                type: bool
           firstContact:
             description: Pnp Device's firstContact.
             type: int
@@ -147,7 +160,7 @@ options:
                 type: str
               value:
                 description: Pnp Device's value.
-                type: str        
+                type: str
           imageFile:
             description: Pnp Device's imageFile.
             type: str
@@ -174,7 +187,7 @@ options:
                 type: str
               status:
                 description: Pnp Device's status.
-                type: str        
+                type: str
           lastContact:
             description: Pnp Device's lastContact.
             type: int
@@ -202,7 +215,7 @@ options:
                 type: str
               siteId:
                 description: Pnp Device's siteId.
-                type: str       
+                type: str
           macAddress:
             description: Pnp Device's macAddress.
             type: str
@@ -243,7 +256,7 @@ options:
                 type: str
               remoteVersion:
                 description: Pnp Device's remoteVersion.
-                type: str        
+                type: str
           onbState:
             description: Pnp Device's onbState.
             type: str
@@ -282,7 +295,7 @@ options:
                     type: int
                   protocol:
                     description: Pnp Device's protocol.
-                    type: str            
+                    type: str
               profileName:
                 description: Pnp Device's profileName.
                 type: str
@@ -307,7 +320,7 @@ options:
                     type: int
                   protocol:
                     description: Pnp Device's protocol.
-                    type: str           
+                    type: str
           populateInventory:
             description: PopulateInventory flag.
             type: bool
@@ -321,7 +334,7 @@ options:
                 type: str
               cliOutput:
                 description: Pnp Device's cliOutput.
-                type: str        
+                type: str
           projectId:
             description: Pnp Device's projectId.
             type: str
@@ -390,7 +403,7 @@ options:
                     type: str
                   sudiSerialNumber:
                     description: Pnp Device's sudiSerialNumber.
-                    type: str           
+                    type: str
               stackRingProtocol:
                 description: Pnp Device's stackRingProtocol.
                 type: str
@@ -402,7 +415,7 @@ options:
                 type: int
               validLicenseLevels:
                 description: Pnp Device's validLicenseLevels.
-                elements: str        
+                elements: str
           state:
             description: Pnp Device's state.
             type: str
@@ -425,7 +438,6 @@ options:
           workflowName:
             description: Pnp Device's workflowName.
             type: str
-        
 
 requirements:
 - dnacentersdk == 2.4.5
@@ -444,7 +456,7 @@ notes:
 """
 
 EXAMPLES = r"""
-- name: Add a new device and claim the device 
+- name: Add a new device and claim the device
   cisco.dnac.pnp_intent:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -589,7 +601,7 @@ response:
   type: dict
   sample: >
     {
-      "response": 
+      "response":
         {
           "response": String,
           "version": String
@@ -611,34 +623,13 @@ response:
 #Case: Error while deleting/claiming a device
 response:
   description: A string with the response returned by the Cisco DNAC Python SDK
-  type: string 
+  type: string
   sample: >
     {
       "response": String,
       "msg": String
     }
 """
-
-import copy
-import time
-try:
-    from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
-except ImportError:
-    ANSIBLE_UTILS_IS_INSTALLED = False
-else:
-    ANSIBLE_UTILS_IS_INSTALLED = True
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DNACSDK,
-    dnac_argument_spec,
-    validate_list_of_dicts,
-    log,
-    get_dict_result,
-    dnac_compare_equality,
-)
-from ansible.errors import AnsibleActionFail
-from ansible.module_utils.basic import AnsibleModule
 
 
 class DnacPnp:
@@ -657,10 +648,8 @@ class DnacPnp:
 
         self.result = dict(changed=False, diff=[], response=[], warnings=[])
 
-
     def get_state(self):
         return self.params.get("state")
-
 
     def validate_input(self):
         pnp_spec = dict(
@@ -671,9 +660,7 @@ class DnacPnp:
             golden_image=dict(required=False, type='bool'),
             deviceInfo=dict(required=True, type='dict'),
             pnp_type=dict(required=False, type=str, default="Default")
-            #template_tag=dict(required=False, type='str'),
-            #device_version=dict(required=False, type='str'),
-            )
+        )
 
         if self.config:
             msg = None
@@ -697,7 +684,6 @@ class DnacPnp:
                 log(str(valid_pnp))
                 log(str(self.validated))
 
-
     def get_dnac_params(self, params):
         dnac_params = dict(
             dnac_host=params.get("dnac_host"),
@@ -710,7 +696,6 @@ class DnacPnp:
         )
         return dnac_params
 
-
     def site_exists(self):
         site_exists = False
         site_id = None
@@ -719,10 +704,9 @@ class DnacPnp:
             response = self.dnac.exec(
                 family="sites",
                 function='get_site',
-                params={"name":self.want.get("site_name")},
-             )
-
-        except:
+                params={"name": self.want.get("site_name")},
+            )
+        except Exception as e:
             self.module.fail_json(msg="Site not found", response=[])
 
         if response:
@@ -735,8 +719,7 @@ class DnacPnp:
 
         return (site_exists, site_id)
 
-
-    def get_pnp_params(self,params):
+    def get_pnp_params(self, params):
         pnp_params = {}
         pnp_params['_id'] = params.get('_id')
         pnp_params['deviceInfo'] = params.get('deviceInfo')
@@ -750,8 +733,7 @@ class DnacPnp:
 
         return pnp_params
 
-
-    def get_image_params(self,params):
+    def get_image_params(self, params):
         image_params = dict(
             image_name=params.get("image_name"),
             is_tagged_golden=params.get("golden_image"),
@@ -759,14 +741,13 @@ class DnacPnp:
 
         return image_params
 
-    
     def get_claim_params(self):
         imageinfo = dict(
-            imageId = self.have.get("image_id")
+            imageId=self.have.get("image_id")
         )
         configinfo = dict(
-            configId = self.have.get("template_id"),
-            configParameters = [dict(
+            configId=self.have.get("template_id"),
+            configParameters=[dict(
                 key="",
                 value=""
             )]
@@ -782,12 +763,11 @@ class DnacPnp:
 
         return claim_params
 
-
     def get_have(self):
         have = {}
 
         if self.params.get("state") == "merged":
-            #check if given image exists, if exists store image_id
+            # check if given image exists, if exists store image_id
             image_response = self.dnac.exec(
                 family="software_image_management_swim",
                 function='get_software_image_details',
@@ -799,25 +779,25 @@ class DnacPnp:
 
             image_list = image_response.get("response")
 
-            if (len(image_list) == 1):
-                have["image_id"]=image_list[0].get("imageUuid")
+            if len(image_list) == 1:
+                have["image_id"] = image_list[0].get("imageUuid")
                 if self.log:
                     log("Image Id: " + str(have["image_id"]))
             else:
-                self.module.fail_json(msg="Image not found", response=[]) 
+                self.module.fail_json(msg="Image not found", response=[])
 
-
-            #check if given template exists, if exists store template id
+            # check if given template exists, if exists store template id
             template_list = self.dnac.exec(
                 family="configuration_templates",
                 function='gets_the_templates_available',
-                params={"project_names":self.want.get("project_name")},
+                params={"project_names": self.want.get("project_name")},
             )
 
             if self.log:
                 log(str(template_list))
 
-            if template_list and isinstance(template_list, list): #API execution error returns a dict
+            if template_list and isinstance(template_list, list):
+                # API execution error returns a dict
                 template_details = get_dict_result(template_list, 'name', self.want.get("template_name"))
                 if template_details:
                     have["template_id"] = template_details.get("templateId")
@@ -829,8 +809,7 @@ class DnacPnp:
             else:
                 self.module.fail_json(msg="Project Not Found", response=[])
 
-
-            #check if given site exits, if exists store current site info
+            # check if given site exits, if exists store current site info
             site_name = self.want.get("site_name")
 
             site_exists = False
@@ -840,18 +819,19 @@ class DnacPnp:
                 have["site_id"] = site_id
                 if self.log:
                     log("Site Exists: " + str(site_exists) + "\n Site_id:" + str(site_id))
+                    log("Site Name:" + str(site_name))
 
-        #check if given device exists in pnp inventory, store device Id
+        # check if given device exists in pnp inventory, store device Id
         device_response = self.dnac.exec(
             family="device_onboarding_pnp",
             function='get_device_list',
-            params={"serial_number":self.want.get("serial_number")}
+            params={"serial_number": self.want.get("serial_number")}
         )
 
         if self.log:
             log(str(device_response))
 
-        if device_response and (len(device_response)==1):
+        if device_response and (len(device_response) == 1):
             have["device_id"] = device_response[0].get("id")
             have["device_found"] = True
 
@@ -862,26 +842,24 @@ class DnacPnp:
 
         self.have = have
 
-
     def get_want(self):
         for params in self.validated:
             want = dict(
-                image_params = self.get_image_params(params),
-                pnp_params = self.get_pnp_params(params),
-                pnp_type = params.get("pnp_type"),
-                site_name = params.get("site_name"),
-                serial_number = params.get("deviceInfo").get("serialNumber"),
-                hostname = params.get("deviceInfo").get("hostname"),
-                project_name = params.get("project_name"),
-                template_name = params.get("template_name")
+                image_params=self.get_image_params(params),
+                pnp_params=self.get_pnp_params(params),
+                pnp_type=params.get("pnp_type"),
+                site_name=params.get("site_name"),
+                serial_number=params.get("deviceInfo").get("serialNumber"),
+                hostname=params.get("deviceInfo").get("hostname"),
+                project_name=params.get("project_name"),
+                template_name=params.get("template_name")
             )
 
         self.want = want
 
-
     def get_diff_merge(self):
 
-        #if given device doesnot exist then add it to pnp database and get the device id
+        # if given device doesnot exist then add it to pnp database and get the device id
         if not self.have.get("device_found"):
             log("Adding device to pnp database")
             response = self.dnac.exec(
@@ -907,14 +885,13 @@ class DnacPnp:
         if self.log:
             log(str(claim_response))
 
-        if (claim_response.get("response")=="Device Claimed"):
+        if claim_response.get("response") == "Device Claimed":
             self.result['changed'] = True
             self.result['msg'] = "Device Claimed Successfully"
             self.result['response'] = claim_response
             self.result['diff'] = self.validated
         else:
             self.module.fail_json(msg="Device Claim Failed", response=claim_response)
-
 
     def get_diff_delete(self):
         if self.have.get("device_found"):
@@ -924,7 +901,7 @@ class DnacPnp:
                     family="device_onboarding_pnp",
                     function="delete_device_by_id_from_pnp",
                     op_modifies=True,
-                    params={"id":self.have.get("device_id")},
+                    params={"id": self.have.get("device_id")},
                 )
 
                 if self.log:
@@ -939,14 +916,14 @@ class DnacPnp:
                     self.result['response'] = response
                     self.result['msg'] = "Error while deleting the device"
 
-            except AnsibleActionFail as e:
-                response = str(e)
-                msg = "Device Deletion Failed" 
+            except AnsibleActionFail as errorstr:
+                response = str(errorstr)
+                msg = "Device Deletion Failed"
                 self.module.fail_json(msg=msg, response=response)
-             
+
         else:
             self.module.fail_json(msg="Device Not Found", response=[])
-        
+
 
 def main():
     """ main entry point for module execution
@@ -969,6 +946,8 @@ def main():
 
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
+    if not HAS_ANSIBLE_ACTION_FAIL:
+        module.fail_json(msg="Missing required lib AnsibleActionFail", response=[])
 
     dnac_pnp = DnacPnp(module)
     dnac_pnp.validate_input()
