@@ -40,7 +40,7 @@ fixture_data = {}
 
 def loadPlaybookData(module_name):
     path = os.path.join(fixture_path, "{0}.json".format(module_name))
-    print (path)
+    print(path)
 
     with open(path) as f:
         data = f.read()

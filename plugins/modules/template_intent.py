@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2022, Cisco Systems
@@ -7,9 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = (
-            "Madhan Sankaranarayanan, Rishita Chowdhary"
-            )
+__author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary")
 
 DOCUMENTATION = r"""
 ---
@@ -23,27 +21,20 @@ description:
 version_added: '6.4.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
-author: Madhan Sankaranarayanan (@madhansansel) 
+author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
 options:
   state:
     description: The state of DNAC after module completion.
     type: str
-    choices:
-      - merged
-        description:
-          - If the template defined in the playbook doesnot exits, it will be created.
-          - If the template defined in the playbook exists, but the properties managed
-            by the playbook are different, template will be updated with the new set of properties.
-      - deleted
-        description:
-          - The template defined in the playbook will be deleted.
+    choices: [ merged, deleted ]
     default: merged
   config:
     description:
-    - List of details of templates being managed. 
+    - List of details of templates being managed.
     type: list
     elements: dict
+    required: true
     suboptions:
       author:
         description: Author of template.
@@ -141,6 +132,8 @@ options:
                 type: str
               range:
                 description: Configuration Template Create's range.
+                type: list
+                elements: dict
                 suboptions:
                   id:
                     description: UUID of range.
@@ -151,8 +144,6 @@ options:
                   minValue:
                     description: Min value of range.
                     type: int
-                type: list
-                elements: dict
               required:
                 description: Is param required.
                 type: bool
@@ -161,8 +152,8 @@ options:
                 suboptions:
                   defaultSelectedValues:
                     description: Default selection values.
-                      elements: str
-                      type: list
+                    elements: str
+                    type: list
                   id:
                     description: UUID of selection.
                     type: str
@@ -189,6 +180,7 @@ options:
             type: str
           templateParams:
             description: Configuration Template Create's templateParams.
+            elements: dict
             suboptions:
               binding:
                 description: Bind to source.
@@ -284,7 +276,7 @@ options:
       template_description:
         description: Description of template.
         type: str
-      device_types:
+      deviceTypes:
         description: Configuration Template Create's deviceTypes.
         suboptions:
           productFamily:
@@ -313,7 +305,7 @@ options:
       latestVersionTime:
         description: Latest versioned template time.
         type: int
-      template_name:
+      templateName:
         description: Name of template.
         type: str
       parentTemplateId:
@@ -322,7 +314,7 @@ options:
       projectId:
         description: Project UUID.
         type: str
-      project_name:
+      projectName:
         description: Project name.
         type: str
       rollbackTemplateContent:
@@ -412,10 +404,10 @@ options:
             type: dict
         type: list
         elements: dict
-      software_type:
+      softwareType:
         description: Applicable device software type.
         type: str
-      software_variant:
+      softwareVariant:
         description: Applicable device software variant.
         type: str
       softwareVersion:
@@ -432,7 +424,7 @@ options:
             type: str
         type: list
         elements: dict
-      template_content:
+      templateContent:
         description: Template content.
         type: str
       templateParams:
@@ -540,9 +532,9 @@ options:
       version:
         description: Current version of template.
         type: str
-      version_description:
+      versionDescription:
         description: Template version comments.
-       type: str
+        type: str
 requirements:
 - dnacentersdk == 2.4.5
 - python >= 3.5
@@ -610,42 +602,42 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-#Case: Successful creation/updation/deletion of template
-response:
+#Case_1: Successful creation/updation/deletion of template
+response_1:
   description: A dictionary with versioning details of the template as returned by the DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
       "response": {
-			"endTime": 0, 
-			"version": 0, 
-			"data": String, 
-			"startTime": 0, 
-			"username": String, 
-			"progress": String, 
-			"serviceType": String, "rootId": String, 
-			"isError": bool, 
-			"instanceTenantId": String, 
-			"id": String
+                        "endTime": 0,
+                        "version": 0,
+                        "data": String,
+                        "startTime": 0,
+                        "username": String,
+                        "progress": String,
+                        "serviceType": String, "rootId": String,
+                        "isError": bool,
+                        "instanceTenantId": String,
+                        "id": String
                         "version": 0
-		}, 
+                  },
       "msg": String
     }
 
-#Case: Error while deleting a template or when given project is not found 
-response:
+#Case_2: Error while deleting a template or when given project is not found
+response_2:
   description: A list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: list 
+  type: list
   sample: >
     {
       "response": [],
       "msg": String
     }
 
-#Case: Given template already exists and requires no udpate 
-response:
+#Case_3: Given template already exists and requires no udpate
+response_3:
   description: A dictionary with the exisiting template deatails as returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
@@ -675,15 +667,15 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 )
 from ansible.module_utils.basic import AnsibleModule
 
+
 class DnacTemplate:
 
     def __init__(self, module):
         self.module = module
         self.params = module.params
         self.config = copy.deepcopy(module.params.get("config"))
-        self.have_create = {} 
-        self.want_create = {} 
-        self.diff_create = []
+        self.have_create = {}
+        self.want_create = {}
         self.validated = []
         dnac_params = self.get_dnac_params(self.params)
         log(str(dnac_params))
@@ -692,22 +684,40 @@ class DnacTemplate:
 
         self.result = dict(changed=False, diff=[], response=[], warnings=[])
 
-
     def get_state(self):
         return self.params.get("state")
 
-
     def validate_input(self):
         temp_spec = dict(
-            project_name=dict(required=True, type='str'),
-            template_content=dict(required=False, type='str'),
+            tags=dict(type="list"),
+            author=dict(type="str"),
+            composite=dict(type="bool"),
+            containingTemplates=dict(type="list"),
+            createTime=dict(type="int"),
+            customParamsOrder=dict(type="bool"),
+            description=dict(type="str"),
+            deviceTypes=dict(type="list", elements='dict'),
+            failurePolicy=dict(type="str"),
+            id=dict(type="str"),
             language=dict(required=False, choices=['velocity', 'jinja']),
-            device_types=dict(required=False, type='list', elements='dict'),
-            software_type=dict(required=False, type='str'),
-            software_variant=dict(required=False, type='str'),
-            version_description=dict(required=False, type='str'),
-            template_name=dict(required=True, type='str'),
-            )
+            lastUpdateTime=dict(type="int"),
+            latestVersionTime=dict(type="int"),
+            name=dict(type="str"),
+            parentTemplateId=dict(type="str"),
+            projectId=dict(type="str"),
+            projectName=dict(required=True, type="str"),
+            rollbackTemplateContent=dict(type="str"),
+            rollbackTemplateParams=dict(type="list"),
+            softwareType=dict(type="str"),
+            softwareVariant=dict(type="str"),
+            softwareVersion=dict(type="str"),
+            templateContent=dict(type="str"),
+            templateParams=dict(type="list"),
+            templateName=dict(required=True, type='str'),
+            validationErrors=dict(type="dict"),
+            version=dict(type="str"),
+            versionDescription=dict(type='str'),
+        )
 
         if self.config:
             msg = None
@@ -730,11 +740,10 @@ class DnacTemplate:
 
             if self.params.get("state") == "merged":
                 for temp in self.validated:
-                    if not temp.get("language") or not temp.get("device_types") \
-                            or not temp.get("software_type"):
+                    if not temp.get("language") or not temp.get("deviceTypes") \
+                            or not temp.get("softwareType"):
                         msg = "missing required arguments: language or deviceTypes or softwareType"
                         self.module.fail_json(msg=msg)
-
 
     def get_dnac_params(self, params):
         dnac_params = dict(
@@ -748,7 +757,6 @@ class DnacTemplate:
         )
         return dnac_params
 
-
     def get_template_params(self, params):
         temp_params = dict(
             tags=params.get("template_tag"),
@@ -758,29 +766,28 @@ class DnacTemplate:
             createTime=params.get("createTime"),
             customParamsOrder=params.get("customParamsOrder"),
             description=params.get("template_description"),
-            deviceTypes=params.get("device_types"),
+            deviceTypes=params.get("deviceTypes"),
             failurePolicy=params.get("failurePolicy"),
             id=params.get("templateId"),
             language=params.get("language").upper(),
             lastUpdateTime=params.get("lastUpdateTime"),
             latestVersionTime=params.get("latestVersionTime"),
-            name=params.get("template_name"),
+            name=params.get("templateName"),
             parentTemplateId=params.get("parentTemplateId"),
             projectId=params.get("projectId"),
-            projectName=params.get("project_name"),
+            projectName=params.get("projectName"),
             rollbackTemplateContent=params.get("rollbackTemplateContent"),
             rollbackTemplateParams=params.get("rollbackTemplateParams"),
-            softwareType=params.get("software_type"),
-            softwareVariant=params.get("software_variant"),
+            softwareType=params.get("softwareType"),
+            softwareVariant=params.get("softwareVariant"),
             softwareVersion=params.get("softwareVersion"),
-            templateContent=params.get("template_content"),
+            templateContent=params.get("templateContent"),
             templateParams=params.get("templateParams"),
             validationErrors=params.get("validationErrors"),
             version=params.get("version"),
             project_id=params.get("projectId"),
         )
         return temp_params
-
 
     def get_template(self):
         result = None
@@ -798,25 +805,24 @@ class DnacTemplate:
                 if self.log:
                     log(str(items))
 
-        self.result['response'] = items 
+        self.result['response'] = items
         return result
-
 
     def get_have(self):
         prev_template = None
         template_exists = False
         have_create = {}
 
-        #Get available templates. Filter templates based on provided projectName
+        # Get available templates. Filter templates based on provided projectName
         for temp in self.validated:
             template_list = self.dnac.exec(
                 family="configuration_templates",
                 function='gets_the_templates_available',
-                params={"project_names":temp.get("project_name")},
+                params={"project_names": temp.get("projectName")},
             )
-            #API execution error returns a dict
+            # API execution error returns a dict
             if template_list and isinstance(template_list, list):
-                template_details = get_dict_result(template_list, 'name', temp.get("template_name"))
+                template_details = get_dict_result(template_list, 'name', temp.get("templateName"))
 
                 if template_details:
                     temp["templateId"] = template_details.get("templateId")
@@ -839,16 +845,16 @@ class DnacTemplate:
 
         for temp in self.validated:
             template_params = self.get_template_params(temp)
-            version_comments = temp.get("version_description")
+            version_comments = temp.get("versionDescription")
 
             if self.params.get("state") == "merged" and \
                     not self.have_create.get("template_found"):
-                #ProjectId is required for creating a new template.
-                #Store it with other template parameters.
+                # ProjectId is required for creating a new template.
+                # Store it with other template parameters.
                 items = self.dnac.exec(
                     family="configuration_templates",
                     function='get_projects',
-                    params={"name":temp.get("project_name")},
+                    params={"name": temp.get("projectName")},
                 )
                 template_params["projectId"] = items[0].get("id")
                 template_params["project_id"] = items[0].get("id")
@@ -857,7 +863,6 @@ class DnacTemplate:
         want_create["comments"] = version_comments
 
         self.want_create = want_create
-
 
     def requires_update(self):
         current_obj = self.have_create.get("template")
@@ -895,13 +900,12 @@ class DnacTemplate:
                                              requested_obj.get(ansible_param))
                    for (dnac_param, ansible_param, default) in obj_params)
 
-
     def get_task_details(self, id):
         result = None
         response = self.dnac.exec(
             family="task",
             function='get_task_by_id',
-            params={"task_id":id},
+            params={"task_id": id},
         )
 
         if self.log:
@@ -912,10 +916,7 @@ class DnacTemplate:
 
         return result
 
-
     def get_diff_merge(self):
-        diff_create = []
-        diff_create_update = []
         template_id = None
         template_ceated = False
         template_updated = False
@@ -935,8 +936,8 @@ class DnacTemplate:
                 if self.log:
                     log("Updating Existing Template")
             else:
-                #Template does not need update
-                self.result['response'] = self.have_create.get("template") 
+                # Template does not need update
+                self.result['response'] = self.have_create.get("template")
                 self.result['msg'] = "Template does not need update"
                 self.module.exit_json(**self.result)
         else:
@@ -949,7 +950,6 @@ class DnacTemplate:
 
             if self.log:
                 log("Template created. Get template_id for versioning")
-
             if isinstance(response, dict):
                 create_error = False
                 task_details = {}
@@ -958,22 +958,19 @@ class DnacTemplate:
                 if task_id:
                     while(True):
                         task_details = self.get_task_details(task_id)
-                        if task_details and (task_details.get("isError")==True):
+                        if task_details and task_details.get("isError"):
                             create_error = True
                             break
 
-                        if task_details and \
-                            ("Successfully created template" in task_details.get("progress")):
+                        if task_details and ("Successfully created template" in task_details.get("progress")):
                             break
-                        
                     if not create_error:
                         template_id = task_details.get("data")
-
             if template_id:
                 template_created = True
 
         if template_updated or template_created:
-            #Template needs to be versioned
+            # Template needs to be versioned
             version_params = dict(
                 comments=self.want_create.get("comments"),
                 templateId=template_id
@@ -992,15 +989,12 @@ class DnacTemplate:
                 self.result['changed'] = True
                 self.result['msg'] = task_details.get('progress')
                 self.result['diff'] = self.validated
-
                 if self.log:
                     log(str(task_details))
-                
             self.result['response'] = task_details if task_details else response
 
             if not self.result.get('msg'):
                 self.result['msg'] = "Error while versioning the template"
-
 
     def get_diff_delete(self):
         template_exists = self.have_create.get("template_found")
@@ -1037,25 +1031,24 @@ def main():
 
     element_spec = dict(
         dnac_host=dict(required=True, type='str'),
-        dnac_port=dict(required=False, type='str', default='443'),
-        dnac_username=dict(required=True, type='str', no_log=True),
-        dnac_password=dict(required=True, type='str', no_log=True),
-        dnac_verify=dict(required=False, type='bool', default='False'),
-        dnac_debug=dict(required=False, type='bool', default='False'),
-        dnac_log=dict(required=False, type='bool', default='False'),
+        dnac_port=dict(type='str', default='443'),
+        dnac_username=dict(type='str', default='admin', aliases=["user"]),
+        dnac_password=dict(type='str', no_log=True),
+        dnac_verify=dict(type='bool', default='True'),
+        dnac_version=dict(type="str", default="2.2.3.3"),
+        dnac_debug=dict(type='bool', default=False),
+        dnac_log=dict(type='bool', default=False),
+        validate_response_schema=dict(type="bool", default=True),
         config=dict(required=True, type='list', elements='dict'),
         state=dict(
             default='merged',
             choices=['merged', 'deleted']),
-        )
-    
+    )
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
-
     dnac_template = DnacTemplate(module)
     dnac_template.validate_input()
     state = dnac_template.get_state()
-
     dnac_template.get_have()
     dnac_template.get_want()
 
@@ -1066,6 +1059,7 @@ def main():
         dnac_template.get_diff_delete()
 
     module.exit_json(**dnac_template.result)
+
 
 if __name__ == '__main__':
     main()
