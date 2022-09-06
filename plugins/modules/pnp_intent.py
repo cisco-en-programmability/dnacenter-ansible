@@ -5,22 +5,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
-import copy
-import traceback
-from ansible.module_utils.basic import AnsibleModule
-try:
-    from ansible.errors import AnsibleActionFail
-except ImportError:
-    HAS_ANSIBLE_ACTION_FAIL = False
-    ANSIBLE_ACTION_FAIL_IMPORT_ERROR = traceback.format_exc()
-else:
-    HAS_ANSIBLE_ACTION_FAIL = True
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DNACSDK,
-    validate_list_of_dicts,
-    log,
-    get_dict_result,
-)
+
 __metaclass__ = type
 __author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary")
 
@@ -41,22 +26,14 @@ options:
   state:
     description: The state of DNAC after module completion.
     type: str
-    choices:
-      - merged
-        description:
-          - If the device defined in the playbook doesnot exists, it will be added
-            to the PnP inventory and then claimed as per the provided parameters
-          - If the device defined in the playbook already exists in the PnP inventory,
-            it will be claimed as per the provided parameters
-      - deleted
-        description:
-          - The device defined in the playbook will be deleted form the PnP inventory.
+    choices: [ merged, deleted ]
     default: merged
   config:
     description:
     - List of details of device being managed.
     type: list
     elements: dict
+    required: true
     suboptions:
       template_name:
         description: Name of template to be configured on the device.
@@ -415,7 +392,7 @@ options:
                 type: int
               validLicenseLevels:
                 description: Pnp Device's validLicenseLevels.
-                elements: str
+                type: str
           state:
             description: Pnp Device's state.
             type: str
@@ -473,8 +450,8 @@ EXAMPLES = r"""
         site_name: string
         deviceInfo:
         aaaCredentials:
-            password: string
-            username: string
+          password: string
+          username: string
         addedOn: 0
         addnMacAddrs:
         - string
@@ -485,53 +462,54 @@ EXAMPLES = r"""
         - string
         cmState: string
         description: string
+        deviceSudiSerialNos:
         - string
         deviceType: string
         featuresSupported:
         - string
         fileSystemList:
         - freespace: 0
-            name: string
-            readable: true
-            size: 0
-            type: string
-            writeable: true
+          name: string
+          readable: true
+          size: 0
+          type: string
+          writeable: true
         firstContact: 0
         hostname: string
         httpHeaders:
         - key: string
-            value: string
+          value: string
         imageFile: string
         imageVersion: string
         ipInterfaces:
         - ipv4Address: {}
-            ipv6AddressList:
-            - {}
-            macAddress: string
-            name: string
-            status: string
+          ipv6AddressList:
+          - {}
+          macAddress: string
+          name: string
+          status: string
         lastContact: 0
         lastSyncTime: 0
         lastUpdateOn: 0
         location:
-            address: string
-            altitude: string
-            latitude: string
-            longitude: string
-            siteId: string
+          address: string
+          altitude: string
+          latitude: string
+          longitude: string
+          siteId: string
         macAddress: string
         mode: string
         name: string
         neighborLinks:
         - localInterfaceName: string
-            localMacAddress: string
-            localShortInterfaceName: string
-            remoteDeviceName: string
-            remoteInterfaceName: string
-            remoteMacAddress: string
-            remotePlatform: string
-            remoteShortInterfaceName: string
-            remoteVersion: string
+          localMacAddress: string
+          localShortInterfaceName: string
+          remoteDeviceName: string
+          remoteInterfaceName: string
+          remoteMacAddress: string
+          remotePlatform: string
+          remoteShortInterfaceName: string
+          remoteVersion: string
         onbState: string
         pid: string
         pnpProfileList:
@@ -564,25 +542,24 @@ EXAMPLES = r"""
         source: string
         stack: true
         stackInfo:
-            isFullRing: true
-            stackMemberList:
-            - hardwareVersion: string
-              licenseLevel: string
-              licenseType: string
-              macAddress: string
-              pid: string
-              priority: 0
-              role: string
-              serialNumber: string
-              softwareVersion: string
-              stackNumber: 0
-                state: string
-                sudiSerialNumber: string
-            stackRingProtocol: string
-            supportsStackWorkflows: true
-            totalMemberCount: 0
-            validLicenseLevels:
-            - string
+          isFullRing: true
+          stackMemberList:
+          - hardwareVersion: string
+            licenseLevel: string
+            licenseType: string
+            macAddress: string
+            pid: string
+            priority: 0
+            role: string
+            serialNumber: string
+            softwareVersion: string
+            stackNumber: 0
+            state: string
+            sudiSerialNumber: string
+          stackRingProtocol: string
+          supportsStackWorkflows: true
+          totalMemberCount: 0
+          validLicenseLevels: string
         state: string
         sudiRequired: true
         tags: {}
@@ -594,8 +571,8 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-#Case: When the device is claimed successfully.
-response:
+#Case_1: When the device is claimed successfully.
+response_1:
   description: A dictionary with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
@@ -609,8 +586,8 @@ response:
       "msg": String
     }
 
-#Case: Given site/image/template/project not found or Device is not found for deletion
-response:
+#Case_2: Given site/image/template/project not found or Device is not found for deletion
+response_2:
   description: A list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
@@ -620,16 +597,34 @@ response:
       "msg": String
     }
 
-#Case: Error while deleting/claiming a device
-response:
+#Case_3: Error while deleting/claiming a device
+response_3:
   description: A string with the response returned by the Cisco DNAC Python SDK
-  type: string
+  returned: always
+  type: dict
   sample: >
     {
       "response": String,
       "msg": String
     }
 """
+
+import copy
+try:
+    from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
+        AnsibleArgSpecValidator,
+    )
+except ImportError:
+    ANSIBLE_UTILS_IS_INSTALLED = False
+else:
+    ANSIBLE_UTILS_IS_INSTALLED = True
+from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    DNACSDK,
+    validate_list_of_dicts,
+    log,
+    get_dict_result,
+)
 
 
 class DnacPnp:
@@ -916,7 +911,7 @@ class DnacPnp:
                     self.result['response'] = response
                     self.result['msg'] = "Error while deleting the device"
 
-            except AnsibleActionFail as errorstr:
+            except Exception as errorstr:
                 response = str(errorstr)
                 msg = "Device Deletion Failed"
                 self.module.fail_json(msg=msg, response=response)
@@ -931,13 +926,15 @@ def main():
 
     element_spec = dict(
         dnac_host=dict(required=True, type='str'),
-        dnac_port=dict(required=False, type='str', default='443'),
-        dnac_username=dict(required=True, type='str', no_log=True),
-        dnac_password=dict(required=True, type='str', no_log=True),
-        dnac_verify=dict(required=False, type='bool', default='False'),
-        dnac_debug=dict(required=False, type='bool', default='False'),
-        dnac_log=dict(required=False, type='bool', default='False'),
-        config=dict(required=False, type='list', elements='dict'),
+        dnac_port=dict(type='str', default='443'),
+        dnac_username=dict(type='str', default='admin', aliases=["user"]),
+        dnac_password=dict(type='str', no_log=True),
+        dnac_verify=dict(type='bool', default='True'),
+        dnac_version=dict(type="str", default="2.2.3.3"),
+        dnac_debug=dict(type='bool', default=False),
+        dnac_log=dict(type='bool', default=False),
+        validate_response_schema=dict(type="bool", default=True),
+        config=dict(required=True, type='list', elements='dict'),
         state=dict(
             default='merged',
             choices=['merged', 'deleted']
@@ -946,9 +943,6 @@ def main():
 
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
-    if not HAS_ANSIBLE_ACTION_FAIL:
-        module.fail_json(msg="Missing required lib AnsibleActionFail", response=[])
-
     dnac_pnp = DnacPnp(module)
     dnac_pnp.validate_input()
     state = dnac_pnp.get_state()

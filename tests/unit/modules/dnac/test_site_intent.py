@@ -1,4 +1,4 @@
-# Copyright (c) 2020-2022 Cisco and/or its affiliates.
+# Copyright (c) 2020 Cisco and/or its affiliates.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,35 +27,32 @@ from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 import json
 import copy
 
+
 class TestDnacSiteIntent(TestDnacModule):
 
-    module = site_intent 
+    module = site_intent
 
     test_data = loadPlaybookData("site_intent")
 
     playbook_config = test_data.get("playbook_config")
     playbook_config_missing_param = test_data.get("playbook_config_missing_param")
 
-
     def setUp(self):
         super(TestDnacSiteIntent, self).setUp()
-   
+
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
         self.run_dnac_init = self.mock_dnac_init.start()
         self.run_dnac_init.side_effect = [None]
-
         self.mock_dnac_exec = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.exec"
-            )
+        )
         self.run_dnac_exec = self.mock_dnac_exec.start()
-
 
     def tearDown(self):
         super(TestDnacSiteIntent, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
-
 
     def load_fixtures(self, response=None, device=""):
         if "create_site" in self._testMethodName:
@@ -65,14 +62,14 @@ class TestDnacSiteIntent(TestDnacModule):
                 self.test_data.get("get_business_api_execution_details_response"),
                 self.test_data.get("get_site_response")
             ]
-    
+
         elif "update_not_needed" in self._testMethodName:
-             self.run_dnac_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("update_not_needed_get_site_response"),
             ]
-        
+
         elif "update_needed" in self._testMethodName:
-             self.run_dnac_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("update_needed_get_site_response"),
                 self.test_data.get("update_needed_update_site_response"),
                 self.test_data.get("get_business_api_execution_details_response")
@@ -99,7 +96,6 @@ class TestDnacSiteIntent(TestDnacModule):
                 self.test_data.get("create_site_response"),
                 self.test_data.get("delete_execution_details_error")
             ]
-       
 
     def test_site_intent_create_site(self):
         set_module_args(
@@ -112,12 +108,11 @@ class TestDnacSiteIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-      
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
             "Site Created Successfully"
-            )
+        )
 
     def test_site_intent_update_not_needed(self):
         set_module_args(
@@ -130,12 +125,11 @@ class TestDnacSiteIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-      
         result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
             result.get('msg'),
             "Site does not need update"
-            )
+        )
 
     def test_site_intent_update_needed(self):
         set_module_args(
@@ -148,12 +142,12 @@ class TestDnacSiteIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-      
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
             "Site Updated Successfully"
-            )
+        )
+
     def test_site_intent_delete_existing_site(self):
         set_module_args(
             dict(
@@ -165,12 +159,12 @@ class TestDnacSiteIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-      
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('response').get('status'),
             "SUCCESS"
-            )
+        )
+
     def test_site_intent_delete_non_existing_site(self):
         set_module_args(
             dict(
@@ -182,14 +176,13 @@ class TestDnacSiteIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-       
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
             "Site Not Found"
-            )
-    def test_site_intent_invalid_param(self):
+        )
 
+    def test_site_intent_invalid_param(self):
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -200,14 +193,12 @@ class TestDnacSiteIntent(TestDnacModule):
                 config=self.test_data.get("playbook_config_invalid_param")
             )
         )
-       
         result = self.execute_module(changed=False, failed=True)
         self.assertTrue(
             "Invalid parameters in playbook:" in result.get('msg')
-            )
-    
-    def test_site_intent_error_delete(self):
+        )
 
+    def test_site_intent_error_delete(self):
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -218,15 +209,13 @@ class TestDnacSiteIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-        
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
             "True"
-            )
-    
-    def test_site_intent_error_create(self):
+        )
 
+    def test_site_intent_error_create(self):
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -237,12 +226,11 @@ class TestDnacSiteIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-       
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
             "True"
-            )
+        )
 
     def test_site_intent_invalid_state(self):
 
@@ -256,9 +244,8 @@ class TestDnacSiteIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-       
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'), 
+            result.get('msg'),
             "value of state must be one of: merged, deleted, got: merge"
-            )
+        )
