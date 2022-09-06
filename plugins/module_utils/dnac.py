@@ -40,6 +40,7 @@ def log(msg):
         d = datetime.datetime.now().replace(microsecond=0).isoformat()
         of.write("---- %s ---- %s@%s ---- %s \n" % (d, info.lineno, info.function, msg))
 
+
 def is_list_complex(x):
     return isinstance(x[0], dict) or isinstance(x[0], list)
 

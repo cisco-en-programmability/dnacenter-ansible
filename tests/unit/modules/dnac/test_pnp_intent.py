@@ -27,38 +27,34 @@ from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 import json
 import copy
 
+
 class TestDnacPnPIntent(TestDnacModule):
 
-    module = pnp_intent 
+    module = pnp_intent
 
     test_data = loadPlaybookData("pnp_intent")
 
     playbook_config = test_data.get("playbook_config")
     playbook_config_missing_param = test_data.get("playbook_config_missing_param")
 
-
     def setUp(self):
         super(TestDnacPnPIntent, self).setUp()
-   
+
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
         self.run_dnac_init = self.mock_dnac_init.start()
         self.run_dnac_init.side_effect = [None]
-
         self.mock_dnac_exec = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.exec"
-            )
+        )
         self.run_dnac_exec = self.mock_dnac_exec.start()
-
 
     def tearDown(self):
         super(TestDnacPnPIntent, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
-
     def load_fixtures(self, response=None, device=""):
-
         if "site_not_found" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("image_exists_response"),
@@ -94,7 +90,8 @@ class TestDnacPnPIntent(TestDnacModule):
         elif "deletion_error" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("device_exists_response"),
-                AnsibleActionFail("An error occured when executing operation. The error was: [400] Bad Request - NCOB01313: Delete device(FJC2416U047) from Inventory"),
+                AnsibleActionFail("An error occured when executing operation." +
+                                  "The error was: [400] Bad Request - NCOB01313: Delete device(FJC2416U047) from Inventory"),
             ]
 
         elif "image_doesnot_exist" in self._testMethodName:
@@ -118,9 +115,7 @@ class TestDnacPnPIntent(TestDnacModule):
                 []
             ]
 
-
     def test_pnp_intent_site_not_found(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -131,16 +126,13 @@ class TestDnacPnPIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-        
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
             "Site not found"
-            )
-
+        )
 
     def test_pnp_intent_add_new_device(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -151,16 +143,13 @@ class TestDnacPnPIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-       
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('response').get('response'),
             "Device Claimed"
-            )
-
+        )
 
     def test_pnp_intent_device_exists(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -171,16 +160,13 @@ class TestDnacPnPIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-       
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('response').get('response'),
             "Device Claimed"
-            )
-
+        )
 
     def test_pnp_intent_image_doesnot_exist(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -191,16 +177,13 @@ class TestDnacPnPIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-        
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
             "Image not found"
-            )
+        )
 
-    
     def test_pnp_intent_template_doesnot_exist(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -211,16 +194,13 @@ class TestDnacPnPIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-        
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
             "Template not found"
-            )
-
+        )
 
     def test_pnp_intent_project_not_found(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -231,15 +211,13 @@ class TestDnacPnPIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-        
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
             "Project Not Found"
-            )
+        )
 
     def test_pnp_intent_missing_param(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -250,15 +228,13 @@ class TestDnacPnPIntent(TestDnacModule):
                 config=self.test_data.get("playbook_config_missing_parameter")
             )
         )
-        
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
             "Invalid parameters in playbook: image_name : Required parameter not found"
-            )
+        )
 
     def test_pnp_intent_delete_device(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -269,15 +245,13 @@ class TestDnacPnPIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-       
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
             "Device Deleted Successfully"
-            )
+        )
 
     def test_pnp_intent_deletion_error(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -288,15 +262,13 @@ class TestDnacPnPIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-       
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
             "Device Deletion Failed"
-            )
+        )
 
     def test_pnp_intent_delete_nonexisting_device(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -307,15 +279,13 @@ class TestDnacPnPIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-        
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
             "Device Not Found"
-            )
+        )
 
     def test_pnp_intent_invalid_state(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -326,9 +296,8 @@ class TestDnacPnPIntent(TestDnacModule):
                 config=self.playbook_config
             )
         )
-       
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'), 
+            result.get('msg'),
             "value of state must be one of: merged, deleted, got: merge"
-            )
+        )
