@@ -1,43 +1,43 @@
 {
     	"playbook_config": [
 		{
-        	"project_name": "Onboarding Configuration",
-        	"template_content": "hostname Test-2",
+        	"projectName": "Onboarding Configuration",
+        	"templateContent": "hostname Test-2",
 	        "language": "velocity",
-	        "device_types": [{
+	        "deviceTypes": [{
 	            "productFamily": "Switches and Hubs"
        		 }],
-        	"software_type": "IOS-XE",
-        	"sofwtare_variant": "XE",
-        	"template_name": "ANSIBLE-TEST",
-        	"version_description": "MS Test Template"
+        	"softwareType": "IOS-XE",
+        	"sofwtareVariant": "XE",
+        	"templateName": "ANSIBLE-TEST",
+        	"versionDescription": "MS Test Template"
     	}],
 		
     	"playbook_config_missing_param": [
 		{
-        	"project_name": "Onboarding Configuration",
-        	"template_content": "hostname Test-2",
-	        "device_types": [{
+        	"projectName": "Onboarding Configuration",
+        	"templateContent": "hostname Test-2",
+	        "deviceTypes": [{
 	            "productFamily": "Switches and Hubs"
        		 }],
-        	"software_type": "IOS-XE",
-        	"sofwtare_variant": "XE",
-        	"template_name": "ANSIBLE-TEST",
-        	"version_description": "MS Test Template"
+        	"softwareType": "IOS-XE",
+        	"sofwtareVariant": "XE",
+        	"templateName": "ANSIBLE-TEST",
+        	"versionDescription": "MS Test Template"
     	}],
 
     	"playbook_config_invalid_param": [
 		{
-        	"project_name": "Onboarding Configuration",
-        	"template_content": "hostname Test-2",
+        	"projectName": "Onboarding Configuration",
+        	"templateContent": "hostname Test-2",
 		"language": "velocty",
-	        "device_types": [{
+	        "deviceTypes": [{
 	            "productFamily": "Switches and Hubs"
        		 }],
-        	"software_type": "IOS-XE",
-        	"sofwtare_variant": "XE",
-        	"template_name": "ANSIBLE-TEST",
-        	"version_description": "MS Test Template"
+        	"softwareType": "IOS-XE",
+        	"sofwtareVariant": "XE",
+        	"templateName": "ANSIBLE-TEST",
+        	"versionDescription": "MS Test Template"
     	}],
 		
 	"create_template_list_response":[

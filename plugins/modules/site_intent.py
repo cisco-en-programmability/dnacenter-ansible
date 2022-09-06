@@ -5,23 +5,6 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
-import copy
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DNACSDK,
-    validate_list_of_dicts,
-    log,
-    get_dict_result,
-    dnac_compare_equality,
-)
-import traceback
-try:
-    from ansible.errors import AnsibleActionFail
-except ImportError:
-    HAS_ANSIBLE_ACTION_FAIL = False
-    ANSIBLE_ACTION_FAIL_IMPORT_ERROR = traceback.format_exc()
-else:
-    HAS_ANSIBLE_ACTION_FAIL = True
 
 __metaclass__ = type
 __author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary")
@@ -44,21 +27,14 @@ options:
   state:
     description: The state of DNAC after module completion.
     type: str
-    choices:
-      - merged
-        description:
-          - If the site defined in the playbook doesnot exits, it will be created.
-          - If the site defined in the playbook exists, but the properties managed
-            by the playbook are different, site will be updated with the new set of properties.
-      - deleted
-        description:
-          - The site defined in the playbook will be deleted.
+    choices: [ merged, deleted ]
     default: merged
   config:
     description:
     - List of details of site being managed.
     type: list
-    elements: dict/str
+    elements: dict
+    required: true
     suboptions:
       type:
         description: Type of site to create/update/delete (eg area, building, floor).
@@ -158,8 +134,8 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-#Case: Site is successfully created/updated/deleted
-response:
+#Case_1: Site is successfully created/updated/deleted
+response_1:
   description: A dictionary with API execution details as returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
@@ -182,10 +158,10 @@ response:
       "msg": "string"
     }
 
-#Case: Site exits and does not need an update
-response:
+#Case_2: Site exits and does not need an update
+response_2:
   description: A dictionary with existing site details.
-  resturned: always
+  returned: always
   type: dict
   sample: >
     {
@@ -193,8 +169,8 @@ response:
       "msg": String
     }
 
-#Case: Error while creating/updating/deleting site
-response:
+#Case_3: Error while creating/updating/deleting site
+response_3:
   description: A dictionary with API execution details as returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
@@ -218,18 +194,27 @@ response:
       "msg": "string"
     }
 
-#Case" Site not found when atempting to delete site
-response:
+#Case_4: Site not found when atempting to delete site
+response_4:
   description: A list with the response returned by the Cisco DNAC Python
-  return: always
+  returned: always
   type: list
   sample: >
-  {
-    "response": [],
-    "msg": String
-  }
+    {
+       "response": [],
+       "msg": String
+    }
 """
 
+from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    DNACSDK,
+    validate_list_of_dicts,
+    log,
+    get_dict_result,
+    dnac_compare_equality,
+)
+import copy
 
 floor_plan = {
     '57057': 'CUBES AND WALLED OFFICES',
@@ -561,12 +546,14 @@ def main():
 
     element_spec = dict(
         dnac_host=dict(required=True, type='str'),
-        dnac_port=dict(required=False, type='str', default='443'),
-        dnac_username=dict(required=True, type='str', no_log=True),
-        dnac_password=dict(required=True, type='str', no_log=True),
-        dnac_verify=dict(required=False, type='bool', default='False'),
-        dnac_debug=dict(required=False, type='bool', default='False'),
-        dnac_log=dict(required=False, type='bool', default='False'),
+        dnac_port=dict(type='str', default='443'),
+        dnac_username=dict(type='str', default='admin', aliases=["user"]),
+        dnac_password=dict(type='str', no_log=True),
+        dnac_verify=dict(type='bool', default='True'),
+        dnac_version=dict(type="str", default="2.2.3.3"),
+        dnac_debug=dict(type='bool', default=False),
+        dnac_log=dict(type='bool', default=False),
+        validate_response_schema=dict(type="bool", default=True),
         config=dict(required=True, type='list', elements='dict'),
         state=dict(
             default='merged',
@@ -575,8 +562,6 @@ def main():
 
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
-    if not HAS_ANSIBLE_ACTION_FAIL:
-        module.fail_json(msg="Missing required lib AnsibleActionFail", response=[])
 
     dnac_site = DnacSite(module)
     dnac_site.validate_input()
