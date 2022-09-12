@@ -1,0 +1,166 @@
+{
+    	"playbook_config": [
+		{
+			"image_name": "cat9k_iosxe.17.04.01.SPA.bin",
+			"site_name": "Global/Chennai/MS_Test_1",
+			"device_version": 2,
+			"template_name": "ANSIBLE-TEST",
+			"deviceInfo": {
+				"serialNumber": "PRATEST4",
+				"hostname": "PRATEST4",
+				"state": "Unclaimed",
+				"pid": "C9300-25UX"
+			}
+    		}
+	],
+		
+    	"playbook_config_missing_parameter": [
+		{
+			"site_name": "Global/Chennai/MS_Test_1",
+			"device_version": 2,
+			"template_name": "ANSIBLE-TEST",
+			"deviceInfo": {
+				"serialNumber": "PRATEST4",
+				"hostname": "PRATEST4",
+				"state": "Unclaimed",
+				"pid": "C9300-25UX"
+			}
+    		}
+	],
+		
+	"image_exists_response": {
+		"response": 
+		[{
+			"imageUuid": "2f566ca4-cca8-4b4f-8bc9-917ef813bfb3",
+			"name": "cat9k_iosxe.17.04.01.SPA.bin",
+			"family": "CAT9K",
+			"version": "17.04.01.0.173"
+		}], 
+		"version": "1.0"
+	},
+
+	"image_doesnot_exist_response": {
+		"response": [], 
+		"version": "1.0"
+	},
+	
+	"template_exists_response": 
+	[{
+		"name": "ANSIBLE-TEST",
+		"projectName": "Onboarding Configuration",
+		"projectId": "1d0e4377-a0f7-4146-9ee7-60b2e23f1343",
+		"templateId": "77bf8489-b14b-47c0-9d87-12a26e89796a", 
+		"softwareType": "IOS-XE", 
+		"deviceTypes": 
+		[{
+			"productFamily": "Switches and Hubs"
+		}]
+	}],
+	
+	"template_doesnot_exist_response": 
+	[{
+		"name": "DMVPN Hub for Cloud Router",
+		"projectName": "Onboarding Configuration",
+		"projectId": "1d0e4377-a0f7-4146-9ee7-60b2e23f1343",
+		"templateId": "94b4b0ff-25dd-4c05-9cee-1229a86f8a2b", 
+		"softwareType": "IOS-XE", 
+		"deviceTypes": 
+		[{
+			"productFamily": "Routers"
+		}]
+	}],
+	
+	"create_site_response":{
+		"executionId": "e40e3f70-9b09-4a32-90b6-8d1c72d81cf5",
+		"executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/e40e3f70-9b09-4a32-90b6-8d1c72d81cf5", 
+		"message": "The request has been accepted for execution"
+	},
+	
+	"execution_details_create_success":{
+		"bapiKey": "50b5-89fd-4c7a-930a", 
+		"bapiName": "Create Site", 
+		"bapiExecutionId": "e40e3f70-9b09-4a32-90b6-8d1c72d81cf5", 
+		"status": "SUCCESS"
+	},
+	
+	"site_exists_response": {
+		"response": 
+		[{
+			"parentId": "597dba2d-c09f-4bae-ae61-8b0d9c8cd268",
+			"additionalInfo": 
+			[{
+				"nameSpace": "Location",
+				"attributes": 
+				{
+					"country": "India",
+					"latitude": "12.93570674358",
+					"type": "building",
+					"longitude": "80.24982195822832"
+				}
+			}], 
+			"name": "MS_Test_1", 
+			"id": "63b99771-bae4-43da-bf75-bce03cdaf7ee", 
+			"siteNameHierarchy": "Global/Chennai/MS_Test_1"
+		}]
+	},
+	
+	"site_needs_update_response": {
+		"response": 
+		[{
+			"parentId": "597dba2d-c09f-4bae-ae61-8b0d9c8cd268",
+			"additionalInfo": 
+			[{
+				"nameSpace": "Location",
+				"attributes": 
+				{
+					"country": "India",
+					"latitude": "13.02372563782",
+					"type": "building",
+					"longitude": "80.2541235068557"
+				}
+			}], 
+			"name": "MS_Test_1", 
+			"id": "63b99771-bae4-43da-bf75-bce03cdaf7ee", 
+			"siteNameHierarchy": "Global/Chennai/MS_Test_1"
+		}]
+	},
+
+	"device_exists_response":[{
+		"version": 2, 
+		"deviceInfo": {
+			"serialNumber": "PRATEST4", 
+			"name": "PRATEST4", 
+			"pid": "C9300-25UX",  
+		       	"state": "Planned",  
+			"siteId": "a5aaf1be-5257-4445-b84f-d0d6d65b645d",
+		       	"siteName": "Global/Chennai/MS_Test_1", 
+			"hostname": "PRATEST4" 
+		} 
+	}],
+	
+	"add_device_response":{
+		"version": 2, 
+		"deviceInfo": 
+		{
+			"serialNumber": "PRATEST4",
+			"name": "PRATEST4",
+			"pid": "C9300-25UX", 
+			"state": "Unclaimed", 
+			"hostname": "PRATEST4" 
+		}, 
+		"id": "627daabc938cba2eb64042d2"
+	
+	},
+	
+	"claim_response": {
+		"response": "Device Claimed",
+		"version": "1.0"
+	},
+
+	"delete_device_response":{
+		"deviceInfo":
+		{
+			"state": "Deleted"	
+		}	
+	}	
+}
