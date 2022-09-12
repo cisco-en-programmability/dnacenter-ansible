@@ -306,7 +306,6 @@ class DNACSDK(object):
     def fail_json(self, msg, **kwargs):
         self.result.update(**kwargs)
         raise Exception(msg)
-        # raise AnsibleActionFail(msg, kwargs)
 
     def exit_json(self):
         return self.result
