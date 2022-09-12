@@ -66,7 +66,7 @@ def compare_list(list1, list2):
         return attempt_std_cmp
     else:
         # not changes 'has diff elem' to list1 != list2 ':lists are not equal'
-        return not(has_diff_elem(list1, list2)) or not(has_diff_elem(list2, list1))
+        return not (has_diff_elem(list1, list2)) or not (has_diff_elem(list2, list1))
 
 
 def fn_comp_key(k, dict1, dict2):

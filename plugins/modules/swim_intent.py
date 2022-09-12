@@ -525,7 +525,7 @@ class DnacSwims:
 
         task_details = {}
         task_id = response.get("response").get("taskId")
-        while(True):
+        while (True):
             task_details = self.get_task_details(task_id)
             if task_details and \
                     ("completed successfully" in task_details.get("progress")):
@@ -615,7 +615,7 @@ class DnacSwims:
         if response:
             task_details = {}
             task_id = response.get("response").get("taskId")
-            while(True):
+            while (True):
                 task_details = self.get_task_details(task_id)
                 if not task_details.get("isError") and \
                         ("completed successfully" in task_details.get("progress")):
@@ -653,7 +653,7 @@ class DnacSwims:
         )
         task_details = {}
         task_id = response.get("response").get("taskId")
-        while(True):
+        while (True):
             task_details = self.get_task_details(task_id)
             if not task_details.get("isError") and \
                     ("completed successfully" in task_details.get("progress")):
