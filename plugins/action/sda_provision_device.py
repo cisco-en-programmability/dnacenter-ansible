@@ -24,7 +24,6 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
     InconsistentParameters,
-
     AnsibleSDAException,
 )
 
@@ -55,7 +54,8 @@ class SdaProvisionDevice(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['device_management_ip_address'] = self.new_object.get('device_management_ip_address')
+        new_object_params['device_management_ip_address'] = self.new_object.get('deviceManagementIpAddress') or \
+            self.new_object.get('device_management_ip_address')
         return new_object_params
 
     def create_params(self):
@@ -77,7 +77,7 @@ class SdaProvisionDevice(object):
 
     def get_object_by_name(self, name, is_absent=False):
         result = None
-        # NOTICE: Does not have a get by name method or it is in another action
+        # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
                 family="sda",

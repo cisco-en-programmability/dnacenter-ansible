@@ -24,8 +24,12 @@ options:
     - SiteNameHierarchy query parameter. Fabric site name hierarchy.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetMulticastDetailsFromSDAFabric
+  description: Complete reference of the GetMulticastDetailsFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-multicast-details-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_multicast_details_from_sda_fabric,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     siteNameHierarchy: string
   register: result
 
@@ -61,14 +64,20 @@ dnac_response:
     {
       "siteNameHierarchy": "string",
       "multicastMethod": "string",
-      "muticastType": "string",
-      "multicastVnInfo": {
-        "virtualNetworkName": "string",
-        "ipPoolName": "string",
-        "externalRpIpAddress": "string",
-        "ssmInfo": {},
-        "ssmGroupRange": "string",
-        "ssmWildcardMask": "string"
-      }
+      "multicastType": "string",
+      "multicastVnInfo": [
+        {
+          "virtualNetworkName": "string",
+          "ipPoolName": "string",
+          "internalRpIpAddress": [
+            "string"
+          ],
+          "externalRpIpAddress": "string",
+          "ssmInfo": {
+            "ssmGroupRange": "string",
+            "ssmWildcardMask": "string"
+          }
+        }
+      ]
     }
 """

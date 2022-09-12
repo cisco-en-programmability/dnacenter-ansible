@@ -26,8 +26,12 @@ options:
       enterprise SSIDs will be retrieved.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Wireless GetEnterpriseSSID
+  description: Complete reference of the GetEnterpriseSSID API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-enterprise-ssid
 notes:
   - SDK Method used are
     wireless.Wireless.get_enterprise_ssid,
@@ -47,8 +51,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     ssidName: string
   register: result
 
@@ -79,7 +82,10 @@ dnac_response:
             "isFabric": true,
             "fastTransition": "string",
             "radioPolicy": "string",
-            "enableBroadcastSSID": true
+            "enableBroadcastSSID": true,
+            "nasOptions": [
+              "string"
+            ]
           }
         ],
         "groupUuid": "string",

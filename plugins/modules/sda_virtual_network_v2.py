@@ -26,14 +26,21 @@ options:
     elements: str
     type: list
   virtualNetworkName:
-    description: Virtual Network Name to be assigned global level.
-    type: str
-  virtualNetworkType:
-    description: Virtual Network Type.
+    description: Virtual Network Name to be assigned at global level.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA AddVirtualNetworkWithScalableGroups
+  description: Complete reference of the AddVirtualNetworkWithScalableGroups API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-virtual-network-with-scalable-groups
+- name: Cisco DNA Center documentation for SDA DeleteVirtualNetworkWithScalableGroups
+  description: Complete reference of the DeleteVirtualNetworkWithScalableGroups API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-virtual-network-with-scalable-groups
+- name: Cisco DNA Center documentation for SDA UpdateVirtualNetworkWithScalableGroups
+  description: Complete reference of the UpdateVirtualNetworkWithScalableGroups API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-virtual-network-with-scalable-groups
 notes:
   - SDK Method used are
     sda.Sda.add_virtual_network_with_scalable_groups,
@@ -62,7 +69,6 @@ EXAMPLES = r"""
     scalableGroupNames:
     - string
     virtualNetworkName: string
-    virtualNetworkType: string
 
 - name: Delete all
   cisco.dnac.sda_virtual_network_v2:
@@ -90,7 +96,6 @@ EXAMPLES = r"""
     scalableGroupNames:
     - string
     virtualNetworkName: string
-    virtualNetworkType: string
 
 """
 

@@ -525,8 +525,12 @@ options:
       project.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates ImportsTheTemplatesProvided
+  description: Complete reference of the ImportsTheTemplatesProvided API.
+  link: https://developer.cisco.com/docs/dna-center/#!imports-the-templates-provided
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.imports_the_templates_provided,
@@ -547,6 +551,165 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     doVersion: true
+    payload:
+    - author: string
+      composite: true
+      containingTemplates:
+      - composite: true
+        description: string
+        deviceTypes:
+        - productFamily: string
+          productSeries: string
+          productType: string
+        id: string
+        language: string
+        name: string
+        projectName: string
+        rollbackTemplateParams:
+        - binding: string
+          customOrder: 0
+          dataType: string
+          defaultValue: string
+          description: string
+          displayName: string
+          group: string
+          id: string
+          instructionText: string
+          key: string
+          notParam: true
+          order: 0
+          paramArray: true
+          parameterName: string
+          provider: string
+          range:
+          - id: string
+            maxValue: 0
+            minValue: 0
+          required: true
+          selection:
+            defaultSelectedValues:
+            - string
+            id: string
+            selectionType: string
+            selectionValues: {}
+        tags:
+        - id: string
+          name: string
+        templateContent: string
+        templateParams:
+        - binding: string
+          customOrder: 0
+          dataType: string
+          defaultValue: string
+          description: string
+          displayName: string
+          group: string
+          id: string
+          instructionText: string
+          key: string
+          notParam: true
+          order: 0
+          paramArray: true
+          parameterName: string
+          provider: string
+          range:
+          - id: string
+            maxValue: 0
+            minValue: 0
+          required: true
+          selection:
+            defaultSelectedValues:
+            - string
+            id: string
+            selectionType: string
+            selectionValues: {}
+        version: string
+      createTime: 0
+      customParamsOrder: true
+      description: string
+      deviceTypes:
+      - productFamily: string
+        productSeries: string
+        productType: string
+      failurePolicy: string
+      id: string
+      language: string
+      lastUpdateTime: 0
+      latestVersionTime: 0
+      name: string
+      parentTemplateId: string
+      projectId: string
+      projectName: string
+      rollbackTemplateContent: string
+      rollbackTemplateParams:
+      - binding: string
+        customOrder: 0
+        dataType: string
+        defaultValue: string
+        description: string
+        displayName: string
+        group: string
+        id: string
+        instructionText: string
+        key: string
+        notParam: true
+        order: 0
+        paramArray: true
+        parameterName: string
+        provider: string
+        range:
+        - id: string
+          maxValue: 0
+          minValue: 0
+        required: true
+        selection:
+          defaultSelectedValues:
+          - string
+          id: string
+          selectionType: string
+          selectionValues: {}
+      softwareType: string
+      softwareVariant: string
+      softwareVersion: string
+      tags:
+      - id: string
+        name: string
+      templateContent: string
+      templateParams:
+      - binding: string
+        customOrder: 0
+        dataType: string
+        defaultValue: string
+        description: string
+        displayName: string
+        group: string
+        id: string
+        instructionText: string
+        key: string
+        notParam: true
+        order: 0
+        paramArray: true
+        parameterName: string
+        provider: string
+        range:
+        - id: string
+          maxValue: 0
+          minValue: 0
+        required: true
+        selection:
+          defaultSelectedValues:
+          - string
+          id: string
+          selectionType: string
+          selectionValues: {}
+      validationErrors:
+        rollbackTemplateErrors:
+        - {}
+        templateErrors:
+        - {}
+        templateId: string
+        templateVersion: string
+      version: string
     projectName: string
 
 """

@@ -20,13 +20,16 @@ options:
     description: Additional headers.
     type: dict
   deviceManagementIpAddress:
-    version_added: "4.0.0"
     description:
     - DeviceManagementIpAddress query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetDeviceInfoFromSDAFabric
+  description: Complete reference of the GetDeviceInfoFromSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-info-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_device_info,
@@ -46,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceManagementIpAddress: string
   register: result
 

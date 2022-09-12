@@ -16,6 +16,9 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   site:
     description: Site Update's site.
     suboptions:
@@ -76,8 +79,12 @@ options:
     description: Type.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Sites UpdateSite
+  description: Complete reference of the UpdateSite API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-site
 notes:
   - SDK Method used are
     sites.Sites.update_site,
@@ -97,6 +104,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers: '{{my_headers | from_json}}'
     site:
       area:
         name: string

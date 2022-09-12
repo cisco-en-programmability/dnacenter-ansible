@@ -24,7 +24,6 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
     InconsistentParameters,
-
     AnsibleSDAException,
 )
 
@@ -33,11 +32,13 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
+    payload=dict(type="list"),
     deviceManagementIpAddress=dict(type="str"),
-    siteNameHierarchy=dict(type="str"),
 ))
 
 required_if = [
+    ("state", "present", ["payload"], True),
+    ("state", "absent", ["deviceManagementIpAddress"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -48,20 +49,19 @@ class SdaFabricEdgeDevice(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
-            deviceManagementIpAddress=params.get("deviceManagementIpAddress"),
-            siteNameHierarchy=params.get("siteNameHierarchy"),
+            payload=params.get("payload"),
             device_management_ip_address=params.get("deviceManagementIpAddress"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['device_management_ip_address'] = self.new_object.get('device_management_ip_address')
+        new_object_params['device_management_ip_address'] = self.new_object.get('deviceManagementIpAddress') or \
+            self.new_object.get('device_management_ip_address')
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['deviceManagementIpAddress'] = self.new_object.get('deviceManagementIpAddress')
-        new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
+        new_object_params['payload'] = self.new_object.get('payload')
         return new_object_params
 
     def delete_all_params(self):
@@ -71,7 +71,7 @@ class SdaFabricEdgeDevice(object):
 
     def get_object_by_name(self, name, is_absent=False):
         result = None
-        # NOTICE: Does not have a get by name method, using get all
+        # NOTE: Does not have a get by name method, using get all
         try:
             items = self.dnac.exec(
                 family="sda",
@@ -105,7 +105,9 @@ class SdaFabricEdgeDevice(object):
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
-        requested_obj = self.new_object
+        requested_obj = self.new_object.get('payload')
+        if requested_obj and len(requested_obj) > 0:
+            requested_obj = requested_obj[0]
 
         obj_params = [
             ("deviceManagementIpAddress", "deviceManagementIpAddress"),

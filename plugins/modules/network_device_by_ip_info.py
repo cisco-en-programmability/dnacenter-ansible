@@ -24,8 +24,12 @@ options:
     - IpAddress path parameter. Device IP address.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetNetworkDeviceByIP
+  description: Complete reference of the GetNetworkDeviceByIP API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-network-device-by-ip
 notes:
   - SDK Method used are
     devices.Devices.get_network_device_by_ip,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     ipAddress: string
   register: result
 
@@ -74,7 +77,7 @@ dnac_response:
         "instanceUuid": "string",
         "interfaceCount": "string",
         "inventoryStatusDetail": "string",
-        "lastUpdateTime": "string",
+        "lastUpdateTime": 0,
         "lastUpdated": "string",
         "lineCardCount": "string",
         "lineCardId": "string",

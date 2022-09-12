@@ -23,8 +23,12 @@ options:
       fails with 'Template already exists' error.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates ImportsTheProjectsProvided
+  description: Complete reference of the ImportsTheProjectsProvided API.
+  link: https://developer.cisco.com/docs/dna-center/#!imports-the-projects-provided
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.imports_the_projects_provided,

@@ -23,8 +23,12 @@ options:
     description: Site Name Hierarchy.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Fabric Wireless AddWLCToFabricDomain
+  description: Complete reference of the AddWLCToFabricDomain API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-wlc-to-fabric-domain
 notes:
   - SDK Method used are
     fabric_wireless.FabricWireless.add_w_l_c_to_fabric_domain,

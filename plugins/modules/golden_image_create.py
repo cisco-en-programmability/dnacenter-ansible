@@ -30,8 +30,12 @@ options:
     description: SiteId in uuid format. For Global Site "-1" to be used.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) TagAsGoldenImage
+  description: Complete reference of the TagAsGoldenImage API.
+  link: https://developer.cisco.com/docs/dna-center/#!tag-as-golden-image
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image,

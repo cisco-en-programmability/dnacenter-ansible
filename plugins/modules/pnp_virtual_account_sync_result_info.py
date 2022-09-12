@@ -28,8 +28,12 @@ options:
     - Name path parameter. Virtual Account Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetSyncResultForVirtualAccount
+  description: Complete reference of the GetSyncResultForVirtualAccount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-sync-result-for-virtual-account
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.get_sync_result_for_virtual_account,
@@ -49,8 +53,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     domain: string
     name: string
   register: result

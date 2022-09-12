@@ -67,6 +67,8 @@ class ConfigurationTemplateProject(object):
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params['name'] = name or self.new_object.get('name')
+        new_object_params['sort_order'] = self.new_object.get('sortOrder') or \
+            self.new_object.get('sort_order')
         return new_object_params
 
     def create_params(self):
@@ -98,7 +100,7 @@ class ConfigurationTemplateProject(object):
 
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name method or it is in another action
+        # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
                 family="configuration_templates",

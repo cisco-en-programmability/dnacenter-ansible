@@ -106,8 +106,12 @@ options:
       mandatory).
     type: int
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management GetAuditLogSummary
+  description: Complete reference of the GetAuditLogSummary API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-summary
 notes:
   - SDK Method used are
     event_management.EventManagement.get_auditlog_summary,
@@ -127,8 +131,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     parentInstanceId: string
     isParentOnly: True
     instanceId: string

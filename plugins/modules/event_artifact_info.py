@@ -48,8 +48,12 @@ options:
     - Search query parameter. Findd matches in name, description, eventId, type, category.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management GetEventArtifacts
+  description: Complete reference of the GetEventArtifacts API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-event-artifacts
 notes:
   - SDK Method used are
     event_management.EventManagement.get_eventartifacts,
@@ -69,8 +73,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     eventIds: string
     tags: string
     offset: 0

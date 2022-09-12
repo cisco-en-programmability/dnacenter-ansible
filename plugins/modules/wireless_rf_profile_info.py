@@ -21,11 +21,15 @@ options:
     type: dict
   rf_profile_name:
     description:
-    - Rf-profile-name query parameter.
+    - Rf-profile-name query parameter. RF Profile Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Wireless RetrieveRFProfiles
+  description: Complete reference of the RetrieveRFProfiles API.
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-rf-profiles
 notes:
   - SDK Method used are
     wireless.Wireless.retrieve_rf_profiles,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     rf_profile_name: string
   register: result
 
@@ -62,32 +65,35 @@ dnac_response:
     [
       {
         "name": "string",
-        "defaultRfProfile": true,
+        "parentProfileA": "string",
+        "parentProfileB": "string",
+        "enableARadioType": true,
+        "enableBRadioType": true,
+        "enableCRadioType": true,
         "channelWidth": "string",
-        "enableBrownField": true,
+        "aRadioChannels": "string",
+        "bRadioChannels": "string",
+        "cRadioChannels": "string",
+        "dataRatesA": "string",
+        "dataRatesB": "string",
+        "dataRatesC": "string",
+        "mandatoryDataRatesA": "string",
+        "mandatoryDataRatesB": "string",
+        "mandatoryDataRatesC": "string",
         "enableCustom": true,
-        "enableRadioTypeA": true,
-        "enableRadioTypeB": true,
-        "radioTypeAProperties": {
-          "parentProfile": "string",
-          "radioChannels": "string",
-          "dataRates": "string",
-          "mandatoryDataRates": "string",
-          "powerThresholdV1": 0,
-          "rxSopThreshold": "string",
-          "minPowerLevel": 0,
-          "maxPowerLevel": 0
-        },
-        "radioTypeBProperties": {
-          "parentProfile": "string",
-          "radioChannels": "string",
-          "dataRates": "string",
-          "mandatoryDataRates": "string",
-          "powerThresholdV1": 0,
-          "rxSopThreshold": "string",
-          "minPowerLevel": 0,
-          "maxPowerLevel": 0
-        }
+        "minPowerLevelA": "string",
+        "minPowerLevelB": "string",
+        "minPowerLevelC": "string",
+        "maxPowerLevelA": "string",
+        "maxPowerLevelB": "string",
+        "powerThresholdV1A": 0,
+        "powerThresholdV1B": 0,
+        "powerThresholdV1C": 0,
+        "rxSopThresholdA": "string",
+        "rxSopThresholdB": "string",
+        "rxSopThresholdC": "string",
+        "defaultRfProfile": true,
+        "enableBrownField": true
       }
     ]
 """

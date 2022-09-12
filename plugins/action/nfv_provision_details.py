@@ -26,6 +26,7 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     device_ip=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -64,6 +65,7 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             device_ip=params.get("device_ip"),
+            headers=params.get("headers"),
         )
         return new_object
 

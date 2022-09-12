@@ -10,9 +10,10 @@ module: device_replacement_info
 short_description: Information module for Device Replacement
 description:
 - Get all Device Replacement.
-- Get list of replacement devices with replacement details and it can filter replacement devices based on Faulty Device Name,
-  Faulty Device Platform, Replacement Device Platform, Faulty Device Serial Number,
-  Replacement Device Serial Number, Device Replacement status, Product Family.
+- >
+   Get list of replacement devices with replacement details and it can filter replacement devices based on Faulty
+   Device Name,Faulty Device Platform, Replacement Device Platform, Faulty Device Serial Number,Replacement Device
+   Serial Number, Device Replacement status, Product Family.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -70,8 +71,12 @@ options:
     - Limit query parameter.
     type: int
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Replacement ReturnListOfReplacementDevicesWithReplacementDetails
+  description: Complete reference of the ReturnListOfReplacementDevicesWithReplacementDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!return-list-of-replacement-devices-with-replacement-details
 notes:
   - SDK Method used are
     device_replacement.DeviceReplacement.return_replacement_devices_with_details,
@@ -91,8 +96,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     faultyDeviceName: string
     faultyDevicePlatform: string
     replacementDevicePlatform: string

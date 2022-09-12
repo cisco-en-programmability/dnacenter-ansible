@@ -20,20 +20,26 @@ options:
     description: Additional headers.
     type: dict
   siteNameHierarchy:
+    version_added: "4.0.0"
     description:
     - SiteNameHierarchy query parameter.
-    type: str
-  ipPoolName:
-    description:
-    - IpPoolName query parameter.
     type: str
   virtualNetworkName:
     description:
     - VirtualNetworkName query parameter.
     type: str
+  ipPoolName:
+    version_added: "4.0.0"
+    description:
+    - IpPoolName query parameter.
+    type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetIPPoolFromSDAVirtualNetwork
+  description: Complete reference of the GetIPPoolFromSDAVirtualNetwork API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-ip-pool-from-sda-virtual-network
 notes:
   - SDK Method used are
     sda.Sda.get_ip_pool_from_sda_virtual_network,
@@ -53,11 +59,10 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     siteNameHierarchy: string
-    ipPoolName: string
     virtualNetworkName: string
+    ipPoolName: string
   register: result
 
 """

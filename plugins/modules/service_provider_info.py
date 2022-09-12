@@ -10,7 +10,7 @@ module: service_provider_info
 short_description: Information module for Service Provider
 description:
 - Get all Service Provider.
-- API to get service provider details (QoS).
+- API to get service provider details QoS .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,8 +20,12 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Network Settings GetServiceProviderDetails
+  description: Complete reference of the GetServiceProviderDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-service-provider-details
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.get_service_provider_details,
@@ -41,8 +45,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
   register: result
 
 """
@@ -61,7 +64,7 @@ dnac_response:
           "namespace": "string",
           "type": "string",
           "key": "string",
-          "version": "string",
+          "version": 0,
           "value": [
             {
               "wanProvider": "string",

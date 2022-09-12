@@ -94,7 +94,8 @@ class ReserveIpSubpool(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['site_id'] = self.new_object.get('site_id')
+        new_object_params['site_id'] = self.new_object.get('siteId') or \
+            self.new_object.get('site_id')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['limit'] = self.new_object.get('limit')
         return new_object_params
@@ -151,7 +152,7 @@ class ReserveIpSubpool(object):
 
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name method or it is in another action
+        # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
                 family="network_settings",

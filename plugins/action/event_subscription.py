@@ -37,7 +37,6 @@ argument_spec.update(dict(
 
 required_if = [
     ("state", "present", ["payload"], True),
-    ("state", "absent", ["payload"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -54,10 +53,12 @@ class EventSubscription(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['event_ids'] = self.new_object.get('event_ids')
+        new_object_params['event_ids'] = self.new_object.get('eventIds') or \
+            self.new_object.get('event_ids')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['limit'] = self.new_object.get('limit')
-        new_object_params['sort_by'] = self.new_object.get('sort_by')
+        new_object_params['sort_by'] = self.new_object.get('sortBy') or \
+            self.new_object.get('sort_by')
         new_object_params['order'] = self.new_object.get('order')
         return new_object_params
 
@@ -78,7 +79,7 @@ class EventSubscription(object):
 
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name method or it is in another action
+        # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
                 family="event_management",
@@ -182,11 +183,8 @@ class EventSubscription(object):
         return result
 
     def delete(self):
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-        id = self.new_object.get("id") or requested_obj.get("id")
-        name = self.new_object.get("name") or requested_obj.get("name")
+        id = self.new_object.get("id")
+        name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
             family="event_management",

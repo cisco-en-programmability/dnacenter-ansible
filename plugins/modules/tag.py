@@ -63,8 +63,18 @@ options:
     description: SystemTag flag.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Tag CreateTag
+  description: Complete reference of the CreateTag API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-tag
+- name: Cisco DNA Center documentation for Tag DeleteTag
+  description: Complete reference of the DeleteTag API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-tag
+- name: Cisco DNA Center documentation for Tag UpdateTag
+  description: Complete reference of the UpdateTag API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-tag
 notes:
   - SDK Method used are
     tag.Tag.create_tag,

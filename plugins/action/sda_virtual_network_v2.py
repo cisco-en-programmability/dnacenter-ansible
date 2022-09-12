@@ -24,7 +24,6 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
     InconsistentParameters,
-
     AnsibleSDAException,
 )
 
@@ -36,7 +35,6 @@ argument_spec.update(dict(
     virtualNetworkName=dict(type="str"),
     isGuestVirtualNetwork=dict(type="bool"),
     scalableGroupNames=dict(type="list"),
-    virtualNetworkType=dict(type="str"),
 ))
 
 required_if = [
@@ -53,13 +51,13 @@ class SdaVirtualNetworkV2(object):
             virtualNetworkName=params.get("virtualNetworkName"),
             isGuestVirtualNetwork=params.get("isGuestVirtualNetwork"),
             scalableGroupNames=params.get("scalableGroupNames"),
-            virtualNetworkType=params.get("virtualNetworkType"),
             virtual_network_name=params.get("virtualNetworkName"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['virtual_network_name'] = self.new_object.get('virtual_network_name')
+        new_object_params['virtual_network_name'] = self.new_object.get('virtualNetworkName') or \
+            self.new_object.get('virtual_network_name')
         return new_object_params
 
     def create_params(self):
@@ -67,7 +65,6 @@ class SdaVirtualNetworkV2(object):
         new_object_params['virtualNetworkName'] = self.new_object.get('virtualNetworkName')
         new_object_params['isGuestVirtualNetwork'] = self.new_object.get('isGuestVirtualNetwork')
         new_object_params['scalableGroupNames'] = self.new_object.get('scalableGroupNames')
-        new_object_params['virtualNetworkType'] = self.new_object.get('virtualNetworkType')
         return new_object_params
 
     def delete_all_params(self):
@@ -78,14 +75,13 @@ class SdaVirtualNetworkV2(object):
     def update_all_params(self):
         new_object_params = {}
         new_object_params['virtualNetworkName'] = self.new_object.get('virtualNetworkName')
-        new_object_params['virtualNetworkType'] = self.new_object.get('virtualNetworkType')
         new_object_params['isGuestVirtualNetwork'] = self.new_object.get('isGuestVirtualNetwork')
         new_object_params['scalableGroupNames'] = self.new_object.get('scalableGroupNames')
         return new_object_params
 
     def get_object_by_name(self, name, is_absent=False):
         result = None
-        # NOTICE: Does not have a get by name method or it is in another action
+        # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
                 family="sda",
@@ -125,7 +121,6 @@ class SdaVirtualNetworkV2(object):
             ("virtualNetworkName", "virtualNetworkName"),
             ("isGuestVirtualNetwork", "isGuestVirtualNetwork"),
             ("scalableGroupNames", "scalableGroupNames"),
-            ("virtualNetworkType", "virtualNetworkType"),
             ("virtualNetworkName", "virtual_network_name"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params

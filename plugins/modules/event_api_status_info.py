@@ -24,8 +24,12 @@ options:
     - ExecutionId path parameter. Execution ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Event Management GetStatusAPIForEvents
+  description: Complete reference of the GetStatusAPIForEvents API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-status-api-for-events
 notes:
   - SDK Method used are
     event_management.EventManagement.get_status_api_for_events,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     executionId: string
   register: result
 

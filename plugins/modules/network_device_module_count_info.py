@@ -44,8 +44,12 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetModuleCount
+  description: Complete reference of the GetModuleCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-module-count
 notes:
   - SDK Method used are
     devices.Devices.get_module_count,
@@ -65,8 +69,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceId: string
     nameList: []
     vendorEquipmentTypeList: []

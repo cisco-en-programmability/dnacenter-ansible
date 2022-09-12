@@ -10,9 +10,10 @@ module: pnp_virtual_account_deregister
 short_description: Resource module for Pnp Virtual Account Deregister
 description:
 - Manage operation delete of the resource Pnp Virtual Account Deregister.
-- Deregisters the specified smart account & virtual account info and the associated device information from the PnP System & database.
-  The devices associated with the deregistered virtual account are removed from the PnP database as well.
-  The response payload contains the deregistered smart & virtual account information.
+- >
+   Deregisters the specified smart account & virtual account info and the associated device information from the PnP
+   System & database. The devices associated with the deregistered virtual account are removed from the PnP database
+   as well. The response payload contains the deregistered smart & virtual account information.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -25,8 +26,12 @@ options:
     description: Name query parameter. Virtual Account Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) DeregisterVirtualAccount
+  description: Complete reference of the DeregisterVirtualAccount API.
+  link: https://developer.cisco.com/docs/dna-center/#!deregister-virtual-account
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.deregister_virtual_account,

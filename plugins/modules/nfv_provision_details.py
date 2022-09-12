@@ -19,9 +19,16 @@ options:
   device_ip:
     description: Device Ip.
     type: str
+  headers:
+    description: Additional headers.
+    type: dict
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Site Design NFVProvisioningDetail
+  description: Complete reference of the NFVProvisioningDetail API.
+  link: https://developer.cisco.com/docs/dna-center/#!n-fv-provisioning-detail
 notes:
   - SDK Method used are
     site_design.SiteDesign.nfv_provisioning_detail,
@@ -42,6 +49,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     device_ip: string
+    headers: '{{my_headers | from_json}}'
 
 """
 

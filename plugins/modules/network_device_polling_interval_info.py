@@ -24,8 +24,12 @@ options:
     - Id path parameter. Device ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetPollingIntervalById
+  description: Complete reference of the GetPollingIntervalById API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-polling-interval-by-id
 notes:
   - SDK Method used are
     devices.Devices.get_polling_interval_by_id,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     id: string
   register: result
 

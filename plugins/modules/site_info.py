@@ -33,15 +33,19 @@ options:
     type: str
   offset:
     description:
-    - Offset query parameter. Offset/starting row.
+    - Offset query parameter. Offset/starting row. The default value is 1.
     type: str
   limit:
     description:
-    - Limit query parameter. Number of sites to be retrieved.
+    - Limit query parameter. Number of sites to be retrieved. The default value is 500.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Sites GetSite
+  description: Complete reference of the GetSite API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-site
 notes:
   - SDK Method used are
     sites.Sites.get_site,
@@ -61,8 +65,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     name: string
     siteId: string
     type: string
@@ -84,7 +87,24 @@ dnac_response:
         "parentId": "string",
         "name": "string",
         "additionalInfo": [
-          "string"
+          {
+            "nameSpace": "string",
+            "attributes": {
+              "country": "string",
+              "address": "string",
+              "latitude": "string",
+              "addressInheritedFrom": "string",
+              "type": "string",
+              "longitude": "string",
+              "offsetX": "string",
+              "offsetY": "string",
+              "length": "string",
+              "width": "string",
+              "height": "string",
+              "rfModel": "string",
+              "floorIndex": "string"
+            }
+          }
         ],
         "siteHierarchy": "string",
         "siteNameHierarchy": "string",

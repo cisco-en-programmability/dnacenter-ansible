@@ -19,6 +19,9 @@ options:
   cliId:
     description: Cli Id.
     type: str
+  headers:
+    description: Additional headers.
+    type: dict
   httpRead:
     description: Http Read.
     type: str
@@ -38,8 +41,12 @@ options:
     description: Snmp V3 Id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Network Settings AssignCredentialToSite
+  description: Complete reference of the AssignCredentialToSite API.
+  link: https://developer.cisco.com/docs/dna-center/#!assign-credential-to-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.assign_credential_to_site,
@@ -60,6 +67,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     cliId: string
+    headers: '{{my_headers | from_json}}'
     httpRead: string
     httpWrite: string
     siteId: string

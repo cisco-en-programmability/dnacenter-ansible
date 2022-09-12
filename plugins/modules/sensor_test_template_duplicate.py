@@ -23,8 +23,12 @@ options:
     description: Template Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Sensors DuplicateSensorTestTemplate
+  description: Complete reference of the DuplicateSensorTestTemplate API.
+  link: https://developer.cisco.com/docs/dna-center/#!duplicate-sensor-test-template
 notes:
   - SDK Method used are
     sensors.Sensors.duplicate_sensor_test_template,

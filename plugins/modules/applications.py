@@ -133,8 +133,18 @@ options:
         type: list
     type: list
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Application Policy CreateApplication
+  description: Complete reference of the CreateApplication API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-application
+- name: Cisco DNA Center documentation for Application Policy DeleteApplication
+  description: Complete reference of the DeleteApplication API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-application
+- name: Cisco DNA Center documentation for Application Policy EditApplication
+  description: Complete reference of the EditApplication API.
+  link: https://developer.cisco.com/docs/dna-center/#!edit-application
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.create_application,
@@ -165,10 +175,10 @@ EXAMPLES = r"""
       indicativeNetworkIdentity:
       - displayName: string
         id: string
-        lowerPort: 1
+        lowerPort: 0
         ports: string
         protocol: string
-        upperPort: 1
+        upperPort: 0
       name: string
       networkApplications:
       - appProtocol: string

@@ -10,14 +10,15 @@ module: pnp_device_claim_to_site
 short_description: Resource module for Pnp Device Claim To Site
 description:
 - Manage operation create of the resource Pnp Device Claim To Site.
-- Claim a device based on DNA-C Site based design process. Different parameters are required for different device platforms.
+- >
+   Claim a device based on DNA-C Site based design process. Different parameters are required for different device
+   platforms.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   configInfo:
-    version_added: '4.2.0'
     description: Pnp Device Claim To Site's configInfo.
     suboptions:
       configId:
@@ -35,15 +36,22 @@ options:
             type: str
         type: list
     type: dict
+    version_added: 4.2.0
   deviceId:
     description: Pnp Device Claim To Site's deviceId.
     type: str
+  gateway:
+    description: Pnp Device Claim To Site's gateway.
+    type: str
+    version_added: 6.4.0
   hostname:
-    version_added: '4.2.0'
     description: Pnp Device Claim To Site's hostname.
     type: str
+    version_added: 4.2.0
+  imageId:
+    description: Pnp Device Claim To Site's imageId.
+    type: str
   imageInfo:
-    version_added: '4.2.0'
     description: Pnp Device Claim To Site's imageInfo.
     suboptions:
       imageId:
@@ -53,19 +61,43 @@ options:
         description: Skip flag.
         type: bool
     type: dict
+    version_added: 4.2.0
+  ipInterfaceName:
+    description: Pnp Device Claim To Site's ipInterfaceName.
+    type: str
+    version_added: 6.4.0
+  removeInactive:
+    description: RemoveInactive flag.
+    type: bool
+    version_added: 6.4.0
   rfProfile:
-    version_added: '6.1.0'
     description: Pnp Device Claim To Site's rfProfile.
     type: str
+    version_added: 6.1.0
   siteId:
     description: Pnp Device Claim To Site's siteId.
+    type: str
+  staticIP:
+    description: Pnp Device Claim To Site's staticIP.
+    type: str
+    version_added: 6.4.0
+  subnetMask:
+    description: Pnp Device Claim To Site's subnetMask.
     type: str
   type:
     description: Pnp Device Claim To Site's type.
     type: str
+  vlanId:
+    description: Pnp Device Claim To Site's vlanId.
+    type: str
+    version_added: 6.4.0
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimADeviceToASite
+  description: Complete reference of the ClaimADeviceToASite API.
+  link: https://developer.cisco.com/docs/dna-center/#!claim-a-device-to-a-site
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site,
@@ -91,13 +123,20 @@ EXAMPLES = r"""
       - key: string
         value: string
     deviceId: string
+    gateway: string
     hostname: string
+    imageId: string
     imageInfo:
       imageId: string
       skip: true
-    siteId: string
+    ipInterfaceName: string
+    removeInactive: true
     rfProfile: string
+    siteId: string
+    staticIP: string
+    subnetMask: string
     type: string
+    vlanId: string
 
 """
 

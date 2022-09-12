@@ -24,8 +24,12 @@ options:
     - DeviceId path parameter. Device instance UUID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Security Advisories GetAdvisoriesPerDevice
+  description: Complete reference of the GetAdvisoriesPerDevice API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-advisories-per-device
 notes:
   - SDK Method used are
     security_advisories.SecurityAdvisories.get_advisories_per_device,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceId: string
   register: result
 
