@@ -22,7 +22,7 @@ options:
         description:
           - The Cisco DNA Center port.
         type: str
-        default: 443
+        default: '443'
     dnac_username:
         description:
           - The Cisco DNA Center username to authenticate.

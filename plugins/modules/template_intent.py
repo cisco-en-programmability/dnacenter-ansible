@@ -956,7 +956,7 @@ class DnacTemplate:
                 task_id = response.get("response").get("taskId")
 
                 if task_id:
-                    while(True):
+                    while (True):
                         task_details = self.get_task_details(task_id)
                         if task_details and task_details.get("isError"):
                             create_error = True
