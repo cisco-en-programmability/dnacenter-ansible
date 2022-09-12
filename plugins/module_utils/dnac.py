@@ -16,12 +16,6 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils._text import to_native
 from ansible.module_utils.common import validation
 try:
-    from ansible.errors import AnsibleActionFail
-except ImportError:
-    ANSIBLE_ERRORS_INSTALLED = False
-else:
-    ANSIBLE_ERRORS_INSTALLED = True
-try:
     import logging
 except ImportError:
     LOGGING_IN_STANDARD = False
@@ -311,7 +305,8 @@ class DNACSDK(object):
 
     def fail_json(self, msg, **kwargs):
         self.result.update(**kwargs)
-        raise AnsibleActionFail(msg, kwargs)
+        raise Exception(msg)
+        # raise AnsibleActionFail(msg, kwargs)
 
     def exit_json(self):
         return self.result
