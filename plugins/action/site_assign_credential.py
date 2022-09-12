@@ -32,6 +32,7 @@ argument_spec.update(dict(
     httpWrite=dict(type="str"),
     snmpV3Id=dict(type="str"),
     siteId=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -76,6 +77,7 @@ class ActionModule(ActionBase):
             httpWrite=params.get("httpWrite"),
             snmpV3Id=params.get("snmpV3Id"),
             site_id=params.get("siteId"),
+            headers=params.get("headers"),
         )
         return new_object
 

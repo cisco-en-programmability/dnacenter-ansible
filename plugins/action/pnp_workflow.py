@@ -93,7 +93,8 @@ class PnpWorkflow(object):
         new_object_params['limit'] = self.new_object.get('limit')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['sort'] = self.new_object.get('sort')
-        new_object_params['sort_order'] = self.new_object.get('sort_order')
+        new_object_params['sort_order'] = self.new_object.get('sortOrder') or \
+            self.new_object.get('sort_order')
         new_object_params['type'] = self.new_object.get('type')
         new_object_params['name'] = name or self.new_object.get('name')
         return new_object_params
@@ -152,7 +153,7 @@ class PnpWorkflow(object):
 
     def get_object_by_name(self, name):
         result = None
-        # NOTICE: Does not have a get by name method or it is in another action
+        # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
                 family="device_onboarding_pnp",

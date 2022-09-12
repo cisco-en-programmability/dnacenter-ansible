@@ -26,8 +26,12 @@ options:
     description: Network Device Update Role's roleSource.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices UpdateDeviceRole
+  description: Complete reference of the UpdateDeviceRole API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-device-role
 notes:
   - SDK Method used are
     devices.Devices.update_device_role,

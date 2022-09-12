@@ -20,6 +20,7 @@ options:
     description: Additional headers.
     type: dict
   deviceManagementIpAddress:
+    version_added: "4.0.0"
     description:
     - DeviceManagementIpAddress query parameter.
     type: str
@@ -28,8 +29,12 @@ options:
     - InterfaceName query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetPortAssignmentForAccessPointInSDAFabric
+  description: Complete reference of the GetPortAssignmentForAccessPointInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-port-assignment-for-access-point-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_port_assignment_for_access_point,
@@ -49,8 +54,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceManagementIpAddress: string
     interfaceName: string
   register: result

@@ -61,7 +61,9 @@ def compare_list(list1, list2):
         return attempt_std_cmp
     else:
         # not changes 'has diff elem' to list1 != list2 ':lists are not equal'
-        return not(has_diff_elem(list1, list2)) or not(has_diff_elem(list2, list1))
+        has_diff_1 = has_diff_elem(list1, list2)
+        has_diff_2 = has_diff_elem(list2, list1)
+        return not has_diff_1 or not has_diff_2
 
 
 def fn_comp_key(k, dict1, dict2):
@@ -116,7 +118,7 @@ def dnac_argument_spec():
         dnac_username=dict(type="str", default="admin", aliases=["user"]),
         dnac_password=dict(type="str", no_log=True),
         dnac_verify=dict(type="bool", default=True),
-        dnac_version=dict(type="str", default="2.2.3.3"),
+        dnac_version=dict(type="str", default="2.3.3.0"),
         dnac_debug=dict(type="bool", default=False),
         validate_response_schema=dict(type="bool", default=True),
     )

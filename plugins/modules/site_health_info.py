@@ -24,7 +24,6 @@ options:
     - Timestamp query parameter. Epoch time(in milliseconds) when the Site Hierarchy data is required.
     type: str
   siteType:
-    version_added: "4.0.0"
     description:
     - SiteType query parameter. Type of the site to return. AREA or BUILDING. Default to AREA.
     type: str
@@ -37,8 +36,12 @@ options:
     - Limit query parameter. The max number of sites in the returned data set. Default is 25, and max at 50.
     type: int
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Sites GetSiteHealth
+  description: Complete reference of the GetSiteHealth API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-site-health
 notes:
   - SDK Method used are
     sites.Sites.get_site_health,
@@ -58,8 +61,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     timestamp: string
     siteType: string
     offset: 0

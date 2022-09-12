@@ -19,9 +19,9 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   cleanConfig:
-    version_added: "4.0.0"
     description: CleanConfig query parameter.
     type: bool
+    version_added: 4.0.0
   cliTransport:
     description: Network Device's cliTransport.
     type: str
@@ -47,7 +47,7 @@ options:
     description: Network Device's httpUserName.
     type: str
   id:
-    description: Network Device's id.
+    description: Id path parameter. Device ID.
     type: str
   ipAddress:
     description: Network Device's ipAddress.
@@ -117,8 +117,18 @@ options:
     description: Network Device's userName.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices AddDevice2
+  description: Complete reference of the AddDevice2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-device
+- name: Cisco DNA Center documentation for Devices DeleteDeviceById
+  description: Complete reference of the DeleteDeviceById API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id
+- name: Cisco DNA Center documentation for Devices SyncDevices2
+  description: Complete reference of the SyncDevices2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!sync-devices
 notes:
   - SDK Method used are
     devices.Devices.add_device,
@@ -194,7 +204,6 @@ EXAMPLES = r"""
     httpPort: string
     httpSecure: true
     httpUserName: string
-    id: string
     ipAddress:
     - string
     merakiOrgId:

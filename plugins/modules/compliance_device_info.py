@@ -12,7 +12,7 @@ description:
 - Get all Compliance Device.
 - Get Compliance Device by id.
 - Return compliance status of a device.
-- Return compliance status of device(s).
+- Return compliance status of devices.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -40,8 +40,15 @@ options:
     - Limit query parameter. Number of records to be retrieved.
     type: int
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Compliance DeviceComplianceStatus
+  description: Complete reference of the DeviceComplianceStatus API.
+  link: https://developer.cisco.com/docs/dna-center/#!device-compliance-status
+- name: Cisco DNA Center documentation for Compliance GetComplianceStatus
+  description: Complete reference of the GetComplianceStatus API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-compliance-status
 notes:
   - SDK Method used are
     compliance.Compliance.device_compliance_status,
@@ -63,8 +70,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     complianceStatus: string
     deviceUuid: string
     offset: 0
@@ -80,8 +86,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceUuid: string
   register: result
 

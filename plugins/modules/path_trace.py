@@ -10,7 +10,9 @@ module: path_trace
 short_description: Resource module for Path Trace
 description:
 - Manage operations create and delete of the resource Path Trace.
-- Initiates a new flow analysis with periodic refresh and stat collection options. Returns a request id and a task id to get results and follow progress.
+- >
+   Initiates a new flow analysis with periodic refresh and stat collection options. Returns a request id and a task
+   id to get results and follow progress.
 - Deletes a flow analysis request by its id.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -46,8 +48,15 @@ options:
     description: Path Trace's sourcePort.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Path Trace InitiateANewPathtrace
+  description: Complete reference of the InitiateANewPathtrace API.
+  link: https://developer.cisco.com/docs/dna-center/#!initiate-a-new-pathtrace
+- name: Cisco DNA Center documentation for Path Trace DeletesPathtraceById
+  description: Complete reference of the DeletesPathtraceById API.
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-pathtrace-by-id
 notes:
   - SDK Method used are
     path_trace.PathTrace.deletes_pathtrace_by_id,

@@ -24,8 +24,12 @@ options:
     - NodeType query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Topology GetPhysicalTopology
+  description: Complete reference of the GetPhysicalTopology API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-physical-topology
 notes:
   - SDK Method used are
     topology.Topology.get_physical_topology,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     nodeType: string
   register: result
 

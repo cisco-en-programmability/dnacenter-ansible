@@ -89,8 +89,18 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Application Policy CreateApplicationPolicyQueuingProfile
+  description: Complete reference of the CreateApplicationPolicyQueuingProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-application-policy-queuing-profile
+- name: Cisco DNA Center documentation for Application Policy DeleteApplicationPolicyQueuingProfile
+  description: Complete reference of the DeleteApplicationPolicyQueuingProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-application-policy-queuing-profile
+- name: Cisco DNA Center documentation for Application Policy UpdateApplicationPolicyQueuingProfile
+  description: Complete reference of the UpdateApplicationPolicyQueuingProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-application-policy-queuing-profile
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.create_application_policy_queuing_profile,
@@ -117,18 +127,18 @@ EXAMPLES = r"""
     state: present
     payload:
     - clause:
-      - instanceId: 1
+      - instanceId: 0
         interfaceSpeedBandwidthClauses:
-        - instanceId: 1
+        - instanceId: 0
           interfaceSpeed: string
           tcBandwidthSettings:
-          - bandwidthPercentage: 1
-            instanceId: 1
+          - bandwidthPercentage: 0
+            instanceId: 0
             trafficClass: string
         isCommonBetweenAllInterfaceSpeeds: true
         tcDscpSettings:
         - dscp: string
-          instanceId: 1
+          instanceId: 0
           trafficClass: string
         type: string
       description: string
@@ -150,7 +160,7 @@ EXAMPLES = r"""
       - interfaceSpeedBandwidthClauses:
         - interfaceSpeed: string
           tcBandwidthSettings:
-          - bandwidthPercentage: 1
+          - bandwidthPercentage: 0
             trafficClass: string
         isCommonBetweenAllInterfaceSpeeds: true
         tcDscpSettings:

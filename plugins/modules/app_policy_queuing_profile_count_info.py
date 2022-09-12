@@ -10,7 +10,7 @@ module: app_policy_queuing_profile_count_info
 short_description: Information module for App Policy Queuing Profile Count
 description:
 - Get all App Policy Queuing Profile Count.
-- Get the number of all existing  application policy queuing profile.
+- Get the number of all existing application policy queuing profile.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,8 +20,12 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Application Policy GetApplicationPolicyQueuingProfileCount
+  description: Complete reference of the GetApplicationPolicyQueuingProfileCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-application-policy-queuing-profile-count
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_application_policy_queuing_profile_count,
@@ -41,8 +45,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
   register: result
 
 """

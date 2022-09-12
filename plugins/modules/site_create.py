@@ -16,6 +16,9 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   site:
     description: Site Create's site.
     suboptions:
@@ -35,6 +38,9 @@ options:
           address:
             description: Address of the building to be created.
             type: str
+          country:
+            description: Country (eg United States).
+            type: str
           latitude:
             description: Latitude coordinate of the building (eg 37.338).
             type: int
@@ -51,11 +57,14 @@ options:
       floor:
         description: Site Create's floor.
         suboptions:
+          floorNumber:
+            description: Floor number. (eg 5).
+            type: int
           height:
-            description: Height of the floor (eg 15).
+            description: Height of the floor. Unit of measure is ft. (eg 15).
             type: int
           length:
-            description: Length of the floor (eg 100).
+            description: Length of the floor. Unit of measure is ft. (eg 100).
             type: int
           name:
             description: Name of the floor (eg floor-1).
@@ -64,11 +73,10 @@ options:
             description: Parent name of the floor to be created.
             type: str
           rfModel:
-            description: Type of floor. Allowed values are 'Cubes And Walled Offices',
-              'Drywall Office Only', 'Indoor High Ceiling', 'Outdoor Open Space'.
+            description: Type of floor (eg Cubes And Walled Offices0.
             type: str
           width:
-            description: Width of the floor (eg 100).
+            description: Width of the floor. Unit of measure is ft. (eg 100).
             type: int
         type: dict
     type: dict
@@ -76,8 +84,12 @@ options:
     description: Type of site to create (eg area, building, floor).
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Sites CreateSite
+  description: Complete reference of the CreateSite API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-site
 notes:
   - SDK Method used are
     sites.Sites.create_site,
@@ -97,17 +109,20 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    headers: '{{my_headers | from_json}}'
     site:
       area:
         name: string
         parentName: string
       building:
         address: string
+        country: string
         latitude: 0
         longitude: 0
         name: string
         parentName: string
       floor:
+        floorNumber: 0
         height: 0
         length: 0
         name: string

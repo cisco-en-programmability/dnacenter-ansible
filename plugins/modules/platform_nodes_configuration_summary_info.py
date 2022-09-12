@@ -10,8 +10,10 @@ module: platform_nodes_configuration_summary_info
 short_description: Information module for Platform Nodes Configuration Summary
 description:
 - Get all Platform Nodes Configuration Summary.
-- Provides details about the current Cisco DNA Center node configuration, such as API version, node name, NTP server,
-  intracluster link, LACP mode, network static routes, DNS server, subnet mask, host IP, default gateway, and interface information.
+- >
+   Provides details about the current Cisco DNA Center node configuration, such as API version, node name, NTP
+   server, intracluster link, LACP mode, network static routes, DNS server, subnet mask, host IP, default gateway,
+   and interface information.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,8 +23,12 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Platform Configuration CiscoDNACenterNodesConfigurationSummary
+  description: Complete reference of the CiscoDNACenterNodesConfigurationSummary API.
+  link: https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-nodes-configuration-summary
 notes:
   - SDK Method used are
     platform_configuration.PlatformConfiguration.nodes_configuration_summary,
@@ -42,8 +48,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
   register: result
 
 """

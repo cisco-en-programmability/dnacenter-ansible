@@ -20,8 +20,12 @@ options:
     description: DeviceIPAddress query parameter. Device Management IP Address.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Fabric Wireless RemoveWLCFromFabricDomain
+  description: Complete reference of the RemoveWLCFromFabricDomain API.
+  link: https://developer.cisco.com/docs/dna-center/#!remove-wlc-from-fabric-domain
 notes:
   - SDK Method used are
     fabric_wireless.FabricWireless.remove_w_l_c_from_fabric_domain,

@@ -10,9 +10,10 @@ module: pnp_virtual_account_add
 short_description: Resource module for Pnp Virtual Account Add
 description:
 - Manage operation create of the resource Pnp Virtual Account Add.
-- Registers a Smart Account, Virtual Account and the relevant server profile info with the PnP System & database.
-  The devices present in the registered virtual account are synced with the PnP database as well.
-  The response payload returns the new profile.
+- >
+   Registers a Smart Account, Virtual Account and the relevant server profile info with the PnP System & database.
+   The devices present in the registered virtual account are synced with the PnP database as well. The response
+   payload returns the new profile.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -99,8 +100,12 @@ options:
     description: Pnp Virtual Account Add's virtualAccountId.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) AddVirtualAccount
+  description: Complete reference of the AddVirtualAccount API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-virtual-account
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.add_virtual_account,

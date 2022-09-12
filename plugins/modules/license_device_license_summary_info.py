@@ -10,7 +10,7 @@ module: license_device_license_summary_info
 short_description: Information module for License Device License Summary
 description:
 - Get all License Device License Summary.
-- Show license summary of device(s).
+- Show license summary of devices.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -60,8 +60,12 @@ options:
     - Device_uuid query parameter. Id of device.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Licenses DeviceLicenseSummary
+  description: Complete reference of the DeviceLicenseSummary API.
+  link: https://developer.cisco.com/docs/dna-center/#!device-license-summary
 notes:
   - SDK Method used are
     licenses.Licenses.device_license_summary,
@@ -81,8 +85,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     page_number: 0
     order: string
     sort_by: string

@@ -72,17 +72,22 @@ options:
     description: Slaac Support.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpool
+  description: Complete reference of the UpdateReserveIPSubpool API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.update_reserve_ip_subpool,
 
   - Paths used are
-    put /dna/intent/api/v1/reserve-ip-subpool/{siteId}
+    put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
 
-  - Removed 'type', 'ipv4GlobalPool', 'ipv4Prefix', 'ipv4PrefixLength', 'ipv4Subnet' and 'ipv4TotalHost' options
-    in v4.3.0.
+  - >
+     Removed 'type', 'ipv4GlobalPool', 'ipv4Prefix', 'ipv4PrefixLength', 'ipv4Subnet' and 'ipv4TotalHost' options
+     in v4.3.0.
 """
 
 EXAMPLES = r"""

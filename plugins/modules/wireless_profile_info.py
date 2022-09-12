@@ -24,8 +24,12 @@ options:
     - ProfileName query parameter. Wireless Network Profile Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Wireless GetWirelessProfile
+  description: Complete reference of the GetWirelessProfile API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profile
 notes:
   - SDK Method used are
     wireless.Wireless.get_wireless_profile,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     profileName: string
   register: result
 

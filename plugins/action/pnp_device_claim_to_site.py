@@ -31,7 +31,14 @@ argument_spec.update(dict(
     imageInfo=dict(type="dict"),
     configInfo=dict(type="dict"),
     hostname=dict(type="str"),
+    gateway=dict(type="str"),
+    imageId=dict(type="str"),
+    removeInactive=dict(type="bool"),
+    ipInterfaceName=dict(type="str"),
     rfProfile=dict(type="str"),
+    staticIP=dict(type="str"),
+    subnetMask=dict(type="str"),
+    vlanId=dict(type="str"),
 ))
 
 required_if = []
@@ -75,7 +82,14 @@ class ActionModule(ActionBase):
             imageInfo=params.get("imageInfo"),
             configInfo=params.get("configInfo"),
             hostname=params.get("hostname"),
+            gateway=params.get("gateway"),
+            imageId=params.get("imageId"),
+            removeInactive=params.get("removeInactive"),
+            ipInterfaceName=params.get("ipInterfaceName"),
             rfProfile=params.get("rfProfile"),
+            staticIP=params.get("staticIP"),
+            subnetMask=params.get("subnetMask"),
+            vlanId=params.get("vlanId"),
         )
         return new_object
 

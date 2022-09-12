@@ -37,8 +37,15 @@ options:
     - Id path parameter. Functional Capability UUID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices GetFunctionalCapabilityById
+  description: Complete reference of the GetFunctionalCapabilityById API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-functional-capability-by-id
+- name: Cisco DNA Center documentation for Devices GetFunctionalCapabilityForDevices
+  description: Complete reference of the GetFunctionalCapabilityForDevices API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-functional-capability-for-devices
 notes:
   - SDK Method used are
     devices.Devices.get_functional_capability_by_id,
@@ -60,8 +67,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceId: string
     functionName: []
   register: result
@@ -75,8 +81,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     id: string
   register: result
 

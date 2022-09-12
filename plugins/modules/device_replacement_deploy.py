@@ -10,7 +10,9 @@ module: device_replacement_deploy
 short_description: Resource module for Device Replacement Deploy
 description:
 - Manage operation create of the resource Device Replacement Deploy.
-- API to trigger RMA workflow that will replace faulty device with replacement device with same configuration and images.
+- >
+   API to trigger RMA workflow that will replace faulty device with replacement device with same configuration and
+   images.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,8 +25,12 @@ options:
     description: Device Replacement Deploy's replacementDeviceSerialNumber.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Device Replacement DeployDeviceReplacementWorkflow
+  description: Complete reference of the DeployDeviceReplacementWorkflow API.
+  link: https://developer.cisco.com/docs/dna-center/#!deploy-device-replacement-workflow
 notes:
   - SDK Method used are
     device_replacement.DeviceReplacement.deploy_device_replacement_workflow,

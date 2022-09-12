@@ -10,7 +10,9 @@ module: reports
 short_description: Resource module for Reports
 description:
 - Manage operations create and delete of the resource Reports.
-- Create/Schedule a report configuration. Use "Get view details for a given view group & view" API to get the metadata required to configure a report.
+- >
+   Create/Schedule a report configuration. Use "Get view details for a given view group & view" API to get the
+   metadata required to configure a report.
 - Delete a scheduled report configuration. Deletes the report executions also.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -101,8 +103,15 @@ options:
     description: Version of viewgroup for the report.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Reports CreateOrScheduleAReport
+  description: Complete reference of the CreateOrScheduleAReport API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-or-schedule-a-report
+- name: Cisco DNA Center documentation for Reports DeleteAScheduledReport
+  description: Complete reference of the DeleteAScheduledReport API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-a-scheduled-report
 notes:
   - SDK Method used are
     reports.Reports.create_or_schedule_a_report,

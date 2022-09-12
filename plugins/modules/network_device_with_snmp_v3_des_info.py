@@ -10,7 +10,9 @@ module: network_device_with_snmp_v3_des_info
 short_description: Information module for Network Device With Snmp V3 Des
 description:
 - Get all Network Device With Snmp V3 Des.
-- Returns devices added to DNAC with snmp v3 DES, where siteId is mandatory & accepts offset, limit, sortby, order which are optional.
+- >
+   Returns devices added to Cisco DNA center with snmp v3 DES, where siteId is mandatory & accepts offset, limit,
+   sortby, order which are optional.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -40,8 +42,12 @@ options:
     - Order query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Devices ReturnsDevicesAddedToCiscoDNACenterWithSnmpV3DES
+  description: Complete reference of the ReturnsDevicesAddedToCiscoDNACenterWithSnmpV3DES API.
+  link: https://developer.cisco.com/docs/dna-center/#!returns-devices-added-to-cisco-dna-center-with-snmp-v-3-des
 notes:
   - SDK Method used are
     devices.Devices.get_devices_with_snmpv3_des,
@@ -61,8 +67,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     offset: string
     limit: string
     sortBy: string

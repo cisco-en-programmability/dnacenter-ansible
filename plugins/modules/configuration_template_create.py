@@ -510,8 +510,12 @@ options:
     description: Current version of template.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates CreateTemplate
+  description: Complete reference of the CreateTemplate API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-template
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.create_template,

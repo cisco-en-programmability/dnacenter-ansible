@@ -57,6 +57,8 @@ argument_spec.update(dict(
     module_operationstatecode=dict(type="list"),
     id=dict(type="str"),
     deviceSupportLevel=dict(type="str"),
+    offset=dict(type="int"),
+    limit=dict(type="int"),
     headers=dict(type="dict"),
 ))
 
@@ -127,6 +129,8 @@ class ActionModule(ActionBase):
             module_operationstatecode=params.get("module_operationstatecode"),
             id=params.get("id"),
             device_support_level=params.get("deviceSupportLevel"),
+            offset=params.get("offset"),
+            limit=params.get("limit"),
             headers=params.get("headers"),
         )
         return new_object
@@ -146,7 +150,7 @@ class ActionModule(ActionBase):
             response = dnac.exec(
                 family="devices",
                 function='get_device_by_id',
-                params=self.get_object(self._task.args)
+                params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))
             self._result.update(dnac.exit_json())

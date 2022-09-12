@@ -18,16 +18,33 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   deviceManagementIpAddress:
-    version_added: "4.0.0"
     description: DeviceManagementIpAddress query parameter.
     type: str
-  siteNameHierarchy:
-    version_added: "4.0.0"
-    description: Site Name Hierarchy of provisioned Device(site should be fabric site).
-    type: str
+    version_added: 4.0.0
+  payload:
+    description: Sda Fabric Control Plane Device's payload.
+    elements: dict
+    suboptions:
+      deviceManagementIpAddress:
+        description: Management Ip Address of the Device which is provisioned successfully.
+        type: str
+        version_added: 4.0.0
+      siteNameHierarchy:
+        description: SiteNameHierarchy of the Provisioned Device(site should be part
+          of Fabric Site(site should be part of Fabric Site).
+        type: str
+        version_added: 4.0.0
+    type: list
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA AddControlPlaneDeviceInSDAFabric
+  description: Complete reference of the AddControlPlaneDeviceInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-control-plane-device-in-sda-fabric
+- name: Cisco DNA Center documentation for SDA DeleteControlPlaneDeviceInSDAFabric
+  description: Complete reference of the DeleteControlPlaneDeviceInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-control-plane-device-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_control_plane_device,
@@ -62,8 +79,9 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    deviceManagementIpAddress: string
-    siteNameHierarchy: string
+    payload:
+    - deviceManagementIpAddress: string
+      siteNameHierarchy: string
 
 """
 

@@ -532,3 +532,63 @@ releases:
       minor_changes:
         - Adds ``headers`` parameter to wireless provision device update.
         - reports - `tag` and `deliveries` now support empty format
+  6.4.0:
+    release_date: "2022-04-20"
+    changes:
+      release_summary: Adds parameters to pnp_device_claim_to_site.
+      minor_changes:
+        - Adds following ``parameters`` to pnp_device_claim_to_site, gateway, imageId, ipInterfaceName, staticIP, subnetMask, vlanId
+  6.5.0:
+    release_date: "2022-06-20"
+    changes:
+      release_summary: New Dna Center API version 2.3.3.0.
+      minor_changes:
+        - Update dnacentersdk requirement from 2.4.7 to 2.5.0
+        - assign_device_to_site - new module.
+        - buildings_planned_access_points_info - new module.
+        - business_sda_virtual_network_summary_info - new module.
+        - event_config_connector_types_info - new module.
+        - event_email_config_create - new module.
+        - event_email_config_update - new module.
+        - event_webhook_create - new module.
+        - event_webhook_update - new module.
+        - file_import - new module.
+        - interface_info - new module.
+        - interface_operation_create - new module.
+        - interface_update - new module.
+        - lan_automation_count_info - new module.
+        - lan_automation_create - new module.
+        - lan_automation_delete - new module.
+        - lan_automation_log_info - new module.
+        - lan_automation_status_info - new module.
+        - network_device_custom_prompt_info - new module.
+        - network_device_custom_prompt - new module.
+  6.5.1:
+    release_date: "2022-07-19"
+    changes:
+      release_summary: Added a status check, changed a required parameter and improved the doc.
+      bugfixes:
+        - sda_fabric_edge_device - Change required payload parameter to deviceManagementIpAddress
+        - transit_peer_network - Added status check
+        - file_info - Improve the module documentation.
+  6.5.2:
+    release_date: "2022-07-20"
+    changes:
+      release_summary: Deletion function fixed in several modules.
+      bugfixes:
+        - application_sets - delete function fixed.
+        - applications - delete function fixed.
+        - event_subscription - delete function fixed.
+        - sda_fabric_authentication_profile - delete function fixed.
+        - sda_fabric_border_device - delete function fixed.
+        - sda_fabric_control_plane_device - delete function fixed.
+        - sda_fabric_edge_device - delete function fixed.
+        - sda_virtual_network - delete function fixed.
+  6.5.3:
+    release_date: "2022-08-12"
+    changes:
+      release_summary: Added new function and fixed module
+      bugfixes:
+        - Update dnacentersdk requirement from 2.5.0 to 2.5.4
+        - business_sda_hostonboarding_ssid_ippool - create function added.
+        - wireless_profile - create function fixed.

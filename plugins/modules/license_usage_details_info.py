@@ -34,8 +34,12 @@ options:
     - Device_type query parameter. Type of device like router, switch, wireless or ise.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Licenses LicenseUsageDetails
+  description: Complete reference of the LicenseUsageDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!license-usage-details
 notes:
   - SDK Method used are
     licenses.Licenses.license_usage_details,
@@ -55,8 +59,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     device_type: string
     smart_account_id: string
     virtual_account_name: string

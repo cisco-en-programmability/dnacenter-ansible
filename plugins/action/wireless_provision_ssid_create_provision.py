@@ -30,6 +30,7 @@ argument_spec.update(dict(
     ssidType=dict(type="str"),
     enableFabric=dict(type="bool"),
     flexConnect=dict(type="dict"),
+    headers=dict(type="dict"),
 ))
 
 required_if = []
@@ -72,6 +73,7 @@ class ActionModule(ActionBase):
             ssidType=params.get("ssidType"),
             enableFabric=params.get("enableFabric"),
             flexConnect=params.get("flexConnect"),
+            headers=params.get("headers"),
         )
         return new_object
 

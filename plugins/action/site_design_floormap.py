@@ -6,7 +6,7 @@
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
-from ansible.plugins.action import ActionBase
+from ansible.plugins.action import ActionBase, Display
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
         AnsibleArgSpecValidator,
@@ -211,6 +211,9 @@ class ActionModule(ActionBase):
         self._result = super(ActionModule, self).run(tmp, task_vars)
         self._result["changed"] = False
         self._check_argspec()
+
+        Display().warning("This module is currently unmaintained "
+                          "and will be removed in future releases.")
 
         dnac = DNACSDK(self._task.args)
         obj = SiteDesignFloormap(self._task.args, dnac)

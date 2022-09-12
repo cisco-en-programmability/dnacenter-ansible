@@ -60,8 +60,12 @@ options:
     - ParentId query parameter. Fetch tasks that have this parent Id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Task GetTaskCount
+  description: Complete reference of the GetTaskCount API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-task-count
 notes:
   - SDK Method used are
     task.Task.get_task_count,
@@ -81,8 +85,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     startTime: string
     endTime: string
     data: string

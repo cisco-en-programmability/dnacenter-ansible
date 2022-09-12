@@ -23,8 +23,12 @@ options:
     description: StartIndex path parameter. Start index.
     type: int
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Discovery DeleteDiscoveryBySpecifiedRange
+  description: Complete reference of the DeleteDiscoveryBySpecifiedRange API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-specified-range
 notes:
   - SDK Method used are
     discovery.Discovery.delete_discovery_by_specified_range,

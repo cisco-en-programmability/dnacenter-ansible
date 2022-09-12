@@ -32,8 +32,12 @@ options:
     - Name query parameter. Application's name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Application Policy GetApplications
+  description: Complete reference of the GetApplications API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-applications
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_applications,
@@ -53,8 +57,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     offset: 0
     limit: 0
     name: string

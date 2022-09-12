@@ -24,8 +24,12 @@ options:
     - DeviceManagementIpAddress query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetProvisionedWiredDevice
+  description: Complete reference of the GetProvisionedWiredDevice API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-provisioned-wired-device
 notes:
   - SDK Method used are
     sda.Sda.get_provisioned_wired_device,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceManagementIpAddress: string
   register: result
 

@@ -24,8 +24,12 @@ options:
     - DeviceManagementIpAddress query parameter. Device Management IP Address.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for SDA GetDeviceRoleInSDAFabric
+  description: Complete reference of the GetDeviceRoleInSDAFabric API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-role-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_device_role_in_sda_fabric,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     deviceManagementIpAddress: string
   register: result
 

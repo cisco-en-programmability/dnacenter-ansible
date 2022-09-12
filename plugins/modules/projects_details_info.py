@@ -10,7 +10,7 @@ module: projects_details_info
 short_description: Information module for Projects Details
 description:
 - Get all Projects Details.
-- Get project(s) details.
+- Get projects details.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -40,8 +40,12 @@ options:
     - SortOrder query parameter. Sort Order Ascending (asc) or Descending (dsc).
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates GetProjectsDetails
+  description: Complete reference of the GetProjectsDetails API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-project-s-details
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_projects_details,
@@ -61,8 +65,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     id: string
     name: string
     offset: 0
@@ -208,7 +211,6 @@ dnac_response:
                   "productType": "string"
                 }
               ],
-              "documentDatabase": true,
               "failurePolicy": "string",
               "id": "string",
               "language": "string",
@@ -216,7 +218,6 @@ dnac_response:
               "latestVersionTime": 0,
               "name": "string",
               "parentTemplateId": "string",
-              "projectAssociated": true,
               "projectId": "string",
               "projectName": "string",
               "rollbackTemplateContent": "string",

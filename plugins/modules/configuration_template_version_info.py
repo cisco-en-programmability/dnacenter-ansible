@@ -24,8 +24,12 @@ options:
     - TemplateId path parameter. TemplateId(UUID) to get list of versioned templates.
     type: str
 requirements:
-- dnacentersdk >= 2.4.8
+- dnacentersdk >= 2.5.4
 - python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Configuration Templates GetsAllTheVersionsOfAGivenTemplate
+  description: Complete reference of the GetsAllTheVersionsOfAGivenTemplate API.
+  link: https://developer.cisco.com/docs/dna-center/#!gets-all-the-versions-of-a-given-template
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_template_versions,
@@ -45,8 +49,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     templateId: string
   register: result
 

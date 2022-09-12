@@ -24,7 +24,6 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
     InconsistentParameters,
-
     AnsibleSDAException,
 )
 
@@ -33,11 +32,13 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
+    payload=dict(type="list"),
     virtualNetworkName=dict(type="str"),
     siteNameHierarchy=dict(type="str"),
 ))
 
 required_if = [
+    ("state", "present", ["payload"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -48,22 +49,22 @@ class SdaVirtualNetwork(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
-            virtualNetworkName=params.get("virtualNetworkName"),
-            siteNameHierarchy=params.get("siteNameHierarchy"),
+            payload=params.get("payload"),
             virtual_network_name=params.get("virtualNetworkName"),
             site_name_hierarchy=params.get("siteNameHierarchy"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['virtual_network_name'] = self.new_object.get('virtual_network_name')
-        new_object_params['site_name_hierarchy'] = self.new_object.get('site_name_hierarchy')
+        new_object_params['virtual_network_name'] = self.new_object.get('virtualNetworkName') or \
+            self.new_object.get('virtual_network_name')
+        new_object_params['site_name_hierarchy'] = self.new_object.get('siteNameHierarchy') or \
+            self.new_object.get('site_name_hierarchy')
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['virtualNetworkName'] = self.new_object.get('virtualNetworkName')
-        new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
+        new_object_params['payload'] = self.new_object.get('payload')
         return new_object_params
 
     def delete_all_params(self):
@@ -74,7 +75,7 @@ class SdaVirtualNetwork(object):
 
     def get_object_by_name(self, name, is_absent=False):
         result = None
-        # NOTICE: Does not have a get by name method, using get all
+        # NOTE: Does not have a get by name method, using get all
         try:
             items = self.dnac.exec(
                 family="sda",
@@ -108,7 +109,9 @@ class SdaVirtualNetwork(object):
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
-        requested_obj = self.new_object
+        requested_obj = self.new_object.get('payload')
+        if requested_obj and len(requested_obj) > 0:
+            requested_obj = requested_obj[0]
 
         obj_params = [
             ("virtualNetworkName", "virtualNetworkName"),
