@@ -1,0 +1,186 @@
+{
+    "playbook_config": [{
+        "type": "floor", 
+        "site": {
+            "floor": {
+                "name": "Floor 1",
+                "parentName": "Global/Chennai/Trill", 
+                "rfModel": "Free Space", 
+                "width": "100.0", 
+                "length": "100.0", 
+                "height": "100.0"
+            }
+        }
+    }],
+    "playbook_config_invalid_param": [{
+        "type": "floor"
+    }],
+    "create_site_response":{
+        "executionId": "0ac985a4-b1bb-442d-9fa3-2032cb9e9ba6", 
+        "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/0ac985a4-b1bb-442d-9fa3-2032cb9e9ba6", 
+        "message": "The request has been accepted for execution"
+    },
+    "get_business_api_execution_details_response":{
+        "status": "SUCCESS"
+    },
+    "get_site_response":{
+        "response": [{
+            "parentId": "1e3868a6-666d-47a3-813c-6a2aa9bce46c", 
+            "additionalInfo": [
+                {
+                "nameSpace": "mapsSummary", 
+                "attributes": {
+                    "rfModel": "14144130", 
+                    "imageURL": "", 
+                    "isCadFile": "false", 
+                    "floorIndex": "1"
+                    }
+                }, 
+                {
+                    "nameSpace": "Location", 
+                    "attributes": {
+                        "addressInheritedFrom": "597dba2d-c09f-4bae-ae61-8b0d9c8cd268", 
+                        "type": "floor"
+                        }
+                }, 
+                {
+                    "nameSpace": "mapGeometry", 
+                    "attributes": {
+                        "offsetX": "0.0", 
+                        "offsetY": "0.0", 
+                        "width": "90.0", 
+                        "length": "100.0", 
+                        "height": "100.0"
+                        }
+                }
+            ], 
+            "name": "Floor 2", 
+            "instanceTenantId": "5fa5559c4238fb00c6cc6801", 
+            "id": "ea3848d7-5337-4e48-aec3-605beaee55b4", 
+            "siteHierarchy": "c6622c8a-ae49-47db-bc7c-5984fa61ca28/597dba2d-c09f-4bae-ae61-8b0d9c8cd268/1e3868a6-666d-47a3-813c-6a2aa9bce46c/ea3848d7-5337-4e48-aec3-605beaee55b4", 
+            "siteNameHierarchy": "Global/Chennai/Trill/Floor 2"
+            }
+        ]
+    },
+    "update_not_needed_get_site_response":{
+        "response": [
+            {
+                "parentId": "1e3868a6-666d-47a3-813c-6a2aa9bce46c", 
+                "additionalInfo": [
+                    {
+                        "nameSpace": "mapsSummary", 
+                        "attributes": {
+                            "rfModel": "14144130", 
+                            "imageURL": "", 
+                            "isCadFile": "false", 
+                            "floorIndex": "1"
+                            }
+                    }, 
+                    {
+                        "nameSpace": "mapGeometry", 
+                        "attributes": {
+                            "offsetX": "0.0", 
+                            "offsetY": "0.0", 
+                            "length": "100.0", 
+                            "width": "100.0", 
+                            "height": "100.0"
+                            }
+                    }, 
+                    {
+                        "nameSpace": "Location", 
+                        "attributes": {
+                            "latitude": "0.0", 
+                            "addressInheritedFrom": "597dba2d-c09f-4bae-ae61-8b0d9c8cd268", 
+                            "type": "floor", "longitude": "0.0"
+                            }
+                    }
+                    ], 
+                    "name": "Floor 1", 
+                    "instanceTenantId": "5fa5559c4238fb00c6cc6801", 
+                    "id": "16d77f9d-e1ae-4556-8e80-615651ee52ca", 
+                    "siteHierarchy": "c6622c8a-ae49-47db-bc7c-5984fa61ca28/597dba2d-c09f-4bae-ae61-8b0d9c8cd268/1e3868a6-666d-47a3-813c-6a2aa9bce46c/16d77f9d-e1ae-4556-8e80-615651ee52ca", 
+                    "siteNameHierarchy": "Global/Chennai/Trill/Floor 1"
+            }
+        ]
+    },
+    "update_needed_get_site_response": {
+        "response": [
+            {
+                "parentId": "597dba2d-c09f-4bae-ae61-8b0d9c8cd268", 
+                "additionalInfo": [
+                    {
+                        "nameSpace": "Location", 
+                        "attributes": {
+                            "country": "India", 
+                            "latitude": "12.933971097851867", 
+                            "addressInheritedFrom": "597dba2d-c09f-4bae-ae61-8b0d9c8cd268", 
+                            "type": "building", 
+                            "longitude": "80.2467681804189"
+                        }
+                    }
+                ], 
+                "name": "Triill", 
+                "instanceTenantId": "5fa5559c4238fb00c6cc6801", 
+                "id": "87169daa-7de2-4f9d-814a-d8746de41be6", 
+                "siteHierarchy": "c6622c8a-ae49-47db-bc7c-5984fa61ca28/597dba2d-c09f-4bae-ae61-8b0d9c8cd268/87169daa-7de2-4f9d-814a-d8746de41be6", 
+                "siteNameHierarchy": "Global/Chennai/Triill"
+            }
+        ]
+    },
+    "update_needed_update_site_response":{
+        "executionId": "67f206ab-5377-46d4-99bf-dadf1543f84e", 
+        "executionStatusUrl": "/dna/platform/management/business-api/v1/execution-status/67f206ab-5377-46d4-99bf-dadf1543f84e", 
+        "message": "The request has been accepted for execution"
+    },
+    "delete_get_site_response":{
+	"response": [
+	    {
+		"parentId": "4ee5983e-4e4b-4a91-96fa-3d526d593cb0", 
+		"additionalInfo": [
+		    {
+			"nameSpace": "Location", 
+			"attributes": {
+			    "addressInheritedFrom": "4ee5983e-4e4b-4a91-96fa-3d526d593cb0", 
+			    "type": "area"
+			}
+		    }
+		], 
+		"name": "Hebbal", 
+		"instanceTenantId": "5fa5559c4238fb00c6cc6801", 
+		"id": "e9b94916-e5b0-422c-9dac-16618ebb5f73", 
+		"siteHierarchy": "c6622c8a-ae49-47db-bc7c-5984fa61ca28/4ee5983e-4e4b-4a91-96fa-3d526d593cb0/e9b94916-e5b0-422c-9dac-16618ebb5f73", 
+		"siteNameHierarchy": "Global/Bangalore/Hebbal"
+	    }
+	]
+    },
+    "delete_delete_site_response":{
+        "executionId": "820b2ad9-4c31-48c1-b729-e029ad00ce95" 
+    },
+    "delete_execution_details_error":{
+        "bapiError":"True"
+    },
+    "delete_error_get_site_response":{
+        "response": [
+            {
+                "parentId": "597dba2d-c09f-4bae-ae61-8b0d9c8cd268", 
+                "additionalInfo": [
+                    {
+                        "nameSpace": "Location", 
+                        "attributes": {
+                            "country": "India", 
+                            "latitude": "12.933971097851867", 
+                            "addressInheritedFrom": "597dba2d-c09f-4bae-ae61-8b0d9c8cd268", 
+                            "type": "building", 
+                            "longitude": "80.2467681804189"
+                        }
+                    }
+                ], 
+                "name": "Triill", 
+                "instanceTenantId": "5fa5559c4238fb00c6cc6801", 
+                "id": "87169daa-7de2-4f9d-814a-d8746de41be6", 
+                "siteHierarchy": "c6622c8a-ae49-47db-bc7c-5984fa61ca28/597dba2d-c09f-4bae-ae61-8b0d9c8cd268/87169daa-7de2-4f9d-814a-d8746de41be6", 
+                "siteNameHierarchy": "Global/Chennai/Triill"
+            }
+        ]
+    }
+}
