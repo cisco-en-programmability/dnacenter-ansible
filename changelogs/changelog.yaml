@@ -592,3 +592,12 @@ releases:
         - Update dnacentersdk requirement from 2.5.0 to 2.5.4
         - business_sda_hostonboarding_ssid_ippool - create function added.
         - wireless_profile - create function fixed.
+  6.6.0:
+    release_date: "2022-09-13"
+    changes:
+      release_summary: Added new intent modules
+      minor_changes:
+        - pnp_intent - new module.
+        - site_intent - new module.
+        - swim_intent - new module.
+        - template_intent - new module.
