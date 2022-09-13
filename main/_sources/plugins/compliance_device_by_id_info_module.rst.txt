@@ -43,13 +43,11 @@ cisco.dnac.compliance_device_by_id_info module -- Information module for Complia
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.compliance_device_by_id_info_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.compliance_device_by_id_info`.
 
@@ -80,12 +78,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.compliance_device_by_id_info_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -135,7 +135,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Category query parameter. ComplianceCategory can have any value among 'INTENT', 'RUNNING_CONFIG'.
+      Category query parameter. ComplianceCategory can have any value among 'INTENT', 'RUNNING\_CONFIG'.
 
 
       .. raw:: html
@@ -169,7 +169,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      ComplianceType query parameter. ComplianceType can have any value among 'NETWORK_DESIGN', 'NETWORK_PROFILE', 'FABRIC', 'POLICY', 'RUNNING_CONFIG'.
+      ComplianceType query parameter. ComplianceType can have any value among 'NETWORK\_DESIGN', 'NETWORK\_PROFILE', 'FABRIC', 'POLICY', 'RUNNING\_CONFIG'.
           
 
 
@@ -245,8 +245,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -286,8 +286,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -477,8 +477,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -624,8 +624,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -675,11 +675,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are compliance.Compliance.compliance_details_of_device,
+   - SDK Method used are compliance.Compliance.compliance\_details\_of\_device,
    - Paths used are get /dna/intent/api/v1/compliance/{deviceUuid}/detail,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -777,7 +777,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"deviceUuid\\": \\"string\\",\\n  \\"version\\": \\"string\\",\\n  \\"response\\": [\\n    {\\n      \\"displayName\\": \\"string\\",\\n      \\"complianceType\\": \\"string\\",\\n      \\"lastSyncTime\\": \\"string\\",\\n      \\"additionalDataURL\\": \\"string\\",\\n      \\"sourceInfoList\\": [\\n        {\\n          \\"count\\": 0,\\n          \\"displayName\\": \\"string\\",\\n          \\"diffList\\": [\\n            {\\n              \\"displayName\\": \\"string\\",\\n              \\"moveFromPath\\": \\"string\\",\\n              \\"op\\": \\"string\\",\\n              \\"configuredValue\\": \\"string\\",\\n              \\"intendedValue\\": \\"string\\",\\n              \\"path\\": \\"string\\",\\n              \\"businessKey\\": \\"string\\",\\n              \\"extendedAttributes\\": \\"string\\"\\n            }\\n          ],\\n          \\"sourceEnum\\": \\"string\\",\\n          \\"licenseAppName\\": \\"string\\",\\n          \\"provisioningArea\\": \\"string\\",\\n          \\"networkProfileName\\": \\"string\\",\\n          \\"nameWithBusinessKey\\": \\"string\\",\\n          \\"appName\\": \\"string\\",\\n          \\"name\\": \\"string\\",\\n          \\"type\\": \\"string\\",\\n          \\"businessKey\\": {\\n            \\"otherAttributes\\": {\\n              \\"cfsAttributes\\": \\"string\\",\\n              \\"name\\": \\"string\\"\\n            },\\n            \\"resourceName\\": \\"string\\",\\n            \\"businessKeyAttributes\\": \\"string\\"\\n          }\\n        }\\n      ],\\n      \\"deviceUuid\\": \\"string\\",\\n      \\"message\\": \\"string\\",\\n      \\"state\\": \\"string\\",\\n      \\"status\\": \\"string\\",\\n      \\"category\\": \\"string\\",\\n      \\"lastUpdateTime\\": 0\\n    }\\n  ]\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"deviceUuid": "string", "response": [{"additionalDataURL": "string", "category": "string", "complianceType": "string", "deviceUuid": "string", "displayName": "string", "lastSyncTime": "string", "lastUpdateTime": 0, "message": "string", "sourceInfoList": [{"appName": "string", "businessKey": {"businessKeyAttributes": "string", "otherAttributes": {"cfsAttributes": "string", "name": "string"}, "resourceName": "string"}, "count": 0, "diffList": [{"businessKey": "string", "configuredValue": "string", "displayName": "string", "extendedAttributes": "string", "intendedValue": "string", "moveFromPath": "string", "op": "string", "path": "string"}], "displayName": "string", "licenseAppName": "string", "name": "string", "nameWithBusinessKey": "string", "networkProfileName": "string", "provisioningArea": "string", "sourceEnum": "string", "type": "string"}], "state": "string", "status": "string"}], "version": "string"}
 
 
       .. raw:: html

@@ -43,13 +43,11 @@ cisco.dnac.pnp_workflow_info module -- Information module for Pnp Workflow
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.pnp_workflow_info_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.pnp_workflow_info`.
 
@@ -83,12 +81,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.pnp_workflow_info_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -145,8 +145,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -336,8 +336,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -687,8 +687,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -704,11 +704,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.get_workflow_by_id, device_onboarding_pnp.DeviceOnboardingPnp.get_workflows,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.get\_workflow\_by\_id, device\_onboarding\_pnp.DeviceOnboardingPnp.get\_workflows,
    - Paths used are get /dna/intent/api/v1/onboarding/pnp-workflow, get /dna/intent/api/v1/onboarding/pnp-workflow/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -821,7 +821,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"\_id\\": \\"string\\",\\n  \\"state\\": \\"string\\",\\n  \\"type\\": \\"string\\",\\n  \\"description\\": \\"string\\",\\n  \\"lastupdateOn\\": 0,\\n  \\"imageId\\": \\"string\\",\\n  \\"currTaskIdx\\": 0,\\n  \\"addedOn\\": 0,\\n  \\"tasks\\": [\\n    {\\n      \\"state\\": \\"string\\",\\n      \\"type\\": \\"string\\",\\n      \\"currWorkItemIdx\\": 0,\\n      \\"taskSeqNo\\": 0,\\n      \\"endTime\\": 0,\\n      \\"startTime\\": 0,\\n      \\"workItemList\\": [\\n        {\\n          \\"state\\": \\"string\\",\\n          \\"command\\": \\"string\\",\\n          \\"outputStr\\": \\"string\\",\\n          \\"endTime\\": 0,\\n          \\"startTime\\": 0,\\n          \\"timeTaken\\": 0\\n        }\\n      ],\\n      \\"timeTaken\\": 0,\\n      \\"name\\": \\"string\\"\\n    }\\n  ],\\n  \\"addToInventory\\": true,\\n  \\"instanceType\\": \\"string\\",\\n  \\"endTime\\": 0,\\n  \\"execTime\\": 0,\\n  \\"startTime\\": 0,\\n  \\"useState\\": \\"string\\",\\n  \\"configId\\": \\"string\\",\\n  \\"name\\": \\"string\\",\\n  \\"version\\": 0,\\n  \\"tenantId\\": \\"string\\"\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"\_id": "string", "addToInventory": true, "addedOn": 0, "configId": "string", "currTaskIdx": 0, "description": "string", "endTime": 0, "execTime": 0, "imageId": "string", "instanceType": "string", "lastupdateOn": 0, "name": "string", "startTime": 0, "state": "string", "tasks": [{"currWorkItemIdx": 0, "endTime": 0, "name": "string", "startTime": 0, "state": "string", "taskSeqNo": 0, "timeTaken": 0, "type": "string", "workItemList": [{"command": "string", "endTime": 0, "outputStr": "string", "startTime": 0, "state": "string", "timeTaken": 0}]}], "tenantId": "string", "type": "string", "useState": "string", "version": 0}
 
 
       .. raw:: html

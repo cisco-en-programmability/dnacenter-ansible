@@ -43,13 +43,11 @@ cisco.dnac.network_create module -- Resource module for Network Create
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.network_create_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.network_create`.
 
@@ -81,12 +79,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.network_create_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -143,8 +143,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -334,8 +334,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -474,7 +474,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network Create's clientAndEndpoint_aaa.
+      Network Create's clientAndEndpoint\_aaa.
 
 
       .. raw:: html
@@ -1056,7 +1056,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network Create's network_aaa.
+      Network Create's network\_aaa.
 
 
       .. raw:: html
@@ -1336,8 +1336,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -1446,8 +1446,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -1591,8 +1591,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -1608,11 +1608,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network_settings.NetworkSettings.create_network,
+   - SDK Method used are network\_settings.NetworkSettings.create\_network,
    - Paths used are post /dna/intent/api/v1/network/{siteId},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -1740,7 +1740,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"executionId\\": \\"string\\",\\n  \\"executionStatusUrl\\": \\"string\\",\\n  \\"message\\": \\"string\\"\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"executionId": "string", "executionStatusUrl": "string", "message": "string"}
 
 
       .. raw:: html

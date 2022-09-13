@@ -43,13 +43,11 @@ cisco.dnac.topology_network_health_info module -- Information module for Topolog
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.topology_network_health_info_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.topology_network_health_info`.
 
@@ -81,12 +79,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.topology_network_health_info_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -143,8 +143,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -334,8 +334,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -481,8 +481,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -498,11 +498,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are topology.Topology.get_overall_network_health,
+   - SDK Method used are topology.Topology.get\_overall\_network\_health,
    - Paths used are get /dna/intent/api/v1/network-health,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -595,7 +595,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"version\\": \\"string\\",\\n  \\"response\\": [\\n    {\\n      \\"time\\": \\"string\\",\\n      \\"healthScore\\": 0,\\n      \\"totalCount\\": 0,\\n      \\"goodCount\\": 0,\\n      \\"unmonCount\\": 0,\\n      \\"fairCount\\": 0,\\n      \\"badCount\\": 0,\\n      \\"entity\\": {},\\n      \\"timeinMillis\\": 0\\n    }\\n  ],\\n  \\"measuredBy\\": \\"string\\",\\n  \\"latestMeasuredByEntity\\": {},\\n  \\"latestHealthScore\\": 0,\\n  \\"monitoredDevices\\": 0,\\n  \\"monitoredHealthyDevices\\": 0,\\n  \\"monitoredUnHealthyDevices\\": 0,\\n  \\"unMonitoredDevices\\": 0,\\n  \\"healthDistirubution\\": [\\n    {\\n      \\"category\\": \\"string\\",\\n      \\"totalCount\\": 0,\\n      \\"healthScore\\": 0,\\n      \\"goodPercentage\\": 0,\\n      \\"badPercentage\\": 0,\\n      \\"fairPercentage\\": 0,\\n      \\"unmonPercentage\\": 0,\\n      \\"goodCount\\": 0,\\n      \\"badCount\\": 0,\\n      \\"fairCount\\": 0,\\n      \\"unmonCount\\": 0,\\n      \\"kpiMetrics\\": [\\n        {}\\n      ]\\n    }\\n  ]\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"healthDistirubution": [{"badCount": 0, "badPercentage": 0, "category": "string", "fairCount": 0, "fairPercentage": 0, "goodCount": 0, "goodPercentage": 0, "healthScore": 0, "kpiMetrics": [{}], "totalCount": 0, "unmonCount": 0, "unmonPercentage": 0}], "latestHealthScore": 0, "latestMeasuredByEntity": {}, "measuredBy": "string", "monitoredDevices": 0, "monitoredHealthyDevices": 0, "monitoredUnHealthyDevices": 0, "response": [{"badCount": 0, "entity": {}, "fairCount": 0, "goodCount": 0, "healthScore": 0, "time": "string", "timeinMillis": 0, "totalCount": 0, "unmonCount": 0}], "unMonitoredDevices": 0, "version": "string"}
 
 
       .. raw:: html

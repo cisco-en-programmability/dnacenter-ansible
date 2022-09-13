@@ -43,13 +43,11 @@ cisco.dnac.endpoint_analytics_profiling_rules_info module -- Information module 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_info_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.endpoint_analytics_profiling_rules_info`.
 
@@ -82,12 +80,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_info_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
 
 
 
@@ -144,8 +144,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -335,8 +335,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -448,8 +448,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -695,8 +695,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -712,11 +712,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are policy.Policy.get_details_of_a_single_profiling_rule, policy.Policy.get_list_of_profiling_rules,
+   - SDK Method used are policy.Policy.get\_details\_of\_a\_single\_profiling\_rule, policy.Policy.get\_list\_of\_profiling\_rules,
    - Paths used are get /dna/intent/api/v1/endpoint-analytics/profiling-rules, get /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -822,7 +822,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"ruleId\\": \\"string\\",\\n  \\"ruleName\\": \\"string\\",\\n  \\"ruleType\\": \\"string\\",\\n  \\"ruleVersion\\": 0,\\n  \\"rulePriority\\": 0,\\n  \\"sourcePriority\\": 0,\\n  \\"isDeleted\\": true,\\n  \\"lastModifiedBy\\": \\"string\\",\\n  \\"lastModifiedOn\\": 0,\\n  \\"pluginId\\": \\"string\\",\\n  \\"clusterId\\": \\"string\\",\\n  \\"rejected\\": true,\\n  \\"result\\": {\\n    \\"deviceType\\": [\\n      \\"string\\"\\n    ],\\n    \\"hardwareManufacturer\\": [\\n      \\"string\\"\\n    ],\\n    \\"hardwareModel\\": [\\n      \\"string\\"\\n    ],\\n    \\"operatingSystem\\": [\\n      \\"string\\"\\n    ]\\n  },\\n  \\"conditionGroups\\": {\\n    \\"type\\": \\"string\\",\\n    \\"condition\\": {\\n      \\"attribute\\": \\"string\\",\\n      \\"operator\\": \\"string\\",\\n      \\"value\\": \\"string\\",\\n      \\"attributeDictionary\\": \\"string\\"\\n    },\\n    \\"operator\\": \\"string\\",\\n    \\"conditionGroup\\": [\\n      {}\\n    ]\\n  },\\n  \\"usedAttributes\\": [\\n    \\"string\\"\\n  ]\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"clusterId": "string", "conditionGroups": {"condition": {"attribute": "string", "attributeDictionary": "string", "operator": "string", "value": "string"}, "conditionGroup": [{}], "operator": "string", "type": "string"}, "isDeleted": true, "lastModifiedBy": "string", "lastModifiedOn": 0, "pluginId": "string", "rejected": true, "result": {"deviceType": ["string"], "hardwareManufacturer": ["string"], "hardwareModel": ["string"], "operatingSystem": ["string"]}, "ruleId": "string", "ruleName": "string", "rulePriority": 0, "ruleType": "string", "ruleVersion": 0, "sourcePriority": 0, "usedAttributes": ["string"]}
 
 
       .. raw:: html

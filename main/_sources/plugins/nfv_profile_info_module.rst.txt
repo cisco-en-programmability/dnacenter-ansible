@@ -43,13 +43,11 @@ cisco.dnac.nfv_profile_info module -- Information module for Nfv Profile
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.nfv_profile_info_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.nfv_profile_info`.
 
@@ -80,12 +78,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.nfv_profile_info_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -142,8 +142,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -333,8 +333,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -582,8 +582,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -599,11 +599,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are site_design.SiteDesign.get_nfv_profile,
+   - SDK Method used are site\_design.SiteDesign.get\_nfv\_profile,
    - Paths used are get /dna/intent/api/v1/nfv/network-profile/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -699,7 +699,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"response\\": [\\n    {\\n      \\"profileName\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"device\\": [\\n        {\\n          \\"deviceType\\": \\"string\\",\\n          \\"deviceTag\\": \\"string\\",\\n          \\"serviceProviderProfile\\": [\\n            {\\n              \\"linkType\\": \\"string\\",\\n              \\"connect\\": true,\\n              \\"connectDefaultGatewayOnWan\\": true,\\n              \\"serviceProvider\\": \\"string\\"\\n            }\\n          ],\\n          \\"directInternetAccessForFirewall\\": true,\\n          \\"services\\": [\\n            {\\n              \\"serviceType\\": \\"string\\",\\n              \\"profileType\\": \\"string\\",\\n              \\"serviceName\\": \\"string\\",\\n              \\"imageName\\": \\"string\\",\\n              \\"vNicMapping\\": [\\n                {\\n                  \\"networkType\\": \\"string\\",\\n                  \\"assignIpAddressToNetwork\\": true\\n                }\\n              ],\\n              \\"firewallMode\\": \\"string\\"\\n            }\\n          ],\\n          \\"customNetworks\\": [\\n            {\\n              \\"networkName\\": \\"string\\",\\n              \\"servicesToConnect\\": [\\n                {\\n                  \\"serviceName\\": \\"string\\"\\n                }\\n              ],\\n              \\"connectionType\\": \\"string\\",\\n              \\"vlanMode\\": \\"string\\",\\n              \\"vlanId\\": \\"string\\"\\n            }\\n          ],\\n          \\"vlanForL2\\": [\\n            {\\n              \\"vlanType\\": \\"string\\",\\n              \\"vlanId\\": \\"string\\",\\n              \\"vlanDescription\\": \\"string\\"\\n            }\\n          ],\\n          \\"customTemplate\\": [\\n            {\\n              \\"deviceType\\": \\"string\\",\\n              \\"template\\": \\"string\\",\\n              \\"templateType\\": \\"string\\"\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"response": [{"device": [{"customNetworks": [{"connectionType": "string", "networkName": "string", "servicesToConnect": [{"serviceName": "string"}], "vlanId": "string", "vlanMode": "string"}], "customTemplate": [{"deviceType": "string", "template": "string", "templateType": "string"}], "deviceTag": "string", "deviceType": "string", "directInternetAccessForFirewall": true, "serviceProviderProfile": [{"connect": true, "connectDefaultGatewayOnWan": true, "linkType": "string", "serviceProvider": "string"}], "services": [{"firewallMode": "string", "imageName": "string", "profileType": "string", "serviceName": "string", "serviceType": "string", "vNicMapping": [{"assignIpAddressToNetwork": true, "networkType": "string"}]}], "vlanForL2": [{"vlanDescription": "string", "vlanId": "string", "vlanType": "string"}]}], "id": "string", "profileName": "string"}]}
 
 
       .. raw:: html

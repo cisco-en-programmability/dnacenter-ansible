@@ -260,6 +260,7 @@
 <li class="toctree-l4"><a class="reference internal" href="pnp_device_unclaim_module.html">cisco.dnac.pnp_device_unclaim module – Resource module for Pnp Device Unclaim</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pnp_global_settings_module.html">cisco.dnac.pnp_global_settings module – Resource module for Pnp Global Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pnp_global_settings_info_module.html">cisco.dnac.pnp_global_settings_info module – Information module for Pnp Global Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_intent_module.html">cisco.dnac.pnp_intent module – Resource module for Site and PnP related functions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pnp_server_profile_update_module.html">cisco.dnac.pnp_server_profile_update module – Resource module for Pnp Server Profile Update</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pnp_smart_account_domains_info_module.html">cisco.dnac.pnp_smart_account_domains_info module – Information module for Pnp Smart Account Domains</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pnp_virtual_account_add_module.html">cisco.dnac.pnp_virtual_account_add module – Resource module for Pnp Virtual Account Add</a></li>
@@ -338,6 +339,7 @@
 <li class="toctree-l4"><a class="reference internal" href="site_design_floormap_info_module.html">cisco.dnac.site_design_floormap_info module – Information module for Site Design Floormap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="site_health_info_module.html">cisco.dnac.site_health_info module – Information module for Site Health</a></li>
 <li class="toctree-l4"><a class="reference internal" href="site_info_module.html">cisco.dnac.site_info module – Information module for Site</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site_intent_module.html">cisco.dnac.site_intent module – Resource module for Site operations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="site_membership_info_module.html">cisco.dnac.site_membership_info module – Information module for Site Membership</a></li>
 <li class="toctree-l4"><a class="reference internal" href="site_update_module.html">cisco.dnac.site_update module – Resource module for Site Update</a></li>
 <li class="toctree-l4"><a class="reference internal" href="snmp_properties_module.html">cisco.dnac.snmp_properties module – Resource module for Snmp Properties</a></li>
@@ -348,6 +350,7 @@
 <li class="toctree-l4"><a class="reference internal" href="swim_image_details_info_module.html">cisco.dnac.swim_image_details_info module – Information module for Swim Image Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_import_local_module.html">cisco.dnac.swim_import_local module – Resource module for Swim Import Local</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_import_via_url_module.html">cisco.dnac.swim_import_via_url module – Resource module for Swim Import Via Url</a></li>
+<li class="toctree-l4"><a class="reference internal" href="swim_intent_module.html">cisco.dnac.swim_intent module – Intent module for SWIM related functions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_trigger_activation_module.html">cisco.dnac.swim_trigger_activation module – Resource module for Swim Trigger Activation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_trigger_distribution_module.html">cisco.dnac.swim_trigger_distribution module – Resource module for Swim Trigger Distribution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="syslog_config_create_module.html">cisco.dnac.syslog_config_create module – Resource module for Syslog Config Create</a></li>
@@ -368,6 +371,7 @@
 <li class="toctree-l4"><a class="reference internal" href="task_info_module.html">cisco.dnac.task_info module – Information module for Task</a></li>
 <li class="toctree-l4"><a class="reference internal" href="task_operation_info_module.html">cisco.dnac.task_operation_info module – Information module for Task Operation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="task_tree_info_module.html">cisco.dnac.task_tree_info module – Information module for Task Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_intent_module.html">cisco.dnac.template_intent module – Resource module for Template functions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="template_preview_module.html">cisco.dnac.template_preview module – Resource module for Template Preview</a></li>
 <li class="toctree-l4"><a class="reference internal" href="templates_details_info_module.html">cisco.dnac.templates_details_info module – Information module for Templates Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="threat_detail_module.html">cisco.dnac.threat_detail module – Resource module for Threat Detail</a></li>
@@ -431,7 +435,7 @@
              
   <section id="cisco-dnac">
 <span id="plugins-in-cisco-dnac"></span><h1>Cisco.Dnac<a class="headerlink" href="#cisco-dnac" title="Permalink to this heading"></a></h1>
-<p>Collection version 6.5.3</p>
+<p>Collection version 6.6.0</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
 <li><p><a class="reference internal" href="#description" id="id1">Description</a></p></li>
@@ -446,6 +450,10 @@
 <li><p>Rafael Campos &lt;<a class="reference external" href="mailto:rcampos&#37;&#52;&#48;altus&#46;cr">rcampos<span>&#64;</span>altus<span>&#46;</span>cr</a>&gt;</p></li>
 <li><p>William Astorga &lt;<a class="reference external" href="mailto:wastorga&#37;&#52;&#48;altus&#46;cr">wastorga<span>&#64;</span>altus<span>&#46;</span>cr</a>&gt;</p></li>
 <li><p>Jose Bogarin &lt;<a class="reference external" href="mailto:jbogarin&#37;&#52;&#48;altus&#46;cr">jbogarin<span>&#64;</span>altus<span>&#46;</span>cr</a>&gt;</p></li>
+<li><p>Bryan Vargas &lt;<a class="reference external" href="mailto:bvargas&#37;&#52;&#48;altus&#46;cr">bvargas<span>&#64;</span>altus<span>&#46;</span>cr</a>&gt;</p></li>
+<li><p>Francisco Muñoz &lt;<a class="reference external" href="mailto:fmunoz&#37;&#52;&#48;altus&#46;cr">fmunoz<span>&#64;</span>altus<span>&#46;</span>cr</a>&gt;</p></li>
+<li><p>Madhan Sankaranarayanan (&#64;madhansansel)</p></li>
+<li><p>Rishita Chowdhary (&#64;rishitachowdhary)</p></li>
 </ul>
 <p class="ansible-links">
   <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
@@ -672,6 +680,7 @@
 <li><p><a class="reference internal" href="pnp_device_unclaim_module.html#ansible-collections-cisco-dnac-pnp-device-unclaim-module"><span class="std std-ref">pnp_device_unclaim module</span></a> – Resource module for Pnp Device Unclaim</p></li>
 <li><p><a class="reference internal" href="pnp_global_settings_module.html#ansible-collections-cisco-dnac-pnp-global-settings-module"><span class="std std-ref">pnp_global_settings module</span></a> – Resource module for Pnp Global Settings</p></li>
 <li><p><a class="reference internal" href="pnp_global_settings_info_module.html#ansible-collections-cisco-dnac-pnp-global-settings-info-module"><span class="std std-ref">pnp_global_settings_info module</span></a> – Information module for Pnp Global Settings</p></li>
+<li><p><a class="reference internal" href="pnp_intent_module.html#ansible-collections-cisco-dnac-pnp-intent-module"><span class="std std-ref">pnp_intent module</span></a> – Resource module for Site and PnP related functions</p></li>
 <li><p><a class="reference internal" href="pnp_server_profile_update_module.html#ansible-collections-cisco-dnac-pnp-server-profile-update-module"><span class="std std-ref">pnp_server_profile_update module</span></a> – Resource module for Pnp Server Profile Update</p></li>
 <li><p><a class="reference internal" href="pnp_smart_account_domains_info_module.html#ansible-collections-cisco-dnac-pnp-smart-account-domains-info-module"><span class="std std-ref">pnp_smart_account_domains_info module</span></a> – Information module for Pnp Smart Account Domains</p></li>
 <li><p><a class="reference internal" href="pnp_virtual_account_add_module.html#ansible-collections-cisco-dnac-pnp-virtual-account-add-module"><span class="std std-ref">pnp_virtual_account_add module</span></a> – Resource module for Pnp Virtual Account Add</p></li>
@@ -750,6 +759,7 @@
 <li><p><a class="reference internal" href="site_design_floormap_info_module.html#ansible-collections-cisco-dnac-site-design-floormap-info-module"><span class="std std-ref">site_design_floormap_info module</span></a> – Information module for Site Design Floormap</p></li>
 <li><p><a class="reference internal" href="site_health_info_module.html#ansible-collections-cisco-dnac-site-health-info-module"><span class="std std-ref">site_health_info module</span></a> – Information module for Site Health</p></li>
 <li><p><a class="reference internal" href="site_info_module.html#ansible-collections-cisco-dnac-site-info-module"><span class="std std-ref">site_info module</span></a> – Information module for Site</p></li>
+<li><p><a class="reference internal" href="site_intent_module.html#ansible-collections-cisco-dnac-site-intent-module"><span class="std std-ref">site_intent module</span></a> – Resource module for Site operations</p></li>
 <li><p><a class="reference internal" href="site_membership_info_module.html#ansible-collections-cisco-dnac-site-membership-info-module"><span class="std std-ref">site_membership_info module</span></a> – Information module for Site Membership</p></li>
 <li><p><a class="reference internal" href="site_update_module.html#ansible-collections-cisco-dnac-site-update-module"><span class="std std-ref">site_update module</span></a> – Resource module for Site Update</p></li>
 <li><p><a class="reference internal" href="snmp_properties_module.html#ansible-collections-cisco-dnac-snmp-properties-module"><span class="std std-ref">snmp_properties module</span></a> – Resource module for Snmp Properties</p></li>
@@ -760,6 +770,7 @@
 <li><p><a class="reference internal" href="swim_image_details_info_module.html#ansible-collections-cisco-dnac-swim-image-details-info-module"><span class="std std-ref">swim_image_details_info module</span></a> – Information module for Swim Image Details</p></li>
 <li><p><a class="reference internal" href="swim_import_local_module.html#ansible-collections-cisco-dnac-swim-import-local-module"><span class="std std-ref">swim_import_local module</span></a> – Resource module for Swim Import Local</p></li>
 <li><p><a class="reference internal" href="swim_import_via_url_module.html#ansible-collections-cisco-dnac-swim-import-via-url-module"><span class="std std-ref">swim_import_via_url module</span></a> – Resource module for Swim Import Via Url</p></li>
+<li><p><a class="reference internal" href="swim_intent_module.html#ansible-collections-cisco-dnac-swim-intent-module"><span class="std std-ref">swim_intent module</span></a> – Intent module for SWIM related functions</p></li>
 <li><p><a class="reference internal" href="swim_trigger_activation_module.html#ansible-collections-cisco-dnac-swim-trigger-activation-module"><span class="std std-ref">swim_trigger_activation module</span></a> – Resource module for Swim Trigger Activation</p></li>
 <li><p><a class="reference internal" href="swim_trigger_distribution_module.html#ansible-collections-cisco-dnac-swim-trigger-distribution-module"><span class="std std-ref">swim_trigger_distribution module</span></a> – Resource module for Swim Trigger Distribution</p></li>
 <li><p><a class="reference internal" href="syslog_config_create_module.html#ansible-collections-cisco-dnac-syslog-config-create-module"><span class="std std-ref">syslog_config_create module</span></a> – Resource module for Syslog Config Create</p></li>
@@ -780,6 +791,7 @@
 <li><p><a class="reference internal" href="task_info_module.html#ansible-collections-cisco-dnac-task-info-module"><span class="std std-ref">task_info module</span></a> – Information module for Task</p></li>
 <li><p><a class="reference internal" href="task_operation_info_module.html#ansible-collections-cisco-dnac-task-operation-info-module"><span class="std std-ref">task_operation_info module</span></a> – Information module for Task Operation</p></li>
 <li><p><a class="reference internal" href="task_tree_info_module.html#ansible-collections-cisco-dnac-task-tree-info-module"><span class="std std-ref">task_tree_info module</span></a> – Information module for Task Tree</p></li>
+<li><p><a class="reference internal" href="template_intent_module.html#ansible-collections-cisco-dnac-template-intent-module"><span class="std std-ref">template_intent module</span></a> – Resource module for Template functions</p></li>
 <li><p><a class="reference internal" href="template_preview_module.html#ansible-collections-cisco-dnac-template-preview-module"><span class="std std-ref">template_preview module</span></a> – Resource module for Template Preview</p></li>
 <li><p><a class="reference internal" href="templates_details_info_module.html#ansible-collections-cisco-dnac-templates-details-info-module"><span class="std std-ref">templates_details_info module</span></a> – Information module for Templates Details</p></li>
 <li><p><a class="reference internal" href="threat_detail_module.html#ansible-collections-cisco-dnac-threat-detail-module"><span class="std std-ref">threat_detail module</span></a> – Resource module for Threat Detail</p></li>

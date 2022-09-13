@@ -43,13 +43,11 @@ cisco.dnac.network_device_inventory_insight_link_mismatch_info module -- Informa
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.network_device_inventory_insight_link_mismatch_info_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.network_device_inventory_insight_link_mismatch_info`.
 
@@ -80,12 +78,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.network_device_inventory_insight_link_mismatch_info_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -176,8 +176,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -367,8 +367,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -650,8 +650,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -667,11 +667,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.inventory_insight_device_link_mismatch,
+   - SDK Method used are devices.Devices.inventory\_insight\_device\_link\_mismatch,
    - Paths used are get /dna/intent/api/v1/network-device/insight/{siteId}/device-link,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -769,7 +769,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"response\\": [\\n    {\\n      \\"endPortAllowedVlanIds\\": \\"string\\",\\n      \\"endPortNativeVlanId\\": \\"string\\",\\n      \\"startPortAllowedVlanIds\\": \\"string\\",\\n      \\"startPortNativeVlanId\\": \\"string\\",\\n      \\"linkStatus\\": \\"string\\",\\n      \\"endDeviceHostName\\": \\"string\\",\\n      \\"endDeviceId\\": \\"string\\",\\n      \\"endDeviceIpAddress\\": \\"string\\",\\n      \\"endPortAddress\\": \\"string\\",\\n      \\"endPortDuplex\\": \\"string\\",\\n      \\"endPortId\\": \\"string\\",\\n      \\"endPortMask\\": \\"string\\",\\n      \\"endPortName\\": \\"string\\",\\n      \\"endPortPepId\\": \\"string\\",\\n      \\"endPortSpeed\\": \\"string\\",\\n      \\"startDeviceHostName\\": \\"string\\",\\n      \\"startDeviceId\\": \\"string\\",\\n      \\"startDeviceIpAddress\\": \\"string\\",\\n      \\"startPortAddress\\": \\"string\\",\\n      \\"startPortDuplex\\": \\"string\\",\\n      \\"startPortId\\": \\"string\\",\\n      \\"startPortMask\\": \\"string\\",\\n      \\"startPortName\\": \\"string\\",\\n      \\"startPortPepId\\": \\"string\\",\\n      \\"startPortSpeed\\": \\"string\\",\\n      \\"lastUpdated\\": \\"string\\",\\n      \\"numUpdates\\": 0,\\n      \\"avgUpdateFrequency\\": 0,\\n      \\"type\\": \\"string\\",\\n      \\"instanceUuid\\": \\"string\\",\\n      \\"instanceTenantId\\": \\"string\\"\\n    }\\n  ],\\n  \\"version\\": \\"string\\"\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"response": [{"avgUpdateFrequency": 0, "endDeviceHostName": "string", "endDeviceId": "string", "endDeviceIpAddress": "string", "endPortAddress": "string", "endPortAllowedVlanIds": "string", "endPortDuplex": "string", "endPortId": "string", "endPortMask": "string", "endPortName": "string", "endPortNativeVlanId": "string", "endPortPepId": "string", "endPortSpeed": "string", "instanceTenantId": "string", "instanceUuid": "string", "lastUpdated": "string", "linkStatus": "string", "numUpdates": 0, "startDeviceHostName": "string", "startDeviceId": "string", "startDeviceIpAddress": "string", "startPortAddress": "string", "startPortAllowedVlanIds": "string", "startPortDuplex": "string", "startPortId": "string", "startPortMask": "string", "startPortName": "string", "startPortNativeVlanId": "string", "startPortPepId": "string", "startPortSpeed": "string", "type": "string"}], "version": "string"}
 
 
       .. raw:: html

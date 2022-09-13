@@ -43,13 +43,11 @@ cisco.dnac.device_health_info module -- Information module for Device Health
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.device_health_info_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.device_health_info`.
 
@@ -81,12 +79,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.device_health_info_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -177,8 +177,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -368,8 +368,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -685,8 +685,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -706,7 +706,7 @@ Notes
    - Paths used are get /dna/intent/api/v1/device-health,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -805,7 +805,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"version\\": \\"string\\",\\n  \\"totalCount\\": 0,\\n  \\"response\\": [\\n    {\\n      \\"name\\": \\"string\\",\\n      \\"model\\": \\"string\\",\\n      \\"osVersion\\": \\"string\\",\\n      \\"ipAddress\\": \\"string\\",\\n      \\"overallHealth\\": 0,\\n      \\"issueCount\\": 0,\\n      \\"location\\": \\"string\\",\\n      \\"deviceFamily\\": \\"string\\",\\n      \\"deviceType\\": \\"string\\",\\n      \\"macAddress\\": \\"string\\",\\n      \\"interfaceLinkErrHealth\\": 0,\\n      \\"cpuUlitilization\\": 0,\\n      \\"cpuHealth\\": 0,\\n      \\"memoryUtilizationHealth\\": 0,\\n      \\"memoryUtilization\\": 0,\\n      \\"interDeviceLinkAvailHealth\\": 0,\\n      \\"reachabilityHealth\\": \\"string\\",\\n      \\"clientCount\\": {\\n        \\"radio0\\": 0,\\n        \\"radio1\\": 0,\\n        \\"Ghz24\\": 0,\\n        \\"Ghz50\\": 0\\n      },\\n      \\"interferenceHealth\\": {\\n        \\"radio0\\": 0,\\n        \\"radio1\\": 0,\\n        \\"Ghz24\\": 0,\\n        \\"Ghz50\\": 0\\n      },\\n      \\"noiseHealth\\": {\\n        \\"radio1\\": 0,\\n        \\"Ghz50\\": 0\\n      },\\n      \\"airQualityHealth\\": {\\n        \\"radio0\\": 0,\\n        \\"radio1\\": 0,\\n        \\"Ghz24\\": 0,\\n        \\"Ghz50\\": 0\\n      },\\n      \\"utilizationHealth\\": {\\n        \\"radio0\\": 0,\\n        \\"radio1\\": 0,\\n        \\"Ghz24\\": 0,\\n        \\"Ghz50\\": 0\\n      }\\n    }\\n  ]\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"response": [{"airQualityHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0}, "clientCount": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0}, "cpuHealth": 0, "cpuUlitilization": 0, "deviceFamily": "string", "deviceType": "string", "interDeviceLinkAvailHealth": 0, "interfaceLinkErrHealth": 0, "interferenceHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0}, "ipAddress": "string", "issueCount": 0, "location": "string", "macAddress": "string", "memoryUtilization": 0, "memoryUtilizationHealth": 0, "model": "string", "name": "string", "noiseHealth": {"Ghz50": 0, "radio1": 0}, "osVersion": "string", "overallHealth": 0, "reachabilityHealth": "string", "utilizationHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0}}], "totalCount": 0, "version": "string"}
 
 
       .. raw:: html

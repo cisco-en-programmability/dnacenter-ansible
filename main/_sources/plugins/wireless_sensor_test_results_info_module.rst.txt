@@ -43,13 +43,11 @@ cisco.dnac.wireless_sensor_test_results_info module -- Information module for Wi
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.wireless_sensor_test_results_info_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.wireless_sensor_test_results_info`.
 
@@ -80,12 +78,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.wireless_sensor_test_results_info_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -142,8 +142,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -333,8 +333,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -582,8 +582,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -599,11 +599,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.sensor_test_results,
+   - SDK Method used are wireless.Wireless.sensor\_test\_results,
    - Paths used are get /dna/intent/api/v1/AssuranceGetSensorTestResults,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -699,7 +699,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"summary\\": {\\n    \\"totalTestCount\\": 0,\\n    \\"ONBOARDING\\": {\\n      \\"AUTH\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      },\\n      \\"DHCP\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      },\\n      \\"ASSOC\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      }\\n    },\\n    \\"PERFORMANCE\\": {\\n      \\"IPSLASENDER\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      }\\n    },\\n    \\"NETWORK\_SERVICES\\": {\\n      \\"DNS\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      }\\n    },\\n    \\"APP\_CONNECTIVITY\\": {\\n      \\"HOST\_REACHABILITY\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      },\\n      \\"WEBSERVER\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      },\\n      \\"FILETRANSFER\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      }\\n    },\\n    \\"RF\_ASSESSMENT\\": {\\n      \\"DATA\_RATE\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      },\\n      \\"SNR\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      }\\n    },\\n    \\"EMAIL\\": {\\n      \\"MAILSERVER\\": {\\n        \\"passCount\\": 0,\\n        \\"failCount\\": 0\\n      }\\n    }\\n  },\\n  \\"failureStats\\": [\\n    {\\n      \\"errorCode\\": 0,\\n      \\"errorTitle\\": \\"string\\",\\n      \\"testType\\": \\"string\\",\\n      \\"testCategory\\": \\"string\\"\\n    }\\n  ]\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"failureStats": [{"errorCode": 0, "errorTitle": "string", "testCategory": "string", "testType": "string"}], "summary": {"APP\_CONNECTIVITY": {"FILETRANSFER": {"failCount": 0, "passCount": 0}, "HOST\_REACHABILITY": {"failCount": 0, "passCount": 0}, "WEBSERVER": {"failCount": 0, "passCount": 0}}, "EMAIL": {"MAILSERVER": {"failCount": 0, "passCount": 0}}, "NETWORK\_SERVICES": {"DNS": {"failCount": 0, "passCount": 0}}, "ONBOARDING": {"ASSOC": {"failCount": 0, "passCount": 0}, "AUTH": {"failCount": 0, "passCount": 0}, "DHCP": {"failCount": 0, "passCount": 0}}, "PERFORMANCE": {"IPSLASENDER": {"failCount": 0, "passCount": 0}}, "RF\_ASSESSMENT": {"DATA\_RATE": {"failCount": 0, "passCount": 0}, "SNR": {"failCount": 0, "passCount": 0}}, "totalTestCount": 0}}
 
 
       .. raw:: html

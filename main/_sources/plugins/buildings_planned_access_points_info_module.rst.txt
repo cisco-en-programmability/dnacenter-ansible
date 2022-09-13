@@ -43,13 +43,11 @@ cisco.dnac.buildings_planned_access_points_info module -- Information module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.buildings_planned_access_points_info_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.buildings_planned_access_points_info`.
 
@@ -80,12 +78,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.buildings_planned_access_points_info_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -176,8 +176,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -367,8 +367,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -548,8 +548,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -589,8 +589,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -606,11 +606,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get_planned_access_points_for_building,
+   - SDK Method used are devices.Devices.get\_planned\_access\_points\_for\_building,
    - Paths used are get /dna/intent/api/v1/buildings/{buildingId}/planned-access-points,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -706,7 +706,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"response\\": [\\n    {\\n      \\"attributes\\": {\\n        \\"id\\": 0,\\n        \\"instanceUuid\\": \\"string\\",\\n        \\"name\\": \\"string\\",\\n        \\"typeString\\": \\"string\\",\\n        \\"domain\\": \\"string\\",\\n        \\"heirarchyName\\": \\"string\\",\\n        \\"source\\": \\"string\\",\\n        \\"createDate\\": 0,\\n        \\"macaddress\\": {}\\n      },\\n      \\"location\\": {},\\n      \\"position\\": {\\n        \\"x\\": 0,\\n        \\"y\\": 0,\\n        \\"z\\": 0\\n      },\\n      \\"radioCount\\": 0,\\n      \\"radios\\": [\\n        {\\n          \\"attributes\\": {\\n            \\"id\\": 0,\\n            \\"instanceUuid\\": \\"string\\",\\n            \\"slotId\\": 0,\\n            \\"ifTypeString\\": \\"string\\",\\n            \\"ifTypeSubband\\": \\"string\\",\\n            \\"channel\\": {},\\n            \\"channelString\\": {},\\n            \\"ifMode\\": \\"string\\"\\n          },\\n          \\"antenna\\": {\\n            \\"name\\": \\"string\\",\\n            \\"type\\": \\"string\\",\\n            \\"mode\\": \\"string\\",\\n            \\"azimuthAngle\\": 0,\\n            \\"elevationAngle\\": 0,\\n            \\"gain\\": 0\\n          },\\n          \\"isSensor\\": true\\n        }\\n      ],\\n      \\"isSensor\\": true\\n    }\\n  ],\\n  \\"version\\": 0,\\n  \\"total\\": 0\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"response": [{"attributes": {"createDate": 0, "domain": "string", "heirarchyName": "string", "id": 0, "instanceUuid": "string", "macaddress": {}, "name": "string", "source": "string", "typeString": "string"}, "isSensor": true, "location": {}, "position": {"x": 0, "y": 0, "z": 0}, "radioCount": 0, "radios": [{"antenna": {"azimuthAngle": 0, "elevationAngle": 0, "gain": 0, "mode": "string", "name": "string", "type": "string"}, "attributes": {"channel": {}, "channelString": {}, "id": 0, "ifMode": "string", "ifTypeString": "string", "ifTypeSubband": "string", "instanceUuid": "string", "slotId": 0}, "isSensor": true}]}], "total": 0, "version": 0}
 
 
       .. raw:: html

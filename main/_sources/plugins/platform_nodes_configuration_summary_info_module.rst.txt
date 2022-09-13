@@ -43,13 +43,11 @@ cisco.dnac.platform_nodes_configuration_summary_info module -- Information modul
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.platform_nodes_configuration_summary_info_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.platform_nodes_configuration_summary_info`.
 
@@ -81,12 +79,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.platform_nodes_configuration_summary_info_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -143,8 +143,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -334,8 +334,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -447,8 +447,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -464,11 +464,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are platform_configuration.PlatformConfiguration.nodes_configuration_summary,
+   - SDK Method used are platform\_configuration.PlatformConfiguration.nodes\_configuration\_summary,
    - Paths used are get /dna/intent/api/v1/nodes-config,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -560,7 +560,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"version\\": \\"string\\",\\n  \\"response\\": {\\n    \\"nodes\\": [\\n      {\\n        \\"ntp\\": {\\n          \\"servers\\": [\\n            \\"string\\"\\n          ]\\n        },\\n        \\"network\\": [\\n          {\\n            \\"intra\_cluster\_link\\": true,\\n            \\"lacp\_mode\\": true,\\n            \\"inet\\": {\\n              \\"routes\\": [\\n                {}\\n              ],\\n              \\"gateway\\": \\"string\\",\\n              \\"dns\_servers\\": [\\n                {}\\n              ],\\n              \\"netmask\\": \\"string\\",\\n              \\"host\_ip\\": \\"string\\"\\n            },\\n            \\"interface\\": \\"string\\",\\n            \\"inet6\\": {\\n              \\"host\_ip\\": \\"string\\",\\n              \\"netmask\\": \\"string\\"\\n            },\\n            \\"lacp\_supported\\": true,\\n            \\"slave\\": [\\n              \\"string\\"\\n            ]\\n          }\\n        ],\\n        \\"proxy\\": {\\n          \\"https\_proxy\\": \\"string\\",\\n          \\"no\_proxy\\": [\\n            \\"string\\"\\n          ],\\n          \\"https\_proxy\_username\\": \\"string\\",\\n          \\"http\_proxy\\": \\"string\\",\\n          \\"https\_proxy\_password\\": \\"string\\"\\n        },\\n        \\"platform\\": {\\n          \\"vendor\\": \\"string\\",\\n          \\"product\\": \\"string\\",\\n          \\"serial\\": \\"string\\"\\n        },\\n        \\"id\\": \\"string\\",\\n        \\"name\\": \\"string\\"\\n      }\\n    ]\\n  }\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"response": {"nodes": [{"id": "string", "name": "string", "network": [{"inet": {"dns\_servers": [{}], "gateway": "string", "host\_ip": "string", "netmask": "string", "routes": [{}]}, "inet6": {"host\_ip": "string", "netmask": "string"}, "interface": "string", "intra\_cluster\_link": true, "lacp\_mode": true, "lacp\_supported": true, "slave": ["string"]}], "ntp": {"servers": ["string"]}, "platform": {"product": "string", "serial": "string", "vendor": "string"}, "proxy": {"http\_proxy": "string", "https\_proxy": "string", "https\_proxy\_password": "string", "https\_proxy\_username": "string", "no\_proxy": ["string"]}}]}, "version": "string"}
 
 
       .. raw:: html

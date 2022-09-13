@@ -258,6 +258,7 @@
 <li class="toctree-l4"><a class="reference internal" href="pnp_device_unclaim_module.html">cisco.dnac.pnp_device_unclaim module – Resource module for Pnp Device Unclaim</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pnp_global_settings_module.html">cisco.dnac.pnp_global_settings module – Resource module for Pnp Global Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pnp_global_settings_info_module.html">cisco.dnac.pnp_global_settings_info module – Information module for Pnp Global Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pnp_intent_module.html">cisco.dnac.pnp_intent module – Resource module for Site and PnP related functions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pnp_server_profile_update_module.html">cisco.dnac.pnp_server_profile_update module – Resource module for Pnp Server Profile Update</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pnp_smart_account_domains_info_module.html">cisco.dnac.pnp_smart_account_domains_info module – Information module for Pnp Smart Account Domains</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pnp_virtual_account_add_module.html">cisco.dnac.pnp_virtual_account_add module – Resource module for Pnp Virtual Account Add</a></li>
@@ -336,6 +337,7 @@
 <li class="toctree-l4"><a class="reference internal" href="site_design_floormap_info_module.html">cisco.dnac.site_design_floormap_info module – Information module for Site Design Floormap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="site_health_info_module.html">cisco.dnac.site_health_info module – Information module for Site Health</a></li>
 <li class="toctree-l4"><a class="reference internal" href="site_info_module.html">cisco.dnac.site_info module – Information module for Site</a></li>
+<li class="toctree-l4"><a class="reference internal" href="site_intent_module.html">cisco.dnac.site_intent module – Resource module for Site operations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="site_membership_info_module.html">cisco.dnac.site_membership_info module – Information module for Site Membership</a></li>
 <li class="toctree-l4"><a class="reference internal" href="site_update_module.html">cisco.dnac.site_update module – Resource module for Site Update</a></li>
 <li class="toctree-l4"><a class="reference internal" href="snmp_properties_module.html">cisco.dnac.snmp_properties module – Resource module for Snmp Properties</a></li>
@@ -346,6 +348,7 @@
 <li class="toctree-l4"><a class="reference internal" href="swim_image_details_info_module.html">cisco.dnac.swim_image_details_info module – Information module for Swim Image Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_import_local_module.html">cisco.dnac.swim_import_local module – Resource module for Swim Import Local</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_import_via_url_module.html">cisco.dnac.swim_import_via_url module – Resource module for Swim Import Via Url</a></li>
+<li class="toctree-l4"><a class="reference internal" href="swim_intent_module.html">cisco.dnac.swim_intent module – Intent module for SWIM related functions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_trigger_activation_module.html">cisco.dnac.swim_trigger_activation module – Resource module for Swim Trigger Activation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="swim_trigger_distribution_module.html">cisco.dnac.swim_trigger_distribution module – Resource module for Swim Trigger Distribution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="syslog_config_create_module.html">cisco.dnac.syslog_config_create module – Resource module for Syslog Config Create</a></li>
@@ -366,6 +369,7 @@
 <li class="toctree-l4"><a class="reference internal" href="task_info_module.html">cisco.dnac.task_info module – Information module for Task</a></li>
 <li class="toctree-l4"><a class="reference internal" href="task_operation_info_module.html">cisco.dnac.task_operation_info module – Information module for Task Operation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="task_tree_info_module.html">cisco.dnac.task_tree_info module – Information module for Task Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_intent_module.html">cisco.dnac.template_intent module – Resource module for Template functions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="template_preview_module.html">cisco.dnac.template_preview module – Resource module for Template Preview</a></li>
 <li class="toctree-l4"><a class="reference internal" href="templates_details_info_module.html">cisco.dnac.templates_details_info module – Information module for Templates Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="threat_detail_module.html">cisco.dnac.threat_detail module – Resource module for Threat Detail</a></li>
@@ -432,11 +436,10 @@
 <h1>cisco.dnac.event_series_info module – Information module for Event Series<a class="headerlink" href="#cisco-dnac-event-series-info-module-information-module-for-event-series" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.5.3).</p>
-<p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
-It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
-To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
-<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.6.0).</p>
+<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
+You need further requirements to be able to use this module,
+see <a class="reference internal" href="#ansible-collections-cisco-dnac-event-series-info-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
 <p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">cisco.dnac.event_series_info</span></code>.</p>
 </div>
 <div class="versionadded">
@@ -465,7 +468,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div>
 </section>
 <section id="requirements">
-<h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-cisco-dnac-event-series-info-module-requirements"></span><h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>dnacentersdk &gt;= 2.5.4</p></li>
@@ -495,8 +498,8 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable debugging.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-default-bold">no</span> <span class="ansible-option-default">← (default)</span></p></li>
-<li><p><span class="ansible-option-choices-entry">yes</span></p></li>
+<li><p><span class="ansible-option-default-bold">false</span> <span class="ansible-option-default">← (default)</span></p></li>
+<li><p><span class="ansible-option-choices-entry">true</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -539,8 +542,8 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">no</span></p></li>
-<li><p><span class="ansible-option-default-bold">yes</span> <span class="ansible-option-default">← (default)</span></p></li>
+<li><p><span class="ansible-option-choices-entry">false</span></p></li>
+<li><p><span class="ansible-option-default-bold">true</span> <span class="ansible-option-default">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -671,8 +674,8 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">no</span></p></li>
-<li><p><span class="ansible-option-default-bold">yes</span> <span class="ansible-option-default">← (default)</span></p></li>
+<li><p><span class="ansible-option-choices-entry">false</span></p></li>
+<li><p><span class="ansible-option-default-bold">true</span> <span class="ansible-option-default">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -688,7 +691,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <li><p>Paths used are get /dna/intent/api/v1/event/event-series,</p></li>
 <li><p>Supports <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK</p></li>
-<li><p>The parameters starting with <a href="#id8"><span class="problematic" id="id9">dnac_</span></a> are used by the Cisco DNAC Python SDK to establish the connection</p></li>
+<li><p>The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection</p></li>
 </ul>
 </div>
 </section>

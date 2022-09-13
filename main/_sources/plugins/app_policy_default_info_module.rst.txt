@@ -43,13 +43,11 @@ cisco.dnac.app_policy_default_info module -- Information module for App Policy D
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.app_policy_default_info_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.app_policy_default_info`.
 
@@ -80,12 +78,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.app_policy_default_info_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -142,8 +142,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -333,8 +333,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -446,8 +446,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -463,11 +463,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application_policy.ApplicationPolicy.get_application_policy_default,
+   - SDK Method used are application\_policy.ApplicationPolicy.get\_application\_policy\_default,
    - Paths used are get /dna/intent/api/v1/app-policy-default,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -559,7 +559,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"response\\": [\\n    {\\n      \\"id\\": \\"string\\",\\n      \\"instanceId\\": 0,\\n      \\"displayName\\": \\"string\\",\\n      \\"instanceCreatedOn\\": 0,\\n      \\"instanceUpdatedOn\\": 0,\\n      \\"instanceVersion\\": 0,\\n      \\"createTime\\": 0,\\n      \\"deployed\\": true,\\n      \\"isSeeded\\": true,\\n      \\"isStale\\": true,\\n      \\"lastUpdateTime\\": 0,\\n      \\"name\\": \\"string\\",\\n      \\"namespace\\": \\"string\\",\\n      \\"provisioningState\\": \\"string\\",\\n      \\"qualifier\\": \\"string\\",\\n      \\"resourceVersion\\": 0,\\n      \\"targetIdList\\": [\\n        {}\\n      ],\\n      \\"type\\": \\"string\\",\\n      \\"cfsChangeInfo\\": [\\n        {}\\n      ],\\n      \\"customProvisions\\": [\\n        {}\\n      ],\\n      \\"deletePolicyStatus\\": \\"string\\",\\n      \\"internal\\": true,\\n      \\"isDeleted\\": true,\\n      \\"isEnabled\\": true,\\n      \\"isScopeStale\\": true,\\n      \\"iseReserved\\": true,\\n      \\"policyStatus\\": \\"string\\",\\n      \\"priority\\": 0,\\n      \\"pushed\\": true,\\n      \\"contractList\\": [\\n        {}\\n      ],\\n      \\"exclusiveContract\\": {\\n        \\"id\\": \\"string\\",\\n        \\"instanceId\\": 0,\\n        \\"displayName\\": \\"string\\",\\n        \\"instanceCreatedOn\\": 0,\\n        \\"instanceUpdatedOn\\": 0,\\n        \\"instanceVersion\\": 0,\\n        \\"clause\\": [\\n          {\\n            \\"id\\": \\"string\\",\\n            \\"instanceId\\": 0,\\n            \\"displayName\\": \\"string\\",\\n            \\"instanceCreatedOn\\": 0,\\n            \\"instanceUpdatedOn\\": 0,\\n            \\"instanceVersion\\": 0,\\n            \\"priority\\": 0,\\n            \\"type\\": \\"string\\",\\n            \\"relevanceLevel\\": \\"string\\"\\n          }\\n        ]\\n      },\\n      \\"identitySource\\": {\\n        \\"id\\": \\"string\\",\\n        \\"instanceId\\": 0,\\n        \\"displayName\\": \\"string\\",\\n        \\"instanceCreatedOn\\": 0,\\n        \\"instanceUpdatedOn\\": 0,\\n        \\"instanceVersion\\": 0,\\n        \\"state\\": \\"string\\",\\n        \\"type\\": \\"string\\"\\n      },\\n      \\"producer\\": {\\n        \\"id\\": \\"string\\",\\n        \\"instanceId\\": 0,\\n        \\"displayName\\": \\"string\\",\\n        \\"instanceCreatedOn\\": 0,\\n        \\"instanceUpdatedOn\\": 0,\\n        \\"instanceVersion\\": 0,\\n        \\"scalableGroup\\": [\\n          {\\n            \\"idRef\\": \\"string\\"\\n          }\\n        ]\\n      }\\n    }\\n  ],\\n  \\"version\\": \\"string\\"\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"response": [{"cfsChangeInfo": [{}], "contractList": [{}], "createTime": 0, "customProvisions": [{}], "deletePolicyStatus": "string", "deployed": true, "displayName": "string", "exclusiveContract": {"clause": [{"displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "priority": 0, "relevanceLevel": "string", "type": "string"}], "displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0}, "id": "string", "identitySource": {"displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "state": "string", "type": "string"}, "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "internal": true, "isDeleted": true, "isEnabled": true, "isScopeStale": true, "isSeeded": true, "isStale": true, "iseReserved": true, "lastUpdateTime": 0, "name": "string", "namespace": "string", "policyStatus": "string", "priority": 0, "producer": {"displayName": "string", "id": "string", "instanceCreatedOn": 0, "instanceId": 0, "instanceUpdatedOn": 0, "instanceVersion": 0, "scalableGroup": [{"idRef": "string"}]}, "provisioningState": "string", "pushed": true, "qualifier": "string", "resourceVersion": 0, "targetIdList": [{}], "type": "string"}], "version": "string"}
 
 
       .. raw:: html

@@ -43,13 +43,11 @@ cisco.dnac.pnp_global_settings module -- Resource module for Pnp Global Settings
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.pnp_global_settings_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.pnp_global_settings`.
 
@@ -80,12 +78,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.pnp_global_settings_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -135,7 +135,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Global Settings's _id.
+      Pnp Global Settings's \_id.
 
 
       .. raw:: html
@@ -279,8 +279,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -490,8 +490,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -532,8 +532,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -723,8 +723,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -1108,8 +1108,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -1251,8 +1251,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -1875,8 +1875,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -1926,11 +1926,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.update_pnp_global_settings,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.update\_pnp\_global\_settings,
    - Paths used are put /dna/intent/api/v1/onboarding/pnp-settings,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -2067,7 +2067,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"savaMappingList\\": [\\n    {\\n      \\"syncStatus\\": \\"string\\",\\n      \\"syncStartTime\\": 0,\\n      \\"syncResult\\": {\\n        \\"syncList\\": [\\n          {\\n            \\"syncType\\": \\"string\\",\\n            \\"deviceSnList\\": [\\n              \\"string\\"\\n            ]\\n          }\\n        ],\\n        \\"syncMsg\\": \\"string\\"\\n      },\\n      \\"lastSync\\": 0,\\n      \\"tenantId\\": \\"string\\",\\n      \\"profile\\": {\\n        \\"port\\": 0,\\n        \\"addressIpV4\\": \\"string\\",\\n        \\"addressFqdn\\": \\"string\\",\\n        \\"profileId\\": \\"string\\",\\n        \\"proxy\\": true,\\n        \\"makeDefault\\": true,\\n        \\"cert\\": \\"string\\",\\n        \\"name\\": \\"string\\"\\n      },\\n      \\"token\\": \\"string\\",\\n      \\"expiry\\": 0,\\n      \\"ccoUser\\": \\"string\\",\\n      \\"smartAccountId\\": \\"string\\",\\n      \\"virtualAccountId\\": \\"string\\",\\n      \\"autoSyncPeriod\\": 0,\\n      \\"syncResultStr\\": \\"string\\"\\n    }\\n  ],\\n  \\"taskTimeOuts\\": {\\n    \\"imageDownloadTimeOut\\": 0,\\n    \\"configTimeOut\\": 0,\\n    \\"generalTimeOut\\": 0\\n  },\\n  \\"tenantId\\": \\"string\\",\\n  \\"aaaCredentials\\": {\\n    \\"password\\": \\"string\\",\\n    \\"username\\": \\"string\\"\\n  },\\n  \\"defaultProfile\\": {\\n    \\"fqdnAddresses\\": [\\n      \\"string\\"\\n    ],\\n    \\"proxy\\": true,\\n    \\"cert\\": \\"string\\",\\n    \\"ipAddresses\\": [\\n      \\"string\\"\\n    ],\\n    \\"port\\": 0\\n  },\\n  \\"acceptEula\\": true,\\n  \\"id\\": \\"string\\",\\n  \\"\_id\\": \\"string\\",\\n  \\"version\\": 0\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"\_id": "string", "aaaCredentials": {"password": "string", "username": "string"}, "acceptEula": true, "defaultProfile": {"cert": "string", "fqdnAddresses": ["string"], "ipAddresses": ["string"], "port": 0, "proxy": true}, "id": "string", "savaMappingList": [{"autoSyncPeriod": 0, "ccoUser": "string", "expiry": 0, "lastSync": 0, "profile": {"addressFqdn": "string", "addressIpV4": "string", "cert": "string", "makeDefault": true, "name": "string", "port": 0, "profileId": "string", "proxy": true}, "smartAccountId": "string", "syncResult": {"syncList": [{"deviceSnList": ["string"], "syncType": "string"}], "syncMsg": "string"}, "syncResultStr": "string", "syncStartTime": 0, "syncStatus": "string", "tenantId": "string", "token": "string", "virtualAccountId": "string"}], "taskTimeOuts": {"configTimeOut": 0, "generalTimeOut": 0, "imageDownloadTimeOut": 0}, "tenantId": "string", "version": 0}
 
 
       .. raw:: html

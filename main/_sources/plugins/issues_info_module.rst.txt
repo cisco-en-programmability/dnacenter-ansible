@@ -43,13 +43,11 @@ cisco.dnac.issues_info module -- Information module for Issues
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.issues_info_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.issues_info`.
 
@@ -81,12 +79,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.issues_info_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -212,8 +212,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -403,8 +403,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -721,8 +721,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -742,7 +742,7 @@ Notes
    - Paths used are get /dna/intent/api/v1/issues,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -842,7 +842,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"version\\": \\"string\\",\\n  \\"totalCount\\": 0,\\n  \\"response\\": [\\n    {\\n      \\"issueId\\": \\"string\\",\\n      \\"name\\": \\"string\\",\\n      \\"siteId\\": \\"string\\",\\n      \\"deviceId\\": \\"string\\",\\n      \\"deviceRole\\": \\"string\\",\\n      \\"aiDriven\\": true,\\n      \\"clientMac\\": \\"string\\",\\n      \\"issue\_occurence\_count\\": 0,\\n      \\"status\\": \\"string\\",\\n      \\"priority\\": \\"string\\",\\n      \\"category\\": \\"string\\",\\n      \\"last\_occurence\_time\\": 0\\n    }\\n  ]\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"response": [{"aiDriven": true, "category": "string", "clientMac": "string", "deviceId": "string", "deviceRole": "string", "issueId": "string", "issue\_occurence\_count": 0, "last\_occurence\_time": 0, "name": "string", "priority": "string", "siteId": "string", "status": "string"}], "totalCount": 0, "version": "string"}
 
 
       .. raw:: html
