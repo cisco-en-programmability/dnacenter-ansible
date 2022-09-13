@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.5.3
+Collection version 6.6.0
 
 .. contents::
    :local:
@@ -22,6 +22,10 @@ Ansible Modules for Cisco DNA Center
 * Rafael Campos <rcampos@altus.cr>
 * William Astorga <wastorga@altus.cr>
 * Jose Bogarin <jbogarin@altus.cr>
+* Bryan Vargas <bvargas@altus.cr>
+* Francisco Muñoz <fmunoz@altus.cr>
+* Madhan Sankaranarayanan (@madhansansel)
+* Rishita Chowdhary (@rishitachowdhary)
 
 .. raw:: html
 
@@ -258,6 +262,7 @@ Modules
 * :ref:`pnp_device_unclaim module <ansible_collections.cisco.dnac.pnp_device_unclaim_module>` -- Resource module for Pnp Device Unclaim
 * :ref:`pnp_global_settings module <ansible_collections.cisco.dnac.pnp_global_settings_module>` -- Resource module for Pnp Global Settings
 * :ref:`pnp_global_settings_info module <ansible_collections.cisco.dnac.pnp_global_settings_info_module>` -- Information module for Pnp Global Settings
+* :ref:`pnp_intent module <ansible_collections.cisco.dnac.pnp_intent_module>` -- Resource module for Site and PnP related functions
 * :ref:`pnp_server_profile_update module <ansible_collections.cisco.dnac.pnp_server_profile_update_module>` -- Resource module for Pnp Server Profile Update
 * :ref:`pnp_smart_account_domains_info module <ansible_collections.cisco.dnac.pnp_smart_account_domains_info_module>` -- Information module for Pnp Smart Account Domains
 * :ref:`pnp_virtual_account_add module <ansible_collections.cisco.dnac.pnp_virtual_account_add_module>` -- Resource module for Pnp Virtual Account Add
@@ -336,6 +341,7 @@ Modules
 * :ref:`site_design_floormap_info module <ansible_collections.cisco.dnac.site_design_floormap_info_module>` -- Information module for Site Design Floormap
 * :ref:`site_health_info module <ansible_collections.cisco.dnac.site_health_info_module>` -- Information module for Site Health
 * :ref:`site_info module <ansible_collections.cisco.dnac.site_info_module>` -- Information module for Site
+* :ref:`site_intent module <ansible_collections.cisco.dnac.site_intent_module>` -- Resource module for Site operations
 * :ref:`site_membership_info module <ansible_collections.cisco.dnac.site_membership_info_module>` -- Information module for Site Membership
 * :ref:`site_update module <ansible_collections.cisco.dnac.site_update_module>` -- Resource module for Site Update
 * :ref:`snmp_properties module <ansible_collections.cisco.dnac.snmp_properties_module>` -- Resource module for Snmp Properties
@@ -346,6 +352,7 @@ Modules
 * :ref:`swim_image_details_info module <ansible_collections.cisco.dnac.swim_image_details_info_module>` -- Information module for Swim Image Details
 * :ref:`swim_import_local module <ansible_collections.cisco.dnac.swim_import_local_module>` -- Resource module for Swim Import Local
 * :ref:`swim_import_via_url module <ansible_collections.cisco.dnac.swim_import_via_url_module>` -- Resource module for Swim Import Via Url
+* :ref:`swim_intent module <ansible_collections.cisco.dnac.swim_intent_module>` -- Intent module for SWIM related functions
 * :ref:`swim_trigger_activation module <ansible_collections.cisco.dnac.swim_trigger_activation_module>` -- Resource module for Swim Trigger Activation
 * :ref:`swim_trigger_distribution module <ansible_collections.cisco.dnac.swim_trigger_distribution_module>` -- Resource module for Swim Trigger Distribution
 * :ref:`syslog_config_create module <ansible_collections.cisco.dnac.syslog_config_create_module>` -- Resource module for Syslog Config Create
@@ -366,6 +373,7 @@ Modules
 * :ref:`task_info module <ansible_collections.cisco.dnac.task_info_module>` -- Information module for Task
 * :ref:`task_operation_info module <ansible_collections.cisco.dnac.task_operation_info_module>` -- Information module for Task Operation
 * :ref:`task_tree_info module <ansible_collections.cisco.dnac.task_tree_info_module>` -- Information module for Task Tree
+* :ref:`template_intent module <ansible_collections.cisco.dnac.template_intent_module>` -- Resource module for Template functions
 * :ref:`template_preview module <ansible_collections.cisco.dnac.template_preview_module>` -- Resource module for Template Preview
 * :ref:`templates_details_info module <ansible_collections.cisco.dnac.templates_details_info_module>` -- Information module for Templates Details
 * :ref:`threat_detail module <ansible_collections.cisco.dnac.threat_detail_module>` -- Resource module for Threat Detail
@@ -619,6 +627,7 @@ Modules
     pnp_device_unclaim_module
     pnp_global_settings_module
     pnp_global_settings_info_module
+    pnp_intent_module
     pnp_server_profile_update_module
     pnp_smart_account_domains_info_module
     pnp_virtual_account_add_module
@@ -697,6 +706,7 @@ Modules
     site_design_floormap_info_module
     site_health_info_module
     site_info_module
+    site_intent_module
     site_membership_info_module
     site_update_module
     snmp_properties_module
@@ -707,6 +717,7 @@ Modules
     swim_image_details_info_module
     swim_import_local_module
     swim_import_via_url_module
+    swim_intent_module
     swim_trigger_activation_module
     swim_trigger_distribution_module
     syslog_config_create_module
@@ -727,6 +738,7 @@ Modules
     task_info_module
     task_operation_info_module
     task_tree_info_module
+    template_intent_module
     template_preview_module
     templates_details_info_module
     threat_detail_module

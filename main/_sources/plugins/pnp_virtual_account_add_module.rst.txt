@@ -43,13 +43,11 @@ cisco.dnac.pnp_virtual_account_add module -- Resource module for Pnp Virtual Acc
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.pnp_virtual_account_add_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.pnp_virtual_account_add`.
 
@@ -81,12 +79,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -211,8 +211,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -402,8 +402,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -685,8 +685,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -828,8 +828,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -1246,8 +1246,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -1297,11 +1297,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.add_virtual_account,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.add\_virtual\_account,
    - Paths used are post /dna/intent/api/v1/onboarding/pnp-settings/savacct,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -1417,7 +1417,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"virtualAccountId\\": \\"string\\",\\n  \\"autoSyncPeriod\\": 0,\\n  \\"syncResultStr\\": \\"string\\",\\n  \\"profile\\": {\\n    \\"proxy\\": true,\\n    \\"makeDefault\\": true,\\n    \\"port\\": 0,\\n    \\"profileId\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"addressIpV4\\": \\"string\\",\\n    \\"cert\\": \\"string\\",\\n    \\"addressFqdn\\": \\"string\\"\\n  },\\n  \\"ccoUser\\": \\"string\\",\\n  \\"syncResult\\": {\\n    \\"syncList\\": [\\n      {\\n        \\"syncType\\": \\"string\\",\\n        \\"deviceSnList\\": [\\n          \\"string\\"\\n        ]\\n      }\\n    ],\\n    \\"syncMsg\\": \\"string\\"\\n  },\\n  \\"token\\": \\"string\\",\\n  \\"syncStartTime\\": 0,\\n  \\"lastSync\\": 0,\\n  \\"tenantId\\": \\"string\\",\\n  \\"smartAccountId\\": \\"string\\",\\n  \\"expiry\\": 0,\\n  \\"syncStatus\\": \\"string\\"\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"autoSyncPeriod": 0, "ccoUser": "string", "expiry": 0, "lastSync": 0, "profile": {"addressFqdn": "string", "addressIpV4": "string", "cert": "string", "makeDefault": true, "name": "string", "port": 0, "profileId": "string", "proxy": true}, "smartAccountId": "string", "syncResult": {"syncList": [{"deviceSnList": ["string"], "syncType": "string"}], "syncMsg": "string"}, "syncResultStr": "string", "syncStartTime": 0, "syncStatus": "string", "tenantId": "string", "token": "string", "virtualAccountId": "string"}
 
 
       .. raw:: html

@@ -43,13 +43,11 @@ cisco.dnac.swim_image_details_info module -- Information module for Swim Image D
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.swim_image_details_info_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.swim_image_details_info`.
 
@@ -80,12 +78,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.swim_image_details_info_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -210,8 +210,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -401,8 +401,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -752,8 +752,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -793,8 +793,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -834,8 +834,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -1045,8 +1045,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -1096,11 +1096,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software_image_management_swim.SoftwareImageManagementSwim.get_software_image_details,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.get\_software\_image\_details,
    - Paths used are get /dna/intent/api/v1/image/importation,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -1210,7 +1210,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"response\\": [\\n    {\\n      \\"applicableDevicesForImage\\": [\\n        {\\n          \\"mdfId\\": \\"string\\",\\n          \\"productId\\": [\\n            \\"string\\"\\n          ],\\n          \\"productName\\": \\"string\\"\\n        }\\n      ],\\n      \\"applicationType\\": \\"string\\",\\n      \\"createdTime\\": \\"string\\",\\n      \\"extendedAttributes\\": {},\\n      \\"family\\": \\"string\\",\\n      \\"feature\\": \\"string\\",\\n      \\"fileServiceId\\": \\"string\\",\\n      \\"fileSize\\": \\"string\\",\\n      \\"imageIntegrityStatus\\": \\"string\\",\\n      \\"imageName\\": \\"string\\",\\n      \\"imageSeries\\": [\\n        \\"string\\"\\n      ],\\n      \\"imageSource\\": \\"string\\",\\n      \\"imageType\\": \\"string\\",\\n      \\"imageUuid\\": \\"string\\",\\n      \\"importSourceType\\": \\"string\\",\\n      \\"isTaggedGolden\\": true,\\n      \\"md5Checksum\\": \\"string\\",\\n      \\"name\\": \\"string\\",\\n      \\"profileInfo\\": [\\n        {\\n          \\"description\\": \\"string\\",\\n          \\"extendedAttributes\\": {},\\n          \\"memory\\": 0,\\n          \\"productType\\": \\"string\\",\\n          \\"profileName\\": \\"string\\",\\n          \\"shares\\": 0,\\n          \\"vCpu\\": 0\\n        }\\n      ],\\n      \\"shaCheckSum\\": \\"string\\",\\n      \\"vendor\\": \\"string\\",\\n      \\"version\\": \\"string\\"\\n    }\\n  ],\\n  \\"version\\": \\"string\\"\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"response": [{"applicableDevicesForImage": [{"mdfId": "string", "productId": ["string"], "productName": "string"}], "applicationType": "string", "createdTime": "string", "extendedAttributes": {}, "family": "string", "feature": "string", "fileServiceId": "string", "fileSize": "string", "imageIntegrityStatus": "string", "imageName": "string", "imageSeries": ["string"], "imageSource": "string", "imageType": "string", "imageUuid": "string", "importSourceType": "string", "isTaggedGolden": true, "md5Checksum": "string", "name": "string", "profileInfo": [{"description": "string", "extendedAttributes": {}, "memory": 0, "productType": "string", "profileName": "string", "shares": 0, "vCpu": 0}], "shaCheckSum": "string", "vendor": "string", "version": "string"}], "version": "string"}
 
 
       .. raw:: html

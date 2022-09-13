@@ -43,13 +43,11 @@ cisco.dnac.sda_fabric_border_device_info module -- Information module for Sda Fa
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.sda_fabric_border_device_info_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.sda_fabric_border_device_info`.
 
@@ -80,12 +78,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.sda_fabric_border_device_info_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -179,8 +179,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -370,8 +370,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -483,8 +483,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -500,11 +500,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.gets_border_device_detail,
+   - SDK Method used are sda.Sda.gets\_border\_device\_detail,
    - Paths used are get /dna/intent/api/v1/business/sda/border-device,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -597,7 +597,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"status\\": \\"string\\",\\n  \\"description\\": \\"string\\",\\n  \\"payload\\": {\\n    \\"id\\": \\"string\\",\\n    \\"instanceId\\": 0,\\n    \\"authEntityId\\": 0,\\n    \\"displayName\\": \\"string\\",\\n    \\"authEntityClass\\": 0,\\n    \\"instanceTenantId\\": \\"string\\",\\n    \\"deployPending\\": \\"string\\",\\n    \\"instanceVersion\\": 0,\\n    \\"createTime\\": 0,\\n    \\"deployed\\": true,\\n    \\"isSeeded\\": true,\\n    \\"isStale\\": true,\\n    \\"lastUpdateTime\\": 0,\\n    \\"name\\": \\"string\\",\\n    \\"namespace\\": \\"string\\",\\n    \\"provisioningState\\": \\"string\\",\\n    \\"resourceVersion\\": 0,\\n    \\"targetIdList\\": [\\n      {}\\n    ],\\n    \\"type\\": \\"string\\",\\n    \\"cfsChangeInfo\\": [\\n      {}\\n    ],\\n    \\"customProvisions\\": [\\n      {}\\n    ],\\n    \\"configs\\": [\\n      {}\\n    ],\\n    \\"managedSites\\": [\\n      {}\\n    ],\\n    \\"networkDeviceId\\": \\"string\\",\\n    \\"roles\\": [\\n      \\"string\\"\\n    ],\\n    \\"saveWanConnectivityDetailsOnly\\": true,\\n    \\"siteId\\": \\"string\\",\\n    \\"akcSettingsCfs\\": [\\n      {}\\n    ],\\n    \\"deviceInterfaceInfo\\": [\\n      {}\\n    ],\\n    \\"deviceSettings\\": {\\n      \\"id\\": \\"string\\",\\n      \\"instanceId\\": 0,\\n      \\"displayName\\": \\"string\\",\\n      \\"instanceTenantId\\": \\"string\\",\\n      \\"deployPending\\": \\"string\\",\\n      \\"instanceVersion\\": 0,\\n      \\"connectedTo\\": [\\n        {}\\n      ],\\n      \\"cpu\\": 0,\\n      \\"dhcpEnabled\\": true,\\n      \\"externalConnectivityIpPool\\": \\"string\\",\\n      \\"externalDomainRoutingProtocol\\": \\"string\\",\\n      \\"internalDomainProtocolNumber\\": \\"string\\",\\n      \\"memory\\": 0,\\n      \\"nodeType\\": [\\n        \\"string\\"\\n      ],\\n      \\"storage\\": 0,\\n      \\"extConnectivitySettings\\": [\\n        {\\n          \\"id\\": \\"string\\",\\n          \\"instanceId\\": 0,\\n          \\"displayName\\": \\"string\\",\\n          \\"instanceTenantId\\": \\"string\\",\\n          \\"deployPending\\": \\"string\\",\\n          \\"instanceVersion\\": 0,\\n          \\"externalDomainProtocolNumber\\": \\"string\\",\\n          \\"interfaceUuid\\": \\"string\\",\\n          \\"policyPropagationEnabled\\": true,\\n          \\"policySgtTag\\": 0,\\n          \\"l2Handoff\\": [\\n            {}\\n          ],\\n          \\"l3Handoff\\": [\\n            {\\n              \\"id\\": \\"string\\",\\n              \\"instanceId\\": 0,\\n              \\"displayName\\": \\"string\\",\\n              \\"instanceTenantId\\": \\"string\\",\\n              \\"deployPending\\": \\"string\\",\\n              \\"instanceVersion\\": 0,\\n              \\"localIpAddress\\": \\"string\\",\\n              \\"remoteIpAddress\\": \\"string\\",\\n              \\"vlanId\\": 0,\\n              \\"virtualNetwork\\": {\\n                \\"idRef\\": \\"string\\"\\n              }\\n            }\\n          ]\\n        }\\n      ]\\n    },\\n    \\"networkWideSettings\\": {\\n      \\"id\\": \\"string\\",\\n      \\"instanceId\\": 0,\\n      \\"displayName\\": \\"string\\",\\n      \\"instanceTenantId\\": \\"string\\",\\n      \\"deployPending\\": \\"string\\",\\n      \\"instanceVersion\\": 0,\\n      \\"aaa\\": [\\n        {}\\n      ],\\n      \\"cmx\\": [\\n        {}\\n      ],\\n      \\"dhcp\\": [\\n        {\\n          \\"id\\": \\"string\\",\\n          \\"ipAddress\\": {\\n            \\"id\\": \\"string\\",\\n            \\"paddedAddress\\": \\"string\\",\\n            \\"addressType\\": \\"string\\",\\n            \\"address\\": \\"string\\"\\n          }\\n        }\\n      ],\\n      \\"dns\\": [\\n        {\\n          \\"id\\": \\"string\\",\\n          \\"domainName\\": \\"string\\",\\n          \\"ip\\": {\\n            \\"id\\": \\"string\\",\\n            \\"paddedAddress\\": \\"string\\",\\n            \\"addressType\\": \\"string\\",\\n            \\"address\\": \\"string\\"\\n          }\\n        }\\n      ],\\n      \\"ldap\\": [\\n        {}\\n      ],\\n      \\"nativeVlan\\": [\\n        {}\\n      ],\\n      \\"netflow\\": [\\n        {}\\n      ],\\n      \\"ntp\\": [\\n        {}\\n      ],\\n      \\"snmp\\": [\\n        {}\\n      ],\\n      \\"syslogs\\": [\\n        {}\\n      ]\\n    },\\n    \\"otherDevice\\": [\\n      {}\\n    ],\\n    \\"transitNetworks\\": [\\n      {\\n        \\"idRef\\": \\"string\\"\\n      }\\n    ],\\n    \\"virtualNetwork\\": [\\n      {}\\n    ],\\n    \\"wlan\\": [\\n      {}\\n    ]\\n  }\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"description": "string", "payload": {"akcSettingsCfs": [{}], "authEntityClass": 0, "authEntityId": 0, "cfsChangeInfo": [{}], "configs": [{}], "createTime": 0, "customProvisions": [{}], "deployPending": "string", "deployed": true, "deviceInterfaceInfo": [{}], "deviceSettings": {"connectedTo": [{}], "cpu": 0, "deployPending": "string", "dhcpEnabled": true, "displayName": "string", "extConnectivitySettings": [{"deployPending": "string", "displayName": "string", "externalDomainProtocolNumber": "string", "id": "string", "instanceId": 0, "instanceTenantId": "string", "instanceVersion": 0, "interfaceUuid": "string", "l2Handoff": [{}], "l3Handoff": [{"deployPending": "string", "displayName": "string", "id": "string", "instanceId": 0, "instanceTenantId": "string", "instanceVersion": 0, "localIpAddress": "string", "remoteIpAddress": "string", "virtualNetwork": {"idRef": "string"}, "vlanId": 0}], "policyPropagationEnabled": true, "policySgtTag": 0}], "externalConnectivityIpPool": "string", "externalDomainRoutingProtocol": "string", "id": "string", "instanceId": 0, "instanceTenantId": "string", "instanceVersion": 0, "internalDomainProtocolNumber": "string", "memory": 0, "nodeType": ["string"], "storage": 0}, "displayName": "string", "id": "string", "instanceId": 0, "instanceTenantId": "string", "instanceVersion": 0, "isSeeded": true, "isStale": true, "lastUpdateTime": 0, "managedSites": [{}], "name": "string", "namespace": "string", "networkDeviceId": "string", "networkWideSettings": {"aaa": [{}], "cmx": [{}], "deployPending": "string", "dhcp": [{"id": "string", "ipAddress": {"address": "string", "addressType": "string", "id": "string", "paddedAddress": "string"}}], "displayName": "string", "dns": [{"domainName": "string", "id": "string", "ip": {"address": "string", "addressType": "string", "id": "string", "paddedAddress": "string"}}], "id": "string", "instanceId": 0, "instanceTenantId": "string", "instanceVersion": 0, "ldap": [{}], "nativeVlan": [{}], "netflow": [{}], "ntp": [{}], "snmp": [{}], "syslogs": [{}]}, "otherDevice": [{}], "provisioningState": "string", "resourceVersion": 0, "roles": ["string"], "saveWanConnectivityDetailsOnly": true, "siteId": "string", "targetIdList": [{}], "transitNetworks": [{"idRef": "string"}], "type": "string", "virtualNetwork": [{}], "wlan": [{}]}, "status": "string"}
 
 
       .. raw:: html

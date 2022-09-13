@@ -43,13 +43,11 @@ cisco.dnac.reports_view_group_view_info module -- Information module for Reports
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.reports_view_group_view_info_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.reports_view_group_view_info`.
 
@@ -81,12 +79,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.reports_view_group_view_info_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -143,8 +143,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -334,8 +334,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -447,8 +447,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -532,11 +532,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are reports.Reports.get_view_details_for_a_given_view_group_and_view,
+   - SDK Method used are reports.Reports.get\_view\_details\_for\_a\_given\_view\_group\_and\_view,
    - Paths used are get /dna/intent/api/v1/data/view-groups/{viewGroupId}/views/{viewId},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
@@ -546,7 +546,7 @@ See Also
 .. seealso::
 
    `Cisco DNA Center documentation for Reports GetViewDetailsForAGivenViewGroup_View <https://developer.cisco.com/docs/dna-center/#!get-view-details-for-a-given-view-group-view>`_
-       Complete reference of the GetViewDetailsForAGivenViewGroup_View API.
+       Complete reference of the GetViewDetailsForAGivenViewGroup\_View API.
 
 .. Examples
 
@@ -630,7 +630,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "{\\n  \\"deliveries\\": [\\n    {\\n      \\"type\\": \\"string\\",\\n      \\"default\\": true\\n    }\\n  ],\\n  \\"description\\": \\"string\\",\\n  \\"fieldGroups\\": [\\n    {\\n      \\"fieldGroupDisplayName\\": \\"string\\",\\n      \\"fieldGroupName\\": \\"string\\",\\n      \\"fields\\": [\\n        {\\n          \\"displayName\\": \\"string\\",\\n          \\"name\\": \\"string\\"\\n        }\\n      ],\\n      \\"tableId\\": \\"string\\"\\n    }\\n  ],\\n  \\"filters\\": [\\n    {\\n      \\"additionalInfo\\": {},\\n      \\"cacheFilter\\": true,\\n      \\"dataType\\": \\"string\\",\\n      \\"displayName\\": \\"string\\",\\n      \\"filterSource\\": {\\n        \\"dataSource\\": {},\\n        \\"displayValuePath\\": \\"string\\",\\n        \\"rootPath\\": \\"string\\",\\n        \\"valuePath\\": \\"string\\"\\n      },\\n      \\"name\\": \\"string\\",\\n      \\"required\\": true,\\n      \\"timeOptions\\": [\\n        {\\n          \\"info\\": \\"string\\",\\n          \\"maxValue\\": 0,\\n          \\"minValue\\": 0,\\n          \\"name\\": \\"string\\",\\n          \\"value\\": \\"string\\"\\n        }\\n      ],\\n      \\"type\\": \\"string\\"\\n    }\\n  ],\\n  \\"formats\\": [\\n    {\\n      \\"format\\": \\"string\\",\\n      \\"name\\": \\"string\\",\\n      \\"default\\": true,\\n      \\"template\\": {\\n        \\"jsTemplateId\\": \\"string\\"\\n      }\\n    }\\n  ],\\n  \\"schedules\\": [\\n    {\\n      \\"type\\": \\"string\\",\\n      \\"default\\": true\\n    }\\n  ],\\n  \\"viewId\\": \\"string\\",\\n  \\"viewInfo\\": \\"string\\",\\n  \\"viewName\\": \\"string\\"\\n}\\n"
+      :ansible-option-sample-bold:`Sample:` {"deliveries": [{"default": true, "type": "string"}], "description": "string", "fieldGroups": [{"fieldGroupDisplayName": "string", "fieldGroupName": "string", "fields": [{"displayName": "string", "name": "string"}], "tableId": "string"}], "filters": [{"additionalInfo": {}, "cacheFilter": true, "dataType": "string", "displayName": "string", "filterSource": {"dataSource": {}, "displayValuePath": "string", "rootPath": "string", "valuePath": "string"}, "name": "string", "required": true, "timeOptions": [{"info": "string", "maxValue": 0, "minValue": 0, "name": "string", "value": "string"}], "type": "string"}], "formats": [{"default": true, "format": "string", "name": "string", "template": {"jsTemplateId": "string"}}], "schedules": [{"default": true, "type": "string"}], "viewId": "string", "viewInfo": "string", "viewName": "string"}
 
 
       .. raw:: html

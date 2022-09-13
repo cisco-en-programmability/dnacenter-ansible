@@ -43,13 +43,11 @@ cisco.dnac.license_device_license_summary_info module -- Information module for 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.5.3).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.license_device_license_summary_info_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`cisco.dnac.license_device_license_summary_info`.
 
@@ -80,12 +78,14 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.cisco.dnac.license_device_license_summary_info_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk >= 2.5.4
-- python >= 3.5
+- dnacentersdk \>= 2.5.4
+- python \>= 3.5
 
 
 
@@ -135,7 +135,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Device_type query parameter. Type of device.
+      Device\_type query parameter. Type of device.
 
 
       .. raw:: html
@@ -169,7 +169,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Device_uuid query parameter. Id of device.
+      Device\_uuid query parameter. Id of device.
 
 
       .. raw:: html
@@ -203,7 +203,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Dna_level query parameter. Device Cisco DNA license level.
+      Dna\_level query parameter. Device Cisco DNA license level.
 
 
       .. raw:: html
@@ -244,8 +244,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -435,8 +435,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -609,7 +609,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Page_number query parameter. Page number of response.
+      Page\_number query parameter. Page number of response.
 
 
       .. raw:: html
@@ -643,7 +643,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Registration_status query parameter. Smart license registration status of device.
+      Registration\_status query parameter. Smart license registration status of device.
 
 
       .. raw:: html
@@ -677,7 +677,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Smart_account_id query parameter. Id of smart account.
+      Smart\_account\_id query parameter. Id of smart account.
 
 
       .. raw:: html
@@ -711,7 +711,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sort_by query parameter. Sort result by field.
+      Sort\_by query parameter. Sort result by field.
 
 
       .. raw:: html
@@ -752,8 +752,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
       .. raw:: html
 
@@ -786,7 +786,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Virtual_account_name query parameter. Name of virtual account.
+      Virtual\_account\_name query parameter. Name of virtual account.
 
 
       .. raw:: html
@@ -803,11 +803,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are licenses.Licenses.device_license_summary,
+   - SDK Method used are licenses.Licenses.device\_license\_summary,
    - Paths used are get /dna/intent/api/v1/licenses/device/summary,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
-   - The parameters starting with dnac_ are used by the Cisco DNAC Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
