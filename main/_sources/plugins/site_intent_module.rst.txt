@@ -53,7 +53,9 @@ cisco.dnac.site_intent module -- Resource module for Site operations
 
 .. version_added
 
-.. versionadded:: 6.6.0 of cisco.dnac
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.6.0
 
 .. contents::
    :local:
@@ -796,6 +798,7 @@ Parameters
       - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
       - :ansible-option-choices-entry:`true`
 
+
       .. raw:: html
 
         </div>
@@ -870,6 +873,7 @@ Parameters
 
       - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
       - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -1028,6 +1032,7 @@ Parameters
       - :ansible-option-choices-entry:`false`
       - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
+
       .. raw:: html
 
         </div>
@@ -1104,8 +1109,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`merged` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`deleted`
+      - :ansible-option-default-bold:`"merged"` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`"deleted"`
+
 
       .. raw:: html
 
@@ -1147,6 +1153,7 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
+
 
       .. raw:: html
 

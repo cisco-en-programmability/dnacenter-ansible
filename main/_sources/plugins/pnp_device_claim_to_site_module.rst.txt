@@ -53,7 +53,9 @@ cisco.dnac.pnp_device_claim_to_site module -- Resource module for Pnp Device Cla
 
 .. version_added
 
-.. versionadded:: 3.1.0 of cisco.dnac
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 3.1.0
 
 .. contents::
    :local:
@@ -128,7 +130,7 @@ Parameters
 
       :ansible-option-type:`dictionary`
 
-      :ansible-option-versionadded:`added in 4.2.0 of cisco.dnac`
+      :ansible-option-versionadded:`added in cisco.dnac 4.2.0`
 
 
       .. raw:: html
@@ -355,6 +357,7 @@ Parameters
       - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
       - :ansible-option-choices-entry:`true`
 
+
       .. raw:: html
 
         </div>
@@ -546,6 +549,7 @@ Parameters
       - :ansible-option-choices-entry:`false`
       - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
+
       .. raw:: html
 
         </div>
@@ -607,7 +611,7 @@ Parameters
 
       :ansible-option-type:`string`
 
-      :ansible-option-versionadded:`added in 6.4.0 of cisco.dnac`
+      :ansible-option-versionadded:`added in cisco.dnac 6.4.0`
 
 
       .. raw:: html
@@ -644,7 +648,7 @@ Parameters
 
       :ansible-option-type:`string`
 
-      :ansible-option-versionadded:`added in 4.2.0 of cisco.dnac`
+      :ansible-option-versionadded:`added in cisco.dnac 4.2.0`
 
 
       .. raw:: html
@@ -715,7 +719,7 @@ Parameters
 
       :ansible-option-type:`dictionary`
 
-      :ansible-option-versionadded:`added in 4.2.0 of cisco.dnac`
+      :ansible-option-versionadded:`added in cisco.dnac 4.2.0`
 
 
       .. raw:: html
@@ -804,6 +808,7 @@ Parameters
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
 
+
       .. raw:: html
 
         </div>
@@ -828,7 +833,7 @@ Parameters
 
       :ansible-option-type:`string`
 
-      :ansible-option-versionadded:`added in 6.4.0 of cisco.dnac`
+      :ansible-option-versionadded:`added in cisco.dnac 6.4.0`
 
 
       .. raw:: html
@@ -865,7 +870,7 @@ Parameters
 
       :ansible-option-type:`boolean`
 
-      :ansible-option-versionadded:`added in 6.4.0 of cisco.dnac`
+      :ansible-option-versionadded:`added in cisco.dnac 6.4.0`
 
 
       .. raw:: html
@@ -885,6 +890,7 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -909,7 +915,7 @@ Parameters
 
       :ansible-option-type:`string`
 
-      :ansible-option-versionadded:`added in 6.1.0 of cisco.dnac`
+      :ansible-option-versionadded:`added in cisco.dnac 6.1.0`
 
 
       .. raw:: html
@@ -980,7 +986,7 @@ Parameters
 
       :ansible-option-type:`string`
 
-      :ansible-option-versionadded:`added in 6.4.0 of cisco.dnac`
+      :ansible-option-versionadded:`added in cisco.dnac 6.4.0`
 
 
       .. raw:: html
@@ -1103,6 +1109,7 @@ Parameters
       - :ansible-option-choices-entry:`false`
       - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
 
+
       .. raw:: html
 
         </div>
@@ -1126,7 +1133,7 @@ Parameters
 
       :ansible-option-type:`string`
 
-      :ansible-option-versionadded:`added in 6.4.0 of cisco.dnac`
+      :ansible-option-versionadded:`added in cisco.dnac 6.4.0`
 
 
       .. raw:: html

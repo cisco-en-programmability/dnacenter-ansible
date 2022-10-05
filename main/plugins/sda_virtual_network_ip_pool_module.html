@@ -17,6 +17,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -442,9 +443,7 @@ You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-virtual-network-ip-pool-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
 <p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">cisco.dnac.sda_virtual_network_ip_pool</span></code>.</p>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.1.0: </span>of cisco.dnac</p>
-</div>
+<p class="ansible-version-added">New in cisco.dnac 3.1.0</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
 <li><p><a class="reference internal" href="#synopsis" id="id1">Synopsis</a></p></li>
@@ -564,7 +563,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-virt
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-ipPoolName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-virtual-network-ip-pool-module-parameter-ippoolname"><strong>ipPoolName</strong></p>
 <a class="ansibleOptionLink" href="#parameter-ipPoolName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-<p><span class="ansible-option-versionadded">added in 4.0.0 of cisco.dnac</span></p>
+<p><span class="ansible-option-versionadded">added in cisco.dnac 4.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>IpPoolName query parameter.</p>
 </div></td>
@@ -596,7 +595,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-virt
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-isL2FloodingEnabled"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-virtual-network-ip-pool-module-parameter-isl2floodingenabled"><strong>isL2FloodingEnabled</strong></p>
 <a class="ansibleOptionLink" href="#parameter-isL2FloodingEnabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
-<p><span class="ansible-option-versionadded">added in 4.0.0 of cisco.dnac</span></p>
+<p><span class="ansible-option-versionadded">added in cisco.dnac 4.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Layer2 flooding enablement flag(applicable for L3 , L2 and always true for L2 and default value is False ).</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -621,7 +620,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-virt
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-isThisCriticalPool"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-virtual-network-ip-pool-module-parameter-isthiscriticalpool"><strong>isThisCriticalPool</strong></p>
 <a class="ansibleOptionLink" href="#parameter-isThisCriticalPool" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
-<p><span class="ansible-option-versionadded">added in 4.0.0 of cisco.dnac</span></p>
+<p><span class="ansible-option-versionadded">added in cisco.dnac 4.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Critical pool enablement(applicable for L3 and default value is False ).</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -634,7 +633,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-virt
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-isWirelessPool"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-virtual-network-ip-pool-module-parameter-iswirelesspool"><strong>isWirelessPool</strong></p>
 <a class="ansibleOptionLink" href="#parameter-isWirelessPool" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
-<p><span class="ansible-option-versionadded">added in 4.0.0 of cisco.dnac</span></p>
+<p><span class="ansible-option-versionadded">added in cisco.dnac 4.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Wireless Pool enablement flag(applicable for L3 and L2 and default value is False ).</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -647,7 +646,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-virt
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-poolType"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-virtual-network-ip-pool-module-parameter-pooltype"><strong>poolType</strong></p>
 <a class="ansibleOptionLink" href="#parameter-poolType" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-<p><span class="ansible-option-versionadded">added in 4.0.0 of cisco.dnac</span></p>
+<p><span class="ansible-option-versionadded">added in cisco.dnac 4.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Pool Type (applicable for INFRA_VN).</p>
 </div></td>
@@ -655,7 +654,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-virt
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-scalableGroupName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-virtual-network-ip-pool-module-parameter-scalablegroupname"><strong>scalableGroupName</strong></p>
 <a class="ansibleOptionLink" href="#parameter-scalableGroupName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-<p><span class="ansible-option-versionadded">added in 4.0.0 of cisco.dnac</span></p>
+<p><span class="ansible-option-versionadded">added in cisco.dnac 4.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Scalable Group Name(applicable for L3).</p>
 </div></td>
@@ -663,7 +662,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-virt
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-siteNameHierarchy"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-virtual-network-ip-pool-module-parameter-sitenamehierarchy"><strong>siteNameHierarchy</strong></p>
 <a class="ansibleOptionLink" href="#parameter-siteNameHierarchy" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-<p><span class="ansible-option-versionadded">added in 4.0.0 of cisco.dnac</span></p>
+<p><span class="ansible-option-versionadded">added in cisco.dnac 4.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>SiteNameHierarchy query parameter.</p>
 </div></td>
@@ -671,7 +670,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-virt
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-trafficType"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-virtual-network-ip-pool-module-parameter-traffictype"><strong>trafficType</strong></p>
 <a class="ansibleOptionLink" href="#parameter-trafficType" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-<p><span class="ansible-option-versionadded">added in 4.0.0 of cisco.dnac</span></p>
+<p><span class="ansible-option-versionadded">added in cisco.dnac 4.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Traffic type(applicable for L3 and L2).</p>
 </div></td>
@@ -705,7 +704,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-virt
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-vlanName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-virtual-network-ip-pool-module-parameter-vlanname"><strong>vlanName</strong></p>
 <a class="ansibleOptionLink" href="#parameter-vlanName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-<p><span class="ansible-option-versionadded">added in 4.0.0 of cisco.dnac</span></p>
+<p><span class="ansible-option-versionadded">added in cisco.dnac 4.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Vlan name represent the segment name, if empty, vlanName would be auto generated by API.</p>
 </div></td>
