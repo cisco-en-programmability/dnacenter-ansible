@@ -17,6 +17,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -442,9 +443,7 @@ You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-port-assignment-for-user-device-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
 <p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">cisco.dnac.sda_port_assignment_for_user_device</span></code>.</p>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.1.0: </span>of cisco.dnac</p>
-</div>
+<p class="ansible-version-added">New in cisco.dnac 3.1.0</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
 <li><p><a class="reference internal" href="#synopsis" id="id1">Synopsis</a></p></li>
@@ -488,7 +487,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-port
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-authenticateTemplateName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-port-assignment-for-user-device-module-parameter-authenticatetemplatename"><strong>authenticateTemplateName</strong></p>
 <a class="ansibleOptionLink" href="#parameter-authenticateTemplateName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-<p><span class="ansible-option-versionadded">added in 4.0.0 of cisco.dnac</span></p>
+<p><span class="ansible-option-versionadded">added in cisco.dnac 4.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Authenticate TemplateName associated with siteNameHierarchy.</p>
 </div></td>
@@ -496,7 +495,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-port
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dataIpAddressPoolName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-port-assignment-for-user-device-module-parameter-dataipaddresspoolname"><strong>dataIpAddressPoolName</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dataIpAddressPoolName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-<p><span class="ansible-option-versionadded">added in 4.0.0 of cisco.dnac</span></p>
+<p><span class="ansible-option-versionadded">added in cisco.dnac 4.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Ip Pool Name, that is assigned to virtual network with traffic type as DATA(can’t be empty if voiceIpAddressPoolName is empty).</p>
 </div></td>
@@ -575,7 +574,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-port
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-interfaceDescription"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-port-assignment-for-user-device-module-parameter-interfacedescription"><strong>interfaceDescription</strong></p>
 <a class="ansibleOptionLink" href="#parameter-interfaceDescription" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-<p><span class="ansible-option-versionadded">added in 4.0.0 of cisco.dnac</span></p>
+<p><span class="ansible-option-versionadded">added in cisco.dnac 4.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>User defined text message for this port.</p>
 </div></td>
@@ -590,7 +589,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-port
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-scalableGroupName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-port-assignment-for-user-device-module-parameter-scalablegroupname"><strong>scalableGroupName</strong></p>
 <a class="ansibleOptionLink" href="#parameter-scalableGroupName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-<p><span class="ansible-option-versionadded">added in 4.0.0 of cisco.dnac</span></p>
+<p><span class="ansible-option-versionadded">added in cisco.dnac 4.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Scalable Group name associated with VN.</p>
 </div></td>
@@ -598,7 +597,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-port
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-siteNameHierarchy"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-port-assignment-for-user-device-module-parameter-sitenamehierarchy"><strong>siteNameHierarchy</strong></p>
 <a class="ansibleOptionLink" href="#parameter-siteNameHierarchy" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-<p><span class="ansible-option-versionadded">added in 4.0.0 of cisco.dnac</span></p>
+<p><span class="ansible-option-versionadded">added in cisco.dnac 4.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Complete Path of SD-Access Fabric Site.</p>
 </div></td>
@@ -618,7 +617,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-port
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-voiceIpAddressPoolName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-port-assignment-for-user-device-module-parameter-voiceipaddresspoolname"><strong>voiceIpAddressPoolName</strong></p>
 <a class="ansibleOptionLink" href="#parameter-voiceIpAddressPoolName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-<p><span class="ansible-option-versionadded">added in 4.0.0 of cisco.dnac</span></p>
+<p><span class="ansible-option-versionadded">added in cisco.dnac 4.0.0</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Ip Pool Name, that is assigned to virtual network with traffic type as VOICE(can’t be empty if dataIpAddressPoolName is empty).</p>
 </div></td>
