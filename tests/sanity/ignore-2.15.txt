@@ -1,0 +1,10 @@
+plugins/module_utils/dnac.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/module_utils/dnac.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/modules/pnp_intent.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/modules/template_intent.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/modules/site_intent.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/modules/swim_intent.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/modules/pnp_intent.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/modules/template_intent.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/modules/site_intent.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/modules/swim_intent.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
