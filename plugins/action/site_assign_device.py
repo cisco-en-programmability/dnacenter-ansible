@@ -76,7 +76,9 @@ class ActionModule(ActionBase):
         self._check_argspec()
 
         Display().warning("This module is currently unmaintained "
-                          "and will be removed in future releases.")
+                          "and will be removed in future releases."
+                          "New module is assign_device_to_site "
+                          "for 2.3.3.0 or higher")
 
         dnac = DNACSDK(params=self._task.args)
 
