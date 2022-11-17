@@ -13,7 +13,7 @@ except ImportError:
     DNAC_SDK_IS_INSTALLED = False
 else:
     DNAC_SDK_IS_INSTALLED = True
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils._text import to_native
 try:
     from ansible.errors import AnsibleActionFail
@@ -113,14 +113,14 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 
 def dnac_argument_spec():
     argument_spec = dict(
-        dnac_host=dict(type="str", required=True),
-        dnac_port=dict(type="int", required=False, default=443),
-        dnac_username=dict(type="str", default="admin", aliases=["user"]),
-        dnac_password=dict(type="str", no_log=True),
-        dnac_verify=dict(type="bool", default=True),
-        dnac_version=dict(type="str", default="2.3.3.0"),
-        dnac_debug=dict(type="bool", default=False),
-        validate_response_schema=dict(type="bool", default=True),
+        dnac_host=dict(type="str", fallback=(env_fallback, ['DNAC_HOST']), required=True),
+        dnac_port=dict(type="int", fallback=(env_fallback, ['DNAC_PORT']), required=False, default=443),
+        dnac_username=dict(type="str", fallback=(env_fallback, ['DNAC_USERNAME']), default="admin", aliases=["user"]),
+        dnac_password=dict(type="str", fallback=(env_fallback, ['DNAC_PASSWORD']), no_log=True),
+        dnac_verify=dict(type="bool", fallback=(env_fallback, ['DNAC_VERIFY']), default=True),
+        dnac_version=dict(type="str", fallback=(env_fallback, ['DNAC_VERSION']), default="2.3.3.0"),
+        dnac_debug=dict(type="bool", fallback=(env_fallback, ['DNAC_DEBUG']), default=False),
+        validate_response_schema=dict(type="bool", fallback=(env_fallback, ['VALIDATE_RESPONSE_SCHEMA']), default=True),
     )
     return argument_spec
 
