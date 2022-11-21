@@ -301,7 +301,7 @@ class DnacSite:
                 building=dict(
                     name=site[0].get("name"),
                     parentName=site[0].get("siteNameHierarchy").split("/" + site[0].get("name"))[0],
-                    address=location.get("attributes").get("address"),
+                    address=location.get("attributes").get("address", ""),
                     latitude=location.get("attributes").get("latitude"),
                     longitude=location.get("attributes").get("longitude"),
                 )
@@ -501,6 +501,7 @@ class DnacSite:
                 if site_updated:
                     log("Site Updated Successfully")
                     self.result['msg'] = "Site Updated Successfully"
+                    self.result['response'].update({"siteId": self.have.get("site_id")})
 
                 else:
                     # Get the site id of the newly created site.
@@ -510,6 +511,7 @@ class DnacSite:
                         log("Site Created Successfully")
                         log("Current site:" + str(current_site))
                         self.result['msg'] = "Site Created Successfully"
+                        self.result['response'].update({"siteId": current_site.get('site_id')})
 
     def get_diff_delete(self):
         site_exists = self.have.get("site_exists")
