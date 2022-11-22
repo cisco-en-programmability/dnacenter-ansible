@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,7 +42,7 @@ cisco.dnac.user_enrichment_details_info module -- Information module for User En
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -87,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.5.4
+- dnacentersdk \>= 2.5.5
 - python \>= 3.5
 
 
@@ -145,7 +144,7 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
 
 
@@ -338,7 +337,7 @@ Parameters
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry:`false`
-      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
 
 
       .. raw:: html
@@ -452,7 +451,7 @@ Parameters
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry:`false`
-      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
 
 
       .. raw:: html
@@ -565,7 +564,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` "[\\n  {\\n    \\"userDetails\\": {\\n      \\"id\\": \\"string\\",\\n      \\"connectionStatus\\": \\"string\\",\\n      \\"hostType\\": \\"string\\",\\n      \\"userId\\": {},\\n      \\"hostName\\": {},\\n      \\"hostOs\\": {},\\n      \\"hostVersion\\": {},\\n      \\"subType\\": \\"string\\",\\n      \\"lastUpdated\\": 0,\\n      \\"healthScore\\": [\\n        {\\n          \\"healthType\\": \\"string\\",\\n          \\"reason\\": \\"string\\",\\n          \\"score\\": 0\\n        }\\n      ],\\n      \\"hostMac\\": \\"string\\",\\n      \\"hostIpV4\\": \\"string\\",\\n      \\"hostIpV6\\": [\\n        {}\\n      ],\\n      \\"authType\\": {},\\n      \\"vlanId\\": \\"string\\",\\n      \\"ssid\\": {},\\n      \\"frequency\\": {},\\n      \\"channel\\": {},\\n      \\"apGroup\\": {},\\n      \\"location\\": {},\\n      \\"clientConnection\\": \\"string\\",\\n      \\"connectedDevice\\": [\\n        {}\\n      ],\\n      \\"issueCount\\": 0,\\n      \\"rssi\\": {},\\n      \\"avgRssi\\": {},\\n      \\"snr\\": {},\\n      \\"avgSnr\\": {},\\n      \\"dataRate\\": {},\\n      \\"txBytes\\": {},\\n      \\"rxBytes\\": {},\\n      \\"dnsSuccess\\": {},\\n      \\"dnsFailure\\": {},\\n      \\"onboarding\\": {\\n        \\"averageRunDuration\\": {},\\n        \\"maxRunDuration\\": {},\\n        \\"averageAssocDuration\\": {},\\n        \\"maxAssocDuration\\": {},\\n        \\"averageAuthDuration\\": {},\\n        \\"maxAuthDuration\\": {},\\n        \\"averageDhcpDuration\\": {},\\n        \\"maxDhcpDuration\\": {},\\n        \\"aaaServerIp\\": {},\\n        \\"dhcpServerIp\\": {}\\n      },\\n      \\"onboardingTime\\": {},\\n      \\"port\\": {}\\n    },\\n    \\"connectedDevice\\": [\\n      {\\n        \\"deviceDetails\\": {\\n          \\"family\\": \\"string\\",\\n          \\"type\\": \\"string\\",\\n          \\"location\\": {},\\n          \\"errorCode\\": {},\\n          \\"macAddress\\": \\"string\\",\\n          \\"role\\": \\"string\\",\\n          \\"apManagerInterfaceIp\\": \\"string\\",\\n          \\"associatedWlcIp\\": \\"string\\",\\n          \\"bootDateTime\\": \\"string\\",\\n          \\"collectionStatus\\": \\"string\\",\\n          \\"interfaceCount\\": \\"string\\",\\n          \\"lineCardCount\\": \\"string\\",\\n          \\"lineCardId\\": \\"string\\",\\n          \\"managementIpAddress\\": \\"string\\",\\n          \\"memorySize\\": \\"string\\",\\n          \\"platformId\\": \\"string\\",\\n          \\"reachabilityFailureReason\\": \\"string\\",\\n          \\"reachabilityStatus\\": \\"string\\",\\n          \\"snmpContact\\": \\"string\\",\\n          \\"snmpLocation\\": \\"string\\",\\n          \\"tunnelUdpPort\\": {},\\n          \\"waasDeviceMode\\": {},\\n          \\"series\\": \\"string\\",\\n          \\"inventoryStatusDetail\\": \\"string\\",\\n          \\"collectionInterval\\": \\"string\\",\\n          \\"serialNumber\\": \\"string\\",\\n          \\"softwareVersion\\": \\"string\\",\\n          \\"roleSource\\": \\"string\\",\\n          \\"hostname\\": \\"string\\",\\n          \\"upTime\\": \\"string\\",\\n          \\"lastUpdateTime\\": 0,\\n          \\"errorDescription\\": {},\\n          \\"locationName\\": {},\\n          \\"tagCount\\": \\"string\\",\\n          \\"lastUpdated\\": \\"string\\",\\n          \\"instanceUuid\\": \\"string\\",\\n          \\"id\\": \\"string\\",\\n          \\"neighborTopology\\": [\\n            {\\n              \\"errorCode\\": 0,\\n              \\"message\\": \\"string\\",\\n              \\"detail\\": \\"string\\"\\n            }\\n          ]\\n        }\\n      }\\n    ]\\n  }\\n]\\n"
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"userDetails\\": {\\n      \\"id\\": \\"string\\",\\n      \\"connectionStatus\\": \\"string\\",\\n      \\"hostType\\": \\"string\\",\\n      \\"userId\\": {},\\n      \\"hostName\\": {},\\n      \\"hostOs\\": {},\\n      \\"hostVersion\\": {},\\n      \\"subType\\": \\"string\\",\\n      \\"lastUpdated\\": 0,\\n      \\"healthScore\\": [\\n        {\\n          \\"healthType\\": \\"string\\",\\n          \\"reason\\": \\"string\\",\\n          \\"score\\": 0\\n        }\\n      ],\\n      \\"hostMac\\": \\"string\\",\\n      \\"hostIpV4\\": \\"string\\",\\n      \\"hostIpV6\\": [\\n        {}\\n      ],\\n      \\"authType\\": {},\\n      \\"vlanId\\": \\"string\\",\\n      \\"ssid\\": {},\\n      \\"frequency\\": {},\\n      \\"channel\\": {},\\n      \\"apGroup\\": {},\\n      \\"location\\": {},\\n      \\"clientConnection\\": \\"string\\",\\n      \\"connectedDevice\\": [\\n        {}\\n      ],\\n      \\"issueCount\\": 0,\\n      \\"rssi\\": {},\\n      \\"avgRssi\\": {},\\n      \\"snr\\": {},\\n      \\"avgSnr\\": {},\\n      \\"dataRate\\": {},\\n      \\"txBytes\\": {},\\n      \\"rxBytes\\": {},\\n      \\"dnsSuccess\\": {},\\n      \\"dnsFailure\\": {},\\n      \\"onboarding\\": {\\n        \\"averageRunDuration\\": {},\\n        \\"maxRunDuration\\": {},\\n        \\"averageAssocDuration\\": {},\\n        \\"maxAssocDuration\\": {},\\n        \\"averageAuthDuration\\": {},\\n        \\"maxAuthDuration\\": {},\\n        \\"averageDhcpDuration\\": {},\\n        \\"maxDhcpDuration\\": {},\\n        \\"aaaServerIp\\": {},\\n        \\"dhcpServerIp\\": {}\\n      },\\n      \\"onboardingTime\\": {},\\n      \\"port\\": {}\\n    },\\n    \\"connectedDevice\\": [\\n      {\\n        \\"deviceDetails\\": {\\n          \\"family\\": \\"string\\",\\n          \\"type\\": \\"string\\",\\n          \\"location\\": {},\\n          \\"errorCode\\": {},\\n          \\"macAddress\\": \\"string\\",\\n          \\"role\\": \\"string\\",\\n          \\"apManagerInterfaceIp\\": \\"string\\",\\n          \\"associatedWlcIp\\": \\"string\\",\\n          \\"bootDateTime\\": \\"string\\",\\n          \\"collectionStatus\\": \\"string\\",\\n          \\"interfaceCount\\": \\"string\\",\\n          \\"lineCardCount\\": \\"string\\",\\n          \\"lineCardId\\": \\"string\\",\\n          \\"managementIpAddress\\": \\"string\\",\\n          \\"memorySize\\": \\"string\\",\\n          \\"platformId\\": \\"string\\",\\n          \\"reachabilityFailureReason\\": \\"string\\",\\n          \\"reachabilityStatus\\": \\"string\\",\\n          \\"snmpContact\\": \\"string\\",\\n          \\"snmpLocation\\": \\"string\\",\\n          \\"tunnelUdpPort\\": {},\\n          \\"waasDeviceMode\\": {},\\n          \\"series\\": \\"string\\",\\n          \\"inventoryStatusDetail\\": \\"string\\",\\n          \\"collectionInterval\\": \\"string\\",\\n          \\"serialNumber\\": \\"string\\",\\n          \\"softwareVersion\\": \\"string\\",\\n          \\"roleSource\\": \\"string\\",\\n          \\"hostname\\": \\"string\\",\\n          \\"upTime\\": \\"string\\",\\n          \\"lastUpdateTime\\": 0,\\n          \\"errorDescription\\": {},\\n          \\"locationName\\": {},\\n          \\"tagCount\\": \\"string\\",\\n          \\"lastUpdated\\": \\"string\\",\\n          \\"instanceUuid\\": \\"string\\",\\n          \\"id\\": \\"string\\",\\n          \\"neighborTopology\\": [\\n            {\\n              \\"errorCode\\": 0,\\n              \\"message\\": \\"string\\",\\n              \\"detail\\": \\"string\\"\\n            }\\n          ]\\n        }\\n      }\\n    ]\\n  }\\n]\\n"`
 
 
       .. raw:: html
