@@ -421,9 +421,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">Cisco.Dnac</a> &raquo;</li>
-      <li>cisco.dnac.site_intent module – Resource module for Site operations</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Cisco.Dnac</a></li>
+      <li class="breadcrumb-item active">cisco.dnac.site_intent module – Resource module for Site operations</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/plugins/site_intent_module.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -437,7 +437,7 @@
 <h1>cisco.dnac.site_intent module – Resource module for Site operations<a class="headerlink" href="#cisco-dnac-site-intent-module-resource-module-for-site-operations" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.6.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.6.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-intent-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -446,16 +446,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 <p class="ansible-version-added">New in cisco.dnac 6.6.0</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id1">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id2">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id3">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id4">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id5">Examples</a></p></li>
-<li><p><a class="reference internal" href="#return-values" id="id6">Return Values</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id35">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id36">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id37">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id38">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id39">Examples</a></p></li>
+<li><p><a class="reference internal" href="#return-values" id="id40">Return Values</a></p></li>
 </ul>
 </div>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id1">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id35">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Manage operation create, update and delete of the resource Sites.</p></li>
 <li><p>Creates site with area/building/floor with specified hierarchy.</p></li>
@@ -464,7 +464,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 </ul>
 </section>
 <section id="requirements">
-<span id="ansible-collections-cisco-dnac-site-intent-module-requirements"></span><h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-cisco-dnac-site-intent-module-requirements"></span><h2><a class="toc-backref" href="#id36">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>dnacentersdk == 2.4.5</p></li>
@@ -472,7 +472,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id3">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id37">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -620,8 +620,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 <td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable debugging.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-default-bold">false</span> <span class="ansible-option-default">← (default)</span></p></li>
-<li><p><span class="ansible-option-choices-entry">true</span></p></li>
+<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -639,8 +639,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 <td><div class="ansible-option-cell"><p>Flag for logging playbook execution details. If set to true the log file will be created at the location of the execution with the name dnac.log</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-default-bold">false</span> <span class="ansible-option-default">← (default)</span></p></li>
-<li><p><span class="ansible-option-choices-entry">true</span></p></li>
+<li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -656,7 +656,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The Cisco DNA Center port.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“443”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id9"><span class="problematic" id="id10">:ansible-option-default:`&quot;443&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -666,7 +666,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 <p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The Cisco DNA Center username to authenticate.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“admin”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id11"><span class="problematic" id="id12">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -676,8 +676,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 <td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">false</span></p></li>
-<li><p><span class="ansible-option-default-bold">true</span> <span class="ansible-option-default">← (default)</span></p></li>
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -686,7 +686,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Informs the SDK which version of Cisco DNA Center to use.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <span class="ansible-option-default">“2.2.3.3”</span></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id17"><span class="problematic" id="id18">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -696,8 +696,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 <td><div class="ansible-option-cell"><p>The state of DNAC after module completion.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-default-bold">“merged”</span> <span class="ansible-option-default">← (default)</span></p></li>
-<li><p><span class="ansible-option-choices-entry">“deleted”</span></p></li>
+<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -708,8 +708,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 <td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-choices-entry">false</span></p></li>
-<li><p><span class="ansible-option-default-bold">true</span> <span class="ansible-option-default">← (default)</span></p></li>
+<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -717,7 +717,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id4">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id38">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
@@ -730,7 +730,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id5">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id39">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create a new building site</span><span class="w"></span>
 <span class="w">  </span><span class="nt">cisco.dnac.site_intent</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
@@ -754,7 +754,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 </div>
 </section>
 <section id="return-values">
-<h2><a class="toc-backref" href="#id6">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id40">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
 <p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v6)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
 <thead>
@@ -769,7 +769,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with API execution details as returned by the Cisco DNAC Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> “{\n  \”response\”:\n    {\n         \”bapiExecutionId\”: String,\n         \”bapiKey\”: String,\n         \”bapiName\”: String,\n         \”endTime\”: String,\n         \”endTimeEpoch\”: 0,\n         \”runtimeInstanceId\”: String,\n         \”startTime\”: String,\n         \”startTimeEpoch\”: 0,\n         \”status\”: String,\n         \”timeDuration\”: 0\n\n    }\n  \”msg\”: \”string\”\n}\n”</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id27"><span class="problematic" id="id28">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;:\\n    {\\n         \\&quot;bapiExecutionId\\&quot;: String,\\n         \\&quot;bapiKey\\&quot;: String,\\n         \\&quot;bapiName\\&quot;: String,\\n         \\&quot;endTime\\&quot;: String,\\n         \\&quot;endTimeEpoch\\&quot;: 0,\\n         \\&quot;runtimeInstanceId\\&quot;: String,\\n         \\&quot;startTime\\&quot;: String,\\n         \\&quot;startTimeEpoch\\&quot;: 0,\\n         \\&quot;status\\&quot;: String,\\n         \\&quot;timeDuration\\&quot;: 0\\n\\n    }\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -778,7 +778,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with existing site details.</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> “{\n  \”response\”: {},\n  \”msg\”: String\n}\n”</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id29"><span class="problematic" id="id30">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;: {},\\n  \\&quot;msg\\&quot;: String\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -787,7 +787,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with API execution details as returned by the Cisco DNAC Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> “{\n  \”response\”:\n    {\n         \”bapiError\”: String,\n         \”bapiExecutionId\”: String,\n         \”bapiKey\”: String,\n         \”bapiName\”: String,\n         \”endTime\”: String,\n         \”endTimeEpoch\”: 0,\n         \”runtimeInstanceId\”: String,\n         \”startTime\”: String,\n         \”startTimeEpoch\”: 0,\n         \”status\”: String,\n         \”timeDuration\”: 0\n\n    }\n  \”msg\”: \”string\”\n}\n”</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id31"><span class="problematic" id="id32">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;:\\n    {\\n         \\&quot;bapiError\\&quot;: String,\\n         \\&quot;bapiExecutionId\\&quot;: String,\\n         \\&quot;bapiKey\\&quot;: String,\\n         \\&quot;bapiName\\&quot;: String,\\n         \\&quot;endTime\\&quot;: String,\\n         \\&quot;endTimeEpoch\\&quot;: 0,\\n         \\&quot;runtimeInstanceId\\&quot;: String,\\n         \\&quot;startTime\\&quot;: String,\\n         \\&quot;startTimeEpoch\\&quot;: 0,\\n         \\&quot;status\\&quot;: String,\\n         \\&quot;timeDuration\\&quot;: 0\\n\\n    }\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -796,7 +796,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 </div></td>
 <td><div class="ansible-option-cell"><p>A list with the response returned by the Cisco DNAC Python</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> [“{\n   \”response\”: []”, “\n   \”msg\”: String\n}\n”]</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id33"><span class="problematic" id="id34">:ansible-rv-sample-value:`[&quot;{\\n   \\&quot;response\\&quot;: []&quot;, &quot;\\n   \\&quot;msg\\&quot;: String\\n}\\n&quot;]`</span></a></p>
 </div></td>
 </tr>
 </tbody>
