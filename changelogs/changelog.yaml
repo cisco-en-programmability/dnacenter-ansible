@@ -601,3 +601,10 @@ releases:
         - site_intent - new module.
         - swim_intent - new module.
         - template_intent - new module.
+  6.6.1:
+    release_date: "2022-11-17"
+    changes:
+      release_summary: Added the ability to export DNA Center credentials as environment variables and rennamed some vars.
+      bugfixes:
+        - DNA Center credentials can now be exported and used as env vars.
+        - sda_virtual_network_ip_pool - Now pass the site_name_hierarchy correctly in get method.
