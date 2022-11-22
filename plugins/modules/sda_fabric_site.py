@@ -27,7 +27,7 @@ options:
     description: SiteNameHierarchy query parameter. Site Name Hierarchy.
     type: str
 requirements:
-- dnacentersdk >= 2.5.4
+- dnacentersdk >= 2.5.5
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA AddSiteInSDAFabric
