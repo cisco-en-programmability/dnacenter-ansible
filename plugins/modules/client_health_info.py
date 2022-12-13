@@ -24,7 +24,7 @@ options:
     - Timestamp query parameter. Epoch time(in milliseconds) when the Client health data is required.
     type: str
 requirements:
-- dnacentersdk >= 2.5.4
+- dnacentersdk >= 2.5.5
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Clients GetOverallClientHealth

@@ -17,7 +17,7 @@ Other versions of this collection have support for previous Cisco DNA Center ver
 | 2.1.1                    | 3.0.0                        | 2.2.5                         |
 | 2.2.2.3                  | 3.3.1                        | 2.3.3                         |
 | 2.2.3.3                  | 6.4.0                        | 2.4.11                        |
-| 2.3.3.0                  | 6.5.3                        | 2.5.4                         |
+| 2.3.3.0                  | 6.6.1                        | 2.5.5                         |
 
 *Notes*:
 
@@ -59,7 +59,50 @@ Install the collection ([Galaxy link](https://galaxy.ansible.com/cisco/dnac))
 ```
 ansible-galaxy collection install cisco.dnac
 ```
-## Use
+## Using this collection
+
+There are three ways to use it:
+- [Using environment variables](#using-environment-variables)
+- [Using vars_files](#using-vars_files)
+
+### Using environment variables
+First, export the environment variables where you specify your DNA Center credentials as ansible variables:
+```
+export DNAC_HOST=<A.B.C.D>
+export DNAC_PORT=443 # optional, defaults to 443
+export DNAC_USERNAME=<username>
+export DNAC_PASSWORD=<password>
+export DNAC_VERSION=2.3.3.0 # optional, defaults to 2.3.3.0. See the Compatibility matrix
+export DNAC_VERIFY=False # optional, defaults to True
+export DNAC_DEBUG=False # optional, defaults to False
+```
+
+Create a `hosts` ([example](https://github.com/cisco-en-programmability/dnacenter-ansible/blob/main/playbooks/hosts)) file that uses `[dnac_servers]` with your Cisco DNA Center Settings:
+```
+[dnac_servers]
+dnac_server
+```
+
+Then, create a playbook `myplaybook.yml` ([example](https://github.com/cisco-en-programmability/dnacenter-ansible/blob/main/playbooks/tag.yml)) referencing the variables in your credentials.yml file and specifying the full namespace path to the module, plugin and/or role:
+```
+- hosts: dnac_servers
+  gather_facts: no
+  tasks:
+  - name: Create tag with name "MyNewTag"
+    cisco.dnac.tag:
+      state: present
+      description: My Tag
+      name: MyNewTag
+    register: result
+```
+
+Execute the playbook:
+```
+ansible-playbook -i hosts myplaybook.yml
+```
+
+### Using vars_files
+
 First, define a `credentials.yml` ([example](https://github.com/cisco-en-programmability/dnacenter-ansible/blob/main/playbooks/credentials.template)) file where you specify your DNA Center credentials as Ansible variables:
 ```
 ---

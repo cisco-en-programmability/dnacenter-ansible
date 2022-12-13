@@ -17,7 +17,7 @@ description:
 - Manage operations add device, claim device and unclaim device of Onboarding Configuration(PnP) resource
 - API to add device to pnp inventory and claim it to a site.
 - API to delete device from the pnp inventory.
-version_added: '6.4.0'
+version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
 author: Madhan Sankaranarayanan (@madhansansel)
