@@ -20,7 +20,7 @@ options:
     description: SiteId path parameter. Site id to which site details to be deleted.
     type: str
 requirements:
-- dnacentersdk >= 2.5.4
+- dnacentersdk >= 2.5.5
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sites DeleteSite

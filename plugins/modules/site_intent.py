@@ -18,7 +18,7 @@ description:
 - Creates site with area/building/floor with specified hierarchy.
 - Updates site with area/building/floor with specified hierarchy.
 - Deletes site with area/building/floor with specified hierarchy.
-version_added: '6.4.0'
+version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
 author: Madhan Sankaranarayanan (@madhansansel)

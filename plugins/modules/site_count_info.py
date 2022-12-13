@@ -24,7 +24,7 @@ options:
     - SiteId query parameter. Site id to retrieve site count.
     type: str
 requirements:
-- dnacentersdk >= 2.5.4
+- dnacentersdk >= 2.5.5
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sites GetSiteCount

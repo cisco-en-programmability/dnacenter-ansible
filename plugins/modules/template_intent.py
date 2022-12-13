@@ -18,7 +18,7 @@ description:
 - API to create a template by project name and template name.
 - API to update a template by template name and project name.
 - API to delete a template by template name and project name.
-version_added: '6.4.0'
+version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
 author: Madhan Sankaranarayanan (@madhansansel)

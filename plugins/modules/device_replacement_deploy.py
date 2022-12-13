@@ -25,7 +25,7 @@ options:
     description: Device Replacement Deploy's replacementDeviceSerialNumber.
     type: str
 requirements:
-- dnacentersdk >= 2.5.4
+- dnacentersdk >= 2.5.5
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Replacement DeployDeviceReplacementWorkflow
