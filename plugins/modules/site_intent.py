@@ -166,7 +166,7 @@ response_2:
   type: dict
   sample: >
     {
-      "response": 
+      "response":
       {
             "site": {},
             "siteId": String,
