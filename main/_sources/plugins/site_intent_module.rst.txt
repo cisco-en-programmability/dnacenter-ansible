@@ -42,7 +42,7 @@ cisco.dnac.site_intent module -- Resource module for Site operations
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.1).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.6.2).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1264,7 +1264,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\":\\n    {\\n         \\"bapiExecutionId\\": String,\\n         \\"bapiKey\\": String,\\n         \\"bapiName\\": String,\\n         \\"endTime\\": String,\\n         \\"endTimeEpoch\\": 0,\\n         \\"runtimeInstanceId\\": String,\\n         \\"startTime\\": String,\\n         \\"startTimeEpoch\\": 0,\\n         \\"status\\": String,\\n         \\"timeDuration\\": 0\\n\\n    }\\n  \\"msg\\": \\"string\\"\\n}\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\":\\n    {\\n         \\"bapiExecutionId\\": String,\\n         \\"bapiKey\\": String,\\n         \\"bapiName\\": String,\\n         \\"endTime\\": String,\\n         \\"endTimeEpoch\\": 0,\\n         \\"runtimeInstanceId\\": String,\\n         \\"siteId\\": String,\\n         \\"startTime\\": String,\\n         \\"startTimeEpoch\\": 0,\\n         \\"status\\": String,\\n         \\"timeDuration\\": 0\\n\\n    },\\n  \\"msg\\": \\"string\\"\\n}\\n"`
 
 
       .. raw:: html
@@ -1309,7 +1309,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\": {},\\n  \\"msg\\": String\\n}\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\":\\n  {\\n        \\"site\\": {},\\n        \\"siteId\\": String,\\n        \\"type\\": String\\n  },\\n  \\"msg\\": String\\n}\\n"`
 
 
       .. raw:: html
@@ -1354,7 +1354,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\":\\n    {\\n         \\"bapiError\\": String,\\n         \\"bapiExecutionId\\": String,\\n         \\"bapiKey\\": String,\\n         \\"bapiName\\": String,\\n         \\"endTime\\": String,\\n         \\"endTimeEpoch\\": 0,\\n         \\"runtimeInstanceId\\": String,\\n         \\"startTime\\": String,\\n         \\"startTimeEpoch\\": 0,\\n         \\"status\\": String,\\n         \\"timeDuration\\": 0\\n\\n    }\\n  \\"msg\\": \\"string\\"\\n}\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\":\\n    {\\n         \\"bapiError\\": String,\\n         \\"bapiExecutionId\\": String,\\n         \\"bapiKey\\": String,\\n         \\"bapiName\\": String,\\n         \\"endTime\\": String,\\n         \\"endTimeEpoch\\": 0,\\n         \\"runtimeInstanceId\\": String,\\n         \\"startTime\\": String,\\n         \\"startTimeEpoch\\": 0,\\n         \\"status\\": String,\\n         \\"timeDuration\\": 0\\n\\n    },\\n  \\"msg\\": \\"string\\"\\n}\\n"`
 
 
       .. raw:: html
