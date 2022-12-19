@@ -393,6 +393,8 @@ class DnacSwims:
             family="software_image_management_swim",
             function='get_device_family_identifiers',
         )
+        if self.log:
+            log(str(response))
         device_family_db = response.get("response")
         if device_family_db:
             device_family_details = get_dict_result(device_family_db, 'deviceFamily', family_name)
@@ -402,7 +404,7 @@ class DnacSwims:
                 if self.log:
                     log("Family device indentifier:" + str(device_family_identifier))
             else:
-                self.module.fail_json(msg="Family Device Name not found")
+                self.module.fail_json(msg="Family Device Name not found", response=[])
             self.have.update(have)
 
     def get_have(self):
@@ -535,13 +537,17 @@ class DnacSwims:
 
             if task_details and task_details.get("isError"):
                 if "Image already exists" in task_details.get("failureReason"):
+                    self.result['msg'] = "Image already exists."
                     break
                 else:
                     self.module.fail_json(msg=task_details.get("failureReason"),
                                           response=task_details)
 
         self.result['response'] = task_details if task_details else response
-        # Fetch image_id if the imported image for further use
+        if not (self.want.get("tagging_details") or self.want.get("distribution_details")
+                or self.want.get("activation_details")):
+            return
+        # Fetch image_id for the imported image for further use
         image_name = self.want.get("url_import_details").get("payload")[0].get("sourceURL")
         image_name = image_name.split('/')[-1]
         image_id = self.get_image_id(image_name)
@@ -571,7 +577,7 @@ class DnacSwims:
         else:
             image_params = dict(
                 image_id=self.have.get("tagging_image_id"),
-                ite_id=self.have.get("site_id"),
+                site_id=self.have.get("site_id"),
                 device_family_identifier=self.have.get("device_family_identifier"),
                 device_role=tagging_details.get("deviceRole")
             )

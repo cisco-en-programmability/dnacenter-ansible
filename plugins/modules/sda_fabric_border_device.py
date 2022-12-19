@@ -165,7 +165,7 @@ EXAMPLES = r"""
           vlanName: string
         l3Handoff:
         - virtualNetwork:
-          - virtualNetworkName: string
+            virtualNetworkName: string
             vlanId: string
       externalDomainRoutingProtocolName: string
       internalAutonomouSystemNumber: string
