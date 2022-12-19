@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.6.1
+Collection version 6.6.2
 
 .. contents::
    :local:
@@ -408,8 +408,6 @@ Modules
 * :ref:`wireless_rf_profile_info module <ansible_collections.cisco.dnac.wireless_rf_profile_info_module>` -- Information module for Wireless Rf Profile
 * :ref:`wireless_sensor_test_results_info module <ansible_collections.cisco.dnac.wireless_sensor_test_results_info_module>` -- Information module for Wireless Sensor Test Results
 
-
-
 .. toctree::
     :maxdepth: 1
     :hidden:
@@ -768,3 +766,5 @@ Modules
     wireless_rf_profile_module
     wireless_rf_profile_info_module
     wireless_sensor_test_results_info_module
+
+

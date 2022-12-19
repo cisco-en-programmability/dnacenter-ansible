@@ -437,7 +437,7 @@
 <h1>cisco.dnac.site_intent module – Resource module for Site operations<a class="headerlink" href="#cisco-dnac-site-intent-module-resource-module-for-site-operations" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.6.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.6.2).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-intent-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -769,7 +769,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with API execution details as returned by the Cisco DNAC Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id27"><span class="problematic" id="id28">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;:\\n    {\\n         \\&quot;bapiExecutionId\\&quot;: String,\\n         \\&quot;bapiKey\\&quot;: String,\\n         \\&quot;bapiName\\&quot;: String,\\n         \\&quot;endTime\\&quot;: String,\\n         \\&quot;endTimeEpoch\\&quot;: 0,\\n         \\&quot;runtimeInstanceId\\&quot;: String,\\n         \\&quot;startTime\\&quot;: String,\\n         \\&quot;startTimeEpoch\\&quot;: 0,\\n         \\&quot;status\\&quot;: String,\\n         \\&quot;timeDuration\\&quot;: 0\\n\\n    }\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id27"><span class="problematic" id="id28">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;:\\n    {\\n         \\&quot;bapiExecutionId\\&quot;: String,\\n         \\&quot;bapiKey\\&quot;: String,\\n         \\&quot;bapiName\\&quot;: String,\\n         \\&quot;endTime\\&quot;: String,\\n         \\&quot;endTimeEpoch\\&quot;: 0,\\n         \\&quot;runtimeInstanceId\\&quot;: String,\\n         \\&quot;siteId\\&quot;: String,\\n         \\&quot;startTime\\&quot;: String,\\n         \\&quot;startTimeEpoch\\&quot;: 0,\\n         \\&quot;status\\&quot;: String,\\n         \\&quot;timeDuration\\&quot;: 0\\n\\n    },\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -778,7 +778,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with existing site details.</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id29"><span class="problematic" id="id30">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;: {},\\n  \\&quot;msg\\&quot;: String\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id29"><span class="problematic" id="id30">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;:\\n  {\\n        \\&quot;site\\&quot;: {},\\n        \\&quot;siteId\\&quot;: String,\\n        \\&quot;type\\&quot;: String\\n  },\\n  \\&quot;msg\\&quot;: String\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -787,7 +787,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-int
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with API execution details as returned by the Cisco DNAC Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id31"><span class="problematic" id="id32">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;:\\n    {\\n         \\&quot;bapiError\\&quot;: String,\\n         \\&quot;bapiExecutionId\\&quot;: String,\\n         \\&quot;bapiKey\\&quot;: String,\\n         \\&quot;bapiName\\&quot;: String,\\n         \\&quot;endTime\\&quot;: String,\\n         \\&quot;endTimeEpoch\\&quot;: 0,\\n         \\&quot;runtimeInstanceId\\&quot;: String,\\n         \\&quot;startTime\\&quot;: String,\\n         \\&quot;startTimeEpoch\\&quot;: 0,\\n         \\&quot;status\\&quot;: String,\\n         \\&quot;timeDuration\\&quot;: 0\\n\\n    }\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id31"><span class="problematic" id="id32">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;:\\n    {\\n         \\&quot;bapiError\\&quot;: String,\\n         \\&quot;bapiExecutionId\\&quot;: String,\\n         \\&quot;bapiKey\\&quot;: String,\\n         \\&quot;bapiName\\&quot;: String,\\n         \\&quot;endTime\\&quot;: String,\\n         \\&quot;endTimeEpoch\\&quot;: 0,\\n         \\&quot;runtimeInstanceId\\&quot;: String,\\n         \\&quot;startTime\\&quot;: String,\\n         \\&quot;startTimeEpoch\\&quot;: 0,\\n         \\&quot;status\\&quot;: String,\\n         \\&quot;timeDuration\\&quot;: 0\\n\\n    },\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
