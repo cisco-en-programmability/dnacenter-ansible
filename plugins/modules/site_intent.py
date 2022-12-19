@@ -149,12 +149,13 @@ response_1:
              "endTime": String,
              "endTimeEpoch": 0,
              "runtimeInstanceId": String,
+             "siteId": String,
              "startTime": String,
              "startTimeEpoch": 0,
              "status": String,
              "timeDuration": 0
 
-        }
+        },
       "msg": "string"
     }
 
@@ -165,7 +166,12 @@ response_2:
   type: dict
   sample: >
     {
-      "response": {},
+      "response":
+      {
+            "site": {},
+            "siteId": String,
+            "type": String
+      },
       "msg": String
     }
 
@@ -190,7 +196,7 @@ response_3:
              "status": String,
              "timeDuration": 0
 
-        }
+        },
       "msg": "string"
     }
 
@@ -301,7 +307,7 @@ class DnacSite:
                 building=dict(
                     name=site[0].get("name"),
                     parentName=site[0].get("siteNameHierarchy").split("/" + site[0].get("name"))[0],
-                    address=location.get("attributes").get("address"),
+                    address=location.get("attributes").get("address", ""),
                     latitude=location.get("attributes").get("latitude"),
                     longitude=location.get("attributes").get("longitude"),
                 )
@@ -326,7 +332,7 @@ class DnacSite:
         current_site = dict(
             type=typeinfo,
             site=site_info,
-            site_id=site[0].get("id")
+            siteId=site[0].get("id")
         )
 
         if self.log:
@@ -430,7 +436,7 @@ class DnacSite:
             log("Site Exists: " + str(site_exists) + "\n Current Site:" + str(current_site))
 
         if site_exists:
-            have["site_id"] = current_site.get("site_id")
+            have["site_id"] = current_site.get("siteId")
             have["site_exists"] = site_exists
             have["current_site"] = current_site
 
@@ -501,6 +507,7 @@ class DnacSite:
                 if site_updated:
                     log("Site Updated Successfully")
                     self.result['msg'] = "Site Updated Successfully"
+                    self.result['response'].update({"siteId": self.have.get("site_id")})
 
                 else:
                     # Get the site id of the newly created site.
@@ -510,6 +517,7 @@ class DnacSite:
                         log("Site Created Successfully")
                         log("Current site:" + str(current_site))
                         self.result['msg'] = "Site Created Successfully"
+                        self.result['response'].update({"siteId": current_site.get('site_id')})
 
     def get_diff_delete(self):
         site_exists = self.have.get("site_exists")
@@ -528,6 +536,7 @@ class DnacSite:
                     if execution_details.get("status") == "SUCCESS":
                         self.result['changed'] = True
                         self.result['response'] = execution_details
+                        self.result['response'].update({"siteId": self.have.get("site_id")})
                         self.result['msg'] = "Site deleted successfully"
                         break
 

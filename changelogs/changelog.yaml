@@ -608,3 +608,11 @@ releases:
       bugfixes:
         - DNA Center credentials can now be exported and used as env vars.
         - sda_virtual_network_ip_pool - Now pass the site_name_hierarchy correctly in get method.
+  6.6.2:
+    release_date: "2022-12-19"
+    changes:
+      release_summary: 
+      bugfixes:
+        - sda_fabric_border_device - fix Create example at EXAMPLES block
+        - site_intent - fix Case_1 return example at RETURN block
+        - swim_intent - fix functionality and tests
