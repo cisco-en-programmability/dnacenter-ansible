@@ -11,6 +11,7 @@ This collection has been tested and supports Cisco DNA Center 2.3.3.0.
 Other versions of this collection have support for previous Cisco DNA Center versions. The recommended versions are listed below on the [Compatibility matrix](https://github.com/cisco-en-programmability/dnacenter-ansible#compatibility-matrix).
 
 ## Compatibility matrix
+The following table shows the supported versions.
 
 | Cisco DNA Center version | Ansible "cisco.dnac" version | Python "dnacentersdk" version |
 |--------------------------|------------------------------|-------------------------------|
@@ -18,6 +19,8 @@ Other versions of this collection have support for previous Cisco DNA Center ver
 | 2.2.2.3                  | 3.3.1                        | 2.3.3                         |
 | 2.2.3.3                  | 6.4.0                        | 2.4.11                        |
 | 2.3.3.0                  | 6.6.2                        | 2.5.5                         |
+
+If your Ansible collection is older please consider updating it first.
 
 *Notes*:
 
