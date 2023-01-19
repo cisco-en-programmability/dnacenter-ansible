@@ -89,7 +89,7 @@ class Snmpv2ReadCommunityCredential(object):
             if isinstance(items, dict):
                 if 'response' in items:
                     items = items.get('response')
-            result = get_dict_result(items, 'description', name) or get_dict_result(items, 'username', name)
+            result = get_dict_result(items, 'description', name)
         except Exception:
             result = None
         return result
