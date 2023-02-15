@@ -23,7 +23,7 @@ description:
 - API to distribute a software image on a given device. Software image must be imported successfully into
   DNA Center before it can be distributed.
 - API to activate a software image on a given device. Software image must be present in the device flash.
-version_added: '6.4.0'
+version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
 author: Madhan Sankaranarayanan (@madhansansel)
