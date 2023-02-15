@@ -15,13 +15,15 @@ module: swim_intent
 short_description: Intent module for SWIM related functions
 description:
 - Manage operation related to image importation, distribution, activation and tagging image as golden
-- API to fetch a software image from remote file system using URL for HTTP/FTP and uploads to DNA Center.
+- API to fetch a software image from remote file system using URL for HTTP/FTP and upload it to DNA Center.
+  Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
+- API to fethc a software image from local file system and upload it to DNA Center
   Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
 - API to tag/untag image as golen for a given family of devices
 - API to distribute a software image on a given device. Software image must be imported successfully into
   DNA Center before it can be distributed.
 - API to activate a software image on a given device. Software image must be present in the device flash.
-version_added: '6.6.0'
+version_added: '6.4.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
 author: Madhan Sankaranarayanan (@madhansansel)
@@ -38,8 +40,27 @@ options:
         type: dict
         suboptions:
           type:
-            description: The source of import (Currently support vis URL).
+            description: The source of import, supports url import or local import.
             type: str
+          localImageDetails:
+            description: Details of the local path of the image to be imported.
+            type: dict
+            suboptions:
+              filePath:
+                description: File absolute path.
+                type: str
+              isThirdParty:
+                description: IsThirdParty query parameter. Third party Image check.
+                type: bool
+              thirdPartyApplicationType:
+                description: ThirdPartyApplicationType query parameter. Third Party Application Type.
+                type: str
+              thirdPartyImageFamily:
+                description: ThirdPartyImageFamily query parameter. Third Party image family.
+                type: str
+              thirdPartyVendor:
+                description: ThirdPartyVendor query parameter. Third Party Vendor.
+                type: str
           urlDetails:
             description: URL details for SWIM import
             type: dict
@@ -171,7 +192,7 @@ notes:
 """
 
 EXAMPLES = r"""
-- name: Import an image, tag it as golden and load it on device
+- name: Import an image from a URL, tag it as golden and load it on device
   cisco.dnac.swim_intent:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -494,9 +515,14 @@ class DnacSwims:
         want = {}
         for image in self.validated:
             if image.get("importImageDetails"):
-                want["import_type"] = image.get("importImageDetails").get("type")
-                if want["import_type"].lower() == "url":
+                want["import_image"] = True
+                want["import_type"] = image.get("importImageDetails").get("type").lower()
+                if want["import_type"] == "url":
                     want["url_import_details"] = image.get("importImageDetails").get("urlDetails")
+                elif want["import_type"] == "local":
+                    want["local_import_details"] = image.get("importImageDetails").get("localImageDetails")
+                else:
+                    self.module.fail_json(msg="Incorrect import type. Supported Values: local or url")
 
             want["tagging_details"] = image.get("taggingDetails")
             want["distribution_details"] = image.get("imageDistributionDetails")
@@ -507,30 +533,50 @@ class DnacSwims:
             log(str(self.want))
 
     def get_diff_import(self):
-        if not self.want.get("url_import_details"):
+        if not self.want.get("import_image"):
             return
 
-        url_import_params = dict(
-            payload=self.want.get("url_import_details").get("payload"),
-            schedule_at=self.want.get("url_import_details").get("scheduleAt"),
-            schedule_desc=self.want.get("url_import_details").get("scheduleDesc"),
-            schedule_origin=self.want.get("url_import_details").get("scheduleOrigin"),
-        )
-        response = self.dnac.exec(
-            family="software_image_management_swim",
-            function='import_software_image_via_url',
-            op_modifies=True,
-            params=url_import_params,
-        )
-        if self.log:
-            log(str(response))
+        if self.want.get("import_type") == "url":
+            image_name = self.want.get("url_import_details").get("payload")[0].get("sourceURL")
+            url_import_params = dict(
+                payload=self.want.get("url_import_details").get("payload"),
+                schedule_at=self.want.get("url_import_details").get("scheduleAt"),
+                schedule_desc=self.want.get("url_import_details").get("scheduleDesc"),
+                schedule_origin=self.want.get("url_import_details").get("scheduleOrigin"),
+            )
+            response = self.dnac.exec(
+                family="software_image_management_swim",
+                function='import_software_image_via_url',
+                op_modifies=True,
+                params=url_import_params,
+            )
+            if self.log:
+                log(str(response))
+        else:
+            image_name = self.want.get("local_import_details").get("filePath")
+            local_import_params = dict(
+                is_third_party=self.want.get("local_import_details").get("isThirdParty"),
+                third_party_vendor=self.want.get("local_import_details").get("thirdPartyVendor"),
+                third_party_image_family=self.want.get("local_import_details").get("thirdPartyImageFamily"),
+                third_party_application_type=self.want.get("local_import_details").get("thirdPartyApplicationType"),
+                file_path=self.want.get("local_import_details").get("filePath"),
+            )
+            response = self.dnac.exec(
+                family="software_image_management_swim",
+                function='import_local_software_image',
+                op_modifies=True,
+                params=local_import_params,
+                file_paths=[('file_path', 'file')],
+            )
+            if self.log:
+                log(str(response))
 
         task_details = {}
         task_id = response.get("response").get("taskId")
         while (True):
             task_details = self.get_task_details(task_id)
             if task_details and \
-                    ("completed successfully" in task_details.get("progress")):
+                    ("completed successfully" in task_details.get("progress").lower()):
                 self.result['changed'] = True
                 self.result['msg'] = "Image imported successfully"
                 break
@@ -548,7 +594,6 @@ class DnacSwims:
                 or self.want.get("activation_details")):
             return
         # Fetch image_id for the imported image for further use
-        image_name = self.want.get("url_import_details").get("payload")[0].get("sourceURL")
         image_name = image_name.split('/')[-1]
         image_id = self.get_image_id(image_name)
         self.have["imported_image_id"] = image_id
