@@ -8,9 +8,9 @@ plugins/modules/pnp_intent.py import-2.7!skip # Python 2.7 is not supported by t
 plugins/modules/template_intent.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/modules/site_intent.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/modules/swim_intent.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+
 plugins/action/business_sda_hostonboarding_ssid_ippool.py pylint:unused-import
 plugins/action/path_trace.py pylint:unused-import
-plugins/action/pnp_global_settings.py pylint:unused-import
 plugins/action/pnp_global_settings.py pylint:unused-import
 plugins/action/sda_fabric.py pylint:unused-import
 plugins/action/sda_fabric_authentication_profile.py pylint:unused-import
@@ -31,20 +31,8 @@ plugins/module_utils/dnac.py pylint:unused-import
 plugins/modules/pnp_intent.py pylint:unused-import
 plugins/modules/swim_intent.py pylint:unused-import
 plugins/modules/template_intent.py pylint:unused-import
-plugins/modules/template_intent.py pylint:unused-import
 plugins/plugin_utils/dnac.py pylint:unused-import
 tests/unit/modules/dnac/test_pnp_intent.py pylint:unused-import
-tests/unit/modules/dnac/test_pnp_intent.py pylint:unused-import
-tests/unit/modules/dnac/test_pnp_intent.py pylint:unused-import
-tests/unit/modules/dnac/test_pnp_intent.py pylint:unused-import
-tests/unit/modules/dnac/test_site_intent.py pylint:unused-import
-tests/unit/modules/dnac/test_site_intent.py pylint:unused-import
-tests/unit/modules/dnac/test_site_intent.py pylint:unused-import
 tests/unit/modules/dnac/test_site_intent.py pylint:unused-import
 tests/unit/modules/dnac/test_swim_intent.py pylint:unused-import
-tests/unit/modules/dnac/test_swim_intent.py pylint:unused-import
-tests/unit/modules/dnac/test_swim_intent.py pylint:unused-import
-tests/unit/modules/dnac/test_swim_intent.py pylint:unused-import
-tests/unit/modules/dnac/test_template_intent.py pylint:unused-import
-tests/unit/modules/dnac/test_template_intent.py pylint:unused-import
 tests/unit/modules/dnac/test_template_intent.py pylint:unused-import
