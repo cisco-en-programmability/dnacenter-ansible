@@ -19,7 +19,7 @@ from ansible.errors import AnsibleActionFail
 from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     DNACSDK,
     dnac_argument_spec,
-    dnac_compare_equality,
+    dnac_compare_equality2,
     get_dict_result,
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
@@ -321,9 +321,14 @@ class NetworkDevice(object):
             ("id", "id"),
             ("cleanConfig", "clean_config"),
         ]
+        # if requested_obj.get("updateMgmtIPaddressList") and \
+        #    requested_obj["updateMgmtIPaddressList"][0].get("existMgmtIpAddress") and \
+        #    requested_obj["updateMgmtIPaddressList"][0].get("newMgmtIpAddress"):
+        #         update_obj = requested_obj["updateMgmtIPaddressList"][0]
+        #         return True
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
-        return any(not dnac_compare_equality(current_obj.get(dnac_param),
+        return any(not dnac_compare_equality2(current_obj.get(dnac_param),
                                              requested_obj.get(ansible_param))
                    for (dnac_param, ansible_param) in obj_params)
 
