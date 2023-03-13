@@ -18,7 +18,7 @@ The following table shows the supported versions.
 | 2.1.1                    | 3.0.0                        | 2.2.5                         |
 | 2.2.2.3                  | 3.3.1                        | 2.3.3                         |
 | 2.2.3.3                  | 6.4.0                        | 2.4.11                        |
-| 2.3.3.0                  | 6.6.3                        | 2.5.5                         |
+| 2.3.3.0                  | 6.6.4                        | 2.5.5                         |
 
 If your Ansible collection is older please consider updating it first.
 
@@ -89,7 +89,7 @@ dnac_server
 Then, create a playbook `myplaybook.yml` ([example](https://github.com/cisco-en-programmability/dnacenter-ansible/blob/main/playbooks/tag.yml)) referencing the variables in your credentials.yml file and specifying the full namespace path to the module, plugin and/or role:
 ```
 - hosts: dnac_servers
-  gather_facts: no
+  gather_facts: false
   tasks:
   - name: Create tag with name "MyNewTag"
     cisco.dnac.tag:
@@ -129,7 +129,7 @@ Then, create a playbook `myplaybook.yml` ([example](https://github.com/cisco-en-
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
-  gather_facts: no
+  gather_facts: false
   tasks:
   - name: Create tag with name "MyNewTag"
     cisco.dnac.tag:
