@@ -34,6 +34,24 @@
 			}
 		}
 	}],
+	"playbook_config_local_image_import": [{
+		"importImageDetails": {
+			"type": "local",
+			"localImageDetails": {
+				"filePath":"/tmp/cat9k_iosxe.BLD_V179_THROTTLE_LATEST_20220429_033422.SSA.bin",
+				"isThirdParty": 0
+			}
+		}
+	}],
+	"playbook_config_incorrect_image_import_parameter": [{
+		"importImageDetails": {
+			"type": "locla",
+			"localImageDetails": {
+				"filePath":"/tmp/cat9k_iosxe.BLD_V179_THROTTLE_LATEST_20220429_033422.SSA.bin",
+				"isThirdParty": 0
+			}
+		}
+	}],
 	"playbook_config_untag_golden_image":[{
 		"taggingDetails": {
 			"imageName": "cat9k_iosxe.BLD_V179_THROTTLE_LATEST_20220429_033422.SSA.bin",
