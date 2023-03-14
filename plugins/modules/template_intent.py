@@ -699,7 +699,7 @@ class DnacTemplate:
             deviceTypes=dict(type="list", elements='dict'),
             failurePolicy=dict(type="str"),
             id=dict(type="str"),
-            language=dict(required=False, choices=['velocity', 'jinja']),
+            language=dict(type="str"),
             lastUpdateTime=dict(type="int"),
             latestVersionTime=dict(type="int"),
             name=dict(type="str"),
@@ -743,6 +743,11 @@ class DnacTemplate:
                     if not temp.get("language") or not temp.get("deviceTypes") \
                             or not temp.get("softwareType"):
                         msg = "missing required arguments: language or deviceTypes or softwareType"
+                        self.module.fail_json(msg=msg)
+                    if not (temp.get("language").lower() == "velocity" or
+                            temp.get("language").lower() == "jinja"):
+                        msg = "Invalid parameters in playbook: {0} : Invalid choice provided".format(
+                            "".join(temp.get("language")))
                         self.module.fail_json(msg=msg)
 
     def get_dnac_params(self, params):
