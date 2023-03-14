@@ -17,7 +17,7 @@ description:
 - Manage operation related to image importation, distribution, activation and tagging image as golden
 - API to fetch a software image from remote file system using URL for HTTP/FTP and upload it to DNA Center.
   Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
-- API to fethc a software image from local file system and upload it to DNA Center
+- API to fetch a software image from local file system and upload it to DNA Center
   Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
 - API to tag/untag image as golen for a given family of devices
 - API to distribute a software image on a given device. Software image must be imported successfully into
@@ -550,8 +550,6 @@ class DnacSwims:
                 op_modifies=True,
                 params=url_import_params,
             )
-            if self.log:
-                log(str(response))
         else:
             image_name = self.want.get("local_import_details").get("filePath")
             local_import_params = dict(
@@ -568,8 +566,9 @@ class DnacSwims:
                 params=local_import_params,
                 file_paths=[('file_path', 'file')],
             )
-            if self.log:
-                log(str(response))
+
+        if self.log:
+            log(str(response))
 
         task_details = {}
         task_id = response.get("response").get("taskId")
