@@ -625,7 +625,7 @@ releases:
         - snmpv2_read_community_credential - Removed to search by username.
         - snmpv2_write_community_credential - Removed to search by username.
   6.6.4:
-    release_date: "2023-03-13"
+    release_date: "2023-03-14"
     changes:
       release_summary: New method to compare changes
       bugfixes:
