@@ -73,6 +73,11 @@ class TestDnacSwimIntent(TestDnacModule):
                 self.test_data.get("task_info_response"),
                 self.test_data.get("image_already_exists_response"),
             ]
+        elif "swim_image_local_import" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("task_info_response"),
+                self.test_data.get("image_already_exists_response"),
+            ]
         elif "untag_image" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("image_id_fetched_successfully_response"),
@@ -140,6 +145,22 @@ class TestDnacSwimIntent(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 config=self.test_data.get("playbook_config_image_import")
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "Image already exists."
+        )
+
+    def test_swim_image_local_import(self):
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                config=self.test_data.get("playbook_config_local_image_import")
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -306,4 +327,20 @@ class TestDnacSwimIntent(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Device not found"
+        )
+
+    def test_swim_incorrect_image_import_parameter(self):
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                config=self.test_data.get("playbook_config_incorrect_image_import_parameter")
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'),
+            "Incorrect import type. Supported Values: local or url"
         )
