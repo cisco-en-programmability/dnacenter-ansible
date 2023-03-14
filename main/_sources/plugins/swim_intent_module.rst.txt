@@ -69,7 +69,8 @@ Synopsis
 .. Description
 
 - Manage operation related to image importation, distribution, activation and tagging image as golden
-- API to fetch a software image from remote file system using URL for HTTP/FTP and uploads to DNA Center. Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar\_gz and qcow2.
+- API to fetch a software image from remote file system using URL for HTTP/FTP and upload it to DNA Center. Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar\_gz and qcow2.
+- API to fetch a software image from local file system and upload it to DNA Center Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar\_gz and qcow2.
 - API to tag/untag image as golen for a given family of devices
 - API to distribute a software image on a given device. Software image must be imported successfully into DNA Center before it can be distributed.
 - API to activate a software image on a given device. Software image must be present in the device flash.
@@ -98,7 +99,6 @@ The below requirements are needed on the host that executes this module.
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -751,6 +751,219 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/localimagedetails:
+
+      .. rst-class:: ansible-option-title
+
+      **localImageDetails**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Details of the local path of the image to be imported.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails/filePath"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/localimagedetails/filepath:
+
+      .. rst-class:: ansible-option-title
+
+      **filePath**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails/filePath" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      File absolute path.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails/isThirdParty"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/localimagedetails/isthirdparty:
+
+      .. rst-class:: ansible-option-title
+
+      **isThirdParty**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails/isThirdParty" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IsThirdParty query parameter. Third party Image check.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails/thirdPartyApplicationType"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/localimagedetails/thirdpartyapplicationtype:
+
+      .. rst-class:: ansible-option-title
+
+      **thirdPartyApplicationType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails/thirdPartyApplicationType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      ThirdPartyApplicationType query parameter. Third Party Application Type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails/thirdPartyImageFamily"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/localimagedetails/thirdpartyimagefamily:
+
+      .. rst-class:: ansible-option-title
+
+      **thirdPartyImageFamily**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails/thirdPartyImageFamily" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      ThirdPartyImageFamily query parameter. Third Party image family.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails/thirdPartyVendor"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/localimagedetails/thirdpartyvendor:
+
+      .. rst-class:: ansible-option-title
+
+      **thirdPartyVendor**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails/thirdPartyVendor" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      ThirdPartyVendor query parameter. Third Party Vendor.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/type"></div>
 
       .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/type:
@@ -775,7 +988,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The source of import (Currently support vis URL).
+      The source of import, supports url import or local import.
 
 
       .. raw:: html
@@ -1730,7 +1943,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Import an image, tag it as golden and load it on device
+    - name: Import an image from a URL, tag it as golden and load it on device
       cisco.dnac.swim_intent:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
