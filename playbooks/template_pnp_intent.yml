@@ -2,7 +2,7 @@
   vars_files:
     - credentials.yml
     - device_details.yml
-  gather_facts: no
+  gather_facts: false
   connection: local
   tasks:
 #
@@ -16,7 +16,7 @@
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         state: "merged"
         #ignore_errors: true        #Enable this to continue execution even the task fails
         config:
@@ -43,7 +43,7 @@
         dnac_verify: "{{dnac_verify}}"
         dnac_port: "{{dnac_port}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         config:
         - site_name: "{{ item.site_name }}"
           project_name: "{{ item.proj_name }}"
