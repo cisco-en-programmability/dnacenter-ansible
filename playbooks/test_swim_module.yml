@@ -2,7 +2,7 @@
   vars_files:
     - credentials_245.yml 
     - image_details.yml #Contains image and device details  
-  gather_facts: no
+  gather_facts: false
   connection: local
   tasks:
 #
@@ -17,7 +17,7 @@
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         config:
         - importImageDetails:
             type: "{{ item.import_type }}"       
