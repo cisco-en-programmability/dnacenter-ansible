@@ -106,6 +106,7 @@ def dnac_compare_equality2(current_value, requested_value, is_query_param=False)
     else:
         return current_value == requested_value
 
+
 def simple_cmp(obj1, obj2):
     return obj1 == obj2
 
