@@ -11,7 +11,7 @@ short_description: Resource module for Wireless Accespoint Configuration
 description:
 - Manage operation create of the resource Wireless Accespoint Configuration.
 - User can configure multiple access points with required options using this intent API.
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)

@@ -12,7 +12,7 @@ description:
 - Manage operations create and update of the resource User.
 - Add a new user for Cisco DNA Center system.
 - Update a user for Cisco DNA Center system.
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)

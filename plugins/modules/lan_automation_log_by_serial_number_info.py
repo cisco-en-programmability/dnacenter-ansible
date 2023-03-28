@@ -13,7 +13,7 @@ description:
 - >
    Invoke this API to get the LAN Automation session logs for individual devices based on the given LAN Automation
    session id and device serial number.
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)

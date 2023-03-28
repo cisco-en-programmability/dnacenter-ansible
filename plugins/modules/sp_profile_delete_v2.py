@@ -11,7 +11,7 @@ short_description: Resource module for Sp Profile Delete V2
 description:
 - Manage operation delete of the resource Sp Profile Delete V2.
 - API to delete Service Provider Profile QoS .
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)

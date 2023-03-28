@@ -11,7 +11,7 @@ short_description: Information module for Wireless Accesspoint Configuration Sum
 description:
 - Get all Wireless Accesspoint Configuration Summary.
 - Users can query the access point configuration information per device using the ethernet MAC address.
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)

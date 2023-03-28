@@ -13,7 +13,7 @@ description:
 - >
    Gets existing global User Defined Fields. If no input is given, it fetches ALL the Global UDFs. Filter/search is
    supported either by UDF Ids or by UDF names, but not both.
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)

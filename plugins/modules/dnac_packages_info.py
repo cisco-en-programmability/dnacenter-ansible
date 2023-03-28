@@ -11,7 +11,7 @@ short_description: Information module for Dnac Packages
 description:
 - Get all Dnac Packages.
 - Provides information such as name, version of packages installed on the DNA center.
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)

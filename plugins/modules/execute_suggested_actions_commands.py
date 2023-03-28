@@ -14,7 +14,7 @@ description:
    This API triggers the execution of the suggested actions for an issue, given the Issue Id. It will return an
    execution Id. At the completion of the execution, the output of the commands associated with the suggested actions
    will be provided.
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)

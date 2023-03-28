@@ -11,7 +11,7 @@ short_description: Resource module for Credential To Site By Siteid Create V2
 description:
 - Manage operation create of the resource Credential To Site By Siteid Create V2.
 - API to assign Device Credential to a site.
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)

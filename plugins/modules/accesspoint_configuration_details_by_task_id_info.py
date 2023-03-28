@@ -11,7 +11,7 @@ short_description: Information module for Accesspoint Configuration Details By T
 description:
 - Get Accesspoint Configuration Details By Task Id by id.
 - Users can query the access point configuration result using this intent API.
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)

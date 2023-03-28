@@ -13,7 +13,7 @@ description:
 - >
    API to get device credentials' details. It fetches all global credentials of all types at once, without the need
    to pass any input parameters.
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)

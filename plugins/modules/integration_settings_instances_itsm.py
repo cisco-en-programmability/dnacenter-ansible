@@ -13,7 +13,7 @@ description:
 - Creates ITSM Integration setting.
 - Deletes the ITSM Integration setting.
 - Updates the ITSM Integration setting.
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
