@@ -10,7 +10,7 @@ module: site_assign_credential
 short_description: Resource module for Site Assign Credential
 description:
 - Manage operation create of the resource Site Assign Credential.
-- Assign Device Credential To Site.
+- Assign Device Credential to a site.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -44,12 +44,12 @@ requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings AssignCredentialToSite
-  description: Complete reference of the AssignCredentialToSite API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-credential-to-site
+- name: Cisco DNA Center documentation for Network Settings AssignDeviceCredentialToSite
+  description: Complete reference of the AssignDeviceCredentialToSite API.
+  link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.assign_credential_to_site,
+    network_settings.NetworkSettings.assign_device_credential_to_site,
 
   - Paths used are
     post /dna/intent/api/v1/credential-to-site/{siteId},

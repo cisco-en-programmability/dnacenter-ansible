@@ -10,7 +10,7 @@ module: service_provider_profile_delete
 short_description: Resource module for Service Provider Profile Delete
 description:
 - Manage operation delete of the resource Service Provider Profile Delete.
-- API to delete Service Provider profile QoS .
+- API to delete Service Provider Profile QoS .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

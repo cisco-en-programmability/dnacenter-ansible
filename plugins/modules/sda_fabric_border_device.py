@@ -25,6 +25,11 @@ options:
     description: Sda Fabric Border Device's payload.
     elements: dict
     suboptions:
+      borderPriority:
+        description: Border priority associated with a given device. Allowed range for
+          Border Priority is 1-9. A lower value indicates higher priority. E.g., a priority
+          of 1 takes precedence over 5. Default priority would be set to 10.
+        type: str
       borderSessionType:
         description: Border Session Type.
         type: str
@@ -84,7 +89,6 @@ options:
             suboptions:
               virtualNetwork:
                 description: Sda Fabric Border Device's virtualNetwork.
-                elements: dict
                 suboptions:
                   virtualNetworkName:
                     description: Virtual Network Name, that is associated to Fabric
@@ -96,7 +100,7 @@ options:
                       2046, 4095)).
                     type: str
                     version_added: 4.0.0
-                type: list
+                type: dict
                 version_added: 4.0.0
             type: list
             version_added: 4.0.0
@@ -107,6 +111,10 @@ options:
         type: str
       internalAutonomouSystemNumber:
         description: Internal Autonomouns System Number (e.g.,1-65535).
+        type: str
+      routeDistributionProtocol:
+        description: Route Distribution Protocol for Control Plane Device. Allowed values
+          are "LISP_BGP" or "LISP_PUB_SUB". Default value is "LISP_BGP".
         type: str
       sdaTransitNetworkName:
         description: SD-Access Transit Network Name.
@@ -149,7 +157,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - borderSessionType: string
+    - borderPriority: string
+      borderSessionType: string
       borderWithExternalConnectivity: true
       connectedToInternet: true
       deviceManagementIpAddress: string
@@ -169,6 +178,7 @@ EXAMPLES = r"""
             vlanId: string
       externalDomainRoutingProtocolName: string
       internalAutonomouSystemNumber: string
+      routeDistributionProtocol: string
       sdaTransitNetworkName: string
       siteNameHierarchy: string
 

@@ -27,12 +27,12 @@ requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses DeviceLicenseDetails
-  description: Complete reference of the DeviceLicenseDetails API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-license-details
+- name: Cisco DNA Center documentation for Licenses DeviceLicenseDetails2
+  description: Complete reference of the DeviceLicenseDetails2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!device-license-details-2
 notes:
   - SDK Method used are
-    licenses.Licenses.device_license_details,
+    licenses.Licenses.device_license_details2,
 
   - Paths used are
     get /dna/intent/api/v1/licenses/device/{device_uuid}/details,

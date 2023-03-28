@@ -34,11 +34,11 @@ options:
   offset:
     description:
     - Offset query parameter. Offset/starting row. The default value is 1.
-    type: str
+    type: int
   limit:
     description:
     - Limit query parameter. Number of sites to be retrieved. The default value is 500.
-    type: str
+    type: int
 requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
@@ -69,8 +69,8 @@ EXAMPLES = r"""
     name: string
     siteId: string
     type: string
-    offset: string
-    limit: string
+    offset: 0
+    limit: 0
   register: result
 
 """
@@ -87,24 +87,7 @@ dnac_response:
         "parentId": "string",
         "name": "string",
         "additionalInfo": [
-          {
-            "nameSpace": "string",
-            "attributes": {
-              "country": "string",
-              "address": "string",
-              "latitude": "string",
-              "addressInheritedFrom": "string",
-              "type": "string",
-              "longitude": "string",
-              "offsetX": "string",
-              "offsetY": "string",
-              "length": "string",
-              "width": "string",
-              "height": "string",
-              "rfModel": "string",
-              "floorIndex": "string"
-            }
-          }
+          "string"
         ],
         "siteHierarchy": "string",
         "siteNameHierarchy": "string",

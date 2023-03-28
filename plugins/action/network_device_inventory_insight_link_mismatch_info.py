@@ -26,8 +26,8 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     siteId=dict(type="str"),
-    offset=dict(type="str"),
-    limit=dict(type="str"),
+    offset=dict(type="int"),
+    limit=dict(type="int"),
     category=dict(type="str"),
     sortBy=dict(type="str"),
     order=dict(type="str"),

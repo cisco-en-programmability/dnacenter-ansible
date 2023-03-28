@@ -10,7 +10,9 @@ module: network_device_register_for_wsa_info
 short_description: Information module for Network Device Register For Wsa
 description:
 - Get all Network Device Register For Wsa.
-- Registers a device for WSA notification.
+- >
+   It fetches devices which are registered to receive WSA notifications. The device serial number and/or MAC address
+   are required to be provided as query parameters.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -31,12 +33,12 @@ requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices RegisterDeviceForWSA
-  description: Complete reference of the RegisterDeviceForWSA API.
-  link: https://developer.cisco.com/docs/dna-center/#!register-device-for-wsa
+- name: Cisco DNA Center documentation for Devices GetDevicesRegisteredForWSANotification
+  description: Complete reference of the GetDevicesRegisteredForWSANotification API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-devices-registered-for-wsa-notification
 notes:
   - SDK Method used are
-    devices.Devices.register_device_for_wsa,
+    devices.Devices.get_devices_registered_for_wsa_notification,
 
   - Paths used are
     get /dna/intent/api/v1/network-device/tenantinfo/macaddress,

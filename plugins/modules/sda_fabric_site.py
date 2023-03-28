@@ -23,6 +23,10 @@ options:
       DNA Center releases.
     type: str
     version_added: 4.0.0
+  fabricType:
+    description: Type of SD-Access Fabric. Allowed values are "FABRIC_SITE" or "FABRIC_ZONE".
+      Default value is "FABRIC_SITE".
+    type: str
   siteNameHierarchy:
     description: SiteNameHierarchy query parameter. Site Name Hierarchy.
     type: str
@@ -71,6 +75,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     fabricName: string
+    fabricType: string
     siteNameHierarchy: string
 
 """

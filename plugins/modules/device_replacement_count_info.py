@@ -23,7 +23,7 @@ options:
     description:
     - >
       ReplacementStatus query parameter. Device Replacement status listREADY-FOR-REPLACEMENT, REPLACEMENT-IN-
-      PROGRESS, REPLACEMENT-SCHEDULED, REPLACED, ERROR.
+      PROGRESS, REPLACEMENT-SCHEDULED, REPLACED, ERROR. 
     elements: str
     type: list
 requirements:

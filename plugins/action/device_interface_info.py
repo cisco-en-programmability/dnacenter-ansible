@@ -27,6 +27,8 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     offset=dict(type="int"),
     limit=dict(type="int"),
+    lastInputTime=dict(type="str"),
+    lastOutputTime=dict(type="str"),
     id=dict(type="str"),
     headers=dict(type="dict"),
 ))
@@ -68,6 +70,8 @@ class ActionModule(ActionBase):
         new_object = dict(
             offset=params.get("offset"),
             limit=params.get("limit"),
+            last_input_time=params.get("lastInputTime"),
+            last_output_time=params.get("lastOutputTime"),
             id=params.get("id"),
             headers=params.get("headers"),
         )

@@ -29,6 +29,9 @@ options:
       ssid:
         description: Enterprise ssid name(already created/present).
         type: str
+      wlanProfileName:
+        description: WLAN Profile Name.
+        type: str
     type: list
 requirements:
 - dnacentersdk >= 2.5.5
@@ -60,6 +63,7 @@ EXAMPLES = r"""
     - passPhrase: string
       site: string
       ssid: string
+      wlanProfileName: string
 
 """
 

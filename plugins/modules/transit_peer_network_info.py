@@ -75,6 +75,8 @@ dnac_response:
             "deviceManagementIpAddress": "string"
           }
         ]
-      }
+      },
+      "status": "string",
+      "description": "string"
     }
 """

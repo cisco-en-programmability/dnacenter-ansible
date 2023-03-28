@@ -64,11 +64,11 @@ options:
   offset:
     description:
     - Offset query parameter.
-    type: str
+    type: int
   limit:
     description:
     - Limit query parameter.
-    type: str
+    type: int
   sortBy:
     description:
     - SortBy query parameter. Sort results by this field.
@@ -123,8 +123,8 @@ EXAMPLES = r"""
     isError: string
     failureReason: string
     parentId: string
-    offset: string
-    limit: string
+    offset: 0
+    limit: 0
     sortBy: string
     order: string
   register: result

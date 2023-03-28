@@ -26,7 +26,7 @@ options:
   virtual_account_name:
     description:
     - >
-      Virtual_account_name path parameter. Name of virtual account. Putting "All" will give license usage detail
+      Virtual_account_name path parameter. Name of virtual account. Putting "All" will give license term detail
       for all virtual accounts.
     type: str
   device_type:
@@ -37,12 +37,12 @@ requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses LicenseUsageDetails
-  description: Complete reference of the LicenseUsageDetails API.
-  link: https://developer.cisco.com/docs/dna-center/#!license-usage-details
+- name: Cisco DNA Center documentation for Licenses LicenseUsageDetails2
+  description: Complete reference of the LicenseUsageDetails2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!license-usage-details-2
 notes:
   - SDK Method used are
-    licenses.Licenses.license_usage_details,
+    licenses.Licenses.license_usage_details2,
 
   - Paths used are
     get /dna/intent/api/v1/licenses/usage/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name},

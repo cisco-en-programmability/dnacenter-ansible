@@ -62,7 +62,6 @@ dnac_response:
   type: dict
   sample: >
     {
-      "siteNameHierarchy": "string",
       "multicastMethod": "string",
       "multicastType": "string",
       "multicastVnInfo": [
@@ -73,11 +72,15 @@ dnac_response:
             "string"
           ],
           "externalRpIpAddress": "string",
-          "ssmInfo": {
-            "ssmGroupRange": "string",
-            "ssmWildcardMask": "string"
-          }
+          "ssmInfo": [
+            {
+              "ssmGroupRange": "string",
+              "ssmWildcardMask": "string"
+            }
+          ]
         }
-      ]
+      ],
+      "status": "string",
+      "description": "string"
     }
 """

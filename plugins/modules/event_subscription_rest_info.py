@@ -179,7 +179,7 @@ dnac_response:
             "string"
           ]
         },
-        "isPrivate": true,
+        "isPrivate": "string",
         "tenantId": "string"
       }
     ]

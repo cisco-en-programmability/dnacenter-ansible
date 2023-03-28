@@ -26,11 +26,11 @@ options:
   offset:
     description:
     - Offset query parameter. Offset/starting row.
-    type: str
+    type: int
   limit:
     description:
     - Limit query parameter. Number of profile to be retrieved.
-    type: str
+    type: int
   name:
     description:
     - Name query parameter. Name of network profile to be retrieved.
@@ -62,8 +62,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: string
-    limit: string
+    offset: 0
+    limit: 0
     name: string
     id: string
   register: result

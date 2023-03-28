@@ -10,7 +10,7 @@ module: network_device_by_serial_number_info
 short_description: Information module for Network Device By Serial Number
 description:
 - Get Network Device By Serial Number by id.
-- Returns the network device with given serial number.
+- Returns the network device if the given serial number matches with any of the serial numbers collected.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
