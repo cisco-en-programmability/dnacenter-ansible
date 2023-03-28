@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: network_device_custom_prompt_info_info
+module: network_device_custom_prompt_info
 short_description: Information module for Network Device Custom Prompt Info
 description:
 - Get all Network Device Custom Prompt Info.
