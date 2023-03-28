@@ -29,7 +29,7 @@ options:
     type: str
   functionName:
     description:
-    - FunctionName query parameter. 
+    - FunctionName query parameter.
     elements: str
     type: list
   id:
