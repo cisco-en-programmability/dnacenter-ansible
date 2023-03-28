@@ -50,7 +50,7 @@ options:
     type: list
   operationalStateCodeList:
     description:
-    - OperationalStateCodeList query parameter. 
+    - OperationalStateCodeList query parameter.
     elements: str
     type: list
   id:
