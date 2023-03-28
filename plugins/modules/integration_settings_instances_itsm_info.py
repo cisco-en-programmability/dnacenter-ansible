@@ -11,7 +11,7 @@ short_description: Information module for Integration Settings Instances Itsm
 description:
 - Get Integration Settings Instances Itsm by id.
 - Fetches ITSM Integration setting by ID.
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)

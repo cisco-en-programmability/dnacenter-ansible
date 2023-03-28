@@ -11,7 +11,7 @@ short_description: Information module for Service Provider V2
 description:
 - Get all Service Provider V2.
 - API to get Service Provider details QoS .
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)

@@ -12,7 +12,7 @@ description:
 - Manage operations create and update of the resource Service Provider V2.
 - API to create Service Provider Profile QOS .
 - API to update Service Provider Profile QoS .
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)

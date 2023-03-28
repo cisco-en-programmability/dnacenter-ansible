@@ -631,7 +631,7 @@ releases:
       bugfixes:
         - A new method to compare changes for specific cases has been added.
         - network_device - Used a new method to compare changes.
-  6.x.x:
+  6.7.0:
     release_date: "xxxx-xx-xx"
     changes:
       release_summary: New method to compare changes

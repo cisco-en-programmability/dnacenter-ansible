@@ -11,7 +11,7 @@ short_description: Information module for User
 description:
 - Get all User.
 - Get all users for the Cisco DNA Center system.
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)

@@ -17,7 +17,7 @@ description:
 - >
    API to update device credentials. Multiple credentials can be passed at once, but only a single credential of a
    given type can be passed at once. Please refer sample Request Body for more information.
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)

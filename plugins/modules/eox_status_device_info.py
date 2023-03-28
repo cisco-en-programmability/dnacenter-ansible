@@ -13,7 +13,7 @@ description:
 - Get Eox Status Device by id.
 - Retrieves EoX details for a device.
 - Retrieves EoX status for all devices in the network.
-version_added: '3.1.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
