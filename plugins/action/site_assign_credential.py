@@ -91,7 +91,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="network_settings",
-            function='assign_credential_to_site',
+            function='assign_device_credential_to_site',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

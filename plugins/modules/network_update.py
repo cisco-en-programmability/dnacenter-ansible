@@ -10,7 +10,9 @@ module: network_update
 short_description: Resource module for Network Update
 description:
 - Manage operation update of the resource Network Update.
-- API to update network for DHCP and DNS center server settings.
+- >
+   API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and EndPoint AAA, and/or DNS
+   server settings.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -39,40 +41,40 @@ options:
             type: str
         type: dict
       dhcpServer:
-        description: Dhcp serve Ip (eg 1.1.1.1).
+        description: DHCP Server IP (eg 1.1.1.1).
         elements: str
         type: list
       dnsServer:
         description: Network Update's dnsServer.
         suboptions:
           domainName:
-            description: Domain name of DHCP (eg; cisco).
+            description: Domain Name of DHCP (eg; cisco).
             type: str
           primaryIpAddress:
-            description: Primary ip address for DHCP (eg 2.2.2.2).
+            description: Primary IP Address for DHCP (eg 2.2.2.2).
             type: str
           secondaryIpAddress:
-            description: Secondary ip address for DHCP (eg 3.3.3.3).
+            description: Secondary IP Address for DHCP (eg 3.3.3.3).
             type: str
         type: dict
       messageOfTheday:
         description: Network Update's messageOfTheday.
         suboptions:
           bannerMessage:
-            description: Massage for banner message (eg; Good day).
+            description: Massage for Banner message (eg; Good day).
             type: str
           retainExistingBanner:
-            description: Retain existing banner message (eg "true" or "false").
+            description: Retain existing Banner Message (eg "true" or "false").
             type: str
         type: dict
       netflowcollector:
         description: Network Update's netflowcollector.
         suboptions:
           ipAddress:
-            description: IP address for netflow collector (eg 3.3.3.1).
+            description: IP Address for NetFlow collector (eg 3.3.3.1).
             type: str
           port:
-            description: Port for netflow collector (eg; 443).
+            description: Port for NetFlow Collector (eg; 443).
             type: int
         type: dict
       network_aaa:
@@ -82,16 +84,16 @@ options:
             description: IP address for AAA and ISE server (eg 1.1.1.1).
             type: str
           network:
-            description: IP address for AAA or ISE server (eg 2.2.2.2).
+            description: IP Address for AAA or ISE server (eg 2.2.2.2).
             type: str
           protocol:
             description: Protocol for AAA or ISE serve (eg RADIUS).
             type: str
           servers:
-            description: Server type for AAA network (eg AAA).
+            description: Server type for AAA Network (eg AAA).
             type: str
           sharedSecret:
-            description: Shared secret for ISE server.
+            description: Shared secret for ISE Server.
             type: str
         type: dict
       ntpServer:
@@ -102,10 +104,10 @@ options:
         description: Network Update's snmpServer.
         suboptions:
           configureDnacIP:
-            description: Configuration dnac ip for snmp server (eg true).
+            description: Configuration DNAC IP for SNMP Server (eg true).
             type: bool
           ipAddresses:
-            description: IP address for snmp server (eg 4.4.4.1).
+            description: IP Address for SNMP Server (eg 4.4.4.1).
             elements: str
             type: list
         type: dict
@@ -113,10 +115,10 @@ options:
         description: Network Update's syslogServer.
         suboptions:
           configureDnacIP:
-            description: Configuration dnac ip for syslog server (eg true).
+            description: Configuration DNAC IP for syslog server (eg true).
             type: bool
           ipAddresses:
-            description: IP address for syslog server (eg 4.4.4.4).
+            description: IP Address for syslog server (eg 4.4.4.4).
             elements: str
             type: list
         type: dict

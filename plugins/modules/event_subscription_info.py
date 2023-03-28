@@ -100,7 +100,7 @@ dnac_response:
               "basePath": "string",
               "resource": "string",
               "method": "string",
-              "trustCert": "string",
+              "trustCert": true,
               "headers": [
                 {
                   "string": "string"
@@ -117,8 +117,8 @@ dnac_response:
                 }
               ],
               "body": "string",
-              "connectTimeout": "string",
-              "readTimeout": "string"
+              "connectTimeout": 0,
+              "readTimeout": 0
             },
             "connectorType": "string"
           }

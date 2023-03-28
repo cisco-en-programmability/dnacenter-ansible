@@ -10,9 +10,7 @@ module: pnp_device_claim_to_site
 short_description: Resource module for Pnp Device Claim To Site
 description:
 - Manage operation create of the resource Pnp Device Claim To Site.
-- >
-   Claim a device based on DNA-C Site based design process. Different parameters are required for different device
-   platforms.
+- Claim a device based on DNA-C Site-based design process. Some required parameters differ based on device platform.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,77 +18,67 @@ author: Rafael Campos (@racampos)
 options:
   configInfo:
     description: Pnp Device Claim To Site's configInfo.
+    elements: dict
     suboptions:
       configId:
-        description: Pnp Device Claim To Site's configId.
+        description: Config Id.
         type: str
       configParameters:
         description: Pnp Device Claim To Site's configParameters.
-        elements: dict
         suboptions:
           key:
-            description: Pnp Device Claim To Site's key.
+            description: Key.
             type: str
           value:
-            description: Pnp Device Claim To Site's value.
+            description: Value.
             type: str
-        type: list
-    type: dict
+        type: dict
+    type: list
     version_added: 4.2.0
   deviceId:
-    description: Pnp Device Claim To Site's deviceId.
+    description: Device Id.
     type: str
   gateway:
-    description: Pnp Device Claim To Site's gateway.
+    description: For CatalystWLC/MobilityExpress.
     type: str
     version_added: 6.4.0
-  hostname:
-    description: Pnp Device Claim To Site's hostname.
-    type: str
-    version_added: 4.2.0
-  imageId:
-    description: Pnp Device Claim To Site's imageId.
-    type: str
   imageInfo:
     description: Pnp Device Claim To Site's imageInfo.
     suboptions:
       imageId:
-        description: Pnp Device Claim To Site's imageId.
+        description: Image Id.
         type: str
       skip:
-        description: Skip flag.
+        description: Skip.
         type: bool
     type: dict
     version_added: 4.2.0
-  ipInterfaceName:
-    description: Pnp Device Claim To Site's ipInterfaceName.
+  interfaceName:
+    description: For Catalyst 9800 WLC.
     type: str
-    version_added: 6.4.0
-  removeInactive:
-    description: RemoveInactive flag.
-    type: bool
-    version_added: 6.4.0
   rfProfile:
-    description: Pnp Device Claim To Site's rfProfile.
+    description: For Access Points.
     type: str
     version_added: 6.1.0
+  sensorProfile:
+    description: For Sensors.
+    type: str
   siteId:
-    description: Pnp Device Claim To Site's siteId.
+    description: Site Id.
     type: str
   staticIP:
-    description: Pnp Device Claim To Site's staticIP.
+    description: For CatalystWLC/MobilityExpress.
     type: str
     version_added: 6.4.0
   subnetMask:
-    description: Pnp Device Claim To Site's subnetMask.
+    description: For CatalystWLC/MobilityExpress.
     type: str
   type:
-    description: Pnp Device Claim To Site's type.
+    description: Type.
     type: str
-  vlanId:
-    description: Pnp Device Claim To Site's vlanId.
+  vlanID:
+    description: For Catalyst 9800 WLC.
     type: str
-    version_added: 6.4.0
 requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
@@ -118,25 +106,23 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     configInfo:
-      configId: string
+    - configId: string
       configParameters:
-      - key: string
+        key: string
         value: string
     deviceId: string
     gateway: string
-    hostname: string
-    imageId: string
     imageInfo:
       imageId: string
       skip: true
-    ipInterfaceName: string
-    removeInactive: true
+    interfaceName: string
     rfProfile: string
+    sensorProfile: string
     siteId: string
     staticIP: string
     subnetMask: string
     type: string
-    vlanId: string
+    vlanID: string
 
 """
 

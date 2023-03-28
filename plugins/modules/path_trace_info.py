@@ -68,11 +68,11 @@ options:
   limit:
     description:
     - Limit query parameter. Number of resources returned.
-    type: str
+    type: int
   offset:
     description:
     - Offset query parameter. Start index of resources returned (1-based).
-    type: str
+    type: int
   order:
     description:
     - Order query parameter. Order by this field.
@@ -128,8 +128,8 @@ EXAMPLES = r"""
     status: string
     taskId: string
     lastUpdateTime: string
-    limit: string
-    offset: string
+    limit: 0
+    offset: 0
     order: string
     sortBy: string
   register: result

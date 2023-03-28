@@ -20,32 +20,33 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   controlPath:
-    description: ControlPath flag.
+    description: Control path tracing.
     type: bool
   destIP:
-    description: Path Trace's destIP.
+    description: Destination IP address.
     type: str
   destPort:
-    description: Path Trace's destPort.
+    description: Destination Port.
     type: str
   flowAnalysisId:
     description: FlowAnalysisId path parameter. Flow analysis request id.
     type: str
   inclusions:
-    description: Path Trace's inclusions.
+    description: Subset of {INTERFACE-STATS, QOS-STATS, DEVICE-STATS, PERFORMANCE-STATS,
+      ACL-TRACE}.
     elements: str
     type: list
   periodicRefresh:
-    description: PeriodicRefresh flag.
+    description: Periodic refresh of path for every 30 sec.
     type: bool
   protocol:
-    description: Path Trace's protocol.
+    description: Protocol.
     type: str
   sourceIP:
-    description: Path Trace's sourceIP.
+    description: Source IP address.
     type: str
   sourcePort:
-    description: Path Trace's sourcePort.
+    description: Source Port.
     type: str
 requirements:
 - dnacentersdk >= 2.5.5

@@ -40,11 +40,11 @@ options:
   offset:
     description:
     - Offset query parameter.
-    type: str
+    type: int
   limit:
     description:
     - Limit query parameter.
-    type: str
+    type: int
   size:
     description:
     - Size query parameter. Size in kilobytes(KB).
@@ -107,8 +107,8 @@ EXAMPLES = r"""
     additionalInfo_nameSpace: string
     additionalInfo_attributes: string
     level: string
-    offset: string
-    limit: string
+    offset: 0
+    limit: 0
     size: string
     field: string
     sortBy: string
@@ -149,9 +149,7 @@ dnac_response:
               "values": [
                 "string"
               ],
-              "items": [
-                {}
-              ],
+              "items": "string",
               "operation": "string",
               "name": "string",
               "value": "string"

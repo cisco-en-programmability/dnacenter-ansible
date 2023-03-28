@@ -64,7 +64,7 @@ dnac_response:
           "namespace": "string",
           "type": "string",
           "key": "string",
-          "version": 0,
+          "version": "string",
           "value": [
             {
               "wanProvider": "string",
@@ -77,6 +77,6 @@ dnac_response:
           "inheritedGroupName": "string"
         }
       ],
-      "version": "string"
+      "version": 0
     }
 """

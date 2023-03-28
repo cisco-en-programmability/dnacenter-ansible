@@ -6,10 +6,10 @@
 
 DOCUMENTATION = r"""
 ---
-module: network_device_custom_prompt_info
-short_description: Information module for Network Device Custom Prompt
+module: network_device_custom_prompt_info_info
+short_description: Information module for Network Device Custom Prompt Info
 description:
-- Get all Network Device Custom Prompt.
+- Get all Network Device Custom Prompt Info.
 - Returns supported custom prompts by Cisco DNA Center.
 version_added: '6.0.0'
 extends_documentation_fragment:
@@ -36,8 +36,8 @@ notes:
 """
 
 EXAMPLES = r"""
-- name: Get all Network Device Custom Prompt
-  cisco.dnac.network_device_custom_prompt_info:
+- name: Get all Network Device Custom Prompt Info
+  cisco.dnac.network_device_custom_prompt_info_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

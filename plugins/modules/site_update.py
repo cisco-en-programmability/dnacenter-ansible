@@ -64,8 +64,7 @@ options:
             description: Name.
             type: str
           rfModel:
-            description: Rf Model. Allowed values are 'Cubes And Walled Offices', 'Drywall
-              Office Only', 'Indoor High Ceiling', 'Outdoor Open Space'.
+            description: Rf Model.
             type: str
           width:
             description: Width.

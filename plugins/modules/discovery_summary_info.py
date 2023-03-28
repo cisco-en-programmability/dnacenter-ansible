@@ -64,7 +64,7 @@ options:
     type: list
   httpStatus:
     description:
-    - HttpStatus query parameter.
+    - HttpStatus query parameter. 
     elements: str
     type: list
 requirements:

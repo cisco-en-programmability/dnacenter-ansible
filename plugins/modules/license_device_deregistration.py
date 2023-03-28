@@ -24,12 +24,12 @@ requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses DeviceDeregistration
-  description: Complete reference of the DeviceDeregistration API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-deregistration
+- name: Cisco DNA Center documentation for Licenses DeviceDeregistration2
+  description: Complete reference of the DeviceDeregistration2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!device-deregistration-2
 notes:
   - SDK Method used are
-    licenses.Licenses.device_deregistration,
+    licenses.Licenses.device_deregistration2,
 
   - Paths used are
     put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/deregister,

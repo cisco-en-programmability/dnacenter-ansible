@@ -28,11 +28,11 @@ options:
   offset:
     description:
     - Offset query parameter. Row Number. Default value is 1.
-    type: str
+    type: int
   limit:
     description:
     - Limit query parameter. Default value is 500.
-    type: str
+    type: int
   sortBy:
     description:
     - SortBy query parameter. Sort By.
@@ -68,8 +68,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: string
-    limit: string
+    offset: 0
+    limit: 0
     sortBy: string
     order: string
     siteId: string

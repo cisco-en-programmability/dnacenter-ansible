@@ -10,7 +10,7 @@ module: service_provider_update
 short_description: Resource module for Service Provider Update
 description:
 - Manage operation update of the resource Service Provider Update.
-- API to update SP profile.
+- API to update Service Provider Profile QoS .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

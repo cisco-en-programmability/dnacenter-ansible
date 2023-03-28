@@ -35,6 +35,7 @@ argument_spec.update(dict(
     scalableGroupName=dict(type="str"),
     ssidNames=dict(type="list"),
     siteNameHierarchy=dict(type="str"),
+    headers=dict(type="dict"),
 ))
 
 required_if = [
@@ -54,6 +55,7 @@ class BusinessSdaHostonboardingSsidIppool(object):
             scalableGroupName=params.get("scalableGroupName"),
             ssidNames=params.get("ssidNames"),
             siteNameHierarchy=params.get("siteNameHierarchy"),
+            headers=params.get("headers"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -138,7 +140,7 @@ class BusinessSdaHostonboardingSsidIppool(object):
         result = None
         result = self.dnac.exec(
             family="fabric_wireless",
-            function="update_ssid_to_ip_pool_mapping2",
+            function="update_ssid_to_ip_pool_mapping",
             params=self.update_all_params(),
             op_modifies=True,
         )

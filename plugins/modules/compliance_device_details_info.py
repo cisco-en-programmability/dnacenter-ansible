@@ -38,11 +38,11 @@ options:
   offset:
     description:
     - Offset query parameter. Offset/starting row.
-    type: str
+    type: int
   limit:
     description:
     - Limit query parameter. Number of records to be retrieved.
-    type: str
+    type: int
 requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
@@ -73,8 +73,8 @@ EXAMPLES = r"""
     complianceType: string
     complianceStatus: string
     deviceUuid: string
-    offset: string
-    limit: string
+    offset: 0
+    limit: 0
   register: result
 
 """
@@ -90,7 +90,7 @@ dnac_response:
       "response": [
         {
           "complianceType": "string",
-          "lastSyncTime": "string",
+          "lastSyncTime": 0,
           "deviceUuid": "string",
           "displayName": "string",
           "status": "string",

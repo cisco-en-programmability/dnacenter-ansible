@@ -47,7 +47,7 @@ options:
     type: list
   name:
     description:
-    - Name query parameter. Workflow Name.
+    - Name query parameter. Workflow Name. 
     elements: str
     type: list
   id:

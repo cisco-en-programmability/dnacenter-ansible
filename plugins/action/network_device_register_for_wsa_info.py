@@ -83,7 +83,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="devices",
-            function='register_device_for_wsa',
+            function='get_devices_registered_for_wsa_notification',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

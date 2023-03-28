@@ -27,12 +27,12 @@ requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses DeviceRegistration
-  description: Complete reference of the DeviceRegistration API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-registration
+- name: Cisco DNA Center documentation for Licenses DeviceRegistration2
+  description: Complete reference of the DeviceRegistration2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!device-registration-2
 notes:
   - SDK Method used are
-    licenses.Licenses.device_registration,
+    licenses.Licenses.device_registration2,
 
   - Paths used are
     put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/{virtual_account_name}/register,
