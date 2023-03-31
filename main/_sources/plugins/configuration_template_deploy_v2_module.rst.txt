@@ -515,7 +515,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -685,7 +685,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -893,14 +893,12 @@ Examples
         forcePushTemplate: true
         isComposite: true
         mainTemplateId: string
-        memberTemplateDeploymentInfo:
-        - {}
+        memberTemplateDeploymentInfo: string
         targetInfo:
         - hostName: string
           id: string
           params: {}
-          resourceParams:
-          - {}
+          resourceParams: {}
           type: string
           versionedTemplateId: string
         templateId: string

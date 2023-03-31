@@ -535,7 +535,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -929,7 +929,7 @@ Examples
         - memberType: string
           rules:
             items:
-            - {}
+            - string
             name: string
             operation: string
             value: string
@@ -954,8 +954,7 @@ Examples
         dynamicRules:
         - memberType: string
           rules:
-            items:
-            - {}
+            items: string
             name: string
             operation: string
             value: string

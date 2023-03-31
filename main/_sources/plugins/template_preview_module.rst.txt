@@ -465,7 +465,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -603,8 +603,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         deviceId: string
         params: {}
-        resourceParams:
-        - {}
+        resourceParams: {}
         templateId: string
 
 

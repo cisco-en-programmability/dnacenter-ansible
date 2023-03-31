@@ -546,7 +546,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      True is ssid is fabric else false.
+      True if ssid is fabric else false.
 
 
       .. rst-class:: ansible-option-line
@@ -664,7 +664,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Local To Vlan.
+      Local To Vlan Id.
 
 
       .. raw:: html
@@ -743,6 +743,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/policyProfileName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profiledetails/ssiddetails/policyprofilename:
+
+      .. rst-class:: ansible-option-title
+
+      **policyProfileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profileDetails/ssidDetails/policyProfileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Policy Profile Name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/type"></div>
 
       .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profiledetails/ssiddetails/type:
@@ -768,6 +802,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Ssid Type(enum Enterprise/Guest).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/wlanProfileName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_profile_module__parameter-profiledetails/ssiddetails/wlanprofilename:
+
+      .. rst-class:: ansible-option-title
+
+      **wlanProfileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profileDetails/ssidDetails/wlanProfileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      WLAN Profile Name.
 
 
       .. raw:: html
@@ -923,7 +991,9 @@ Examples
               localToVlan: 0
             interfaceName: string
             name: string
+            policyProfileName: string
             type: string
+            wlanProfileName: string
 
     - name: Create
       cisco.dnac.wireless_profile:
@@ -946,7 +1016,9 @@ Examples
               localToVlan: 0
             interfaceName: string
             name: string
+            policyProfileName: string
             type: string
+            wlanProfileName: string
 
 
 

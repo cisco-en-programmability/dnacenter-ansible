@@ -69,7 +69,8 @@ Synopsis
 .. Description
 
 - Get all Network Device Range.
-- Returns the list of network devices for the given pagination range.
+- Returns the list of network devices for the given pagination range. The maximum number of records that can be retrieved is 500.
+
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -441,7 +442,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      RecordsToReturn path parameter. Number of records to return.
+      RecordsToReturn path parameter. Number of records to return 1\<= recordsToReturn \<= 500.
 
 
       .. raw:: html
@@ -475,7 +476,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      StartIndex path parameter. Start index.
+      StartIndex path parameter. Start index \>=1.
 
 
       .. raw:: html

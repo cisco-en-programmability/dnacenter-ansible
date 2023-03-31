@@ -535,7 +535,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -569,7 +569,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -675,8 +675,8 @@ Examples
         complianceType: string
         complianceStatus: string
         deviceUuid: string
-        offset: string
-        limit: string
+        offset: 0
+        limit: 0
       register: result
 
 
@@ -739,7 +739,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"category": "string", "complianceType": "string", "deviceUuid": "string", "displayName": "string", "lastSyncTime": "string", "lastUpdateTime": 0, "state": "string", "status": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"category": "string", "complianceType": "string", "deviceUuid": "string", "displayName": "string", "lastSyncTime": 0, "lastUpdateTime": 0, "state": "string", "status": "string"}], "version": "string"}`
 
 
       .. raw:: html

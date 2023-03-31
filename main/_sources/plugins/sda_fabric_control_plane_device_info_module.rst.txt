@@ -600,7 +600,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"description": "string", "deviceManagementIpAddress": "string", "name": "string", "roles": ["string"], "siteHierarchy": "string", "status": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"description": "string", "deviceManagementIpAddress": "string", "deviceName": "string", "roles": "string", "routeDistributionProtocol": "string", "siteNameHierarchy": "string", "status": "string"}`
 
 
       .. raw:: html

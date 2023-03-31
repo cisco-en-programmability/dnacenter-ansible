@@ -421,6 +421,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-fabricType"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_site_module__parameter-fabrictype:
+
+      .. rst-class:: ansible-option-title
+
+      **fabricType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-fabricType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Type of SD-Access Fabric. Allowed values are "FABRIC\_SITE" or "FABRIC\_ZONE". Default value is "FABRIC\_SITE".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-siteNameHierarchy"></div>
 
       .. _ansible_collections.cisco.dnac.sda_fabric_site_module__parameter-sitenamehierarchy:
@@ -553,6 +587,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         fabricName: string
+        fabricType: string
         siteNameHierarchy: string
 
 

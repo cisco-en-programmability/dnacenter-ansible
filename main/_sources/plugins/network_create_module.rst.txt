@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Manage operation create of the resource Network Create.
-- API to create a network for DHCP, Syslog, SNMP, NTP, Network AAA, Client and Endpint AAA, and/or DNS center server settings.
+- API to create a network for DHCP, Syslog, SNMP, NTP, Network AAA, Client and EndPoint AAA, and/or DNS center server settings.
 
 
 .. note::
@@ -681,7 +681,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Dhcp serve Ip (eg 1.1.1.1).
+      DHCP Server IP (eg 1.1.1.1).
 
 
       .. raw:: html
@@ -749,7 +749,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Domain name of DHCP (eg; cisco).
+      Domain Name of DHCP (eg; cisco).
 
 
       .. raw:: html
@@ -783,7 +783,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Primary ip address for DHCP (eg 2.2.2.2).
+      Primary IP Address for DHCP (eg 2.2.2.2).
 
 
       .. raw:: html
@@ -817,7 +817,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Secondary ip address for DHCP (eg 3.3.3.3).
+      Secondary IP Address for DHCP (eg 3.3.3.3).
 
 
       .. raw:: html
@@ -886,7 +886,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Massage for banner message (eg; Good day).
+      Massage for Banner message (eg; Good day).
 
 
       .. raw:: html
@@ -920,7 +920,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Retain existing banner message (eg "true" or "false").
+      Retain existing Banner Message (eg "true" or "false").
 
 
       .. raw:: html
@@ -989,7 +989,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP address for netflow collector (eg 3.3.3.1).
+      IP Address for NetFlow collector (eg 3.3.3.1).
 
 
       .. raw:: html
@@ -1023,7 +1023,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Port for netflow collector (eg; 443).
+      Port for NetFlow Collector (eg; 443).
 
 
       .. raw:: html
@@ -1126,7 +1126,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP address for AAA or ISE server (eg 2.2.2.2).
+      IP Address for AAA or ISE server (eg 2.2.2.2).
 
 
       .. raw:: html
@@ -1194,7 +1194,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Server type for AAA network (eg AAA).
+      Server type for AAA Network (eg AAA).
 
 
       .. raw:: html
@@ -1228,7 +1228,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Shared secret for ISE server.
+      Shared secret for ISE Server.
 
 
       .. raw:: html
@@ -1331,7 +1331,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration dnac ip for snmp server (eg true).
+      Configuration DNAC IP for SNMP Server (eg true).
 
 
       .. rst-class:: ansible-option-line
@@ -1373,7 +1373,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP address for snmp server (eg 4.4.4.1).
+      IP Address for SNMP Server (eg 4.4.4.1).
 
 
       .. raw:: html
@@ -1442,7 +1442,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration dnac ip for syslog server (eg true).
+      Configuration DNAC IP for syslog server (eg true).
 
 
       .. rst-class:: ansible-option-line
@@ -1484,7 +1484,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      IP address for syslog server (eg 4.4.4.4).
+      IP Address for syslog server (eg 4.4.4.4).
 
 
       .. raw:: html

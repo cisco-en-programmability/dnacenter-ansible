@@ -892,7 +892,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are lan\_automation.LanAutomation.lan\_automation2,
+   - SDK Method used are lan\_automation.LanAutomation.lan\_automation\_start,
    - Paths used are post /dna/intent/api/v1/lan-automation,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -905,8 +905,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for LAN Automation LANAutomation2 <https://developer.cisco.com/docs/dna-center/#!l-an-automation-2>`_
-       Complete reference of the LANAutomation2 API.
+   `Cisco DNA Center documentation for LAN Automation LANAutomationStart <https://developer.cisco.com/docs/dna-center/#!l-an-automation-start>`_
+       Complete reference of the LANAutomationStart API.
 
 .. Examples
 
@@ -1000,7 +1000,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"detail": "string", "errorCode": "string", "message": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"id": "string", "message": "string"}, "version": "string"}`
 
 
       .. raw:: html

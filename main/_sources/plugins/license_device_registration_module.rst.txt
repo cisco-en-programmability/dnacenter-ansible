@@ -500,7 +500,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are licenses.Licenses.device\_registration,
+   - SDK Method used are licenses.Licenses.device\_registration2,
    - Paths used are put /dna/intent/api/v1/licenses/smartAccount/virtualAccount/{virtual\_account\_name}/register,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Licenses DeviceRegistration <https://developer.cisco.com/docs/dna-center/#!device-registration>`_
-       Complete reference of the DeviceRegistration API.
+   `Cisco DNA Center documentation for Licenses DeviceRegistration2 <https://developer.cisco.com/docs/dna-center/#!device-registration-2>`_
+       Complete reference of the DeviceRegistration2 API.
 
 .. Examples
 

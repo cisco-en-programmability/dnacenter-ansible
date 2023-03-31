@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Manage operation delete of the resource Service Provider Profile Delete.
-- API to delete Service Provider profile QoS .
+- API to delete Service Provider Profile QoS .
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.

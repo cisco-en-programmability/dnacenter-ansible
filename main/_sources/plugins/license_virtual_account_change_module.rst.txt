@@ -534,7 +534,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are licenses.Licenses.change\_virtual\_account,
+   - SDK Method used are licenses.Licenses.change\_virtual\_account2,
    - Paths used are post /dna/intent/api/v1/licenses/smartAccount/{smart\_account\_id}/virtualAccount/{virtual\_account\_name}/device/transfer,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -547,8 +547,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Licenses ChangeVirtualAccount <https://developer.cisco.com/docs/dna-center/#!change-virtual-account>`_
-       Complete reference of the ChangeVirtualAccount API.
+   `Cisco DNA Center documentation for Licenses ChangeVirtualAccount2 <https://developer.cisco.com/docs/dna-center/#!change-virtual-account-2>`_
+       Complete reference of the ChangeVirtualAccount2 API.
 
 .. Examples
 

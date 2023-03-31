@@ -737,7 +737,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"properties": {"taskId": {"type": "string"}, "url": {"type": "string"}}, "required": ["string"], "type": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"properties": {"taskId": {"type": "string"}, "url": {"type": "string"}}, "required": ["string"], "type": "string"}, "version": {"type": "string"}}`
 
 
       .. raw:: html

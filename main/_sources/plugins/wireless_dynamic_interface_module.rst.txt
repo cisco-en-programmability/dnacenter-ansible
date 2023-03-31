@@ -628,7 +628,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -648,7 +648,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"executionId": "string", "executionUrl": "string", "message": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`["[\\n  {\\n    \\"executionId\\": \\"string\\"", "\\n    \\"executionUrl\\": \\"string\\"", "\\n    \\"message\\": \\"string\\"\\n  }\\n]\\n"]`
 
 
       .. raw:: html

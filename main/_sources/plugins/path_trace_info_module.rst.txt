@@ -603,7 +603,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -671,7 +671,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -1067,8 +1067,8 @@ Examples
         status: string
         taskId: string
         lastUpdateTime: string
-        limit: string
-        offset: string
+        limit: 0
+        offset: 0
         order: string
         sortBy: string
       register: result

@@ -69,8 +69,7 @@ Synopsis
 .. Description
 
 - Manage operation create of the resource Pnp Device Claim To Site.
-- Claim a device based on DNA-C Site based design process. Different parameters are required for different device platforms.
-
+- Claim a device based on DNA-C Site-based design process. Some required parameters differ based on device platform.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -126,7 +125,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       :ansible-option-versionadded:`added in cisco.dnac 4.2.0`
 
@@ -173,7 +172,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Device Claim To Site's configId.
+      Config Id.
 
 
       .. raw:: html
@@ -197,7 +196,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -241,7 +240,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Device Claim To Site's key.
+      Key.
 
 
       .. raw:: html
@@ -275,7 +274,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Device Claim To Site's value.
+      Value.
 
 
       .. raw:: html
@@ -311,7 +310,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Device Claim To Site's deviceId.
+      Device Id.
 
 
       .. raw:: html
@@ -620,78 +619,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Device Claim To Site's gateway.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-hostname"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-hostname:
-
-      .. rst-class:: ansible-option-title
-
-      **hostname**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-hostname" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in cisco.dnac 4.2.0`
-
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Pnp Device Claim To Site's hostname.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-imageId"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-imageid:
-
-      .. rst-class:: ansible-option-title
-
-      **imageId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-imageId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Pnp Device Claim To Site's imageId.
+      For CatalystWLC/MobilityExpress.
 
 
       .. raw:: html
@@ -762,7 +690,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Device Claim To Site's imageId.
+      Image Id.
 
 
       .. raw:: html
@@ -796,7 +724,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Skip flag.
+      Skip.
 
 
       .. rst-class:: ansible-option-line
@@ -815,25 +743,22 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipInterfaceName"></div>
+        <div class="ansibleOptionAnchor" id="parameter-interfaceName"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-ipinterfacename:
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-interfacename:
 
       .. rst-class:: ansible-option-title
 
-      **ipInterfaceName**
+      **interfaceName**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-ipInterfaceName" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-interfaceName" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
 
-      :ansible-option-versionadded:`added in cisco.dnac 6.4.0`
-
-
       .. raw:: html
 
         </div>
@@ -842,52 +767,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Device Claim To Site's ipInterfaceName.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-removeInactive"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-removeinactive:
-
-      .. rst-class:: ansible-option-title
-
-      **removeInactive**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-removeInactive" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      :ansible-option-versionadded:`added in cisco.dnac 6.4.0`
-
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      RemoveInactive flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
+      For Catalyst 9800 WLC.
 
 
       .. raw:: html
@@ -924,7 +804,41 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Device Claim To Site's rfProfile.
+      For Access Points.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensorProfile"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-sensorprofile:
+
+      .. rst-class:: ansible-option-title
+
+      **sensorProfile**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensorProfile" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      For Sensors.
 
 
       .. raw:: html
@@ -958,7 +872,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Device Claim To Site's siteId.
+      Site Id.
 
 
       .. raw:: html
@@ -995,7 +909,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Device Claim To Site's staticIP.
+      For CatalystWLC/MobilityExpress.
 
 
       .. raw:: html
@@ -1029,7 +943,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Device Claim To Site's subnetMask.
+      For CatalystWLC/MobilityExpress.
 
 
       .. raw:: html
@@ -1063,7 +977,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Device Claim To Site's type.
+      Type.
 
 
       .. raw:: html
@@ -1115,24 +1029,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-vlanId"></div>
+        <div class="ansibleOptionAnchor" id="parameter-vlanID"></div>
 
       .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-vlanid:
 
       .. rst-class:: ansible-option-title
 
-      **vlanId**
+      **vlanID**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-vlanId" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-vlanID" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in cisco.dnac 6.4.0`
-
 
       .. raw:: html
 
@@ -1142,7 +1053,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Device Claim To Site's vlanId.
+      For Catalyst 9800 WLC.
 
 
       .. raw:: html
@@ -1193,25 +1104,23 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         configInfo:
-          configId: string
+        - configId: string
           configParameters:
-          - key: string
+            key: string
             value: string
         deviceId: string
         gateway: string
-        hostname: string
-        imageId: string
         imageInfo:
           imageId: string
           skip: true
-        ipInterfaceName: string
-        removeInactive: true
+        interfaceName: string
         rfProfile: string
+        sensorProfile: string
         siteId: string
         staticIP: string
         subnetMask: string
         type: string
-        vlanId: string
+        vlanID: string
 
 
 

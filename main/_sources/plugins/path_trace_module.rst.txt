@@ -137,7 +137,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      ControlPath flag.
+      Control path tracing.
 
 
       .. rst-class:: ansible-option-line
@@ -179,7 +179,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Path Trace's destIP.
+      Destination IP address.
 
 
       .. raw:: html
@@ -213,7 +213,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Path Trace's destPort.
+      Destination Port.
 
 
       .. raw:: html
@@ -553,7 +553,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Path Trace's inclusions.
+      Subset of {INTERFACE-STATS, QOS-STATS, DEVICE-STATS, PERFORMANCE-STATS, ACL-TRACE}.
 
 
       .. raw:: html
@@ -587,7 +587,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      PeriodicRefresh flag.
+      Periodic refresh of path for every 30 sec.
 
 
       .. rst-class:: ansible-option-line
@@ -629,7 +629,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Path Trace's protocol.
+      Protocol.
 
 
       .. raw:: html
@@ -663,7 +663,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Path Trace's sourceIP.
+      Source IP address.
 
 
       .. raw:: html
@@ -697,7 +697,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Path Trace's sourcePort.
+      Source Port.
 
 
       .. raw:: html
