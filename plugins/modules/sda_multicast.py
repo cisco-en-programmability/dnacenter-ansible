@@ -39,6 +39,7 @@ options:
         type: str
       ssmInfo:
         description: Sda Multicast's ssmInfo.
+        elements: dict
         suboptions:
           ssmGroupRange:
             description: Valid SSM group range ip address(e.g., 230.0.0.0).
@@ -46,7 +47,7 @@ options:
           ssmWildcardMask:
             description: Valid SSM Wildcard Mask ip address(e.g.,0.255.255.255).
             type: str
-        type: dict
+        type: list
       virtualNetworkName:
         description: Virtual Network Name, that is associated to Fabric Site.
         type: str
@@ -94,7 +95,7 @@ EXAMPLES = r"""
       - string
       ipPoolName: string
       ssmInfo:
-        ssmGroupRange: string
+      - ssmGroupRange: string
         ssmWildcardMask: string
       virtualNetworkName: string
     siteNameHierarchy: string

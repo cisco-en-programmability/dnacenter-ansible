@@ -26,11 +26,11 @@ options:
   offset:
     description:
     - Offset query parameter. Offset/starting row.
-    type: str
+    type: int
   limit:
     description:
     - Limit query parameter. No of Global Pools to be retrieved.
-    type: str
+    type: int
 requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
@@ -59,8 +59,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     siteId: string
-    offset: string
-    limit: string
+    offset: 0
+    limit: 0
   register: result
 
 """

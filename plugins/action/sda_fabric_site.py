@@ -34,6 +34,7 @@ argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
     fabricName=dict(type="str"),
     siteNameHierarchy=dict(type="str"),
+    fabricType=dict(type="str"),
 ))
 
 required_if = [
@@ -49,6 +50,7 @@ class SdaFabricSite(object):
         self.new_object = dict(
             fabricName=params.get("fabricName"),
             siteNameHierarchy=params.get("siteNameHierarchy"),
+            fabricType=params.get("fabricType"),
             site_name_hierarchy=params.get("siteNameHierarchy"),
         )
 
@@ -62,6 +64,7 @@ class SdaFabricSite(object):
         new_object_params = {}
         new_object_params['fabricName'] = self.new_object.get('fabricName')
         new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
+        new_object_params['fabricType'] = self.new_object.get('fabricType')
         return new_object_params
 
     def delete_all_params(self):
@@ -110,6 +113,7 @@ class SdaFabricSite(object):
         obj_params = [
             ("fabricName", "fabricName"),
             ("siteNameHierarchy", "siteNameHierarchy"),
+            ("fabricType", "fabricType"),
             ("siteNameHierarchy", "site_name_hierarchy"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params

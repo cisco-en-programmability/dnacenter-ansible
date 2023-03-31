@@ -25,6 +25,10 @@ options:
     description: IpPoolName query parameter.
     type: str
     version_added: 4.0.0
+  isBridgeModeVm:
+    description: Bridge Mode Vm enablement flag (applicable for L3 and L2 and default
+      value is False ).
+    type: bool
   isCommonPool:
     description: Common Pool enablement flag(applicable for L3 and L2 and default value
       is False ).
@@ -42,8 +46,8 @@ options:
     description: Layer2 Only enablement flag and default value is False.
     type: bool
   isThisCriticalPool:
-    description: Critical pool enablement(applicable for L3 and default value is False
-      ).
+    description: Critical pool enablement flag(applicable for L3 and default value is
+      False ).
     type: bool
     version_added: 4.0.0
   isWirelessPool:
@@ -126,6 +130,7 @@ EXAMPLES = r"""
     state: present
     autoGenerateVlanName: true
     ipPoolName: string
+    isBridgeModeVm: true
     isCommonPool: true
     isIpDirectedBroadcast: true
     isL2FloodingEnabled: true

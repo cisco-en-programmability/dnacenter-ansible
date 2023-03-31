@@ -85,7 +85,18 @@ dnac_response:
             "enableBroadcastSSID": true,
             "nasOptions": [
               "string"
-            ]
+            ],
+            "aaaOverride": true,
+            "coverageHoleDetectionEnable": true,
+            "protectedManagementFrame": "string",
+            "multiPSKSettings": [
+              {
+                "priority": 0,
+                "passphraseType": "string",
+                "passphrase": "string"
+              }
+            ],
+            "clientRateLimit": 0
           }
         ],
         "groupUuid": "string",

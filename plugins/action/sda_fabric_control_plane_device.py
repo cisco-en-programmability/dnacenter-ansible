@@ -32,12 +32,12 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
-    payload=dict(type="list"),
     deviceManagementIpAddress=dict(type="str"),
+    siteNameHierarchy=dict(type="str"),
+    routeDistributionProtocol=dict(type="str"),
 ))
 
 required_if = [
-    ("state", "present", ["payload"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -48,7 +48,9 @@ class SdaFabricControlPlaneDevice(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
-            payload=params.get("payload"),
+            deviceManagementIpAddress=params.get("deviceManagementIpAddress"),
+            siteNameHierarchy=params.get("siteNameHierarchy"),
+            routeDistributionProtocol=params.get("routeDistributionProtocol"),
             device_management_ip_address=params.get("deviceManagementIpAddress"),
         )
 
@@ -60,7 +62,9 @@ class SdaFabricControlPlaneDevice(object):
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['payload'] = self.new_object.get('payload')
+        new_object_params['deviceManagementIpAddress'] = self.new_object.get('deviceManagementIpAddress')
+        new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
+        new_object_params['routeDistributionProtocol'] = self.new_object.get('routeDistributionProtocol')
         return new_object_params
 
     def delete_all_params(self):
@@ -104,13 +108,12 @@ class SdaFabricControlPlaneDevice(object):
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
-        requested_obj = self.new_object.get('payload')
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
+        requested_obj = self.new_object
 
         obj_params = [
             ("deviceManagementIpAddress", "deviceManagementIpAddress"),
             ("siteNameHierarchy", "siteNameHierarchy"),
+            ("routeDistributionProtocol", "routeDistributionProtocol"),
             ("deviceManagementIpAddress", "device_management_ip_address"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params

@@ -28,11 +28,11 @@ options:
   limit:
     description:
     - Limit query parameter.
-    type: str
+    type: int
   offset:
     description:
     - Offset query parameter.
-    type: str
+    type: int
   nameList:
     description:
     - NameList query parameter.
@@ -90,8 +90,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     deviceId: string
-    limit: string
-    offset: string
+    limit: 0
+    offset: 0
     nameList: []
     vendorEquipmentTypeList: []
     partNumberList: []

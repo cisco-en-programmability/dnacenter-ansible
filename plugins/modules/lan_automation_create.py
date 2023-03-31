@@ -66,12 +66,12 @@ requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for LAN Automation LANAutomation2
-  description: Complete reference of the LANAutomation2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-2
+- name: Cisco DNA Center documentation for LAN Automation LANAutomationStart
+  description: Complete reference of the LANAutomationStart API.
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-start
 notes:
   - SDK Method used are
-    lan_automation.LanAutomation.lan_automation2,
+    lan_automation.LanAutomation.lan_automation_start,
 
   - Paths used are
     post /dna/intent/api/v1/lan-automation,
@@ -113,9 +113,8 @@ dnac_response:
   sample: >
     {
       "response": {
-        "errorCode": "string",
         "message": "string",
-        "detail": "string"
+        "id": "string"
       },
       "version": "string"
     }

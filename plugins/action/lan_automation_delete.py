@@ -77,7 +77,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="lan_automation",
-            function="lan_automation",
+            function="lan_automation_stop",
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

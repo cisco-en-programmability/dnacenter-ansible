@@ -26,11 +26,11 @@ options:
   offset:
     description:
     - Offset query parameter. Row Number. Default value is 1.
-    type: str
+    type: int
   limit:
     description:
     - Limit query parameter. Default value is 500.
-    type: str
+    type: int
   category:
     description:
     - Category query parameter. Links mismatch category. Value can be speed-duplex or vlan.
@@ -70,8 +70,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: string
-    limit: string
+    offset: 0
+    limit: 0
     category: string
     sortBy: string
     order: string

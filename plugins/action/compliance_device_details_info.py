@@ -28,8 +28,8 @@ argument_spec.update(dict(
     complianceType=dict(type="str"),
     complianceStatus=dict(type="str"),
     deviceUuid=dict(type="str"),
-    offset=dict(type="str"),
-    limit=dict(type="str"),
+    offset=dict(type="int"),
+    limit=dict(type="int"),
     headers=dict(type="dict"),
 ))
 

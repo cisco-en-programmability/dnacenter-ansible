@@ -62,8 +62,11 @@ dnac_response:
   type: dict
   sample: >
     {
+      "siteNameHierarchy": "string",
+      "fabricName": "string",
+      "fabricType": "string",
+      "fabricDomainType": "string",
       "status": "string",
-      "description": "string",
-      "executionStatusUrl": "string"
+      "description": "string"
     }
 """
