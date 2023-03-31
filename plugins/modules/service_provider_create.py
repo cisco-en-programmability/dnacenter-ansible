@@ -10,7 +10,7 @@ module: service_provider_create
 short_description: Resource module for Service Provider Create
 description:
 - Manage operation create of the resource Service Provider Create.
-- API to create service provider profile QOS .
+- API to create Service Provider Profile QOS .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

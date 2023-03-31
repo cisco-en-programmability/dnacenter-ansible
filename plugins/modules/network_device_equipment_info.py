@@ -25,7 +25,9 @@ options:
     type: str
   type:
     description:
-    - Type query parameter. Type value should be PowerSupply or Fan.
+    - >
+      Type query parameter. Type value can be PowerSupply, Fan, Chassis, Backplane, Module, PROCESSOR, Other, SFP.
+      If no type is mentioned, All equipments are fetched for the device.
     type: str
 requirements:
 - dnacentersdk >= 2.5.5

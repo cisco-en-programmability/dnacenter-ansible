@@ -56,7 +56,8 @@ dnac_response:
   type: dict
   sample: >
     {
-      "status": "string",
+      "executionId": "string",
+      "executionStatusURL": "string",
       "message": "string"
     }
 """

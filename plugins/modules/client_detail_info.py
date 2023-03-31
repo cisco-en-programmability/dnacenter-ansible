@@ -90,8 +90,8 @@ dnac_response:
           "string"
         ],
         "authType": "string",
-        "vlanId": "string",
-        "vnid": "string",
+        "vlanId": 0,
+        "vnid": 0,
         "ssid": "string",
         "frequency": "string",
         "channel": "string",

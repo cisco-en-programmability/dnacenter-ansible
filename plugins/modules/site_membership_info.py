@@ -26,11 +26,11 @@ options:
   offset:
     description:
     - Offset query parameter. Offset/starting row.
-    type: str
+    type: int
   limit:
     description:
     - Limit query parameter. Number of sites to be retrieved.
-    type: str
+    type: int
   deviceFamily:
     description:
     - DeviceFamily query parameter. Device family name.
@@ -66,8 +66,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: string
-    limit: string
+    offset: 0
+    limit: 0
     deviceFamily: string
     serialNumber: string
     siteId: string

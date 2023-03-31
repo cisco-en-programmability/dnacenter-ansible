@@ -65,11 +65,19 @@ RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: dict
+  type: list
+  elements: dict
   sample: >
-    {
-      "siteNameHierarchy": "string",
-      "authenticateTemplateName": "string",
-      "authenticateTemplateId": "string"
-    }
+    [
+      {
+        "siteNameHierarchy": "string",
+        "authenticateTemplateName": "string",
+        "authenticationOrder": "string",
+        "dot1xToMabFallbackTimeout": "string",
+        "wakeOnLan": true,
+        "numberOfHosts": "string",
+        "status": "string",
+        "description": "string"
+      }
+    ]
 """

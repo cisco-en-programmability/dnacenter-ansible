@@ -37,12 +37,12 @@ requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses LicenseTermDetails
-  description: Complete reference of the LicenseTermDetails API.
-  link: https://developer.cisco.com/docs/dna-center/#!license-term-details
+- name: Cisco DNA Center documentation for Licenses LicenseTermDetails2
+  description: Complete reference of the LicenseTermDetails2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!license-term-details-2
 notes:
   - SDK Method used are
-    licenses.Licenses.license_term_details,
+    licenses.Licenses.license_term_details2,
 
   - Paths used are
     get /dna/intent/api/v1/licenses/term/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name},

@@ -21,20 +21,15 @@ options:
     description: DeviceManagementIpAddress query parameter.
     type: str
     version_added: 4.0.0
-  payload:
-    description: Sda Fabric Control Plane Device's payload.
-    elements: dict
-    suboptions:
-      deviceManagementIpAddress:
-        description: Management Ip Address of the Device which is provisioned successfully.
-        type: str
-        version_added: 4.0.0
-      siteNameHierarchy:
-        description: SiteNameHierarchy of the Provisioned Device(site should be part
-          of Fabric Site(site should be part of Fabric Site).
-        type: str
-        version_added: 4.0.0
-    type: list
+  routeDistributionProtocol:
+    description: Route Distribution Protocol for Control Plane Device. Allowed values
+      are "LISP_BGP" or "LISP_PUB_SUB". Default value is "LISP_BGP".
+    type: str
+  siteNameHierarchy:
+    description: SiteNameHierarchy of the Provisioned Device(site should be part of
+      Fabric Site).
+    type: str
+    version_added: 4.0.0
 requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
@@ -79,9 +74,9 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    payload:
-    - deviceManagementIpAddress: string
-      siteNameHierarchy: string
+    deviceManagementIpAddress: string
+    routeDistributionProtocol: string
+    siteNameHierarchy: string
 
 """
 

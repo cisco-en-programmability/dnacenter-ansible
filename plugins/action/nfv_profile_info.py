@@ -26,8 +26,8 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     id=dict(type="str"),
-    offset=dict(type="str"),
-    limit=dict(type="str"),
+    offset=dict(type="int"),
+    limit=dict(type="int"),
     name=dict(type="str"),
     headers=dict(type="dict"),
 ))

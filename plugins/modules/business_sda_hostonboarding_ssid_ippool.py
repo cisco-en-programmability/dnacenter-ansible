@@ -17,6 +17,9 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  headers:
+    description: Additional headers.
+    type: dict
   scalableGroupName:
     description: Scalable Group Name.
     type: str
@@ -37,13 +40,13 @@ seealso:
 - name: Cisco DNA Center documentation for Fabric Wireless AddSSIDToIPPoolMapping
   description: Complete reference of the AddSSIDToIPPoolMapping API.
   link: https://developer.cisco.com/docs/dna-center/#!add-ssid-to-ip-pool-mapping
-- name: Cisco DNA Center documentation for Fabric Wireless UpdateSSIDToIPPoolMapping2
-  description: Complete reference of the UpdateSSIDToIPPoolMapping2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-ssid-to-ip-pool-mapping-2
+- name: Cisco DNA Center documentation for Fabric Wireless UpdateSSIDToIPPoolMapping
+  description: Complete reference of the UpdateSSIDToIPPoolMapping API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-ssid-to-ip-pool-mapping
 notes:
   - SDK Method used are
     fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping,
-    fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping2,
+    fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping,
 
   - Paths used are
     post /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
@@ -62,6 +65,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    headers: '{{my_headers | from_json}}'
     scalableGroupName: string
     siteNameHierarchy: string
     ssidNames:

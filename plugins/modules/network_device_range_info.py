@@ -10,7 +10,9 @@ module: network_device_range_info
 short_description: Information module for Network Device Range
 description:
 - Get all Network Device Range.
-- Returns the list of network devices for the given pagination range.
+- >
+   Returns the list of network devices for the given pagination range. The maximum number of records that can be
+   retrieved is 500.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,11 +23,11 @@ options:
     type: dict
   startIndex:
     description:
-    - StartIndex path parameter. Start index.
+    - StartIndex path parameter. Start index >=1.
     type: int
   recordsToReturn:
     description:
-    - RecordsToReturn path parameter. Number of records to return.
+    - RecordsToReturn path parameter. Number of records to return 1<= recordsToReturn <= 500.
     type: int
 requirements:
 - dnacentersdk >= 2.5.5

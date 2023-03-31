@@ -63,18 +63,62 @@ dnac_response:
   sample: >
     {
       "response": {
-        "interfaceUuid": "string",
+        "type": "string",
         "properties": {
-          "name": "string",
-          "applicable": true,
-          "failureReason": {}
+          "interfaceUuid": {
+            "type": "string"
+          },
+          "properties": {
+            "type": "string",
+            "items": [
+              {
+                "type": "string",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "applicable": {
+                    "type": "string"
+                  },
+                  "failureReason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "string"
+                ]
+              }
+            ]
+          },
+          "operations": {
+            "type": "string",
+            "items": [
+              {
+                "type": "string",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "applicable": {
+                    "type": "string"
+                  },
+                  "failureReason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "string"
+                ]
+              }
+            ]
+          }
         },
-        "operations": {
-          "name": "string",
-          "applicable": true,
-          "failureReason": {}
-        }
+        "required": [
+          "string"
+        ]
       },
-      "version": "string"
+      "version": {
+        "type": "string"
+      }
     }
 """

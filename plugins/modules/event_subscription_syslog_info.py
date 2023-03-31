@@ -128,7 +128,7 @@ dnac_response:
                 "name": "string",
                 "description": "string",
                 "host": "string",
-                "port": "string"
+                "port": 0
               }
             },
             "connectorType": "string"

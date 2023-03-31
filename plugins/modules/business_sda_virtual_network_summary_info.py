@@ -62,11 +62,14 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": {
-        "status": "string",
-        "description": "string",
-        "fabricCount": "string"
-      },
-      "version": "string"
+      "virtualNetworkCount": 0,
+      "virtualNetworkSummary": [
+        {
+          "siteNameHierarchy": "string",
+          "virtualNetworkName": "string"
+        }
+      ],
+      "status": "string",
+      "description": "string"
     }
 """

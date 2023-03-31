@@ -65,9 +65,6 @@ dnac_response:
       "deviceManagementIpAddress": "string",
       "siteNameHierarchy": "string",
       "status": "string",
-      "description": "string",
-      "taskId": "string",
-      "taskStatusUrl": "string",
-      "executionStatusUrl": "string"
+      "description": "string"
     }
 """

@@ -1118,6 +1118,7 @@ dnac_response:
       "successList": [
         {
           "_id": "string",
+          "id": "string",
           "deviceInfo": {
             "source": "string",
             "serialNumber": "string",
