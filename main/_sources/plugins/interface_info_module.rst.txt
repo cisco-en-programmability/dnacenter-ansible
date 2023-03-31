@@ -597,7 +597,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"interfaceUuid": "string", "operations": {"applicable": true, "failureReason": {}, "name": "string"}, "properties": {"applicable": true, "failureReason": {}, "name": "string"}}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"properties": {"interfaceUuid": {"type": "string"}, "operations": {"items": [{"properties": {"applicable": {"type": "string"}, "failureReason": {"type": "string"}, "name": {"type": "string"}}, "required": ["string"], "type": "string"}], "type": "string"}, "properties": {"items": [{"properties": {"applicable": {"type": "string"}, "failureReason": {"type": "string"}, "name": {"type": "string"}}, "required": ["string"], "type": "string"}], "type": "string"}}, "required": ["string"], "type": "string"}, "version": {"type": "string"}}`
 
 
       .. raw:: html

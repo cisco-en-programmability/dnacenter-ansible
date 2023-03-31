@@ -169,7 +169,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Dna\_level query parameter. Device Cisco DNA license level.
+      Dna\_level query parameter. Device Cisco DNA License Level.
 
 
       .. raw:: html
@@ -543,7 +543,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Smart\_account\_id query parameter. Id of smart account.
+      Smart\_account\_id query parameter. Smart account id.
 
 
       .. raw:: html
@@ -619,7 +619,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Virtual\_account\_name query parameter. Name of virtual account.
+      Virtual\_account\_name query parameter. Virtual account name.
 
 
       .. raw:: html
@@ -636,7 +636,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are licenses.Licenses.device\_count\_details,
+   - SDK Method used are licenses.Licenses.device\_count\_details2,
    - Paths used are get /dna/intent/api/v1/licenses/device/count,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -649,8 +649,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Licenses DeviceCountDetails <https://developer.cisco.com/docs/dna-center/#!device-count-details>`_
-       Complete reference of the DeviceCountDetails API.
+   `Cisco DNA Center documentation for Licenses DeviceCountDetails2 <https://developer.cisco.com/docs/dna-center/#!device-count-details-2>`_
+       Complete reference of the DeviceCountDetails2 API.
 
 .. Examples
 

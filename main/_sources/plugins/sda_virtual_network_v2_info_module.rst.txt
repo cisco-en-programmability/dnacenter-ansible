@@ -597,7 +597,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"description": "string", "executionStatusUrl": "string", "isGuestVirtualNetwork": true, "scalableGroupNames": ["string"], "status": "string", "taskId": "string", "taskStatusUrl": "string", "virtualNetworkName": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"description": "string", "isGuestVirtualNetwork": true, "scalableGroupNames": ["string"], "status": "string", "vManageVpnId": "string", "virtualNetworkName": "string"}`
 
 
       .. raw:: html

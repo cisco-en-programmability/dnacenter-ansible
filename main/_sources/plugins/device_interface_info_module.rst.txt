@@ -453,6 +453,74 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lastInputTime"></div>
+
+      .. _ansible_collections.cisco.dnac.device_interface_info_module__parameter-lastinputtime:
+
+      .. rst-class:: ansible-option-title
+
+      **lastInputTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lastInputTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      LastInputTime query parameter. Last Input Time.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lastOutputTime"></div>
+
+      .. _ansible_collections.cisco.dnac.device_interface_info_module__parameter-lastoutputtime:
+
+      .. rst-class:: ansible-option-title
+
+      **lastOutputTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lastOutputTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      LastOutputTime query parameter. Last Output Time.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-limit"></div>
 
       .. _ansible_collections.cisco.dnac.device_interface_info_module__parameter-limit:
@@ -608,6 +676,8 @@ Examples
         headers: "{{my_headers | from_json}}"
         offset: 0
         limit: 0
+        lastInputTime: string
+        lastOutputTime: string
       register: result
 
     - name: Get Device Interface by id

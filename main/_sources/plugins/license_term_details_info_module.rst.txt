@@ -569,7 +569,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are licenses.Licenses.license\_term\_details,
+   - SDK Method used are licenses.Licenses.license\_term\_details2,
    - Paths used are get /dna/intent/api/v1/licenses/term/smartAccount/{smart\_account\_id}/virtualAccount/{virtual\_account\_name},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -582,8 +582,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Licenses LicenseTermDetails <https://developer.cisco.com/docs/dna-center/#!license-term-details>`_
-       Complete reference of the LicenseTermDetails API.
+   `Cisco DNA Center documentation for Licenses LicenseTermDetails2 <https://developer.cisco.com/docs/dna-center/#!license-term-details-2>`_
+       Complete reference of the LicenseTermDetails2 API.
 
 .. Examples
 

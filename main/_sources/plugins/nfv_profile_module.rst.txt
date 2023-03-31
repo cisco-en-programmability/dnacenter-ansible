@@ -445,7 +445,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Type of the device(eg Cisco 5400 Enterprise Network Compute System), 'Cisco Integrated Services Virtual Router', 'Cisco Adaptive Security Virtual Appliance (ASAv)', 'NFVIS', 'ASAV'.
+      Type of the device(eg Cisco 5400 Enterprise Network Compute System).
 
 
       .. raw:: html
@@ -513,7 +513,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the template type to which template is associated (eg Cloud DayN Templates). Allowed values are 'Onboarding Template(s)' and 'Day-N-Template(s)'.
+      Name of the template type to which template is associated (eg Cloud DayN Templates).
 
 
       .. raw:: html
@@ -582,7 +582,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the device used in creating nfv profile. Allowed values are 'Cisco 5400 Enterprise Network Compute System', 'Cisco 5100 Enterprise Network Compute System'.
+      Name of the device used in creating nfv profile.
 
 
       .. raw:: html

@@ -806,7 +806,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are licenses.Licenses.device\_license\_summary,
+   - SDK Method used are licenses.Licenses.device\_license\_summary2,
    - Paths used are get /dna/intent/api/v1/licenses/device/summary,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -819,8 +819,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Licenses DeviceLicenseSummary <https://developer.cisco.com/docs/dna-center/#!device-license-summary>`_
-       Complete reference of the DeviceLicenseSummary API.
+   `Cisco DNA Center documentation for Licenses DeviceLicenseSummary2 <https://developer.cisco.com/docs/dna-center/#!device-license-summary-2>`_
+       Complete reference of the DeviceLicenseSummary2 API.
 
 .. Examples
 

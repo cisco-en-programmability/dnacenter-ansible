@@ -431,7 +431,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -465,7 +465,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -568,8 +568,8 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
-        offset: string
-        limit: string
+        offset: 0
+        limit: 0
       register: result
 
 
@@ -632,7 +632,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"clientOptions": {}, "configureExternalDhcp": true, "context": [{"contextKey": "string", "contextValue": "string", "owner": "string"}], "createTime": 0, "dhcpServerIps": ["string"], "dnsServerIps": ["string"], "gateways": ["string"], "id": "string", "ipPoolCidr": "string", "ipPoolName": "string", "ipv6": true, "lastUpdateTime": 0, "overlapping": true, "owner": "string", "parentUuid": "string", "shared": true, "totalIpAddressCount": 0, "usedIpAddressCount": 0, "usedPercentage": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"clientOptions": {}, "configureExternalDhcp": "string", "context": [{"contextKey": "string", "contextValue": "string", "owner": "string"}], "createTime": "string", "dhcpServerIps": ["string"], "dnsServerIps": ["string"], "gateways": ["string"], "id": "string", "ipPoolCidr": "string", "ipPoolName": "string", "ipv6": "string", "lastUpdateTime": "string", "overlapping": "string", "owner": "string", "parentUuid": "string", "shared": "string", "totalIpAddressCount": "string", "usedIpAddressCount": "string", "usedPercentage": "string"}], "version": "string"}`
 
 
       .. raw:: html

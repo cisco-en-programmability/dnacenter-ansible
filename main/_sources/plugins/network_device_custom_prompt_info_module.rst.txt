@@ -36,8 +36,8 @@
 
 .. Title
 
-cisco.dnac.network_device_custom_prompt_info module -- Information module for Network Device Custom Prompt
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_custom_prompt_info module -- Information module for Network Device Custom Prompt Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Network Device Custom Prompt.
+- Get all Network Device Custom Prompt Info.
 - Returns supported custom prompts by Cisco DNA Center.
 
 .. note::
@@ -490,8 +490,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Device Custom Prompt
-      cisco.dnac.network_device_custom_prompt_info:
+    - name: Get all Network Device Custom Prompt Info
+      cisco.dnac.network_device_custom_prompt_info_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

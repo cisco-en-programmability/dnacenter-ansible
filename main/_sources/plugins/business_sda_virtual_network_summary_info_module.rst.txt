@@ -597,7 +597,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"description": "string", "fabricCount": "string", "status": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"description": "string", "status": "string", "virtualNetworkCount": 0, "virtualNetworkSummary": [{"siteNameHierarchy": "string", "virtualNetworkName": "string"}]}`
 
 
       .. raw:: html

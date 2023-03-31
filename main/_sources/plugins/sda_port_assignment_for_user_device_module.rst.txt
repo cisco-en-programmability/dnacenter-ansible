@@ -519,7 +519,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      User defined text message for this port.
+      User defined text message for port assignment.
 
 
       .. raw:: html
@@ -554,6 +554,40 @@ Parameters
         <div class="ansible-option-cell">
 
       InterfaceName query parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-interfaceNames"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_port_assignment_for_user_device_module__parameter-interfacenames:
+
+      .. rst-class:: ansible-option-title
+
+      **interfaceNames**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-interfaceNames" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      List of Interface Names on the Edge Node Device. E.g."GigabitEthernet1/0/3","GigabitEthernet1/0/4".
 
 
       .. raw:: html
@@ -777,6 +811,8 @@ Examples
         deviceManagementIpAddress: string
         interfaceDescription: string
         interfaceName: string
+        interfaceNames:
+        - string
         scalableGroupName: string
         siteNameHierarchy: string
         voiceIpAddressPoolName: string

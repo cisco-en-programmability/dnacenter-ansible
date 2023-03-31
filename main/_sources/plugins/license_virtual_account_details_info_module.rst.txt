@@ -500,7 +500,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are licenses.Licenses.virtual\_account\_details,
+   - SDK Method used are licenses.Licenses.virtual\_account\_details2,
    - Paths used are get /dna/intent/api/v1/licenses/smartAccount/{smart\_account\_id}/virtualAccounts,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Licenses VirtualAccountDetails <https://developer.cisco.com/docs/dna-center/#!virtual-account-details>`_
-       Complete reference of the VirtualAccountDetails API.
+   `Cisco DNA Center documentation for Licenses VirtualAccountDetails2 <https://developer.cisco.com/docs/dna-center/#!virtual-account-details-2>`_
+       Complete reference of the VirtualAccountDetails2 API.
 
 .. Examples
 

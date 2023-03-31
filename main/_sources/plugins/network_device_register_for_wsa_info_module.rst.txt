@@ -69,7 +69,8 @@ Synopsis
 .. Description
 
 - Get all Network Device Register For Wsa.
-- Registers a device for WSA notification.
+- It fetches devices which are registered to receive WSA notifications. The device serial number and/or MAC address are required to be provided as query parameters.
+
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -534,7 +535,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.register\_device\_for\_wsa,
+   - SDK Method used are devices.Devices.get\_devices\_registered\_for\_wsa\_notification,
    - Paths used are get /dna/intent/api/v1/network-device/tenantinfo/macaddress,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -547,8 +548,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices RegisterDeviceForWSA <https://developer.cisco.com/docs/dna-center/#!register-device-for-wsa>`_
-       Complete reference of the RegisterDeviceForWSA API.
+   `Cisco DNA Center documentation for Devices GetDevicesRegisteredForWSANotification <https://developer.cisco.com/docs/dna-center/#!get-devices-registered-for-wsa-notification>`_
+       Complete reference of the GetDevicesRegisteredForWSANotification API.
 
 .. Examples
 

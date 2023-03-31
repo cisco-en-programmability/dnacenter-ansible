@@ -431,7 +431,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -499,7 +499,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -673,8 +673,8 @@ Examples
         name: string
         siteId: string
         type: string
-        offset: string
-        limit: string
+        offset: 0
+        limit: 0
       register: result
 
 
@@ -737,7 +737,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"parentId\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"additionalInfo\\": [\\n      {\\n        \\"nameSpace\\": \\"string\\",\\n        \\"attributes\\": {\\n          \\"country\\": \\"string\\",\\n          \\"address\\": \\"string\\",\\n          \\"latitude\\": \\"string\\",\\n          \\"addressInheritedFrom\\": \\"string\\",\\n          \\"type\\": \\"string\\",\\n          \\"longitude\\": \\"string\\",\\n          \\"offsetX\\": \\"string\\",\\n          \\"offsetY\\": \\"string\\",\\n          \\"length\\": \\"string\\",\\n          \\"width\\": \\"string\\",\\n          \\"height\\": \\"string\\",\\n          \\"rfModel\\": \\"string\\",\\n          \\"floorIndex\\": \\"string\\"\\n        }\\n      }\\n    ],\\n    \\"siteHierarchy\\": \\"string\\",\\n    \\"siteNameHierarchy\\": \\"string\\",\\n    \\"instanceTenantId\\": \\"string\\",\\n    \\"id\\": \\"string\\"\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"parentId\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"additionalInfo\\": [\\n      \\"string\\"\\n    ],\\n    \\"siteHierarchy\\": \\"string\\",\\n    \\"siteNameHierarchy\\": \\"string\\",\\n    \\"instanceTenantId\\": \\"string\\",\\n    \\"id\\": \\"string\\"\\n  }\\n]\\n"`
 
 
       .. raw:: html

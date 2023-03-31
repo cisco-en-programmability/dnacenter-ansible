@@ -53,6 +53,7 @@ These are the plugins in the cisco.dnac collection:
 Modules
 ~~~~~~~
 
+* :ref:`accesspoint_configuration_details_by_task_id_info module <ansible_collections.cisco.dnac.accesspoint_configuration_details_by_task_id_info_module>` -- Information module for Accesspoint Configuration Details By Task Id
 * :ref:`app_policy_default_info module <ansible_collections.cisco.dnac.app_policy_default_info_module>` -- Information module for App Policy Default
 * :ref:`app_policy_info module <ansible_collections.cisco.dnac.app_policy_info_module>` -- Information module for App Policy
 * :ref:`app_policy_intent_create module <ansible_collections.cisco.dnac.app_policy_intent_create_module>` -- Resource module for App Policy Intent Create
@@ -70,6 +71,7 @@ Modules
 * :ref:`associate_site_to_network_profile module <ansible_collections.cisco.dnac.associate_site_to_network_profile_module>` -- Resource module for Associate Site To Network Profile
 * :ref:`authentication_import_certificate module <ansible_collections.cisco.dnac.authentication_import_certificate_module>` -- Resource module for Authentication Import Certificate
 * :ref:`authentication_import_certificate_p12 module <ansible_collections.cisco.dnac.authentication_import_certificate_p12_module>` -- Resource module for Authentication Import Certificate P12
+* :ref:`authentication_policy_servers_info module <ansible_collections.cisco.dnac.authentication_policy_servers_info_module>` -- Information module for Authentication Policy Servers
 * :ref:`buildings_planned_access_points_info module <ansible_collections.cisco.dnac.buildings_planned_access_points_info_module>` -- Information module for Buildings Planned Access Points
 * :ref:`business_sda_hostonboarding_ssid_ippool module <ansible_collections.cisco.dnac.business_sda_hostonboarding_ssid_ippool_module>` -- Resource module for Business Sda Hostonboarding Ssid Ippool
 * :ref:`business_sda_hostonboarding_ssid_ippool_info module <ansible_collections.cisco.dnac.business_sda_hostonboarding_ssid_ippool_info_module>` -- Information module for Business Sda Hostonboarding Ssid Ippool
@@ -103,6 +105,7 @@ Modules
 * :ref:`configuration_template_project_info module <ansible_collections.cisco.dnac.configuration_template_project_info_module>` -- Information module for Configuration Template Project
 * :ref:`configuration_template_version_create module <ansible_collections.cisco.dnac.configuration_template_version_create_module>` -- Resource module for Configuration Template Version Create
 * :ref:`configuration_template_version_info module <ansible_collections.cisco.dnac.configuration_template_version_info_module>` -- Information module for Configuration Template Version
+* :ref:`credential_to_site_by_siteid_create_v2 module <ansible_collections.cisco.dnac.credential_to_site_by_siteid_create_v2_module>` -- Resource module for Credential To Site By Siteid Create V2
 * :ref:`device_configurations_export module <ansible_collections.cisco.dnac.device_configurations_export_module>` -- Resource module for Device Configurations Export
 * :ref:`device_credential_create module <ansible_collections.cisco.dnac.device_credential_create_module>` -- Resource module for Device Credential Create
 * :ref:`device_credential_delete module <ansible_collections.cisco.dnac.device_credential_delete_module>` -- Resource module for Device Credential Delete
@@ -117,6 +120,8 @@ Modules
 * :ref:`device_interface_info module <ansible_collections.cisco.dnac.device_interface_info_module>` -- Information module for Device Interface
 * :ref:`device_interface_isis_info module <ansible_collections.cisco.dnac.device_interface_isis_info_module>` -- Information module for Device Interface Isis
 * :ref:`device_interface_ospf_info module <ansible_collections.cisco.dnac.device_interface_ospf_info_module>` -- Information module for Device Interface Ospf
+* :ref:`device_reboot_apreboot module <ansible_collections.cisco.dnac.device_reboot_apreboot_module>` -- Resource module for Device Reboot Apreboot
+* :ref:`device_reboot_apreboot_info module <ansible_collections.cisco.dnac.device_reboot_apreboot_info_module>` -- Information module for Device Reboot Apreboot
 * :ref:`device_replacement module <ansible_collections.cisco.dnac.device_replacement_module>` -- Resource module for Device Replacement
 * :ref:`device_replacement_count_info module <ansible_collections.cisco.dnac.device_replacement_count_info_module>` -- Information module for Device Replacement Count
 * :ref:`device_replacement_deploy module <ansible_collections.cisco.dnac.device_replacement_deploy_module>` -- Resource module for Device Replacement Deploy
@@ -135,15 +140,20 @@ Modules
 * :ref:`discovery_range_info module <ansible_collections.cisco.dnac.discovery_range_info_module>` -- Information module for Discovery Range
 * :ref:`discovery_summary_info module <ansible_collections.cisco.dnac.discovery_summary_info_module>` -- Information module for Discovery Summary
 * :ref:`dna_command_runner_keywords_info module <ansible_collections.cisco.dnac.dna_command_runner_keywords_info_module>` -- Information module for Dna Command Runner Keywords
+* :ref:`dnac_packages_info module <ansible_collections.cisco.dnac.dnac_packages_info_module>` -- Information module for Dnac Packages
 * :ref:`dnacaap_management_execution_status_info module <ansible_collections.cisco.dnac.dnacaap_management_execution_status_info_module>` -- Information module for Dnacaap Management Execution Status
 * :ref:`endpoint_analytics_profiling_rules module <ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_module>` -- Resource module for Endpoint Analytics Profiling Rules
 * :ref:`endpoint_analytics_profiling_rules_info module <ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_info_module>` -- Information module for Endpoint Analytics Profiling Rules
+* :ref:`eox_status_device_info module <ansible_collections.cisco.dnac.eox_status_device_info_module>` -- Information module for Eox Status Device
+* :ref:`eox_status_summary_info module <ansible_collections.cisco.dnac.eox_status_summary_info_module>` -- Information module for Eox Status Summary
 * :ref:`event_api_status_info module <ansible_collections.cisco.dnac.event_api_status_info_module>` -- Information module for Event Api Status
 * :ref:`event_artifact_count_info module <ansible_collections.cisco.dnac.event_artifact_count_info_module>` -- Information module for Event Artifact Count
 * :ref:`event_artifact_info module <ansible_collections.cisco.dnac.event_artifact_info_module>` -- Information module for Event Artifact
 * :ref:`event_config_connector_types_info module <ansible_collections.cisco.dnac.event_config_connector_types_info_module>` -- Information module for Event Config Connector Types
 * :ref:`event_count_info module <ansible_collections.cisco.dnac.event_count_info_module>` -- Information module for Event Count
+* :ref:`event_email_config module <ansible_collections.cisco.dnac.event_email_config_module>` -- Resource module for Event Email Config
 * :ref:`event_email_config_create module <ansible_collections.cisco.dnac.event_email_config_create_module>` -- Resource module for Event Email Config Create
+* :ref:`event_email_config_info module <ansible_collections.cisco.dnac.event_email_config_info_module>` -- Information module for Event Email Config
 * :ref:`event_email_config_update module <ansible_collections.cisco.dnac.event_email_config_update_module>` -- Resource module for Event Email Config Update
 * :ref:`event_info module <ansible_collections.cisco.dnac.event_info_module>` -- Information module for Event
 * :ref:`event_series_audit_logs_info module <ansible_collections.cisco.dnac.event_series_audit_logs_info_module>` -- Information module for Event Series Audit Logs
@@ -151,6 +161,7 @@ Modules
 * :ref:`event_series_audit_logs_summary_info module <ansible_collections.cisco.dnac.event_series_audit_logs_summary_info_module>` -- Information module for Event Series Audit Logs Summary
 * :ref:`event_series_count_info module <ansible_collections.cisco.dnac.event_series_count_info_module>` -- Information module for Event Series Count
 * :ref:`event_series_info module <ansible_collections.cisco.dnac.event_series_info_module>` -- Information module for Event Series
+* :ref:`event_snmp_config_info module <ansible_collections.cisco.dnac.event_snmp_config_info_module>` -- Information module for Event Snmp Config
 * :ref:`event_subscription module <ansible_collections.cisco.dnac.event_subscription_module>` -- Resource module for Event Subscription
 * :ref:`event_subscription_count_info module <ansible_collections.cisco.dnac.event_subscription_count_info_module>` -- Information module for Event Subscription Count
 * :ref:`event_subscription_details_email_info module <ansible_collections.cisco.dnac.event_subscription_details_email_info_module>` -- Information module for Event Subscription Details Email
@@ -163,8 +174,11 @@ Modules
 * :ref:`event_subscription_rest_info module <ansible_collections.cisco.dnac.event_subscription_rest_info_module>` -- Information module for Event Subscription Rest
 * :ref:`event_subscription_syslog module <ansible_collections.cisco.dnac.event_subscription_syslog_module>` -- Resource module for Event Subscription Syslog
 * :ref:`event_subscription_syslog_info module <ansible_collections.cisco.dnac.event_subscription_syslog_info_module>` -- Information module for Event Subscription Syslog
+* :ref:`event_syslog_config module <ansible_collections.cisco.dnac.event_syslog_config_module>` -- Resource module for Event Syslog Config
+* :ref:`event_syslog_config_info module <ansible_collections.cisco.dnac.event_syslog_config_info_module>` -- Information module for Event Syslog Config
 * :ref:`event_webhook_create module <ansible_collections.cisco.dnac.event_webhook_create_module>` -- Resource module for Event Webhook Create
 * :ref:`event_webhook_update module <ansible_collections.cisco.dnac.event_webhook_update_module>` -- Resource module for Event Webhook Update
+* :ref:`execute_suggested_actions_commands module <ansible_collections.cisco.dnac.execute_suggested_actions_commands_module>` -- Resource module for Execute Suggested Actions Commands
 * :ref:`file_import module <ansible_collections.cisco.dnac.file_import_module>` -- Resource module for File Import
 * :ref:`file_info module <ansible_collections.cisco.dnac.file_info_module>` -- Information module for File
 * :ref:`file_namespace_files_info module <ansible_collections.cisco.dnac.file_namespace_files_info_module>` -- Information module for File Namespace Files
@@ -172,6 +186,8 @@ Modules
 * :ref:`global_credential_delete module <ansible_collections.cisco.dnac.global_credential_delete_module>` -- Resource module for Global Credential Delete
 * :ref:`global_credential_info module <ansible_collections.cisco.dnac.global_credential_info_module>` -- Information module for Global Credential
 * :ref:`global_credential_update module <ansible_collections.cisco.dnac.global_credential_update_module>` -- Resource module for Global Credential Update
+* :ref:`global_credential_v2 module <ansible_collections.cisco.dnac.global_credential_v2_module>` -- Resource module for Global Credential V2
+* :ref:`global_credential_v2_info module <ansible_collections.cisco.dnac.global_credential_v2_info_module>` -- Information module for Global Credential V2
 * :ref:`global_pool module <ansible_collections.cisco.dnac.global_pool_module>` -- Resource module for Global Pool
 * :ref:`global_pool_info module <ansible_collections.cisco.dnac.global_pool_info_module>` -- Information module for Global Pool
 * :ref:`golden_image_create module <ansible_collections.cisco.dnac.golden_image_create_module>` -- Resource module for Golden Image Create
@@ -179,6 +195,8 @@ Modules
 * :ref:`golden_tag_image_details_info module <ansible_collections.cisco.dnac.golden_tag_image_details_info_module>` -- Information module for Golden Tag Image Details
 * :ref:`http_read_credential module <ansible_collections.cisco.dnac.http_read_credential_module>` -- Resource module for Http Read Credential
 * :ref:`http_write_credential module <ansible_collections.cisco.dnac.http_write_credential_module>` -- Resource module for Http Write Credential
+* :ref:`integration_settings_instances_itsm module <ansible_collections.cisco.dnac.integration_settings_instances_itsm_module>` -- Resource module for Integration Settings Instances Itsm
+* :ref:`integration_settings_instances_itsm_info module <ansible_collections.cisco.dnac.integration_settings_instances_itsm_info_module>` -- Information module for Integration Settings Instances Itsm
 * :ref:`interface_info module <ansible_collections.cisco.dnac.interface_info_module>` -- Information module for Interface
 * :ref:`interface_network_device_detail_info module <ansible_collections.cisco.dnac.interface_network_device_detail_info_module>` -- Information module for Interface Network Device Detail
 * :ref:`interface_network_device_info module <ansible_collections.cisco.dnac.interface_network_device_info_module>` -- Information module for Interface Network Device
@@ -193,6 +211,7 @@ Modules
 * :ref:`lan_automation_count_info module <ansible_collections.cisco.dnac.lan_automation_count_info_module>` -- Information module for Lan Automation Count
 * :ref:`lan_automation_create module <ansible_collections.cisco.dnac.lan_automation_create_module>` -- Resource module for Lan Automation Create
 * :ref:`lan_automation_delete module <ansible_collections.cisco.dnac.lan_automation_delete_module>` -- Resource module for Lan Automation Delete
+* :ref:`lan_automation_log_by_serial_number_info module <ansible_collections.cisco.dnac.lan_automation_log_by_serial_number_info_module>` -- Information module for Lan Automation Log By Serial Number
 * :ref:`lan_automation_log_info module <ansible_collections.cisco.dnac.lan_automation_log_info_module>` -- Information module for Lan Automation Log
 * :ref:`lan_automation_status_info module <ansible_collections.cisco.dnac.lan_automation_status_info_module>` -- Information module for Lan Automation Status
 * :ref:`license_device_count_info module <ansible_collections.cisco.dnac.license_device_count_info_module>` -- Information module for License Device Count
@@ -215,7 +234,7 @@ Modules
 * :ref:`network_device_config_info module <ansible_collections.cisco.dnac.network_device_config_info_module>` -- Information module for Network Device Config
 * :ref:`network_device_count_info module <ansible_collections.cisco.dnac.network_device_count_info_module>` -- Information module for Network Device Count
 * :ref:`network_device_custom_prompt module <ansible_collections.cisco.dnac.network_device_custom_prompt_module>` -- Resource module for Network Device Custom Prompt
-* :ref:`network_device_custom_prompt_info module <ansible_collections.cisco.dnac.network_device_custom_prompt_info_module>` -- Information module for Network Device Custom Prompt
+* :ref:`network_device_custom_prompt_info module <ansible_collections.cisco.dnac.network_device_custom_prompt_info_module>` -- Information module for Network Device Custom Prompt Info
 * :ref:`network_device_equipment_info module <ansible_collections.cisco.dnac.network_device_equipment_info_module>` -- Information module for Network Device Equipment
 * :ref:`network_device_export module <ansible_collections.cisco.dnac.network_device_export_module>` -- Resource module for Network Device Export
 * :ref:`network_device_functional_capability_info module <ansible_collections.cisco.dnac.network_device_functional_capability_info_module>` -- Information module for Network Device Functional Capability
@@ -238,11 +257,15 @@ Modules
 * :ref:`network_device_supervisor_card_details_info module <ansible_collections.cisco.dnac.network_device_supervisor_card_details_info_module>` -- Information module for Network Device Supervisor Card Details
 * :ref:`network_device_sync module <ansible_collections.cisco.dnac.network_device_sync_module>` -- Resource module for Network Device Sync
 * :ref:`network_device_update_role module <ansible_collections.cisco.dnac.network_device_update_role_module>` -- Resource module for Network Device Update Role
+* :ref:`network_device_user_defined_field module <ansible_collections.cisco.dnac.network_device_user_defined_field_module>` -- Resource module for Network Device User Defined Field
+* :ref:`network_device_user_defined_field_info module <ansible_collections.cisco.dnac.network_device_user_defined_field_info_module>` -- Information module for Network Device User Defined Field
 * :ref:`network_device_vlan_info module <ansible_collections.cisco.dnac.network_device_vlan_info_module>` -- Information module for Network Device Vlan
 * :ref:`network_device_wireless_lan_info module <ansible_collections.cisco.dnac.network_device_wireless_lan_info_module>` -- Information module for Network Device Wireless Lan
 * :ref:`network_device_with_snmp_v3_des_info module <ansible_collections.cisco.dnac.network_device_with_snmp_v3_des_info_module>` -- Information module for Network Device With Snmp V3 Des
 * :ref:`network_info module <ansible_collections.cisco.dnac.network_info_module>` -- Information module for Network
 * :ref:`network_update module <ansible_collections.cisco.dnac.network_update_module>` -- Resource module for Network Update
+* :ref:`network_v2 module <ansible_collections.cisco.dnac.network_v2_module>` -- Resource module for Network V2
+* :ref:`network_v2_info module <ansible_collections.cisco.dnac.network_v2_info_module>` -- Information module for Network V2
 * :ref:`nfv_profile module <ansible_collections.cisco.dnac.nfv_profile_module>` -- Resource module for Nfv Profile
 * :ref:`nfv_profile_info module <ansible_collections.cisco.dnac.nfv_profile_info_module>` -- Information module for Nfv Profile
 * :ref:`nfv_provision module <ansible_collections.cisco.dnac.nfv_provision_module>` -- Resource module for Nfv Provision
@@ -293,6 +316,8 @@ Modules
 * :ref:`reserve_ip_subpool_delete module <ansible_collections.cisco.dnac.reserve_ip_subpool_delete_module>` -- Resource module for Reserve Ip Subpool Delete
 * :ref:`reserve_ip_subpool_info module <ansible_collections.cisco.dnac.reserve_ip_subpool_info_module>` -- Information module for Reserve Ip Subpool
 * :ref:`reserve_ip_subpool_update module <ansible_collections.cisco.dnac.reserve_ip_subpool_update_module>` -- Resource module for Reserve Ip Subpool Update
+* :ref:`role_permissions_info module <ansible_collections.cisco.dnac.role_permissions_info_module>` -- Information module for Role Permissions
+* :ref:`roles_info module <ansible_collections.cisco.dnac.roles_info_module>` -- Information module for Roles
 * :ref:`sda_count_info module <ansible_collections.cisco.dnac.sda_count_info_module>` -- Information module for Sda Count
 * :ref:`sda_device_info module <ansible_collections.cisco.dnac.sda_device_info_module>` -- Information module for Sda Device
 * :ref:`sda_device_role_info module <ansible_collections.cisco.dnac.sda_device_role_info_module>` -- Information module for Sda Device Role
@@ -336,6 +361,8 @@ Modules
 * :ref:`service_provider_info module <ansible_collections.cisco.dnac.service_provider_info_module>` -- Information module for Service Provider
 * :ref:`service_provider_profile_delete module <ansible_collections.cisco.dnac.service_provider_profile_delete_module>` -- Resource module for Service Provider Profile Delete
 * :ref:`service_provider_update module <ansible_collections.cisco.dnac.service_provider_update_module>` -- Resource module for Service Provider Update
+* :ref:`service_provider_v2 module <ansible_collections.cisco.dnac.service_provider_v2_module>` -- Resource module for Service Provider V2
+* :ref:`service_provider_v2_info module <ansible_collections.cisco.dnac.service_provider_v2_info_module>` -- Information module for Service Provider V2
 * :ref:`site_assign_credential module <ansible_collections.cisco.dnac.site_assign_credential_module>` -- Resource module for Site Assign Credential
 * :ref:`site_assign_device module <ansible_collections.cisco.dnac.site_assign_device_module>` -- Resource module for Site Assign Device
 * :ref:`site_count_info module <ansible_collections.cisco.dnac.site_count_info_module>` -- Information module for Site Count
@@ -353,6 +380,7 @@ Modules
 * :ref:`snmpv2_read_community_credential module <ansible_collections.cisco.dnac.snmpv2_read_community_credential_module>` -- Resource module for Snmpv2 Read Community Credential
 * :ref:`snmpv2_write_community_credential module <ansible_collections.cisco.dnac.snmpv2_write_community_credential_module>` -- Resource module for Snmpv2 Write Community Credential
 * :ref:`snmpv3_credential module <ansible_collections.cisco.dnac.snmpv3_credential_module>` -- Resource module for Snmpv3 Credential
+* :ref:`sp_profile_delete_v2 module <ansible_collections.cisco.dnac.sp_profile_delete_v2_module>` -- Resource module for Sp Profile Delete V2
 * :ref:`swim_image_details_info module <ansible_collections.cisco.dnac.swim_image_details_info_module>` -- Information module for Swim Image Details
 * :ref:`swim_import_local module <ansible_collections.cisco.dnac.swim_import_local_module>` -- Resource module for Swim Import Local
 * :ref:`swim_import_via_url module <ansible_collections.cisco.dnac.swim_import_via_url_module>` -- Resource module for Swim Import Via Url
@@ -391,7 +419,12 @@ Modules
 * :ref:`topology_vlan_details_info module <ansible_collections.cisco.dnac.topology_vlan_details_info_module>` -- Information module for Topology Vlan Details
 * :ref:`transit_peer_network module <ansible_collections.cisco.dnac.transit_peer_network_module>` -- Resource module for Transit Peer Network
 * :ref:`transit_peer_network_info module <ansible_collections.cisco.dnac.transit_peer_network_info_module>` -- Information module for Transit Peer Network
+* :ref:`user module <ansible_collections.cisco.dnac.user_module>` -- Resource module for User
 * :ref:`user_enrichment_details_info module <ansible_collections.cisco.dnac.user_enrichment_details_info_module>` -- Information module for User Enrichment Details
+* :ref:`user_info module <ansible_collections.cisco.dnac.user_info_module>` -- Information module for User
+* :ref:`users_external_servers_info module <ansible_collections.cisco.dnac.users_external_servers_info_module>` -- Information module for Users External Servers
+* :ref:`wireless_accespoint_configuration module <ansible_collections.cisco.dnac.wireless_accespoint_configuration_module>` -- Resource module for Wireless Accespoint Configuration
+* :ref:`wireless_accesspoint_configuration_summary_info module <ansible_collections.cisco.dnac.wireless_accesspoint_configuration_summary_info_module>` -- Information module for Wireless Accesspoint Configuration Summary
 * :ref:`wireless_dynamic_interface module <ansible_collections.cisco.dnac.wireless_dynamic_interface_module>` -- Resource module for Wireless Dynamic Interface
 * :ref:`wireless_dynamic_interface_info module <ansible_collections.cisco.dnac.wireless_dynamic_interface_info_module>` -- Information module for Wireless Dynamic Interface
 * :ref:`wireless_enterprise_ssid module <ansible_collections.cisco.dnac.wireless_enterprise_ssid_module>` -- Resource module for Wireless Enterprise Ssid
@@ -412,6 +445,7 @@ Modules
     :maxdepth: 1
     :hidden:
 
+    accesspoint_configuration_details_by_task_id_info_module
     app_policy_default_info_module
     app_policy_info_module
     app_policy_intent_create_module
@@ -429,6 +463,7 @@ Modules
     associate_site_to_network_profile_module
     authentication_import_certificate_module
     authentication_import_certificate_p12_module
+    authentication_policy_servers_info_module
     buildings_planned_access_points_info_module
     business_sda_hostonboarding_ssid_ippool_module
     business_sda_hostonboarding_ssid_ippool_info_module
@@ -462,6 +497,7 @@ Modules
     configuration_template_project_info_module
     configuration_template_version_create_module
     configuration_template_version_info_module
+    credential_to_site_by_siteid_create_v2_module
     device_configurations_export_module
     device_credential_create_module
     device_credential_delete_module
@@ -476,6 +512,8 @@ Modules
     device_interface_info_module
     device_interface_isis_info_module
     device_interface_ospf_info_module
+    device_reboot_apreboot_module
+    device_reboot_apreboot_info_module
     device_replacement_module
     device_replacement_count_info_module
     device_replacement_deploy_module
@@ -494,15 +532,20 @@ Modules
     discovery_range_info_module
     discovery_summary_info_module
     dna_command_runner_keywords_info_module
+    dnac_packages_info_module
     dnacaap_management_execution_status_info_module
     endpoint_analytics_profiling_rules_module
     endpoint_analytics_profiling_rules_info_module
+    eox_status_device_info_module
+    eox_status_summary_info_module
     event_api_status_info_module
     event_artifact_count_info_module
     event_artifact_info_module
     event_config_connector_types_info_module
     event_count_info_module
+    event_email_config_module
     event_email_config_create_module
+    event_email_config_info_module
     event_email_config_update_module
     event_info_module
     event_series_audit_logs_info_module
@@ -510,6 +553,7 @@ Modules
     event_series_audit_logs_summary_info_module
     event_series_count_info_module
     event_series_info_module
+    event_snmp_config_info_module
     event_subscription_module
     event_subscription_count_info_module
     event_subscription_details_email_info_module
@@ -522,8 +566,11 @@ Modules
     event_subscription_rest_info_module
     event_subscription_syslog_module
     event_subscription_syslog_info_module
+    event_syslog_config_module
+    event_syslog_config_info_module
     event_webhook_create_module
     event_webhook_update_module
+    execute_suggested_actions_commands_module
     file_import_module
     file_info_module
     file_namespace_files_info_module
@@ -531,6 +578,8 @@ Modules
     global_credential_delete_module
     global_credential_info_module
     global_credential_update_module
+    global_credential_v2_module
+    global_credential_v2_info_module
     global_pool_module
     global_pool_info_module
     golden_image_create_module
@@ -538,6 +587,8 @@ Modules
     golden_tag_image_details_info_module
     http_read_credential_module
     http_write_credential_module
+    integration_settings_instances_itsm_module
+    integration_settings_instances_itsm_info_module
     interface_info_module
     interface_network_device_detail_info_module
     interface_network_device_info_module
@@ -552,6 +603,7 @@ Modules
     lan_automation_count_info_module
     lan_automation_create_module
     lan_automation_delete_module
+    lan_automation_log_by_serial_number_info_module
     lan_automation_log_info_module
     lan_automation_status_info_module
     license_device_count_info_module
@@ -597,11 +649,15 @@ Modules
     network_device_supervisor_card_details_info_module
     network_device_sync_module
     network_device_update_role_module
+    network_device_user_defined_field_module
+    network_device_user_defined_field_info_module
     network_device_vlan_info_module
     network_device_wireless_lan_info_module
     network_device_with_snmp_v3_des_info_module
     network_info_module
     network_update_module
+    network_v2_module
+    network_v2_info_module
     nfv_profile_module
     nfv_profile_info_module
     nfv_provision_module
@@ -652,6 +708,8 @@ Modules
     reserve_ip_subpool_delete_module
     reserve_ip_subpool_info_module
     reserve_ip_subpool_update_module
+    role_permissions_info_module
+    roles_info_module
     sda_count_info_module
     sda_device_info_module
     sda_device_role_info_module
@@ -695,6 +753,8 @@ Modules
     service_provider_info_module
     service_provider_profile_delete_module
     service_provider_update_module
+    service_provider_v2_module
+    service_provider_v2_info_module
     site_assign_credential_module
     site_assign_device_module
     site_count_info_module
@@ -712,6 +772,7 @@ Modules
     snmpv2_read_community_credential_module
     snmpv2_write_community_credential_module
     snmpv3_credential_module
+    sp_profile_delete_v2_module
     swim_image_details_info_module
     swim_import_local_module
     swim_import_via_url_module
@@ -750,7 +811,12 @@ Modules
     topology_vlan_details_info_module
     transit_peer_network_module
     transit_peer_network_info_module
+    user_module
     user_enrichment_details_info_module
+    user_info_module
+    users_external_servers_info_module
+    wireless_accespoint_configuration_module
+    wireless_accesspoint_configuration_summary_info_module
     wireless_dynamic_interface_module
     wireless_dynamic_interface_info_module
     wireless_enterprise_ssid_module

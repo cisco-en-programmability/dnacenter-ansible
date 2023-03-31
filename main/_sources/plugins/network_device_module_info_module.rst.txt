@@ -501,7 +501,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -569,7 +569,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -777,8 +777,8 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
         deviceId: string
-        limit: string
-        offset: string
+        limit: 0
+        offset: 0
         nameList: []
         vendorEquipmentTypeList: []
         partNumberList: []

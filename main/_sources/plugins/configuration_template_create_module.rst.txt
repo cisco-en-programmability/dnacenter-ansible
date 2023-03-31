@@ -5574,7 +5574,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -5608,7 +5608,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -5922,10 +5922,8 @@ Examples
             selectionType: string
             selectionValues: {}
         validationErrors:
-          rollbackTemplateErrors:
-          - {}
-          templateErrors:
-          - {}
+          rollbackTemplateErrors: {}
+          templateErrors: {}
           templateId: string
           templateVersion: string
         version: string

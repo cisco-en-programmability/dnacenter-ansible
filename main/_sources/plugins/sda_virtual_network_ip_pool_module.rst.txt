@@ -463,6 +463,48 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isBridgeModeVm"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-isbridgemodevm:
+
+      .. rst-class:: ansible-option-title
+
+      **isBridgeModeVm**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isBridgeModeVm" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Bridge Mode Vm enablement flag (applicable for L3 and L2 and default value is False ).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-isCommonPool"></div>
 
       .. _ansible_collections.cisco.dnac.sda_virtual_network_ip_pool_module__parameter-iscommonpool:
@@ -661,7 +703,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Critical pool enablement(applicable for L3 and default value is False ).
+      Critical pool enablement flag(applicable for L3 and default value is False ).
 
 
       .. rst-class:: ansible-option-line
@@ -1078,6 +1120,7 @@ Examples
         state: present
         autoGenerateVlanName: true
         ipPoolName: string
+        isBridgeModeVm: true
         isCommonPool: true
         isIpDirectedBroadcast: true
         isL2FloodingEnabled: true

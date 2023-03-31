@@ -455,6 +455,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/borderPriority"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_border_device_module__parameter-payload/borderpriority:
+
+      .. rst-class:: ansible-option-title
+
+      **borderPriority**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/borderPriority" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Border priority associated with a given device. Allowed range for Border Priority is 1-9. A lower value indicates higher priority. E.g., a priority of 1 takes precedence over 5. Default priority would be set to 10.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/borderSessionType"></div>
 
       .. _ansible_collections.cisco.dnac.sda_fabric_border_device_module__parameter-payload/bordersessiontype:
@@ -989,7 +1023,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       :ansible-option-versionadded:`added in cisco.dnac 4.0.0`
 
@@ -1157,6 +1191,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/routeDistributionProtocol"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_border_device_module__parameter-payload/routedistributionprotocol:
+
+      .. rst-class:: ansible-option-title
+
+      **routeDistributionProtocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/routeDistributionProtocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Route Distribution Protocol for Control Plane Device. Allowed values are "LISP\_BGP" or "LISP\_PUB\_SUB". Default value is "LISP\_BGP".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/sdaTransitNetworkName"></div>
 
       .. _ansible_collections.cisco.dnac.sda_fabric_border_device_module__parameter-payload/sdatransitnetworkname:
@@ -1312,7 +1380,8 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - borderSessionType: string
+        - borderPriority: string
+          borderSessionType: string
           borderWithExternalConnectivity: true
           connectedToInternet: true
           deviceManagementIpAddress: string
@@ -1332,6 +1401,7 @@ Examples
                 vlanId: string
           externalDomainRoutingProtocolName: string
           internalAutonomouSystemNumber: string
+          routeDistributionProtocol: string
           sdaTransitNetworkName: string
           siteNameHierarchy: string
 

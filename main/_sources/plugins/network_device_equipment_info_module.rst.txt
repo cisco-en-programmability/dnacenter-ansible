@@ -475,7 +475,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Type query parameter. Type value should be PowerSupply or Fan.
+      Type query parameter. Type value can be PowerSupply, Fan, Chassis, Backplane, Module, PROCESSOR, Other, SFP. If no type is mentioned, All equipments are fetched for the device.
+          
 
 
       .. raw:: html

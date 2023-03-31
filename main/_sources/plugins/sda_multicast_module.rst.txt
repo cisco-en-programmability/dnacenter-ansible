@@ -602,7 +602,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -853,7 +853,7 @@ Examples
           - string
           ipPoolName: string
           ssmInfo:
-            ssmGroupRange: string
+          - ssmGroupRange: string
             ssmWildcardMask: string
           virtualNetworkName: string
         siteNameHierarchy: string
