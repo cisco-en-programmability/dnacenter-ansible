@@ -632,9 +632,9 @@ releases:
         - A new method to compare changes for specific cases has been added.
         - network_device - Used a new method to compare changes.
   6.7.0:
-    release_date: "xxxx-xx-xx"
+    release_date: "2023-04-12"
     changes:
-      release_summary: New method to compare changes
+      release_summary: Compatibility with 2.3.5.3 DNA Center APIs
       minor_changes:
         - accesspoint_configuration_details_by_task_id_info - new module
         - authentication_policy_servers_info - new module
