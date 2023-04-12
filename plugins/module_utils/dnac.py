@@ -12,7 +12,6 @@ except ImportError:
     DNAC_SDK_IS_INSTALLED = False
 else:
     DNAC_SDK_IS_INSTALLED = True
-from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils._text import to_native
 from ansible.module_utils.common import validation
 try:

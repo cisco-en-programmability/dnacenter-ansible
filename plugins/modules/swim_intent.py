@@ -260,14 +260,6 @@ response:
 """
 
 import copy
-try:
-    from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
-except ImportError:
-    ANSIBLE_UTILS_IS_INSTALLED = False
-else:
-    ANSIBLE_UTILS_IS_INSTALLED = True
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DNACSDK,
     validate_list_of_dicts,

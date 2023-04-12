@@ -16,16 +16,12 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-import pdb
 
-from dnacentersdk import exceptions
 from unittest.mock import patch
 
 from ansible_collections.cisco.dnac.plugins.modules import site_intent
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
-import json
-import copy
 
 
 class TestDnacSiteIntent(TestDnacModule):
