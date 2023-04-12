@@ -53,7 +53,6 @@ EXAMPLES = r"""
     headers: '{{my_headers | from_json}}'
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
