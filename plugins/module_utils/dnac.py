@@ -265,7 +265,7 @@ class DNACSDK(object):
     def extract_file_name(self, file_path):
         return os.path.basename(file_path)
 
-    def exec(self, family, function, params=None, op_modifies=False, **kwargs):
+    def _exec(self, family, function, params=None, op_modifies=False, **kwargs):
         try:
             family = getattr(self.api, family)
             func = getattr(family, function)

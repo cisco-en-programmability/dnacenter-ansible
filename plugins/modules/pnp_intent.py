@@ -688,7 +688,7 @@ class DnacPnp:
         site_id = None
         response = None
         try:
-            response = self.dnac.exec(
+            response = self.dnac._exec(
                 family="sites",
                 function='get_site',
                 params={"name": self.want.get("site_name")},
@@ -755,7 +755,7 @@ class DnacPnp:
 
         if self.params.get("state") == "merged":
             # check if given image exists, if exists store image_id
-            image_response = self.dnac.exec(
+            image_response = self.dnac._exec(
                 family="software_image_management_swim",
                 function='get_software_image_details',
                 params=self.want.get("image_params"),
@@ -774,7 +774,7 @@ class DnacPnp:
                 self.module.fail_json(msg="Image not found", response=[])
 
             # check if given template exists, if exists store template id
-            template_list = self.dnac.exec(
+            template_list = self.dnac._exec(
                 family="configuration_templates",
                 function='gets_the_templates_available',
                 params={"project_names": self.want.get("project_name")},
@@ -809,7 +809,7 @@ class DnacPnp:
                     log("Site Name:" + str(site_name))
 
         # check if given device exists in pnp inventory, store device Id
-        device_response = self.dnac.exec(
+        device_response = self.dnac._exec(
             family="device_onboarding_pnp",
             function='get_device_list',
             params={"serial_number": self.want.get("serial_number")}
@@ -849,7 +849,7 @@ class DnacPnp:
         # if given device doesnot exist then add it to pnp database and get the device id
         if not self.have.get("device_found"):
             log("Adding device to pnp database")
-            response = self.dnac.exec(
+            response = self.dnac._exec(
                 family="device_onboarding_pnp",
                 function="add_device",
                 params=self.want.get("pnp_params"),
@@ -862,7 +862,7 @@ class DnacPnp:
                 log(self.have.get("device_id"))
 
         claim_params = self.get_claim_params()
-        claim_response = self.dnac.exec(
+        claim_response = self.dnac._exec(
             family="device_onboarding_pnp",
             function='claim_a_device_to_a_site',
             op_modifies=True,
@@ -884,7 +884,7 @@ class DnacPnp:
         if self.have.get("device_found"):
 
             try:
-                response = self.dnac.exec(
+                response = self.dnac._exec(
                     family="device_onboarding_pnp",
                     function="delete_device_by_id_from_pnp",
                     op_modifies=True,
