@@ -12,7 +12,6 @@ except ImportError:
     DNAC_SDK_IS_INSTALLED = False
 else:
     DNAC_SDK_IS_INSTALLED = True
-from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils._text import to_native
 from ansible.module_utils.common import validation
 try:
@@ -266,7 +265,7 @@ class DNACSDK(object):
     def extract_file_name(self, file_path):
         return os.path.basename(file_path)
 
-    def exec(self, family, function, params=None, op_modifies=False, **kwargs):
+    def _exec(self, family, function, params=None, op_modifies=False, **kwargs):
         try:
             family = getattr(self.api, family)
             func = getattr(family, function)

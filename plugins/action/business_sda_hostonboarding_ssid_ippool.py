@@ -22,9 +22,6 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     dnac_compare_equality,
     get_dict_result,
 )
-from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
-    InconsistentParameters,
-)
 
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
