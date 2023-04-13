@@ -22,6 +22,7 @@ from unittest.mock import patch
 from ansible_collections.cisco.dnac.plugins.modules import swim_intent
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
+
 class TestDnacSwimIntent(TestDnacModule):
 
     module = swim_intent
