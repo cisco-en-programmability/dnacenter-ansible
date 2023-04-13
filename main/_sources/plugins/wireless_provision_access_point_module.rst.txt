@@ -823,7 +823,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -843,7 +843,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`["[\\n  {\\n    \\"executionId\\": \\"string\\"", "\\n    \\"executionUrl\\": \\"string\\"", "\\n    \\"message\\": \\"string\\"\\n  }\\n]\\n"]`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"executionId": "string", "executionUrl": "string", "message": "string"}`
 
 
       .. raw:: html
