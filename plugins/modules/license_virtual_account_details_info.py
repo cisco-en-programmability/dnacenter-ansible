@@ -27,12 +27,12 @@ requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses VirtualAccountDetails
-  description: Complete reference of the VirtualAccountDetails API.
-  link: https://developer.cisco.com/docs/dna-center/#!virtual-account-details
+- name: Cisco DNA Center documentation for Licenses VirtualAccountDetails2
+  description: Complete reference of the VirtualAccountDetails2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!virtual-account-details-2
 notes:
   - SDK Method used are
-    licenses.Licenses.virtual_account_details,
+    licenses.Licenses.virtual_account_details2,
 
   - Paths used are
     get /dna/intent/api/v1/licenses/smartAccount/{smart_account_id}/virtualAccounts,

@@ -260,14 +260,6 @@ response:
 """
 
 import copy
-try:
-    from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
-except ImportError:
-    ANSIBLE_UTILS_IS_INSTALLED = False
-else:
-    ANSIBLE_UTILS_IS_INSTALLED = True
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DNACSDK,
     validate_list_of_dicts,
@@ -332,7 +324,7 @@ class DnacSwims:
 
     def get_task_details(self, id):
         result = None
-        response = self.dnac.exec(
+        response = self.dnac._exec(
             family="task",
             function='get_task_by_id',
             params={"task_id": id},
@@ -350,7 +342,7 @@ class DnacSwims:
         site_id = None
         response = None
         try:
-            response = self.dnac.exec(
+            response = self.dnac._exec(
                 family="sites",
                 function='get_site',
                 params={"name": self.want.get("site_name")},
@@ -370,7 +362,7 @@ class DnacSwims:
 
     def get_image_id(self, name):
         # check if given image exists, if exists store image_id
-        image_response = self.dnac.exec(
+        image_response = self.dnac._exec(
             family="software_image_management_swim",
             function='get_software_image_details',
             params={"image_name": name},
@@ -390,7 +382,7 @@ class DnacSwims:
         return image_id
 
     def get_device_id(self, params):
-        response = self.dnac.exec(
+        response = self.dnac._exec(
             family="devices",
             function='get_device_list',
             params=params,
@@ -410,7 +402,7 @@ class DnacSwims:
 
     def get_device_family_identifier(self, family_name):
         have = {}
-        response = self.dnac.exec(
+        response = self.dnac._exec(
             family="software_image_management_swim",
             function='get_device_family_identifiers',
         )
@@ -544,7 +536,7 @@ class DnacSwims:
                 schedule_desc=self.want.get("url_import_details").get("scheduleDesc"),
                 schedule_origin=self.want.get("url_import_details").get("scheduleOrigin"),
             )
-            response = self.dnac.exec(
+            response = self.dnac._exec(
                 family="software_image_management_swim",
                 function='import_software_image_via_url',
                 op_modifies=True,
@@ -559,7 +551,7 @@ class DnacSwims:
                 third_party_application_type=self.want.get("local_import_details").get("thirdPartyApplicationType"),
                 file_path=self.want.get("local_import_details").get("filePath"),
             )
-            response = self.dnac.exec(
+            response = self.dnac._exec(
                 family="software_image_management_swim",
                 function='import_local_software_image',
                 op_modifies=True,
@@ -611,7 +603,7 @@ class DnacSwims:
             if self.log:
                 log("Image params for tagging image as golden:" + str(image_params))
 
-            response = self.dnac.exec(
+            response = self.dnac._exec(
                 family="software_image_management_swim",
                 function='tag_as_golden_image',
                 op_modifies=True,
@@ -628,7 +620,7 @@ class DnacSwims:
             if self.log:
                 log("Image params for un-tagging image as golden:" + str(image_params))
 
-            response = self.dnac.exec(
+            response = self.dnac._exec(
                 family="software_image_management_swim",
                 function='remove_golden_tag_for_image',
                 op_modifies=True,
@@ -656,7 +648,7 @@ class DnacSwims:
         if self.log:
             log("Distribution Params: " + str(distribution_params))
 
-        response = self.dnac.exec(
+        response = self.dnac._exec(
             family="software_image_management_swim",
             function='trigger_software_image_distribution',
             op_modifies=True,
@@ -695,7 +687,7 @@ class DnacSwims:
         if self.log:
             log("Activation Params: " + str(activation_params))
 
-        response = self.dnac.exec(
+        response = self.dnac._exec(
             family="software_image_management_swim",
             function='trigger_software_image_activation',
             op_modifies=True,

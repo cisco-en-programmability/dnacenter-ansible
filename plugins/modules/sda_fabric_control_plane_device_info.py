@@ -63,13 +63,12 @@ dnac_response:
   type: dict
   sample: >
     {
-      "status": "string",
-      "description": "string",
-      "name": "string",
-      "roles": [
-        "string"
-      ],
       "deviceManagementIpAddress": "string",
-      "siteHierarchy": "string"
+      "deviceName": "string",
+      "roles": "string",
+      "siteNameHierarchy": "string",
+      "routeDistributionProtocol": "string",
+      "status": "string",
+      "description": "string"
     }
 """

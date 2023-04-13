@@ -29,26 +29,26 @@ options:
     type: str
   dna_level:
     description:
-    - Dna_level query parameter. Device Cisco DNA license level.
+    - Dna_level query parameter. Device Cisco DNA License Level.
     type: str
   virtual_account_name:
     description:
-    - Virtual_account_name query parameter. Name of virtual account.
+    - Virtual_account_name query parameter. Virtual account name.
     type: str
   smart_account_id:
     description:
-    - Smart_account_id query parameter. Id of smart account.
+    - Smart_account_id query parameter. Smart account id.
     type: str
 requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses DeviceCountDetails
-  description: Complete reference of the DeviceCountDetails API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-count-details
+- name: Cisco DNA Center documentation for Licenses DeviceCountDetails2
+  description: Complete reference of the DeviceCountDetails2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!device-count-details-2
 notes:
   - SDK Method used are
-    licenses.Licenses.device_count_details,
+    licenses.Licenses.device_count_details2,
 
   - Paths used are
     get /dna/intent/api/v1/licenses/device/count,

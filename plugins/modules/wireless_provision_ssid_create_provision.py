@@ -61,8 +61,7 @@ options:
           ).
         type: str
       radioPolicy:
-        description: Radio Policy. Allowed values are 'Dual band operation (2.4GHz and
-          5GHz)', 'Dual band operation with band select', '5GHz only', '2.4GHz only'.
+        description: Radio Policy.
         type: str
       securityLevel:
         description: Security Level(For guest SSID OPEN/WEB_AUTH, For Enterprise SSID

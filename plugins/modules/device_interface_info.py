@@ -29,6 +29,14 @@ options:
     description:
     - Limit query parameter.
     type: int
+  lastInputTime:
+    description:
+    - LastInputTime query parameter. Last Input Time.
+    type: str
+  lastOutputTime:
+    description:
+    - LastOutputTime query parameter. Last Output Time.
+    type: str
   id:
     description:
     - Id path parameter. Interface ID.
@@ -67,6 +75,8 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     offset: 0
     limit: 0
+    lastInputTime: string
+    lastOutputTime: string
   register: result
 
 - name: Get Device Interface by id

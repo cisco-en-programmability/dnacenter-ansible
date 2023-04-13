@@ -23,12 +23,12 @@ requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for LAN Automation LANAutomation
-  description: Complete reference of the LANAutomation API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation
+- name: Cisco DNA Center documentation for LAN Automation LANAutomationStop
+  description: Complete reference of the LANAutomationStop API.
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop
 notes:
   - SDK Method used are
-    lan_automation.LanAutomation.lan_automation,
+    lan_automation.LanAutomation.lan_automation_stop,
 
   - Paths used are
     delete /dna/intent/api/v1/lan-automation/{id},

@@ -30,12 +30,16 @@ options:
     description: DeviceManagementIpAddress query parameter.
     type: str
   interfaceDescription:
-    description: User defined text message for this port.
+    description: User defined text message for port assignment.
     type: str
     version_added: 4.0.0
   interfaceName:
     description: InterfaceName query parameter.
     type: str
+  interfaceNames:
+    description: List of Interface Names on the Edge Node Device. E.g."GigabitEthernet1/0/3","GigabitEthernet1/0/4".
+    elements: str
+    type: list
   scalableGroupName:
     description: Scalable Group name associated with VN.
     type: str
@@ -99,6 +103,8 @@ EXAMPLES = r"""
     deviceManagementIpAddress: string
     interfaceDescription: string
     interfaceName: string
+    interfaceNames:
+    - string
     scalableGroupName: string
     siteNameHierarchy: string
     voiceIpAddressPoolName: string

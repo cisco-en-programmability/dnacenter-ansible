@@ -341,12 +341,8 @@ dnac_response:
         }
       ],
       "validationErrors": {
-        "rollbackTemplateErrors": [
-          {}
-        ],
-        "templateErrors": [
-          {}
-        ],
+        "rollbackTemplateErrors": {},
+        "templateErrors": {},
         "templateId": "string",
         "templateVersion": "string"
       },

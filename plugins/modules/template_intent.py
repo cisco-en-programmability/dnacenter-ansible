@@ -649,17 +649,8 @@ response_3:
 """
 
 import copy
-try:
-    from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
-except ImportError:
-    ANSIBLE_UTILS_IS_INSTALLED = False
-else:
-    ANSIBLE_UTILS_IS_INSTALLED = True
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DNACSDK,
-    dnac_argument_spec,
     validate_list_of_dicts,
     log,
     get_dict_result,
@@ -798,7 +789,7 @@ class DnacTemplate:
         result = None
 
         for temp in self.validated:
-            items = self.dnac.exec(
+            items = self.dnac._exec(
                 family="configuration_templates",
                 function="get_template_details",
                 params={"template_id": temp.get("templateId")}
@@ -820,7 +811,7 @@ class DnacTemplate:
 
         # Get available templates. Filter templates based on provided projectName
         for temp in self.validated:
-            template_list = self.dnac.exec(
+            template_list = self.dnac._exec(
                 family="configuration_templates",
                 function='gets_the_templates_available',
                 params={"project_names": temp.get("projectName")},
@@ -856,7 +847,7 @@ class DnacTemplate:
                     not self.have_create.get("template_found"):
                 # ProjectId is required for creating a new template.
                 # Store it with other template parameters.
-                items = self.dnac.exec(
+                items = self.dnac._exec(
                     family="configuration_templates",
                     function='get_projects',
                     params={"name": temp.get("projectName")},
@@ -907,7 +898,7 @@ class DnacTemplate:
 
     def get_task_details(self, id):
         result = None
-        response = self.dnac.exec(
+        response = self.dnac._exec(
             family="task",
             function='get_task_by_id',
             params={"task_id": id},
@@ -929,7 +920,7 @@ class DnacTemplate:
 
         if template_exists:
             if self.requires_update():
-                response = self.dnac.exec(
+                response = self.dnac._exec(
                     family="configuration_templates",
                     function="update_template",
                     params=self.want_create.get("template_params"),
@@ -946,7 +937,7 @@ class DnacTemplate:
                 self.result['msg'] = "Template does not need update"
                 self.module.exit_json(**self.result)
         else:
-            response = self.dnac.exec(
+            response = self.dnac._exec(
                 family="configuration_templates",
                 function='create_template',
                 op_modifies=True,
@@ -980,7 +971,7 @@ class DnacTemplate:
                 comments=self.want_create.get("comments"),
                 templateId=template_id
             )
-            response = self.dnac.exec(
+            response = self.dnac._exec(
                 family="configuration_templates",
                 function='version_template',
                 op_modifies=True,
@@ -1005,7 +996,7 @@ class DnacTemplate:
         template_exists = self.have_create.get("template_found")
 
         if template_exists:
-            response = self.dnac.exec(
+            response = self.dnac._exec(
                 family="configuration_templates",
                 function="deletes_the_template",
                 params={"template_id": self.have_create.get("templateId")},

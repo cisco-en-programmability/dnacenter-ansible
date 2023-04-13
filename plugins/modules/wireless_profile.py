@@ -35,7 +35,7 @@ options:
         elements: dict
         suboptions:
           enableFabric:
-            description: True is ssid is fabric else false.
+            description: True if ssid is fabric else false.
             type: bool
           flexConnect:
             description: Wireless Profile's flexConnect.
@@ -44,7 +44,7 @@ options:
                 description: True if flex connect is enabled else false.
                 type: bool
               localToVlan:
-                description: Local To Vlan.
+                description: Local To Vlan Id.
                 type: int
             type: dict
           interfaceName:
@@ -53,8 +53,14 @@ options:
           name:
             description: Ssid Name.
             type: str
+          policyProfileName:
+            description: Policy Profile Name.
+            type: str
           type:
             description: Ssid Type(enum Enterprise/Guest).
+            type: str
+          wlanProfileName:
+            description: WLAN Profile Name.
             type: str
         type: list
     type: dict
@@ -121,7 +127,9 @@ EXAMPLES = r"""
           localToVlan: 0
         interfaceName: string
         name: string
+        policyProfileName: string
         type: string
+        wlanProfileName: string
 
 - name: Create
   cisco.dnac.wireless_profile:
@@ -144,7 +152,9 @@ EXAMPLES = r"""
           localToVlan: 0
         interfaceName: string
         name: string
+        policyProfileName: string
         type: string
+        wlanProfileName: string
 
 """
 

@@ -23,7 +23,6 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     get_dict_result,
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
-    InconsistentParameters,
     AnsibleSDAException,
 )
 
@@ -112,9 +111,11 @@ class SdaFabricBorderDevice(object):
             ("deviceManagementIpAddress", "deviceManagementIpAddress"),
             ("siteNameHierarchy", "siteNameHierarchy"),
             ("deviceRole", "deviceRole"),
+            ("routeDistributionProtocol", "routeDistributionProtocol"),
             ("externalDomainRoutingProtocolName", "externalDomainRoutingProtocolName"),
             ("externalConnectivityIpPoolName", "externalConnectivityIpPoolName"),
             ("internalAutonomouSystemNumber", "internalAutonomouSystemNumber"),
+            ("borderPriority", "borderPriority"),
             ("borderSessionType", "borderSessionType"),
             ("connectedToInternet", "connectedToInternet"),
             ("sdaTransitNetworkName", "sdaTransitNetworkName"),
