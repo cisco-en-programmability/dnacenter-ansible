@@ -84,18 +84,15 @@ EXAMPLES = r"""
       type: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: list
+  type: dict
   sample: >
-    [
-      {
-        "executionId": "string",
-        "executionUrl": "string",
-        "message": "string"
-      }
-    ]
+    {
+      "executionId": "string",
+      "executionUrl": "string",
+      "message": "string"
+    }
 """

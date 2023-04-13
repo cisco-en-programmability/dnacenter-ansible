@@ -345,7 +345,7 @@ class DnacSite:
         current_site = {}
         response = None
         try:
-            response = self.dnac.exec(
+            response = self.dnac._exec(
                 family="sites",
                 function='get_site',
                 params={"name": self.want.get("site_name")},
@@ -412,7 +412,7 @@ class DnacSite:
 
     def get_execution_details(self, execid):
         response = None
-        response = self.dnac.exec(
+        response = self.dnac._exec(
             family="task",
             function='get_business_api_execution_details',
             params={"execution_id": execid}
@@ -463,7 +463,7 @@ class DnacSite:
                 # Existing Site requires update
                 site_params = self.want.get("site_params")
                 site_params["site_id"] = self.have.get("site_id")
-                response = self.dnac.exec(
+                response = self.dnac._exec(
                     family="sites",
                     function='update_site',
                     op_modifies=True,
@@ -479,7 +479,7 @@ class DnacSite:
 
         else:
             # Creating New Site
-            response = self.dnac.exec(
+            response = self.dnac._exec(
                 family="sites",
                 function='create_site',
                 op_modifies=True,
@@ -523,7 +523,7 @@ class DnacSite:
         site_exists = self.have.get("site_exists")
 
         if site_exists:
-            response = self.dnac.exec(
+            response = self.dnac._exec(
                 family="sites",
                 function="delete_site",
                 params={"site_id": self.have.get("site_id")},
