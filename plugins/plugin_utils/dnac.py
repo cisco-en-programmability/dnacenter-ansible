@@ -13,7 +13,7 @@ except ImportError:
     DNAC_SDK_IS_INSTALLED = False
 else:
     DNAC_SDK_IS_INSTALLED = True
-from ansible.module_utils.basic import AnsibleModule, env_fallback
+from ansible.module_utils.basic import env_fallback
 from ansible.module_utils._text import to_native
 try:
     from ansible.errors import AnsibleActionFail

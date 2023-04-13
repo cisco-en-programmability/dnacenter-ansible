@@ -19,12 +19,15 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   isGuestVirtualNetwork:
-    description: To create guest virtual network.
+    description: Guest Virtual Network enablement flag, default value is False.
     type: bool
   scalableGroupNames:
     description: Scalable Group to be associated to virtual network.
     elements: str
     type: list
+  vManageVpnId:
+    description: VManage vpn id for SD-WAN.
+    type: str
   virtualNetworkName:
     description: Virtual Network Name to be assigned at global level.
     type: str
@@ -68,6 +71,7 @@ EXAMPLES = r"""
     isGuestVirtualNetwork: true
     scalableGroupNames:
     - string
+    vManageVpnId: string
     virtualNetworkName: string
 
 - name: Delete all
@@ -95,6 +99,7 @@ EXAMPLES = r"""
     isGuestVirtualNetwork: true
     scalableGroupNames:
     - string
+    vManageVpnId: string
     virtualNetworkName: string
 
 """

@@ -17,17 +17,6 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
-  payload:
-    description: Sda Virtual Network's payload.
-    elements: dict
-    suboptions:
-      siteNameHierarchy:
-        description: Path of sda Fabric Site.
-        type: str
-      virtualNetworkName:
-        description: Virtual Network Name, that is created at Global level.
-        type: str
-    type: list
   siteNameHierarchy:
     description: SiteNameHierarchy query parameter.
     type: str
@@ -79,9 +68,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-    payload:
-    - siteNameHierarchy: string
-      virtualNetworkName: string
+    siteNameHierarchy: string
+    virtualNetworkName: string
 
 """
 

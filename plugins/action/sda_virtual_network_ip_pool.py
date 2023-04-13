@@ -23,7 +23,6 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     get_dict_result,
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
-    InconsistentParameters,
     AnsibleSDAException,
 )
 
@@ -46,6 +45,7 @@ argument_spec.update(dict(
     isWirelessPool=dict(type="bool"),
     isIpDirectedBroadcast=dict(type="bool"),
     isCommonPool=dict(type="bool"),
+    isBridgeModeVm=dict(type="bool"),
     poolType=dict(type="str"),
 ))
 
@@ -60,6 +60,7 @@ class SdaVirtualNetworkIpPool(object):
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
+            site_name_hierarchy=params.get("siteNameHierarchy"),
             siteNameHierarchy=params.get("siteNameHierarchy"),
             virtualNetworkName=params.get("virtualNetworkName"),
             isLayer2Only=params.get("isLayer2Only"),
@@ -74,8 +75,8 @@ class SdaVirtualNetworkIpPool(object):
             isWirelessPool=params.get("isWirelessPool"),
             isIpDirectedBroadcast=params.get("isIpDirectedBroadcast"),
             isCommonPool=params.get("isCommonPool"),
+            isBridgeModeVm=params.get("isBridgeModeVm"),
             poolType=params.get("poolType"),
-            site_name_hierarchy=params.get("siteNameHierarchy"),
             virtual_network_name=params.get("virtualNetworkName"),
             ip_pool_name=params.get("ipPoolName"),
         )
@@ -106,6 +107,7 @@ class SdaVirtualNetworkIpPool(object):
         new_object_params['isWirelessPool'] = self.new_object.get('isWirelessPool')
         new_object_params['isIpDirectedBroadcast'] = self.new_object.get('isIpDirectedBroadcast')
         new_object_params['isCommonPool'] = self.new_object.get('isCommonPool')
+        new_object_params['isBridgeModeVm'] = self.new_object.get('isBridgeModeVm')
         new_object_params['poolType'] = self.new_object.get('poolType')
         return new_object_params
 
@@ -170,6 +172,7 @@ class SdaVirtualNetworkIpPool(object):
             ("isWirelessPool", "isWirelessPool"),
             ("isIpDirectedBroadcast", "isIpDirectedBroadcast"),
             ("isCommonPool", "isCommonPool"),
+            ("isBridgeModeVm", "isBridgeModeVm"),
             ("poolType", "poolType"),
             ("siteNameHierarchy", "site_name_hierarchy"),
             ("virtualNetworkName", "virtual_network_name"),

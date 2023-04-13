@@ -27,7 +27,7 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     deviceId=dict(type="str"),
     params=dict(type="dict"),
-    resourceParams=dict(type="list"),
+    resourceParams=dict(type="dict"),
     templateId=dict(type="str"),
 ))
 

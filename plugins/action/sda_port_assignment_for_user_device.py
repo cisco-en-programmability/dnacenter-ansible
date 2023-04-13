@@ -23,7 +23,6 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     get_dict_result,
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
-    InconsistentParameters,
     AnsibleSDAException,
 )
 
@@ -35,6 +34,7 @@ argument_spec.update(dict(
     siteNameHierarchy=dict(type="str"),
     deviceManagementIpAddress=dict(type="str"),
     interfaceName=dict(type="str"),
+    interfaceNames=dict(type="list"),
     dataIpAddressPoolName=dict(type="str"),
     voiceIpAddressPoolName=dict(type="str"),
     authenticateTemplateName=dict(type="str"),
@@ -56,6 +56,7 @@ class SdaPortAssignmentForUserDevice(object):
             siteNameHierarchy=params.get("siteNameHierarchy"),
             deviceManagementIpAddress=params.get("deviceManagementIpAddress"),
             interfaceName=params.get("interfaceName"),
+            interfaceNames=params.get("interfaceNames"),
             dataIpAddressPoolName=params.get("dataIpAddressPoolName"),
             voiceIpAddressPoolName=params.get("voiceIpAddressPoolName"),
             authenticateTemplateName=params.get("authenticateTemplateName"),
@@ -78,6 +79,7 @@ class SdaPortAssignmentForUserDevice(object):
         new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
         new_object_params['deviceManagementIpAddress'] = self.new_object.get('deviceManagementIpAddress')
         new_object_params['interfaceName'] = self.new_object.get('interfaceName')
+        new_object_params['interfaceNames'] = self.new_object.get('interfaceNames')
         new_object_params['dataIpAddressPoolName'] = self.new_object.get('dataIpAddressPoolName')
         new_object_params['voiceIpAddressPoolName'] = self.new_object.get('voiceIpAddressPoolName')
         new_object_params['authenticateTemplateName'] = self.new_object.get('authenticateTemplateName')
@@ -133,6 +135,7 @@ class SdaPortAssignmentForUserDevice(object):
             ("siteNameHierarchy", "siteNameHierarchy"),
             ("deviceManagementIpAddress", "deviceManagementIpAddress"),
             ("interfaceName", "interfaceName"),
+            ("interfaceNames", "interfaceNames"),
             ("dataIpAddressPoolName", "dataIpAddressPoolName"),
             ("voiceIpAddressPoolName", "voiceIpAddressPoolName"),
             ("authenticateTemplateName", "authenticateTemplateName"),

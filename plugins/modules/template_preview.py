@@ -24,8 +24,7 @@ options:
     type: dict
   resourceParams:
     description: Resource params to render preview.
-    elements: dict
-    type: list
+    type: dict
   templateId:
     description: UUID of template to get template preview.
     type: str
@@ -57,8 +56,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     deviceId: string
     params: {}
-    resourceParams:
-    - {}
+    resourceParams: {}
     templateId: string
 
 """

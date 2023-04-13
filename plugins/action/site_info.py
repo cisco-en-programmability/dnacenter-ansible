@@ -28,8 +28,8 @@ argument_spec.update(dict(
     name=dict(type="str"),
     siteId=dict(type="str"),
     type=dict(type="str"),
-    offset=dict(type="str"),
-    limit=dict(type="str"),
+    offset=dict(type="int"),
+    limit=dict(type="int"),
     headers=dict(type="dict"),
 ))
 

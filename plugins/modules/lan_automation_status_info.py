@@ -24,11 +24,11 @@ options:
   offset:
     description:
     - Offset query parameter. Starting index of the LAN Automation session. Minimum value is 1.
-    type: str
+    type: int
   limit:
     description:
     - Limit query parameter. Number of LAN Automation sessions to be retrieved. Limit value can range between 1 to 10.
-    type: str
+    type: int
   id:
     description:
     - Id path parameter. LAN Automation session identifier.
@@ -65,8 +65,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: string
-    limit: string
+    offset: 0
+    limit: 0
   register: result
 
 - name: Get Lan Automation Status by id

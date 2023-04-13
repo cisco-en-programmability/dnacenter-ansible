@@ -631,3 +631,50 @@ releases:
       bugfixes:
         - A new method to compare changes for specific cases has been added.
         - network_device - Used a new method to compare changes.
+  6.7.0:
+    release_date: "2023-04-12"
+    changes:
+      release_summary: Compatibility with 2.3.5.3 DNA Center APIs
+      minor_changes:
+        - accesspoint_configuration_details_by_task_id_info - new module
+        - authentication_policy_servers_info - new module
+        - credential_to_site_by_siteid_create_v2 - new module
+        - device_reboot_apreboot_info - new module
+        - dnac_packages_info - new module
+        - eox_status_device_info - new module
+        - eox_status_summary_info - new module
+        - event_email_config - new module
+        - event_email_config_info - new module
+        - event_snmp_config_info - new module
+        - event_syslog_config - new module
+        - event_syslog_config_info - new module
+        - execute_suggested_actions_commands - new module
+        - global_credential_v2 - new module
+        - global_credential_v2_info - new module
+        - integration_settings_instances_itsm - new module
+        - integration_settings_instances_itsm_info - new module
+        - lan_automation_log_by_serial_number_info - new module
+        - network_device_user_defined_field - new module
+        - network_device_user_defined_field_info - new module
+        - network_v2 - new module
+        - network_v2_info - new module
+        - role_permissions_info - new module
+        - roles_info - new module
+        - service_provider_v2 - new module
+        - service_provider_v2_info - new module
+        - sp_profile_delete_v2 - new module
+        - user - new module
+        - user_info - new module
+        - users_external_servers_info - new module
+        - wireless_accespoint_configuration - new module
+        - wireless_accesspoint_configuration_summary_info - new module
+        - device_interface_info - attributes `lastInputTime` and `lastOutputTime` were added.
+        - pnp_device_claim_to_site - attributes `removeInactive` and `hostname` were removed. 
+        - sda_fabric_border_device - attributes `routeDistributionProtocol` and `borderPriority` were added.
+        - sda_fabric_control_plane_device attribute `routeDistributionProtocol` was added.
+        - sda_fabric_edge_device - attribute `siteNameHierarchy` was added.
+        - sda_fabric_site - attribute `fabricType` was added.
+        - sda_port_assignment_for_user_device - attribute `interfaceNames` was added.
+        - sda_virtual_network - attribute `vManageVpnId` was added.
+        - sda_virtual_network_ip_pool - attribute `isBridgeModeVm` was added.
+        - sda_virtual_network_v2 - attribute `isBridgeModeVm` was added.

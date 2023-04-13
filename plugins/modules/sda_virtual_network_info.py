@@ -67,13 +67,12 @@ dnac_response:
   type: dict
   sample: >
     {
+      "siteNameHierarchy": "string",
+      "virtualNetworkName": "string",
+      "fabricName": "string",
+      "isInfraVN": "string",
+      "isDefaultVN": "string",
       "status": "string",
-      "description": "string",
-      "name": "string",
-      "roles": [
-        "string"
-      ],
-      "deviceManagementIpAddress": "string",
-      "siteHierarchy": "string"
+      "description": "string"
     }
 """

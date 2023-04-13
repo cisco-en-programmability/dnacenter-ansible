@@ -23,7 +23,6 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     get_dict_result,
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
-    InconsistentParameters,
     AnsibleSDAException,
 )
 
@@ -35,6 +34,7 @@ argument_spec.update(dict(
     virtualNetworkName=dict(type="str"),
     isGuestVirtualNetwork=dict(type="bool"),
     scalableGroupNames=dict(type="list"),
+    vManageVpnId=dict(type="str"),
 ))
 
 required_if = [
@@ -51,6 +51,7 @@ class SdaVirtualNetworkV2(object):
             virtualNetworkName=params.get("virtualNetworkName"),
             isGuestVirtualNetwork=params.get("isGuestVirtualNetwork"),
             scalableGroupNames=params.get("scalableGroupNames"),
+            vManageVpnId=params.get("vManageVpnId"),
             virtual_network_name=params.get("virtualNetworkName"),
         )
 
@@ -65,6 +66,7 @@ class SdaVirtualNetworkV2(object):
         new_object_params['virtualNetworkName'] = self.new_object.get('virtualNetworkName')
         new_object_params['isGuestVirtualNetwork'] = self.new_object.get('isGuestVirtualNetwork')
         new_object_params['scalableGroupNames'] = self.new_object.get('scalableGroupNames')
+        new_object_params['vManageVpnId'] = self.new_object.get('vManageVpnId')
         return new_object_params
 
     def delete_all_params(self):
@@ -77,6 +79,7 @@ class SdaVirtualNetworkV2(object):
         new_object_params['virtualNetworkName'] = self.new_object.get('virtualNetworkName')
         new_object_params['isGuestVirtualNetwork'] = self.new_object.get('isGuestVirtualNetwork')
         new_object_params['scalableGroupNames'] = self.new_object.get('scalableGroupNames')
+        new_object_params['vManageVpnId'] = self.new_object.get('vManageVpnId')
         return new_object_params
 
     def get_object_by_name(self, name, is_absent=False):
@@ -121,6 +124,7 @@ class SdaVirtualNetworkV2(object):
             ("virtualNetworkName", "virtualNetworkName"),
             ("isGuestVirtualNetwork", "isGuestVirtualNetwork"),
             ("scalableGroupNames", "scalableGroupNames"),
+            ("vManageVpnId", "vManageVpnId"),
             ("virtualNetworkName", "virtual_network_name"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params

@@ -67,10 +67,8 @@ dnac_response:
       "scalableGroupNames": [
         "string"
       ],
+      "vManageVpnId": "string",
       "status": "string",
-      "description": "string",
-      "taskId": "string",
-      "taskStatusUrl": "string",
-      "executionStatusUrl": "string"
+      "description": "string"
     }
 """

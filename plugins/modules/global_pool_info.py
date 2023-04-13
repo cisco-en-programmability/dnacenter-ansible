@@ -22,11 +22,11 @@ options:
   offset:
     description:
     - Offset query parameter. Offset/starting row.
-    type: str
+    type: int
   limit:
     description:
     - Limit query parameter. No of Global Pools to be retrieved.
-    type: str
+    type: int
 requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
@@ -54,8 +54,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: string
-    limit: string
+    offset: 0
+    limit: 0
   register: result
 
 """
@@ -76,15 +76,15 @@ dnac_response:
           "gateways": [
             "string"
           ],
-          "createTime": 0,
-          "lastUpdateTime": 0,
-          "totalIpAddressCount": 0,
-          "usedIpAddressCount": 0,
+          "createTime": "string",
+          "lastUpdateTime": "string",
+          "totalIpAddressCount": "string",
+          "usedIpAddressCount": "string",
           "parentUuid": "string",
           "owner": "string",
-          "shared": true,
-          "overlapping": true,
-          "configureExternalDhcp": true,
+          "shared": "string",
+          "overlapping": "string",
+          "configureExternalDhcp": "string",
           "usedPercentage": "string",
           "clientOptions": {},
           "dnsServerIps": [
@@ -97,7 +97,7 @@ dnac_response:
               "contextValue": "string"
             }
           ],
-          "ipv6": true,
+          "ipv6": "string",
           "id": "string",
           "ipPoolCidr": "string"
         }
