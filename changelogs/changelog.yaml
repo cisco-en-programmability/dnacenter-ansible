@@ -678,3 +678,9 @@ releases:
         - sda_virtual_network - attribute `vManageVpnId` was added.
         - sda_virtual_network_ip_pool - attribute `isBridgeModeVm` was added.
         - sda_virtual_network_v2 - attribute `isBridgeModeVm` was added.
+    6.7.1:
+      release_date: "2023-04-12"
+      changes:
+        release_summary: Adding documentation for 2.3.5.3 API
+        minor_changes:
+          - Adding documentation for 2.3.5.3 API
