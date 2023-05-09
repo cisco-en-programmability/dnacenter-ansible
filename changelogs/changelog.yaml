@@ -684,3 +684,9 @@ releases:
         release_summary: Adding documentation for 2.3.5.3 API
         minor_changes:
           - Adding documentation for 2.3.5.3 API
+    6.7.2:
+      release_date: "2023-05-09"
+      changes:
+        release_summary: Adding documentation for 2.3.5.3 API
+        minor_changes:
+          - Updating documentation, collection supports 2.3.5.3 DNA Center API Version.

@@ -140,7 +140,7 @@ def dnac_argument_spec():
         dnac_username=dict(type="str", fallback=(env_fallback, ['DNAC_USERNAME']), default="admin", aliases=["user"]),
         dnac_password=dict(type="str", fallback=(env_fallback, ['DNAC_PASSWORD']), no_log=True),
         dnac_verify=dict(type="bool", fallback=(env_fallback, ['DNAC_VERIFY']), default=True),
-        dnac_version=dict(type="str", fallback=(env_fallback, ['DNAC_VERSION']), default="2.3.3.0"),
+        dnac_version=dict(type="str", fallback=(env_fallback, ['DNAC_VERSION']), default="2.3.5.3"),
         dnac_debug=dict(type="bool", fallback=(env_fallback, ['DNAC_DEBUG']), default=False),
         validate_response_schema=dict(type="bool", fallback=(env_fallback, ['VALIDATE_RESPONSE_SCHEMA']), default=True),
     )

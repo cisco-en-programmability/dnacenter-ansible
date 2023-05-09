@@ -4,7 +4,7 @@
 
 The dnacenter-ansible project provides an Ansible collection for managing and automating your Cisco DNA Center environment. It consists of a set of modules and roles for performing tasks related to DNA Center.
 
-This collection has been tested and supports Cisco DNA Center 2.3.3.0.
+This collection has been tested and supports Cisco DNA Center 2.3.5.3.
 
 *Note: This collection is not compatible with versions of Ansible before v2.8.*
 
@@ -19,7 +19,7 @@ The following table shows the supported versions.
 | 2.2.2.3                  | 3.3.1                        | 2.3.3                         |
 | 2.2.3.3                  | 6.4.0                        | 2.4.11                        |
 | 2.3.3.0                  | 6.6.4                        | 2.5.5                         |
-| 2.3.5.3                  | 6.7.1                        | 2.6.0                         |
+| 2.3.5.3                  | 6.7.2                        | 2.6.0                         |
 
 If your Ansible collection is older please consider updating it first.
 
@@ -76,7 +76,7 @@ export DNAC_HOST=<A.B.C.D>
 export DNAC_PORT=443 # optional, defaults to 443
 export DNAC_USERNAME=<username>
 export DNAC_PASSWORD=<password>
-export DNAC_VERSION=2.3.3.0 # optional, defaults to 2.3.3.0. See the Compatibility matrix
+export DNAC_VERSION=2.3.5.3 # optional, defaults to 2.3.5.3. See the Compatibility matrix
 export DNAC_VERIFY=False # optional, defaults to True
 export DNAC_DEBUG=False # optional, defaults to False
 ```
@@ -114,7 +114,7 @@ dnac_host: <A.B.C.D>
 dnac_port: 443  # optional, defaults to 443
 dnac_username: <username>
 dnac_password: <password>
-dnac_version: 2.3.3.0  # optional, defaults to 2.3.3.0. See the Compatibility matrix
+dnac_version: 2.3.5.3  # optional, defaults to 2.3.5.3. See the Compatibility matrix
 dnac_verify: False  # optional, defaults to True
 dnac_debug: False  # optional, defaults to False
 ```
