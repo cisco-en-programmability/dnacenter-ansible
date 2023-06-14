@@ -123,14 +123,14 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: "{{dnac_log}}"
     config:
-        site:
-          building:
-            address: string
-            latitude: 0
-            longitude: 0
-            name: string
-            parentName: string
-        type: string
+    - site:
+        building:
+          address: string
+          latitude: 0
+          longitude: 0
+          name: string
+          parentName: string
+      type: string
 """
 
 RETURN = r"""
