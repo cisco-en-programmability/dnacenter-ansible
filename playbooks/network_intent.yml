@@ -1,0 +1,44 @@
+- hosts: dnac_servers
+  vars_files:
+    - credentials_245.yml
+  gather_facts: no
+  connection: local
+  tasks:
+#
+# Project Info  Section
+#
+
+    - name: Create, update, delete global pool and reserve an ip pool
+      cisco.dnac.network_intent:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        state: merged
+        config:
+        - GlobalPoolDetails:
+            settings:
+              ippool:
+              - ipPoolName: Global_Pool
+                gateway: "" #use this for updating
+                IpAddressSpace: IPv4 #required when we are creating
+                ipPoolCidr: 90.0.0.0/8  #required when we are creating
+                type: generic
+                dhcpServerIps: [] #use this for updating
+                dnsServerIps: [] #use this for updating
+                # prev_name: Global_Pool
+          ReservePoolDetails:
+            ipv6AddressSpace: false
+            ipv4GlobalPool: 90.0.0.0/8 
+            ipv4Prefix: true
+            ipv4PrefixLength: 8
+            ipv4DnsServers: []
+            name: IP_Pool_4
+            siteName: Global/Chennai/Trill
+            slaacSupport: true
+            # prev_name: IP_Pool_4
+            type: LAN
+
