@@ -1,5 +1,9 @@
 ---
 - hosts: dnac_servers
+  vars:
+    globalCredentialIdList:
+      - "90acbab8-03d5-4726-9c19-e1e51a40b3cd"
+      - "f979d842-f6fd-456a-8137-2cb5113cd2e8"
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -17,7 +21,7 @@
 
     - name: Set fact of filtered discoveries
       ansible.builtin.set_fact:
-        discoveries_filtered: "{{ discovery_range_result.dnac_response.response | selectattr('name', 'equalto', 'start_discovery_test2')}}"
+        discoveries_filtered: "{{ discovery_range_result.dnac_response.response | selectattr('name', 'equalto', 'DMZ Lab 2')}}"
       when:
         - discovery_range_result is defined
         - discovery_range_result.dnac_response is defined
@@ -54,9 +58,7 @@
         state: present
         cdpLevel: 16
         discoveryType: CDP
-        globalCredentialIdList:
-          - 90acbab8-03d5-4726-9c19-e1e51a40b3cd
-          - f979d842-f6fd-456a-8137-2cb5113cd2e8
+        globalCredentialIdList: "{{globalCredentialIdList}}"
         ipAddressList: 10.10.22.22
         name: start_discovery_test2
         protocolOrder: ssh
@@ -93,9 +95,7 @@
         state: present
         cdpLevel: 16
         discoveryType: CDP
-        globalCredentialIdList:
-          - 90acbab8-03d5-4726-9c19-e1e51a40b3cd,
-          - f979d842-f6fd-456a-8137-2cb5113cd2e8,
+        globalCredentialIdList: "{{globalCredentialIdList}}"
         ipAddressList: 10.10.22.22
         name: start_discovery_test2
         protocolOrder: ssh
