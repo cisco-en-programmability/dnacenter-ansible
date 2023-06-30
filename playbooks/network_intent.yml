@@ -9,7 +9,7 @@
 #
 
     - name: Create, update, delete global pool and reserve an ip pool
-      cisco.dnac.network_intent:
+      cisco.dnac.sample_module:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -22,23 +22,61 @@
         - GlobalPoolDetails:
             settings:
               ippool:
-              - ipPoolName: Global_Pool
+              - ipPoolName: Global_Pool1
                 gateway: "" #use this for updating
                 IpAddressSpace: IPv4 #required when we are creating
-                ipPoolCidr: 90.0.0.0/8  #required when we are creating
-                type: generic
+                ipPoolCidr: 100.0.0.0/8  #required when we are creating
+                type: Generic
                 dhcpServerIps: [] #use this for updating
                 dnsServerIps: [] #use this for updating
                 # prev_name: Global_Pool
           ReservePoolDetails:
             ipv6AddressSpace: false
-            ipv4GlobalPool: 90.0.0.0/8 
+            ipv4GlobalPool: 100.0.0.0/8 
             ipv4Prefix: true
             ipv4PrefixLength: 8
             ipv4DnsServers: []
-            name: IP_Pool_4
+            name: IP_Pool_3
             siteName: Global/Chennai/Trill
             slaacSupport: true
             # prev_name: IP_Pool_4
             type: LAN
+          NetworkManagementDetails:
+            settings:
+              dhcpServer:
+              - 10.0.0.1
+              dnsServer:
+                domainName: cisco.co
+                primaryIpAddress: 10.0.0.2
+                secondaryIpAddress: 10.0.0.3
+              # clientAndEndpoint_aaa:                    #works only if we system settigns is set
+              #   # ipAddress: string #Mandatory for ISE, sec ip for AAA
+              #   network: 10.0.0.9
+              #   protocol: RADIUS                                          
+              #   servers: AAA
+              #   # sharedSecret: string #ISE
+              messageOfTheday:
+                bannerMessage: hello
+                retainExistingBanner: "true"
+              netflowcollector:
+                ipAddress: 10.0.0.4
+                port: 443
+              # network_aaa:                              #works only if we system settigns is set
+              #   # ipAddress: string #Mandatory for ISE, sec ip for AAA
+              #   network: 10.0.0.8
+              #   protocol: RADIUS
+              #   servers: AAA
+              #   # sharedSecret: string #ISE
+              ntpServer:
+              - 10.0.0.5
+              snmpServer:
+                configureDnacIP: true
+                ipAddresses:
+                - 10.0.0.6
+              syslogServer:
+                configureDnacIP: true
+                ipAddresses:
+                - 10.0.0.7
+              timezone: GMT
+            siteName: Global/Chennai
 
