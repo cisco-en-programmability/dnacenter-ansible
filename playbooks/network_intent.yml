@@ -9,7 +9,7 @@
 #
 
     - name: Create, update, delete global pool and reserve an ip pool
-      cisco.dnac.sample_module:
+      cisco.dnac.network_intent:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
