@@ -137,7 +137,7 @@ class Snmpv3Credential(object):
         id_exists = False
         name_exists = False
         o_id = self.new_object.get("id")
-        name = self.new_object.get("description") or self.new_object.get("username")
+        name = self.new_object.get("username") or self.new_object.get("description")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -167,6 +167,9 @@ class Snmpv3Credential(object):
             ("snmpMode", "snmpMode"),
             ("username", "username"),
         ]
+
+        print("requested_obj: ", requested_obj)
+        print("current_obj: ", current_obj)
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(not dnac_compare_equality(current_obj.get(dnac_param),
