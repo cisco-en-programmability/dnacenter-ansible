@@ -690,3 +690,11 @@ releases:
         release_summary: Adding documentation for 2.3.5.3 API
         minor_changes:
           - Updating documentation, collection supports 2.3.5.3 DNA Center API Version.
+    6.7.3:
+      release_date: "2023-06-27"
+      changes:
+        release_summary: Updating documentation and fixing global credentials.
+        minor_changes:
+          - Documentation changes in example of site_intent
+          - The global credentials create implementation fixed.
+          - Discovery playbook has no hardcoded credentials id and seed IP. 
