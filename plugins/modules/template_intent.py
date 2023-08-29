@@ -655,56 +655,22 @@ response_3:
     }
 """
 
-import copy
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DNACSDK,
+    DnacBase,
     validate_list_of_dicts,
-    log,
     get_dict_result,
     dnac_compare_equality,
 )
 
 
-class DnacTemplate:
+class DnacTemplate(DnacBase):
     """Class containing member attributes for template intent module"""
     def __init__(self, module):
-        self.module = module
-        self.params = module.params
-        self.config = copy.deepcopy(module.params.get("config"))
+        super().__init__(module)
         self.have_create_project = {}
         self.have_create_template = {}
-        self.want_create = {}
-        self.validated_config = []
-        self.msg = ""
-        self.status = "success"
         self.accepted_languages = ["JINJA", "VELOCITY"]
-        dnac_params = self.get_dnac_params(self.params)
-        self.dnac = DNACSDK(params=dnac_params)
-        self.dnac_apply = {'exec': self.dnac._exec}
-        self.get_diff_state_apply = {'merged': self.get_diff_merged,
-                                     'deleted': self.get_diff_deleted}
-        self.dnac_log = dnac_params.get("dnac_log")
-        self.log(str(dnac_params))
-        self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
-
-    def log(self, message):
-        """Log messages into dnac.log file"""
-
-        if self.dnac_log:
-            message = self.__class__.__name__ + " " + message
-            log(message)
-
-    def check_return_status(self, api_name):
-        """API to check the return status value and exit/fail the module"""
-
-        self.log(f"API:{api_name}, msg:{self.msg}, status: {self.status}")
-        if "failed" in self.status:
-            self.module.fail_json(msg=self.msg, response=[])
-        elif "exited" in self.status:
-            self.module.exit_json(**self.result)
-        elif "invalid" in self.status:
-            self.module.fail_json(msg=self.msg, response=[])
 
     def validate_input(self):
         """Validate the fields provided in the playbook"""
@@ -759,19 +725,6 @@ class DnacTemplate:
         self.msg = "Successfully validated input"
         self.status = "success"
         return self
-
-    def get_dnac_params(self, params):
-        """Store the DNAC parameters from the playbook"""
-
-        dnac_params = {"dnac_host": params.get("dnac_host"),
-                       "dnac_port": params.get("dnac_port"),
-                       "dnac_username": params.get("dnac_username"),
-                       "dnac_password": params.get("dnac_password"),
-                       "dnac_verify": params.get("dnac_verify"),
-                       "dnac_debug": params.get("dnac_debug"),
-                       "dnac_log": params.get("dnac_log")
-                       }
-        return dnac_params
 
     def get_project_params(self, params):
         """Store project parameters from the playbook for template processing in DNAC"""
@@ -839,16 +792,16 @@ class DnacTemplate:
         template_available = None
 
         # Check if project exists.
-        project_details = self.get_project_details(config.get("projectName"))
+        project_details = self.get_project_details(given_project_name)
         # DNAC returns project details even if the substring matches.
         # Hence check the projectName retrieved from DNAC.
         if not (project_details and isinstance(project_details, list)):
-            self.log("Project not found, need to create new project in DNAC")
+            self.log(f"Project: {given_project_name} not found, need to create new project in DNAC")
             return None
 
         fetched_project_name = project_details[0].get('name')
         if fetched_project_name != given_project_name:
-            self.log("Project name provided is not exact match in DNAC DB")
+            self.log(f"Project {given_project_name} provided is not exact match in DNAC DB")
             return None
 
         template_available = project_details[0].get('templates')
@@ -876,7 +829,7 @@ class DnacTemplate:
         # Check if specified template in playbook is available
         if not template_details:
             self.log(f"Template {template_name} not found in project {project_name}")
-            self.msg = "Found template : {template_name} missing, new template to be created"
+            self.msg = "Template : {template_name} missing, new template to be created"
             self.status = "success"
             return self
 
@@ -989,7 +942,7 @@ class DnacTemplate:
 
         task_id = response.get("response").get("taskId")
         if not task_id:
-            self.log("Task id not found")
+            self.log(f"Task id {task_id} not found")
             return creation_id, created
 
         while not created:
@@ -1065,22 +1018,6 @@ class DnacTemplate:
                                              requested_obj.get(ansible_param))
                    for (dnac_param, ansible_param, default) in obj_params)
 
-    def get_task_details(self, task_id):
-        """Check if the task performed is sucessfull or not"""
-
-        result = None
-        response = self.dnac_apply['exec'](
-            family="task",
-            function="get_task_by_id",
-            params={"task_id": task_id},
-        )
-
-        self.log(str(response))
-        if isinstance(response, dict):
-            result = response.get("response")
-
-        return result
-
     def update_mandatory_parameters(self, template_params):
         """Update parameters which are mandatory for creating a template"""
 
@@ -1146,7 +1083,7 @@ class DnacTemplate:
                 self.msg = "Project creation failed"
                 return self
 
-        self.validate_input_merge(is_template_found).check_return_status("validate_input_merge")
+        self.validate_input_merge(is_template_found).check_return_status()
         if is_template_found:
             if self.requires_update():
                 response = self.dnac_apply['exec'](
@@ -1187,7 +1124,7 @@ class DnacTemplate:
             task_details = {}
             task_id = response.get("response").get("taskId")
             if not task_id:
-                self.msg = "Task id not found"
+                self.msg = f"Task id: {task_id} not found"
                 self.status = "failed"
                 return self
             task_details = self.get_task_details(task_id)
@@ -1249,9 +1186,10 @@ class DnacTemplate:
         is_template_found = self.have_create_template.get("template_found")
         is_project_found = self.have_create_project.get("project_found")
         template_params = self.want_create.get("template_params")
+        projectName = template_params.get('projectName')
 
         if not is_project_found:
-            self.msg = "Project not found, provide valid projectName"
+            self.msg = f"Project {projectName} provide valid projectName"
             self.status = "failed"
             return self
 
@@ -1299,26 +1237,21 @@ def main():
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
                     }
-
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
     dnac_template = DnacTemplate(module)
-    dnac_template.validate_input().check_return_status("validate_input")
+    dnac_template.validate_input().check_return_status()
     state = dnac_template.params.get("state")
-    if state == "merged":
-        get_diff_state_api = "get_diff_merged"
-    elif state == "deleted":
-        get_diff_state_api = "get_diff_deleted"
-    else:
+    if state not in dnac_template.supported_states:
         dnac_template.status = "invalid"
         dnac_template.msg = f"State {state} is invalid"
-        dnac_template.check_return_status("main")
+        dnac_template.check_return_status()
 
     for config in dnac_template.validated_config:
         dnac_template.reset_values()
-        dnac_template.get_have(config).check_return_status("get_have")
-        dnac_template.get_want(config).check_return_status("get_want")
-        dnac_template.get_diff_state_apply[state](config).check_return_status(get_diff_state_api)
+        dnac_template.get_have(config).check_return_status()
+        dnac_template.get_want(config).check_return_status()
+        dnac_template.get_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_template.result)
 
