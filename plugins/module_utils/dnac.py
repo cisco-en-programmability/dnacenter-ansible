@@ -21,13 +21,87 @@ except ImportError:
 else:
     LOGGING_IN_STANDARD = True
 import os.path
+import copy
 import datetime
 import inspect
 
+class DnacBase:
+    """Class contains members which can be reused for all intent modules"""
+    def __init__(self, module):
+        self.module = module
+        self.params = module.params
+        self.config = copy.deepcopy(module.params.get("config"))
+        self.have_create = {}
+        self.want_create = {}
+        self.validated_config = []
+        self.msg = ""
+        self.status = "success"
+        dnac_params = self.get_dnac_params(self.params)
+        self.dnac = DNACSDK(params=dnac_params)
+        self.dnac_apply = {'exec': self.dnac._exec}
+        self.get_diff_state_apply = {'merged': self.get_diff_merged,
+                                     'deleted': self.get_diff_deleted}
+        self.dnac_log = dnac_params.get("dnac_log")
+        self.log(str(dnac_params))
+        self.supported_states = ["merged", "deleted"]
+        self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
-def log(msg):
+    def log(self, message, frameIncrement = 0):
+        """Log messages into dnac.log file"""
+
+        if self.dnac_log:
+            message = "Module: " + self.__class__.__name__ + ", " + message
+            log(message, (1 + frameIncrement))
+
+    def check_return_status(self):
+        """API to check the return status value and exit/fail the module"""
+
+        self.log(f"status: {self.status}, msg:{self.msg}", frameIncrement = 1)
+        if "failed" in self.status:
+            self.module.fail_json(msg=self.msg, response=[])
+        elif "exited" in self.status:
+            self.module.exit_json(**self.result)
+        elif "invalid" in self.status:
+            self.module.fail_json(msg=self.msg, response=[])
+
+    def get_dnac_params(self, params):
+        """Store the DNAC parameters from the playbook"""
+
+        dnac_params = {"dnac_host": params.get("dnac_host"),
+                       "dnac_port": params.get("dnac_port"),
+                       "dnac_username": params.get("dnac_username"),
+                       "dnac_password": params.get("dnac_password"),
+                       "dnac_verify": params.get("dnac_verify"),
+                       "dnac_debug": params.get("dnac_debug"),
+                       "dnac_log": params.get("dnac_log")
+                       }
+        return dnac_params
+
+    def get_task_details(self, task_id):
+        """Check if the task performed is sucessfull or not"""
+
+        result = None
+        response = self.dnac_apply['exec'](
+            family="task",
+            function="get_task_by_id",
+            params={"task_id": task_id},
+        )
+
+        self.log(str(response))
+        if isinstance(response, dict):
+            result = response.get("response")
+
+        return result
+
+    def reset_values(self):
+        """Reset all neccessary attributes to default values"""
+
+        self.have_create.clear()
+        self.want_create.clear()
+
+def log(msg, frameIncrement = 0):
     with open('dnac.log', 'a') as of:
-        callerframerecord = inspect.stack()[1]
+        callerframerecord = inspect.stack()[1 + frameIncrement]
         frame = callerframerecord[0]
         info = inspect.getframeinfo(frame)
         d = datetime.datetime.now().replace(microsecond=0).isoformat()
