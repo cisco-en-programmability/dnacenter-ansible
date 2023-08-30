@@ -697,4 +697,10 @@ releases:
         minor_changes:
           - Documentation changes in example of site_intent
           - The global credentials create implementation fixed.
-          - Discovery playbook has no hardcoded credentials id and seed IP. 
+          - Discovery playbook has no hardcoded credentials id and seed IP.
+    6.7.4:
+      release_date: "2023-08-24"
+      changes:
+        release_summary: Updated sanity test.
+        minor_changes:
+        - Updated test/sanity and remove unnecessary
