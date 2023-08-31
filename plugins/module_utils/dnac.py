@@ -25,6 +25,7 @@ import copy
 import datetime
 import inspect
 
+
 class DnacBase:
     """Class contains members which can be reused for all intent modules"""
     def __init__(self, module):
@@ -46,7 +47,7 @@ class DnacBase:
         self.supported_states = ["merged", "deleted"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
-    def log(self, message, frameIncrement = 0):
+    def log(self, message, frameIncrement=0):
         """Log messages into dnac.log file"""
 
         if self.dnac_log:
@@ -56,7 +57,7 @@ class DnacBase:
     def check_return_status(self):
         """API to check the return status value and exit/fail the module"""
 
-        self.log(f"status: {self.status}, msg:{self.msg}", frameIncrement = 1)
+        self.log("status: {0}, msg:{1}".format(self.status, self.msg), frameIncrement=1)
         if "failed" in self.status:
             self.module.fail_json(msg=self.msg, response=[])
         elif "exited" in self.status:
@@ -99,7 +100,8 @@ class DnacBase:
         self.have_create.clear()
         self.want_create.clear()
 
-def log(msg, frameIncrement = 0):
+
+def log(msg, frameIncrement=0):
     with open('dnac.log', 'a') as of:
         callerframerecord = inspect.stack()[1 + frameIncrement]
         frame = callerframerecord[0]
