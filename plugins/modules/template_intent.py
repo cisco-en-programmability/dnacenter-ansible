@@ -666,10 +666,12 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 
 class DnacTemplate(DnacBase):
     """Class containing member attributes for template intent module"""
+
     def __init__(self, module):
         super().__init__(module)
-        self.have_create_project = {}
-        self.have_create_template = {}
+        self.have_project = {}
+        self.have_template = {}
+        self.supported_states = ["merged", "deleted"]
         self.accepted_languages = ["JINJA", "VELOCITY"]
 
     def validate_input(self):
@@ -688,6 +690,7 @@ class DnacTemplate(DnacBase):
                      'customParamsOrder': {'type': 'bool'},
                      'description': {'type': 'str'},
                      'deviceTypes': {'type': 'list', 'elements': 'dict'},
+                    #  'deviceTypes': {'type': 'list', 'productFamily': {'type': 'list', 'elements': 'dict'}},
                      'failurePolicy': {'type': 'str'},
                      'id': {'type': 'str'},
                      'language': {'type': 'str'},
@@ -787,7 +790,7 @@ class DnacTemplate(DnacBase):
     def get_have_project(self, config):
         """Get the current project related information from DNAC"""
 
-        have_create_project = {}
+        have_project = {}
         given_project_name = config.get("projectName")
         template_available = None
 
@@ -805,11 +808,11 @@ class DnacTemplate(DnacBase):
             return None
 
         template_available = project_details[0].get('templates')
-        have_create_project["project_found"] = True
-        have_create_project["id"] = project_details[0].get("id")
-        have_create_project["isDeletable"] = project_details[0].get("isDeletable")
+        have_project["project_found"] = True
+        have_project["id"] = project_details[0].get("id")
+        have_project["isDeletable"] = project_details[0].get("isDeletable")
 
-        self.have_create_project = have_create_project
+        self.have_project = have_project
         return template_available
 
     def get_have_template(self, config, template_available):
@@ -818,10 +821,10 @@ class DnacTemplate(DnacBase):
         project_name = config.get("projectName")
         template_name = config.get("templateName")
         template = None
-        have_create_template = {}
+        have_template = {}
 
-        have_create_template["isCommitPending"] = False
-        have_create_template["template_found"] = False
+        have_template["isCommitPending"] = False
+        have_template["template_found"] = False
 
         template_details = get_dict_result(template_available,
                                            "name",
@@ -834,14 +837,14 @@ class DnacTemplate(DnacBase):
             return self
 
         config["templateId"] = template_details.get("id")
-        have_create_template["id"] = template_details.get("id")
+        have_template["id"] = template_details.get("id")
         # Get available templates which are committed under the project
         template_list = self.dnac_apply['exec'](
             family="configuration_templates",
             function="gets_the_templates_available",
             params={"project_names": config.get("projectName")},
         )
-        have_create_template["isCommitPending"] = True
+        have_template["isCommitPending"] = True
         # This check will fail if specified template is there not committed in dnac
         if template_list and isinstance(template_list, list):
             template_info = get_dict_result(template_list,
@@ -849,9 +852,9 @@ class DnacTemplate(DnacBase):
                                             template_name)
             if template_info:
                 template = self.get_template(config)
-                have_create_template["template"] = template
-                have_create_template["isCommitPending"] = False
-                have_create_template["template_found"] = template is not None \
+                have_template["template"] = template
+                have_template["isCommitPending"] = False
+                have_template["template_found"] = template is not None \
                     and isinstance(template, dict)
                 self.log("Template {0} is found and template "
                          "details are :{1}".format(template_name, str(template)))
@@ -859,9 +862,9 @@ class DnacTemplate(DnacBase):
         # There are committed templates in the project but the
         # one specified in the playbook may not be committed
         self.log("Commit pending for template name {0}"
-                 " is {1}".format(template_name, have_create_template.get('isCommitPending')))
+                 " is {1}".format(template_name, have_template.get('isCommitPending')))
 
-        self.have_create_template = have_create_template
+        self.have_template = have_template
         self.msg = "Successfully collected all template parameters from dnac for comparison"
         self.status = "success"
         return self
@@ -893,7 +896,7 @@ class DnacTemplate(DnacBase):
         """Get all the template and project related information from playbook
         that is needed to be created in DNAC"""
 
-        want_create = {}
+        want = {}
         template_params = self.get_template_params(config)
         project_params = self.get_project_params(config)
         version_comments = config.get("versionDescription")
@@ -901,11 +904,11 @@ class DnacTemplate(DnacBase):
         if self.params.get("state") == "merged":
             self.update_mandatory_parameters(template_params)
 
-        want_create["template_params"] = template_params
-        want_create["project_params"] = project_params
-        want_create["comments"] = version_comments
+        want["template_params"] = template_params
+        want["project_params"] = project_params
+        want["comments"] = version_comments
 
-        self.want_create = want_create
+        self.want = want
         self.msg = "Successfully collected all parameters from playbook " + \
                    "for comparison"
         self.status = "success"
@@ -916,8 +919,8 @@ class DnacTemplate(DnacBase):
 
         creation_id = None
         created = False
-        template_params = self.want_create.get("template_params")
-        project_params = self.want_create.get("project_params")
+        template_params = self.want.get("template_params")
+        project_params = self.want.get("project_params")
 
         if is_create_project:
             params_key = project_params
@@ -979,12 +982,12 @@ class DnacTemplate(DnacBase):
     def requires_update(self):
         """Check if the template config given requires update."""
 
-        if self.have_create_template.get("isCommitPending"):
+        if self.have_template.get("isCommitPending"):
             self.log("Template is in saved state and needs to be updated and committed")
             return True
 
-        current_obj = self.have_create_template.get("template")
-        requested_obj = self.want_create.get("template_params")
+        current_obj = self.have_template.get("template")
+        requested_obj = self.want.get("template_params")
         obj_params = [
             ("tags", "tags", ""),
             ("author", "author", ""),
@@ -1023,17 +1026,17 @@ class DnacTemplate(DnacBase):
 
         # Mandate fields required for creating a new template.
         # Store it with other template parameters.
-        template_params["projectId"] = self.have_create_project.get("id")
-        template_params["project_id"] = self.have_create_project.get("id")
+        template_params["projectId"] = self.have_project.get("id")
+        template_params["project_id"] = self.have_project.get("id")
         # Update language,deviceTypes and softwareType if not provided for existing template.
         if not template_params.get("language"):
-            template_params["language"] = self.have_create_template.get('template') \
+            template_params["language"] = self.have_template.get('template') \
                 .get('language')
         if not template_params.get("deviceTypes"):
-            template_params["deviceTypes"] = self.have_create_template.get('template') \
+            template_params["deviceTypes"] = self.have_template.get('template') \
                 .get('deviceTypes')
         if not template_params.get("softwareType"):
-            template_params["softwareType"] = self.have_create_template.get('template') \
+            template_params["softwareType"] = self.have_template.get('template') \
                 .get('softwareType')
 
     def validate_input_merge(self, template_exists):
@@ -1043,7 +1046,7 @@ class DnacTemplate(DnacBase):
         "It is not required to be provided in playbook, "
         "but if it is new creation error will be thrown to provide these fields."""
 
-        template_params = self.want_create.get("template_params")
+        template_params = self.want.get("template_params")
         language = template_params.get("language").upper()
         if language:
             if language not in self.accepted_languages:
@@ -1069,7 +1072,7 @@ class DnacTemplate(DnacBase):
     def get_diff_merged(self, config):
         """Update/Create templates and projects in DNAC with fields provided in DNAC"""
 
-        is_project_found = self.have_create_project.get("project_found")
+        is_project_found = self.have_project.get("project_found")
         if not is_project_found:
             project_id, project_created = self.create_project_or_template(is_create_project=True)
             if project_created:
@@ -1079,8 +1082,8 @@ class DnacTemplate(DnacBase):
                 self.msg = "Project creation failed"
                 return self
 
-        is_template_found = self.have_create_template.get("template_found")
-        template_params = self.want_create.get("template_params")
+        is_template_found = self.have_template.get("template_found")
+        template_params = self.want.get("template_params")
         template_id = None
         template_updated = False
         self.validate_input_merge(is_template_found).check_return_status()
@@ -1093,11 +1096,11 @@ class DnacTemplate(DnacBase):
                     op_modifies=True,
                 )
                 template_updated = True
-                template_id = self.have_create_template.get("id")
+                template_id = self.have_template.get("id")
                 self.log("Updating Existing Template")
             else:
                 # Template does not need update
-                self.result['response'] = self.have_create_template.get("template")
+                self.result['response'] = self.have_template.get("template")
                 self.result['msg'] = "Template does not need update"
                 self.status = "exited"
                 return self
@@ -1112,7 +1115,7 @@ class DnacTemplate(DnacBase):
         if template_updated:
             # Template needs to be versioned
             version_params = {
-                "comments": self.want_create.get("comments"),
+                "comments": self.want.get("comments"),
                 "templateId": template_id
             }
             response = self.dnac_apply['exec'](
@@ -1147,12 +1150,12 @@ class DnacTemplate(DnacBase):
         """Call DNAC API to delete project or template with provided inputs"""
 
         if is_delete_project:
-            params_key = {"project_id": self.have_create_project.get("id")}
+            params_key = {"project_id": self.have_project.get("id")}
             deletion_value = "deletes_the_project"
             name = "project: {0}".format(config.get('projectName'))
         else:
-            template_params = self.want_create.get("template_params")
-            params_key = {"template_id": self.have_create_template.get("id")}
+            template_params = self.want.get("template_params")
+            params_key = {"template_id": self.have_template.get("id")}
             deletion_value = "deletes_the_template"
             name = "templateName: {0}".format(template_params.get('templateName'))
 
@@ -1182,7 +1185,7 @@ class DnacTemplate(DnacBase):
     def get_diff_deleted(self, config):
         """Delete projects or templates in DNAC with fields provided in playbook."""
 
-        is_project_found = self.have_create_project.get("project_found")
+        is_project_found = self.have_project.get("project_found")
         projectName = config.get("projectName")
 
         if not is_project_found:
@@ -1190,8 +1193,8 @@ class DnacTemplate(DnacBase):
             self.status = "failed"
             return self
 
-        is_template_found = self.have_create_template.get("template_found")
-        template_params = self.want_create.get("template_params")
+        is_template_found = self.have_template.get("template_found")
+        template_params = self.want.get("template_params")
         template_name = config.get("templateName")
         if template_params.get("name"):
             if is_template_found:
@@ -1202,7 +1205,7 @@ class DnacTemplate(DnacBase):
                 return self
         else:
             self.log("Template Name is empty, deleting the project and its associated templates")
-            is_project_deletable = self.have_create_project.get("isDeletable")
+            is_project_deletable = self.have_project.get("isDeletable")
             if is_project_deletable:
                 self.delete_project_or_template(config, is_delete_project=True)
             else:
@@ -1217,9 +1220,9 @@ class DnacTemplate(DnacBase):
     def reset_values(self):
         """Reset all neccessary attributes to default values"""
 
-        self.have_create_project.clear()
-        self.have_create_template.clear()
-        self.want_create.clear()
+        self.have_project.clear()
+        self.have_template.clear()
+        self.want.clear()
 
 
 def main():
