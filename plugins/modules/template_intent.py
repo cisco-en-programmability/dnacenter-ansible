@@ -690,7 +690,7 @@ class DnacTemplate(DnacBase):
                      'customParamsOrder': {'type': 'bool'},
                      'description': {'type': 'str'},
                      'deviceTypes': {'type': 'list', 'elements': 'dict'},
-                    #  'deviceTypes': {'type': 'list', 'productFamily': {'type': 'list', 'elements': 'dict'}},
+                     # 'deviceTypes': {'type': 'list', 'productFamily': {'type': 'list', 'elements': 'dict'}},
                      'failurePolicy': {'type': 'str'},
                      'id': {'type': 'str'},
                      'language': {'type': 'str'},
