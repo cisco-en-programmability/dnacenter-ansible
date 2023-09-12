@@ -26,7 +26,9 @@ import copy
 import datetime
 import inspect
 
+
 class DnacBase(ABC):
+
     """Class contains members which can be reused for all intent modules"""
 
     def __init__(self, module):
@@ -210,6 +212,7 @@ def dnac_argument_spec():
     )
     return argument_spec
 
+
 def validate_str(item, param_spec, param_name, invalid_params):
     item = validation.check_type_str(item)
     if param_spec.get("length_max"):
@@ -223,6 +226,7 @@ def validate_str(item, param_spec, param_name, invalid_params):
                 )
             )
     return item
+
 
 def validate_int(item, param_spec, param_name, invalid_params):
     item = validation.check_type_int(item)
@@ -241,8 +245,10 @@ def validate_int(item, param_spec, param_name, invalid_params):
             )
     return item
 
+
 def validate_bool(item, param_spec, param_name, invalid_params):
     return validation.check_type_bool(item)
+
 
 def validate_list(item, param_spec, param_name, invalid_params):
     try:
@@ -280,7 +286,9 @@ def validate_list(item, param_spec, param_name, invalid_params):
             invalid_params.append("{0} : is not a valid list".format(item))
     except Exception as e:
         invalid_params.append("{0} : comes into the exception".format(e))
+
     return item
+
 
 def validate_dict(item, param_spec, param_name, invalid_params):
     if param_spec.get("type") != type(item).__name__:
@@ -296,10 +304,11 @@ def validate_list_of_dicts(param_list, spec, module=None):
                            foo=dict(type='str', default='bar'))
     return: list of normalized input data
     """
+
     v = validation
     normalized = []
     invalid_params = []
-    
+
     for list_entry in param_list:
         valid_params_dict = {}
         if not spec:
@@ -326,7 +335,7 @@ def validate_list_of_dicts(param_list, spec, module=None):
                 "list": validate_list,
                 "dict": validate_dict,
             }
-            
+
             validator = switch.get(data_type)
             if validator:
                 item = validator(item, spec[param], param, invalid_params)
