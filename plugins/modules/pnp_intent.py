@@ -630,13 +630,14 @@ class DnacPnp(DnacBase):
             return self
 
         pnp_spec = {
-            'template_name': {'required': True, 'type': 'str'},
-            'project_name': {'default': 'Onboarding Configuration', 'type': 'str'},
-            'site_name': {'required': True, 'type': 'str'},
-            'image_name': {'required': True, 'type': 'str'},
-            'golden_image': {'type': 'bool'},
-            'deviceInfo': {'required': True, 'type': 'str'},
-            'pnp_type': {'default': 'Default', 'type': 'str'},
+            'template_name': {'type': 'str', 'required': True},
+            'project_name': {'type': 'str', 'required': False,
+                             'default': 'Onboarding Configuration'},
+            'site_name': {'type': 'str', 'required': True},
+            'image_name': {'type': 'str', 'required': True},
+            'golden_image': {'type': 'bool', 'required': False},
+            'deviceInfo': {'type': 'dict', 'required': True},
+            'pnp_type': {'type': 'str', 'required': False, 'default': 'Default'},
         }
 
         # Validate pnp params
@@ -668,7 +669,7 @@ class DnacPnp(DnacBase):
                 function='get_site',
                 params={"name": self.want.get("site_name")},
             )
-        except Exception as e:
+        except Exception:
             self.module.fail_json(msg="Site not found", response=[])
 
         if response:
@@ -765,7 +766,8 @@ class DnacPnp(DnacBase):
 
             if template_list and isinstance(template_list, list):
                 # API execution error returns a dict
-                template_details = get_dict_result(template_list, 'name', self.want.get("template_name"))
+                template_details = get_dict_result(template_list,
+                                                   'name', self.want.get("template_name"))
                 if template_details:
                     have["template_id"] = template_details.get("templateId")
 
@@ -810,9 +812,10 @@ class DnacPnp(DnacBase):
         return self
 
     def get_want(self, config):
-        """Get all the image, site and pnp related information from playbook that is needed to be created in DNAC"""
+        """Get all the image, site and pnp related
+        information from playbook that is needed to be created in DNAC"""
 
-        want = {
+        self.want = {
             'image_params': self.get_image_params(config),
             'pnp_params': self.get_pnp_params(config),
             'pnp_type': config.get('pnp_type'),
@@ -822,7 +825,7 @@ class DnacPnp(DnacBase):
             'project_name': config.get('project_name'),
             'template_name': config.get('template_name')
         }
-        self.want = want
+
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
         self.status = "success"
@@ -863,6 +866,8 @@ class DnacPnp(DnacBase):
         else:
             self.module.fail_json(msg="Device Claim Failed", response=claim_response)
 
+        return self
+
     def get_diff_deleted(self):
         if self.have.get("device_found"):
 
@@ -892,6 +897,8 @@ class DnacPnp(DnacBase):
 
         else:
             self.module.fail_json(msg="Device Not Found", response=[])
+
+        return self
 
 
 def main():
