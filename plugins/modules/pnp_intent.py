@@ -609,86 +609,61 @@ response_3:
     }
 """
 
-import copy
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DNACSDK,
+    DnacBase,
     validate_list_of_dicts,
-    log,
-    get_dict_result,
+    get_dict_result
 )
 
 
-class DnacPnp:
+class DnacPnp(DnacBase):
     def __init__(self, module):
-        self.module = module
-        self.params = module.params
-        self.config = copy.deepcopy(module.params.get("config"))
-        self.have = []
-        self.want = []
-        self.diff = []
-        self.validated = []
-        dnac_params = self.get_dnac_params(self.params)
-        log(str(dnac_params))
-        self.dnac = DNACSDK(params=dnac_params)
-        self.log = dnac_params.get("dnac_log")
-
-        self.result = dict(changed=False, diff=[], response=[], warnings=[])
-
-    def get_state(self):
-        return self.params.get("state")
+        super().__init__(module)
 
     def validate_input(self):
-        pnp_spec = dict(
-            template_name=dict(required=True, type='str'),
-            project_name=dict(required=False, type='str', default="Onboarding Configuration"),
-            site_name=dict(required=True, type='str'),
-            image_name=dict(required=True, type='str'),
-            golden_image=dict(required=False, type='bool'),
-            deviceInfo=dict(required=True, type='dict'),
-            pnp_type=dict(required=False, type=str, default="Default")
+        """Validate the fields provided in the playbook"""
+
+        if not self.config:
+            self.msg = "config not available in playbook for validation"
+            self.status = "success"
+            return self
+
+        pnp_spec = {
+            'template_name': {'required': True, 'type': 'str'},
+            'project_name': {'default': 'Onboarding Configuration', 'type': 'str'},
+            'site_name': {'required': True, 'type': 'str'},
+            'image_name': {'required': True, 'type': 'str'},
+            'golden_image': {'type': 'bool'},
+            'deviceInfo': {'required': True, 'type': 'str'},
+            'pnp_type': {'default': 'Default', 'type': 'str'},
+        }
+
+        # Validate pnp params
+        valid_pnp, invalid_params = validate_list_of_dicts(
+            self.config, pnp_spec
         )
 
-        if self.config:
-            msg = None
+        if invalid_params:
+            self.msg = "Invalid parameters in playbook:\n{}".format("\n".join(invalid_params))
+            self.status = "failed"
+            return self
 
-            # Validate template params
-            if self.log:
-                log(str(self.config))
-            valid_pnp, invalid_params = validate_list_of_dicts(
-                self.config, pnp_spec
-            )
-
-            if invalid_params:
-                msg = "Invalid parameters in playbook: {0}".format(
-                    "\n".join(invalid_params)
-                )
-                self.module.fail_json(msg=msg)
-
-            self.validated = valid_pnp
-
-            if self.log:
-                log(str(valid_pnp))
-                log(str(self.validated))
-
-    def get_dnac_params(self, params):
-        dnac_params = dict(
-            dnac_host=params.get("dnac_host"),
-            dnac_port=params.get("dnac_port"),
-            dnac_username=params.get("dnac_username"),
-            dnac_password=params.get("dnac_password"),
-            dnac_verify=params.get("dnac_verify"),
-            dnac_debug=params.get("dnac_debug"),
-            dnac_log=params.get("dnac_log")
-        )
-        return dnac_params
+        self.validated_config = valid_pnp
+        self.log(str(valid_pnp))
+        self.msg = "Successfully validated input"
+        self.status = "success"
+        return self
 
     def site_exists(self):
+        """Check whether the site exists or not"""
+
         site_exists = False
         site_id = None
         response = None
+
         try:
-            response = self.dnac._exec(
+            response = self.dnac_apply['exec'](
                 family="sites",
                 function='get_site',
                 params={"name": self.want.get("site_name")},
@@ -697,9 +672,7 @@ class DnacPnp:
             self.module.fail_json(msg="Site not found", response=[])
 
         if response:
-            if self.log:
-                log(str(response))
-
+            self.log(str(response))
             site = response.get("response")
             site_id = site[0].get("id")
             site_exists = True
@@ -707,81 +680,88 @@ class DnacPnp:
         return (site_exists, site_id)
 
     def get_pnp_params(self, params):
-        pnp_params = {}
-        pnp_params['_id'] = params.get('_id')
-        pnp_params['deviceInfo'] = params.get('deviceInfo')
-        pnp_params['runSummaryList'] = params.get('runSummaryList')
-        pnp_params['systemResetWorkflow'] = params.get('systemResetWorkflow')
-        pnp_params['systemWorkflow'] = params.get('systemWorkflow')
-        pnp_params['tenantId'] = params.get('tenantId')
-        pnp_params['version'] = params.get('device_version')
-        pnp_params['workflow'] = params.get('workflow')
-        pnp_params['workflowParameters'] = params.get('workflowParameters')
+        """Store pnp parameters from the playbook for pnp processing in DNAC"""
 
+        pnp_params = {
+            '_id': params.get('_id'),
+            'deviceInfo': params.get('deviceInfo'),
+            'runSummaryList': params.get('runSummaryList'),
+            'systemResetWorkflow': params.get('systemResetWorkflow'),
+            'systemWorkflow': params.get('systemWorkflow'),
+            'tenantId': params.get('tenantId'),
+            'version': params.get('device_version'),
+            'workflow': params.get('workflow'),
+            'workflowParameters': params.get('workflowParameters')
+        }
         return pnp_params
 
     def get_image_params(self, params):
-        image_params = dict(
-            image_name=params.get("image_name"),
-            is_tagged_golden=params.get("golden_image"),
-        )
+        """Get image name and the confirmation whether it's tagged golden or not"""
 
+        image_params = {
+            'image_name': params.get('image_name'),
+            'is_tagged_golden': params.get('golden_image')
+        }
         return image_params
 
     def get_claim_params(self):
-        imageinfo = dict(
-            imageId=self.have.get("image_id")
-        )
-        configinfo = dict(
-            configId=self.have.get("template_id"),
-            configParameters=[dict(
-                key="",
-                value=""
-            )]
-        )
-        claim_params = dict(
-            deviceId=self.have.get("device_id"),
-            siteId=self.have.get("site_id"),
-            type=self.want.get("pnp_type"),
-            hostname=self.want.get("hostname"),
-            imageInfo=imageinfo,
-            configInfo=configinfo,
-        )
+        """Get the paramters needed for claiming"""
+
+        imageinfo = {
+            'imageId': self.have.get('image_id')
+        }
+
+        configinfo = {
+            'configId': self.have.get('template_id'),
+            'configParameters': [
+                {
+                    'key': '',
+                    'value': ''
+                }
+            ]
+        }
+
+        claim_params = {
+            'deviceId': self.have.get('device_id'),
+            'siteId': self.have.get('site_id'),
+            'type': self.want.get('pnp_type'),
+            'hostname': self.want.get('hostname'),
+            'imageInfo': imageinfo,
+            'configInfo': configinfo,
+        }
 
         return claim_params
 
     def get_have(self):
-        have = {}
+        """Get the current image, template and site details from the DNAC"""
 
+        have = {}
         if self.params.get("state") == "merged":
             # check if given image exists, if exists store image_id
-            image_response = self.dnac._exec(
+            image_response = self.dnac_apply['exec'](
                 family="software_image_management_swim",
                 function='get_software_image_details',
                 params=self.want.get("image_params"),
             )
 
-            if self.log:
-                log(str(image_response))
+            self.log(str(image_response))
 
             image_list = image_response.get("response")
 
             if len(image_list) == 1:
                 have["image_id"] = image_list[0].get("imageUuid")
-                if self.log:
-                    log("Image Id: " + str(have["image_id"]))
+                self.log("Image Id: " + str(have["image_id"]))
             else:
                 self.module.fail_json(msg="Image not found", response=[])
 
             # check if given template exists, if exists store template id
-            template_list = self.dnac._exec(
+            template_list = self.dnac_apply['exec'](
                 family="configuration_templates",
                 function='gets_the_templates_available',
                 params={"project_names": self.want.get("project_name")},
             )
 
-            if self.log:
-                log(str(template_list))
+            self.log(str(template_list))
 
             if template_list and isinstance(template_list, list):
                 # API execution error returns a dict
@@ -789,8 +769,7 @@ class DnacPnp:
                 if template_details:
                     have["template_id"] = template_details.get("templateId")
 
-                    if self.log:
-                        log("Template Id: " + str(have["template_id"]))
+                    self.log("Template Id: " + str(have["template_id"]))
                 else:
                     self.module.fail_json(msg="Template not found", response=[])
             else:
@@ -804,52 +783,58 @@ class DnacPnp:
 
             if site_exists:
                 have["site_id"] = site_id
-                if self.log:
-                    log("Site Exists: " + str(site_exists) + "\n Site_id:" + str(site_id))
-                    log("Site Name:" + str(site_name))
+                self.log("Site Exists: " + str(site_exists) + "\n Site_id:" + str(site_id))
+                self.log("Site Name:" + str(site_name))
 
         # check if given device exists in pnp inventory, store device Id
-        device_response = self.dnac._exec(
+        device_response = self.dnac_apply['exec'](
             family="device_onboarding_pnp",
             function='get_device_list',
             params={"serial_number": self.want.get("serial_number")}
         )
 
-        if self.log:
-            log(str(device_response))
+        self.log(str(device_response))
 
         if device_response and (len(device_response) == 1):
             have["device_id"] = device_response[0].get("id")
             have["device_found"] = True
 
-            if self.log:
-                log("Device Id: " + str(have["device_id"]))
+            self.log("Device Id: " + str(have["device_id"]))
         else:
             have["device_found"] = False
-
+        self.msg = "Successfully collected all project and template \
+                    parameters from dnac for comparison"
+        self.status = "success"
         self.have = have
 
-    def get_want(self):
-        for params in self.validated:
-            want = dict(
-                image_params=self.get_image_params(params),
-                pnp_params=self.get_pnp_params(params),
-                pnp_type=params.get("pnp_type"),
-                site_name=params.get("site_name"),
-                serial_number=params.get("deviceInfo").get("serialNumber"),
-                hostname=params.get("deviceInfo").get("hostname"),
-                project_name=params.get("project_name"),
-                template_name=params.get("template_name")
-            )
+        return self
 
+    def get_want(self, config):
+        """Get all the image, site and pnp related information from playbook that is needed to be created in DNAC"""
+
+        want = {
+            'image_params': self.get_image_params(config),
+            'pnp_params': self.get_pnp_params(config),
+            'pnp_type': config.get('pnp_type'),
+            'site_name': config.get('site_name'),
+            'serial_number': config.get('deviceInfo').get('serialNumber'),
+            'hostname': config.get('deviceInfo').get('hostname'),
+            'project_name': config.get('project_name'),
+            'template_name': config.get('template_name')
+        }
         self.want = want
+        self.msg = "Successfully collected all parameters from playbook " + \
+            "for comparison"
+        self.status = "success"
 
-    def get_diff_merge(self):
+        return self
 
-        # if given device doesnot exist then add it to pnp database and get the device id
+    def get_diff_merged(self):
+        """If given device doesnot exist then add it to pnp database and get the device id"""
+
         if not self.have.get("device_found"):
-            log("Adding device to pnp database")
-            response = self.dnac._exec(
+            self.log("Adding device to pnp database")
+            response = self.dnac_apply['exec'](
                 family="device_onboarding_pnp",
                 function="add_device",
                 params=self.want.get("pnp_params"),
@@ -857,20 +842,18 @@ class DnacPnp:
             )
             self.have["device_id"] = response.get("id")
 
-            if self.log:
-                log(str(response))
-                log(self.have.get("device_id"))
+            self.log(str(response))
+            self.log(self.have.get("device_id"))
 
         claim_params = self.get_claim_params()
-        claim_response = self.dnac._exec(
+        claim_response = self.dnac_apply['exec'](
             family="device_onboarding_pnp",
             function='claim_a_device_to_a_site',
             op_modifies=True,
             params=claim_params,
         )
 
-        if self.log:
-            log(str(claim_response))
+        self.log(str(claim_response))
 
         if claim_response.get("response") == "Device Claimed":
             self.result['changed'] = True
@@ -880,19 +863,18 @@ class DnacPnp:
         else:
             self.module.fail_json(msg="Device Claim Failed", response=claim_response)
 
-    def get_diff_delete(self):
+    def get_diff_deleted(self):
         if self.have.get("device_found"):
 
             try:
-                response = self.dnac._exec(
+                response = self.dnac_apply['exec'](
                     family="device_onboarding_pnp",
                     function="delete_device_by_id_from_pnp",
                     op_modifies=True,
                     params={"id": self.have.get("device_id")},
                 )
 
-                if self.log:
-                    log(str(response))
+                self.log(str(response))
 
                 if response.get("deviceInfo").get("state") == "Deleted":
                     self.result['changed'] = True
@@ -913,40 +895,38 @@ class DnacPnp:
 
 
 def main():
-    """ main entry point for module execution
-    """
+    """ main entry point for module execution"""
 
-    element_spec = dict(
-        dnac_host=dict(required=True, type='str'),
-        dnac_port=dict(type='str', default='443'),
-        dnac_username=dict(type='str', default='admin', aliases=["user"]),
-        dnac_password=dict(type='str', no_log=True),
-        dnac_verify=dict(type='bool', default='True'),
-        dnac_version=dict(type="str", default="2.2.3.3"),
-        dnac_debug=dict(type='bool', default=False),
-        dnac_log=dict(type='bool', default=False),
-        validate_response_schema=dict(type="bool", default=True),
-        config=dict(required=True, type='list', elements='dict'),
-        state=dict(
-            default='merged',
-            choices=['merged', 'deleted']
-        )
-    )
+    element_spec = {'dnac_host': {'required': True, 'type': 'str'},
+                    'dnac_port': {'type': 'str', 'default': '443'},
+                    'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+                    'dnac_password': {'type': 'str', 'no_log': True},
+                    'dnac_verify': {'type': 'bool', 'default': 'True'},
+                    'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
+                    'dnac_debug': {'type': 'bool', 'default': False},
+                    'dnac_log': {'type': 'bool', 'default': False},
+                    'validate_response_schema': {'type': 'bool', 'default': True},
+                    'config': {'required': True, 'type': 'list', 'elements': 'dict'},
+                    'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
+                    }
 
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
     dnac_pnp = DnacPnp(module)
-    dnac_pnp.validate_input()
-    state = dnac_pnp.get_state()
 
-    dnac_pnp.get_want()
-    dnac_pnp.get_have()
+    state = dnac_pnp.params.get("state")
+    if state not in dnac_pnp.supported_states:
+        dnac_pnp.status = "invalid"
+        dnac_pnp.msg = "State {0} is invalid".format(state)
+        dnac_pnp.check_return_status()
 
-    if state == "merged":
-        dnac_pnp.get_diff_merge()
+    dnac_pnp.validate_input().check_return_status()
 
-    elif state == "deleted":
-        dnac_pnp.get_diff_delete()
+    for config in dnac_pnp.validated_config:
+        dnac_pnp.reset_values()
+        dnac_pnp.get_want(config).check_return_status()
+        dnac_pnp.get_have().check_return_status()
+        dnac_pnp.get_diff_state_apply[state]().check_return_status()
 
     module.exit_json(**dnac_pnp.result)
 
