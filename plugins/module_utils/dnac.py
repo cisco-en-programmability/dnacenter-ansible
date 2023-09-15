@@ -44,7 +44,13 @@ class DnacBase(ABC):
         self.dnac = DNACSDK(params=dnac_params)
         self.dnac_apply = {'exec': self.dnac._exec}
         self.get_diff_state_apply = {'merged': self.get_diff_merged,
-                                     'deleted': self.get_diff_deleted}
+                                     'deleted': self.get_diff_deleted,
+                                     'replaced': self.get_diff_replaced,
+                                     'overridden': self.get_diff_overridden,
+                                     'gathered': self.get_diff_gathered,
+                                     'rendered': self.get_diff_rendered,
+                                     'parsed': self.get_diff_parsed
+                                     }
         self.dnac_log = dnac_params.get("dnac_log")
         log(str(dnac_params))
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
@@ -52,10 +58,42 @@ class DnacBase(ABC):
 
     @abstractmethod
     def validate_input(self):
-        if not self.config:
-            self.msg = "config not available in playbook for validattion"
-            self.status = "success"
-            return self
+        pass
+
+    def get_diff_merged(self):
+        # Implement logic to merge the resource configuration
+        self.merged = True
+        return self
+
+    def get_diff_deleted(self):
+        # Implement logic to delete the resource
+        self.deleted = True
+        return self
+
+    def get_diff_replaced(self):
+        # Implement logic to replace the resource
+        self.replaced = True
+        return self
+
+    def get_diff_overridden(self):
+        # Implement logic to overwrite the resource
+        self.overridden = True
+        return self
+
+    def get_diff_gathered(self):
+        # Implement logic to gather data about the resource
+        self.gathered = True
+        return self
+
+    def get_diff_rendered(self):
+        # Implement logic to render a configuration template
+        self.rendered = True
+        return self
+
+    def get_diff_parsed(self):
+        # Implement logic to parse a configuration file
+        self.parsed = True
+        return True
 
     def log(self, message, frameIncrement=0):
         """Log messages into dnac.log file"""
@@ -67,7 +105,7 @@ class DnacBase(ABC):
     def check_return_status(self):
         """API to check the return status value and exit/fail the module"""
 
-        log("status: {0}, msg:{1}".format(self.status, self.msg), frameIncrement=1)
+        self.log("status: {0}, msg:{1}".format(self.status, self.msg), frameIncrement=1)
         if "failed" in self.status:
             self.module.fail_json(msg=self.msg, response=[])
         elif "exited" in self.status:
@@ -98,7 +136,7 @@ class DnacBase(ABC):
             params={"task_id": task_id},
         )
 
-        log(str(response))
+        self.log(str(response))
         if isinstance(response, dict):
             result = response.get("response")
 
@@ -214,6 +252,27 @@ def dnac_argument_spec():
 
 
 def validate_str(item, param_spec, param_name, invalid_params):
+    """
+    This function checks that the input `item` is a valid string and confirms to
+    the constraints specified in `param_spec`. If the string is not valid or does
+    not meet the constraints, an error message is added to `invalid_params`.
+
+    Args:
+        item (str): The input string to be validated.
+        param_spec (dict): The parameter's specification, including validation constraints.
+        param_name (str): The name of the parameter being validated.
+        invalid_params (list): A list to collect validation error messages.
+
+    Returns:
+        str: The validated and possibly normalized string.
+
+    Example `param_spec`:
+        {
+            "type": "str",
+            "length_max": 255  # Optional: maximum allowed length
+        }
+    """
+
     item = validation.check_type_str(item)
     if param_spec.get("length_max"):
         if 1 <= len(item) <= param_spec.get("length_max"):
@@ -221,14 +280,34 @@ def validate_str(item, param_spec, param_name, invalid_params):
         else:
             invalid_params.append(
                 "{0}:{1} : The string exceeds the allowed "
-                "range of max {2} char".format(
-                    param_name, item, param_spec.get("length_max")
-                )
+                "range of max {2} char".format(param_name, item, param_spec.get("length_max"))
             )
     return item
 
 
 def validate_int(item, param_spec, param_name, invalid_params):
+    """
+    This function checks that the input `item` is a valid integer and conforms to
+    the constraints specified in `param_spec`. If the integer is not valid or does
+    not meet the constraints, an error message is added to `invalid_params`.
+
+    Args:
+        item (int): The input integer to be validated.
+        param_spec (dict): The parameter's specification, including validation constraints.
+        param_name (str): The name of the parameter being validated.
+        invalid_params (list): A list to collect validation error messages.
+
+    Returns:
+        int: The validated integer.
+
+    Example `param_spec`:
+        {
+            "type": "int",
+            "range_min": 1,     # Optional: minimum allowed value
+            "range_max": 100    # Optional: maximum allowed value
+        }
+    """
+
     item = validation.check_type_int(item)
     min_value = 1
     if param_spec.get("range_min") is not None:
@@ -239,49 +318,71 @@ def validate_int(item, param_spec, param_name, invalid_params):
         else:
             invalid_params.append(
                 "{0}:{1} : The item exceeds the allowed "
-                "range of max {2}".format(
-                    param_name, item, param_spec.get("range_max")
-                )
+                "range of max {2}".format(param_name, item, param_spec.get("range_max"))
             )
     return item
 
 
 def validate_bool(item, param_spec, param_name, invalid_params):
+    """
+    This function checks that the input `item` is a valid boolean value. If it does
+    not represent a valid boolean value, an error message is added to `invalid_params`.
+
+    Args:
+        item (bool): The input boolean value to be validated.
+        param_spec (dict): The parameter's specification, including validation constraints.
+        param_name (str): The name of the parameter being validated.
+        invalid_params (list): A list to collect validation error messages.
+
+    Returns:
+        bool: The validated boolean value.
+    """
+
     return validation.check_type_bool(item)
 
 
 def validate_list(item, param_spec, param_name, invalid_params):
+    """
+    This function checks if the input `item` is a valid list based on the specified `param_spec`.
+    It also verifies that the elements of the list match the expected data type specified in the
+    `param_spec`. If any validation errors occur, they are appended to the `invalid_params` list.
+
+    Args:
+        item (list): The input list to be validated.
+        param_spec (dict): The parameter's specification, including validation constraints.
+        param_name (str): The name of the parameter being validated.
+        invalid_params (list): A list to collect validation error messages.
+
+    Returns:
+        list: The validated list, potentially normalized based on the specification.
+    """
+
     try:
         if param_spec.get("type") == type(item).__name__:
-            if param_spec:
-                keys_list = []
-                for dict_key in param_spec:
-                    keys_list.append(dict_key)
-                if len(keys_list) == 1:
-                    return validation.check_type_list(item)
-                else:
-                    temp_dict = {keys_list[1]: param_spec[keys_list[1]]}
-                    try:
-                        if param_spec['elements']:
-                            get_spec_type = param_spec['type']
-                            get_spec_element = param_spec['elements']
-                            if type(item).__name__ == get_spec_type:
-                                for element in item:
-                                    if type(element).__name__ != get_spec_element:
-                                        invalid_params.append(
-                                            "{0} is not of the same datatype as expected which is {1}".format(
-                                                element, get_spec_element
-                                            )
-                                        )
-                            else:
+            keys_list = []
+            for dict_key in param_spec:
+                keys_list.append(dict_key)
+            if len(keys_list) == 1:
+                return validation.check_type_list(item)
+
+            temp_dict = {keys_list[1]: param_spec[keys_list[1]]}
+            try:
+                if param_spec['elements']:
+                    get_spec_type = param_spec['type']
+                    get_spec_element = param_spec['elements']
+                    if type(item).__name__ == get_spec_type:
+                        for element in item:
+                            if type(element).__name__ != get_spec_element:
                                 invalid_params.append(
-                                    "{0} is not of the same datatype as expected which is {1}".format(
-                                        item, get_spec_type
-                                    )
+                                    "{0} is not of the same datatype as expected which is {1}".format(element, get_spec_element)
                                 )
-                    except Exception as e:
-                        item, list_invalid_params = validate_list_of_dicts(item, temp_dict)
-                        invalid_params.extend(list_invalid_params)
+                    else:
+                        invalid_params.append(
+                            "{0} is not of the same datatype as expected which is {1}".format(item, get_spec_type)
+                        )
+            except Exception as e:
+                item, list_invalid_params = validate_list_of_dicts(item, temp_dict)
+                invalid_params.extend(list_invalid_params)
         else:
             invalid_params.append("{0} : is not a valid list".format(item))
     except Exception as e:
@@ -291,6 +392,21 @@ def validate_list(item, param_spec, param_name, invalid_params):
 
 
 def validate_dict(item, param_spec, param_name, invalid_params):
+    """
+    This function checks if the input `item` is a valid dictionary based on the specified `param_spec`.
+    If the dictionary does not match the expected data type specified in the `param_spec`,
+    a validation error is appended to the `invalid_params` list.
+
+    Args:
+        item (dict): The input dictionary to be validated.
+        param_spec (dict): The parameter's specification, including validation constraints.
+        param_name (str): The name of the parameter being validated.
+        invalid_params (list): A list to collect validation error messages.
+
+    Returns:
+        dict: The validated dictionary.
+    """
+
     if param_spec.get("type") != type(item).__name__:
         invalid_params.append("{0} : is not a valid dictionary".format(item))
     return validation.check_type_dict(item)
