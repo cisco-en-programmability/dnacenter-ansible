@@ -545,6 +545,8 @@ class DnacSite(DnacBase):
         else:
             self.module.fail_json(msg="Site Not Found", response=[])
 
+        return self
+
 
 def main():
     """ main entry point for module execution
