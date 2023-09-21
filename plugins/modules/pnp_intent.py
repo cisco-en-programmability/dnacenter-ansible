@@ -649,7 +649,8 @@ class DnacPnp(DnacBase):
         )
 
         if invalid_params:
-            self.msg = "Invalid parameters in playbook:\n{}".format("\n".join(invalid_params))
+            self.msg = "Invalid parameters in playbook: {0}".format(
+                "\n".join(invalid_params))
             self.status = "failed"
             return self
 
