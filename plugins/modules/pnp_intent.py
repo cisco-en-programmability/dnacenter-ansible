@@ -622,7 +622,10 @@ class DnacPnp(DnacBase):
         super().__init__(module)
 
     def validate_input(self):
-        """Validate the fields provided in the playbook"""
+
+        """
+        Validate the fields provided in the playbook
+        """
 
         if not self.config:
             self.msg = "config not available in playbook for validation"
@@ -657,7 +660,10 @@ class DnacPnp(DnacBase):
         return self
 
     def site_exists(self):
-        """Check whether the site exists or not"""
+
+        """
+        Check whether the site exists or not
+        """
 
         site_exists = False
         site_id = None
@@ -681,7 +687,10 @@ class DnacPnp(DnacBase):
         return (site_exists, site_id)
 
     def get_pnp_params(self, params):
-        """Store pnp parameters from the playbook for pnp processing in DNAC"""
+
+        """
+        Store pnp parameters from the playbook for pnp processing in DNAC
+        """
 
         pnp_params = {
             '_id': params.get('_id'),
@@ -697,7 +706,10 @@ class DnacPnp(DnacBase):
         return pnp_params
 
     def get_image_params(self, params):
-        """Get image name and the confirmation whether it's tagged golden or not"""
+
+        """
+        Get image name and the confirmation whether it's tagged golden or not
+        """
 
         image_params = {
             'image_name': params.get('image_name'),
@@ -706,7 +718,10 @@ class DnacPnp(DnacBase):
         return image_params
 
     def get_claim_params(self):
-        """Get the paramters needed for claiming"""
+
+        """
+        Get the paramters needed for claiming
+        """
 
         imageinfo = {
             'imageId': self.have.get('image_id')
@@ -734,7 +749,10 @@ class DnacPnp(DnacBase):
         return claim_params
 
     def get_have(self):
-        """Get the current image, template and site details from the DNAC"""
+
+        """
+        Get the current image, template and site details from the DNAC
+        """
 
         have = {}
         if self.params.get("state") == "merged":
@@ -812,8 +830,11 @@ class DnacPnp(DnacBase):
         return self
 
     def get_want(self, config):
-        """Get all the image, site and pnp related
-        information from playbook that is needed to be created in DNAC"""
+
+        """
+        Get all the image, site and pnp related
+        information from playbook that is needed to be created in DNAC
+        """
 
         self.want = {
             'image_params': self.get_image_params(config),
@@ -833,7 +854,11 @@ class DnacPnp(DnacBase):
         return self
 
     def get_diff_merged(self):
-        """If given device doesnot exist then add it to pnp database and get the device id"""
+
+        """
+        If given device doesnot exist
+        then add it to pnp database and get the device id
+        """
 
         if not self.have.get("device_found"):
             self.log("Adding device to pnp database")
@@ -902,7 +927,10 @@ class DnacPnp(DnacBase):
 
 
 def main():
-    """ main entry point for module execution"""
+
+    """
+    main entry point for module execution
+    """
 
     element_spec = {'dnac_host': {'required': True, 'type': 'str'},
                     'dnac_port': {'type': 'str', 'default': '443'},
