@@ -435,11 +435,10 @@ class DnacSite(DnacBase):
 
         want = {}
 
-        for site in self.validated_config:
-            want = dict(
-                site_params=self.get_site_params(site),
-                site_name=self.get_site_name(site),
-            )
+        want = dict(
+            site_params=self.get_site_params(config),
+            site_name=self.get_site_name(config),
+        )
 
         self.want = want
 
@@ -515,7 +514,7 @@ class DnacSite(DnacBase):
 
         return self
 
-    def get_diff_deleted(self):
+    def get_diff_deleted(self, config):
         """Call DNAC API to delete sites with provided inputs"""
 
         site_exists = self.have.get("site_exists")
