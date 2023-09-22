@@ -14,7 +14,7 @@ else:
     DNAC_SDK_IS_INSTALLED = True
 from ansible.module_utils._text import to_native
 from ansible.module_utils.common import validation
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 try:
     import logging
 except ImportError:
@@ -27,9 +27,11 @@ import datetime
 import inspect
 
 
-class DnacBase(ABC):
+class DnacBase():
 
     """Class contains members which can be reused for all intent modules"""
+
+    __metaclass__ = ABCMeta
 
     def __init__(self, module):
         self.module = module
