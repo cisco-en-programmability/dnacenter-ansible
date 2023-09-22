@@ -215,7 +215,6 @@ response_4:
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    DNACSDK,
     validate_list_of_dicts,
     log,
     get_dict_result,
