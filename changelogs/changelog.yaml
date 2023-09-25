@@ -705,7 +705,7 @@ releases:
         minor_changes:
         - Updated test/sanity and remove unnecessary
     6.7.5:
-      release_date: "2023-09-14"
+      release_date: "2023-09-25"
       changes:
         release_summary: Updated different function names.
         bugfixes:
