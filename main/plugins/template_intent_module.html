@@ -474,7 +474,7 @@
 <h1>cisco.dnac.template_intent module – Resource module for Template functions<a class="headerlink" href="#cisco-dnac-template-intent-module-resource-module-for-template-functions" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.7.4).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.7.5).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-template-intent-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -573,7 +573,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-template
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/deviceTypes"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-devicetypes"><strong>deviceTypes</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/deviceTypes" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Create’s deviceTypes.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>deviceTypes on which templates would be applied.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -624,90 +624,97 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-template
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/projectName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-projectname"><strong>projectName</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/containingTemplates/projectName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/projectDescription"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-projectdescription"><strong>projectDescription</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/containingTemplates/projectDescription" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Project name.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Description of the project created.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/projectName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-projectname"><strong>projectName</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/containingTemplates/projectName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the project under which templates are managed.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams"><strong>rollbackTemplateParams</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Create’s rollbackTemplateParams.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Params required for template rollback.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/binding"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-binding"><strong>binding</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/binding" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Bind to source.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/customOrder"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-customorder"><strong>customOrder</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/customOrder" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>CustomOrder of template param.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/dataType"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-datatype"><strong>dataType</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/dataType" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Datatype of template param.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/defaultValue"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-defaultvalue"><strong>defaultValue</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/defaultValue" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Default value of template param.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-description"><strong>description</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Description of template param.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/displayName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-displayname"><strong>displayName</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/displayName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Display name of param.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/group"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-group"><strong>group</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/group" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Group.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-id"><strong>id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>UUID of template param.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/instructionText"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-instructiontext"><strong>instructionText</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/instructionText" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Instruction text for param.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/key"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-key"><strong>key</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/key" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Key.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/notParam"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-notparam"><strong>notParam</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/notParam" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -719,14 +726,14 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-template
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/order"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-order"><strong>order</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/order" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Order of template param.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/paramArray"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-paramarray"><strong>paramArray</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/paramArray" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -738,49 +745,49 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-template
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/parameterName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-parametername"><strong>parameterName</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/parameterName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of template param.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/provider"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-provider"><strong>provider</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/provider" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Provider.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/range"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-range"><strong>range</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/range" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Create’s range.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/range/id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-range-id"><strong>id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/range/id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>UUID of range.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/range/maxValue"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-range-maxvalue"><strong>maxValue</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/range/maxValue" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Max value of range.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/range/minValue"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-range-minvalue"><strong>minValue</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/range/minValue" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Min value of range.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/required"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-required"><strong>required</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/required" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -792,147 +799,147 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-template
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/selection"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-selection"><strong>selection</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/selection" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Create’s selection.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/selection/defaultSelectedValues"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-selection-defaultselectedvalues"><strong>defaultSelectedValues</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/selection/defaultSelectedValues" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Default selection values.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/selection/id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-selection-id"><strong>id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/selection/id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>UUID of selection.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/selection/selectionType"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-selection-selectiontype"><strong>selectionType</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/selection/selectionType" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Type of selection(SINGLE_SELECT or MULTI_SELECT).</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/rollbackTemplateParams/selection/selectionValues"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-rollbacktemplateparams-selection-selectionvalues"><strong>selectionValues</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/rollbackTemplateParams/selection/selectionValues" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Selection values.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/tags"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-tags"><strong>tags</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/tags" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Create’s tags.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/tags/id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-tags-id"><strong>id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/tags/id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>UUID of tag.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/tags/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-tags-name"><strong>name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/tags/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of tag.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateContent"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templatecontent"><strong>templateContent</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateContent" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Template content.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams"><strong>templateParams</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Create’s templateParams.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/binding"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-binding"><strong>binding</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/binding" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Bind to source.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/customOrder"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-customorder"><strong>customOrder</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/customOrder" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>CustomOrder of template param.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/dataType"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-datatype"><strong>dataType</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/dataType" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Datatype of template param.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/defaultValue"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-defaultvalue"><strong>defaultValue</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/defaultValue" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Default value of template param.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-description"><strong>description</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Description of template param.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/displayName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-displayname"><strong>displayName</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/displayName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Display name of param.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/group"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-group"><strong>group</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/group" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Group.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-id"><strong>id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>UUID of template param.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/instructionText"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-instructiontext"><strong>instructionText</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/instructionText" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Instruction text for param.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/key"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-key"><strong>key</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/key" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Key.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/notParam"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-notparam"><strong>notParam</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/notParam" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -944,14 +951,14 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-template
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/order"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-order"><strong>order</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/order" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Order of template param.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/paramArray"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-paramarray"><strong>paramArray</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/paramArray" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -963,49 +970,49 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-template
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/parameterName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-parametername"><strong>parameterName</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/parameterName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of template param.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/provider"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-provider"><strong>provider</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/provider" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Provider.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/range"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-range"><strong>range</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/range" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Create’s range.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/range/id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-range-id"><strong>id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/range/id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>UUID of range.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/range/maxValue"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-range-maxvalue"><strong>maxValue</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/range/maxValue" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Max value of range.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/range/minValue"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-range-minvalue"><strong>minValue</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/range/minValue" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Min value of range.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/required"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-required"><strong>required</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/required" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1017,56 +1024,56 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-template
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/selection"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-selection"><strong>selection</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/selection" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Create’s selection.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/selection/defaultSelectedValues"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-selection-defaultselectedvalues"><strong>defaultSelectedValues</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/selection/defaultSelectedValues" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Default selection values.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/selection/id"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-selection-id"><strong>id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/selection/id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>UUID of selection.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/selection/selectionType"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-selection-selectiontype"><strong>selectionType</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/selection/selectionType" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Type of selection(SINGLE_SELECT or MULTI_SELECT).</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/templateParams/selection/selectionValues"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-templateparams-selection-selectionvalues"><strong>selectionValues</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/templateParams/selection/selectionValues" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Selection values.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/containingTemplates/version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-containingtemplates-version"><strong>version</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/containingTemplates/version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Current version of template.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/createTime"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-createtime"><strong>createTime</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/createTime" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Create time of template.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/customParamsOrder"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-customparamsorder"><strong>customParamsOrder</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/customParamsOrder" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1078,42 +1085,42 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-template
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/deviceTypes"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-devicetypes"><strong>deviceTypes</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/deviceTypes" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Create’s deviceTypes.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configuration Template Create’s deviceTypes. This field is mandatory to create a new template.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/deviceTypes/productFamily"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-devicetypes-productfamily"><strong>productFamily</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/deviceTypes/productFamily" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device family.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/deviceTypes/productSeries"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-devicetypes-productseries"><strong>productSeries</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/deviceTypes/productSeries" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device series.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/deviceTypes/productType"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-devicetypes-producttype"><strong>productType</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/deviceTypes/productType" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device type.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/failurePolicy"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-failurepolicy"><strong>failurePolicy</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/failurePolicy" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Define failure policy if template provisioning fails.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/language"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-language"><strong>language</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/language" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1125,25 +1132,32 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-template
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/lastUpdateTime"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-lastupdatetime"><strong>lastUpdateTime</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/lastUpdateTime" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Update time of template.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/latestVersionTime"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-latestversiontime"><strong>latestVersionTime</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/latestVersionTime" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Latest versioned template time.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/parentTemplateId"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-parenttemplateid"><strong>parentTemplateId</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/parentTemplateId" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Parent templateID.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/projectDescription"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-projectdescription"><strong>projectDescription</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/projectDescription" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Project Description.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1368,7 +1382,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-template
 <div class="ansibleOptionAnchor" id="parameter-config/softwareType"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-softwaretype"><strong>softwareType</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/softwareType" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Applicable device software type.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Applicable device software type. This field is mandatory to create a new template.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1424,7 +1438,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-template
 <div class="ansibleOptionAnchor" id="parameter-config/templateName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-template-intent-module-parameter-config-templatename"><strong>templateName</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/templateName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of template.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of template. This field is mandatory to create a new template.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1821,6 +1835,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-template
 <span class="w">        </span><span class="nt">parentTemplateId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">        </span><span class="nt">projectId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">        </span><span class="nt">projectName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">projectDescription</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">        </span><span class="nt">rollbackTemplateContent</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">        </span><span class="nt">softwareType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">        </span><span class="nt">softwareVariant</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
