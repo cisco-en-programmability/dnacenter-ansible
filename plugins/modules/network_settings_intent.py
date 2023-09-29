@@ -790,7 +790,8 @@ class DnacNetwork(DnacBase):
         network_aaa = get_dict_result(all_network_details, "key", "aaa.network.server.1")
         network_aaa_pan = get_dict_result(all_network_details, "key", "aaa.server.pan.network")
         clientAndEndpoint_aaa = get_dict_result(all_network_details, "key", "aaa.endpoint.server.1")
-        clientAndEndpoint_aaa_pan = get_dict_result(all_network_details, "key", "aaa.server.pan.endpoint")
+        clientAndEndpoint_aaa_pan = \
+            get_dict_result(all_network_details, "key", "aaa.server.pan.endpoint")
 
         network_details = {
             "settings": {
@@ -962,7 +963,7 @@ class DnacNetwork(DnacBase):
         Returns:
             self
         """
-       
+
         global_pool = {
             "exists": False,
             "details": None,
@@ -1612,7 +1613,7 @@ class DnacNetwork(DnacBase):
             result_global_pool.get("msg") \
                 .update({name: "Global pool doesn't require an update"})
             self.log(str(self.result))
-            return 
+            return
 
         self.log("Pool requires update")
         #Pool Exists
@@ -1685,7 +1686,7 @@ class DnacNetwork(DnacBase):
                 .update({"reservePool Details": self.want.get("wantReserve")})
             result_reserve_pool.get("msg") \
                 .update({name: "Ip Subpool Reservation Created Successfully"})
-            return 
+            return
 
         #Check update is required
         obj_params = [
