@@ -105,8 +105,9 @@ options:
             description: IPv4 total host is required when ipv4prefix value is false.
             type: int
           ipv6AddressSpace:
-            description: If the value is false only ipv4 input are required, otherwise both
-            ipv6 and ipv4 are required.
+            description: >
+                If the value is false only ipv4 input are required, otherwise both
+                ipv6 and ipv4 are required.
             type: bool
           ipv6DhcpServers:
             description: IPv6 format dhcp server as input example 2001 db8 1234.
