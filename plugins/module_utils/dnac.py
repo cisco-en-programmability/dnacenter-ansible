@@ -169,7 +169,6 @@ class DnacBase():
         self.log("Response for the current execution" + str(response))
         return response
 
-
     def check_execution_response_status(self, response):
         """
         Checks the reponse status provided by API in the DNAC
@@ -189,7 +188,7 @@ class DnacBase():
 
         if not isinstance(response, dict):
             self.msg ="response is not a dictionary"
-            self.status = "failed"
+            self.status="failed"
             return self
 
         executionid = response.get("executionId")
