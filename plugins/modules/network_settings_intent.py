@@ -151,9 +151,6 @@ options:
           slaacSupport:
               description: Slaac Support.
               type: bool
-          type:
-              description: Type of the reserve ip sub pool.
-              type: str
       NetworkManagementDetails:
         description: Set default network settings for the site
         type: dict
