@@ -439,7 +439,7 @@ class DnacNetwork(DnacBase):
             "GlobalPoolDetails": {
                 "type": 'dict',
                 "settings": {
-                    "type":'dict',
+                    "type": 'dict',
                     "ippool": {
                         "type": 'list',
                         "IpAddressSpace": {"type": 'string'},
@@ -740,7 +740,7 @@ class DnacNetwork(DnacBase):
 
     def get_network_params(self, site_id):
         """Store Network parameters from the playbook for Network processing in DNAC
-        
+
         Parameters:
             site_id - Site id
 
@@ -793,7 +793,7 @@ class DnacNetwork(DnacBase):
         }
         network_settings = network_details.get("settings")
         if dhcp_details is not None:
-            network_settings.update({"dhcpServer":  dhcp_details.get("value")})
+            network_settings.update({"dhcpServer": dhcp_details.get("value")})
 
         if dns_details is not None:
             network_settings.update({"dnsServer": {
@@ -833,7 +833,6 @@ class DnacNetwork(DnacBase):
                     })
         self.log(str(network_details))
         return network_details
-
 
     def global_pool_exists(self, name):
         """Check if the Global Pool exists or not
@@ -879,7 +878,7 @@ class DnacNetwork(DnacBase):
     def reserve_pool_exists(self, name, site_name):
         """
         Check if the Reserved pool exists or not
-    
+
         Parameters:
             name - Reserved pool name
             site_name - Site name
@@ -899,14 +898,14 @@ class DnacNetwork(DnacBase):
 
         site_id = self.get_site_id(site_name)
         if not site_id:
-            self.msg="Failed to get the site id from the site name {0}".format(site_name)
+            self.msg = "Failed to get the site id from the site name {0}".format(site_name)
             self.status = "failed"
             return self.check_return_status()
 
         response = self.dnac._exec(
             family="network_settings",
             function="get_reserve_ip_subpool",
-            params={"siteId":site_id}
+            params = {"siteId":site_id}
         )
         if not isinstance(response, dict):
             self.log("Error in getting reserve pool - Response is not a dictionary")
@@ -973,18 +972,17 @@ class DnacNetwork(DnacBase):
 
         self.log("pool Exists: " + str(global_pool.get("exists")) + \
                     "\n Current Site: " + str(global_pool.get("details")))
-        self.have.update({"globalPool" : global_pool})
+        self.have.update({"globalPool": global_pool})
         self.msg = "Collecting the global pool details from the DNAC"
         self.status = "success"
         return self
-
 
     def get_have_reserve_pool(self, config):
         """
         Get the current Reserved Pool from DNAC
 
         Parameters:
-            config - Playbook details 
+            config - Playbook details
 
         Returns:
             self
@@ -1195,14 +1193,14 @@ class DnacNetwork(DnacBase):
             "ipv6TotalHost": reserve_pool.get("ipv6TotalHost")
         }
         if not want_reserve.get("name"):
-            self.msg="missing parameter name in ReservePoolDetails"
+            self.msg = "missing parameter name in ReservePoolDetails"
             self.status = "failed"
             return self
 
         if want_reserve.get("ipv4Prefix") is True:
             if want_reserve.get("ipv4Subnet") is None and \
                 want_reserve.get("ipv4TotalHost") is None:
-                self.msg="missing parameter ipv4Subnet or ipv4TotalHost \
+                self.msg = "missing parameter ipv4Subnet or ipv4TotalHost \
                     while adding the ipv4 in ReservePoolDetails"
                 self.status = "failed"
                 return self
@@ -1210,7 +1208,7 @@ class DnacNetwork(DnacBase):
         if want_reserve.get("ipv6Prefix") is True:
             if want_reserve.get("ipv6Subnet") is None and \
                 want_reserve.get("ipv6TotalHost") is None:
-                self.msg="missing parameter ipv6Subnet or ipv6TotalHost \
+                self.msg = "missing parameter ipv6Subnet or ipv6TotalHost \
                     while adding the ipv6 in ReservePoolDetails"
                 self.status = "failed"
                 return self
@@ -1218,12 +1216,12 @@ class DnacNetwork(DnacBase):
         self.log("Reserve IP Pool Playbook Details " + str(want_reserve))
         if not self.have.get("reservePool").get("details"):
             if not want_reserve.get("ipv4GlobalPool"):
-                self.msg="missing parameter ipv4GlobalPool in ReservePoolDetails"
+                self.msg = "missing parameter ipv4GlobalPool in ReservePoolDetails"
                 self.status = "failed"
                 return self
 
             if not want_reserve.get("ipv4PrefixLength"):
-                self.msg="missing parameter ipv4PrefixLength in ReservePoolDetails"
+                self.msg = "missing parameter ipv4PrefixLength in ReservePoolDetails"
                 self.status = "failed"
                 return self
 
@@ -1320,7 +1318,7 @@ class DnacNetwork(DnacBase):
             want_network_settings["timezone"] = \
                 network_management_details.get("timezone")
         else:
-            self.msg="missing parameter timezone in network"
+            self.msg = "missing parameter timezone in network"
             self.status = "failed"
             return self
 
@@ -1424,7 +1422,7 @@ class DnacNetwork(DnacBase):
                     "network": network_management_details.get("network_aaa").get("network")
                     })
             else:
-                self.msg="missing parameter network in network_aaa"
+                self.msg = "missing parameter network in network_aaa"
                 self.status = "failed"
                 return self
 
@@ -1434,7 +1432,7 @@ class DnacNetwork(DnacBase):
                         .get("network_aaa").get("protocol")
                     })
             else:
-                self.msg="missing parameter protocol in network_aaa"
+                self.msg = "missing parameter protocol in network_aaa"
                 self.status = "failed"
                 return self
 
@@ -1444,7 +1442,7 @@ class DnacNetwork(DnacBase):
                         .get("network_aaa").get("servers")
                     })
             else:
-                self.msg="missing parameter servers in network_aaa"
+                self.msg = "missing parameter servers in network_aaa"
                 self.status = "failed"
                 return self
 
@@ -1466,7 +1464,7 @@ class DnacNetwork(DnacBase):
                 if network_management_details \
                     .get("clientAndEndpoint_aaa").get("servers") == "ISE":
 
-                    self. msg="missing parameter ipAddress in clientAndEndpoint_aaa, \
+                    self.msg = "missing parameter ipAddress in clientAndEndpoint_aaa, \
                         server ISE is set"
                     self.status = "failed"
                     return self
@@ -1477,7 +1475,7 @@ class DnacNetwork(DnacBase):
                         .get("clientAndEndpoint_aaa").get("network")
                     })
             else:
-                self.msg="missing parameter network in clientAndEndpoint_aaa"
+                self.msg = "missing parameter network in clientAndEndpoint_aaa"
                 self.status = "failed"
                 return self
 
@@ -1487,7 +1485,7 @@ class DnacNetwork(DnacBase):
                         .get("clientAndEndpoint_aaa").get("protocol")
                     })
             else:
-                self.msg="missing parameter protocol in clientAndEndpoint_aaa"
+                self.msg = "missing parameter protocol in clientAndEndpoint_aaa"
                 self.status = "failed"
                 return self
 
@@ -1497,7 +1495,7 @@ class DnacNetwork(DnacBase):
                         .get("clientAndEndpoint_aaa").get("servers")
                     })
             else:
-                self.msg="missing parameter servers in clientAndEndpoint_aaa"
+                self.msg = "missing parameter servers in clientAndEndpoint_aaa"
                 self.status = "failed"
                 return self
 
@@ -1771,7 +1769,7 @@ class DnacNetwork(DnacBase):
 
     def get_diff_merged(self, config):
         """
-        Update/Create Global Pool Reserve Pool and 
+        Update/Create Global Pool Reserve Pool and
         Network in DNAC with fields provided in DNAC
 
         Parameters:
