@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2023, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 """Ansible module to perform operations on global pool, reserve pool and network in DNAC."""
 from __future__ import absolute_import, division, print_function
 
@@ -16,7 +17,7 @@ description:
 - Manage operations on Global Pool, Reserve Pool, Network resources.
 - API to create/update/delete global pool.
 - API to reserve/update/delete an ip subpool from the global pool.
-- API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA, 
+- API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA,
   and/or DNS center server settings.
 version_added: '6.6.0'
 extends_documentation_fragment:
@@ -338,7 +339,7 @@ EXAMPLES = r"""
             secondaryIpAddress: string
           clientAndEndpoint_aaa:
             network: string
-            protocol: string                 
+            protocol: string
             servers: string
           messageOfTheday:
             bannerMessage: string
@@ -409,14 +410,15 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     dnac_compare_equality,
 )
 
+
 class DnacNetwork(DnacBase):
     """Class containing member attributes for network intent module"""
 
     def __init__(self, module):
         super().__init__(module)
-        self.result.get("response").append({"globalPool":{'response':{}, 'msg':{}}})
-        self.result.get("response").append({"reservePool":{'response':{}, 'msg':{}}})
-        self.result.get("response").append({"network": {'response':{}, 'msg':{}}})
+        self.result.get("response").append({"globalPool": {'response': {}, 'msg': {}}})
+        self.result.get("response").append({"reservePool": {'response': {}, 'msg': {}}})
+        self.result.get("response").append({"network": {'response': {}, 'msg': {}}})
 
     def validate_input(self):
         """
@@ -427,7 +429,7 @@ class DnacNetwork(DnacBase):
 
         Returns:
             self
-            
+
         """
 
         if not self.config:
@@ -441,89 +443,89 @@ class DnacNetwork(DnacBase):
                 "settings": {
                     "type":'dict',
                     "ippool": {
-                        "type"          : 'list',
+                        "type": 'list',
                         "IpAddressSpace": {"type": 'string'},
-                        "dhcpServerIps" : {"type": 'list'},
-                        "dnsServerIps"  : {"type": 'list'},
-                        "gateway"       : {"type": 'string'},
-                        "ipPoolCidr"    : {"type": 'string'},
-                        "ipPoolName"    : {"type": 'string'},
-                        "prevName"      : {"type": 'string'}, 
+                        "dhcpServerIps": {"type": 'list'},
+                        "dnsServerIps" : {"type": 'list'},
+                        "gateway": {"type": 'string'},
+                        "ipPoolCidr": {"type": 'string'},
+                        "ipPoolName": {"type": 'string'},
+                        "prevName": {"type": 'string'},
                         }
 
                     }
             },
             "ReservePoolDetails": {
-                "type"            : 'dict',
-                "name"            : {"type": 'string'},
-                "prevName"        : {"type": 'string'},
+                "type": 'dict',
+                "name": {"type": 'string'},
+                "prevName": {"type": 'string'},
                 "ipv6AddressSpace": {"type": 'bool'},
-                "ipv4GlobalPool"  : {"type": 'string'},
-                "ipv4Prefix"      : {"type": 'bool'},
+                "ipv4GlobalPool": {"type": 'string'},
+                "ipv4Prefix": {"type": 'bool'},
                 "ipv4PrefixLength": {"type": 'string'},
-                "ipv4Subnet"      : {"type": 'string'},
-                "ipv4GateWay"     : {"type": 'string'},
-                "ipv4DhcpServers" : {"type": 'list'},
-                "ipv4DnsServers"  : {"type": 'list'},
-                "ipv6GlobalPool"  : {"type": 'string'},
-                "ipv6Prefix"      : {"type": 'bool'},
+                "ipv4Subnet": {"type": 'string'},
+                "ipv4GateWay": {"type": 'string'},
+                "ipv4DhcpServers": {"type": 'list'},
+                "ipv4DnsServers": {"type": 'list'},
+                "ipv6GlobalPool": {"type": 'string'},
+                "ipv6Prefix": {"type": 'bool'},
                 "ipv6PrefixLength": {"type": 'integer'},
-                "ipv6Subnet"      : {"type": 'string'},
-                "ipv6GateWay"     : {"type": 'string'},
-                "ipv6DhcpServers" : {"type": 'list'},
-                "ipv6DnsServers"  : {"type": 'list'},
-                "ipv4TotalHost"   : {"type": 'integer'},
-                "ipv6TotalHost"   : {"type": 'integer'},
-                "slaacSupport"    : {"type": 'bool'},
-                "siteName"        : {"type": 'string'},
+                "ipv6Subnet": {"type": 'string'},
+                "ipv6GateWay": {"type": 'string'},
+                "ipv6DhcpServers": {"type": 'list'},
+                "ipv6DnsServers": {"type": 'list'},
+                "ipv4TotalHost": {"type": 'integer'},
+                "ipv6TotalHost": {"type": 'integer'},
+                "slaacSupport": {"type": 'bool'},
+                "siteName": {"type": 'string'},
             },
-            "NetworkManagementDetails":{
-                "type"    : 'dict',
+            "NetworkManagementDetails": {
+                "type": 'dict',
                 "settings": {
-                    "type"      : 'dict',
+                    "type": 'dict',
                     "dhcpServer": {"type": 'list'},
-                    "dnsServer" : {
-                        "type"              : 'dict',
-                        "domainName"        : {"type": 'string'},
-                        "primaryIpAddress"  : {"type": 'string'},
+                    "dnsServer": {
+                        "type": 'dict',
+                        "domainName": {"type": 'string'},
+                        "primaryIpAddress": {"type": 'string'},
                         "secondaryIpAddress": {"type": 'string'}
                     },
                     "syslogServer": {
-                        "type"           : 'dict',
-                        "ipAddresses"    : {"type": 'list'},
+                        "type": 'dict',
+                        "ipAddresses": {"type": 'list'},
                         "configureDnacIP": {"type": 'bool'}
                     },
                     "snmpServer": {
-                        "type"           : 'dict',
-                        "ipAddresses"    : {"type": 'list'},
+                        "type": 'dict',
+                        "ipAddresses": {"type": 'list'},
                         "configureDnacIP": {"type": 'bool'}
                     },
                     "netflowcollector": {
-                        "type"      : 'dict',
-                        "ipAddress" : {"type": 'string'},
-                        "port"      : {"type": 'integer'},
+                        "type": 'dict',
+                        "ipAddress": {"type": 'string'},
+                        "port": {"type": 'integer'},
                     },
-                    "timezone"       : {"type": 'string'},
-                    "ntpServer"      : {"type": 'list'},
+                    "timezone": {"type": 'string'},
+                    "ntpServer": {"type": 'list'},
                     "messageOfTheday": {
-                        "type"                : 'dict',
-                        "bannerMessage"       : {"type": 'string'},
+                        "type": 'dict',
+                        "bannerMessage": {"type": 'string'},
                         "retainExistingBanner": {"type": 'bool'},
                     },
                     "network_aaa": {
-                        "type"        : 'dict',
-                        "servers"     : {"type": 'string', "choices": ["ISE", "AAA"]},
-                        "ipAddress"   : {"type": 'string'},
-                        "network"     : {"type": 'string'},
-                        "protocol"    : {"type": 'string', "choices": ["RADIUS", "TACACS"]},
+                        "type": 'dict',
+                        "servers": {"type": 'string', "choices": ["ISE", "AAA"]},
+                        "ipAddress": {"type": 'string'},
+                        "network": {"type": 'string'},
+                        "protocol": {"type": 'string', "choices": ["RADIUS", "TACACS"]},
                         "sharedSecret": {"type": 'string'}
 
                     },
                     "clientAndEndpoint_aaa": {"type": 'dict',
-                        "servers"     : {"type": 'string', "choices": ["ISE", "AAA"]},
-                        "ipAddress"   : {"type": 'string'},
-                        "network"     : {"type": 'string'},
-                        "protocol"    : {"type": 'string', "choices": ["RADIUS", "TACACS"]},
+                        "servers": {"type": 'string', "choices": ["ISE", "AAA"]},
+                        "ipAddress": {"type": 'string'},
+                        "network": {"type": 'string'},
+                        "protocol": {"type": 'string', "choices": ["RADIUS", "TACACS"]},
                         "sharedSecret": {"type": 'string'}
                     }
                 },
@@ -544,7 +546,6 @@ class DnacNetwork(DnacBase):
         self.status = "success"
         return self
 
-
     def requires_update(self, have, want, obj_params):
         """
         Check if the template config given requires update.
@@ -556,7 +557,7 @@ class DnacNetwork(DnacBase):
 
         Returns:
             Equality of the current and the users' information
-            
+
         """
 
         current_obj = have
@@ -567,7 +568,6 @@ class DnacNetwork(DnacBase):
         return any(not dnac_compare_equality(current_obj.get(dnac_param),
                                             requested_obj.get(ansible_param))
                    for(dnac_param, ansible_param) in obj_params)
-
 
     def get_res_id_by_name(self, name, site_name):
         """
@@ -587,7 +587,7 @@ class DnacNetwork(DnacBase):
             response = self.dnac._exec(
                 family="network_settings",
                 function="get_reserve_ip_subpool",
-                params={"siteId":site_id},
+                params={"siteId": site_id},
             )
 
             if isinstance(response, dict):
@@ -603,7 +603,6 @@ class DnacNetwork(DnacBase):
             result = None
 
         return _id
-
 
     def get_site_id(self, site_name):
         """
@@ -622,7 +621,7 @@ class DnacNetwork(DnacBase):
             response = self.dnac._exec(
                 family="sites",
                 function='get_site',
-                params={"name":site_name},
+                params={"name": site_name},
             )
 
         except:
@@ -636,8 +635,6 @@ class DnacNetwork(DnacBase):
         self.log(str(_id))
 
         return _id
-
-
 
     def get_global_pool_params(self, pool_info):
         """
@@ -680,7 +677,6 @@ class DnacNetwork(DnacBase):
             global_ippool.update({"gateway": pool_info.get("gateways")[0]})
 
         return global_pool
-
 
     def get_reserve_pool_params(self, pool_info):
         """
@@ -752,7 +748,6 @@ class DnacNetwork(DnacBase):
         reserve_pool.update({"slaacSupport": True})
         self.log(str(reserve_pool))
         return reserve_pool
-
 
     def get_network_params(self, site_id):
         """Store Network parameters from the playbook for Network processing in DNAC
@@ -857,7 +852,7 @@ class DnacNetwork(DnacBase):
 
     def global_pool_exists(self, name):
         """Check if the Global Pool exists or not
-        
+
         Parameters:
             name - Global pool name
 
@@ -958,7 +953,7 @@ class DnacNetwork(DnacBase):
         Get the current Global Pool from DNAC
 
         Parameters:
-            config - Playbook details 
+            config - Playbook details
 
         Returns:
             self
@@ -1064,13 +1059,12 @@ class DnacNetwork(DnacBase):
         self.status = "success"
         return self
 
-
     def get_have_network(self, config):
         """
         Get the current Network details from DNAC
 
         Parameters:
-            config - Playbook details 
+            config - Playbook details
 
         Returns:
             self
@@ -1102,7 +1096,7 @@ class DnacNetwork(DnacBase):
         Get the current Global Pool Reserved Pool and Network details from DNAC
 
         Parameters:
-            config - Playbook details 
+            config - Playbook details
 
         Returns:
             self
@@ -1139,12 +1133,12 @@ class DnacNetwork(DnacBase):
             "settings": {
                     "ippool": [{
                             "IpAddressSpace": global_ippool.get("IpAddressSpace"),
-                            "dhcpServerIps" : global_ippool.get("dhcpServerIps"),
-                            "dnsServerIps"  : global_ippool.get("dnsServerIps"),
-                            "ipPoolName"    : global_ippool.get("ipPoolName"),
-                            "ipPoolCidr"    : global_ippool.get("ipPoolCidr"),
-                            "gateway"       : global_ippool.get("gateway"),
-                            "type"          : global_ippool.get("type"),
+                            "dhcpServerIps": global_ippool.get("dhcpServerIps"),
+                            "dnsServerIps": global_ippool.get("dnsServerIps"),
+                            "ipPoolName": global_ippool.get("ipPoolName"),
+                            "ipPoolCidr": global_ippool.get("ipPoolCidr"),
+                            "gateway": global_ippool.get("gateway"),
+                            "type": global_ippool.get("type"),
                         }]
                 }
         }
@@ -1202,25 +1196,25 @@ class DnacNetwork(DnacBase):
         """
 
         want_reserve = {
-            "name"            : reserve_pool.get("name"),
-            "type"            : reserve_pool.get("type"),
+            "name": reserve_pool.get("name"),
+            "type": reserve_pool.get("type"),
             "ipv6AddressSpace": reserve_pool.get("ipv6AddressSpace"),
-            "ipv4GlobalPool"  : reserve_pool.get("ipv4GlobalPool"),
-            "ipv4Prefix"      : reserve_pool.get("ipv4Prefix"),
+            "ipv4GlobalPool": reserve_pool.get("ipv4GlobalPool"),
+            "ipv4Prefix": reserve_pool.get("ipv4Prefix"),
             "ipv4PrefixLength": reserve_pool.get("ipv4PrefixLength"),
-            "ipv4GateWay"     : reserve_pool.get("ipv4GateWay"),
-            "ipv4DhcpServers" : reserve_pool.get("ipv4DhcpServers"),
-            "ipv4DnsServers"  : reserve_pool.get("ipv4DnsServers"),
-            "ipv4Subnet"      : reserve_pool.get("ipv4Subnet"),
-            "ipv6GlobalPool"  : reserve_pool.get("ipv6GlobalPool"),
-            "ipv6Prefix"      : reserve_pool.get("ipv6Prefix"),
+            "ipv4GateWay": reserve_pool.get("ipv4GateWay"),
+            "ipv4DhcpServers": reserve_pool.get("ipv4DhcpServers"),
+            "ipv4DnsServers": reserve_pool.get("ipv4DnsServers"),
+            "ipv4Subnet": reserve_pool.get("ipv4Subnet"),
+            "ipv6GlobalPool": reserve_pool.get("ipv6GlobalPool"),
+            "ipv6Prefix": reserve_pool.get("ipv6Prefix"),
             "ipv6PrefixLength": reserve_pool.get("ipv6PrefixLength"),
-            "ipv6GateWay"     : reserve_pool.get("ipv6GateWay"),
-            "ipv6DhcpServers" : reserve_pool.get("ipv6DhcpServers"),
-            "ipv6Subnet"      : reserve_pool.get("ipv6Subnet"),
-            "ipv6DnsServers"  : reserve_pool.get("ipv6DnsServers"),
-            "ipv4TotalHost"   : reserve_pool.get("ipv4TotalHost"),
-            "ipv6TotalHost"   : reserve_pool.get("ipv6TotalHost")
+            "ipv6GateWay": reserve_pool.get("ipv6GateWay"),
+            "ipv6DhcpServers": reserve_pool.get("ipv6DhcpServers"),
+            "ipv6Subnet": reserve_pool.get("ipv6Subnet"),
+            "ipv6DnsServers": reserve_pool.get("ipv6DnsServers"),
+            "ipv4TotalHost": reserve_pool.get("ipv4TotalHost"),
+            "ipv6TotalHost": reserve_pool.get("ipv6TotalHost")
         }
         if not want_reserve.get("name"):
             self.msg="missing parameter name in ReservePoolDetails"
@@ -1317,15 +1311,15 @@ class DnacNetwork(DnacBase):
 
         want_network = {
                 "settings": {
-                    "dhcpServer"      : {},
-                    "dnsServer"       : {},
-                    "snmpServer"      : {},
-                    "syslogServer"    : {},
+                    "dhcpServer": {},
+                    "dnsServer": {},
+                    "snmpServer": {},
+                    "syslogServer": {},
                     "netflowcollector": {},
-                    "ntpServer"       : {},
-                    "timezone"        : "",
-                    "messageOfTheday" : {},
-                    "network_aaa"     : {},
+                    "ntpServer": {},
+                    "timezone": "",
+                    "messageOfTheday": {},
+                    "network_aaa": {},
                     "clientAndEndpoint_aaa": {}
                 }
             }
@@ -1344,7 +1338,7 @@ class DnacNetwork(DnacBase):
         else:
             del want_network_settings["ntpServer"]
 
-        if network_management_details.get("timezone"):
+        if network_management_details.get("timezone") is not None:
             want_network_settings["timezone"] = \
                 network_management_details.get("timezone")
         else:
@@ -1655,7 +1649,6 @@ class DnacNetwork(DnacBase):
         result_global_pool.get("msg").update({name:"Global Pool Updated Successfully"})
         return
 
-
     def update_reserve_pool(self, config):
         """
         Update/Create Reserve Pool in DNAC with fields provided in DNAC
@@ -1798,7 +1791,6 @@ class DnacNetwork(DnacBase):
             .update({"Network Details": self.want.get("wantNetwork").get("settings")})
         return
 
-
     def get_diff_merged(self, config):
         """
         Update/Create Global Pool Reserve Pool and 
@@ -1894,7 +1886,6 @@ class DnacNetwork(DnacBase):
         self.msg = "Global pool - {0} deleted successfully".format(name)
         self.status = "success"
         return self
-
 
     def get_diff_deleted(self, config):
         """

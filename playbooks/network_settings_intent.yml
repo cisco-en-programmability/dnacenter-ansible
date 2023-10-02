@@ -8,7 +8,7 @@
 # Project Info  Section
 #
 
-    - name: Create, update, delete global pool and reserve an ip pool
+    - name: Create global pool, reserve subpool and network functions
       cisco.dnac.network_settings_intent:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
