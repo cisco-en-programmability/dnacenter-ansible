@@ -106,8 +106,8 @@ options:
             type: int
           ipv6AddressSpace:
             description: >
-                If the value is false only ipv4 input are required, otherwise both
-                ipv6 and ipv4 are required.
+              If the value is false only ipv4 input are required, otherwise both
+              ipv6 and ipv4 are required.
             type: bool
           ipv6DhcpServers:
             description: IPv6 format dhcp server as input example 2001 db8 1234.
@@ -121,12 +121,14 @@ options:
             description: Gateway ip address details, example 2001 db8 85a3 0 100 1.
             type: str
           ipv6GlobalPool:
-            description: IPv6 Global pool address with cidr this is required when Ipv6AddressSpace
-            value is true, example 2001 db8 85a3 /64.
+            description: >
+              IPv6 Global pool address with cidr this is required when Ipv6AddressSpace
+              value is true, example 2001 db8 85a3 /64.
             type: str
           ipv6Prefix:
-            description: Ipv6 prefix value is true, the ip6 prefix length input field is enabled
-            , if it is false ipv6 total Host input is enable.
+            description: >
+              Ipv6 prefix value is true, the ip6 prefix length input field is enabled,
+              if it is false ipv6 total Host input is enable.
             type: bool
           ipv6PrefixLength:
               description: IPv6 prefix length is required when the ipv6prefix value is true.
@@ -266,8 +268,7 @@ options:
                 type: str
             type: dict
           siteName:
-            description: Site name path parameter. Site name to which site details to associate with
-            the network settings.
+            description: Site name path parameter.
             type: str
 requirements:
 - dnacentersdk == 2.4.5
