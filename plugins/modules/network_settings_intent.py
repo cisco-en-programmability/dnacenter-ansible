@@ -812,7 +812,7 @@ class DnacNetwork(DnacBase):
             network_settings.update({
                 "messageOfTheday": {
                     "bannerMessage": messageoftheday_details.get("value")[0].get("bannerMessage"),
-                    "retainExistingBanner": 
+                    "retainExistingBanner":
                     messageoftheday_details.get("value")[0].get("retainExistingBanner"),
                 }
             })
@@ -1308,9 +1308,9 @@ class DnacNetwork(DnacBase):
             del want_network_settings["dhcpServer"]
 
         if network_management_details.get("ntpServer"):
-            want_network_settings.update({"ntpServer":
-                            network_management_details.get("ntpServer")
-                        })
+            want_network_settings.update({
+                "ntpServer": network_management_details.get("ntpServer")
+            })
         else:
             del want_network_settings["ntpServer"]
 
@@ -1325,20 +1325,20 @@ class DnacNetwork(DnacBase):
         if network_management_details.get("dnsServer"):
             if network_management_details.get("dnsServer").get("domainName"):
                 want_network_settings.get("dnsServer").update({
-                    "domainName": network_management_details \
-                    .get("dnsServer").get("domainName")
+                    "domainName":
+                    network_management_details.get("dnsServer").get("domainName")
                 })
 
             if network_management_details.get("dnsServer").get("primaryIpAddress"):
                 want_network_settings.get("dnsServer").update({
-                    "primaryIpAddress": network_management_details \
-                    .get("dnsServer").get("primaryIpAddress")
+                    "primaryIpAddress":
+                    network_management_details.get("dnsServer").get("primaryIpAddress")
                 })
 
             if network_management_details.get("dnsServer").get("secondaryIpAddress"):
                 want_network_settings.get("dnsServer").update({
-                    "secondaryIpAddress": network_management_details \
-                    .get("dnsServer").get("secondaryIpAddress")
+                    "secondaryIpAddress":
+                    network_management_details.get("dnsServer").get("secondaryIpAddress")
                 })
         else:
             del want_network_settings["dnsServer"]
@@ -1347,8 +1347,8 @@ class DnacNetwork(DnacBase):
         if snmpServer:
             if snmpServer.get("configureDnacIP"):
                 want_network_settings.get("snmpServer").update({
-                    "configureDnacIP": network_management_details \
-                    .get("snmpServer").get("configureDnacIP")
+                    "configureDnacIP":
+                    network_management_details.get("snmpServer").get("configureDnacIP")
                 })
             if snmpServer.get("ipAddresses"):
                 want_network_settings.get("snmpServer").update({
@@ -1361,13 +1361,13 @@ class DnacNetwork(DnacBase):
         if network_management_details.get("syslogServer"):
             if network_management_details.get("syslogServer").get("configureDnacIP"):
                 want_network_settings.get("syslogServer").update({
-                    "configureDnacIP": network_management_details \
-                    .get("syslogServer").get("configureDnacIP")
+                    "configureDnacIP":
+                    network_management_details.get("syslogServer").get("configureDnacIP")
                 })
             if network_management_details.get("syslogServer").get("ipAddresses"):
                 want_network_settings.get("syslogServer").update({
-                    "ipAddresses": network_management_details \
-                    .get("syslogServer").get("ipAddresses")
+                    "ipAddresses":
+                    network_management_details.get("syslogServer").get("ipAddresses")
                 })
         else:
             del want_network_settings["syslogServer"]
@@ -1375,18 +1375,18 @@ class DnacNetwork(DnacBase):
         if network_management_details.get("netflowcollector"):
             if network_management_details.get("netflowcollector").get("ipAddress"):
                 want_network_settings.get("netflowcollector").update({
-                    "ipAddress": network_management_details \
-                    .get("netflowcollector").get("ipAddress")
+                    "ipAddress":
+                    network_management_details.get("netflowcollector").get("ipAddress")
                 })
             if network_management_details.get("netflowcollector").get("port"):
                 want_network_settings.get("netflowcollector").update({
-                    "port": network_management_details \
-                    .get("netflowcollector").get("port")
+                    "port":
+                    network_management_details.get("netflowcollector").get("port")
                 })
             if network_management_details.get("netflowcollector").get("configureDnacIP"):
                 want_network_settings.get("netflowcollector").update({
-                    "configureDnacIP": network_management_details \
-                    .get("netflowcollector").get("configureDnacIP")
+                    "configureDnacIP":
+                    network_management_details.get("netflowcollector").get("configureDnacIP")
                 })
         else:
             del want_network_settings["netflowcollector"]
@@ -1394,13 +1394,13 @@ class DnacNetwork(DnacBase):
         if network_management_details.get("messageOfTheday"):
             if network_management_details.get("messageOfTheday").get("bannerMessage"):
                 want_network_settings.get("messageOfTheday").update({
-                    "bannerMessage": network_management_details \
-                    .get("messageOfTheday").get("bannerMessage")
+                    "bannerMessage":
+                    network_management_details.get("messageOfTheday").get("bannerMessage")
                 })
             if network_management_details.get("messageOfTheday").get("retainExistingBanner"):
                 want_network_settings.get("messageOfTheday").update({
-                    "retainExistingBanner": network_management_details \
-                    .get("messageOfTheday").get("retainExistingBanner")
+                    "retainExistingBanner":
+                    network_management_details.get("messageOfTheday").get("retainExistingBanner")
                 })
         else:
             del want_network_settings["messageOfTheday"]
@@ -1408,8 +1408,8 @@ class DnacNetwork(DnacBase):
         if network_management_details.get("network_aaa"):
             if network_management_details.get("network_aaa").get("ipAddress"):
                 want_network_settings.get("network_aaa").update({
-                    "ipAddress": network_management_details \
-                    .get("network_aaa").get("ipAddress")
+                    "ipAddress":
+                    network_management_details.get("network_aaa").get("ipAddress")
                 })
             else:
                 if network_management_details.get("network_aaa").get("servers") == "ISE":
@@ -1428,8 +1428,8 @@ class DnacNetwork(DnacBase):
 
             if network_management_details.get("network_aaa").get("protocol"):
                 want_network_settings.get("network_aaa").update({
-                    "protocol": network_management_details \
-                    .get("network_aaa").get("protocol")
+                    "protocol":
+                    network_management_details.get("network_aaa").get("protocol")
                 })
             else:
                 self.msg = "missing parameter protocol in network_aaa"
@@ -1438,8 +1438,8 @@ class DnacNetwork(DnacBase):
 
             if network_management_details.get("network_aaa").get("servers"):
                 want_network_settings.get("network_aaa").update({
-                    "servers": network_management_details \
-                    .get("network_aaa").get("servers")
+                    "servers":
+                    network_management_details.get("network_aaa").get("servers")
                 })
             else:
                 self.msg = "missing parameter servers in network_aaa"
@@ -1448,8 +1448,8 @@ class DnacNetwork(DnacBase):
 
             if network_management_details.get("network_aaa").get("sharedSecret"):
                 want_network_settings.get("network_aaa").update({
-                    "sharedSecret": network_management_details \
-                    .get("network_aaa").get("sharedSecret")
+                    "sharedSecret":
+                    network_management_details.get("network_aaa").get("sharedSecret")
                 })
         else:
             del want_network_settings["network_aaa"]
@@ -1457,8 +1457,8 @@ class DnacNetwork(DnacBase):
         if network_management_details.get("clientAndEndpoint_aaa"):
             if network_management_details.get("clientAndEndpoint_aaa").get("ipAddress"):
                 want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "ipAddress": network_management_details \
-                    .get("clientAndEndpoint_aaa").get("ipAddress")
+                    "ipAddress":
+                    network_management_details.get("clientAndEndpoint_aaa").get("ipAddress")
                 })
             else:
                 if network_management_details \
@@ -1471,8 +1471,8 @@ class DnacNetwork(DnacBase):
 
             if network_management_details.get("clientAndEndpoint_aaa").get("network"):
                 want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "network": network_management_details \
-                    .get("clientAndEndpoint_aaa").get("network")
+                    "network":
+                    network_management_details.get("clientAndEndpoint_aaa").get("network")
                 })
             else:
                 self.msg = "missing parameter network in clientAndEndpoint_aaa"
@@ -1481,8 +1481,8 @@ class DnacNetwork(DnacBase):
 
             if network_management_details.get("clientAndEndpoint_aaa").get("protocol"):
                 want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "protocol": network_management_details \
-                    .get("clientAndEndpoint_aaa").get("protocol")
+                    "protocol":
+                    network_management_details.get("clientAndEndpoint_aaa").get("protocol")
                 })
             else:
                 self.msg = "missing parameter protocol in clientAndEndpoint_aaa"
@@ -1491,8 +1491,8 @@ class DnacNetwork(DnacBase):
 
             if network_management_details.get("clientAndEndpoint_aaa").get("servers"):
                 want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "servers": network_management_details \
-                    .get("clientAndEndpoint_aaa").get("servers")
+                    "servers":
+                    network_management_details.get("clientAndEndpoint_aaa").get("servers")
                 })
             else:
                 self.msg = "missing parameter servers in clientAndEndpoint_aaa"
@@ -1501,8 +1501,8 @@ class DnacNetwork(DnacBase):
 
             if network_management_details.get("clientAndEndpoint_aaa").get("sharedSecret"):
                 want_network_settings.get("clientAndEndpoint_aaa").update({
-                    "sharedSecret": network_management_details \
-                    .get("clientAndEndpoint_aaa").get("sharedSecret")
+                    "sharedSecret":
+                    network_management_details.get("clientAndEndpoint_aaa").get("sharedSecret")
                 })
         else:
             del want_network_settings["clientAndEndpoint_aaa"]
@@ -1534,7 +1534,7 @@ class DnacNetwork(DnacBase):
 
         if config.get("NetworkManagementDetails") is not None:
             network_management_details = config.get("NetworkManagementDetails") \
-                                         .get("settings")
+                                               .get("settings")
             self.get_want_network(network_management_details).check_return_status()
 
         self.log("User details from the playbook " + str(self.want))
@@ -1554,10 +1554,9 @@ class DnacNetwork(DnacBase):
         """
 
         name = config.get("GlobalPoolDetails") \
-            .get("settings").get("ippool")[0].get("ipPoolName") #get it from have
+            .get("settings").get("ippool")[0].get("ipPoolName")  # get it from have
         result_global_pool = self.result.get("response")[0].get("globalPool")
         result_global_pool.get("response").update({name: {}})
-
 
         # Check pool exist, if not create and return
         if not self.have.get("globalPool").get("exists"):
@@ -1583,8 +1582,8 @@ class DnacNetwork(DnacBase):
                                     self.want.get("wantGlobal"), obj_params):
             self.log("Global pool doesn't requires an update")
             result_global_pool.get("response").get(name).update({
-                "DNAC params": self.have.get("globalPool").get("details") \
-                    .get("settings").get("ippool")[0]
+                "DNAC params":
+                self.have.get("globalPool").get("details").get("settings").get("ippool")[0]
             })
             result_global_pool.get("response").get(name).update({
                 "Id": self.have.get("globalPool").get("id")
@@ -1640,7 +1639,7 @@ class DnacNetwork(DnacBase):
 
         name = config.get("ReservePoolDetails").get("name")
         result_reserve_pool = self.result.get("response")[1].get("reservePool")
-        result_reserve_pool.get("response").update({name:{}})
+        result_reserve_pool.get("response").update({name: {}})
         self.log("Reserve Pool DNAC Details " +
                  str(self.have.get("reservePool").get("details")))
         self.log("Reserve Pool User Details " +
@@ -1738,8 +1737,8 @@ class DnacNetwork(DnacBase):
             ]
 
         # Check update is required or not
-        if not self.requires_update(self.have.get("network") \
-                                .get("net_details"), self.want.get("wantNetwork"), obj_params):
+        if not self.requires_update(self.have.get("network").get("net_details"),
+                                    self.want.get("wantNetwork"), obj_params):
 
             self.log("Network doesn't require an update")
             result_network.get("response").get(siteName).update({
