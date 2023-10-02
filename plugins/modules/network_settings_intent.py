@@ -93,8 +93,7 @@ options:
             description: IP v4 Global pool address with cidr, example 175.175.0.0/16.
             type: str
           ipv4Prefix:
-            description: IPv4 prefix value is true, the ip4 prefix length input field is enabled
-            , if it is false ipv4 total Host input is enable.
+            description: ip4 prefix length is enabled or ipv4 total Host input is enabled
             type: bool
           ipv4PrefixLength:
             description: The ipv4 prefix length is required when ipv4prefix value is true.
