@@ -187,8 +187,8 @@ class DnacBase():
             return self
 
         if not isinstance(response, dict):
-            self.msg ="response is not a dictionary"
-            self.status="failed"
+            self.msg = "response is not a dictionary"
+            self.status = "failed"
             return self
 
         executionid = response.get("executionId")

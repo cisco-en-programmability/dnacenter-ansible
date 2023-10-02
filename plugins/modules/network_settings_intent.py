@@ -449,9 +449,9 @@ class DnacNetwork(DnacBase):
                         "ipPoolCidr": {"type": 'string'},
                         "ipPoolName": {"type": 'string'},
                         "prevName": {"type": 'string'},
-                        }
-
                     }
+
+                }
             },
             "ReservePoolDetails": {
                 "type": 'dict',
@@ -564,8 +564,8 @@ class DnacNetwork(DnacBase):
         self.log(str(requested_obj))
 
         return any(not dnac_compare_equality(current_obj.get(dnac_param),
-                                            requested_obj.get(ansible_param))
-                   for(dnac_param, ansible_param) in obj_params)
+                                             requested_obj.get(ansible_param))
+                   for (dnac_param, ansible_param) in obj_params)
 
     def get_res_id_by_name(self, name, site_name):
         """
@@ -643,14 +643,14 @@ class DnacNetwork(DnacBase):
         self.log(str(pool_info))
         global_pool = {
             "settings": {
-                    "ippool": [{
-                            "dhcpServerIps": pool_info.get("dhcpServerIps"),
-                            "dnsServerIps": pool_info.get("dnsServerIps"),
-                            "ipPoolCidr": pool_info.get("ipPoolCidr"),
-                            "ipPoolName": pool_info.get("ipPoolName"),
-                            "type": pool_info.get("type")
-                        }]
-                }
+                "ippool": [{
+                    "dhcpServerIps": pool_info.get("dhcpServerIps"),
+                    "dnsServerIps": pool_info.get("dnsServerIps"),
+                    "ipPoolCidr": pool_info.get("ipPoolCidr"),
+                    "ipPoolName": pool_info.get("ipPoolName"),
+                    "type": pool_info.get("type")
+                }]
+            }
         }
         self.log(str(global_pool))
         global_ippool = global_pool.get("settings").get("ippool")[0]
@@ -683,8 +683,8 @@ class DnacNetwork(DnacBase):
             "site_id": pool_info.get("siteId"),
         }
         if len(pool_info.get("ipPools")) == 1:
-            reserve_pool.update({"ipv4DhcpServers": \
-                                 pool_info.get("ipPools")[0].get("dhcpServerIps")})
+            reserve_pool.update({"ipv4DhcpServers":
+                                  pool_info.get("ipPools")[0].get("dhcpServerIps")})
             reserve_pool.update({"ipv4DnsServers": pool_info.get("ipPools")[0].get("dnsServerIps")})
             if pool_info.get("ipPools")[0].get("gateways") != []:
                 reserve_pool.update({"ipv4GateWay": pool_info.get("ipPools")[0].get("gateways")[0]})
@@ -694,44 +694,44 @@ class DnacNetwork(DnacBase):
 
         elif len(pool_info.get("ipPools")) == 2:
             if pool_info.get("ipPools")[0].get("ipv6") is False:
-                reserve_pool.update({"ipv4DhcpServers": \
+                reserve_pool.update({"ipv4DhcpServers":
                                      pool_info.get("ipPools")[0].get("dhcpServerIps")})
-                reserve_pool.update({"ipv4DnsServers": \
+                reserve_pool.update({"ipv4DnsServers":
                                      pool_info.get("ipPools")[0].get("dnsServerIps")})
                 if pool_info.get("ipPools")[0].get("gateways") != []:
-                    reserve_pool.update({"ipv4GateWay": \
+                    reserve_pool.update({"ipv4GateWay":
                                         pool_info.get("ipPools")[0].get("gateways")[0]})
                 elif pool_info.get("ipPools")[0].get("gateways") == []:
                     reserve_pool.update({"ipv4GateWay": []})
                 reserve_pool.update({"ipv6AddressSpace": "True"})
-                reserve_pool.update({"ipv6DhcpServers": \
+                reserve_pool.update({"ipv6DhcpServers":
                                      pool_info.get("ipPools")[1].get("dhcpServerIps")})
-                reserve_pool.update({"ipv6DnsServers": \
+                reserve_pool.update({"ipv6DnsServers":
                                      pool_info.get("ipPools")[1].get("dnsServerIps")})
                 if pool_info.get("ipPools")[1].get("gateways") != []:
-                    reserve_pool.update({"ipv6GateWay": \
+                    reserve_pool.update({"ipv6GateWay":
                                          pool_info.get("ipPools")[1].get("gateways")[0]})
                 else:
                     reserve_pool.update({"ipv4GateWay": ""})
 
             elif pool_info.get("ipPools")[1].get("ipv6") is False:
-                reserve_pool.update({"ipv6DhcpServers": \
+                reserve_pool.update({"ipv6DhcpServers":
                                      pool_info.get("ipPools")[1].get("dhcpServerIps")})
-                reserve_pool.update({"ipv4DnsServers": \
+                reserve_pool.update({"ipv4DnsServers":
                                      pool_info.get("ipPools")[1].get("dnsServerIps")})
                 if pool_info.get("ipPools")[1].get("gateways") != []:
-                    reserve_pool.update({"ipv4GateWay": \
+                    reserve_pool.update({"ipv4GateWay":
                                         pool_info.get("ipPools")[1].get("gateways")[0]})
                 elif pool_info.get("ipPools")[1].get("gateways") == []:
                     reserve_pool.update({"ipv4GateWay": []})
                 reserve_pool.update({"ipv6AddressSpace": "True"})
-                reserve_pool.update({"ipv6DhcpServers": \
+                reserve_pool.update({"ipv6DhcpServers":
                                      pool_info.get("ipPools")[0].get("dhcpServerIps")})
-                reserve_pool.update({"ipv6DnsServers": \
+                reserve_pool.update({"ipv6DnsServers":
                                      pool_info.get("ipPools")[0].get("dnsServerIps")})
                 if pool_info.get("ipPools")[0].get("gateways") != []:
-                    reserve_pool.update({"ipv6GateWay": \
-                                     pool_info.get("ipPools")[0].get("gateways")[0]})
+                    reserve_pool.update({"ipv6GateWay":
+                                          pool_info.get("ipPools")[0].get("gateways")[0]})
                 else:
                     reserve_pool.update({"ipv4GateWay": ""})
         reserve_pool.update({"slaacSupport": True})
@@ -796,41 +796,44 @@ class DnacNetwork(DnacBase):
             network_settings.update({"dhcpServer": dhcp_details.get("value")})
 
         if dns_details is not None:
-            network_settings.update({"dnsServer": {
-                            "domainName": dns_details.get("value")[0].get("domainName"),
-                            "primaryIpAddress": dns_details.get("value")[0].get("primaryIpAddress"),
-                            "secondaryIpAddress": dns_details.get("value")[0] \
-                                .get("secondaryIpAddress")
-                        }
-                    })
+            network_settings.update({
+                "dnsServer": {
+                    "domainName": dns_details.get("value")[0].get("domainName"),
+                    "primaryIpAddress": dns_details.get("value")[0].get("primaryIpAddress"),
+                    "secondaryIpAddress": dns_details.get("value")[0].get("secondaryIpAddress")
+                }
+            })
 
         if ntpserver_details is not None:
             network_settings.update({"ntpServer": ntpserver_details.get("value")})
 
         if messageoftheday_details is not None:
-            network_settings.update({"messageOfTheday": {
-                        "bannerMessage": messageoftheday_details \
-                            .get("value")[0].get("bannerMessage"),
-                        "retainExistingBanner": messageoftheday_details \
-                            .get("value")[0].get("retainExistingBanner"),
-                        }
-                    })
+            network_settings.update({
+                "messageOfTheday": {
+                    "bannerMessage": messageoftheday_details \
+                        .get("value")[0].get("bannerMessage"),
+                    "retainExistingBanner": messageoftheday_details \
+                        .get("value")[0].get("retainExistingBanner"),
+                }
+            })
 
         if network_aaa and network_aaa_pan:
-            network_settings.update({"network_aaa": {
-                        "network": network_aaa.get("value")[0].get("ipAddress"),
-                        "protocol": network_aaa.get("value")[0].get("protocol"),
-                        "ipAddress": network_aaa_pan.get("value")[0]
-                        }
-                    })
+            network_settings.update({
+                "network_aaa": {
+                    "network": network_aaa.get("value")[0].get("ipAddress"),
+                    "protocol": network_aaa.get("value")[0].get("protocol"),
+                    "ipAddress": network_aaa_pan.get("value")[0]
+                }
+            })
 
         if clientAndEndpoint_aaa and clientAndEndpoint_aaa_pan:
-            network_settings.update({"clientAndEndpoint_aaa": {
-                        "network": clientAndEndpoint_aaa.get("value")[0].get("ipAddress"),
-                        "protocol": clientAndEndpoint_aaa.get("value")[0].get("protocol"),
-                        "ipAddress": clientAndEndpoint_aaa_pan.get("value")[0],
-                        }
-                    })
+            network_settings.update({
+                "clientAndEndpoint_aaa": {
+                    "network": clientAndEndpoint_aaa.get("value")[0].get("ipAddress"),
+                    "protocol": clientAndEndpoint_aaa.get("value")[0].get("protocol"),
+                    "ipAddress": clientAndEndpoint_aaa_pan.get("value")[0],
+                }
+            })
         self.log(str(network_details))
         return network_details
 
