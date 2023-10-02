@@ -399,9 +399,7 @@ response_3:
     }
 """
 
-from collections import namedtuple
 import copy
-from multiprocessing.context import get_spawning_popen
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -583,24 +581,19 @@ class DnacNetwork(DnacBase):
 
         site_id = self.get_site_id(site_name)
         _id = None
-        try:
-            response = self.dnac._exec(
-                family="network_settings",
-                function="get_reserve_ip_subpool",
-                params={"siteId": site_id},
-            )
+        response = self.dnac._exec(
+            family="network_settings",
+            function="get_reserve_ip_subpool",
+            params={"siteId": site_id},
+        )
+        if isinstance(response, dict):
+            if "response" in response:
+                response = response.get("response")
 
-            if isinstance(response, dict):
-                if "response" in response:
-                    response = response.get("response")
-
-            current_details = get_dict_result(response, "groupName", name)
-            self.log(str(current_details))
-            if current_details:
-                _id = current_details.get("id")
-
-        except:
-            result = None
+        current_details = get_dict_result(response, "groupName", name)
+        self.log(str(current_details))
+        if current_details:
+            _id = current_details.get("id")
 
         return _id
 
@@ -617,15 +610,11 @@ class DnacNetwork(DnacBase):
         """
 
         response = {}
-        try:
-            response = self.dnac._exec(
-                family="sites",
-                function='get_site',
-                params={"name": site_name},
-            )
-
-        except:
-            result = None
+        response = self.dnac._exec(
+            family="sites",
+            function='get_site',
+            params={"name": site_name},
+        )
         self.log(str(response))
         if not response:
             self.log("Failed to get the site id from site name {0}".format(site_name))
@@ -759,15 +748,11 @@ class DnacNetwork(DnacBase):
             network_details - Processed network data
         """
 
-        try:
-            response = self.dnac._exec(
-                family="network_settings",
-                function='get_network',
-                params={"site_id": site_id}
-            )
-        except:
-            result = None
-
+        response = self.dnac._exec(
+            family="network_settings",
+            function='get_network',
+            params={"site_id": site_id}
+        )
         self.log(str(response))
         if not isinstance(response, dict):
             self.log("Error in getting network details - Response is not a dictionary")
@@ -807,10 +792,10 @@ class DnacNetwork(DnacBase):
             }
         }
         network_settings = network_details.get("settings")
-        if dhcp_details != None:
+        if dhcp_details is not None:
             network_settings.update({"dhcpServer":  dhcp_details.get("value")})
 
-        if dns_details != None:
+        if dns_details is not None:
             network_settings.update({"dnsServer": {
                             "domainName": dns_details.get("value")[0].get("domainName"),
                             "primaryIpAddress": dns_details.get("value")[0].get("primaryIpAddress"),
@@ -819,10 +804,10 @@ class DnacNetwork(DnacBase):
                         }
                     })
 
-        if ntpserver_details != None:
+        if ntpserver_details is not None:
             network_settings.update({"ntpServer": ntpserver_details.get("value")})
 
-        if messageoftheday_details != None:
+        if messageoftheday_details is not None:
             network_settings.update({"messageOfTheday": {
                         "bannerMessage": messageoftheday_details \
                             .get("value")[0].get("bannerMessage"),
@@ -868,28 +853,24 @@ class DnacNetwork(DnacBase):
             "details": None,
             "id": None
         }
+        response = self.dnac._exec(
+            family = "network_settings",
+            function = "get_global_pool",
+        )
+        if not isinstance(response, dict):
+            self.log("Error in getting global pool - Response is not a dictionary")
+            return global_pool
 
-        try:
-            response = self.dnac._exec(
-                family = "network_settings",
-                function = "get_global_pool",
-            )
-            if not isinstance(response, dict):
-                self.log("Error in getting global pool - Response is not a dictionary")
-                return global_pool
-
-            all_global_pool_details = response.get("response")
-            global_pool_details = get_dict_result(all_global_pool_details, "ipPoolName", name)
-            self.log("Global Ippool Name : "+ str(name))
-            self.log(str(global_pool_details))
-            if not global_pool_details:
-                self.log("Global pool {0} does not exist".format(name))
-                return global_pool
-            global_pool.update({"exists": True})
-            global_pool.update({"id": global_pool_details.get("id")})
-            global_pool["details"] = self.get_global_pool_params(global_pool_details)
-        except Exception:
-            result = None
+        all_global_pool_details = response.get("response")
+        global_pool_details = get_dict_result(all_global_pool_details, "ipPoolName", name)
+        self.log("Global Ippool Name : "+ str(name))
+        self.log(str(global_pool_details))
+        if not global_pool_details:
+            self.log("Global pool {0} does not exist".format(name))
+            return global_pool
+        global_pool.update({"exists": True})
+        global_pool.update({"id": global_pool_details.get("id")})
+        global_pool["details"] = self.get_global_pool_params(global_pool_details)
 
         self.log(str(global_pool))
         return global_pool
@@ -916,33 +897,30 @@ class DnacNetwork(DnacBase):
             "id": None
         }
 
-        try:
-            site_id = self.get_site_id(site_name)
-            if not site_id:
-                self.msg="Failed to get the site id from the site name {0}".format(site_name)
-                self.status = "failed"
-                return self.check_return_status()
+        site_id = self.get_site_id(site_name)
+        if not site_id:
+            self.msg="Failed to get the site id from the site name {0}".format(site_name)
+            self.status = "failed"
+            return self.check_return_status()
 
-            response = self.dnac._exec(
-                family="network_settings",
-                function="get_reserve_ip_subpool",
-                params={"siteId":site_id}
-            )
-            if not isinstance(response, dict):
-                self.log("Error in getting reserve pool - Response is not a dictionary")
-                return reserve_pool
+        response = self.dnac._exec(
+            family="network_settings",
+            function="get_reserve_ip_subpool",
+            params={"siteId":site_id}
+        )
+        if not isinstance(response, dict):
+            self.log("Error in getting reserve pool - Response is not a dictionary")
+            return reserve_pool
 
-            all_reserve_pool_details = response.get("response")
-            reserve_pool_details = get_dict_result(all_reserve_pool_details, "groupName", name)
-            if not reserve_pool_details:
-                self.log("Reserve pool {0} does not exist in the site {1}".format(name, site_name))
-                return reserve_pool
+        all_reserve_pool_details = response.get("response")
+        reserve_pool_details = get_dict_result(all_reserve_pool_details, "groupName", name)
+        if not reserve_pool_details:
+            self.log("Reserve pool {0} does not exist in the site {1}".format(name, site_name))
+            return reserve_pool
 
-            reserve_pool.update({"exists": True})
-            reserve_pool.update({"id": reserve_pool_details.get("id")})
-            reserve_pool.update({"details": self.get_reserve_pool_params(reserve_pool_details)})
-        except Exception:
-            result = None
+        reserve_pool.update({"exists": True})
+        reserve_pool.update({"id": reserve_pool_details.get("id")})
+        reserve_pool.update({"details": self.get_reserve_pool_params(reserve_pool_details)})
 
         self.log("Reserved Pool Details " + str(reserve_pool.get("details")))
         self.log("Reserved Pool Id " + str(reserve_pool.get("id")))
@@ -985,10 +963,10 @@ class DnacNetwork(DnacBase):
         global_pool = self.global_pool_exists(name)
         self.log(str(global_pool))
         prev_name = global_pool_ippool[0].get("prev_name")
-        if global_pool.get("exists") == False and \
+        if global_pool.get("exists") is False and \
             prev_name is not None:
             global_pool = self.global_pool_exists(prev_name)
-            if global_pool.get("exists") == False:
+            if global_pool.get("exists") is False:
                 self.msg = "Prev name {0} doesn't exist in GlobalPoolDetails".format(prev_name)
                 self.status = "failed"
                 return self
@@ -1034,10 +1012,10 @@ class DnacNetwork(DnacBase):
         reserve_pool = self.reserve_pool_exists(name, site_name)
         self.log(str(reserve_pool))
         prev_name = reserve_pool_details.get("prev_name")
-        if reserve_pool.get("exists") == False and \
+        if reserve_pool.get("exists") is False and \
             prev_name is not None:
             reserve_pool = self.reserve_pool_exists(prev_name, site_name)
-            if reserve_pool.get("exists") == False:
+            if reserve_pool.get("exists") is False:
                 self.msg = "Prev name {0} doesn't exist in ReservePoolDetails".format(prev_name)
                 self.status = "failed"
                 return self
