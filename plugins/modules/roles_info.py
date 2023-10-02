@@ -28,7 +28,7 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!get-roles-api
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.get_roles_ap_i,
+    user_and_roles.UserandRoles.get_roles_ap_i,
 
   - Paths used are
     get /dna/system/api/v1/roles,

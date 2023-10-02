@@ -704,3 +704,12 @@ releases:
         release_summary: Updated sanity test.
         minor_changes:
         - Updated test/sanity and remove unnecessary
+    6.7.5:
+      release_date: "2023-09-25"
+      changes:
+        release_summary: Updated different function names.
+        bugfixes:
+        - Updated from get_permissions_ap_i to get_permissions_api
+        - Updated from get_roles_ap_i to get_roles_api
+        - Updated from get_users_ap_i to get_users_api
+        - Updated from get_external_authentication_servers_ap_i to get_external_authentication_servers_api
