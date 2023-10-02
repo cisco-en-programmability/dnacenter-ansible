@@ -1352,8 +1352,8 @@ class DnacNetwork(DnacBase):
                 })
             if snmpServer.get("ipAddresses"):
                 want_network_settings.get("snmpServer").update({
-                    "ipAddresses": network_management_details \
-                    .get("snmpServer").get("ipAddresses")
+                    "ipAddresses":
+                    network_management_details.get("snmpServer").get("ipAddresses")
                 })
         else:
             del want_network_settings["snmpServer"]
@@ -1461,9 +1461,7 @@ class DnacNetwork(DnacBase):
                     network_management_details.get("clientAndEndpoint_aaa").get("ipAddress")
                 })
             else:
-                if network_management_details \
-                    .get("clientAndEndpoint_aaa").get("servers") == "ISE":
-
+                if network_management_details.get("clientAndEndpoint_aaa").get("servers") == "ISE":
                     self.msg = "missing parameter ipAddress in clientAndEndpoint_aaa, \
                         server ISE is set"
                     self.status = "failed"
