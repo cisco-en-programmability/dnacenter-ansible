@@ -131,26 +131,26 @@ options:
               if it is false ipv6 total Host input is enable.
             type: bool
           ipv6PrefixLength:
-              description: IPv6 prefix length is required when the ipv6prefix value is true.
-              type: int
+            description: IPv6 prefix length is required when the ipv6prefix value is true.
+            type: int
           ipv6Subnet:
-              description: IPv6 Subnet address, example 2001 db8 85a3 0 100.
-              type: str
+            description: IPv6 Subnet address, example 2001 db8 85a3 0 100.
+            type: str
           ipv6TotalHost:
-              description: IPv6 total host is required when ipv6prefix value is false.
-              type: int
+            description: IPv6 total host is required when ipv6prefix value is false.
+            type: int
           name:
-              description: Name of the reserve ip sub pool.
-              type: str
+            description: Name of the reserve ip sub pool.
+            type: str
           prev_name:
-              description: Previous name of the reserve ip sub pool.
-              type: str
+            description: Previous name of the reserve ip sub pool.
+            type: str
           siteName:
-              description: Site name path parameter. Site name to reserve the ip sub pool.
-              type: str
+            description: Site name path parameter. Site name to reserve the ip sub pool.
+            type: str
           slaacSupport:
-              description: Slaac Support.
-              type: bool
+            description: Slaac Support.
+            type: bool
       NetworkManagementDetails:
         description: Set default network settings for the site
         type: dict
