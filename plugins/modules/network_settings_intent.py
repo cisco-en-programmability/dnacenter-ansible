@@ -47,7 +47,6 @@ options:
             suboptions:
               ippool:
                 description: Global Pool's ippool.
-                elements: dict
                 type: list
                 suboptions:
                   dhcpServerIps:
