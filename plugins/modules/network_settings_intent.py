@@ -45,34 +45,34 @@ options:
             description: Global Pool's settings.
             type: dict
             suboptions:
-            ippool:
-              description: Global Pool's ippool.
-              elements: dict
-              type: list
-              suboptions:
-                dhcpServerIps:
-                  description: Dhcp Server Ips.
-                  elements: str
-                  type: list
-                dnsServerIps:
-                  description: Dns Server Ips.
-                  elements: str
-                  type: list
-                gateway:
-                  description: Gateway.
-                  type: str
-                IpAddressSpace:
-                  description: Ip address space.
-                  type: str
-                ipPoolCidr:
-                  description: Ip pool cidr.
-                  type: str
-                prev_name:
-                  description: previous name.
-                  type: str
-                ipPoolName:
-                  description: Ip Pool Name.
-                  type: str
+              ippool:
+                description: Global Pool's ippool.
+                elements: dict
+                type: list
+                suboptions:
+                  dhcpServerIps:
+                    description: Dhcp Server Ips.
+                    elements: str
+                    type: list
+                  dnsServerIps:
+                    description: Dns Server Ips.
+                    elements: str
+                    type: list
+                  gateway:
+                    description: Gateway.
+                    type: str
+                  IpAddressSpace:
+                    description: Ip address space.
+                    type: str
+                  ipPoolCidr:
+                    description: Ip pool cidr.
+                    type: str
+                  prev_name:
+                    description: previous name.
+                    type: str
+                  ipPoolName:
+                    description: Ip Pool Name.
+                    type: str
       ReservePoolDetails:
         description: Reserving IP subpool from the global pool
         type: dict
