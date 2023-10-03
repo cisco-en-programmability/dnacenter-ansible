@@ -265,10 +265,8 @@ response:
 
 """
 
-import copy
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    DNACSDK,
     validate_list_of_dicts,
     log,
     get_dict_result,
