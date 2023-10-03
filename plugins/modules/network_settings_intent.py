@@ -50,29 +50,29 @@ options:
               elements: dict
               type: list
               suboptions:
-              dhcpServerIps:
-                description: Dhcp Server Ips.
-                elements: str
-                type: list
-              dnsServerIps:
-                description: Dns Server Ips.
-                elements: str
-                type: list
-              gateway:
-                description: Gateway.
-                type: str
-              IpAddressSpace:
-                description: Ip address space.
-                type: str
-              ipPoolCidr:
-                description: Ip pool cidr.
-                type: str
-              prev_name:
-                description: previous name.
-                type: str
-              ipPoolName:
-                description: Ip Pool Name.
-                type: str
+                dhcpServerIps:
+                  description: Dhcp Server Ips.
+                  elements: str
+                  type: list
+                dnsServerIps:
+                  description: Dns Server Ips.
+                  elements: str
+                  type: list
+                gateway:
+                  description: Gateway.
+                  type: str
+                IpAddressSpace:
+                  description: Ip address space.
+                  type: str
+                ipPoolCidr:
+                  description: Ip pool cidr.
+                  type: str
+                prev_name:
+                  description: previous name.
+                  type: str
+                ipPoolName:
+                  description: Ip Pool Name.
+                  type: str
       ReservePoolDetails:
         description: Reserving IP subpool from the global pool
         type: dict
@@ -151,6 +151,9 @@ options:
           slaacSupport:
             description: Slaac Support.
             type: bool
+          type:
+            description: Type of the reserve ip sub pool.
+            type: str
       NetworkManagementDetails:
         description: Set default network settings for the site
         type: dict
@@ -177,7 +180,7 @@ options:
                   sharedSecret:
                     description: Shared secret for ISE server.
                     type: str
-                  type: dict
+                type: dict
               dhcpServer:
                 description: DHCP Server IP (eg 1.1.1.1).
                 elements: str
@@ -263,7 +266,7 @@ options:
               timezone:
                 description: Input for time zone (eg Africa/Abidjan).
                 type: str
-            type: dict
+              type: dict
           siteName:
             description: Site name path parameter.
             type: str
