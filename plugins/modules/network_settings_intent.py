@@ -47,6 +47,7 @@ options:
             suboptions:
               ippool:
                 description: Global Pool's ippool.
+                elements: dict
                 type: list
                 suboptions:
                   dhcpServerIps:
@@ -265,7 +266,6 @@ options:
               timezone:
                 description: Input for time zone (eg Africa/Abidjan).
                 type: str
-              type: dict
           siteName:
             description: Site name path parameter.
             type: str
