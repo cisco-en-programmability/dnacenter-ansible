@@ -150,6 +150,63 @@ class DnacBase():
         self.have.clear()
         self.want.clear()
 
+    def get_execution_details(self, execid):
+        """Check if the execution performed is sucessfull or not
+
+        Parameters:
+            execid - Id for executing the API
+
+        Returns:
+            response - Status for executing the API
+        """
+
+        self.log("Execution Id " + str(execid))
+        response = self.dnac._exec(
+            family="task",
+            function='get_business_api_execution_details',
+            params={"execution_id": execid}
+        )
+        self.log("Response for the current execution" + str(response))
+        return response
+
+    def check_execution_response_status(self, response):
+        """
+        Checks the reponse status provided by API in the DNAC
+
+        Parameters:
+            response - API response
+
+        Returns:
+            self
+        """
+
+        self.log(str(response))
+        if not response:
+            self.msg = "response is empty"
+            self.status = "failed"
+            return self
+
+        if not isinstance(response, dict):
+            self.msg = "response is not a dictionary"
+            self.status = "failed"
+            return self
+
+        executionid = response.get("executionId")
+        while True:
+            execution_details = self.get_execution_details(executionid)
+            if execution_details.get("status") == "SUCCESS":
+                self.result['changed'] = True
+                self.msg = "Successfully executed"
+                self.status = "success"
+                break
+
+            if execution_details.get("bapiError"):
+                self.msg = execution_details.get("bapiError")
+                self.status = "failed"
+                break
+
+        return self
+
 
 def log(msg, frameIncrement=0):
     with open('dnac.log', 'a') as of:
