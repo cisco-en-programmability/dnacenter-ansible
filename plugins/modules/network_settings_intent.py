@@ -607,7 +607,7 @@ class DnacNetwork(DnacBase):
 
             _id = response.get("response")[0].get("id")
             self.log(str(_id))
-        except:
+        except Exception as e:
             self.log("Error while getting site_id from the site_name")
             return None
 
@@ -708,7 +708,7 @@ class DnacNetwork(DnacBase):
 
             elif not pool_info.get("ipPools")[1].get("ipv6"):
                 reserve_pool.update({
-                    "ipv6DhcpServers": pool_info.get("ipPools")[1].get("dhcpServerIps"),
+                    "ipv4DhcpServers": pool_info.get("ipPools")[1].get("dhcpServerIps"),
                     "ipv4DnsServers": pool_info.get("ipPools")[1].get("dnsServerIps"),
                     "ipv6AddressSpace": "True",
                     "ipv6DnsServers": pool_info.get("ipPools")[0].get("dnsServerIps"),
