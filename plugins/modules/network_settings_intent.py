@@ -551,7 +551,7 @@ class DnacNetwork(DnacBase):
 
     def requires_update(self, have, want, obj_params):
         """
-        Check if the template config given requires update by comparing 
+        Check if the template config given requires update by comparing
         current information wih the requested information.
 
         This method compares the current global pool, reserve pool,
@@ -608,6 +608,7 @@ class DnacNetwork(DnacBase):
             _id = response.get("response")[0].get("id")
             self.log(str(_id))
         except:
+            self.log("Error while getting site_id from the site_name")
             return None
 
         return _id
