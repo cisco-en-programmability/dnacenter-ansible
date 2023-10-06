@@ -151,13 +151,14 @@ class DnacBase():
         self.want.clear()
 
     def get_execution_details(self, execid):
-        """Check if the execution performed is sucessfull or not
+        """
+        Get the execution details of an API
 
         Parameters:
-            execid - Id for executing the API
+            execid (str) - Id for API execution
 
         Returns:
-            response - Status for executing the API
+            response (dict) - Status for API execution
         """
 
         self.log("Execution Id " + str(execid))
@@ -174,7 +175,7 @@ class DnacBase():
         Checks the reponse status provided by API in the DNAC
 
         Parameters:
-            response - API response
+            response (dict) - API response
 
         Returns:
             self
