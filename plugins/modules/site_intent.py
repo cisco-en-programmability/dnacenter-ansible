@@ -7,7 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary")
+__author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary, Abhishek Maheshwari")
 
 DOCUMENTATION = r"""
 ---
@@ -214,13 +214,12 @@ response_4:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DNACSDK,
+    DnacBase,
     validate_list_of_dicts,
     log,
     get_dict_result,
     dnac_compare_equality,
 )
-import copy
 
 floor_plan = {
     '57057': 'CUBES AND WALLED OFFICES',
@@ -231,64 +230,47 @@ floor_plan = {
 }
 
 
-class DnacSite:
+class DnacSite(DnacBase):
+    """Class containing member attributes for site intent module"""
 
     def __init__(self, module):
-        self.module = module
-        self.params = module.params
-        self.config = copy.deepcopy(module.params.get("config"))
-        self.have = {}
-        self.want_create = {}
-        self.diff_create = []
-        self.validated = []
-        dnac_params = self.get_dnac_params(self.params)
-        log(str(dnac_params))
-        self.dnac = DNACSDK(params=dnac_params)
-        self.log = dnac_params.get("dnac_log")
-
-        self.result = dict(changed=False, diff=[], response=[], warnings=[])
-
-    def get_state(self):
-        return self.params.get("state")
+        super().__init__(module)
+        self.supported_states = ["merged", "deleted"]
 
     def validate_input(self):
+        """Validate the fields provided in the playbook"""
+
+        if not self.config:
+            self.msg = "config not available in playbook for validattion"
+            self.status = "success"
+            return self
+
         temp_spec = dict(
             type=dict(required=False, type='str'),
             site=dict(required=True, type='dict'),
         )
 
-        if self.config:
-            msg = None
-            # Validate site params
-            valid_temp, invalid_params = validate_list_of_dicts(
-                self.config, temp_spec
-            )
-
-            if invalid_params:
-                msg = "Invalid parameters in playbook: {0}".format(
-                    "\n".join(invalid_params)
-                )
-                self.module.fail_json(msg=msg)
-
-            self.validated = valid_temp
-
-            if self.log:
-                log(str(valid_temp))
-                log(str(self.validated))
-
-    def get_dnac_params(self, params):
-        dnac_params = dict(
-            dnac_host=params.get("dnac_host"),
-            dnac_port=params.get("dnac_port"),
-            dnac_username=params.get("dnac_username"),
-            dnac_password=params.get("dnac_password"),
-            dnac_verify=params.get("dnac_verify"),
-            dnac_debug=params.get("dnac_debug"),
-            dnac_log=params.get("dnac_log")
+        # Validate site params
+        valid_temp, invalid_params = validate_list_of_dicts(
+            self.config, temp_spec
         )
-        return dnac_params
+
+        if invalid_params:
+            self.msg = "Invalid parameters in playbook: {0}".format(
+                "\n".join(invalid_params)
+            )
+            self.status = "failed"
+            return self
+
+        self.validated_config = valid_temp
+        log(str(valid_temp))
+        self.msg = "Successfully validated input"
+        self.status = "success"
+        return self
 
     def get_current_site(self, site):
+        """Get the current site info"""
+
         site_info = {}
 
         location = get_dict_result(site[0].get("additionalInfo"), 'nameSpace', "Location")
@@ -335,12 +317,13 @@ class DnacSite:
             siteId=site[0].get("id")
         )
 
-        if self.log:
-            log(str(current_site))
+        log(str(current_site))
 
         return current_site
 
     def site_exists(self):
+        """Check if the site exists"""
+
         site_exists = False
         current_site = {}
         response = None
@@ -352,23 +335,22 @@ class DnacSite:
             )
 
         except Exception as e:
-            if self.log:
-                log("The input site is not valid or site is not present.")
+            log("The input site is not valid or site is not present.")
 
         if response:
-            if self.log:
-                log(str(response))
+            log(str(response))
 
             response = response.get("response")
             current_site = self.get_current_site(response)
             site_exists = True
 
-        if self.log:
-            log(str(self.validated))
+        log(str(self.validated_config))
 
         return (site_exists, current_site)
 
     def get_site_params(self, params):
+        """Store the site related parameters"""
+
         site = params.get("site")
         typeinfo = params.get("type")
 
@@ -383,23 +365,25 @@ class DnacSite:
         return site_params
 
     def get_site_name(self, site):
+        """Get and Return the site name"""
+
         site_type = site.get("type")
         parent_name = site.get("site").get(site_type).get("parentName")
         name = site.get("site").get(site_type).get("name")
         site_name = '/'.join([parent_name, name])
 
-        if self.log:
-            log(site_name)
+        log(site_name)
 
         return site_name
 
     def site_requires_update(self):
+        """Check if the site requires updates"""
+
         requested_site = self.want.get("site_params")
         current_site = self.have.get("current_site")
 
-        if self.log:
-            log("Current Site: " + str(current_site))
-            log("Requested Site: " + str(requested_site))
+        log("Current Site: " + str(current_site))
+        log("Requested Site: " + str(requested_site))
 
         obj_params = [
             ("type", "type"),
@@ -418,13 +402,14 @@ class DnacSite:
             params={"execution_id": execid}
         )
 
-        if self.log:
-            log(str(response))
+        log(str(response))
 
         if response and isinstance(response, dict):
             return response
 
-    def get_have(self):
+    def get_have(self, config):
+        """Get the site details from DNAC"""
+
         site_exists = False
         current_site = None
         have = {}
@@ -432,8 +417,7 @@ class DnacSite:
         # check if given site exits, if exists store current site info
         (site_exists, current_site) = self.site_exists()
 
-        if self.log:
-            log("Site Exists: " + str(site_exists) + "\n Current Site:" + str(current_site))
+        log("Site Exists: " + str(site_exists) + "\n Current Site:" + str(current_site))
 
         if site_exists:
             have["site_id"] = current_site.get("siteId")
@@ -442,18 +426,26 @@ class DnacSite:
 
         self.have = have
 
-    def get_want(self):
+        return self
+
+    def get_want(self, config):
+        """Get all the site related information from playbook
+        that is needed to be created in DNAC"""
+
         want = {}
 
-        for site in self.validated:
-            want = dict(
-                site_params=self.get_site_params(site),
-                site_name=self.get_site_name(site),
-            )
+        want = dict(
+            site_params=self.get_site_params(config),
+            site_name=self.get_site_name(config),
+        )
 
         self.want = want
 
-    def get_diff_merge(self):
+        return self
+
+    def get_diff_merged(self, config):
+        """Update/Create site info in DNAC with fields provided in DNAC"""
+
         site_updated = False
         site_created = False
 
@@ -519,7 +511,11 @@ class DnacSite:
                         self.result['msg'] = "Site Created Successfully"
                         self.result['response'].update({"siteId": current_site.get('site_id')})
 
-    def get_diff_delete(self):
+        return self
+
+    def get_diff_deleted(self, config):
+        """Call DNAC API to delete sites with provided inputs"""
+
         site_exists = self.have.get("site_exists")
 
         if site_exists:
@@ -548,42 +544,44 @@ class DnacSite:
         else:
             self.module.fail_json(msg="Site Not Found", response=[])
 
+        return self
+
 
 def main():
     """ main entry point for module execution
     """
 
-    element_spec = dict(
-        dnac_host=dict(required=True, type='str'),
-        dnac_port=dict(type='str', default='443'),
-        dnac_username=dict(type='str', default='admin', aliases=["user"]),
-        dnac_password=dict(type='str', no_log=True),
-        dnac_verify=dict(type='bool', default='True'),
-        dnac_version=dict(type="str", default="2.2.3.3"),
-        dnac_debug=dict(type='bool', default=False),
-        dnac_log=dict(type='bool', default=False),
-        validate_response_schema=dict(type="bool", default=True),
-        config=dict(required=True, type='list', elements='dict'),
-        state=dict(
-            default='merged',
-            choices=['merged', 'deleted']),
-    )
+    element_spec = {'dnac_host': {'required': True, 'type': 'str'},
+                    'dnac_port': {'type': 'str', 'default': '443'},
+                    'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+                    'dnac_password': {'type': 'str', 'no_log': True},
+                    'dnac_verify': {'type': 'bool', 'default': 'True'},
+                    'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
+                    'dnac_debug': {'type': 'bool', 'default': False},
+                    'dnac_log': {'type': 'bool', 'default': False},
+                    'validate_response_schema': {'type': 'bool', 'default': True},
+                    'config': {'required': True, 'type': 'list', 'elements': 'dict'},
+                    'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
+                    }
 
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
 
     dnac_site = DnacSite(module)
-    dnac_site.validate_input()
-    state = dnac_site.get_state()
+    state = dnac_site.params.get("state")
 
-    dnac_site.get_want()
-    dnac_site.get_have()
+    if state not in dnac_site.supported_states:
+        dnac_site.status = "invalid"
+        dnac_site.msg = "State {0} is invalid".format(state)
+        dnac_site.check_return_status()
 
-    if state == "merged":
-        dnac_site.get_diff_merge()
+    dnac_site.validate_input().check_return_status()
 
-    elif state == "deleted":
-        dnac_site.get_diff_delete()
+    for config in dnac_site.validated_config:
+        dnac_site.reset_values()
+        dnac_site.get_want(config).check_return_status()
+        dnac_site.get_have(config).check_return_status()
+        dnac_site.get_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_site.result)
 
