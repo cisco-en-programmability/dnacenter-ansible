@@ -713,3 +713,10 @@ releases:
         - Updated from get_roles_ap_i to get_roles_api
         - Updated from get_users_ap_i to get_users_api
         - Updated from get_external_authentication_servers_ap_i to get_external_authentication_servers_api
+    6.7.6:
+      release_date: "2023-10-13"
+      changes:
+        release_summary: Several changes to modules.
+        minor_changes:
+          - A new intent module for network settings to support Global IP Pool, Reserve IP Pool, Global servers, TimeZone, Message of the Day and telemetry servers.
+          - By inheriting DNAC base class, changes done to Swim, Template, PnP intent modules.
