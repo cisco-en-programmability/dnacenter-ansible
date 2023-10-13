@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.7.5
+Collection version 6.7.6
 
 .. contents::
    :local:
@@ -263,6 +263,7 @@ Modules
 * :ref:`network_device_wireless_lan_info module <ansible_collections.cisco.dnac.network_device_wireless_lan_info_module>` -- Information module for Network Device Wireless Lan
 * :ref:`network_device_with_snmp_v3_des_info module <ansible_collections.cisco.dnac.network_device_with_snmp_v3_des_info_module>` -- Information module for Network Device With Snmp V3 Des
 * :ref:`network_info module <ansible_collections.cisco.dnac.network_info_module>` -- Information module for Network
+* :ref:`network_settings_intent module <ansible_collections.cisco.dnac.network_settings_intent_module>` -- Resource module for IP Address pools and network functions
 * :ref:`network_update module <ansible_collections.cisco.dnac.network_update_module>` -- Resource module for Network Update
 * :ref:`network_v2 module <ansible_collections.cisco.dnac.network_v2_module>` -- Resource module for Network V2
 * :ref:`network_v2_info module <ansible_collections.cisco.dnac.network_v2_info_module>` -- Information module for Network V2
@@ -655,6 +656,7 @@ Modules
     network_device_wireless_lan_info_module
     network_device_with_snmp_v3_des_info_module
     network_info_module
+    network_settings_intent_module
     network_update_module
     network_v2_module
     network_v2_info_module
