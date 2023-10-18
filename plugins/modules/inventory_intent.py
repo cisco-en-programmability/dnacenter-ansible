@@ -353,7 +353,7 @@ class DnacDevice(DnacBase):
 
         return device_id
 
-    def get_execution_details(self, task_id):
+    def get_task_details(self, task_id):
 
         response = None
         response = self.dnac._exec(
@@ -505,7 +505,7 @@ class DnacDevice(DnacBase):
             if response and isinstance(response, dict):
                 task_id = response.get('response').get('taskId')
                 while True:
-                    execution_details = self.get_execution_details(task_id)
+                    execution_details = self.get_task_details(task_id)
 
                     if '/task/' in execution_details.get("progress"):
                         self.result['changed'] = True
@@ -547,7 +547,7 @@ class DnacDevice(DnacBase):
                     if response and isinstance(response, dict):
                         task_id = response.get('response').get('taskId')
                     while True:
-                        execution_details = self.get_execution_details(task_id)
+                        execution_details = self.get_task_details(task_id)
 
                         if 'success' in execution_details.get("progress"):
                             self.result['changed'] = True
