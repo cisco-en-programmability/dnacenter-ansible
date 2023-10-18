@@ -253,7 +253,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 
 
 class DnacDevice(DnacBase):
-    """Class containing member attributes for site intent module"""
+    """Class containing member attributes for Inventory intent module"""
 
     def __init__(self, module):
         super().__init__(module)
@@ -309,7 +309,7 @@ class DnacDevice(DnacBase):
             return self
 
         self.validated_config = valid_temp
-        self.log(str(valid_temp))
+        log(str(valid_temp))
         self.msg = "Successfully validated input"
         self.status = "success"
         return self
@@ -327,10 +327,10 @@ class DnacDevice(DnacBase):
             )
 
         except Exception as e:
-            self.log("There is error while fetching device from DNAC")
+            log("There is error while fetching device from DNAC")
 
         if response:
-            self.log(str(response))
+            log(str(response))
             response = response.get("response")
             for ip in response:
                 device_ip = ip["managementIpAddress"]
@@ -347,7 +347,7 @@ class DnacDevice(DnacBase):
             )
 
         except Exception as e:
-            self.log("There is error while fetching device from DNAC")
+            log("There is error while fetching device from DNAC")
         response = response.get("response")[0]
         device_id = response.get("id")
 
@@ -362,7 +362,7 @@ class DnacDevice(DnacBase):
             params={"task_id": task_id}
         )
 
-        self.log(str(response))
+        log(str(response))
 
         if response and isinstance(response, dict):
             return response.get('response')
@@ -404,7 +404,7 @@ class DnacDevice(DnacBase):
             if ip not in device_in_dnac:
                 device_not_in_dnac.append(ip)
 
-        self.log("Device Exists in DNAC : " + str(device_in_dnac))
+        log("Device Exists in DNAC : " + str(device_in_dnac))
         have["want_device"] = want_device
         have["device_in_dnac"] = device_in_dnac
         have["device_not_in_dnac"] = device_not_in_dnac
@@ -475,7 +475,7 @@ class DnacDevice(DnacBase):
             # Write code for device updation
             device_updated = True
 
-            self.log("Devices {0} are present in DNAC and updated successfully".format(config['ipAddress']))
+            log("Devices {0} are present in DNAC and updated successfully".format(config['ipAddress']))
             msg = "Devices {0} present in DNAC and updated successfully".format(config['ipAddress'])
             self.result['msg'].append(msg)
             self.status = "success"
@@ -495,11 +495,11 @@ class DnacDevice(DnacBase):
                     params=config,
                 )
 
-                self.log(str(response))
+                log(str(response))
                 device_added = True
 
             except Exception as e:
-                self.log("There is error while adding devices in DNAC")
+                log("There is error while adding devices in DNAC")
 
         if device_added or device_updated:
             if response and isinstance(response, dict):
@@ -517,8 +517,8 @@ class DnacDevice(DnacBase):
                                               response=execution_details)
                         break
 
-                self.log("Device Added Successfully")
-                self.log("Added devices are :" + str(devices_to_add))
+                log("Device Added Successfully")
+                log("Added devices are :" + str(devices_to_add))
                 msg = "Device " + str(devices_to_add) + " added Successfully !!"
                 self.result['msg'].append(msg)
 
@@ -541,7 +541,7 @@ class DnacDevice(DnacBase):
                     )
 
                 except Exception as e:
-                    self.log("There is error while deleting the device from DNAC")
+                    log("There is error while deleting the device from DNAC")
 
                 if response and isinstance(response, dict):
                     if response and isinstance(response, dict):
