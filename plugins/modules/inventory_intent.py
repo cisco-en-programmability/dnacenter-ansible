@@ -315,7 +315,15 @@ class DnacDevice(DnacBase):
         return self
 
     def device_exists_in_dnac(self, want_device):
-        """Check which devices already exists in DNAC and return both device_exist and device_not_exist in dnac """
+        """
+        Check which devices already exists in DNAC and return both device_exist and device_not_exist in dnac.
+        Args:
+            want_device (list): A list of devices you want to check for existence in DNAC.
+        Returns:
+            list: A list of devices that exist in DNAC.
+        Description:
+            If a device is found in DNAC, its management IP address is included in the list of devices that exist.
+        """
 
         device_in_dnac = []
         response = None
@@ -339,21 +347,40 @@ class DnacDevice(DnacBase):
         return device_in_dnac
 
     def get_device_id(self, device_ip):
+        """
+        Get the unique device ID for a device with the specified management IP address in Cisco DNAC.
+        Args:
+            device_ip (str): The management IP address of the device for which you want to retrieve the device ID.
+        Returns:
+            str: The unique device ID for the specified device.
+        Description:
+            If the device with the specified IP address is not found in DNAC, this function will raise an exception.
+        """
         try:
             response = self.dnac._exec(
                 family="devices",
                 function='get_device_list',
                 params={"managementIpAddress": device_ip},
             )
-
         except Exception as e:
             log("There is error while fetching device from DNAC")
+
         response = response.get("response")[0]
         device_id = response.get("id")
 
         return device_id
 
     def get_task_details(self, task_id):
+        """
+        Get the details of a specific task in Cisco DNAC.
+        Args:
+            task_id (str): The unique identifier of the task for which you want to retrieve details.
+        Returns:
+            dict or None: A dictionary containing detailed information about the specified task,
+            or None if the task with the given task_id is not found.
+        Description:
+            If the task with the specified task ID is not found in DNAC, this function will return None.
+        """
 
         response = None
         response = self.dnac._exec(
@@ -368,6 +395,15 @@ class DnacDevice(DnacBase):
             return response.get('response')
 
     def mandatory_parameter(self, config):
+        """
+        Check for and validate mandatory parameters for adding network devices in Cisco DNAC.
+        Args:
+            config (dict): A dictionary containing the configuration details for adding a network device to DNAC.
+        Returns:
+            dict: The input `config` dictionary if all mandatory parameters are present.
+        Description:
+            It will check the mandatory parameters for adding the devices in DNAC and if any parameter is missing it wil raise AnsibleModuleError.
+        """
 
         try:
             device_type = config.type
@@ -391,7 +427,18 @@ class DnacDevice(DnacBase):
         return config
 
     def get_have(self, config):
-        """Get the device details from DNAC"""
+        """
+        Retrieve and check device information with DNAC to determine if devices already exist.
+        Args:
+            config (dict): A dictionary containing the configuration details of devices to be checked.
+        Returns:
+            dict: A dictionary containing information about the devices in the playbook, devices that exist in DNAC, and devices that are not present in DNAC.
+        Description:
+            This function will check resulting `have` dictionary will contain the following keys:
+            - "want_device": A list of devices specified in the playbook.
+            - "device_in_dnac": A list of devices that already exist in DNAC.
+            - "device_not_in_dnac": A list of devices that are not present in DNAC.
+        """
 
         have = {}
         want_device = config.get("ipAddress")
@@ -414,7 +461,15 @@ class DnacDevice(DnacBase):
         return self
 
     def get_device_params(self, params):
-        """Store device parameters from the playbook for device Add/Update/Edit/Delete processing in DNAC"""
+        """
+        Extract and store device parameters from the playbook for device processing in DNAC.
+        Args:
+            params (dict): A dictionary containing device parameters retrieved from the playbook.
+        Returns:
+            dict: A dictionary containing the extracted device parameters.
+        Description:
+            This function will extract and store parameters in dictionary for adding, updating, editing, or deleting devices DNAC.
+        """
 
         device_param = {
             "enable_password": params.get("enablePassword"),
@@ -448,8 +503,15 @@ class DnacDevice(DnacBase):
         return device_param
 
     def get_want(self, config):
-        """Get all the device related information from playbook
-        that is needed to be add/update/delete/resync device in DNAC"""
+        """
+        Get all the device related information from playbook that is needed to be add/update/delete/resync device in DNAC
+        Args:
+            config (dict): A dictionary containing device-related information from the playbook.
+        Returns:
+            dict: A dictionary containing the extracted device parameters and other relevant information.
+        Description:
+            This function typically retrieve device-related information from the playbook for device operations in DNAC.
+        """
 
         want = {}
         device_params = self.get_device_params(config)
@@ -459,14 +521,24 @@ class DnacDevice(DnacBase):
         self.msg = "Successfully collected all parameters from playbook " + \
                    "for comparison"
         self.status = "success"
+
         return self
 
     def get_diff_merged(self, config):
-        """Update/Create site info in DNAC with fields provided in DNAC"""
+        """
+        Merge and process differences between existing devices and desired device configuration in DNAC.
+        Args:
+            config (dict): A dictionary containing the desired device configuration and relevant information from the playbook.
+        Returns:
+            object: An instance of the class with updated results and status based on the processing of differences.
+        Description:
+            The function processes the differences and, depending on the changes required, it may add, update, or resynchronize devices in DNAC.
+            The updated results and status are stored in the class instance for further use.
+        """
 
         device_added = False
         device_updated = False
-        device_resynced = False
+        # device_resynced = False
 
         devices_to_add = self.have["device_not_in_dnac"]
         self.result['msg'] = []
@@ -525,7 +597,15 @@ class DnacDevice(DnacBase):
         return self
 
     def get_diff_deleted(self, config):
-        """Call DNAC API to delete devices with provided inputs"""
+        """
+        Delete devices in DNAC based on provided inputs.
+        Args:
+            config (dict): A dictionary containing the list of device IP addresses to be deleted.
+        Returns:
+            object: An instance of the class with updated results and status based on the deletion operation.
+        Description:
+            This function is responsible for removing devices from the DNAC inventory.
+        """
 
         device_to_delete = config.get("ipAddress")
         self.result['msg'] = []
@@ -539,7 +619,6 @@ class DnacDevice(DnacBase):
                         function='delete_device_by_id',
                         params={"id": device_id},
                     )
-
                 except Exception as e:
                     log("There is error while deleting the device from DNAC")
 
