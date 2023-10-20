@@ -24,7 +24,7 @@ extends_documentation_fragment:
 author: Abhishek Maheshwari (@abmahesh)
 options:
   state:
-    description: The state of DNAC after module completion.
+    description: The state of Cisco DNA Center after module completion.
     type: str
     choices: [ merged, deleted ]
     default: merged
@@ -35,13 +35,13 @@ options:
     required: True
     suboptions:
       cliTransport:
-        description: Network Device's cliTransport.
+        description: Network Device's cliTransport.Required for Adding Network Device.
         type: str
       computeDevice:
         description: ComputeDevice flag.
         type: bool
       enablePassword:
-        description: Network Device's enablePassword.
+        description: Network Device's enablePassword.Required for Adding Network Device.
         type: str
       extendedDiscoveryInfo:
         description: Network Device's extendedDiscoveryInfo.
@@ -59,10 +59,10 @@ options:
         description: Network Device's httpUserName.
         type: str
       id:
-        description: Id path parameter. Device ID.
+        description: Id path parameter. Device ID.Required for Deleting Device.
         type: str
       ipAddress:
-        description: Network Device's ipAddress.
+        description: Network Device's ipAddress.Required for Adding/Deleting Device.
         elements: str
         type: list
       merakiOrgId:
@@ -73,47 +73,47 @@ options:
         description: Network Device's netconfPort.
         type: str
       password:
-        description: Network Device's password.
+        description: Network Device's password.Required for Adding Network Device.
         type: str
       serialNumber:
         description: Network Device's serialNumber.
         type: str
       snmpAuthPassphrase:
-        description: Network Device's snmpAuthPassphrase.
+        description: Network Device's snmpAuthPassphrase.Required for Adding Network Device.
         type: str
       snmpAuthProtocol:
-        description: Network Device's snmpAuthProtocol.
+        description: Network Device's snmpAuthProtocol.Required for Adding Network Device.
         type: str
         default: "SHA"
       snmpMode:
-        description: Network Device's snmpMode.
+        description: Network Device's snmpMode.Required for Adding Network Device.
         type: str
         default: "AUTHPRIV"
       snmpPrivPassphrase:
-        description: Network Device's snmpPrivPassphrase.
+        description: Network Device's snmpPrivPassphrase.Required for Adding Network Device.
         type: str
       snmpPrivProtocol:
-        description: Network Device's snmpPrivProtocol.
+        description: Network Device's snmpPrivProtocol.Required for Adding Network Device.
         type: str
         default: "AES128"
       snmpROCommunity:
-        description: Network Device's snmpROCommunity.
+        description: Network Device's snmpROCommunity.Required for Adding V2C Network Device.
         type: str
         default: public
       snmpRWCommunity:
-        description: Network Device's snmpRWCommunity.
+        description: Network Device's snmpRWCommunity.Required for Adding V2C Network Device.
         type: str
         default: private
       snmpRetry:
-        description: Network Device's snmpRetry.
+        description: Network Device's snmpRetry.Required for Adding Network Device.
         type: int
         default: 3
       snmpTimeout:
-        description: Network Device's snmpTimeout.
+        description: Network Device's snmpTimeout.Required for Adding Network Device.
         type: int
         default: 5
       snmpUserName:
-        description: Network Device's snmpUserName.
+        description: Network Device's snmpUserName.Required for Adding Network Device.
         type: str
       snmpVersion:
         description: Network Device's snmpVersion.
@@ -135,7 +135,7 @@ options:
             type: str
         type: list
       userName:
-        description: Network Device's userName.
+        description: Network Device's userName.Required for Adding Network Device.
         type: str
 
 requirements:
@@ -230,7 +230,7 @@ EXAMPLES = r"""
 RETURN = r"""
 
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNA Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -260,12 +260,23 @@ class DnacDevice(DnacBase):
         self.supported_states = ["merged", "deleted"]
 
     def validate_input(self):
-        """Validate the fields provided in the playbook"""
-
-        if not self.config:
-            self.msg = "config not available in playbook for validation"
-            self.status = "failed"
-            return self
+        """
+        Validate the fields provided in the playbook.
+        Checks the configuration provided in the playbook against a predefined specification
+        to ensure it adheres to the expected structure and data types.
+        Args:
+            self: The instance of the class containing the 'config' attribute to be validated.
+        Returns:
+            The method returns an instance of the class with updated attributes:
+                - self.msg: A message describing the validation result.
+                - self.status: The status of the validation (either 'success' or 'failed').
+                - self.validated_config: If successful, a validated version of the 'config' parameter.
+        Example:
+            To use this method, create an instance of the class and call 'validate_input' on it.
+            If the validation succeeds, 'self.status' will be 'success' and 'self.validated_config'
+            will contain the validated configuration. If it fails, 'self.status' will be 'failed', and
+            'self.msg' will describe the validation issues.
+        """
 
         temp_spec = {'cliTransport': {'default': "telnet", 'type': 'str'},
                      'computeDevice': {'type': 'bool'},
@@ -296,7 +307,7 @@ class DnacDevice(DnacBase):
                      'resync': {'type': 'bool'}
                      }
 
-        # Validate site params
+        # Validate device params
         valid_temp, invalid_params = validate_list_of_dicts(
             self.config, temp_spec
         )
@@ -316,17 +327,21 @@ class DnacDevice(DnacBase):
 
     def device_exists_in_dnac(self, want_device):
         """
-        Check which devices already exists in DNAC and return both device_exist and device_not_exist in dnac.
+        Check which devices already exists in Cisco DNA Center and return both device_exist and device_not_exist in dnac.
         Args:
-            want_device (list): A list of devices you want to check for existence in DNAC.
+            want_device (list): A list of devices you want to check for existence in Cisco DNA Center.
         Returns:
-            list: A list of devices that exist in DNAC.
+            list: A list of devices that exist in Cisco DNA Center.
         Description:
-            If a device is found in DNAC, its management IP address is included in the list of devices that exist.
+            Queries Cisco DNA Center to check which devices from 'want_device' are already present. If a device is found
+            in Cisco DNA Center, its management IP address is included in the list of devices that exist.
+        Example:
+            To use this method, create an instance of the class and call 'device_exists_in_dnac' on it,
+            passing a list of devices you want to check. The method returns a list of management IP addresses
+            for devices that exist in Cisco DNA Center.
         """
 
         device_in_dnac = []
-        response = None
 
         try:
             response = self.dnac._exec(
@@ -335,7 +350,8 @@ class DnacDevice(DnacBase):
             )
 
         except Exception as e:
-            log("There is error while fetching device from DNAC")
+            log("An error occurred while fetching the device from Cisco DNA Center")
+            raise Exception("Error while fetching device from Cisco DNA Center")
 
         if response:
             log(str(response))
@@ -348,13 +364,14 @@ class DnacDevice(DnacBase):
 
     def get_device_id(self, device_ip):
         """
-        Get the unique device ID for a device with the specified management IP address in Cisco DNAC.
+        Get the unique device ID for a device with the specified management IP address in Cisco DNA Center.
         Args:
             device_ip (str): The management IP address of the device for which you want to retrieve the device ID.
         Returns:
             str: The unique device ID for the specified device.
         Description:
-            If the device with the specified IP address is not found in DNAC, this function will raise an exception.
+            Queries Cisco DNA Center to retrieve the unique device ID associated with a device having the specified
+            IP address. If the device is not found in Cisco DNA Center, it raises an exception.
         """
         try:
             response = self.dnac._exec(
@@ -363,56 +380,30 @@ class DnacDevice(DnacBase):
                 params={"managementIpAddress": device_ip},
             )
         except Exception as e:
-            log("There is error while fetching device from DNAC")
+            log("An error occurred while fetching the device from Cisco DNA Center")
+            raise Exception("Error while fetching device from Cisco DNA Center")
 
         response = response.get("response")[0]
         device_id = response.get("id")
 
         return device_id
 
-    def get_task_details(self, task_id):
-        """
-        Get the details of a specific task in Cisco DNAC.
-        Args:
-            task_id (str): The unique identifier of the task for which you want to retrieve details.
-        Returns:
-            dict or None: A dictionary containing detailed information about the specified task,
-            or None if the task with the given task_id is not found.
-        Description:
-            If the task with the specified task ID is not found in DNAC, this function will return None.
-        """
-
-        response = None
-        response = self.dnac._exec(
-            family="task",
-            function='get_task_by_id',
-            params={"task_id": task_id}
-        )
-
-        log(str(response))
-
-        if response and isinstance(response, dict):
-            return response.get('response')
-
     def mandatory_parameter(self, config):
         """
-        Check for and validate mandatory parameters for adding network devices in Cisco DNAC.
+        Check for and validate mandatory parameters for adding network devices in Cisco DNA Center.
         Args:
-            config (dict): A dictionary containing the configuration details for adding a network device to DNAC.
+            config (dict): A dictionary containing the configuration details for adding a network device to Cisco DNA Center.
         Returns:
             dict: The input `config` dictionary if all mandatory parameters are present.
         Description:
-            It will check the mandatory parameters for adding the devices in DNAC and if any parameter is missing it wil raise AnsibleModuleError.
+            It will check the mandatory parameters for adding the devices in Cisco DNA Center.
         """
 
-        try:
-            device_type = config.type
-        except Exception as e:
-            device_type = "NETWORK_DEVICE"
+        device_type = config.get("type", "NETWORK_DEVICE")
 
         mandatory_params_absent = []
         if device_type == "NETWORK_DEVICE":
-            params_list = ["enablePassword", "ipAddress", "password", "snmpAuthPassphrase", "snmpPrivPassphrase", "snmpUserName", "userName"]
+            params_list = ["enablePassword", "ipAddress", "password", "snmpUserName", "snmpAuthPassphrase", "snmpPrivPassphrase", "userName"]
 
             for param in params_list:
                 if param not in config:
@@ -422,28 +413,33 @@ class DnacDevice(DnacBase):
                 self.msg = "Mandatory paramters {0} not present".format(mandatory_params_absent)
                 self.result['msg'] = "Required parameters {0} for adding devices are not present".format(mandatory_params_absent)
                 self.status = "failed"
-                self.module.fail_json(msg=self.msg, response=self.result)
+            else:
+                self.result['msg'] = "Required paramter for Adding the devices in Inventory are present."
+                self.msg = "Required paramter for Adding the devices in Inventory are present."
+                self.status = "success"
 
-        return config
+        return self
 
     def get_have(self, config):
         """
-        Retrieve and check device information with DNAC to determine if devices already exist.
+        Retrieve and check device information with Cisco DNA Center to determine if devices already exist.
         Args:
+            self (object): An instance of a class used for interacting with Cisco Cisco DNA Center.
             config (dict): A dictionary containing the configuration details of devices to be checked.
         Returns:
-            dict: A dictionary containing information about the devices in the playbook, devices that exist in DNAC, and devices that are not present in DNAC.
+            dict: A dictionary containing information about the devices in the playbook, devices that exist in
+            Cisco DNA Center, and devices that are not present in Cisco DNA Center.
         Description:
-            This function will check resulting `have` dictionary will contain the following keys:
+            This function checks the specified devices in the playbook against the devices existing in Cisco DNA Center with following keys:
             - "want_device": A list of devices specified in the playbook.
-            - "device_in_dnac": A list of devices that already exist in DNAC.
-            - "device_not_in_dnac": A list of devices that are not present in DNAC.
+            - "device_in_dnac": A list of devices that already exist in Cisco DNA Center.
+            - "device_not_in_dnac": A list of devices that are not present in Cisco DNA Center.
         """
 
         have = {}
         want_device = config.get("ipAddress")
 
-        # Get the list of device that are present in DNAC
+        # Get the list of device that are present in Cisco DNA Center
         device_in_dnac = self.device_exists_in_dnac(want_device)
         device_not_in_dnac = []
 
@@ -451,7 +447,7 @@ class DnacDevice(DnacBase):
             if ip not in device_in_dnac:
                 device_not_in_dnac.append(ip)
 
-        log("Device Exists in DNAC : " + str(device_in_dnac))
+        log("Device Exists in Cisco DNA Center : " + str(device_in_dnac))
         have["want_device"] = want_device
         have["device_in_dnac"] = device_in_dnac
         have["device_not_in_dnac"] = device_not_in_dnac
@@ -462,13 +458,14 @@ class DnacDevice(DnacBase):
 
     def get_device_params(self, params):
         """
-        Extract and store device parameters from the playbook for device processing in DNAC.
+        Extract and store device parameters from the playbook for device processing in Cisco DNA Center.
         Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
             params (dict): A dictionary containing device parameters retrieved from the playbook.
         Returns:
             dict: A dictionary containing the extracted device parameters.
         Description:
-            This function will extract and store parameters in dictionary for adding, updating, editing, or deleting devices DNAC.
+            This function will extract and store parameters in dictionary for adding, updating, editing, or deleting devices Cisco DNA Center.
         """
 
         device_param = {
@@ -504,13 +501,16 @@ class DnacDevice(DnacBase):
 
     def get_want(self, config):
         """
-        Get all the device related information from playbook that is needed to be add/update/delete/resync device in DNAC
+        Get all the device related information from playbook that is needed to be
+        add/update/delete/resync device in Cisco DNA Center.
         Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
             config (dict): A dictionary containing device-related information from the playbook.
         Returns:
             dict: A dictionary containing the extracted device parameters and other relevant information.
         Description:
-            This function typically retrieve device-related information from the playbook for device operations in DNAC.
+            Retrieve all the device-related information from the playbook needed for adding, updating, deleting,
+            or resyncing devices in Cisco DNA Center.
         """
 
         want = {}
@@ -518,21 +518,22 @@ class DnacDevice(DnacBase):
         want["device_params"] = device_params
 
         self.want = want
-        self.msg = "Successfully collected all parameters from playbook " + \
-                   "for comparison"
+        self.msg = "Successfully collected all parameters from the playbook "
         self.status = "success"
 
         return self
 
     def get_diff_merged(self, config):
         """
-        Merge and process differences between existing devices and desired device configuration in DNAC.
+        Merge and process differences between existing devices and desired device configuration in Cisco DNA Center.
         Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
             config (dict): A dictionary containing the desired device configuration and relevant information from the playbook.
         Returns:
             object: An instance of the class with updated results and status based on the processing of differences.
         Description:
-            The function processes the differences and, depending on the changes required, it may add, update, or resynchronize devices in DNAC.
+            The function processes the differences and, depending on the changes required, it may add, update,
+            or resynchronize devices in Cisco DNA Center.
             The updated results and status are stored in the class instance for further use.
         """
 
@@ -541,107 +542,113 @@ class DnacDevice(DnacBase):
         # device_resynced = False
 
         devices_to_add = self.have["device_not_in_dnac"]
-        self.result['msg'] = []
+        self.result['log'] = []
 
         if not devices_to_add:
             # Write code for device updation
             device_updated = True
 
-            log("Devices {0} are present in DNAC and updated successfully".format(config['ipAddress']))
-            msg = "Devices {0} present in DNAC and updated successfully".format(config['ipAddress'])
-            self.result['msg'].append(msg)
+            log("Devices {0} are present in Cisco DNA Center and updated successfully".format(config['ipAddress']))
+            msg = "Devices {0} present in Cisco DNA Center and updated successfully".format(config['ipAddress'])
+            self.result['log'].append(msg)
             self.status = "success"
             return self
 
-        else:
-            # If we want to add device in inventory
-            config = self.mandatory_parameter(config)
-            config['ipAddress'] = devices_to_add
-            del config['resync']
+        # If we want to add device in inventory
+        self.mandatory_parameter(config).check_return_status()
+        config['ipAddress'] = devices_to_add
+        del config['resync']
 
-            try:
-                response = self.dnac._exec(
-                    family="devices",
-                    function='add_device',
-                    op_modifies=True,
-                    params=config,
-                )
+        try:
+            response = self.dnac._exec(
+                family="devices",
+                function='add_device',
+                op_modifies=True,
+                params=config,
+            )
 
-                log(str(response))
-                device_added = True
+            log(str(response))
+            device_added = True
 
-            except Exception as e:
-                log("There is error while adding devices in DNAC")
+            if device_added or device_updated:
+                if response and isinstance(response, dict):
+                    task_id = response.get('response').get('taskId')
+                    while True:
+                        execution_details = self.get_task_details(task_id)
 
-        if device_added or device_updated:
-            if response and isinstance(response, dict):
-                task_id = response.get('response').get('taskId')
-                while True:
-                    execution_details = self.get_task_details(task_id)
+                        if '/task/' in execution_details.get("progress"):
+                            self.status = "success"
+                            self.result['changed'] = True
+                            self.result['response'] = execution_details
+                            break
+                        elif execution_details.get("isError") and execution_details.get("failureReason"):
+                            self.msg = "Device Addition/Updation get failed because of {0}".format(execution_details.get("failureReason"))
+                            self.status = "failed"
+                            break
 
-                    if '/task/' in execution_details.get("progress"):
-                        self.result['changed'] = True
-                        self.result['response'] = execution_details
-                        break
+                    log("Device Added Successfully")
+                    log("Added devices are :" + str(devices_to_add))
+                    msg = "Device " + str(devices_to_add) + " added Successfully !!"
+                    self.result['log'].append(msg)
 
-                    elif execution_details.get("isError") and execution_details.get("failureReason"):
-                        self.module.fail_json(msg=execution_details.get("failureReason"),
-                                              response=execution_details)
-                        break
-
-                log("Device Added Successfully")
-                log("Added devices are :" + str(devices_to_add))
-                msg = "Device " + str(devices_to_add) + " added Successfully !!"
-                self.result['msg'].append(msg)
+        except Exception as e:
+            log("An error occurred while Adding device in Cisco DNA Center")
+            raise Exception("Error while Adding device in Cisco DNA Center")
 
         return self
 
     def get_diff_deleted(self, config):
         """
-        Delete devices in DNAC based on provided inputs.
+        Delete devices in Cisco DNA Center based on device IP Address.
         Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center
             config (dict): A dictionary containing the list of device IP addresses to be deleted.
         Returns:
             object: An instance of the class with updated results and status based on the deletion operation.
         Description:
-            This function is responsible for removing devices from the DNAC inventory.
+            This function is responsible for removing devices from the Cisco DNA Center inventory and
+            raise Exception if any error occured.
         """
 
         device_to_delete = config.get("ipAddress")
         self.result['msg'] = []
 
         for device_ip in device_to_delete:
-            if device_ip in self.have.get("device_in_dnac"):
-                device_id = self.get_device_id(device_ip)
-                try:
-                    response = self.dnac._exec(
-                        family="devices",
-                        function='delete_device_by_id',
-                        params={"id": device_id},
-                    )
-                except Exception as e:
-                    log("There is error while deleting the device from DNAC")
+            if device_ip not in self.have.get("device_in_dnac"):
+                self.result['changed'] = False
+                msg = "The device {0} is not present in Cisco DNA Center so can't perform delete operation".format(device_ip)
+                self.msg = msg
+                self.status = "success"
+                self.result['msg'].append(msg)
+                continue
+
+            device_id = self.get_device_id(device_ip)
+            try:
+                response = self.dnac._exec(
+                    family="devices",
+                    function='delete_device_by_id',
+                    params={"id": device_id},
+                )
 
                 if response and isinstance(response, dict):
-                    if response and isinstance(response, dict):
-                        task_id = response.get('response').get('taskId')
+                    task_id = response.get('response').get('taskId')
                     while True:
                         execution_details = self.get_task_details(task_id)
 
                         if 'success' in execution_details.get("progress"):
+                            self.msg = "Device Deleted Successfully from Cisco DNA Center"
+                            self.status = "success"
                             self.result['changed'] = True
                             self.result['response'] = execution_details
                             break
-
                         elif execution_details.get("isError") and execution_details.get("failureReason"):
-                            self.module.fail_json(msg=execution_details.get("failureReason"),
-                                                  response=execution_details)
+                            self.msg = "Device Deletion get failed because of {0}".format(execution_details.get("failureReason"))
+                            self.status = "failed"
                             break
 
-            else:
-                self.result['changed'] = False
-                msg = "The device {0} is not present in DNAC so can't perform delete operation".format(device_ip)
-                self.result['msg'].append(msg)
+            except Exception as e:
+                log("An error occurred while Deleting the device from Cisco DNA Center")
+                raise Exception("Error while Deleting device from Cisco DNA Center")
 
         return self
 
@@ -650,7 +657,7 @@ def main():
     """ main entry point for module execution
     """
 
-    element_spec = {'dnac_host': {'required': True, 'type': 'str'},
+    element_spec = {'dnac_host': {'type': 'str', 'required': True, },
                     'dnac_port': {'type': 'str', 'default': '443'},
                     'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
                     'dnac_password': {'type': 'str', 'no_log': True},
