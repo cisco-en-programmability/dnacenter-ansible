@@ -1,0 +1,40 @@
+---
+- name: Configure device credentials on Cisco DNA Center
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars_files:
+    - "input_inventory.yml"
+    - "credentials.yml"
+  tasks:
+    - name: Add/Update/Resync/Delete the devices in DNAC Inventory.
+      cisco.dnac.inventory_intent:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        state: merged
+        config:
+        - enablePassword: "{{item.enablePassword}}"
+          password: "{{item.password}}"
+          ipAddress: "{{item.ipAddress}}"
+          snmpAuthPassphrase: "{{item.snmpAuthPassphrase}}"
+          snmpAuthProtocol: "{{item.snmpAuthProtocol}}"
+          snmpMode: "{{item.snmpMode}}"
+          snmpPrivPassphrase: "{{item.snmpPrivPassphrase}}"
+          snmpPrivProtocol: "{{item.snmpPrivProtocol}}"
+          snmpROCommunity: "{{item.snmpROCommunity}}"
+          snmpRWCommunity: "{{item.snmpRWCommunity}}"
+          snmpRetry:  "{{item.snmpRetry}}"
+          snmpTimeout: "{{item.snmpTimeout}}"
+          snmpUserName: "{{item.snmpUserName}}"
+          userName: "{{item.userName}}"
+          device_resync: "{{item.resync}}"
+
+      with_items: "{{ device_details }}"
+      tags:
+        - inventory_device  
