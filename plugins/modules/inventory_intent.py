@@ -47,17 +47,16 @@ options:
         description: Network Device's extendedDiscoveryInfo.
         type: str
       httpPassword:
-        description: Network Device's httpPassword.Required for Adding Compute, Meraki, 
-        Firepower Management System Devices.
+        description: Network Device's httpPassword.Required for Adding Compute, Meraki, Firepower Management Devices.
         type: str
       httpPort:
-        description: Network Device's httpPort.Required for Adding Compute, Firepower Management System Devices.
+        description: Network Device's httpPort.Required for Adding Compute, Firepower Management Devices.
         type: str
       httpSecure:
         description: HttpSecure flag.
         type: bool
       httpUserName:
-        description: Network Device's httpUserName.Required for Adding Compute,Firepower Management System Devices.
+        description: Network Device's httpUserName.Required for Adding Compute,Firepower Management Devices.
         type: str
       id:
         description: Id path parameter. Device ID.Required for Deleting Device.
@@ -212,51 +211,91 @@ EXAMPLES = r"""
         userName: string
 
 - name: Add new Compute device in Inventory with full credentials.Inputs needed for Compute Device
- config:
-  - ipAddress: string
-    httpUserName: string
-    httpPassword: string
-    httpPort: string
-    snmpAuthPassphrase: string
-    snmpAuthProtocol: string
-    snmpMode: string
-    snmpPrivPassphrase: string
-    snmpPrivProtocol: string
-    snmpRetry:  3
-    snmpTimeout: 5
-    snmpUserName: string
-    userName: string
-    resync: false
-    type: "COMPUTE_DEVICE"
+  cisco.dnac.inventory_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: False
+    state: merged
+    config:
+      - ipAddress: string
+        httpUserName: string
+        httpPassword: string
+        httpPort: string
+        snmpAuthPassphrase: string
+        snmpAuthProtocol: string
+        snmpMode: string
+        snmpPrivPassphrase: string
+        snmpPrivProtocol: string
+        snmpRetry:  3
+        snmpTimeout: 5
+        snmpUserName: string
+        userName: string
+        resync: false
+        type: "COMPUTE_DEVICE"
 
-- name: Add new Meraki device in Inventory with full credentials.Inputs needed for Meraki Device
- config:
-  - httpPassword: string
-    resync: false
-    type: "MERAKI_DASHBOARD"
+- name: Add new Meraki device in Inventory with full credentials.Inputs needed for Meraki Device.
+  cisco.dnac.inventory_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: False
+    state: merged
+    config:
+      - httpPassword: string
+        resync: false
+        type: "MERAKI_DASHBOARD"
 
-- name: Add new Firepower Management System device in Inventory with full credentials.Input needed for Firepower Management System Device
- config:
-  - ipAddress: string
-    httpUserName: string
-    httpPassword: string
-    httpPort: string
-    resync: false
-    type: "FIREPOWER_MANAGEMENT_SYSTEM"
+- name: Add new Firepower Management device in Inventory with full credentials.Input needed to add Device.
+  cisco.dnac.inventory_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: False
+    state: merged
+    config:
+      - ipAddress: string
+        httpUserName: string
+        httpPassword: string
+        httpPort: string
+        resync: false
+        type: "FIREPOWER_MANAGEMENT_SYSTEM"
 
-- name: Add new Third Party device in Inventory with full credentials.Input needed for Third Party Device
- config:
-  - ipAddress: string
-    snmpAuthPassphrase: string
-    snmpAuthProtocol: string
-    snmpMode: string
-    snmpPrivPassphrase: string
-    snmpPrivProtocol: string
-    snmpRetry:  3
-    snmpTimeout: 5
-    snmpUserName: string
-    resync: false
-    type: "THIRD_PARTY_DEVICE"
+- name: Add new Third Party device in Inventory with full credentials.Input needed to add Device.
+  cisco.dnac.inventory_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: False
+    state: merged
+    config:
+      - ipAddress: string
+        snmpAuthPassphrase: string
+        snmpAuthProtocol: string
+        snmpMode: string
+        snmpPrivPassphrase: string
+        snmpPrivProtocol: string
+        snmpRetry:  3
+        snmpTimeout: 5
+        snmpUserName: string
+        resync: false
+        type: "THIRD_PARTY_DEVICE"
 
 - name: Delete Device by id
   cisco.dnac.inventory_intent:
@@ -455,7 +494,7 @@ class DnacDevice(DnacBase):
 
         elif device_type == "COMPUTE_DEVICE":
             params_list = ["ipAddress", "httpUserName", "httpPassword", "httpPort", "snmpUserName", "snmpAuthPassphrase", "snmpPrivPassphrase"]
-            
+
         elif device_type == "MERAKI_DASHBOARD":
             params_list = ["httpPassword"]
 
