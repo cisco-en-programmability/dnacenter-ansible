@@ -35,34 +35,35 @@ options:
     required: True
     suboptions:
       cliTransport:
-        description: Network Device's cliTransport.Required for Adding Network Device.
+        description: Network Device's cliTransport.Required for Adding Network Devices.
         type: str
       computeDevice:
         description: ComputeDevice flag.
         type: bool
       enablePassword:
-        description: Network Device's enablePassword.Required for Adding Network Device.
+        description: Network Device's enablePassword.
         type: str
       extendedDiscoveryInfo:
         description: Network Device's extendedDiscoveryInfo.
         type: str
       httpPassword:
-        description: Network Device's httpPassword.
+        description: Network Device's httpPassword.Required for Adding Compute, Meraki, 
+        Firepower Management System Devices.
         type: str
       httpPort:
-        description: Network Device's httpPort.
+        description: Network Device's httpPort.Required for Adding Compute, Firepower Management System Devices.
         type: str
       httpSecure:
         description: HttpSecure flag.
         type: bool
       httpUserName:
-        description: Network Device's httpUserName.
+        description: Network Device's httpUserName.Required for Adding Compute,Firepower Management System Devices.
         type: str
       id:
         description: Id path parameter. Device ID.Required for Deleting Device.
         type: str
       ipAddress:
-        description: Network Device's ipAddress.Required for Adding/Deleting Device.
+        description: Network Device's ipAddress.Required for Adding/Deleting Device except Meraki Devices.
         elements: str
         type: list
       merakiOrgId:
@@ -79,41 +80,41 @@ options:
         description: Network Device's serialNumber.
         type: str
       snmpAuthPassphrase:
-        description: Network Device's snmpAuthPassphrase.Required for Adding Network Device.
+        description: Network Device's snmpAuthPassphrase.Required for Adding Network, Compute, Third Party Devices.
         type: str
       snmpAuthProtocol:
-        description: Network Device's snmpAuthProtocol.Required for Adding Network Device.
+        description: Network Device's snmpAuthProtocol.
         type: str
         default: "SHA"
       snmpMode:
-        description: Network Device's snmpMode.Required for Adding Network Device.
+        description: Network Device's snmpMode.
         type: str
         default: "AUTHPRIV"
       snmpPrivPassphrase:
-        description: Network Device's snmpPrivPassphrase.Required for Adding Network Device.
+        description: Network Device's snmpPrivPassphrase.Required for Adding Network, Compute, Third Party Devices.
         type: str
       snmpPrivProtocol:
-        description: Network Device's snmpPrivProtocol.Required for Adding Network Device.
+        description: Network Device's snmpPrivProtocol.Required for Adding Network, Compute, Third Party Devices.
         type: str
         default: "AES128"
       snmpROCommunity:
-        description: Network Device's snmpROCommunity.Required for Adding V2C Network Device.
+        description: Network Device's snmpROCommunity.Required for Adding V2C Devices.
         type: str
         default: public
       snmpRWCommunity:
-        description: Network Device's snmpRWCommunity.Required for Adding V2C Network Device.
+        description: Network Device's snmpRWCommunity.Required for Adding V2C Devices.
         type: str
         default: private
       snmpRetry:
-        description: Network Device's snmpRetry.Required for Adding Network Device.
+        description: Network Device's snmpRetry.
         type: int
         default: 3
       snmpTimeout:
-        description: Network Device's snmpTimeout.Required for Adding Network Device.
+        description: Network Device's snmpTimeout.
         type: int
         default: 5
       snmpUserName:
-        description: Network Device's snmpUserName.Required for Adding Network Device.
+        description: Network Device's snmpUserName.Required for Adding Network, Compute, Third Party Devices.
         type: str
       snmpVersion:
         description: Network Device's snmpVersion.
@@ -209,6 +210,53 @@ EXAMPLES = r"""
         - existMgmtIpAddress: string
           newMgmtIpAddress: string
         userName: string
+
+- name: Add new Compute device in Inventory with full credentials.Inputs needed for Compute Device
+ config:
+  - ipAddress: string
+    httpUserName: string
+    httpPassword: string
+    httpPort: string
+    snmpAuthPassphrase: string
+    snmpAuthProtocol: string
+    snmpMode: string
+    snmpPrivPassphrase: string
+    snmpPrivProtocol: string
+    snmpRetry:  3
+    snmpTimeout: 5
+    snmpUserName: string
+    userName: string
+    resync: false
+    type: "COMPUTE_DEVICE"
+
+- name: Add new Meraki device in Inventory with full credentials.Inputs needed for Meraki Device
+ config:
+  - httpPassword: string
+    resync: false
+    type: "MERAKI_DASHBOARD"
+
+- name: Add new Firepower Management System device in Inventory with full credentials.Input needed for Firepower Management System Device
+ config:
+  - ipAddress: string
+    httpUserName: string
+    httpPassword: string
+    httpPort: string
+    resync: false
+    type: "FIREPOWER_MANAGEMENT_SYSTEM"
+
+- name: Add new Third Party device in Inventory with full credentials.Input needed for Third Party Device
+ config:
+  - ipAddress: string
+    snmpAuthPassphrase: string
+    snmpAuthProtocol: string
+    snmpMode: string
+    snmpPrivPassphrase: string
+    snmpPrivProtocol: string
+    snmpRetry:  3
+    snmpTimeout: 5
+    snmpUserName: string
+    resync: false
+    type: "THIRD_PARTY_DEVICE"
 
 - name: Delete Device by id
   cisco.dnac.inventory_intent:
@@ -399,24 +447,36 @@ class DnacDevice(DnacBase):
             It will check the mandatory parameters for adding the devices in Cisco DNA Center.
         """
 
-        device_type = config.get("type", "NETWORK_DEVICE")
+        device_type = self.config[0].get("type", "NETWORK_DEVICE")
 
         mandatory_params_absent = []
         if device_type == "NETWORK_DEVICE":
             params_list = ["enablePassword", "ipAddress", "password", "snmpUserName", "snmpAuthPassphrase", "snmpPrivPassphrase", "userName"]
 
-            for param in params_list:
-                if param not in config:
-                    mandatory_params_absent.append(param)
+        elif device_type == "COMPUTE_DEVICE":
+            params_list = ["ipAddress", "httpUserName", "httpPassword", "httpPort", "snmpUserName", "snmpAuthPassphrase", "snmpPrivPassphrase"]
+            
+        elif device_type == "MERAKI_DASHBOARD":
+            params_list = ["httpPassword"]
 
-            if mandatory_params_absent:
-                self.msg = "Mandatory paramters {0} not present".format(mandatory_params_absent)
-                self.result['msg'] = "Required parameters {0} for adding devices are not present".format(mandatory_params_absent)
-                self.status = "failed"
-            else:
-                self.result['msg'] = "Required paramter for Adding the devices in Inventory are present."
-                self.msg = "Required paramter for Adding the devices in Inventory are present."
-                self.status = "success"
+        elif device_type == "FIREPOWER_MANAGEMENT_SYSTEM":
+            params_list = ["ipAddress", "httpUserName", "httpPassword"]
+
+        elif device_type == "THIRD_PARTY_DEVICE":
+            params_list = ["ipAddress", "snmpUserName", "snmpAuthPassphrase", "snmpPrivPassphrase"]
+
+        for param in params_list:
+            if param not in config:
+                mandatory_params_absent.append(param)
+
+        if mandatory_params_absent:
+            self.msg = "Mandatory paramters {0} not present".format(mandatory_params_absent)
+            self.result['msg'] = "Required parameters {0} for adding devices are not present".format(mandatory_params_absent)
+            self.status = "failed"
+        else:
+            self.result['msg'] = "Required paramter for Adding the devices in Inventory are present."
+            self.msg = "Required paramter for Adding the devices in Inventory are present."
+            self.status = "success"
 
         return self
 
@@ -469,6 +529,7 @@ class DnacDevice(DnacBase):
         """
 
         device_param = {
+            "cli_transport": params.get("cliTransport"),
             "enable_password": params.get("enablePassword"),
             "password": params.get("password"),
             "ipaddress": params.get("ipAddress"),
@@ -542,6 +603,7 @@ class DnacDevice(DnacBase):
         # device_resynced = False
 
         devices_to_add = self.have["device_not_in_dnac"]
+        device_type = self.config[0].get('type')
         self.result['log'] = []
 
         if not devices_to_add:
@@ -557,7 +619,9 @@ class DnacDevice(DnacBase):
         # If we want to add device in inventory
         self.mandatory_parameter(config).check_return_status()
         config['ipAddress'] = devices_to_add
-        del config['resync']
+        config['type'] = device_type
+        if device_type == "FIREPOWER_MANAGEMENT_SYSTEM":
+            config['httpPort'] = self.config[0].get("httpPort", "443")
 
         try:
             response = self.dnac._exec(
