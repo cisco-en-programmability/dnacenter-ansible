@@ -1,0 +1,53 @@
+---
+- name: Manage operations add device, claim device and unclaim device of Onboarding Configuration(PnP)
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars_files:
+    - "{{ CLUSTERFILE }}"
+
+  vars:
+    dnac_login: &dnac_login
+      dnac_host: "{{ dnac_host }}"
+      dnac_username: "{{ dnac_username }}"
+      dnac_password: "{{ dnac_password }}"
+      dnac_verify: "{{ dnac_verify }}"
+      dnac_port: "{{ dnac_port }}"
+      dnac_version: "{{ dnac_version }}"
+      dnac_debug: "{{ dnac_debug }}"
+
+  tasks:
+
+    - name: Add a new device and claim the device
+      cisco.dnac.pnp_intent:
+        <<: *dnac_login
+        dnac_log: True
+        state: deleted
+        config:
+          - template_name: "Ansible_PNP_WLC"
+            image_name: C9800-40-universalk9_wlc.17.12.01.SPA.bin
+            golden_image: True
+            site_name: Global/USA/San Francisco/BGL_18
+            pnp_type: CatalystWLC
+            deviceInfo:
+              serialNumber: FOX2639PAY7
+              hostname: WLC
+              state: Unclaimed
+              pid: C9800-40-K9
+            projectName: Onboarding Configuration
+            staticIP: 204.192.101.10
+            subnetMask: 255.255.255.0
+            gateway: 204.192.101.1
+            vlanId: 1101
+            ipInterfaceName: TenGigabitEthernet0/0/0
+
+          - template_name: "Ansible_PNP_Switch"
+            image_name: cat9k_iosxe_npe.17.03.07.SPA.bin
+            site_name: Global/USA/San Francisco/BGL_18
+            deviceInfo:
+              serialNumber: FJC271924EQ
+              hostname: Switch
+              state: Unclaimed
+              pid: C9300-48UXM
+            projectName: Onboarding Configuration
