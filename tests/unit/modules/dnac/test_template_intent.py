@@ -17,35 +17,18 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-from unittest.mock import patch
 from ansible_collections.cisco.dnac.plugins.modules import template_intent
-from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
+from .dnac_module import TestDnacModule, set_module_args
 
 
 class TestDnacTemplateIntent(TestDnacModule):
+    def __init__(self):
+        """
+        Inheriting from the base class of dnac_module
+        """
 
-    module = template_intent
-
-    test_data = loadPlaybookData("template_intent")
-
-    playbook_config = test_data.get("playbook_config")
-    playbook_config_missing_param = test_data.get("playbook_config_missing_param")
-
-    def setUp(self):
-        super(TestDnacTemplateIntent, self).setUp()
-        self.mock_dnac_init = patch(
-            "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
-            "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.exec"
-        )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
-
-    def tearDown(self):
-        super(TestDnacTemplateIntent, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        module = template_intent
+        super().__init__(module)
 
     def load_fixtures(self, response=None, device=""):
         if "create_template" in self._testMethodName:
