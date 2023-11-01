@@ -726,3 +726,5 @@ plugins/modules/site_intent.py import-2.7!skip # Python 2.7 is not supported by 
 plugins/modules/swim_intent.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/modules/device_credential_intent.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/modules/device_credential_intent.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
+plugins/modules/device_credential_intent.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/modules/device_credential_intent.py import-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
