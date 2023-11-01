@@ -1759,8 +1759,8 @@ class DnacNetwork(DnacBase):
 
             self.log("Network doesn't require an update")
             result_network.get("response").get(siteName).update({
-                "Cisco DNA Center params": self.have.get("network") \
-                    .get("net_details").get("settings")
+                "Cisco DNA Center params": self.have.get("network")
+                .get("net_details").get("settings")
             })
             result_network.get("msg").update({siteName: "Network doesn't require an update"})
             return
