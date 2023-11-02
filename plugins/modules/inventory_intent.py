@@ -209,6 +209,7 @@ EXAMPLES = r"""
         - existMgmtIpAddress: string
           newMgmtIpAddress: string
         userName: string
+        deviceResync: false
 
 - name: Add new Compute device in Inventory with full credentials.Inputs needed for Compute Device
   cisco.dnac.inventory_intent:
@@ -235,7 +236,7 @@ EXAMPLES = r"""
         snmpTimeout: 5
         snmpUserName: string
         userName: string
-        resync: false
+        deviceResync: false
         type: "COMPUTE_DEVICE"
 
 - name: Add new Meraki device in Inventory with full credentials.Inputs needed for Meraki Device.
@@ -251,7 +252,7 @@ EXAMPLES = r"""
     state: merged
     config:
       - httpPassword: string
-        resync: false
+        deviceResync: false
         type: "MERAKI_DASHBOARD"
 
 - name: Add new Firepower Management device in Inventory with full credentials.Input needed to add Device.
@@ -270,7 +271,7 @@ EXAMPLES = r"""
         httpUserName: string
         httpPassword: string
         httpPort: string
-        resync: false
+        deviceResync: false
         type: "FIREPOWER_MANAGEMENT_SYSTEM"
 
 - name: Add new Third Party device in Inventory with full credentials.Input needed to add Device.
@@ -294,7 +295,7 @@ EXAMPLES = r"""
         snmpRetry:  3
         snmpTimeout: 5
         snmpUserName: string
-        resync: false
+        deviceResync: false
         type: "THIRD_PARTY_DEVICE"
 
 - name: Resync Device with IP Addresses
@@ -310,8 +311,8 @@ EXAMPLES = r"""
     state: merged
     config:
       - ipAddress: string
-        resync: True
-        force_sync: False
+        deviceResync: True
+        forceSync: False
 
 - name: Delete Device by id
   cisco.dnac.inventory_intent:
@@ -407,8 +408,8 @@ class DnacDevice(DnacBase):
                      'snmpVersion': {'default': "v3", 'type': 'str'},
                      'updateMgmtIPaddressList': {'type': 'list', 'elements': 'dict'},
                      'userName': {'type': 'str'},
-                     'resync': {'type': 'bool'},
-                     'force_sync': {'type': 'bool'}
+                     'deviceResync': {'type': 'bool'},
+                     'forceSync': {'type': 'bool'}
                      }
 
         # Validate device params
@@ -455,8 +456,8 @@ class DnacDevice(DnacBase):
             )
 
         except Exception as e:
-            log("An error occurred while fetching the device from Cisco DNA Center")
-            raise Exception("Error while fetching device from Cisco DNA Center")
+            self.log("An error occurred while fetching the device from Cisco DNA Center")
+            raise Exception(f"'Error while fetching device from Cisco DNA Center' - {str(e)}")
 
         if response:
             log(str(response))
@@ -580,19 +581,19 @@ class DnacDevice(DnacBase):
             "snmp_version": params.get("snmpVersion"),
             "type": params.get("type"),
             "update_management_ip_list": params.get("updateMgmtIPaddressList"),
-            "force_sync": params.get("force_sync")
+            "force_sync": params.get("forceSync")
         }
 
         return device_param
 
     def get_device_ids(self, device_ips):
         """
-        Get the list of unique device ID's for list of specified management IP addresses of devices in Cisco DNA Center.
+        Get the list of unique device IDs for list of specified management IP addresses of devices in Cisco DNA Center.
         Args:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
-            device_ips (list): The management IP addresses of devices for which you want to retrieve the device ID's.
+            device_ips (list): The management IP addresses of devices for which you want to retrieve the device IDs.
         Returns:
-            list: The list of unique device ID's for the specified devices.
+            list: The list of unique device IDs for the specified devices.
         Description:
             Queries Cisco DNA Center to retrieve the unique device ID associated with a device having the specified
             IP address. If the device is not found in Cisco DNA Center, it raises an exception.
@@ -608,14 +609,14 @@ class DnacDevice(DnacBase):
                 )
 
                 if response:
-                    log(str(response))
+                    self.log(str(response))
                     response = response.get("response")[0]
                     device_id = response["id"]
                     device_ids.append(device_id)
 
             except Exception as e:
-                log("An error occurred while fetching the device from Cisco DNA Center")
-                raise Exception("Error while fetching device from Cisco DNA Center")
+                self.log("An error occurred while fetching the device from Cisco DNA Center")
+                raise Exception(f"'Error while fetching device from Cisco DNA Center' - {str(e)}")
 
         return device_ids
 
@@ -662,15 +663,15 @@ class DnacDevice(DnacBase):
 
         devices_to_add = self.have["device_not_in_dnac"]
         device_type = self.config[0].get("type", "NETWORK_DEVICE")
-        device_resynced = self.config[0].get("device_resync", "False")
+        device_resynced = self.config[0].get("deviceResync", "False")
         self.result['log'] = []
 
         if device_resynced:
-            # Code for Resyncig of devices
+            # Code for triggers the resync operation using the retrieved device IDs and force sync parameter.
             device_ips = config.get("ipAddress")
             device_ids = self.get_device_ids(device_ips)
             try:
-                force_sync = self.config[0].get("force_sync", "False")
+                force_sync = self.config[0].get("forceSync", "False")
                 resync_param_dict = {
                     'payload': device_ids,
                     'force_sync': force_sync
@@ -681,7 +682,7 @@ class DnacDevice(DnacBase):
                     op_modifies=True,
                     params=resync_param_dict,
                 )
-                log(str(response))
+                self.log(str(response))
 
                 if response and isinstance(response, dict):
                     task_id = response.get('response').get('taskId')
@@ -697,16 +698,16 @@ class DnacDevice(DnacBase):
                             self.msg = "Device Resynced get failed because of {0}".format(execution_details.get("failureReason"))
                             self.status = "failed"
                             break
-                    log("Device Resynced Successfully")
-                    log("Resynced devices are :" + str(device_ips))
+                    self.log("Device Resynced Successfully")
+                    self.log("Resynced devices are :" + str(device_ips))
                     msg = "Device " + str(device_ips) + " Resynced Successfully !!"
                     self.result['log'].append(msg)
 
                     return self
 
             except Exception as e:
-                log("An error occurred while Resyncing device in Cisco DNA Center")
-                raise Exception("Error while Resyncing device in Cisco DNA Center")
+                self.log("An error occurred while Resyncing device in Cisco DNA Center")
+                raise Exception(f"'Error while Resyncing device in Cisco DNA Center' - {str(e)}")
 
         if not devices_to_add:
             # Write code for device updation
@@ -758,8 +759,8 @@ class DnacDevice(DnacBase):
                     self.result['log'].append(msg)
 
         except Exception as e:
-            log("An error occurred while Adding device in Cisco DNA Center")
-            raise Exception("Error while Adding device in Cisco DNA Center")
+            self.log("An error occurred while Adding device in Cisco DNA Center")
+            raise Exception(f"'Error while Adding device in Cisco DNA Center' - {str(e)}")
 
         return self
 
@@ -813,8 +814,8 @@ class DnacDevice(DnacBase):
                             break
 
             except Exception as e:
-                log("An error occurred while Deleting the device from Cisco DNA Center")
-                raise Exception("Error while Deleting device from Cisco DNA Center")
+                self.log("An error occurred while Deleting the device from Cisco DNA Center")
+                raise Exception(f"'Error while Deleting device from Cisco DNA Center' - {str(e)}")
 
         return self
 
