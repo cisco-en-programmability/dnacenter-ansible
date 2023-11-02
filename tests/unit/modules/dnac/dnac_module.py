@@ -28,6 +28,7 @@ from ansible_collections.ansible.netcommon.tests.unit.modules.utils import (
 from ansible_collections.ansible.netcommon.tests.unit.modules.utils import (
     set_module_args as _set_module_args,
 )
+from unittest.mock import patch
 
 
 def set_module_args(args):
@@ -75,6 +76,42 @@ def load_fixture(module_name, name, device=""):
 
 
 class TestDnacModule(ModuleTestCase):
+
+    def __init__(self, module):
+        self.module = module
+        self.test_data = self.loadPlaybookData(str(self.module.__name__))
+        self.playbook_config = self.test_data.get("playbook_config")
+        self.playbook_config_missing_param = self.test_data.get("playbook_config_missing_param")
+
+    def setUp(self):
+        self.mock_dnac_init = patch(
+            "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
+        self.run_dnac_init = self.mock_dnac_init.start()
+        self.run_dnac_init.side_effect = [None]
+        self.mock_dnac_exec = patch(
+            "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.exec"
+        )
+        self.run_dnac_exec = self.mock_dnac_exec.start()
+
+    def tearDown(self):
+        self.mock_dnac_exec.stop()
+        self.mock_dnac_init.stop()
+
+    def loadPlaybookData(self, module):
+        path = os.path.join(fixture_path, "{0}.json".format(module))
+        print(path)
+
+        with open(path) as f:
+            data = f.read()
+
+        try:
+            j_data = json.loads(data)
+        except Exception as e:
+            print(e)
+            pass
+
+        return j_data
+
     def execute_module_devices(
         self, failed=False, changed=False, response=None, sort=True, defaults=False
     ):

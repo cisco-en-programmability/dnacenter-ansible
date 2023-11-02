@@ -3,11 +3,10 @@
 
 # Copyright (c) 2022, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary")
+__author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary, Abinash Mishra")
 
 DOCUMENTATION = r"""
 ---
@@ -22,6 +21,7 @@ extends_documentation_fragment:
   - cisco.dnac.intent_params
 author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
+        Abinash Mishra (@abimishr)
 options:
   state:
     description: The state of DNAC after module completion.
@@ -624,7 +624,23 @@ class DnacPnp(DnacBase):
     def validate_input(self):
 
         """
-        Validate the fields provided in the playbook
+        Validate the fields provided in the playbook.
+        Checks the configuration provided in the playbook against a predefined specification
+        to ensure it adheres to the expected structure and data types.
+        Args:
+            self: The instance of the class containing the 'config' attribute to be validated.
+        Returns:
+            The method returns an instance of the class with updated attributes:
+                - self.msg: A message describing the validation result.
+                - self.status: The status of the validation (either 'success' or 'failed').
+                - self.validated_config: If successful, a validated version of
+                the 'config' parameter.
+        Example:
+            To use this method, create an instance of the class and call
+            'validate_input' on it.If the validation succeeds, 'self.status'
+            will be 'success'and 'self.validated_config' will contain the
+            validated configuration. If it fails, 'self.status' will be
+            'failed', and 'self.msg' will describe the validation issues.
         """
 
         if not self.config:
@@ -633,14 +649,21 @@ class DnacPnp(DnacBase):
             return self
 
         pnp_spec = {
-            'template_name': {'type': 'str', 'required': True},
+            'template_name': {'type': 'str', 'required': False},
             'project_name': {'type': 'str', 'required': False,
                              'default': 'Onboarding Configuration'},
-            'site_name': {'type': 'str', 'required': True},
-            'image_name': {'type': 'str', 'required': True},
+            'site_name': {'type': 'str', 'required': False},
+            'image_name': {'type': 'str', 'required': False},
             'golden_image': {'type': 'bool', 'required': False},
             'deviceInfo': {'type': 'dict', 'required': True},
             'pnp_type': {'type': 'str', 'required': False, 'default': 'Default'},
+            "rfProfile": {'type': 'str', 'required': False},
+            "staticIP": {'type': 'str', 'required': False},
+            "subnetMask": {'type': 'str', 'required': False},
+            "gateway": {'type': 'str', 'required': False},
+            "vlanId": {'type': 'str', 'required': False},
+            "ipInterfaceName": {'type': 'str', 'required': False},
+            "sensorProfile": {'type': 'str', 'required': False}
         }
 
         # Validate pnp params
@@ -656,14 +679,25 @@ class DnacPnp(DnacBase):
 
         self.validated_config = valid_pnp
         self.log(str(valid_pnp))
+
         self.msg = "Successfully validated input"
         self.status = "success"
+
         return self
 
     def site_exists(self):
 
         """
         Check whether the site exists or not
+        Args:
+            self: The instance of the class containing the 'config' attribute to be validated.
+        Returns:
+            The method returns an instance of the class with updated attributes:
+                - site_exits: A boolean value indicating the existence of the site.
+                - site_id: The Id of the site i.e. required to claim a device to site.
+        Example:
+            Post creation of the validated input, we this method gets the site_id and checks
+            whether the site exists or not
         """
 
         site_exists = False
@@ -687,10 +721,53 @@ class DnacPnp(DnacBase):
 
         return (site_exists, site_id)
 
+    def get_site_type(self):
+
+        """
+        Fetches the type of site
+        Args:
+            self: The instance of the class containing the 'config' attribute to be validated.
+        Returns:
+            The method returns an instance of the class with updated attributes:
+                - site_type: A string indicating the type of the site (area/building/floor).
+        Example:
+            Post creation of the validated input, we this method gets the type of the site
+        """
+
+        try:
+            response = self.dnac_apply['exec'](
+                family="sites",
+                function='get_site',
+                params={"name": self.want.get("site_name")},
+            )
+        except Exception:
+            self.module.fail_json(msg="Site not found", response=[])
+
+        if response:
+            self.log(str(response))
+            site = response.get("response")
+            site_additional_info = site[0].get("additionalInfo")
+            for item in site_additional_info:
+                if item["nameSpace"] == "Location":
+                    site_type = item.get("attributes").get("type")
+
+        return site_type
+
     def get_pnp_params(self, params):
 
         """
         Store pnp parameters from the playbook for pnp processing in DNAC
+        Args:
+            self: The instance of the class containing the 'config' attribute to be validated.
+            params: The validated params passed from the playbook
+        Returns:
+            The method returns an instance of the class with updated attributes:
+                - pnp_params: A dictionary containing all the values indicating
+                the type of the site (area/building/floor).
+        Example:
+            Post creation of the validated input, it fetches the required paramters
+            and stores it for further processing and calling the parameters in
+            other APIs
         """
 
         pnp_params = {
@@ -710,6 +787,17 @@ class DnacPnp(DnacBase):
 
         """
         Get image name and the confirmation whether it's tagged golden or not
+        Args:
+            self: The instance of the class containing the 'config' attribute to be validated.
+            params: The validated params passed from the playbook
+        Returns:
+            The method returns an instance of the class with updated attributes:
+                - image_params: A dictionary containing all the values indicating
+                name of the image and its golden image status.
+        Example:
+            Post creation of the validated input, it fetches the required paramters
+            and stores it for further processing and calling the parameters in
+            other APIs
         """
 
         image_params = {
@@ -721,7 +809,15 @@ class DnacPnp(DnacBase):
     def get_claim_params(self):
 
         """
-        Get the paramters needed for claiming
+        Get the paramters needed for claiming the device to site
+        Args:
+            self: The instance of the class containing the 'config' attribute to be validated.
+        Returns:
+            The method returns an instance of the class with updated attributes:
+                - claim_params: A dictionary needed for calling the POST call for claim
+                a device to a site API
+        Example:
+            The stored dictionary can be used to call the API claim a device to a site via SDK
         """
 
         imageinfo = {
@@ -747,12 +843,32 @@ class DnacPnp(DnacBase):
             'configInfo': configinfo,
         }
 
+        if claim_params["type"] == "CatalystWLC":
+            claim_params["staticIP"] = self.validated_config[0]['staticIP']
+            claim_params["subnetMask"] = self.validated_config[0]['subnetMask']
+            claim_params["gateway"] = self.validated_config[0]['gateway']
+            claim_params["vlanId"] = str(self.validated_config[0]['vlanId'])
+            claim_params["ipInterfaceName"] = self.validated_config[0]['ipInterfaceName']
+
+        if claim_params["type"] == "AccessPoint":
+            claim_params["rfProfile"] = self.validated_config[0]["rfProfile"]
+
         return claim_params
 
     def get_have(self):
 
         """
         Get the current image, template and site details from the DNAC
+        Args:
+            self: The instance of the class containing the 'config' attribute to be validated.
+        Returns:
+            The method returns an instance of the class with updated attributes:
+                - self.image_response: A list of image passed by the user
+                - self.template_list: A list of template under project
+                - self.device_response: Gets the device_id and stores it
+        Example:
+            Stored paramters are used to call the APIs to get the current image,
+            template and site details to call the API for various types of devices
         """
 
         have = {}
@@ -763,49 +879,47 @@ class DnacPnp(DnacBase):
                 function='get_software_image_details',
                 params=self.want.get("image_params"),
             )
-
+            image_list = image_response.get("response")
             self.log(str(image_response))
 
-            image_list = image_response.get("response")
-
-            if len(image_list) == 1:
-                have["image_id"] = image_list[0].get("imageUuid")
-                self.log("Image Id: " + str(have["image_id"]))
-            else:
-                self.module.fail_json(msg="Image not found", response=[])
-
-            # check if given template exists, if exists store template id
+            # check if project has templates or not
             template_list = self.dnac_apply['exec'](
                 family="configuration_templates",
                 function='gets_the_templates_available',
                 params={"project_names": self.want.get("project_name")},
             )
-
             self.log(str(template_list))
 
-            if template_list and isinstance(template_list, list):
-                # API execution error returns a dict
-                template_details = get_dict_result(template_list,
-                                                   'name', self.want.get("template_name"))
-                if template_details:
-                    have["template_id"] = template_details.get("templateId")
-
-                    self.log("Template Id: " + str(have["template_id"]))
-                else:
-                    self.module.fail_json(msg="Template not found", response=[])
-            else:
-                self.module.fail_json(msg="Project Not Found", response=[])
-
             # check if given site exits, if exists store current site info
-            site_name = self.want.get("site_name")
-
             site_exists = False
-            (site_exists, site_id) = self.site_exists()
+            if isinstance(self.want.get("site_name"), str):
+                site_name = self.want.get("site_name")
+                (site_exists, site_id) = self.site_exists()
 
             if site_exists:
                 have["site_id"] = site_id
                 self.log("Site Exists: " + str(site_exists) + "\n Site_id:" + str(site_id))
                 self.log("Site Name:" + str(site_name))
+                if self.want.get("pnp_type") == "AccessPoint":
+                    if self.get_site_type() != "floor":
+                        self.module.fail_json(msg="Type of the site must \
+                            be a floor for claiming an AP", response=[])
+                if len(image_list) == 1:
+                    have["image_id"] = image_list[0].get("imageUuid")
+                    self.log("Image Id: " + str(have["image_id"]))
+                if template_list and isinstance(template_list, list):
+                    # API execution error returns a dict
+                    if self.want.get("template_name"):
+                        template_details = get_dict_result(template_list, 'name', self.want.get("template_name"))
+
+                        if template_details:
+                            have["template_id"] = template_details.get("templateId")
+                        else:
+                            self.module.fail_json(msg="Template Not Found", response=[])
+                else:
+                    self.module.fail_json(msg="Project Not Found or Project is Empty", response=[])
+            else:
+                self.module.fail_json(msg="Site not found", response=[])
 
         # check if given device exists in pnp inventory, store device Id
         device_response = self.dnac_apply['exec'](
@@ -833,8 +947,20 @@ class DnacPnp(DnacBase):
     def get_want(self, config):
 
         """
-        Get all the image, site and pnp related
+        Get all the image, template and site and pnp related
         information from playbook that is needed to be created in DNAC
+        Args:
+            self: The instance of the class containing the 'config' attribute to be validated.
+            config: validated config passed from the playbook
+        Returns:
+            The method returns an instance of the class with updated attributes:
+                - self.want: A dictionary of paramters obtained from the playbook
+                - self.msgt: A message indicating all the paramters from the playbook are
+                collected
+                - self.status: Success
+        Example:
+            It stores all the paramters passed from the playbook for further processing
+            before calling the APIs
         """
 
         self.want = {
@@ -848,6 +974,17 @@ class DnacPnp(DnacBase):
             'template_name': config.get('template_name')
         }
 
+        if self.want["pnp_type"] == "CatalystWLC":
+            self.want["staticIP"] = config.get('staticIP')
+            self.want["subnetMask"] = config.get('subnetMask')
+            self.want["gateway"] = config.get('gateway')
+            self.want["vlanId"] = config.get('vlanId')
+            self.want["ipInterfaceName"] = config.get('ipInterfaceName')
+
+        if self.want["pnp_type"] == "AccessPoint":
+            if self.get_site_type == "floor":
+                self.want["rfProfile"] = config.get("rfProfile")
+
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
         self.status = "success"
@@ -859,6 +996,16 @@ class DnacPnp(DnacBase):
         """
         If given device doesnot exist
         then add it to pnp database and get the device id
+        Args:
+            self: An instance of a class used for interacting with Cisco DNA Center.
+        Returns:
+            object: An instance of the class with updated results and status
+            based on the processing of differences.
+        Description:
+            The function processes the differences and, depending on the
+            changes required, it may add, update,or resynchronize devices in
+            Cisco DNA Center. The updated results and status are stored in the
+            class instance for further use.
         """
 
         if not self.have.get("device_found"):
@@ -869,8 +1016,8 @@ class DnacPnp(DnacBase):
                 params=self.want.get("pnp_params"),
                 op_modifies=True,
             )
-            self.have["device_id"] = response.get("id")
 
+            self.have["device_id"] = response.get("id")
             self.log(str(response))
             self.log(self.have.get("device_id"))
 
@@ -888,15 +1035,29 @@ class DnacPnp(DnacBase):
             self.result['changed'] = True
             self.result['msg'] = "Device Claimed Successfully"
             self.result['response'] = claim_response
-            self.result['diff'] = self.validated
+            self.result['diff'] = self.validated_config
         else:
             self.module.fail_json(msg="Device Claim Failed", response=claim_response)
 
         return self
 
     def get_diff_deleted(self):
-        if self.have.get("device_found"):
 
+        """
+        If the given device is added to pnp database
+        and is in unclaimed or failed state delete the
+        given device
+        Args:
+            self: An instance of a class used for interacting with Cisco DNA Center
+        Returns:
+            self: An instance of the class with updated results and status based on
+            the deletion operation.
+        Description:
+            This function is responsible for removing devices from the Cisco DNA Center PnP GUI and
+            raise Exception if any error occured.
+        """
+
+        if self.have.get("device_found"):
             try:
                 response = self.dnac_apply['exec'](
                     family="device_onboarding_pnp",
@@ -910,7 +1071,7 @@ class DnacPnp(DnacBase):
                 if response.get("deviceInfo").get("state") == "Deleted":
                     self.result['changed'] = True
                     self.result['response'] = response
-                    self.result['diff'] = self.validated
+                    self.result['diff'] = self.validated_config
                     self.result['msg'] = "Device Deleted Successfully"
                 else:
                     self.result['response'] = response

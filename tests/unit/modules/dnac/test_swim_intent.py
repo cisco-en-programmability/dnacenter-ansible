@@ -17,35 +17,18 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-from unittest.mock import patch
-
 from ansible_collections.cisco.dnac.plugins.modules import swim_intent
-from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
+from .dnac_module import TestDnacModule, set_module_args
 
 
 class TestDnacSwimIntent(TestDnacModule):
+    def __init__(self):
+        """
+        Inheriting from the base class of dnac_module
+        """
 
-    module = swim_intent
-    test_data = loadPlaybookData("swim_intent")
-    playbook_config = test_data.get("playbook_config")
-    playbook_config_untag_image = test_data.get("playbook_config_untag_golden_image")
-
-    def setUp(self):
-        super(TestDnacSwimIntent, self).setUp()
-
-        self.mock_dnac_init = patch(
-            "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
-            "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.exec"
-        )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
-
-    def tearDown(self):
-        super(TestDnacSwimIntent, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        module = swim_intent
+        super().__init__(module)
 
     def load_fixtures(self, response=None, device=""):
         if "full_flow" in self._testMethodName:

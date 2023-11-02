@@ -17,37 +17,19 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-from unittest.mock import patch
 from ansible.errors import AnsibleActionFail
 from ansible_collections.cisco.dnac.plugins.modules import pnp_intent
-from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
+from .dnac_module import TestDnacModule, set_module_args
 
 
 class TestDnacPnPIntent(TestDnacModule):
+    def __init__(self):
+        """
+        Inheriting from the base class of dnac_module
+        """
 
-    module = pnp_intent
-
-    test_data = loadPlaybookData("pnp_intent")
-
-    playbook_config = test_data.get("playbook_config")
-    playbook_config_missing_param = test_data.get("playbook_config_missing_param")
-
-    def setUp(self):
-        super(TestDnacPnPIntent, self).setUp()
-
-        self.mock_dnac_init = patch(
-            "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
-            "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.exec"
-        )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
-
-    def tearDown(self):
-        super(TestDnacPnPIntent, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        module = pnp_intent
+        super().__init__(module)
 
     def load_fixtures(self, response=None, device=""):
         if "site_not_found" in self._testMethodName:
