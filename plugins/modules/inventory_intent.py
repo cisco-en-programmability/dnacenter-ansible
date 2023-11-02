@@ -457,7 +457,8 @@ class DnacDevice(DnacBase):
 
         except Exception as e:
             self.log("An error occurred while fetching the device from Cisco DNA Center")
-            raise Exception(f"'Error while fetching device from Cisco DNA Center' - {str(e)}")
+            error_message = "Error while fetching device from Cisco DNA Center - {0}".format(str(e))
+            raise Exception(error_message)
 
         if response:
             log(str(response))
@@ -616,7 +617,8 @@ class DnacDevice(DnacBase):
 
             except Exception as e:
                 self.log("An error occurred while fetching the device from Cisco DNA Center")
-                raise Exception(f"'Error while fetching device from Cisco DNA Center' - {str(e)}")
+                error_message = "Error while fetching device from Cisco DNA Center - {0}".format(str(e))
+                raise Exception(error_message)
 
         return device_ids
 
@@ -707,7 +709,8 @@ class DnacDevice(DnacBase):
 
             except Exception as e:
                 self.log("An error occurred while Resyncing device in Cisco DNA Center")
-                raise Exception(f"'Error while Resyncing device in Cisco DNA Center' - {str(e)}")
+                error_message = "Error while Resyncing device in Cisco DNA Center - {0}".format(str(e))
+                raise Exception(error_message)
 
         if not devices_to_add:
             # Write code for device updation
@@ -760,7 +763,8 @@ class DnacDevice(DnacBase):
 
         except Exception as e:
             self.log("An error occurred while Adding device in Cisco DNA Center")
-            raise Exception(f"'Error while Adding device in Cisco DNA Center' - {str(e)}")
+            error_message = "Error while Adding device in Cisco DNA Center - {0}".format(str(e))
+            raise Exception(error_message)
 
         return self
 
@@ -815,7 +819,8 @@ class DnacDevice(DnacBase):
 
             except Exception as e:
                 self.log("An error occurred while Deleting the device from Cisco DNA Center")
-                raise Exception(f"'Error while Deleting device from Cisco DNA Center' - {str(e)}")
+                error_message = "Error while Deleting device from Cisco DNA Center - {0}".format(str(e))
+                raise Exception(error_message)
 
         return self
 
