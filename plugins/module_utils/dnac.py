@@ -158,6 +158,41 @@ class DnacBase():
 
         return result
 
+    def check_task_response_status(self, response):
+        """
+        Get the site id from the site name.
+
+        Parameters:
+            self - The current object details.
+            response (dict) - API response
+
+        Returns:
+            self
+        """
+
+        if not response:
+            self.msg = "response is empty"
+            self.status = "exited"
+            return self
+
+        if not isinstance(response, dict):
+            self.msg = "response is not a dictionary"
+            self.status = "exited"
+            return self
+
+        task_id = response.get("response").get("taskId")
+        while True:
+            task_details = self.get_task_details(task_id)
+            self.log(str(task_details))
+            if task_details.get("isError") is True:
+                self.msg = str(task_details.get("progress"))
+                self.status = "failed"
+                return self
+            elif task_details.get("isError") is False:
+                self.result['changed'] = True
+                break
+        return self
+
     def reset_values(self):
         """Reset all neccessary attributes to default values"""
 
