@@ -62,7 +62,7 @@ options:
         description: Id path parameter. Device ID.Required for Deleting Device.
         type: str
       ipAddress:
-        description: Network Device's ipAddress.Required for Adding/Deleting Device except Meraki Devices.
+        description: Network Device's ipAddress.Required for Adding/Deleting/Resyncing Device except Meraki Devices.
         elements: str
         type: list
       merakiOrgId:
@@ -456,8 +456,8 @@ class DnacDevice(DnacBase):
             )
 
         except Exception as e:
-            self.log("An error occurred while fetching the device from Cisco DNA Center")
             error_message = "Error while fetching device from Cisco DNA Center - {0}".format(str(e))
+            self.log(error_message)
             raise Exception(error_message)
 
         if response:
@@ -616,8 +616,8 @@ class DnacDevice(DnacBase):
                     device_ids.append(device_id)
 
             except Exception as e:
-                self.log("An error occurred while fetching the device from Cisco DNA Center")
                 error_message = "Error while fetching device from Cisco DNA Center - {0}".format(str(e))
+                self.log(error_message)
                 raise Exception(error_message)
 
         return device_ids
@@ -708,8 +708,8 @@ class DnacDevice(DnacBase):
                     return self
 
             except Exception as e:
-                self.log("An error occurred while Resyncing device in Cisco DNA Center")
                 error_message = "Error while Resyncing device in Cisco DNA Center - {0}".format(str(e))
+                self.log(error_message)
                 raise Exception(error_message)
 
         if not devices_to_add:
@@ -762,8 +762,8 @@ class DnacDevice(DnacBase):
                     self.result['log'].append(msg)
 
         except Exception as e:
-            self.log("An error occurred while Adding device in Cisco DNA Center")
             error_message = "Error while Adding device in Cisco DNA Center - {0}".format(str(e))
+            self.log(error_message)
             raise Exception(error_message)
 
         return self
@@ -818,8 +818,8 @@ class DnacDevice(DnacBase):
                             break
 
             except Exception as e:
-                self.log("An error occurred while Deleting the device from Cisco DNA Center")
                 error_message = "Error while Deleting device from Cisco DNA Center - {0}".format(str(e))
+                self.log(error_message)
                 raise Exception(error_message)
 
         return self
