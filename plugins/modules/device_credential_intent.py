@@ -352,7 +352,6 @@ EXAMPLES = r"""
         siteName:
         - string
 
----
   - name: Create Multiple Credentials.
     cisco.dnac.device_credential_intent:
     dnac_host: "{{ dnac_host }}"
@@ -418,7 +417,6 @@ EXAMPLES = r"""
           password: string
           port: 443
 
----
   - name: Update global device credentials using id
     cisco.dnac.device_credential_intent:
     dnac_host: "{{ dnac_host }}"
@@ -467,7 +465,6 @@ EXAMPLES = r"""
           port: 443
           id: string
 
----
   - name: Update multiple global device credentials using id
     cisco.dnac.device_credential_intent:
     dnac_host: "{{ dnac_host }}"
@@ -545,7 +542,6 @@ EXAMPLES = r"""
           port: 443
           id: string
 
----
   - name: Update global device credential name/description using old name and description.
     cisco.dnac.device_credential_intent:
     dnac_host: "{{ dnac_host }}"
@@ -596,7 +592,6 @@ EXAMPLES = r"""
           old_description: string
           old_username: string
 
----
   - name: Assign Credentials to sites using old description and username.
     cisco.dnac.device_credential_intent:
     dnac_host: "{{ dnac_host }}"
