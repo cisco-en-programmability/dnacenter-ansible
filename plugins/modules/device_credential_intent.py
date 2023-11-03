@@ -789,41 +789,6 @@ class DnacCredential(DnacBase):
         self.status = "success"
         return self
 
-    def validate_api_response(self, response):
-        """
-        Get the site id from the site name.
-
-        Parameters:
-            self - The current object details.
-            response (dict) - API response
-
-        Returns:
-            self
-        """
-
-        if not response:
-            self.msg = "response is empty"
-            self.status = "exited"
-            return self
-
-        if not isinstance(response, dict):
-            self.msg = "response is not a dictionary"
-            self.status = "exited"
-            return self
-
-        task_id = response.get("response").get("taskId")
-        while True:
-            task_details = self.get_task_details(task_id)
-            self.log(str(task_details))
-            if task_details.get("isError") is True:
-                self.msg = str(task_details.get("progress"))
-                self.status = "failed"
-                return self
-            elif task_details.get("isError") is False:
-                self.result['changed'] = True
-                break
-        return self
-
     def get_site_id(self, site_name):
         """
         Get the site id from the site name.
@@ -2141,7 +2106,7 @@ class DnacCredential(DnacBase):
             params=credential_params,
         )
         self.log(str(response))
-        self.validate_api_response(response).check_return_status()
+        self.check_task_response_status(response).check_return_status()
         self.log("Global Credential Created Successfully")
         result_global_credential.update({
             "Creation": {
@@ -2202,7 +2167,7 @@ class DnacCredential(DnacBase):
                     params=credential_params,
                 )
                 self.log(str(response))
-                self.validate_api_response(response).check_return_status()
+                self.check_task_response_status(response).check_return_status()
         self.log("Update Device Credential API input - " + str(final_response))
         self.log("Global Device Credential Updated Successfully")
         result_global_credential.update({
@@ -2253,7 +2218,7 @@ class DnacCredential(DnacBase):
                 params=credential_params,
             )
             self.log(str(response))
-            self.validate_api_response(response).check_return_status()
+            self.check_task_response_status(response).check_return_status()
         self.log("Device Credential Assigned to site is Successfully")
         result_assign_credential.update({
             "Assign Credentials": {
@@ -2322,7 +2287,7 @@ class DnacCredential(DnacBase):
                     params={"id": _id},
                 )
                 self.log(str(response))
-                self.validate_api_response(response).check_return_status()
+                self.check_task_response_status(response).check_return_status()
                 final_response.get(item).append(_id)
                 config_itr = config_itr + 1
 
