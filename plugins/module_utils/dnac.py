@@ -158,13 +158,14 @@ class DnacBase():
 
         return result
 
-    def check_task_response_status(self, response):
+    def check_task_response_status(self, response, validation_string):
         """
         Get the site id from the site name.
 
         Parameters:
             self - The current object details.
-            response (dict) - API response
+            response (dict) - API response.
+            validation_string (string) - String used to match the progress status.
 
         Returns:
             self
@@ -184,13 +185,20 @@ class DnacBase():
         while True:
             task_details = self.get_task_details(task_id)
             self.log(str(task_details))
+
             if task_details.get("isError") is True:
                 self.msg = str(task_details.get("progress"))
                 self.status = "failed"
-                return self
-            elif task_details.get("isError") is False:
-                self.result['changed'] = True
                 break
+
+            if validation_string in task_details.get("progress").lower():
+                self.result['changed'] = True
+                self.status = "success"
+                break
+
+            self.log("progress set to {0} for taskid: {1}"
+                     .format(task_details.get('progress'), task_id))
+
         return self
 
     def reset_values(self):
