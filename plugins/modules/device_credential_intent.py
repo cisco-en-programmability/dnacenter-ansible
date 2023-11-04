@@ -2106,7 +2106,8 @@ class DnacCredential(DnacBase):
             params=credential_params,
         )
         self.log(str(response))
-        self.check_task_response_status(response).check_return_status()
+        validation_string = "global credential addition performed"
+        self.check_task_response_status(response, validation_string).check_return_status()
         self.log("Global Credential Created Successfully")
         result_global_credential.update({
             "Creation": {
@@ -2167,7 +2168,8 @@ class DnacCredential(DnacBase):
                     params=credential_params,
                 )
                 self.log(str(response))
-                self.check_task_response_status(response).check_return_status()
+                validation_string = "global credential update performed"
+                self.check_task_response_status(response, validation_string).check_return_status()
         self.log("Update Device Credential API input - " + str(final_response))
         self.log("Global Device Credential Updated Successfully")
         result_global_credential.update({
@@ -2218,7 +2220,8 @@ class DnacCredential(DnacBase):
                 params=credential_params,
             )
             self.log(str(response))
-            self.check_task_response_status(response).check_return_status()
+            validation_string = "desired common settings operation successful"
+            self.check_task_response_status(response, validation_string).check_return_status()
         self.log("Device Credential Assigned to site is Successfully")
         result_assign_credential.update({
             "Assign Credentials": {
@@ -2287,7 +2290,8 @@ class DnacCredential(DnacBase):
                     params={"id": _id},
                 )
                 self.log(str(response))
-                self.check_task_response_status(response).check_return_status()
+                validation_string = "global credential deleted successfully"
+                self.check_task_response_status(response, validation_string).check_return_status()
                 final_response.get(item).append(_id)
                 config_itr = config_itr + 1
 
