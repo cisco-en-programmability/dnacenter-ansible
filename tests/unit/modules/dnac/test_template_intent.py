@@ -277,7 +277,7 @@ class TestDnacTemplateIntent(TestDnacModule):
 
         This test case checks the behavior of the template intent when the playbook contains invalid parameters.
         """
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
