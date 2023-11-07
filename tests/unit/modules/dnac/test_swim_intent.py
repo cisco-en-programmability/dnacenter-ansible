@@ -414,7 +414,7 @@ class TestDnacSwimIntent(TestDnacModule):
 
         This test case checks the behavior of SWIM when using incorrect image import parameters.
         """
-        
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
