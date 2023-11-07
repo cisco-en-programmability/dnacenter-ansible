@@ -78,12 +78,39 @@ def load_fixture(module_name, name, device=""):
 class TestDnacModule(ModuleTestCase):
 
     def __init__(self, module):
+
+        """
+        Initialize an instance of class .
+
+        Parameters:
+        module (ModuleType): The Python module associated with this instance.
+
+        Attributes:
+        module (ModuleType): The provided module.
+        test_data (dict): The loaded playbook data from the module.
+        playbook_config (dict): The playbook configuration.
+        playbook_config_missing_param (dict): The playbook configuration with missing parameters.
+        """
+
         self.module = module
         self.test_data = self.loadPlaybookData(str(self.module.__name__))
         self.playbook_config = self.test_data.get("playbook_config")
         self.playbook_config_missing_param = self.test_data.get("playbook_config_missing_param")
 
     def setUp(self):
+
+        """
+        Set up the test environment by mocking Cisco DNA Center SDK initialization and execution.
+        This method is automatically called before each test case to ensure a clean and controlled environment.
+        Mocks the initialization and execution of the Cisco DNA Center SDK to isolate testing from actual SDK operations.
+
+        Mocked attributes:
+        - mock_dnac_init: Mocks the initialization of the DNACSDK class.
+        -  run_dnac_init: The started mock for DNACSDK initialization.
+        - mock_dnac_exec: Mocks the execution of DNACSDK methods.
+        - run_dnac_exec: The started mock for DNACSDK method execution.
+        """
+
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
         self.run_dnac_init = self.mock_dnac_init.start()
@@ -94,17 +121,37 @@ class TestDnacModule(ModuleTestCase):
         self.run_dnac_exec = self.mock_dnac_exec.start()
 
     def tearDown(self):
+
+        """
+        Clean up the test environment by stopping the mocked Cisco DNA Center SDK initialization and execution.
+        This method is automatically called after each test case to clean up any resources or mocks created during testing.
+        Stops the mock instances of the Cisco DNA Center SDK initialization and execution.
+        """
+
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
     def loadPlaybookData(self, module):
-        path = os.path.join(fixture_path, "{0}.json".format(module))
-        print(path)
 
-        with open(path) as f:
-            data = f.read()
+        """
+        Load JSON data from a file.
 
+        Parameters:
+        module (str): The name of the module used to construct the filename.
+
+        Returns:
+        dict: The loaded JSON data.
+
+        Raises:
+        FileNotFoundError: If the file does not exist.
+        json.JSONDecodeError: If there is an error decoding the JSON data.
+        """
+
+        file_path = os.path.join(fixture_path, "{0}.json".format(module))
+        print(file_path)
         try:
+            with open(file_path) as f:
+                data = f.read()
             j_data = json.loads(data)
         except Exception as e:
             print(e)
@@ -115,6 +162,21 @@ class TestDnacModule(ModuleTestCase):
     def execute_module_devices(
         self, failed=False, changed=False, response=None, sort=True, defaults=False
     ):
+
+        """
+        This method executes a module for a single device.
+
+        Parameters:
+        failed (bool, optional): If True, check for failures. Defaults to False.
+        changed (bool, optional): If True, check for changes. Defaults to False.
+        response (list, optional): The expected response data. Defaults to None.
+        sort (bool, optional): If True, sort the response data before comparison. Defaults to True.
+        device (str, optional): The device to execute the module on. Defaults to an empty string.
+
+        Returns:
+        dict: A dictionary containing the execution result.
+        """
+
         module_name = self.module.__name__.rsplit(".", 1)[1]
         local_fixture_path = os.path.join(fixture_path, module_name)
 
@@ -138,6 +200,22 @@ class TestDnacModule(ModuleTestCase):
         self, failed=False, changed=False, response=None, sort=True, device=""
     ):
 
+        """
+        Execute a module for a specific device and perform validation.
+
+        This method executes the module for a specific device, performs validation checks, and returns the result.
+
+        Parameters:
+        failed (bool, optional): If True, check for failures. Defaults to False.
+        changed (bool, optional): If True, check for changes. Defaults to False.
+        response (list, optional): The expected response data. Defaults to None.
+        sort (bool, optional): If True, sort the response data before comparison. Defaults to True.
+        device (str, optional): The device to execute the module on. Defaults to an empty string.
+
+        Returns:
+        dict: A dictionary containing the execution result, including 'failed', 'changed', and 'response' keys.
+        """
+
         self.load_fixtures(response, device=device)
 
         if failed:
@@ -158,6 +236,14 @@ class TestDnacModule(ModuleTestCase):
         return result
 
     def failed(self):
+
+        """
+        Check for failures during module execution.
+
+        Returns:
+        dict: A dictionary containing the failure status and additional information.
+        """
+
         with self.assertRaises(AnsibleFailJson) as exc:
             self.module.main()
 
@@ -166,12 +252,20 @@ class TestDnacModule(ModuleTestCase):
         return result
 
     def changed(self, changed=False):
+
+        """
+        Check for changes during module execution.
+
+        Parameters:
+        changed (bool, optional): If True, check for changes. Defaults to False.
+
+        Returns:
+        dict: A dictionary containing the change status and additional information.
+        """
+
         with self.assertRaises(AnsibleExitJson) as exc:
             self.module.main()
 
         result = exc.exception.args[0]
         self.assertEqual(result["changed"], changed, result)
         return result
-
-    def load_fixtures(self, response=None, device=""):
-        pass
