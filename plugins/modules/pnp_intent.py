@@ -47,388 +47,79 @@ options:
       site_name:
         description: Name of the site for which device will be claimed.
         type: str
+      projectName:
+        description: Name of the project under which the template is present
+        type: str
+        default: Onboarding Configuration
+      pnp_type:
+        description: Device type of the Pnp device (Default/CatalystWLC/AccessPoint)
+        type: str
+        default: Default
+      staticIP:
+        description: Management IP address of the Wireless Controller
+        type: str
+      subnetMask:
+        description: Subnet Mask of the Management IP address of the Wireless Controller
+        type: str
+      gateway:
+        description: Gateway IP address of the Wireless Controller for getting pinged
+        type: str
+      vlanId:
+        description: Vlan Id allocated for claimimg of Wireless Controller
+        type: str
+      ipInterfaceName:
+        description: Name of the Interface used for Pnp by the Wireless Controller
+        type: str
+      rfProfile:
+        description: rfprofile of the AP being claimed (HIGH/LOW/TYPICAL)
+        type: str
       deviceInfo:
         description: Pnp Device's deviceInfo.
         type: dict
+        required: true
         suboptions:
-          aaaCredentials:
-            description: Pnp Device's aaaCredentials.
-            type: dict
-            suboptions:
-              password:
-                description: Pnp Device's password.
-                type: str
-              username:
-                description: Pnp Device's username.
-                type: str
-          addedOn:
-            description: Pnp Device's addedOn.
-            type: int
-          addnMacAddrs:
-            description: Pnp Device's addnMacAddrs.
-            elements: str
-            type: list
-          agentType:
-            description: Pnp Device's agentType.
-            type: str
-          authStatus:
-            description: Pnp Device's authStatus.
-            type: str
-          authenticatedSudiSerialNo:
-            description: Pnp Device's authenticatedSudiSerialNo.
-            type: str
-          capabilitiesSupported:
-            description: Pnp Device's capabilitiesSupported.
-            elements: str
-            type: list
-          cmState:
-            description: Pnp Device's cmState.
-            type: str
-          description:
-            description: Pnp Device's description.
-            type: str
-          deviceSudiSerialNos:
-            description: Pnp Device's deviceSudiSerialNos.
-            elements: str
-            type: list
-          deviceType:
-            description: Pnp Device's deviceType.
-            type: str
-          featuresSupported:
-            description: Pnp Device's featuresSupported.
-            elements: str
-            type: list
-          fileSystemList:
-            description: Pnp Device's fileSystemList.
-            type: list
-            elements: dict
-            suboptions:
-              freespace:
-                description: Pnp Device's freespace.
-                type: int
-              name:
-                description: Pnp Device's name.
-                type: str
-              readable:
-                description: Readable flag.
-                type: bool
-              size:
-                description: Pnp Device's size.
-                type: int
-              type:
-                description: Pnp Device's type.
-                type: str
-              writeable:
-                description: Writeable flag.
-                type: bool
-          firstContact:
-            description: Pnp Device's firstContact.
-            type: int
           hostname:
             description: Pnp Device's hostname.
             type: str
-          httpHeaders:
-            description: Pnp Device's httpHeaders.
-            type: list
-            elements: dict
-            suboptions:
-              key:
-                description: Pnp Device's key.
-                type: str
-              value:
-                description: Pnp Device's value.
-                type: str
-          imageFile:
-            description: Pnp Device's imageFile.
-            type: str
-          imageVersion:
-            description: Pnp Device's imageVersion.
-            type: str
-          ipInterfaces:
-            description: Pnp Device's ipInterfaces.
-            elements: dict
-            type: list
-            suboptions:
-              ipv4Address:
-                description: Pnp Device's ipv4Address.
-                type: dict
-              ipv6AddressList:
-                description: Pnp Device's ipv6AddressList.
-                elements: dict
-                type: list
-              macAddress:
-                description: Pnp Device's macAddress.
-                type: str
-              name:
-                description: Pnp Device's name.
-                type: str
-              status:
-                description: Pnp Device's status.
-                type: str
-          lastContact:
-            description: Pnp Device's lastContact.
-            type: int
-          lastSyncTime:
-            description: Pnp Device's lastSyncTime.
-            type: int
-          lastUpdateOn:
-            description: Pnp Device's lastUpdateOn.
-            type: int
-          location:
-            description: Pnp Device's location.
-            type: dict
-            suboptions:
-              address:
-                description: Pnp Device's address.
-                type: str
-              altitude:
-                description: Pnp Device's altitude.
-                type: str
-              latitude:
-                description: Pnp Device's latitude.
-                type: str
-              longitude:
-                description: Pnp Device's longitude.
-                type: str
-              siteId:
-                description: Pnp Device's siteId.
-                type: str
-          macAddress:
-            description: Pnp Device's macAddress.
-            type: str
-          mode:
-            description: Pnp Device's mode.
-            type: str
-          name:
-            description: Pnp Device's name.
-            type: str
-          neighborLinks:
-            description: Pnp Device's neighborLinks.
-            type: list
-            elements: dict
-            suboptions:
-              localInterfaceName:
-                description: Pnp Device's localInterfaceName.
-                type: str
-              localMacAddress:
-                description: Pnp Device's localMacAddress.
-                type: str
-              localShortInterfaceName:
-                description: Pnp Device's localShortInterfaceName.
-                type: str
-              remoteDeviceName:
-                description: Pnp Device's remoteDeviceName.
-                type: str
-              remoteInterfaceName:
-                description: Pnp Device's remoteInterfaceName.
-                type: str
-              remoteMacAddress:
-                description: Pnp Device's remoteMacAddress.
-                type: str
-              remotePlatform:
-                description: Pnp Device's remotePlatform.
-                type: str
-              remoteShortInterfaceName:
-                description: Pnp Device's remoteShortInterfaceName.
-                type: str
-              remoteVersion:
-                description: Pnp Device's remoteVersion.
-                type: str
-          onbState:
-            description: Pnp Device's onbState.
+          state:
+            description: Pnp Device's onbording state (Unclaimed/Claimed/Provisioned).
             type: str
           pid:
             description: Pnp Device's pid.
             type: str
-          pnpProfileList:
-            description: Pnp Device's pnpProfileList.
-            type: list
-            elements: dict
-            suboptions:
-              createdBy:
-                description: Pnp Device's createdBy.
-                type: str
-              discoveryCreated:
-                description: DiscoveryCreated flag.
-                type: bool
-              primaryEndpoint:
-                description: Pnp Device's primaryEndpoint.
-                type: dict
-                suboptions:
-                  certificate:
-                    description: Pnp Device's certificate.
-                    type: str
-                  fqdn:
-                    description: Pnp Device's fqdn.
-                    type: str
-                  ipv4Address:
-                    description: Pnp Device's ipv4Address.
-                    type: dict
-                  ipv6Address:
-                    description: Pnp Device's ipv6Address.
-                    type: dict
-                  port:
-                    description: Pnp Device's port.
-                    type: int
-                  protocol:
-                    description: Pnp Device's protocol.
-                    type: str
-              profileName:
-                description: Pnp Device's profileName.
-                type: str
-              secondaryEndpoint:
-                description: Pnp Device's secondaryEndpoint.
-                type: dict
-                suboptions:
-                  certificate:
-                    description: Pnp Device's certificate.
-                    type: str
-                  fqdn:
-                    description: Pnp Device's fqdn.
-                    type: str
-                  ipv4Address:
-                    description: Pnp Device's ipv4Address.
-                    type: dict
-                  ipv6Address:
-                    description: Pnp Device's ipv6Address.
-                    type: dict
-                  port:
-                    description: Pnp Device's port.
-                    type: int
-                  protocol:
-                    description: Pnp Device's protocol.
-                    type: str
-          populateInventory:
-            description: PopulateInventory flag.
-            type: bool
-          preWorkflowCliOuputs:
-            description: Pnp Device's preWorkflowCliOuputs.
-            type: list
-            elements: dict
-            suboptions:
-              cli:
-                description: Pnp Device's cli.
-                type: str
-              cliOutput:
-                description: Pnp Device's cliOutput.
-                type: str
-          projectId:
-            description: Pnp Device's projectId.
-            type: str
-          projectName:
-            description: Pnp Device's projectName.
-            type: str
-          reloadRequested:
-            description: ReloadRequested flag.
-            type: bool
           serialNumber:
             description: Pnp Device's serialNumber.
             type: str
-          smartAccountId:
-            description: Pnp Device's smartAccountId.
+          add_device_method:
+            description: Pnp Device's device addition method (Single/Bulk/Smart Account).
             type: str
-          source:
-            description: Pnp Device's source.
-            type: str
-          stack:
-            description: Stack flag.
+          isSudiRequired:
+            description: Sudi Authentication requiremnet's flag.
             type: bool
-          stackInfo:
-            description: Pnp Device's stackInfo.
-            type: dict
-            suboptions:
-              isFullRing:
-                description: IsFullRing flag.
-                type: bool
-              stackMemberList:
-                description: Pnp Device's stackMemberList.
-                type: list
-                elements: dict
-                suboptions:
-                  hardwareVersion:
-                    description: Pnp Device's hardwareVersion.
-                    type: str
-                  licenseLevel:
-                    description: Pnp Device's licenseLevel.
-                    type: str
-                  licenseType:
-                    description: Pnp Device's licenseType.
-                    type: str
-                  macAddress:
-                    description: Pnp Device's macAddress.
-                    type: str
-                  pid:
-                    description: Pnp Device's pid.
-                    type: str
-                  priority:
-                    description: Pnp Device's priority.
-                    type: int
-                  role:
-                    description: Pnp Device's role.
-                    type: str
-                  serialNumber:
-                    description: Pnp Device's serialNumber.
-                    type: str
-                  softwareVersion:
-                    description: Pnp Device's softwareVersion.
-                    type: str
-                  stackNumber:
-                    description: Pnp Device's stackNumber.
-                    type: int
-                  state:
-                    description: Pnp Device's state.
-                    type: str
-                  sudiSerialNumber:
-                    description: Pnp Device's sudiSerialNumber.
-                    type: str
-              stackRingProtocol:
-                description: Pnp Device's stackRingProtocol.
-                type: str
-              supportsStackWorkflows:
-                description: SupportsStackWorkflows flag.
-                type: bool
-              totalMemberCount:
-                description: Pnp Device's totalMemberCount.
-                type: int
-              validLicenseLevels:
-                description: Pnp Device's validLicenseLevels.
-                type: str
-          state:
-            description: Pnp Device's state.
-            type: str
-          sudiRequired:
-            description: SudiRequired flag.
-            type: bool
-          tags:
-            description: Pnp Device's tags.
-            type: dict
-          userSudiSerialNos:
-            description: Pnp Device's userSudiSerialNos.
-            elements: str
-            type: list
-          virtualAccountId:
-            description: Pnp Device's virtualAccountId.
-            type: str
-          workflowId:
-            description: Pnp Device's workflowId.
-            type: str
-          workflowName:
-            description: Pnp Device's workflowName.
-            type: str
 
 requirements:
-- dnacentersdk == 2.4.5
+- dnacentersdk == 2.6.5
 - python >= 3.5
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.add_device,
+    device_onboarding_pnp.DeviceOnboardingPnp.get_device_list,
     device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site,
     device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp,
+    device_onboarding_pnp.DeviceOnboardingPnp.get_device_count,
+    sites.Sites.get_site,
+    software_image_management_swim.SoftwareImageManagementSwim.get_software_image_details,
+    configuration_templates.ConfigurationTemplates.gets_the_templates_available
 
   - Paths used are
     post /dna/intent/api/v1/onboarding/pnp-device
     post /dna/intent/api/v1/onboarding/pnp-device/site-claim
     post /dna/intent/api/v1/onboarding/pnp-device/{id}
+    get /dna/intent/api/v1/onboarding/pnp-device/count
+    get /dna/intent/api/v1/onboarding/pnp-device
+    get /dna/intent/api/v1/site
+    get /dna/intent/api/v1/image/importation
+    get /dna/intent/api/v1/template-programmer/template
 
 """
 
@@ -445,129 +136,25 @@ EXAMPLES = r"""
     dnac_log: True
     state: merged
     config:
-        template_name: string
-        image_name: string
-        site_name: string
-        deviceInfo:
-        aaaCredentials:
-          password: string
-          username: string
-        addedOn: 0
-        addnMacAddrs:
-        - string
-        agentType: string
-        authStatus: string
-        authenticatedSudiSerialNo: string
-        capabilitiesSupported:
-        - string
-        cmState: string
-        description: string
-        deviceSudiSerialNos:
-        - string
-        deviceType: string
-        featuresSupported:
-        - string
-        fileSystemList:
-        - freespace: 0
-          name: string
-          readable: true
-          size: 0
-          type: string
-          writeable: true
-        firstContact: 0
-        hostname: string
-        httpHeaders:
-        - key: string
-          value: string
-        imageFile: string
-        imageVersion: string
-        ipInterfaces:
-        - ipv4Address: {}
-          ipv6AddressList:
-          - {}
-          macAddress: string
-          name: string
-          status: string
-        lastContact: 0
-        lastSyncTime: 0
-        lastUpdateOn: 0
-        location:
-          address: string
-          altitude: string
-          latitude: string
-          longitude: string
-          siteId: string
-        macAddress: string
-        mode: string
-        name: string
-        neighborLinks:
-        - localInterfaceName: string
-          localMacAddress: string
-          localShortInterfaceName: string
-          remoteDeviceName: string
-          remoteInterfaceName: string
-          remoteMacAddress: string
-          remotePlatform: string
-          remoteShortInterfaceName: string
-          remoteVersion: string
-        onbState: string
-        pid: string
-        pnpProfileList:
-        - createdBy: string
-          discoveryCreated: true
-          primaryEndpoint:
-            certificate: string
-            fqdn: string
-            ipv4Address: {}
-            ipv6Address: {}
-            port: 0
-            protocol: string
-          profileName: string
-          secondaryEndpoint:
-            certificate: string
-            fqdn: string
-            ipv4Address: {}
-            ipv6Address: {}
-            port: 0
-            protocol: string
-        populateInventory: true
-        preWorkflowCliOuputs:
-        - cli: string
-          cliOutput: string
-        projectId: string
-        projectName: string
-        reloadRequested: true
-        serialNumber: string
-        smartAccountId: string
-        source: string
-        stack: true
-        stackInfo:
-          isFullRing: true
-          stackMemberList:
-          - hardwareVersion: string
-            licenseLevel: string
-            licenseType: string
-            macAddress: string
-            pid: string
-            priority: 0
-            role: string
-            serialNumber: string
-            softwareVersion: string
-            stackNumber: 0
+        - template_name: string
+          image_name: string
+          golden_image: bool
+          site_name: string
+          projectName: string
+          pnp_type: string
+          staticIP: string
+          subnetMask: string
+          gateway: string
+          vlanId: string
+          ipInterfaceName: string
+          rfProfile: string
+          deviceInfo:
+            hostname: string
             state: string
-            sudiSerialNumber: string
-          stackRingProtocol: string
-          supportsStackWorkflows: true
-          totalMemberCount: 0
-          validLicenseLevels: string
-        state: string
-        sudiRequired: true
-        tags: {}
-        userSudiSerialNos:
-        - string
-        virtualAccountId: string
-        workflowId: string
-        workflowName: string
+            pid: string
+            serialNumber: string
+            add_device_method: string
+            isSudiRequired: string
 """
 
 RETURN = r"""
@@ -608,7 +195,6 @@ response_3:
       "msg": String
     }
 """
-
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -682,7 +268,6 @@ class DnacPnp(DnacBase):
 
         self.msg = "Successfully validated input"
         self.status = "success"
-
         return self
 
     def site_exists(self):
@@ -716,8 +301,9 @@ class DnacPnp(DnacBase):
         if response:
             self.log(str(response))
             site = response.get("response")
-            site_id = site[0].get("id")
-            site_exists = True
+            if len(site) == 1:
+                site_id = site[0].get("id")
+                site_exists = True
 
         return (site_exists, site_id)
 
@@ -771,15 +357,7 @@ class DnacPnp(DnacBase):
         """
 
         pnp_params = {
-            '_id': params.get('_id'),
-            'deviceInfo': params.get('deviceInfo'),
-            'runSummaryList': params.get('runSummaryList'),
-            'systemResetWorkflow': params.get('systemResetWorkflow'),
-            'systemWorkflow': params.get('systemWorkflow'),
-            'tenantId': params.get('tenantId'),
-            'version': params.get('device_version'),
-            'workflow': params.get('workflow'),
-            'workflowParameters': params.get('workflowParameters')
+            'deviceInfo': params.get('deviceInfo')
         }
         return pnp_params
 
@@ -892,9 +470,12 @@ class DnacPnp(DnacBase):
 
             # check if given site exits, if exists store current site info
             site_exists = False
-            if isinstance(self.want.get("site_name"), str):
-                site_name = self.want.get("site_name")
-                (site_exists, site_id) = self.site_exists()
+            if not isinstance(self.want.get("site_name"), str) and \
+                    not self.want.get('pnp_params').get('deviceInfo').get('add_device_method'):
+                self.module.fail_json(msg="Name of the site must be a string", response=[])
+
+            site_name = self.want.get("site_name")
+            (site_exists, site_id) = self.site_exists()
 
             if site_exists:
                 have["site_id"] = site_id
@@ -904,22 +485,29 @@ class DnacPnp(DnacBase):
                     if self.get_site_type() != "floor":
                         self.module.fail_json(msg="Type of the site must \
                             be a floor for claiming an AP", response=[])
+
                 if len(image_list) == 1:
                     have["image_id"] = image_list[0].get("imageUuid")
                     self.log("Image Id: " + str(have["image_id"]))
-                if template_list and isinstance(template_list, list):
-                    # API execution error returns a dict
-                    if self.want.get("template_name"):
-                        template_details = get_dict_result(template_list, 'name', self.want.get("template_name"))
+
+                template_name = self.want.get("template_name")
+                if template_name:
+                    if template_list and isinstance(template_list, list):
+
+                        template_details = get_dict_result(template_list, 'name', template_name)
 
                         if template_details:
                             have["template_id"] = template_details.get("templateId")
                         else:
                             self.module.fail_json(msg="Template Not Found", response=[])
-                else:
-                    self.module.fail_json(msg="Project Not Found or Project is Empty", response=[])
+
+                    else:
+                        self.module.fail_json(msg="Project Not Found \
+                            or Project is Empty", response=[])
+
             else:
-                self.module.fail_json(msg="Site not found", response=[])
+                if not self.want.get('pnp_params').get('deviceInfo').get('add_device_method'):
+                    self.module.fail_json(msg="Site not found", response=[])
 
         # check if given device exists in pnp inventory, store device Id
         device_response = self.dnac_apply['exec'](
@@ -971,19 +559,23 @@ class DnacPnp(DnacBase):
             'serial_number': config.get('deviceInfo').get('serialNumber'),
             'hostname': config.get('deviceInfo').get('hostname'),
             'project_name': config.get('project_name'),
-            'template_name': config.get('template_name')
+            'template_name': config.get('template_name'),
+            'add_device_method': config.get('deviceInfo').get('add_device_method'),
+            'isSudiRequired': config.get('deviceInfo').get('isSudiRequired')
         }
 
-        if self.want["pnp_type"] == "CatalystWLC":
-            self.want["staticIP"] = config.get('staticIP')
-            self.want["subnetMask"] = config.get('subnetMask')
-            self.want["gateway"] = config.get('gateway')
-            self.want["vlanId"] = config.get('vlanId')
-            self.want["ipInterfaceName"] = config.get('ipInterfaceName')
+        if self.want["pnp_type"] != "Default":
 
-        if self.want["pnp_type"] == "AccessPoint":
-            if self.get_site_type == "floor":
-                self.want["rfProfile"] = config.get("rfProfile")
+            if self.want["pnp_type"] == "CatalystWLC":
+                self.want["staticIP"] = config.get('staticIP')
+                self.want["subnetMask"] = config.get('subnetMask')
+                self.want["gateway"] = config.get('gateway')
+                self.want["vlanId"] = config.get('vlanId')
+                self.want["ipInterfaceName"] = config.get('ipInterfaceName')
+
+            elif self.want["pnp_type"] == "AccessPoint":
+                if self.get_site_type() == "floor":
+                    self.want["rfProfile"] = config.get("rfProfile")
 
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
@@ -1008,36 +600,95 @@ class DnacPnp(DnacBase):
             class instance for further use.
         """
 
+        device_count_params = {
+            "serial_number": self.want.get("serial_number"),
+            "state": "Provisioned"
+        }
+
         if not self.have.get("device_found"):
-            self.log("Adding device to pnp database")
-            response = self.dnac_apply['exec'](
-                family="device_onboarding_pnp",
-                function="add_device",
-                params=self.want.get("pnp_params"),
-                op_modifies=True,
-            )
+            if not self.want["add_device_method"]:
+                self.module.fail_json(msg="Device needs to be added before claiming", response=[])
+            else:
+                if not self.want["site_name"]:
 
-            self.have["device_id"] = response.get("id")
-            self.log(str(response))
-            self.log(self.have.get("device_id"))
+                    if self.want["add_device_method"] == "Single":
+                        self.log("Adding device to pnp database")
+                        dev_add_response = self.dnac_apply['exec'](
+                            family="device_onboarding_pnp",
+                            function="add_device",
+                            params=self.want.get("pnp_params"),
+                            op_modifies=True,
+                        )
 
-        claim_params = self.get_claim_params()
-        claim_response = self.dnac_apply['exec'](
-            family="device_onboarding_pnp",
-            function='claim_a_device_to_a_site',
-            op_modifies=True,
-            params=claim_params,
-        )
+                        self.have["deviceInfo"] = dev_add_response.get("deviceInfo")
+                        self.log(str(dev_add_response))
+                        if self.have["deviceInfo"]:
+                            self.result['msg'] = "Only Device Added Successfully"
+                            self.result['response'] = dev_add_response
+                            self.result['diff'] = self.validated_config
+                            self.result['changed'] = True
+                        else:
+                            self.module.fail_json(msg="Device Addition Failed", response=[])
 
-        self.log(str(claim_response))
+                else:
+                    if self.want["add_device_method"] == "Single":
+                        self.log("Adding device to pnp database")
+                        dev_add_response = self.dnac_apply['exec'](
+                            family="device_onboarding_pnp",
+                            function="add_device",
+                            params=self.want.get("pnp_params"),
+                            op_modifies=True,
+                        )
+                        self.have["deviceInfo"] = dev_add_response.get("deviceInfo")
+                        self.log(str(dev_add_response))
+                    claim_params = self.get_claim_params()
+                    claim_params["deviceId"] = dev_add_response.get("id")
+                    claim_response = self.dnac_apply['exec'](
+                        family="device_onboarding_pnp",
+                        function='claim_a_device_to_a_site',
+                        op_modifies=True,
+                        params=claim_params,
+                    )
 
-        if claim_response.get("response") == "Device Claimed":
-            self.result['changed'] = True
-            self.result['msg'] = "Device Claimed Successfully"
-            self.result['response'] = claim_response
-            self.result['diff'] = self.validated_config
+                    self.log(str(claim_response))
+                    if claim_response.get("response") == "Device Claimed" \
+                            and self.have["deviceInfo"]:
+                        self.result['msg'] = "Device Added and Claimed Successfully"
+                        self.result['response'] = claim_response
+                        self.result['diff'] = self.validated_config
+                        self.result['changed'] = True
+                    else:
+                        self.module.fail_json(msg="Device Claim Failed", response=[])
+
         else:
-            self.module.fail_json(msg="Device Claim Failed", response=claim_response)
+            device_count_response = self.dnac_apply['exec'](
+                family="device_onboarding_pnp",
+                function='get_device_count',
+                op_modifies=True,
+                params=device_count_params,
+            )
+            if not self.want["site_name"]:
+                self.result['response'] = self.have.get("device_found")
+                self.result['msg'] = "Device is already added"
+            else:
+                if device_count_response.get("response") == 0:
+                    claim_params = self.get_claim_params()
+                    self.log(str(claim_params))
+                    claim_response = self.dnac_apply['exec'](
+                        family="device_onboarding_pnp",
+                        function='claim_a_device_to_a_site',
+                        op_modifies=True,
+                        params=claim_params,
+                    )
+                    self.log(str(claim_response))
+                    if claim_response.get("response") == "Device Claimed":
+                        self.result['msg'] = "Only Device Claimed Successfully"
+                        self.result['response'] = claim_response
+                        self.result['diff'] = self.validated_config
+                        self.result['changed'] = True
+                else:
+                    self.result['response'] = self.have.get("device_found")
+                    self.result['msg'] = "Device is already claimed"
 
         return self
 

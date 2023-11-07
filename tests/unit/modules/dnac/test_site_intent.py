@@ -31,6 +31,15 @@ class TestDnacSiteIntent(TestDnacModule):
         super().__init__(module)
 
     def load_fixtures(self, response=None, device=""):
+
+        """
+        Load fixtures for a specific device.
+
+        Parameters:
+        response (list, optional): The expected response data. Defaults to None.
+        device (str, optional): The device for which to load fixtures. Defaults to an empty string.
+        """
+
         if "create_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 Exception(),
@@ -74,6 +83,13 @@ class TestDnacSiteIntent(TestDnacModule):
             ]
 
     def test_site_intent_create_site(self):
+
+        """
+        Test case for site intent when creating a site.
+
+        This test case checks the behavior of the site intent when creating a new site in the specified DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -91,6 +107,13 @@ class TestDnacSiteIntent(TestDnacModule):
         )
 
     def test_site_intent_update_not_needed(self):
+
+        """
+        Test case for site intent when no update is needed.
+
+        This test case checks the behavior of the site intent when an update is not required for the specified site in the DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -108,6 +131,13 @@ class TestDnacSiteIntent(TestDnacModule):
         )
 
     def test_site_intent_update_needed(self):
+
+        """
+        Test case for site intent when an update is needed.
+
+        This test case checks the behavior of the site intent when an update is required for the specified site in the DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -125,6 +155,13 @@ class TestDnacSiteIntent(TestDnacModule):
         )
 
     def test_site_intent_delete_existing_site(self):
+
+        """
+        Test case for site intent when deleting an existing site.
+
+        This test case checks the behavior of the site intent when deleting an existing site in the DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -142,6 +179,13 @@ class TestDnacSiteIntent(TestDnacModule):
         )
 
     def test_site_intent_delete_non_existing_site(self):
+
+        """
+        Test case for site intent when attempting to delete a non-existing site.
+
+        This test case checks the behavior of the site intent when trying to delete a site that does not exist in the DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -159,6 +203,13 @@ class TestDnacSiteIntent(TestDnacModule):
         )
 
     def test_site_intent_invalid_param(self):
+
+        """
+        Test case for site intent with invalid parameters in the playbook.
+
+        This test case checks the behavior of the site intent when the playbook contains invalid parameters.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -175,6 +226,13 @@ class TestDnacSiteIntent(TestDnacModule):
         )
 
     def test_site_intent_error_delete(self):
+
+        """
+        Test case for site intent when an error occurs during site deletion.
+
+        This test case checks the behavior of the site intent when an error occurs while deleting a site in the DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -192,6 +250,13 @@ class TestDnacSiteIntent(TestDnacModule):
         )
 
     def test_site_intent_error_create(self):
+
+        """
+        Test case for site intent when an error occurs during site creation.
+
+        This test case checks the behavior of the site intent when an error occurs while creating a site in the DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -209,6 +274,12 @@ class TestDnacSiteIntent(TestDnacModule):
         )
 
     def test_site_intent_invalid_state(self):
+
+        """
+        Test case for site intent with an invalid 'state' parameter.
+
+        This test case checks the behavior of the site intent when an invalid 'state' parameter is provided in the playbook.
+        """
 
         set_module_args(
             dict(
