@@ -270,10 +270,10 @@ class DnacPnp(DnacBase):
         self.status = "success"
         return self
 
-    def site_exists(self):
+    def get_site_details(self):
 
         """
-        Check whether the site exists or not
+        Check whether the site exists or not, along with side id
         Args:
             self: The instance of the class containing the 'config' attribute to be validated.
         Returns:
@@ -472,10 +472,12 @@ class DnacPnp(DnacBase):
             site_exists = False
             if not isinstance(self.want.get("site_name"), str) and \
                     not self.want.get('pnp_params').get('deviceInfo').get('add_device_method'):
-                self.module.fail_json(msg="Name of the site must be a string", response=[])
+                self.msg = "Name of the site must be a string"
+                self.status = "failed"
+                return self
 
             site_name = self.want.get("site_name")
-            (site_exists, site_id) = self.site_exists()
+            (site_exists, site_id) = self.get_site_details()
 
             if site_exists:
                 have["site_id"] = site_id
@@ -483,8 +485,10 @@ class DnacPnp(DnacBase):
                 self.log("Site Name:" + str(site_name))
                 if self.want.get("pnp_type") == "AccessPoint":
                     if self.get_site_type() != "floor":
-                        self.module.fail_json(msg="Type of the site must \
-                            be a floor for claiming an AP", response=[])
+                        self.msg = "Type of the site must \
+                            be a floor for claiming an AP"
+                        self.status = "failed"
+                        return self
 
                 if len(image_list) == 1:
                     have["image_id"] = image_list[0].get("imageUuid")
@@ -492,22 +496,25 @@ class DnacPnp(DnacBase):
 
                 template_name = self.want.get("template_name")
                 if template_name:
-                    if template_list and isinstance(template_list, list):
+                    if not (template_list and isinstance(template_list, list)):
+                        self.msg = "Project Not Found \
+                            or Project is Empty"
+                        self.status = "failed"
+                        return self
 
-                        template_details = get_dict_result(template_list, 'name', template_name)
-
-                        if template_details:
-                            have["template_id"] = template_details.get("templateId")
-                        else:
-                            self.module.fail_json(msg="Template Not Found", response=[])
-
+                    template_details = get_dict_result(template_list, 'name', template_name)
+                    if template_details:
+                        have["template_id"] = template_details.get("templateId")
                     else:
-                        self.module.fail_json(msg="Project Not Found \
-                            or Project is Empty", response=[])
+                        self.msg = "Template Not found"
+                        self.status = "failed"
+                        return self
 
             else:
                 if not self.want.get('pnp_params').get('deviceInfo').get('add_device_method'):
-                    self.module.fail_json(msg="Site not found", response=[])
+                    self.msg = "Either Site Name or Device addition method must be provided"
+                    self.status = "failed"
+                    return self
 
         # check if given device exists in pnp inventory, store device Id
         device_response = self.dnac_apply['exec'](
@@ -564,18 +571,16 @@ class DnacPnp(DnacBase):
             'isSudiRequired': config.get('deviceInfo').get('isSudiRequired')
         }
 
-        if self.want["pnp_type"] != "Default":
+        if self.want["pnp_type"] == "CatalystWLC":
+            self.want["staticIP"] = config.get('staticIP')
+            self.want["subnetMask"] = config.get('subnetMask')
+            self.want["gateway"] = config.get('gateway')
+            self.want["vlanId"] = config.get('vlanId')
+            self.want["ipInterfaceName"] = config.get('ipInterfaceName')
 
-            if self.want["pnp_type"] == "CatalystWLC":
-                self.want["staticIP"] = config.get('staticIP')
-                self.want["subnetMask"] = config.get('subnetMask')
-                self.want["gateway"] = config.get('gateway')
-                self.want["vlanId"] = config.get('vlanId')
-                self.want["ipInterfaceName"] = config.get('ipInterfaceName')
-
-            elif self.want["pnp_type"] == "AccessPoint":
-                if self.get_site_type() == "floor":
-                    self.want["rfProfile"] = config.get("rfProfile")
+        elif self.want["pnp_type"] == "AccessPoint":
+            if self.get_site_type() == "floor":
+                self.want["rfProfile"] = config.get("rfProfile")
 
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
@@ -607,58 +612,63 @@ class DnacPnp(DnacBase):
 
         if not self.have.get("device_found"):
             if not self.want["add_device_method"]:
-                self.module.fail_json(msg="Device needs to be added before claiming", response=[])
-            else:
-                if not self.want["site_name"]:
+                self.msg = "Device needs to be added before claiming"
+                self.status = "failed"
+                return self
 
-                    if self.want["add_device_method"] == "Single":
-                        self.log("Adding device to pnp database")
-                        dev_add_response = self.dnac_apply['exec'](
-                            family="device_onboarding_pnp",
-                            function="add_device",
-                            params=self.want.get("pnp_params"),
-                            op_modifies=True,
-                        )
-
-                        self.have["deviceInfo"] = dev_add_response.get("deviceInfo")
-                        self.log(str(dev_add_response))
-                        if self.have["deviceInfo"]:
-                            self.result['msg'] = "Only Device Added Successfully"
-                            self.result['response'] = dev_add_response
-                            self.result['diff'] = self.validated_config
-                            self.result['changed'] = True
-                        else:
-                            self.module.fail_json(msg="Device Addition Failed", response=[])
-
-                else:
-                    if self.want["add_device_method"] == "Single":
-                        self.log("Adding device to pnp database")
-                        dev_add_response = self.dnac_apply['exec'](
-                            family="device_onboarding_pnp",
-                            function="add_device",
-                            params=self.want.get("pnp_params"),
-                            op_modifies=True,
-                        )
-                        self.have["deviceInfo"] = dev_add_response.get("deviceInfo")
-                        self.log(str(dev_add_response))
-                    claim_params = self.get_claim_params()
-                    claim_params["deviceId"] = dev_add_response.get("id")
-                    claim_response = self.dnac_apply['exec'](
+            if not self.want["site_name"]:
+                if self.want["add_device_method"] == "Single":
+                    self.log("Adding device to pnp database")
+                    dev_add_response = self.dnac_apply['exec'](
                         family="device_onboarding_pnp",
-                        function='claim_a_device_to_a_site',
+                        function="add_device",
+                        params=self.want.get("pnp_params"),
                         op_modifies=True,
-                        params=claim_params,
                     )
 
-                    self.log(str(claim_response))
-                    if claim_response.get("response") == "Device Claimed" \
-                            and self.have["deviceInfo"]:
-                        self.result['msg'] = "Device Added and Claimed Successfully"
-                        self.result['response'] = claim_response
+                    self.have["deviceInfo"] = dev_add_response.get("deviceInfo")
+                    self.log(str(dev_add_response))
+                    if self.have["deviceInfo"]:
+                        self.result['msg'] = "Only Device Added Successfully"
+                        self.result['response'] = dev_add_response
                         self.result['diff'] = self.validated_config
                         self.result['changed'] = True
                     else:
-                        self.module.fail_json(msg="Device Claim Failed", response=[])
+                        self.msg = "Device Addition Failed"
+                        self.status = "failed"
+                        return self
+
+            else:
+                if self.want["add_device_method"] == "Single":
+                    self.log("Adding device to pnp database")
+                    dev_add_response = self.dnac_apply['exec'](
+                        family="device_onboarding_pnp",
+                        function="add_device",
+                        params=self.want.get("pnp_params"),
+                        op_modifies=True,
+                    )
+                    self.have["deviceInfo"] = dev_add_response.get("deviceInfo")
+                    self.log(str(dev_add_response))
+                claim_params = self.get_claim_params()
+                claim_params["deviceId"] = dev_add_response.get("id")
+                claim_response = self.dnac_apply['exec'](
+                    family="device_onboarding_pnp",
+                    function='claim_a_device_to_a_site',
+                    op_modifies=True,
+                    params=claim_params,
+                )
+
+                self.log(str(claim_response))
+                if claim_response.get("response") == "Device Claimed" \
+                        and self.have["deviceInfo"]:
+                    self.result['msg'] = "Device Added and Claimed Successfully"
+                    self.result['response'] = claim_response
+                    self.result['diff'] = self.validated_config
+                    self.result['changed'] = True
+                else:
+                    self.msg = "Device Claim Failed"
+                    self.status = "failed"
+                    return self
 
         else:
             device_count_response = self.dnac_apply['exec'](
@@ -734,7 +744,9 @@ class DnacPnp(DnacBase):
                 self.module.fail_json(msg=msg, response=response)
 
         else:
-            self.module.fail_json(msg="Device Not Found", response=[])
+            self.msg = "Device Not Found"
+            self.status = "failed"
+            return self
 
         return self
 

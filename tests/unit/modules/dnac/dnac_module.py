@@ -83,13 +83,13 @@ class TestDnacModule(ModuleTestCase):
         Initialize an instance of class .
 
         Parameters:
-        module (ModuleType): The Python module associated with this instance.
+            - module (ModuleType): The Python module associated with this instance.
 
         Attributes:
-        module (ModuleType): The provided module.
-        test_data (dict): The loaded playbook data from the module.
-        playbook_config (dict): The playbook configuration.
-        playbook_config_missing_param (dict): The playbook configuration with missing parameters.
+            - module (ModuleType): The provided module.
+            - test_data (dict): The loaded playbook data from the module.
+            - playbook_config (dict): The playbook configuration.
+            - playbook_config_missing_param (dict): The playbook configuration with missing parameters.
         """
 
         self.module = module
@@ -105,10 +105,10 @@ class TestDnacModule(ModuleTestCase):
         Mocks the initialization and execution of the Cisco DNA Center SDK to isolate testing from actual SDK operations.
 
         Mocked attributes:
-        - mock_dnac_init: Mocks the initialization of the DNACSDK class.
-        -  run_dnac_init: The started mock for DNACSDK initialization.
-        - mock_dnac_exec: Mocks the execution of DNACSDK methods.
-        - run_dnac_exec: The started mock for DNACSDK method execution.
+            - mock_dnac_init: Mocks the initialization of the DNACSDK class.
+            - run_dnac_init: The started mock for DNACSDK initialization.
+            - mock_dnac_exec: Mocks the execution of DNACSDK methods.
+            - run_dnac_exec: The started mock for DNACSDK method execution.
         """
 
         self.mock_dnac_init = patch(
@@ -137,14 +137,14 @@ class TestDnacModule(ModuleTestCase):
         Load JSON data from a file.
 
         Parameters:
-        module (str): The name of the module used to construct the filename.
+            - module (str): The name of the module used to construct the filename.
 
         Returns:
-        dict: The loaded JSON data.
+            - dict: The loaded JSON data.
 
         Raises:
-        FileNotFoundError: If the file does not exist.
-        json.JSONDecodeError: If there is an error decoding the JSON data.
+            - FileNotFoundError: If the file does not exist.
+            - json.JSONDecodeError: If there is an error decoding the JSON data.
         """
 
         file_path = os.path.join(fixture_path, "{0}.json".format(module))
@@ -167,14 +167,14 @@ class TestDnacModule(ModuleTestCase):
         This method executes a module for a single device.
 
         Parameters:
-        failed (bool, optional): If True, check for failures. Defaults to False.
-        changed (bool, optional): If True, check for changes. Defaults to False.
-        response (list, optional): The expected response data. Defaults to None.
-        sort (bool, optional): If True, sort the response data before comparison. Defaults to True.
-        device (str, optional): The device to execute the module on. Defaults to an empty string.
+            - failed (bool, optional): If True, check for failures. Defaults to False.
+            - changed (bool, optional): If True, check for changes. Defaults to False.
+            - response (list, optional): The expected response data. Defaults to None.
+            - sort (bool, optional): If True, sort the response data before comparison. Defaults to True.
+            - device (str, optional): The device to execute the module on. Defaults to an empty string.
 
         Returns:
-        dict: A dictionary containing the execution result.
+            - dict: A dictionary containing the execution result.
         """
 
         module_name = self.module.__name__.rsplit(".", 1)[1]
@@ -206,14 +206,14 @@ class TestDnacModule(ModuleTestCase):
         This method executes the module for a specific device, performs validation checks, and returns the result.
 
         Parameters:
-        failed (bool, optional): If True, check for failures. Defaults to False.
-        changed (bool, optional): If True, check for changes. Defaults to False.
-        response (list, optional): The expected response data. Defaults to None.
-        sort (bool, optional): If True, sort the response data before comparison. Defaults to True.
-        device (str, optional): The device to execute the module on. Defaults to an empty string.
+            - failed (bool, optional): If True, check for failures. Defaults to False.
+            - changed (bool, optional): If True, check for changes. Defaults to False.
+            - response (list, optional): The expected response data. Defaults to None.
+            - sort (bool, optional): If True, sort the response data before comparison. Defaults to True.
+            - device (str, optional): The device to execute the module on. Defaults to an empty string.
 
         Returns:
-        dict: A dictionary containing the execution result, including 'failed', 'changed', and 'response' keys.
+            - dict: A dictionary containing the execution result, including 'failed', 'changed', and 'response' keys.
         """
 
         self.load_fixtures(response, device=device)
@@ -241,7 +241,7 @@ class TestDnacModule(ModuleTestCase):
         Check for failures during module execution.
 
         Returns:
-        dict: A dictionary containing the failure status and additional information.
+            - dict: A dictionary containing the failure status and additional information.
         """
 
         with self.assertRaises(AnsibleFailJson) as exc:
@@ -257,10 +257,10 @@ class TestDnacModule(ModuleTestCase):
         Check for changes during module execution.
 
         Parameters:
-        changed (bool, optional): If True, check for changes. Defaults to False.
+            - changed (bool, optional): If True, check for changes. Defaults to False.
 
         Returns:
-        dict: A dictionary containing the change status and additional information.
+            - dict: A dictionary containing the change status and additional information.
         """
 
         with self.assertRaises(AnsibleExitJson) as exc:
