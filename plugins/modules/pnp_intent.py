@@ -208,13 +208,13 @@ class DnacPnp(DnacBase):
         super().__init__(module)
 
     def validate_input(self):
-
         """
-        Validate the fields provided in the playbook.
-        Checks the configuration provided in the playbook against a
-        predefined specification to ensure it adheres to the expected
-        structure and data types.
-        Args:
+        Validate the fields provided in the playbook.  Checks the
+        configuration provided in the playbook against a predefined
+        specification to ensure it adheres to the expected structure
+        and data types.
+
+        Parameters:
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
         Returns:
@@ -273,10 +273,10 @@ class DnacPnp(DnacBase):
         return self
 
     def get_site_details(self):
-
         """
         Check whether the site exists or not, along with side id
-        Args:
+
+        Parameters:
           - self: The instance of the class containing the 'config'
                   attribute to be validated.
         Returns:
@@ -311,10 +311,10 @@ class DnacPnp(DnacBase):
         return (site_exists, site_id)
 
     def get_site_type(self):
-
         """
         Fetches the type of site
-        Args:
+
+        Parameters:
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
         Returns:
@@ -346,10 +346,10 @@ class DnacPnp(DnacBase):
         return site_type
 
     def get_pnp_params(self, params):
-
         """
-        Store pnp parameters from the playbook for pnp processing in DNAC
-        Args:
+        Store pnp parameters from the playbook for pnp processing in DNAC.
+
+        Parameters:
           - self: The instance of the class containing the 'config'
                   attribute to be validated.
           - params: The validated params passed from the playbook.
@@ -369,10 +369,10 @@ class DnacPnp(DnacBase):
         return pnp_params
 
     def get_image_params(self, params):
-
         """
         Get image name and the confirmation whether it's tagged golden or not
-        Args:
+
+        Parameters:
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
           - params: The validated params passed from the playbook.
@@ -393,10 +393,9 @@ class DnacPnp(DnacBase):
         return image_params
 
     def get_claim_params(self):
-
         """
         Get the paramters needed for claiming the device to site.
-        Args:
+        Parameters:
           - self: The instance of the class containing the 'config'
                   attribute to be validated.
         Returns:
@@ -444,10 +443,10 @@ class DnacPnp(DnacBase):
         return claim_params
 
     def get_have(self):
-
         """
-        Get the current image, template and site details from the DNAC
-        Args:
+        Get the current image, template and site details from the DNAC.
+
+        Parameters:
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
         Returns:
@@ -551,11 +550,11 @@ class DnacPnp(DnacBase):
         return self
 
     def get_want(self, config):
-
         """
         Get all the image, template and site and pnp related
         information from playbook that is needed to be created in DNAC.
-        Args:
+
+        Parameters:
           - self: The instance of the class containing the 'config'
                   attribute to be validated.
           - config: validated config passed from the playbook
@@ -601,11 +600,11 @@ class DnacPnp(DnacBase):
         return self
 
     def get_diff_merged(self):
-
         """
-        If given device doesnot exist then
-        add it to pnp database and get the device id
-        Args:
+        If given device doesnot exist then add it to pnp database and
+        get the device id.
+
+        Parameters:
           - self: An instance of a class used for interacting with
                   Cisco DNA Center.
         Returns:
@@ -716,12 +715,11 @@ class DnacPnp(DnacBase):
         return self
 
     def get_diff_deleted(self):
-
         """
-        If the given device is added to pnp database
-        and is in unclaimed or failed state delete the
-        given device
-        Args:
+        If the given device is added to pnp database and is in unclaimed or
+        failed state delete the given device.
+
+        Parameters:
           - self: An instance of a class used for interacting with
                   Cisco DNA Center.
         Returns:
@@ -766,7 +764,6 @@ class DnacPnp(DnacBase):
 
 
 def main():
-
     """
     main entry point for module execution
     """
