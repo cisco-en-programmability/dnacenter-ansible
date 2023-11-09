@@ -31,6 +31,15 @@ class TestDnacSwimIntent(TestDnacModule):
         super().__init__(module)
 
     def load_fixtures(self, response=None, device=""):
+
+        """
+        Load fixtures for a specific device.
+
+        Parameters:
+        response (list, optional): The expected response data. Defaults to None.
+        device (str, optional): The device for which to load fixtures. Defaults to an empty string.
+        """
+
         if "full_flow" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("task_info_response"),
@@ -100,6 +109,13 @@ class TestDnacSwimIntent(TestDnacModule):
             ]
 
     def test_swim_full_flow(self):
+
+        """
+        Test case for a full Software Image Management (SWIM) flow.
+
+        This test case covers the full SWIM flow, including image activation, import, tagging, distribution, and various error scenarios.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -116,6 +132,13 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_image_import(self):
+
+        """
+        Test case for SWIM image import when the image already exists.
+
+        This test case checks the behavior of SWIM when importing an image that already exists in the specified DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -132,6 +155,13 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_image_local_import(self):
+
+        """
+        Test case for SWIM local image import when the image already exists.
+
+        This test case checks the behavior of SWIM when importing a local image that already exists in the specified DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -148,6 +178,13 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_untag_image(self):
+
+        """
+        Test case for SWIM untagging an image as Golden.
+
+        This test case checks the behavior of SWIM when untagging an image as a Golden image in the DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -164,6 +201,13 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_missing_param_tag_golden_image(self):
+
+        """
+        Test case for SWIM with missing parameters for tagging a Golden image.
+
+        This test case checks the behavior of SWIM when attempting to tag an image as Golden with missing parameters.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -180,6 +224,13 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_incorrect_site_untag_golden_image(self):
+
+        """
+        Test case for SWIM when trying to untag an image from a non-existing site.
+
+        This test case checks the behavior of SWIM when attempting to untag an image from a non-existing site.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -196,6 +247,13 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_image_doesnot_exist_response(self):
+
+        """
+        Test case for SWIM when the image does not exist in the response.
+
+        This test case checks the behavior of SWIM when the requested image is not found in the DNAC response.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -212,6 +270,13 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_only_image_distribution(self):
+
+        """
+        Test case for SWIM with only image distribution.
+
+        This test case checks the behavior of SWIM when distributing an image to devices.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -228,6 +293,13 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_image_distribution_missing_param(self):
+
+        """
+        Test case for SWIM image distribution with missing parameters.
+
+        This test case checks the behavior of SWIM when attempting to distribute an image with missing parameters.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -244,6 +316,13 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_only_image_activation(self):
+
+        """
+        Test case for SWIM with only image activation.
+
+        This test case checks the behavior of SWIM when activating an image.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -260,6 +339,13 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_image_activation_missing_param(self):
+
+        """
+        Test case for SWIM image activation with missing parameters.
+
+        This test case checks the behavior of SWIM when attempting to activate an image with missing parameters.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -276,6 +362,13 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_tag_golden_incorrect_family_name(self):
+
+        """
+        Test case for SWIM when tagging an image as Golden with an incorrect family name.
+
+        This test case checks the behavior of SWIM when attempting to tag an image as Golden with an incorrect family device name.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -292,6 +385,13 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_device_doesnot_exist(self):
+
+        """
+        Test case for SWIM when the device does not exist.
+
+        This test case checks the behavior of SWIM when the specified device is not found in the DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -308,6 +408,13 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_incorrect_image_import_parameter(self):
+
+        """
+        Test case for SWIM with incorrect image import parameters.
+
+        This test case checks the behavior of SWIM when using incorrect image import parameters.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",

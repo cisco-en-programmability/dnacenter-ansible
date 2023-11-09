@@ -24,6 +24,7 @@ from .dnac_module import TestDnacModule, set_module_args
 
 class TestDnacPnPIntent(TestDnacModule):
     def __init__(self):
+
         """
         Inheriting from the base class of dnac_module
         """
@@ -32,6 +33,15 @@ class TestDnacPnPIntent(TestDnacModule):
         super().__init__(module)
 
     def load_fixtures(self, response=None, device=""):
+
+        """
+        Load fixtures for a specific device.
+
+        Parameters:
+        response (list, optional): The expected response data. Defaults to None.
+        device (str, optional): The device for which to load fixtures. Defaults to an empty string.
+        """
+
         if "site_not_found" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("image_exists_response"),
@@ -93,6 +103,13 @@ class TestDnacPnPIntent(TestDnacModule):
             ]
 
     def test_pnp_intent_site_not_found(self):
+
+        """
+        Test case for PnP intent when site is not found.
+
+        This test case checks the behavior of the PnP intent when the site is not found in the specified DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -110,6 +127,13 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_add_new_device(self):
+
+        """
+        Test case for PnP intent when adding a new device.
+
+        This test case checks the behavior of the PnP intent when adding a new device in the specified DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -127,6 +151,13 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_device_exists(self):
+
+        """
+        Test case for PnP intent when a device already exists.
+
+        This test case checks the behavior of the PnP intent when a device already exists in the specified DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -144,6 +175,13 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_image_doesnot_exist(self):
+
+        """
+        Test case for PnP intent when an image does not exist.
+
+        This test case checks the behavior of the PnP intent when the specified image is not found in the DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -161,6 +199,13 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_template_doesnot_exist(self):
+
+        """
+        Test case for PnP intent when a template does not exist.
+
+        This test case checks the behavior of the PnP intent when the specified template is not found in the DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -178,6 +223,13 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_project_not_found(self):
+
+        """
+        Test case for PnP intent when a project is not found.
+
+        This test case checks the behavior of the PnP intent when the specified project is not found in the DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -195,6 +247,13 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_missing_param(self):
+
+        """
+        Test case for PnP intent with missing parameters in the playbook.
+
+        This test case checks the behavior of the PnP intent when the playbook contains missing required parameters.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -212,6 +271,13 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_delete_device(self):
+
+        """
+        Test case for PnP intent when deleting a device.
+
+        This test case checks the behavior of the PnP intent when deleting a device in the DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -229,6 +295,13 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_deletion_error(self):
+
+        """
+        Test case for PnP intent when device deletion fails.
+
+        This test case checks the behavior of the PnP intent when device deletion fails in the DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -246,6 +319,13 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_delete_nonexisting_device(self):
+
+        """
+        Test case for PnP intent when deleting a non-existing device.
+
+        This test case checks the behavior of the PnP intent when trying to delete a device that doesn't exist in the DNAC.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -263,6 +343,13 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_invalid_state(self):
+
+        """
+        Test case for PnP intent with an invalid state parameter.
+
+        This test case checks the behavior of the PnP intent when an invalid 'state' parameter is provided in the playbook.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
