@@ -61,10 +61,10 @@ options:
                 description: Address of the building to be created.
                 type: str
               latitude:
-                description: Latitude coordinate of the building (eg 37.338).
+                description: Latitude coordinate of the building (eg 37.338).Values between -90 to +90.
                 type: int
               longitude:
-                description: Longitude coordinate of the building (eg -121.832).
+                description: Longitude coordinate of the building (eg -121.832).Values between -180 to +180.
                 type: int
               name:
                 description: Name of the building (eg building1).
@@ -77,23 +77,26 @@ options:
             type: dict
             suboptions:
               height:
-                description: Height of the floor (eg 15).
+                description: Height of the floor units is ft. (eg 15).
                 type: int
               length:
-                description: Length of the floor (eg 100).
+                description: Length of the floor units is ft. (eg 100).
                 type: int
               name:
                 description: Name of the floor (eg floor-1).
                 type: str
               parentName:
-                description: Parent name of the floor to be created.
+                description: Complete Parent name of the floor to be created(eg Global/USA/San Francisco/BGL_18).
                 type: str
               rfModel:
                 description: Type of floor. Allowed values are 'Cubes And Walled Offices',
                   'Drywall Office Only', 'Indoor High Ceiling', 'Outdoor Open Space'.
                 type: str
               width:
-                description: Width of the floor (eg 100).
+                description: Width of the floor units is ft. (eg 100).
+                type: int
+              floorNumber:
+                description: Floor number in the building/site (eg 5).
                 type: int
 
 requirements:
@@ -238,12 +241,23 @@ class DnacSite(DnacBase):
         self.supported_states = ["merged", "deleted"]
 
     def validate_input(self):
-        """Validate the fields provided in the playbook"""
-
-        if not self.config:
-            self.msg = "config not available in playbook for validattion"
-            self.status = "success"
-            return self
+        """
+        Validate the fields provided in the playbook.
+        Checks the configuration provided in the playbook against a predefined specification
+        to ensure it adheres to the expected structure and data types.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Returns:
+            The method returns an instance of the class with updated attributes:
+                - self.msg: A message describing the validation result.
+                - self.status: The status of the validation (either 'success' or 'failed').
+                - self.validated_config: If successful, a validated version of the 'config' parameter.
+        Example:
+            To use this method, create an instance of the class and call 'validate_input' on it.
+            If the validation succeeds, 'self.status' will be 'success' and 'self.validated_config'
+            will contain the validated configuration. If it fails, 'self.status' will be 'failed', and
+            'self.msg' will describe the validation issues.
+        """
 
         temp_spec = dict(
             type=dict(required=False, type='str'),
@@ -269,7 +283,17 @@ class DnacSite(DnacBase):
         return self
 
     def get_current_site(self, site):
-        """Get the current site info"""
+        """
+        Get the current site info
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            site (list): A list containing information about the site.
+        Returns:
+            dict: A dictionary containing information about the site.
+        Description:
+            This function will extract the information of site whether it's site, building or floor and
+            store the information in a dictionary site_info.
+        """
 
         site_info = {}
 
@@ -307,7 +331,8 @@ class DnacSite(DnacBase):
                     rfModel=floor_plan.get(rf_model),
                     width=map_geometry.get("attributes").get("width"),
                     length=map_geometry.get("attributes").get("length"),
-                    height=map_geometry.get("attributes").get("height")
+                    height=map_geometry.get("attributes").get("height"),
+                    floorNumber=map_geometry.get("attributes").get("floorNumber", "")
                 )
             )
 
@@ -322,7 +347,18 @@ class DnacSite(DnacBase):
         return current_site
 
     def site_exists(self):
-        """Check if the site exists"""
+        """
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Returns:
+            tuple: A tuple containing two values:
+            - site_exists (bool): A boolean indicating whether the site exists (True) or not (False).
+            - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
+        Description:
+            This method checks the existence of a site in the DNAC. If the site is found,it sets 'site_exists' to True,
+            retrieves the site's ID, and returns both values in a tuple. If the site does not exist, 'site_exists' is set
+            to False, and 'site_id' is None. If an exception occurs during the site lookup, an exception is raised.
+        """
 
         site_exists = False
         current_site = {}
@@ -349,7 +385,17 @@ class DnacSite(DnacBase):
         return (site_exists, current_site)
 
     def get_site_params(self, params):
-        """Store the site related parameters"""
+        """
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            params (dict): A dictionary containing the site related parameters.
+        Returns:
+            dict: A dictionary containing the stored site related parameters.
+        Description:
+            This function takes a dictionary 'params' as input, which contains the site related parameters.
+            It extracts the 'site' and 'type' from the 'params' dictionary. If the type is 'floor', it converts the 'rfModel'
+            value to uppercase and return dictionary having site and type information.
+        """
 
         site = params.get("site")
         typeinfo = params.get("type")
@@ -365,7 +411,16 @@ class DnacSite(DnacBase):
         return site_params
 
     def get_site_name(self, site):
-        """Get and Return the site name"""
+        """
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            site (dict): A dictionary containing the site information.
+        Returns:
+            str: The name of the site.
+        Description:
+            This function used to extracts the 'type', 'parentName', and 'name' from the 'site' dictionary.
+            And constructs the site name by joining the 'parentName' and 'name' with a '/' separator and return it.
+        """
 
         site_type = site.get("type")
         parent_name = site.get("site").get(site_type).get("parentName")
@@ -377,7 +432,16 @@ class DnacSite(DnacBase):
         return site_name
 
     def site_requires_update(self):
-        """Check if the site requires updates"""
+        """
+        Check if the site requires updates
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Returns:
+            bool: True if the site requires updates, False otherwise.
+        Description:
+            This function checks if the current site information needs to be updated based on the requested site parameters
+            and return True if site require update else False.
+        """
 
         requested_site = self.want.get("site_params")
         current_site = self.have.get("current_site")
@@ -395,6 +459,16 @@ class DnacSite(DnacBase):
                    for (dnac_param, ansible_param) in obj_params)
 
     def get_execution_details(self, execid):
+        """
+        Get the execution details for a given execution ID
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            execid (str): The execution ID for which to retrieve the details.
+        Returns:
+            dict or None: A dictionary containing the execution details if the response is a dictionary, otherwise None.
+        Description:
+            This function retrieves the execution details for given execution ID by making request to Cisco DNA Center API.
+        """
         response = None
         response = self.dnac._exec(
             family="task",
@@ -408,7 +482,17 @@ class DnacSite(DnacBase):
             return response
 
     def get_have(self, config):
-        """Get the site details from DNAC"""
+        """
+        Get the site details from DNAC
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            config (dict): A dictionary containing the configuration details.
+        Returns:
+            self (object): An instance of a class used for interacting with  Cisco DNA Center.
+        Description:
+            This function retrieves the site details from Cisco DNA Center by checking if the given site exists and if
+            site exists, it stores the site ID, site status, and current site information in the 'have' dictionary.
+        """
 
         site_exists = False
         current_site = None
@@ -429,11 +513,19 @@ class DnacSite(DnacBase):
         return self
 
     def get_want(self, config):
-        """Get all the site related information from playbook
-        that is needed to be created in DNAC"""
+        """
+        Get all the site related information from playbook that is needed to be created in Cisco DNA Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            config (dict): A dictionary containing the configuration details of site.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Description:
+            This function retrieves all the site-related information from the playbook that needed
+            for site creation/upation/deletion in Cisco DNA Center.
+        """
 
         want = {}
-
         want = dict(
             site_params=self.get_site_params(config),
             site_name=self.get_site_name(config),
@@ -444,7 +536,19 @@ class DnacSite(DnacBase):
         return self
 
     def get_diff_merged(self, config):
-        """Update/Create site info in DNAC with fields provided in DNAC"""
+        """
+        Update/Create site info in DNAC with fields provided in DNAC
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            config (dict): A dictionary containing the site configuration details.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Description:
+            This function updates or creates the site information in Cisco DNA Center based on the provided fields in playbook.
+            Check if site exists and requires an update then updates the site.
+            If site exist and not require update then return msg that site does not need to be updated.
+            If the site does not exist, then it will create the new site and return the instance of class(self).
+        """
 
         site_updated = False
         site_created = False
@@ -514,7 +618,18 @@ class DnacSite(DnacBase):
         return self
 
     def get_diff_deleted(self, config):
-        """Call DNAC API to delete sites with provided inputs"""
+        """
+        Call DNAC API to delete sites with provided inputs
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            config (dict): A dictionary containing the site configuration details.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Description:
+            This function calls the Cisco DNA Center API to delete sites based on the provided inputs.
+            It checks if the site exists, if it exists then it calls delete API with the site ID and
+            return the instance of class(self).
+        """
 
         site_exists = self.have.get("site_exists")
 
