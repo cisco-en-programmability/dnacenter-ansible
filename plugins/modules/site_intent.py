@@ -23,6 +23,7 @@ extends_documentation_fragment:
   - cisco.dnac.intent_params
 author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
+        Abhishek Maheshwari (@abhishekmaheshwari)
 options:
   state:
     description: The state of DNAC after module completion.
@@ -371,7 +372,7 @@ class DnacSite(DnacBase):
             )
 
         except Exception as e:
-            log("The input site is not valid or site is not present.")
+            log("The input site {0} is not valid or site is not present.".format(self.want.get("site_name")))
 
         if response:
             log(str(response))
@@ -570,7 +571,7 @@ class DnacSite(DnacBase):
             else:
                 # Site does not neet update
                 self.result['response'] = self.have.get("current_site")
-                self.result['msg'] = "Site does not need update"
+                self.result['msg'] = "Site - {0} does not need update".format(self.have.get("current_site"))
                 self.module.exit_json(**self.result)
 
         else:
@@ -601,8 +602,9 @@ class DnacSite(DnacBase):
                         break
 
                 if site_updated:
-                    log("Site Updated Successfully")
-                    self.result['msg'] = "Site Updated Successfully"
+                    log_msg = "Site - {0} Updated Successfully".format(self.want.get("site_name"))
+                    log(log_msg)
+                    self.result['msg'] = log_msg
                     self.result['response'].update({"siteId": self.have.get("site_id")})
 
                 else:
@@ -610,9 +612,10 @@ class DnacSite(DnacBase):
                     (site_exists, current_site) = self.site_exists()
 
                     if site_exists:
-                        log("Site Created Successfully")
+                        log_msg = "Site - {0} Created Successfully".format(current_site)
+                        log(log_msg)
                         log("Current site:" + str(current_site))
-                        self.result['msg'] = "Site Created Successfully"
+                        self.result['msg'] = log_msg
                         self.result['response'].update({"siteId": current_site.get('site_id')})
 
         return self
@@ -648,7 +651,7 @@ class DnacSite(DnacBase):
                         self.result['changed'] = True
                         self.result['response'] = execution_details
                         self.result['response'].update({"siteId": self.have.get("site_id")})
-                        self.result['msg'] = "Site deleted successfully"
+                        self.result['msg'] = "Site - {0} deleted successfully".format(self.want.get("site_name"))
                         break
 
                     elif execution_details.get("bapiError"):

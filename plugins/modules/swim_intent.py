@@ -7,7 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ("Madhan Sankaranarayanan, Abhishek Maheshwari")
+__author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary, Abhishek Maheshwari")
 
 DOCUMENTATION = r"""
 ---
@@ -27,6 +27,7 @@ version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
 author: Madhan Sankaranarayanan (@madhansansel)
+        Rishita Chowdhary (@rishitachowdhary)
         Abhishek Maheshwari (@abmahesh)
 options:
   state:
@@ -378,6 +379,7 @@ class DnacSwims(DnacBase):
             image_id = image_list[0].get("imageUuid")
             log("Image Id: " + str(image_id))
         else:
+            error_message = "Image {0} not found".format(name)
             self.module.fail_json(msg="Image not found", response=image_response)
 
         return image_id
@@ -632,8 +634,9 @@ class DnacSwims(DnacBase):
             if image_exist:
                 image_id = self.get_image_id(image_name)
                 self.have["imported_image_id"] = image_id
-                self.result['msg'] = "Image already exists."
-                log("Image already exists in the Cisco DNA Center")
+                log_msg = "Image {0} already exists in the Cisco DNA Center".format(name)
+                self.result['msg'] = log_msg
+                log(log_msg)
                 self.result['changed'] = False
                 return self
 
@@ -657,8 +660,9 @@ class DnacSwims(DnacBase):
             if image_exist:
                 image_id = self.get_image_id(name)
                 self.have["imported_image_id"] = image_id
-                self.result['msg'] = "Image already exists."
-                log("Image already exists in the Cisco DNA Center")
+                log_msg = "Image {0} already exists in the Cisco DNA Center".format(name)
+                self.result['msg'] = log_msg
+                log(log_msg)
                 self.result['changed'] = False
                 return self
 
@@ -683,17 +687,20 @@ class DnacSwims(DnacBase):
         task_id = response.get("response").get("taskId")
         while (True):
             task_details = self.get_task_details(task_id)
+            name = image_name.split('/')[-1]
             if task_details and \
                     ("completed successfully" in task_details.get("progress").lower()):
                 self.result['changed'] = True
-                self.result['msg'] = "Swim Image imported successfully"
-                log("Swim Image imported successfully")
+                log_msg = "Swim Image {0} imported successfully".format(name)
+                self.result['msg'] = log_msg
+                log(log_msg)
                 break
 
             if task_details and task_details.get("isError"):
                 if "already exists" in task_details.get("failureReason"):
-                    self.result['msg'] = "Image already exists."
-                    log("Image already exists in the Cisco DNA Center")
+                    log_msg = "SWIM Image {0} already exists in the Cisco DNA Center".format(name)
+                    self.result['msg'] = log_msg
+                    log(log_msg)
                     self.result['changed'] = False
                     break
                 else:
@@ -805,11 +812,12 @@ class DnacSwims(DnacBase):
                 if not task_details.get("isError") and \
                         ("completed successfully" in task_details.get("progress")):
                     self.result['changed'] = True
-                    self.result['msg'] = "Image Distributed Successfully"
+                    self.result['msg'] = "Image with Id {0} Distributed Successfully".format(self.have.get("distribution_image_id"))
                     break
 
                 if task_details.get("isError"):
-                    self.module.fail_json(msg="Image Distribution Failed",
+                    error_msg = "Image with Id {0} Distribution Failed".format(self.have.get("distribution_image_id"))
+                    self.module.fail_json(msg=error_msg,
                                           response=task_details)
 
             self.result['response'] = task_details if task_details else response
