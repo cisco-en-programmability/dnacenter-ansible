@@ -550,7 +550,7 @@ class DnacPnp(DnacBase):
         Returns:
             The method returns an instance of the class with updated attributes:
                 - self.want: A dictionary of paramters obtained from the playbook
-                - self.msgt: A message indicating all the paramters from the playbook are
+                - self.msg: A message indicating all the paramters from the playbook are
                 collected
                 - self.status: Success
         Example:
