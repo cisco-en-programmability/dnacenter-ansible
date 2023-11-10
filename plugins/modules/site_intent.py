@@ -246,7 +246,7 @@ class DnacSite(DnacBase):
         Validate the fields provided in the playbook.
         Checks the configuration provided in the playbook against a predefined specification
         to ensure it adheres to the expected structure and data types.
-        Args:
+        Parameters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
         Returns:
             The method returns an instance of the class with updated attributes:
@@ -286,7 +286,7 @@ class DnacSite(DnacBase):
     def get_current_site(self, site):
         """
         Get the current site info
-        Args:
+        Parameters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
             site (list): A list containing information about the site.
         Returns:
@@ -349,7 +349,7 @@ class DnacSite(DnacBase):
 
     def site_exists(self):
         """
-        Args:
+        Parameters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
         Returns:
             tuple: A tuple containing two values:
@@ -387,7 +387,7 @@ class DnacSite(DnacBase):
 
     def get_site_params(self, params):
         """
-        Args:
+        Parameters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
             params (dict): A dictionary containing the site related parameters.
         Returns:
@@ -413,7 +413,7 @@ class DnacSite(DnacBase):
 
     def get_site_name(self, site):
         """
-        Args:
+        Parameters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
             site (dict): A dictionary containing the site information.
         Returns:
@@ -435,7 +435,7 @@ class DnacSite(DnacBase):
     def site_requires_update(self):
         """
         Check if the site requires updates
-        Args:
+        Parameters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
         Returns:
             bool: True if the site requires updates, False otherwise.
@@ -462,7 +462,7 @@ class DnacSite(DnacBase):
     def get_execution_details(self, execid):
         """
         Get the execution details for a given execution ID
-        Args:
+        Parameters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
             execid (str): The execution ID for which to retrieve the details.
         Returns:
@@ -485,7 +485,7 @@ class DnacSite(DnacBase):
     def get_have(self, config):
         """
         Get the site details from DNAC
-        Args:
+        Parameters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
             config (dict): A dictionary containing the configuration details.
         Returns:
@@ -516,7 +516,7 @@ class DnacSite(DnacBase):
     def get_want(self, config):
         """
         Get all the site related information from playbook that is needed to be created in Cisco DNA Center.
-        Args:
+        Parameters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
             config (dict): A dictionary containing the configuration details of site.
         Returns:
@@ -539,7 +539,7 @@ class DnacSite(DnacBase):
     def get_diff_merged(self, config):
         """
         Update/Create site info in DNAC with fields provided in DNAC
-        Args:
+        Parameters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
             config (dict): A dictionary containing the site configuration details.
         Returns:
@@ -623,7 +623,7 @@ class DnacSite(DnacBase):
     def get_diff_deleted(self, config):
         """
         Call DNAC API to delete sites with provided inputs
-        Args:
+        Parameters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
             config (dict): A dictionary containing the site configuration details.
         Returns:

@@ -318,7 +318,7 @@ class DnacSwims(DnacBase):
 
     def site_exists(self):
         """
-        Args:
+        Parameters:
         - self: The reference to the class instance.
         Returns:
         - tuple: A tuple containing two values:
@@ -354,7 +354,7 @@ class DnacSwims(DnacBase):
     def get_image_id(self, name):
         """
         Retrieve the unique image ID based on the provided image name.
-        Args:
+        Parameters:
             name (str): The name of the software image to search for.
         Returns:
             str: The unique image ID (UUID) corresponding to the given image name.
@@ -387,7 +387,7 @@ class DnacSwims(DnacBase):
     def is_image_exist(self, name):
         """
         Retrieve the unique image ID based on the provided image name.
-        Args:
+        Parameters:
             name (str): The name of the software image to search for.
         Returns:
             str: The unique image ID (UUID) corresponding to the given image name.
@@ -414,7 +414,7 @@ class DnacSwims(DnacBase):
     def get_device_id(self, params):
         """
         Retrieve the unique device ID based on the provided parameters.
-        Args:
+        Parameters:
             params (dict): A dictionary containing parameters to filter devices.
         Returns:
             str: The unique device ID corresponding to the filtered device.
@@ -445,7 +445,7 @@ class DnacSwims(DnacBase):
     def get_device_family_identifier(self, family_name):
         """
         Retrieve and store the device family identifier based on the provided family name.
-        Args:
+        Parameters:
             family_name (str): The name of the device family for which to retrieve the identifier.
         Returns:
             None
@@ -572,7 +572,7 @@ class DnacSwims(DnacBase):
     def get_want(self, config):
         """
         Retrieve and store import, tagging, distribution, and activation details from playbook configuration.
-        Args:
+        Parameters:
             config (dict): The configuration dictionary containing image import and other details.
         Returns:
             self: The current instance of the class with updated 'want' attributes.
@@ -607,7 +607,7 @@ class DnacSwims(DnacBase):
     def get_diff_import(self):
         """
         Check the image import type and fetch the image ID for the imported image for further use.
-        Args:
+        Parameters:
             None
         Returns:
             self: The current instance of the class with updated 'have' attributes.
@@ -718,17 +718,17 @@ class DnacSwims(DnacBase):
 
     def get_diff_tagging(self):
         """
-          Tag or untag a software image as golden based on provided tagging details.
-          Args:
-              None
-          Returns:
-              None
-          Description:
-              This function tags or untags a software image as a golden image in Cisco DNAC based on the provided
-              tagging details. The tagging action is determined by the value of the 'tagging' attribute
-              in the 'tagging_details' dictionary.If 'tagging' is True, the image is tagged as golden, and if 'tagging'
-              is False, the golden tag is removed. The function sends the appropriate request to Cisco DNAC and updates the
-              task details in the 'result' dictionary. If the operation is successful, 'changed' is set to True.
+        Tag or untag a software image as golden based on provided tagging details.
+        Parameters:
+            None
+        Returns:
+            None
+        Description:
+            This function tags or untags a software image as a golden image in Cisco DNAC based on the provided
+            tagging details. The tagging action is determined by the value of the 'tagging' attribute
+            in the 'tagging_details' dictionary.If 'tagging' is True, the image is tagged as golden, and if 'tagging'
+            is False, the golden tag is removed. The function sends the appropriate request to Cisco DNAC and updates the
+            task details in the 'result' dictionary. If the operation is successful, 'changed' is set to True.
         """
 
         tagging_details = self.want.get("tagging_details")
@@ -779,7 +779,7 @@ class DnacSwims(DnacBase):
     def get_diff_distribution(self):
         """
         Get image distribution parameters from the playbook and trigger image distribution.
-        Args:
+        Parameters:
             None
         Returns:
             None
@@ -825,7 +825,7 @@ class DnacSwims(DnacBase):
     def get_diff_activation(self):
         """
         Get image activation parameters from the playbook and trigger image activation.
-        Args:
+        Parameters:
             None
         Returns:
             None
@@ -875,7 +875,7 @@ class DnacSwims(DnacBase):
     def get_diff_merged(self, config):
         """
         Get tagging details and then trigger distribution followed by activation if specified in the playbook.
-        Args:
+        Parameters:
             config (dict): The configuration dictionary containing tagging, distribution, and activation details.
         Returns:
             self: The current instance of the class with updated 'result' and 'have' attributes.
