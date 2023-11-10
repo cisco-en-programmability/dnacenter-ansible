@@ -19,7 +19,7 @@ description:
 - API to update global device credentials.
 - API to delete global device credentials.
 - API to assign the device credential to the site.
-version_added: '6.7.0'
+version_added: '6.8.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
 author: Muthu Rakesh (@MUTHU-RAKESH-27)
