@@ -1,0 +1,38 @@
+---
+- name: Configure device credentials on Cisco DNA Center
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars_files:
+    - "input_swim.yml"
+    - "credentials.yml"
+  tasks:
+    - name: Import an image, tag it as golden and load it on device  {{ item.device_serial_number }}
+      cisco.dnac.swim_intent:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        config:
+        - importImageDetails:
+            type: "{{ item.type }}"       
+            urlDetails:
+              payload: "{{ item.urlDetails.payload }}"
+          taggingDetails:       
+            deviceRole: "{{ item.device_role }}"
+            deviceFamilyName: "{{ item.device_family_name }}"
+            tagging: true
+          imageDistributionDetails:
+            deviceSerialNumber: "{{ item.device_serial_number }}"
+          imageActivationDetails:
+            scehduleValidate: false
+            activateLowerImageVersion: true
+            deviceSerialNumber: "{{ item.device_serial_number }}"
+            distributeIfNeeded: true
+      with_items: "{{ image_details }}"
+      tags:
+        - swim  

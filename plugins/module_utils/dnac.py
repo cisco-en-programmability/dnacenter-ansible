@@ -60,7 +60,10 @@ class DnacBase():
 
     @abstractmethod
     def validate_input(self):
-        pass
+        if not self.config:
+            self.msg = "config not available in playbook for validation"
+            self.status = "failed"
+            return self
 
     def get_diff_merged(self):
         # Implement logic to merge the resource configuration
@@ -129,20 +132,74 @@ class DnacBase():
         return dnac_params
 
     def get_task_details(self, task_id):
-        """Check if the task performed is sucessfull or not"""
+        """
+        Get the details of a specific task in Cisco DNA Center.
+        Args:
+            self (object): An instance of a class that provides access to Cisco DNA Center.
+            task_id (str): The unique identifier of the task for which you want to retrieve details.
+        Returns:
+            dict or None: A dictionary containing detailed information about the specified task,
+            or None if the task with the given task_id is not found.
+        Description:
+            If the task with the specified task ID is not found in Cisco DNA Center, this function will return None.
+        """
 
         result = None
-        response = self.dnac_apply['exec'](
+        response = self.dnac._exec(
             family="task",
-            function="get_task_by_id",
-            params={"task_id": task_id},
+            function='get_task_by_id',
+            params={"task_id": task_id}
         )
 
-        self.log(str(response))
-        if isinstance(response, dict):
-            result = response.get("response")
+        log(str(response))
+
+        if response and isinstance(response, dict):
+            result = response.get('response')
 
         return result
+
+    def check_task_response_status(self, response, validation_string):
+        """
+        Get the site id from the site name.
+
+        Parameters:
+            self - The current object details.
+            response (dict) - API response.
+            validation_string (string) - String used to match the progress status.
+
+        Returns:
+            self
+        """
+
+        if not response:
+            self.msg = "response is empty"
+            self.status = "exited"
+            return self
+
+        if not isinstance(response, dict):
+            self.msg = "response is not a dictionary"
+            self.status = "exited"
+            return self
+
+        task_id = response.get("response").get("taskId")
+        while True:
+            task_details = self.get_task_details(task_id)
+            self.log(str(task_details))
+
+            if task_details.get("isError") is True:
+                self.msg = str(task_details.get("progress"))
+                self.status = "failed"
+                break
+
+            if validation_string in task_details.get("progress").lower():
+                self.result['changed'] = True
+                self.status = "success"
+                break
+
+            self.log("progress set to {0} for taskid: {1}"
+                     .format(task_details.get('progress'), task_id))
+
+        return self
 
     def reset_values(self):
         """Reset all neccessary attributes to default values"""
