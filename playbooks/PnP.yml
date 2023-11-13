@@ -1,0 +1,95 @@
+---
+- name: Manage operations - Add, claim, and delete devices of Onboarding Configuration (PnP)
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars_files:
+    - "{{ CLUSTERFILE }}"
+
+  vars:
+    dnac_login: &dnac_login
+      dnac_host: "{{ dnac_host }}"
+      dnac_username: "{{ dnac_username }}"
+      dnac_password: "{{ dnac_password }}"
+      dnac_verify: "{{ dnac_verify }}"
+      dnac_port: "{{ dnac_port }}"
+      dnac_version: "{{ dnac_version }}"
+      dnac_debug: "{{ dnac_debug }}"
+
+  tasks:
+
+    - name: Add a new device only
+      cisco.dnac.pnp_intent:
+        <<: *dnac_login
+        dnac_log: True
+        state: merged
+        config:
+          - deviceInfo:
+              add_device_method: Single
+              serialNumber: FJC2330E0IK
+              hostname: Test-9300-6
+              state: Unclaimed
+              pid: c9300-24P
+              isSudiRequired: True
+
+    - name: Add a new device and claim it
+      cisco.dnac.pnp_intent:
+        <<: *dnac_login
+        dnac_log: True
+        state: merged
+        config:
+          - site_name: Global/USA/San Francisco/BGL_18
+            deviceInfo:
+              add_device_method: Single
+              serialNumber: FJC2330E0IK
+              hostname: Test-9300-6
+              state: Unclaimed
+              pid: c9300-24P
+              isSudiRequired: True
+
+    - name: Claim an added Switch with template and image upgrade to a site only
+      cisco.dnac.pnp_intent:
+        <<: *dnac_login
+        dnac_log: True
+        state: merged
+        config:
+          - site_name: Global/USA/San Francisco/BGL_18
+            template_name: "Ansible_PNP_Switch"
+            image_name: cat9k_iosxe_npe.17.03.07.SPA.bin
+            project_name: Onboarding Configuration
+            deviceInfo:
+              serialNumber: FJC271924EQ
+              hostname: Switch
+              state: Unclaimed
+              pid: C9300-48UXM
+
+    - name: Claim an added Wireless Controller with template and image upgrade to a site only
+      cisco.dnac.pnp_intent:
+        <<: *dnac_login
+        dnac_log: True
+        state: merged
+        config:
+          - site_name: Global/USA/San Francisco/BGL_18
+            pnp_type: CatalystWLC
+            template_name: "Ansible_PNP_WLC"
+            image_name: C9800-40-universalk9_wlc.17.12.01.SPA.bin
+            deviceInfo:
+              serialNumber: FOX2639PAY7
+              hostname: WLC
+              state: Unclaimed
+              pid: C9800-CL-K9
+            gateway: 204.192.101.1
+            ipInterfaceName: TenGigabitEthernet0/0/0
+            staticIP: 204.192.101.10
+            subnetMask: 255.255.255.0
+            vlanId: 1101
+
+    - name: Delete an added device from the Pnp dashboard
+      cisco.dnac.pnp_intent:
+        <<: *dnac_login
+        dnac_log: True
+        state: deleted
+        config:
+          - deviceInfo:
+              serialNumber: FJC2330E0IK
