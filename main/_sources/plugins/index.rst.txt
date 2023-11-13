@@ -110,6 +110,7 @@ Modules
 * :ref:`device_credential_create module <ansible_collections.cisco.dnac.device_credential_create_module>` -- Resource module for Device Credential Create
 * :ref:`device_credential_delete module <ansible_collections.cisco.dnac.device_credential_delete_module>` -- Resource module for Device Credential Delete
 * :ref:`device_credential_info module <ansible_collections.cisco.dnac.device_credential_info_module>` -- Information module for Device Credential
+* :ref:`device_credential_intent module <ansible_collections.cisco.dnac.device_credential_intent_module>` -- Resource module for Global Device Credentials and Assigning Credentials to sites.
 * :ref:`device_credential_update module <ansible_collections.cisco.dnac.device_credential_update_module>` -- Resource module for Device Credential Update
 * :ref:`device_details_info module <ansible_collections.cisco.dnac.device_details_info_module>` -- Information module for Device Details
 * :ref:`device_enrichment_details_info module <ansible_collections.cisco.dnac.device_enrichment_details_info_module>` -- Information module for Device Enrichment Details
@@ -203,6 +204,7 @@ Modules
 * :ref:`interface_network_device_range_info module <ansible_collections.cisco.dnac.interface_network_device_range_info_module>` -- Information module for Interface Network Device Range
 * :ref:`interface_operation_create module <ansible_collections.cisco.dnac.interface_operation_create_module>` -- Resource module for Interface Operation Create
 * :ref:`interface_update module <ansible_collections.cisco.dnac.interface_update_module>` -- Resource module for Interface Update
+* :ref:`inventory_intent module <ansible_collections.cisco.dnac.inventory_intent_module>` -- Resource module for Network Device
 * :ref:`issues_enrichment_details_info module <ansible_collections.cisco.dnac.issues_enrichment_details_info_module>` -- Information module for Issues Enrichment Details
 * :ref:`issues_info module <ansible_collections.cisco.dnac.issues_info_module>` -- Information module for Issues
 * :ref:`itsm_cmdb_sync_status_info module <ansible_collections.cisco.dnac.itsm_cmdb_sync_status_info_module>` -- Information module for Itsm Cmdb Sync Status
@@ -503,6 +505,7 @@ Modules
     device_credential_create_module
     device_credential_delete_module
     device_credential_info_module
+    device_credential_intent_module
     device_credential_update_module
     device_details_info_module
     device_enrichment_details_info_module
@@ -596,6 +599,7 @@ Modules
     interface_network_device_range_info_module
     interface_operation_create_module
     interface_update_module
+    inventory_intent_module
     issues_enrichment_details_info_module
     issues_info_module
     itsm_cmdb_sync_status_info_module

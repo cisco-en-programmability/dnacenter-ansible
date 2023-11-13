@@ -1435,7 +1435,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration DNAC IP for SNMP Server (eg true).
+      Configuration Cisco DNA Center IP for SNMP Server (eg true).
 
 
       .. rst-class:: ansible-option-line
@@ -1546,7 +1546,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration DNAC IP for syslog server (eg true).
+      Configuration Cisco DNA Center IP for syslog server (eg true).
 
 
       .. rst-class:: ansible-option-line
@@ -2829,7 +2829,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The state of DNAC after module completion.
+      The state of Cisco DNA Center after module completion.
 
 
       .. rst-class:: ansible-option-line
@@ -3028,7 +3028,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+      A dictionary or list with the response returned by the Cisco DNA Center Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -3073,7 +3073,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+      A dictionary or list with the response returned by the Cisco DNA Center Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -3118,7 +3118,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+      A dictionary or list with the response returned by the Cisco DNA Center Python SDK
 
 
       .. rst-class:: ansible-option-line

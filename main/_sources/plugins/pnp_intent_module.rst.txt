@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk == 2.4.5
+- dnacentersdk == 2.6.5
 - python \>= 3.5
 
 
@@ -158,7 +158,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`dictionary` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -178,188 +178,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/aaaCredentials"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/add_device_method"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/aaacredentials:
-
-      .. rst-class:: ansible-option-title
-
-      **aaaCredentials**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/aaaCredentials" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's aaaCredentials.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/aaaCredentials/password"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/aaacredentials/password:
+      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/add_device_method:
 
       .. rst-class:: ansible-option-title
 
-      **password**
+      **add_device_method**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/aaaCredentials/password" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's password.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/aaaCredentials/username"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/aaacredentials/username:
-
-      .. rst-class:: ansible-option-title
-
-      **username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/aaaCredentials/username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's username.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/addedOn"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/addedon:
-
-      .. rst-class:: ansible-option-title
-
-      **addedOn**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/addedOn" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's addedOn.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/addnMacAddrs"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/addnmacaddrs:
-
-      .. rst-class:: ansible-option-title
-
-      **addnMacAddrs**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/addnMacAddrs" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's addnMacAddrs.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/agentType"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/agenttype:
-
-      .. rst-class:: ansible-option-title
-
-      **agentType**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/agentType" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/add_device_method" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -373,568 +202,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Device's agentType.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/authenticatedSudiSerialNo"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/authenticatedsudiserialno:
-
-      .. rst-class:: ansible-option-title
-
-      **authenticatedSudiSerialNo**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/authenticatedSudiSerialNo" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's authenticatedSudiSerialNo.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/authStatus"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/authstatus:
-
-      .. rst-class:: ansible-option-title
-
-      **authStatus**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/authStatus" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's authStatus.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/capabilitiesSupported"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/capabilitiessupported:
-
-      .. rst-class:: ansible-option-title
-
-      **capabilitiesSupported**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/capabilitiesSupported" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's capabilitiesSupported.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/cmState"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/cmstate:
-
-      .. rst-class:: ansible-option-title
-
-      **cmState**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/cmState" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's cmState.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/description"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/description:
-
-      .. rst-class:: ansible-option-title
-
-      **description**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/description" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's description.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/deviceSudiSerialNos"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/devicesudiserialnos:
-
-      .. rst-class:: ansible-option-title
-
-      **deviceSudiSerialNos**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/deviceSudiSerialNos" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's deviceSudiSerialNos.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/deviceType"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/devicetype:
-
-      .. rst-class:: ansible-option-title
-
-      **deviceType**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/deviceType" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's deviceType.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/featuresSupported"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/featuressupported:
-
-      .. rst-class:: ansible-option-title
-
-      **featuresSupported**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/featuresSupported" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's featuresSupported.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/fileSystemList"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/filesystemlist:
-
-      .. rst-class:: ansible-option-title
-
-      **fileSystemList**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/fileSystemList" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's fileSystemList.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/fileSystemList/freespace"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/filesystemlist/freespace:
-
-      .. rst-class:: ansible-option-title
-
-      **freespace**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/fileSystemList/freespace" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's freespace.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/fileSystemList/name"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/filesystemlist/name:
-
-      .. rst-class:: ansible-option-title
-
-      **name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/fileSystemList/name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's name.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/fileSystemList/readable"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/filesystemlist/readable:
-
-      .. rst-class:: ansible-option-title
-
-      **readable**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/fileSystemList/readable" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Readable flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/fileSystemList/size"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/filesystemlist/size:
-
-      .. rst-class:: ansible-option-title
-
-      **size**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/fileSystemList/size" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's size.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/fileSystemList/type"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/filesystemlist/type:
-
-      .. rst-class:: ansible-option-title
-
-      **type**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/fileSystemList/type" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's type.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/fileSystemList/writeable"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/filesystemlist/writeable:
-
-      .. rst-class:: ansible-option-title
-
-      **writeable**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/fileSystemList/writeable" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Writeable flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/firstContact"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/firstcontact:
-
-      .. rst-class:: ansible-option-title
-
-      **firstContact**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/firstContact" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's firstContact.
+      Pnp Device's device addition method (Single/Bulk/Smart Account).
 
 
       .. raw:: html
@@ -978,21 +246,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/httpHeaders"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/isSudiRequired"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/httpheaders:
+      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/issudirequired:
 
       .. rst-class:: ansible-option-title
 
-      **httpHeaders**
+      **isSudiRequired**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/httpHeaders" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/isSudiRequired" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`boolean`
 
       .. raw:: html
 
@@ -1002,1133 +270,15 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Device's httpHeaders.
+      Sudi Authentication requiremnet's flag.
 
 
-      .. raw:: html
+      .. rst-class:: ansible-option-line
 
-        </div>
-    
-  * - .. raw:: html
+      :ansible-option-choices:`Choices:`
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/httpHeaders/key"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/httpheaders/key:
-
-      .. rst-class:: ansible-option-title
-
-      **key**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/httpHeaders/key" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's key.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/httpHeaders/value"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/httpheaders/value:
-
-      .. rst-class:: ansible-option-title
-
-      **value**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/httpHeaders/value" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's value.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/imageFile"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/imagefile:
-
-      .. rst-class:: ansible-option-title
-
-      **imageFile**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/imageFile" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's imageFile.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/imageVersion"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/imageversion:
-
-      .. rst-class:: ansible-option-title
-
-      **imageVersion**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/imageVersion" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's imageVersion.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/ipInterfaces"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/ipinterfaces:
-
-      .. rst-class:: ansible-option-title
-
-      **ipInterfaces**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/ipInterfaces" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's ipInterfaces.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/ipInterfaces/ipv4Address"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/ipinterfaces/ipv4address:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv4Address**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/ipInterfaces/ipv4Address" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's ipv4Address.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/ipInterfaces/ipv6AddressList"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/ipinterfaces/ipv6addresslist:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv6AddressList**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/ipInterfaces/ipv6AddressList" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's ipv6AddressList.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/ipInterfaces/macAddress"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/ipinterfaces/macaddress:
-
-      .. rst-class:: ansible-option-title
-
-      **macAddress**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/ipInterfaces/macAddress" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's macAddress.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/ipInterfaces/name"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/ipinterfaces/name:
-
-      .. rst-class:: ansible-option-title
-
-      **name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/ipInterfaces/name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's name.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/ipInterfaces/status"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/ipinterfaces/status:
-
-      .. rst-class:: ansible-option-title
-
-      **status**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/ipInterfaces/status" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's status.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/lastContact"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/lastcontact:
-
-      .. rst-class:: ansible-option-title
-
-      **lastContact**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/lastContact" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's lastContact.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/lastSyncTime"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/lastsynctime:
-
-      .. rst-class:: ansible-option-title
-
-      **lastSyncTime**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/lastSyncTime" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's lastSyncTime.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/lastUpdateOn"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/lastupdateon:
-
-      .. rst-class:: ansible-option-title
-
-      **lastUpdateOn**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/lastUpdateOn" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's lastUpdateOn.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/location"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/location:
-
-      .. rst-class:: ansible-option-title
-
-      **location**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/location" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's location.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/location/address"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/location/address:
-
-      .. rst-class:: ansible-option-title
-
-      **address**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/location/address" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's address.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/location/altitude"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/location/altitude:
-
-      .. rst-class:: ansible-option-title
-
-      **altitude**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/location/altitude" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's altitude.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/location/latitude"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/location/latitude:
-
-      .. rst-class:: ansible-option-title
-
-      **latitude**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/location/latitude" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's latitude.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/location/longitude"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/location/longitude:
-
-      .. rst-class:: ansible-option-title
-
-      **longitude**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/location/longitude" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's longitude.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/location/siteId"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/location/siteid:
-
-      .. rst-class:: ansible-option-title
-
-      **siteId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/location/siteId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's siteId.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/macAddress"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/macaddress:
-
-      .. rst-class:: ansible-option-title
-
-      **macAddress**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/macAddress" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's macAddress.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/mode"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/mode:
-
-      .. rst-class:: ansible-option-title
-
-      **mode**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/mode" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's mode.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/name"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/name:
-
-      .. rst-class:: ansible-option-title
-
-      **name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's name.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/neighborLinks"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/neighborlinks:
-
-      .. rst-class:: ansible-option-title
-
-      **neighborLinks**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/neighborLinks" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's neighborLinks.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/neighborLinks/localInterfaceName"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/neighborlinks/localinterfacename:
-
-      .. rst-class:: ansible-option-title
-
-      **localInterfaceName**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/neighborLinks/localInterfaceName" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's localInterfaceName.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/neighborLinks/localMacAddress"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/neighborlinks/localmacaddress:
-
-      .. rst-class:: ansible-option-title
-
-      **localMacAddress**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/neighborLinks/localMacAddress" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's localMacAddress.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/neighborLinks/localShortInterfaceName"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/neighborlinks/localshortinterfacename:
-
-      .. rst-class:: ansible-option-title
-
-      **localShortInterfaceName**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/neighborLinks/localShortInterfaceName" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's localShortInterfaceName.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/neighborLinks/remoteDeviceName"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/neighborlinks/remotedevicename:
-
-      .. rst-class:: ansible-option-title
-
-      **remoteDeviceName**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/neighborLinks/remoteDeviceName" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's remoteDeviceName.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/neighborLinks/remoteInterfaceName"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/neighborlinks/remoteinterfacename:
-
-      .. rst-class:: ansible-option-title
-
-      **remoteInterfaceName**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/neighborLinks/remoteInterfaceName" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's remoteInterfaceName.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/neighborLinks/remoteMacAddress"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/neighborlinks/remotemacaddress:
-
-      .. rst-class:: ansible-option-title
-
-      **remoteMacAddress**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/neighborLinks/remoteMacAddress" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's remoteMacAddress.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/neighborLinks/remotePlatform"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/neighborlinks/remoteplatform:
-
-      .. rst-class:: ansible-option-title
-
-      **remotePlatform**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/neighborLinks/remotePlatform" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's remotePlatform.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/neighborLinks/remoteShortInterfaceName"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/neighborlinks/remoteshortinterfacename:
-
-      .. rst-class:: ansible-option-title
-
-      **remoteShortInterfaceName**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/neighborLinks/remoteShortInterfaceName" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's remoteShortInterfaceName.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/neighborLinks/remoteVersion"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/neighborlinks/remoteversion:
-
-      .. rst-class:: ansible-option-title
-
-      **remoteVersion**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/neighborLinks/remoteVersion" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's remoteVersion.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/onbState"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/onbstate:
-
-      .. rst-class:: ansible-option-title
-
-      **onbState**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/onbState" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's onbState.
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -2172,884 +322,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist:
-
-      .. rst-class:: ansible-option-title
-
-      **pnpProfileList**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's pnpProfileList.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList/createdBy"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist/createdby:
-
-      .. rst-class:: ansible-option-title
-
-      **createdBy**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList/createdBy" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's createdBy.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList/discoveryCreated"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist/discoverycreated:
-
-      .. rst-class:: ansible-option-title
-
-      **discoveryCreated**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList/discoveryCreated" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      DiscoveryCreated flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList/primaryEndpoint"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist/primaryendpoint:
-
-      .. rst-class:: ansible-option-title
-
-      **primaryEndpoint**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList/primaryEndpoint" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's primaryEndpoint.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList/primaryEndpoint/certificate"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist/primaryendpoint/certificate:
-
-      .. rst-class:: ansible-option-title
-
-      **certificate**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList/primaryEndpoint/certificate" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's certificate.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList/primaryEndpoint/fqdn"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist/primaryendpoint/fqdn:
-
-      .. rst-class:: ansible-option-title
-
-      **fqdn**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList/primaryEndpoint/fqdn" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's fqdn.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList/primaryEndpoint/ipv4Address"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist/primaryendpoint/ipv4address:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv4Address**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList/primaryEndpoint/ipv4Address" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's ipv4Address.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList/primaryEndpoint/ipv6Address"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist/primaryendpoint/ipv6address:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv6Address**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList/primaryEndpoint/ipv6Address" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's ipv6Address.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList/primaryEndpoint/port"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist/primaryendpoint/port:
-
-      .. rst-class:: ansible-option-title
-
-      **port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList/primaryEndpoint/port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's port.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList/primaryEndpoint/protocol"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist/primaryendpoint/protocol:
-
-      .. rst-class:: ansible-option-title
-
-      **protocol**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList/primaryEndpoint/protocol" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's protocol.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList/profileName"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist/profilename:
-
-      .. rst-class:: ansible-option-title
-
-      **profileName**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList/profileName" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's profileName.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList/secondaryEndpoint"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist/secondaryendpoint:
-
-      .. rst-class:: ansible-option-title
-
-      **secondaryEndpoint**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList/secondaryEndpoint" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's secondaryEndpoint.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList/secondaryEndpoint/certificate"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist/secondaryendpoint/certificate:
-
-      .. rst-class:: ansible-option-title
-
-      **certificate**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList/secondaryEndpoint/certificate" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's certificate.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList/secondaryEndpoint/fqdn"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist/secondaryendpoint/fqdn:
-
-      .. rst-class:: ansible-option-title
-
-      **fqdn**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList/secondaryEndpoint/fqdn" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's fqdn.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList/secondaryEndpoint/ipv4Address"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist/secondaryendpoint/ipv4address:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv4Address**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList/secondaryEndpoint/ipv4Address" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's ipv4Address.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList/secondaryEndpoint/ipv6Address"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist/secondaryendpoint/ipv6address:
-
-      .. rst-class:: ansible-option-title
-
-      **ipv6Address**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList/secondaryEndpoint/ipv6Address" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's ipv6Address.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList/secondaryEndpoint/port"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist/secondaryendpoint/port:
-
-      .. rst-class:: ansible-option-title
-
-      **port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList/secondaryEndpoint/port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's port.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/pnpProfileList/secondaryEndpoint/protocol"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/pnpprofilelist/secondaryendpoint/protocol:
-
-      .. rst-class:: ansible-option-title
-
-      **protocol**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/pnpProfileList/secondaryEndpoint/protocol" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's protocol.
-
-
-      .. raw:: html
-
-        </div>
-
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/populateInventory"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/populateinventory:
-
-      .. rst-class:: ansible-option-title
-
-      **populateInventory**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/populateInventory" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      PopulateInventory flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/preWorkflowCliOuputs"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/preworkflowcliouputs:
-
-      .. rst-class:: ansible-option-title
-
-      **preWorkflowCliOuputs**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/preWorkflowCliOuputs" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's preWorkflowCliOuputs.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/preWorkflowCliOuputs/cli"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/preworkflowcliouputs/cli:
-
-      .. rst-class:: ansible-option-title
-
-      **cli**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/preWorkflowCliOuputs/cli" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's cli.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/preWorkflowCliOuputs/cliOutput"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/preworkflowcliouputs/clioutput:
-
-      .. rst-class:: ansible-option-title
-
-      **cliOutput**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/preWorkflowCliOuputs/cliOutput" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's cliOutput.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/projectId"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/projectid:
-
-      .. rst-class:: ansible-option-title
-
-      **projectId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/projectId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's projectId.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/projectName"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/projectname:
-
-      .. rst-class:: ansible-option-title
-
-      **projectName**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/projectName" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's projectName.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/reloadRequested"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/reloadrequested:
-
-      .. rst-class:: ansible-option-title
-
-      **reloadRequested**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/reloadRequested" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      ReloadRequested flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/serialNumber"></div>
 
       .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/serialnumber:
@@ -3084,780 +356,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/smartAccountId"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/smartaccountid:
-
-      .. rst-class:: ansible-option-title
-
-      **smartAccountId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/smartAccountId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's smartAccountId.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/source"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/source:
-
-      .. rst-class:: ansible-option-title
-
-      **source**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/source" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's source.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stack"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stack:
-
-      .. rst-class:: ansible-option-title
-
-      **stack**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stack" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Stack flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo:
-
-      .. rst-class:: ansible-option-title
-
-      **stackInfo**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's stackInfo.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/isFullRing"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/isfullring:
-
-      .. rst-class:: ansible-option-title
-
-      **isFullRing**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/isFullRing" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      IsFullRing flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/stackMemberList"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/stackmemberlist:
-
-      .. rst-class:: ansible-option-title
-
-      **stackMemberList**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/stackMemberList" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's stackMemberList.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/stackMemberList/hardwareVersion"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/stackmemberlist/hardwareversion:
-
-      .. rst-class:: ansible-option-title
-
-      **hardwareVersion**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/stackMemberList/hardwareVersion" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's hardwareVersion.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/stackMemberList/licenseLevel"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/stackmemberlist/licenselevel:
-
-      .. rst-class:: ansible-option-title
-
-      **licenseLevel**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/stackMemberList/licenseLevel" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's licenseLevel.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/stackMemberList/licenseType"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/stackmemberlist/licensetype:
-
-      .. rst-class:: ansible-option-title
-
-      **licenseType**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/stackMemberList/licenseType" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's licenseType.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/stackMemberList/macAddress"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/stackmemberlist/macaddress:
-
-      .. rst-class:: ansible-option-title
-
-      **macAddress**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/stackMemberList/macAddress" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's macAddress.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/stackMemberList/pid"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/stackmemberlist/pid:
-
-      .. rst-class:: ansible-option-title
-
-      **pid**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/stackMemberList/pid" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's pid.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/stackMemberList/priority"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/stackmemberlist/priority:
-
-      .. rst-class:: ansible-option-title
-
-      **priority**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/stackMemberList/priority" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's priority.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/stackMemberList/role"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/stackmemberlist/role:
-
-      .. rst-class:: ansible-option-title
-
-      **role**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/stackMemberList/role" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's role.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/stackMemberList/serialNumber"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/stackmemberlist/serialnumber:
-
-      .. rst-class:: ansible-option-title
-
-      **serialNumber**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/stackMemberList/serialNumber" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's serialNumber.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/stackMemberList/softwareVersion"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/stackmemberlist/softwareversion:
-
-      .. rst-class:: ansible-option-title
-
-      **softwareVersion**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/stackMemberList/softwareVersion" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's softwareVersion.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/stackMemberList/stackNumber"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/stackmemberlist/stacknumber:
-
-      .. rst-class:: ansible-option-title
-
-      **stackNumber**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/stackMemberList/stackNumber" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's stackNumber.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/stackMemberList/state"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/stackmemberlist/state:
-
-      .. rst-class:: ansible-option-title
-
-      **state**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/stackMemberList/state" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's state.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/stackMemberList/sudiSerialNumber"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/stackmemberlist/sudiserialnumber:
-
-      .. rst-class:: ansible-option-title
-
-      **sudiSerialNumber**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/stackMemberList/sudiSerialNumber" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's sudiSerialNumber.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/stackRingProtocol"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/stackringprotocol:
-
-      .. rst-class:: ansible-option-title
-
-      **stackRingProtocol**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/stackRingProtocol" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's stackRingProtocol.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/supportsStackWorkflows"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/supportsstackworkflows:
-
-      .. rst-class:: ansible-option-title
-
-      **supportsStackWorkflows**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/supportsStackWorkflows" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      SupportsStackWorkflows flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/totalMemberCount"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/totalmembercount:
-
-      .. rst-class:: ansible-option-title
-
-      **totalMemberCount**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/totalMemberCount" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's totalMemberCount.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/stackInfo/validLicenseLevels"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/stackinfo/validlicenselevels:
-
-      .. rst-class:: ansible-option-title
-
-      **validLicenseLevels**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/stackInfo/validLicenseLevels" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's validLicenseLevels.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/state"></div>
 
       .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/state:
@@ -3882,137 +380,28 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Device's state.
+      Pnp Device's onbording state (Unclaimed/Claimed/Provisioned).
 
 
       .. raw:: html
 
         </div>
+
 
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/sudiRequired"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/gateway"></div>
 
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/sudirequired:
-
-      .. rst-class:: ansible-option-title
-
-      **sudiRequired**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/sudiRequired" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      SudiRequired flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/tags"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/tags:
+      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/gateway:
 
       .. rst-class:: ansible-option-title
 
-      **tags**
+      **gateway**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/tags" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's tags.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/userSudiSerialNos"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/usersudiserialnos:
-
-      .. rst-class:: ansible-option-title
-
-      **userSudiSerialNos**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/userSudiSerialNos" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's userSudiSerialNos.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/virtualAccountId"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/virtualaccountid:
-
-      .. rst-class:: ansible-option-title
-
-      **virtualAccountId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/virtualAccountId" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/gateway" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -4024,83 +413,14 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Device's virtualAccountId.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/workflowId"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/workflowid:
-
-      .. rst-class:: ansible-option-title
-
-      **workflowId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/workflowId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's workflowId.
+      Gateway IP address of the Wireless Controller for getting pinged
 
 
       .. raw:: html
 
         </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/deviceInfo/workflowName"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/deviceinfo/workflowname:
-
-      .. rst-class:: ansible-option-title
-
-      **workflowName**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/deviceInfo/workflowName" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Pnp Device's workflowName.
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -4181,6 +501,150 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/ipInterfaceName"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/ipinterfacename:
+
+      .. rst-class:: ansible-option-title
+
+      **ipInterfaceName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/ipInterfaceName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the Interface used for Pnp by the Wireless Controller
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/pnp_type"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/pnp_type:
+
+      .. rst-class:: ansible-option-title
+
+      **pnp_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/pnp_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device type of the Pnp device (Default/CatalystWLC/AccessPoint)
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"Default"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/projectName"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/projectname:
+
+      .. rst-class:: ansible-option-title
+
+      **projectName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/projectName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the project under which the template is present
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"Onboarding Configuration"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/rfProfile"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/rfprofile:
+
+      .. rst-class:: ansible-option-title
+
+      **rfProfile**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/rfProfile" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      rfprofile of the AP being claimed (HIGH/LOW/TYPICAL)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/site_name"></div>
 
       .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/site_name:
@@ -4215,6 +679,74 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/staticIP"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/staticip:
+
+      .. rst-class:: ansible-option-title
+
+      **staticIP**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/staticIP" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Management IP address of the Wireless Controller
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/subnetMask"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/subnetmask:
+
+      .. rst-class:: ansible-option-title
+
+      **subnetMask**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/subnetMask" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Subnet Mask of the Management IP address of the Wireless Controller
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/template_name"></div>
 
       .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/template_name:
@@ -4240,6 +772,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Name of template to be configured on the device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/vlanId"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_intent_module__parameter-config/vlanid:
+
+      .. rst-class:: ansible-option-title
+
+      **vlanId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/vlanId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Vlan Id allocated for claimimg of Wireless Controller
 
 
       .. raw:: html
@@ -4655,8 +1221,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.add\_device, device\_onboarding\_pnp.DeviceOnboardingPnp.claim\_a\_device\_to\_a\_site, device\_onboarding\_pnp.DeviceOnboardingPnp.delete\_device\_by\_id\_from\_pnp,
-   - Paths used are post /dna/intent/api/v1/onboarding/pnp-device post /dna/intent/api/v1/onboarding/pnp-device/site-claim post /dna/intent/api/v1/onboarding/pnp-device/{id}
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.add\_device, device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_list, device\_onboarding\_pnp.DeviceOnboardingPnp.claim\_a\_device\_to\_a\_site, device\_onboarding\_pnp.DeviceOnboardingPnp.delete\_device\_by\_id\_from\_pnp, device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_count, sites.Sites.get\_site, software\_image\_management\_swim.SoftwareImageManagementSwim.get\_software\_image\_details, configuration\_templates.ConfigurationTemplates.gets\_the\_templates\_available
+   - Paths used are post /dna/intent/api/v1/onboarding/pnp-device post /dna/intent/api/v1/onboarding/pnp-device/site-claim post /dna/intent/api/v1/onboarding/pnp-device/{id} get /dna/intent/api/v1/onboarding/pnp-device/count get /dna/intent/api/v1/onboarding/pnp-device get /dna/intent/api/v1/site get /dna/intent/api/v1/image/importation get /dna/intent/api/v1/template-programmer/template
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -4684,129 +1250,25 @@ Examples
         dnac_log: True
         state: merged
         config:
-            template_name: string
-            image_name: string
-            site_name: string
-            deviceInfo:
-            aaaCredentials:
-              password: string
-              username: string
-            addedOn: 0
-            addnMacAddrs:
-            - string
-            agentType: string
-            authStatus: string
-            authenticatedSudiSerialNo: string
-            capabilitiesSupported:
-            - string
-            cmState: string
-            description: string
-            deviceSudiSerialNos:
-            - string
-            deviceType: string
-            featuresSupported:
-            - string
-            fileSystemList:
-            - freespace: 0
-              name: string
-              readable: true
-              size: 0
-              type: string
-              writeable: true
-            firstContact: 0
-            hostname: string
-            httpHeaders:
-            - key: string
-              value: string
-            imageFile: string
-            imageVersion: string
-            ipInterfaces:
-            - ipv4Address: {}
-              ipv6AddressList:
-              - {}
-              macAddress: string
-              name: string
-              status: string
-            lastContact: 0
-            lastSyncTime: 0
-            lastUpdateOn: 0
-            location:
-              address: string
-              altitude: string
-              latitude: string
-              longitude: string
-              siteId: string
-            macAddress: string
-            mode: string
-            name: string
-            neighborLinks:
-            - localInterfaceName: string
-              localMacAddress: string
-              localShortInterfaceName: string
-              remoteDeviceName: string
-              remoteInterfaceName: string
-              remoteMacAddress: string
-              remotePlatform: string
-              remoteShortInterfaceName: string
-              remoteVersion: string
-            onbState: string
-            pid: string
-            pnpProfileList:
-            - createdBy: string
-              discoveryCreated: true
-              primaryEndpoint:
-                certificate: string
-                fqdn: string
-                ipv4Address: {}
-                ipv6Address: {}
-                port: 0
-                protocol: string
-              profileName: string
-              secondaryEndpoint:
-                certificate: string
-                fqdn: string
-                ipv4Address: {}
-                ipv6Address: {}
-                port: 0
-                protocol: string
-            populateInventory: true
-            preWorkflowCliOuputs:
-            - cli: string
-              cliOutput: string
-            projectId: string
-            projectName: string
-            reloadRequested: true
-            serialNumber: string
-            smartAccountId: string
-            source: string
-            stack: true
-            stackInfo:
-              isFullRing: true
-              stackMemberList:
-              - hardwareVersion: string
-                licenseLevel: string
-                licenseType: string
-                macAddress: string
-                pid: string
-                priority: 0
-                role: string
-                serialNumber: string
-                softwareVersion: string
-                stackNumber: 0
+            - template_name: string
+              image_name: string
+              golden_image: bool
+              site_name: string
+              projectName: string
+              pnp_type: string
+              staticIP: string
+              subnetMask: string
+              gateway: string
+              vlanId: string
+              ipInterfaceName: string
+              rfProfile: string
+              deviceInfo:
+                hostname: string
                 state: string
-                sudiSerialNumber: string
-              stackRingProtocol: string
-              supportsStackWorkflows: true
-              totalMemberCount: 0
-              validLicenseLevels: string
-            state: string
-            sudiRequired: true
-            tags: {}
-            userSudiSerialNos:
-            - string
-            virtualAccountId: string
-            workflowId: string
-            workflowName: string
+                pid: string
+                serialNumber: string
+                add_device_method: string
+                isSudiRequired: string
 
 
 
@@ -4974,7 +1436,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary)
+- Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary) Abinash Mishra (@abimishr)
 
 
 
