@@ -26,7 +26,7 @@ author: Muthu Rakesh (@MUTHU-RAKESH-27)
         Madhan Sankaranarayanan (@madhansansel)
 options:
   state:
-    description: The state of DNAC after module completion.
+    description: The state of Cisco DNA Center after module completion.
     type: str
     choices: [ merged, deleted ]
     default: merged
@@ -245,7 +245,7 @@ options:
                 description: Network V2's snmpServer.
                 suboptions:
                   configureDnacIP:
-                    description: Configuration DNAC IP for SNMP Server (eg true).
+                    description: Configuration Cisco DNA Center IP for SNMP Server (eg true).
                     type: bool
                   ipAddresses:
                     description: IP Address for SNMP Server (eg 4.4.4.1).
@@ -256,7 +256,7 @@ options:
                 description: Network V2's syslogServer.
                 suboptions:
                   configureDnacIP:
-                    description: Configuration DNAC IP for syslog server (eg true).
+                    description: Configuration Cisco DNA Center IP for syslog server (eg true).
                     type: bool
                   ipAddresses:
                     description: IP Address for syslog server (eg 4.4.4.4).
@@ -364,7 +364,7 @@ EXAMPLES = r"""
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of global pool
 response_1:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNA Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -376,7 +376,7 @@ response_1:
 
 # Case_2: Successful creation/updation/deletion of reserve pool
 response_2:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNA Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -388,7 +388,7 @@ response_2:
 
 # Case_3: Successful creation/updation of network
 response_3:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNA Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -425,13 +425,12 @@ class DnacNetwork(DnacBase):
         Checks if the configuration parameters provided in the playbook
         meet the expected structure and data types,
         as defined in the 'temp_spec' dictionary.
-
         Parameters:
-            None
-
+          - self: The instance of the class containing the 'config' attribute
         Returns:
-            self
-
+          The method returns an instance of the class with updated attributes:
+          - self.msg: A message describing the validation result.
+          - self.status: The status of the validation (either 'success' or 'failed').
         """
 
         if not self.config:
@@ -555,22 +554,22 @@ class DnacNetwork(DnacBase):
         current information wih the requested information.
 
         This method compares the current global pool, reserve pool,
-        or network details from DNAC with the user-provided details
+        or network details from Cisco DNA Center with the user-provided details
         from the playbook, using a specified schema for comparison.
 
         Parameters:
-            have (dict) - Current information from the DNAC
+          - self: The instance of the class containing the 'config' attribute
+          - have (dict): Current information from the Cisco DNA Center
                           (global pool, reserve pool, network details)
-            want (dict) - Users provided information from the playbook
-            obj_params (list of tuples) - A list of parameter mappings specifying which
-                                          DNAC parameters (dnac_param) correspond to
-                                          the user-provided parameters (ansible_param).
-
+          - want (dict): Users provided information from the playbook
+          - obj_params (list of tuples): A list of parameter mappings
+                  specifying which Cisco DNA Center parameters (dnac_param)
+                  correspond to the user-provided parameters (ansible_param).
         Returns:
-            bool - True if any parameter specified in obj_params differs between
-            current_obj and requested_obj, indicating that an update is required.
-            False if all specified parameters are equal.
-
+          -  bool: True if any parameter specified in obj_params differs
+                   between current_obj and requested_obj, indicating that an
+                   update is required.
+                   False if all specified parameters are equal.
         """
 
         current_obj = have
@@ -585,13 +584,12 @@ class DnacNetwork(DnacBase):
     def get_site_id(self, site_name):
         """
         Get the site id from the site name.
-        Use check_return_status() to check for failure
+        Use check_return_status() to check for failure.
 
         Parameters:
-            site_name (str) - Site name
-
+          - site_name (str): Site name
         Returns:
-            str or None - The Site Id if found, or None if not found or error
+          - str or None - The Site Id if found, or None if not found or error
         """
 
         try:
@@ -615,14 +613,16 @@ class DnacNetwork(DnacBase):
 
     def get_global_pool_params(self, pool_info):
         """
-        Process Global Pool params from playbook data for Global Pool config in DNAC
+        Process Global Pool params from playbook data for Global Pool config
+        in Cisco DNA Center
 
         Parameters:
-            pool_info (dict) - Playbook data containing information about the global pool
-
+          - pool_info (dict): Playbook data containing information about
+                              the global pool
         Returns:
-            dict or None - Processed Global Pool data in a format suitable
-            for DNAC configuration, or None if pool_info is empty.
+          - dict or None: Processed Global Pool data in a format suitable
+                          for Cisco DNA Center configuration, or None
+                          if pool_info is empty.
         """
 
         if not pool_info:
@@ -658,14 +658,16 @@ class DnacNetwork(DnacBase):
 
     def get_reserve_pool_params(self, pool_info):
         """
-        Process Reserved Pool parameters from playbook data for Reserved Pool configuration in DNAC
+        Process Reserved Pool parameters from playbook data
+        for Reserved Pool configuration in Cisco DNA Center.
 
         Parameters:
-            pool_info (dict) - Playbook data containing information about the reserved pool
+          - pool_info (dict): Playbook data containing information about
+                              the reserved pool.
 
         Returns:
-            reserve_pool (dict) - Processed Reserved pool data
-            in the format suitable for the DNAC config
+          - reserve_pool (dict): Processed Reserved pool data in the format
+                                 suitable for the Cisco DNA Center config.
         """
 
         reserve_pool = {
@@ -731,14 +733,17 @@ class DnacNetwork(DnacBase):
 
     def get_network_params(self, site_id):
         """
-        Process the Network parameters from the playbook for Network configuration in DNAC
+        Process the Network parameters from the playbook
+        for Network configuration in Cisco DNA Center
 
         Parameters:
-            site_id (str) - The Site ID for which network parameters are requested
+          - site_id (str): The Site ID for which network parameters
+                           are requested.
 
         Returns:
-            dict or None: Processed Network data in a format suitable for DNAC configuration,
-            or None if the response is not a dictionary or there was an error.
+          - dict or None: Processed Network data in a format suitable for
+                          Cisco DNA Center configuration, or None if the
+                          response is not a dictionary or there was an error.
         """
 
         response = self.dnac._exec(
@@ -767,7 +772,7 @@ class DnacNetwork(DnacBase):
         clientAndEndpoint_aaa_pan = \
             get_dict_result(all_network_details, "key", "aaa.server.pan.endpoint")
 
-        # Prepare the network details for DNAC configuration
+        # Prepare the network details for Cisco DNA Center configuration
         network_details = {
             "settings": {
                 "snmpServer": {
@@ -836,13 +841,13 @@ class DnacNetwork(DnacBase):
         Check if the Global Pool with the given name exists
 
         Parameters:
-            name (str) - The name of the Global Pool to check for existence
-
+          - name (str): The name of the Global Pool to check for existence
         Returns:
-            dict - A dictionary containing information about the Global Pool's existence:
-            - 'exists' (bool): True if the Global Pool exists, False otherwise.
-            - 'id' (str or None): The ID of the Global Pool if it exists, or None if it doesn't.
-            - 'details' (dict or None): Details of the Global Pool if it exists, else None.
+          dict: A dictionary containing information about the
+                Global Pool's existence:
+          - 'exists' (bool): True if Global Pool exists, otherwise False.
+          - 'id' (str): ID of the Global Pool if exists, otherwise None
+          - 'details' (dict): Details of Global Pool if exists, otherwise None.
         """
 
         global_pool = {
@@ -878,14 +883,18 @@ class DnacNetwork(DnacBase):
         Use check_return_status() to check for failure
 
         Parameters:
-            name (str) - The name of the Reserved pool to check for existence.
-            site_name (str) - The name of the site where the Reserved pool is located.
+          - name (str): Name of the Reserved pool to check for existence.
+          - site_name (str): Name of the site where Reserved pool is located.
 
         Returns:
-            dict - A dictionary containing information about the Reserved pool's existence:
-            - 'exists' (bool): True if the Reserved pool exists in the specified site, else False.
-            - 'id' (str or None): The ID of the Reserved pool if it exists, or None if it doesn't.
-            - 'details' (dict or None): Details of the Reserved pool if it exists, or else None.
+            dict - Dictionary containing information about the
+                   Reserved pool's existence:
+            - 'exists' (bool): True if the Reserved pool exists in the specified
+                               site, otherwise False.
+            - 'id' (str or None): ID of the Reserved pool if it exists, or
+                                  None if it doesn't.
+            - 'details' (dict or None): Details of the Reserved pool if exists,
+                                  or else None.
         """
 
         reserve_pool = {
@@ -930,12 +939,11 @@ class DnacNetwork(DnacBase):
     def get_have_global_pool(self, config):
         """
         Get the current Global Pool information from
-        DNAC based on the provided playbook details.
+        Cisco DNA Center based on the provided playbook details.
         check this API using check_return_status.
 
         Parameters:
-            config (dict) - Playbook details containing Global Pool configuration.
-
+          - config (dict): Playbook details containing Global Pool config.
         Returns:
             self - The current object with updated information.
         """
@@ -979,19 +987,19 @@ class DnacNetwork(DnacBase):
         self.log("pool Exists: " + str(global_pool.get("exists")) +
                  "\n Current Site: " + str(global_pool.get("details")))
         self.have.update({"globalPool": global_pool})
-        self.msg = "Collecting the global pool details from the DNAC"
+        self.msg = "Collecting the global pool details from the Cisco DNA Center"
         self.status = "success"
         return self
 
     def get_have_reserve_pool(self, config):
         """
-        Get the current Reserved Pool information from DNAC
+        Get the current Reserved Pool information from Cisco DNA Center
         based on the provided playbook details.
         Check this API using check_return_status
 
         Parameters:
-            config (list of dict) - Playbook details containing Reserved Pool configuration.
-
+          - config (list of dict): Playbook details containing Reserved Pool
+                                   configuration.
         Returns:
             self - The current object with updated information.
         """
@@ -1015,7 +1023,8 @@ class DnacNetwork(DnacBase):
             self.status = "failed"
             return self
 
-        # Check if the Reserved Pool exists in DNAC based on the provided name and site name
+        # Check if the Reserved Pool exists in Cisco DNA Center
+        # based on the provided name and site name
         reserve_pool = self.reserve_pool_exists(name, site_name)
         if not reserve_pool.get("success"):
             return self.check_return_status()
@@ -1030,7 +1039,7 @@ class DnacNetwork(DnacBase):
             if not reserve_pool.get("success"):
                 return self.check_return_status()
 
-            # If the previous name doesn't exist in DNAC, return with error
+            # If the previous name doesn't exist in Cisco DNA Center, return with error
             if reserve_pool.get("exists") is False:
                 self.msg = "Prev name {0} doesn't exist in ReservePoolDetails".format(prev_name)
                 self.status = "failed"
@@ -1049,17 +1058,18 @@ class DnacNetwork(DnacBase):
 
         self.log(str(reserve_pool))
         self.have.update({"reservePool": reserve_pool})
-        self.msg = "Collecting the reserve pool details from the DNAC"
+        self.msg = "Collecting the reserve pool details from the Cisco DNA Center"
         self.status = "success"
         return self
 
     def get_have_network(self, config):
         """
-        Get the current Network details from DNAC based on the provided playbook details.
+        Get the current Network details from Cisco DNA
+        Center based on the provided playbook details.
 
         Parameters:
-            config (dict) - Playbook details containing Network Management configuration.
-
+            config (dict) - Playbook details containing Network Management
+                            configuration.
         Returns:
             self - The current object with updated Network information.
         """
@@ -1078,23 +1088,24 @@ class DnacNetwork(DnacBase):
 
         network["site_id"] = site_id
         network["net_details"] = self.get_network_params(site_id)
-        self.log("Network Details from the DNAC " + str(network))
+        self.log("Network Details from the Cisco DNA Center " + str(network))
         self.have.update({"network": network})
-        self.msg = "Collecting the network details from the DNAC"
+        self.msg = "Collecting the network details from the Cisco DNA Center"
         self.status = "success"
         return self
 
     def get_have(self, config):
         """
-        Get the current Global Pool Reserved Pool and Network details from DNAC
+        Get the current Global Pool Reserved Pool and Network details
+        from Cisco DNA Center
 
         Parameters:
-            config (dict) - Playbook details containing Global Pool,
-            Reserved Pool, and Network Management configuration.
+          - config (dict): Playbook details containing Global Pool, Reserved
+                           Pool, and Network Management configuration.
 
         Returns:
-            self - The current object with updated Global Pool,
-            Reserved Pool, and Network information.
+          - self: The current object with updated Global Pool,
+                  Reserved Pool, and Network information.
         """
 
         if config.get("GlobalPoolDetails") is not None:
@@ -1106,8 +1117,8 @@ class DnacNetwork(DnacBase):
         if config.get("NetworkManagementDetails") is not None:
             self.get_have_network(config).check_return_status()
 
-        self.log("Global Pool, Reserve Pool, Network Details in DNAC " + str(self.have))
-        self.msg = "Successfully retrieved the details from the DNAC"
+        self.log("Global Pool, Reserve Pool, Network Details in Cisco DNA Center " + str(self.have))
+        self.msg = "Successfully retrieved the details from the Cisco DNA Center"
         self.status = "success"
         return self
 
@@ -1118,11 +1129,12 @@ class DnacNetwork(DnacBase):
         Check the return value of the API with check_return_status()
 
         Parameters:
-            global_ippool (dict) - Playbook global pool details containing IpAddressSpace,
-            DHCP server IPs, DNS server IPs, IP pool name, IP pool CIDR, gateway, and type.
+          - global_ippool (dict): Playbook global pool details containing
+                        IpAddressSpace, DHCP server IPs, DNS server IPs,
+                        IP pool name, IP pool CIDR, gateway, and type.
 
         Returns:
-            self - The current object with updated desired Global Pool information.
+          - self: Current object with updated desired Global Pool information.
         """
 
         # Initialize the desired Global Pool configuration
@@ -1183,11 +1195,12 @@ class DnacNetwork(DnacBase):
         Check the return value of the API with check_return_status()
 
         Parameters:
-            reserve_pool (dict) - Playbook reserved pool
-            details containing various properties.
+         - reserve_pool (dict) - Playbook reserved pool details
+                     containing various properties.
 
         Returns:
-            self - The current object with updated desired Reserved Pool information.
+          - self: The current object with updated desired Reserved
+                  Pool information.
         """
 
         want_reserve = {
@@ -1295,11 +1308,11 @@ class DnacNetwork(DnacBase):
         Check the return value of the API with check_return_status()
 
         Parameters:
-            network_management_details (dict) - Playbook network
-            details containing various network settings.
+          - network_management_details (dict): Playbook network
+                      details containing various network settings.
 
         Returns:
-            self - The current object with updated desired Network-related information.
+          - self: Current object with updated desired Network-related info.
         """
 
         want_network = {
@@ -1535,10 +1548,9 @@ class DnacNetwork(DnacBase):
         Get all the Global Pool Reserved Pool and Network related information from playbook
 
         Parameters:
-            config (list of dict) - Playbook details
-
+          - config (list of dict): Playbook details
         Returns:
-            None
+          - self
         """
 
         if config.get("GlobalPoolDetails"):
@@ -1561,13 +1573,13 @@ class DnacNetwork(DnacBase):
 
     def update_global_pool(self, config):
         """
-        Update/Create Global Pool in DNAC with fields provided in DNAC
+        Update/Create Global Pool in Cisco DNA Center with fields provided in playbook
 
         Parameters:
-            config (list of dict) - Playbook details
+          - config (list of dict): Playbook details
 
         Returns:
-            None
+          - None
         """
 
         name = config.get("GlobalPoolDetails") \
@@ -1599,7 +1611,7 @@ class DnacNetwork(DnacBase):
                                     self.want.get("wantGlobal"), obj_params):
             self.log("Global pool doesn't requires an update")
             result_global_pool.get("response").get(name).update({
-                "DNAC params":
+                "Cisco DNA Center params":
                 self.have.get("globalPool").get("details").get("settings").get("ippool")[0]
             })
             result_global_pool.get("response").get(name).update({
@@ -1643,21 +1655,21 @@ class DnacNetwork(DnacBase):
 
     def update_reserve_pool(self, config):
         """
-        Update or Create a Reserve Pool in DNAC based on the provided configuration.
-        This method checks if a reserve pool with the specified name exists in DNAC.
+        Update or Create a Reserve Pool in Cisco DNA Center based on the provided configuration.
+        This method checks if a reserve pool with the specified name exists in Cisco DNA Center.
         If it exists and requires an update, it updates the pool. If not, it creates a new pool.
 
         Parameters:
-            config (list of dict) - Playbook details containing Reserve Pool information.
-
+          - config (list of dict) - Playbook details containing Reserve
+                                    Pool information.
         Returns:
-            None
+          - None
         """
 
         name = config.get("ReservePoolDetails").get("name")
         result_reserve_pool = self.result.get("response")[1].get("reservePool")
         result_reserve_pool.get("response").update({name: {}})
-        self.log("Reserve Pool DNAC Details " +
+        self.log("Reserve Pool Cisco DNA Center Details " +
                  str(self.have.get("reservePool").get("details")))
         self.log("Reserve Pool User Details " +
                  str(self.want.get("wantReserve")))
@@ -1704,7 +1716,7 @@ class DnacNetwork(DnacBase):
                                     self.want.get("wantReserve"), obj_params):
             self.log("Reserved ip subpool doesn't require an update")
             result_reserve_pool.get("response").get(name) \
-                .update({"DNAC params": self.have.get("reservePool").get("details")})
+                .update({"Cisco DNA Center params": self.have.get("reservePool").get("details")})
             result_reserve_pool.get("response").get(name) \
                 .update({"Id": self.have.get("reservePool").get("id")})
             result_reserve_pool.get("msg") \
@@ -1713,7 +1725,7 @@ class DnacNetwork(DnacBase):
 
         self.log("Reserve ip pool requires an update")
         # Pool Exists
-        self.log("Reserved Ip Pool DNAC Details " + str(self.have.get("reservePool")))
+        self.log("Reserved Ip Pool Cisco DNA Center Details " + str(self.have.get("reservePool")))
         self.log("Reserved Ip Pool User Details" + str(self.want.get("wantReserve")))
         reserve_params.update({"id": self.have.get("reservePool").get("id")})
         response = self.dnac._exec(
@@ -1730,13 +1742,14 @@ class DnacNetwork(DnacBase):
 
     def update_network(self, config):
         """
-        Update or create a network configuration in DNAC based on the provided playbook details.
+        Update or create a network configuration in Cisco DNA
+        Center based on the provided playbook details.
 
         Parameters:
-            config (list of dict) - Playbook details containing Network Management information.
-
+          - config (list of dict) - Playbook details containing Network
+                                    Management information.
         Returns:
-            None
+          - None
         """
 
         siteName = config.get("NetworkManagementDetails").get("siteName")
@@ -1753,13 +1766,14 @@ class DnacNetwork(DnacBase):
 
             self.log("Network doesn't require an update")
             result_network.get("response").get(siteName).update({
-                "DNAC params": self.have.get("network").get("net_details").get("settings")
+                "Cisco DNA Center params": self.have.get("network")
+                .get("net_details").get("settings")
             })
             result_network.get("msg").update({siteName: "Network doesn't require an update"})
             return
 
         self.log("Network requires update")
-        self.log("Network DNAC Details" + str(self.have.get("network")))
+        self.log("Network Cisco DNA Center Details" + str(self.have.get("network")))
         self.log("Network User Details" + str(self.want.get("wantNetwork")))
 
         net_params = copy.deepcopy(self.want.get("wantNetwork"))
@@ -1781,14 +1795,14 @@ class DnacNetwork(DnacBase):
     def get_diff_merged(self, config):
         """
         Update or create Global Pool, Reserve Pool, and
-        Network configurations in DNAC based on the playbook details
+        Network configurations in Cisco DNA Center based on the playbook details
 
         Parameters:
-            config (list of dict) - Playbook details containing
-            Global Pool, Reserve Pool, and Network Management information.
+          - config (list of dict) - Playbook details containing
+                  Global Pool, Reserve Pool, and Network Management information.
 
         Returns:
-            self
+          - self
         """
 
         if config.get("GlobalPoolDetails") is not None:
@@ -1804,13 +1818,13 @@ class DnacNetwork(DnacBase):
 
     def delete_reserve_pool(self, name):
         """
-        Delete a Reserve Pool by name in DNAC
+        Delete a Reserve Pool by name in Cisco DNA Center
 
         Parameters:
-            name (str) - The name of the Reserve Pool to be deleted.
+          - name (str): The name of the Reserve Pool to be deleted.
 
         Returns:
-            self
+          - self
         """
 
         reserve_pool_exists = self.have.get("reservePool").get("exists")
@@ -1843,13 +1857,13 @@ class DnacNetwork(DnacBase):
 
     def delete_global_pool(self, name):
         """
-        Delete a Global Pool by name in DNAC
+        Delete a Global Pool by name in Cisco DNA Center
 
         Parameters:
-            name (str) - The name of the Global Pool to be deleted.
+          - name (str): The name of the Global Pool to be deleted.
 
         Returns:
-            self
+          - self
         """
 
         global_pool_exists = self.have.get("globalPool").get("exists")
@@ -1879,13 +1893,14 @@ class DnacNetwork(DnacBase):
 
     def get_diff_deleted(self, config):
         """
-        Delete Reserve Pool and Global Pool in DNAC based on playbook details.
+        Delete Reserve Pool and Global Pool in Cisco DNA Center based
+        on playbook details.
 
         Parameters:
-            config (list of dict) - Playbook details
+          - config (list of dict): Playbook details
 
         Returns:
-            self
+          - self
         """
 
         if config.get("ReservePoolDetails") is not None:
@@ -1904,10 +1919,10 @@ class DnacNetwork(DnacBase):
         Reset all neccessary attributes to default values
 
         Parameters:
-            None
+          - self
 
         Returns:
-            None
+          - None
         """
 
         self.have.clear()
