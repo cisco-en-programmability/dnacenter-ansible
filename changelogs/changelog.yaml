@@ -720,3 +720,12 @@ releases:
         minor_changes:
           - A new intent module for network settings to support Global IP Pool, Reserve IP Pool, Global servers, TimeZone, Message of the Day and telemetry servers.
           - By inheriting DNAC base class, changes done to Swim, Template, PnP intent modules.
+    6.8.0:
+      release_date: "2023-11-10"
+      changes:
+        release_summary: Several changes to modules.
+        minor_changes:
+          - A new intent module to perform inventory for Adding, Deleting, Resyncing, Updating Devices etc. for all types of devices.
+          - A new intent module to Create, Update and Delete Global Device Credentials and Assign Credentials to a sites.
+          - A new intent module to discover the devices.
+          - Minor changes to swim intent module.
