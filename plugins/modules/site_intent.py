@@ -238,7 +238,20 @@ class DnacSite(DnacBase):
         self.supported_states = ["merged", "deleted"]
 
     def validate_input(self):
-        """Validate the fields provided in the playbook"""
+        """
+        Validate the fields provided in the playbook.
+
+        Checks if the 'config' attribute in the playbook meets the expected
+        structure and data types, as defined in the 'temp_spec' dictionary.
+
+        Returns:
+        Returns an instance of the class with updated attributes:
+          - self.msg: Message describing the validation result.
+          - self.status: Status of the validation (either 'success' or
+                                                   'failed').
+          - self.validated_config: If validation is successful, this attribute
+                                   contains the validated configuration.
+        """
 
         if not self.config:
             self.msg = "config not available in playbook for validattion"
@@ -269,7 +282,21 @@ class DnacSite(DnacBase):
         return self
 
     def get_current_site(self, site):
-        """Get the current site info"""
+        """
+        Get the current site information.
+
+        Parameters:
+          - self (object): An instance of the class containing the method.
+          - site (list): A list containing information about the site.
+        Returns:
+          - dict: A dictionary containing the extracted site information.
+        Description:
+            This method extracts information about the current site based on
+          the provided 'site' list. It determines the type of the site
+          (area, building, or floor) and retrieves specific details
+          accordingly. The resulting dictionary includes the type, site
+          details, and the site ID.
+        """
 
         site_info = {}
 
@@ -322,7 +349,23 @@ class DnacSite(DnacBase):
         return current_site
 
     def site_exists(self):
-        """Check if the site exists"""
+        """
+        Check if the site exists in Cisco DNA Center.
+
+        Parameters:
+          - self (object): An instance of the class containing the method.
+        Returns:
+          - tuple: A tuple containing a boolean indicating whether the site exists and
+                   a dictionary containing information about the existing site.
+                   The returned tuple includes two elements:
+                   - bool: Indicates whether the site exists.
+                   - dict: Contains information about the existing site. If the
+                           site doesn't exist, this dictionary is empty.
+        Description:
+            Checks the existence of a site in Cisco DNA Center by querying the
+          'get_site' function in the 'sites' family. It utilizes the
+          'site_name' parameter from the 'want' attribute to identify the site.
+        """
 
         site_exists = False
         current_site = {}
@@ -349,7 +392,22 @@ class DnacSite(DnacBase):
         return (site_exists, current_site)
 
     def get_site_params(self, params):
-        """Store the site related parameters"""
+        """
+        Store the site-related parameters.
+
+        Parameters:
+          - params (dict): Dictionary containing site-related parameters.
+        Returns:
+          - dict: Dictionary containing the stored site-related parameters.
+                  The returned dictionary includes the following keys:
+                  - 'type' (str): The type of the site.
+                  - 'site' (dict): Dictionary containing site-related info.
+        Description:
+            This method takes a dictionary 'params' containing site-related
+          information and stores the relevant parameters based on the site
+          type. If the site type is 'floor', it ensures that the 'rfModel'
+          parameter is stored in uppercase.
+        """
 
         site = params.get("site")
         typeinfo = params.get("type")
@@ -365,7 +423,18 @@ class DnacSite(DnacBase):
         return site_params
 
     def get_site_name(self, site):
-        """Get and Return the site name"""
+        """
+        Get and Return the site name.
+
+        Parameters:
+          - site (dict): A dictionary containing information about the site.
+        Returns:
+          - str: The constructed site name.
+        Description:
+            This method takes a dictionary 'site' containing information about
+          the site and constructs the site name by combining the parent name
+          and site name.
+        """
 
         site_type = site.get("type")
         parent_name = site.get("site").get(site_type).get("parentName")
@@ -377,7 +446,19 @@ class DnacSite(DnacBase):
         return site_name
 
     def site_requires_update(self):
-        """Check if the site requires updates"""
+        """
+        Check if the site requires updates.
+
+        Parameters:
+          - site (dict): A dictionary containing information about the site.
+        Returns:
+          - bool: True if the site requires updates, False otherwise.
+        Description:
+            This method compares the site parameters of the current site
+          ('current_site') and the requested site parameters ('requested_site')
+          stored in the 'want' attribute. It checks for differences in
+          specified parameters, such as the site type and site details.
+        """
 
         requested_site = self.want.get("site_params")
         current_site = self.have.get("current_site")
@@ -393,19 +474,6 @@ class DnacSite(DnacBase):
         return any(not dnac_compare_equality(current_site.get(dnac_param),
                                              requested_site.get(ansible_param))
                    for (dnac_param, ansible_param) in obj_params)
-
-    def get_execution_details(self, execid):
-        response = None
-        response = self.dnac._exec(
-            family="task",
-            function='get_business_api_execution_details',
-            params={"execution_id": execid}
-        )
-
-        log(str(response))
-
-        if response and isinstance(response, dict):
-            return response
 
     def get_have(self, config):
         """Get the site details from DNAC"""
@@ -514,7 +582,30 @@ class DnacSite(DnacBase):
         return self
 
     def get_diff_deleted(self, config):
-        """Call DNAC API to delete sites with provided inputs"""
+        """
+        Call Cisco DNA Center API to delete sites with provided inputs.
+
+        Parameters:
+          - config (dict): Dictionary containing information for site deletion.
+        Returns:
+            If the deletion is successful, 'changed' is set to True, and the
+          'response' includes execution details and the deleted site ID. If
+          an error occurs during the deletion, the method uses 'fail_json' to
+          raise an exception with the error message.  If the site does not
+          exist, the method raises an exception with a message indicating that
+          the site was not found.
+          - self: The result dictionary includes the following keys:
+              - 'changed' (bool): Indicates whether changes were made
+                 during the deletion process.
+              - 'response' (dict): Contains details about the execution
+                 and the deleted site ID.
+              - 'msg' (str): A message indicating the status of the deletion operation.
+        Description:
+            This method initiates the deletion of a site by calling the
+          'delete_site' function in the 'sites' family of the Cisco DNA
+          Center API. It uses the site ID obtained from the 'have' attribute.
+
+        """
 
         site_exists = self.have.get("site_exists")
 
