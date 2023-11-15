@@ -476,7 +476,21 @@ class DnacSite(DnacBase):
                    for (dnac_param, ansible_param) in obj_params)
 
     def get_have(self, config):
-        """Get the site details from DNAC"""
+        """
+        Get site details from Cisco DNA Center.
+
+        Parameters:
+          - config (dict): A dictionary containing configuration information.
+
+        Returns:
+          - object: The instance of the class.
+
+        Description:
+            This method queries Cisco DNA Center to check if a specified site
+          exists. If the site exists, it retrieves details about the current
+          site, including the site ID and other relevant information. The
+          results are stored in the 'have' attribute for later reference.
+        """
 
         site_exists = False
         current_site = None
@@ -497,8 +511,22 @@ class DnacSite(DnacBase):
         return self
 
     def get_want(self, config):
-        """Get all the site related information from playbook
-        that is needed to be created in DNAC"""
+        """
+        Get all site-related information from the playbook needed for
+        creation in Cisco DNA Center.
+
+        Parameters:
+          - config (dict): A dictionary containing configuration information.
+
+        Returns:
+          - object: The instance of the class.
+
+        Description:
+            Retrieves all site-related information from playbook that is
+          required for creating a site in Cisco DNA Center. It includes
+          parameters such as 'site_params' and 'site_name.' The gathered
+          information is stored in the 'want' attribute for later reference.
+        """
 
         want = {}
 
@@ -512,7 +540,31 @@ class DnacSite(DnacBase):
         return self
 
     def get_diff_merged(self, config):
-        """Update/Create site info in DNAC with fields provided in DNAC"""
+        """
+        Update/Create site information in Cisco DNA Center with fields
+        provided in the playbook.
+
+        Parameters:
+          - config (dict): A dictionary containing configuration information.
+
+        Returns:
+          - object: The instance of the class. The result dictionary includes
+                    the following keys:
+                    - 'changed' (bool): Indicates whether changes were made
+                                during the update or creation process.
+                    - 'response' (dict): Contains details about the execution
+                                and the updated or created site ID.
+                    - 'msg' (str): A message indicating the status of the
+                                update or creation operation.
+        Description:
+            This method determines whether to update or create a site in
+          Cisco DNA Center based on the provided configuration information. If
+          the specified site exists, the method checks if it requires an update
+          by calling the 'site_requires_update' method. If an update is
+          required, it calls the 'update_site' function from the 'sites' family
+          of the Cisco DNA Center API. If the site does not require an update,
+          the method exits, indicating that the site is up to date.
+        """
 
         site_updated = False
         site_created = False
