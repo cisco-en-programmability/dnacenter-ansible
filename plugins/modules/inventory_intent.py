@@ -18,10 +18,11 @@ description:
 - Adds the device with given credential.
 - Deletes the network device for the given Id.
 - Sync the devices provided as input.
-version_added: '3.1.0'
+version_added: '6.8.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
 author: Abhishek Maheshwari (@abmahesh)
+        Madhan Sankaranarayanan (@madhansansel)
 options:
   state:
     description: The state of Cisco DNA Center after module completion.

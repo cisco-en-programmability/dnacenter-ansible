@@ -80,8 +80,8 @@ class ActionModule(ActionBase):
         dnac = DNACSDK(params=self._task.args)
 
         response = dnac.exec(
-            family="userand_roles",
-            function='get_external_authentication_servers_ap_i',
+            family="user_and_roles",
+            function='get_external_authentication_servers_api',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))
