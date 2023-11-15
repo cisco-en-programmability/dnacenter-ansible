@@ -260,7 +260,7 @@ class DnacSite(DnacBase):
             will contain the validated configuration. If it fails, 'self.status' will be 'failed', and
             'self.msg' will describe the validation issues.
         """
-        
+
         if not self.config:
             self.msg = "config not available in playbook for validattion"
             self.status = "success"
