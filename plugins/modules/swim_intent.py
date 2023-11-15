@@ -286,7 +286,23 @@ class DnacSwims(DnacBase):
         self.supported_states = ["merged"]
 
     def validate_input(self):
-        """Validate the fields provided in the playbook"""
+        """
+        Validate the fields provided in the playbook.
+        Checks the configuration provided in the playbook against a predefined specification
+        to ensure it adheres to the expected structure and data types.
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute to be validated.
+        Returns:
+          The method returns an instance of the class with updated attributes:
+          - self.msg: A message describing the validation result.
+          - self.status: The status of the validation (either 'success' or 'failed').
+          - self.validated_config: If successful, a validated version of 'config' parameter.
+        Example:
+            To use this method, create an instance of the class and call 'validate_input' on it.
+          If the validation succeeds, 'self.status' will be 'success' and 'self.validated_config'
+          will contain the validated configuration. If it fails, 'self.status' will be 'failed',
+          'self.msg' will describe the validation issues.
+        """
 
         if not self.config:
             self.msg = "config not available in playbook for validattion"
