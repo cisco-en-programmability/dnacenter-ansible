@@ -23,6 +23,7 @@ extends_documentation_fragment:
   - cisco.dnac.intent_params
 author: Madhan Sankaranarayanan (@madhansansel)
         Rishita Chowdhary (@rishitachowdhary)
+        Abhishek Maheshwari (@abhishekmaheshwari)
 options:
   state:
     description: The state of DNAC after module completion.
@@ -61,10 +62,10 @@ options:
                 description: Address of the building to be created.
                 type: str
               latitude:
-                description: Latitude coordinate of the building (eg 37.338).
+                description: Latitude coordinate of the building (eg 37.338).Values between -90 to +90.
                 type: int
               longitude:
-                description: Longitude coordinate of the building (eg -121.832).
+                description: Longitude coordinate of the building (eg -121.832).Values between -180 to +180.
                 type: int
               name:
                 description: Name of the building (eg building1).
@@ -77,23 +78,26 @@ options:
             type: dict
             suboptions:
               height:
-                description: Height of the floor (eg 15).
+                description: Height of the floor units is ft. (eg 15).
                 type: int
               length:
-                description: Length of the floor (eg 100).
+                description: Length of the floor units is ft. (eg 100).
                 type: int
               name:
                 description: Name of the floor (eg floor-1).
                 type: str
               parentName:
-                description: Parent name of the floor to be created.
+                description: Complete Parent name of the floor to be created(eg Global/USA/San Francisco/BGL_18).
                 type: str
               rfModel:
                 description: Type of floor. Allowed values are 'Cubes And Walled Offices',
                   'Drywall Office Only', 'Indoor High Ceiling', 'Outdoor Open Space'.
                 type: str
               width:
-                description: Width of the floor (eg 100).
+                description: Width of the floor units is ft. (eg 100).
+                type: int
+              floorNumber:
+                description: Floor number in the building/site (eg 5).
                 type: int
 
 requirements:
@@ -241,18 +245,22 @@ class DnacSite(DnacBase):
         """
         Validate the fields provided in the playbook.
 
-        Checks if the 'config' attribute in the playbook meets the expected
-        structure and data types, as defined in the 'temp_spec' dictionary.
-
+        Checks the configuration provided in the playbook against a predefined specification
+        to ensure it adheres to the expected structure and data types.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
         Returns:
-        Returns an instance of the class with updated attributes:
-          - self.msg: Message describing the validation result.
-          - self.status: Status of the validation (either 'success' or
-                                                   'failed').
-          - self.validated_config: If validation is successful, this attribute
-                                   contains the validated configuration.
+            The method returns an instance of the class with updated attributes:
+                - self.msg: A message describing the validation result.
+                - self.status: The status of the validation (either 'success' or 'failed').
+                - self.validated_config: If successful, a validated version of the 'config' parameter.
+        Example:
+            To use this method, create an instance of the class and call 'validate_input' on it.
+            If the validation succeeds, 'self.status' will be 'success' and 'self.validated_config'
+            will contain the validated configuration. If it fails, 'self.status' will be 'failed', and
+            'self.msg' will describe the validation issues.
         """
-
+        
         if not self.config:
             self.msg = "config not available in playbook for validattion"
             self.status = "success"
@@ -334,7 +342,8 @@ class DnacSite(DnacBase):
                     rfModel=floor_plan.get(rf_model),
                     width=map_geometry.get("attributes").get("width"),
                     length=map_geometry.get("attributes").get("length"),
-                    height=map_geometry.get("attributes").get("height")
+                    height=map_geometry.get("attributes").get("height"),
+                    floorNumber=map_geometry.get("attributes").get("floorNumber", "")
                 )
             )
 
@@ -358,7 +367,7 @@ class DnacSite(DnacBase):
           - tuple: A tuple containing a boolean indicating whether the site exists and
                    a dictionary containing information about the existing site.
                    The returned tuple includes two elements:
-                   - bool: Indicates whether the site exists.
+                   - site_exists (bool): Indicates whether the site exists.
                    - dict: Contains information about the existing site. If the
                            site doesn't exist, this dictionary is empty.
         Description:
@@ -378,7 +387,7 @@ class DnacSite(DnacBase):
             )
 
         except Exception as e:
-            log("The input site is not valid or site is not present.")
+            log("The input site {0} is not valid or site is not present.".format(self.want.get("site_name")))
 
         if response:
             log(str(response))
@@ -477,14 +486,12 @@ class DnacSite(DnacBase):
 
     def get_have(self, config):
         """
-        Get site details from Cisco DNA Center.
-
+        Get the site details from DNAC
         Parameters:
-          - config (dict): A dictionary containing configuration information.
-
+          - self (object): An instance of a class used for interacting with Cisco DNA Center.
+          - config (dict): A dictionary containing the configuration details.
         Returns:
-          - object: The instance of the class.
-
+          - self (object): An instance of a class used for interacting with  Cisco DNA Center.
         Description:
             This method queries Cisco DNA Center to check if a specified site
           exists. If the site exists, it retrieves details about the current
@@ -517,10 +524,8 @@ class DnacSite(DnacBase):
 
         Parameters:
           - config (dict): A dictionary containing configuration information.
-
         Returns:
           - object: The instance of the class.
-
         Description:
             Retrieves all site-related information from playbook that is
           required for creating a site in Cisco DNA Center. It includes
@@ -529,7 +534,6 @@ class DnacSite(DnacBase):
         """
 
         want = {}
-
         want = dict(
             site_params=self.get_site_params(config),
             site_name=self.get_site_name(config),
@@ -586,7 +590,7 @@ class DnacSite(DnacBase):
             else:
                 # Site does not neet update
                 self.result['response'] = self.have.get("current_site")
-                self.result['msg'] = "Site does not need update"
+                self.result['msg'] = "Site - {0} does not need update".format(self.have.get("current_site"))
                 self.module.exit_json(**self.result)
 
         else:
@@ -617,8 +621,9 @@ class DnacSite(DnacBase):
                         break
 
                 if site_updated:
-                    log("Site Updated Successfully")
-                    self.result['msg'] = "Site Updated Successfully"
+                    log_msg = "Site - {0} Updated Successfully".format(self.want.get("site_name"))
+                    log(log_msg)
+                    self.result['msg'] = log_msg
                     self.result['response'].update({"siteId": self.have.get("site_id")})
 
                 else:
@@ -626,9 +631,10 @@ class DnacSite(DnacBase):
                     (site_exists, current_site) = self.site_exists()
 
                     if site_exists:
-                        log("Site Created Successfully")
+                        log_msg = "Site - {0} Created Successfully".format(current_site)
+                        log(log_msg)
                         log("Current site:" + str(current_site))
-                        self.result['msg'] = "Site Created Successfully"
+                        self.result['msg'] = log_msg
                         self.result['response'].update({"siteId": current_site.get('site_id')})
 
         return self
@@ -656,7 +662,6 @@ class DnacSite(DnacBase):
             This method initiates the deletion of a site by calling the
           'delete_site' function in the 'sites' family of the Cisco DNA
           Center API. It uses the site ID obtained from the 'have' attribute.
-
         """
 
         site_exists = self.have.get("site_exists")
@@ -676,7 +681,7 @@ class DnacSite(DnacBase):
                         self.result['changed'] = True
                         self.result['response'] = execution_details
                         self.result['response'].update({"siteId": self.have.get("site_id")})
-                        self.result['msg'] = "Site deleted successfully"
+                        self.result['msg'] = "Site - {0} deleted successfully".format(self.want.get("site_name"))
                         break
 
                     elif execution_details.get("bapiError"):
