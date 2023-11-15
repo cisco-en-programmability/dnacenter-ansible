@@ -248,7 +248,7 @@ class DNACSDK(object):
         return self.result
 
     def verify_array(self, verify_interface, **kwargs):
-        if type(verify_interface) is None:
+        if verify_interface is None:
             return list()
 
         if isinstance(verify_interface, list):
