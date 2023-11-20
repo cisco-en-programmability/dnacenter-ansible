@@ -729,3 +729,10 @@ releases:
           - A new intent module to Create, Update and Delete Global Device Credentials and Assign Credentials to a sites.
           - A new intent module to discover the devices.
           - Minor changes to swim intent module.
+    6.8.1:
+      release_date: "2023-11-20"
+      changes:
+        release_summary: Updating documentation and fixing swim issues.
+        minor_changes:
+          - Fixed issues in Swim intent module. 
+          - Updated docstring in site intent and template intent modules.
