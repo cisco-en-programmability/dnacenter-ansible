@@ -717,6 +717,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/imageName"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imagename:
+
+      .. rst-class:: ansible-option-title
+
+      **imageName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/imageName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      SWIM Image name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails"></div>
 
       .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails:
@@ -2007,6 +2041,7 @@ Examples
               scheduleAt: string
               scheduleDesc: string
               scheduleOrigin: string
+          imageName: string
           taggingDetails:
             imageName: string
             deviceRole: string
