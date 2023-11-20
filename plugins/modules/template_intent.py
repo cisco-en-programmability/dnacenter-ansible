@@ -675,7 +675,23 @@ class DnacTemplate(DnacBase):
         self.accepted_languages = ["JINJA", "VELOCITY"]
 
     def validate_input(self):
-        """Validate the fields provided in the playbook"""
+        """
+        Validate the fields provided in the playbook.
+        Checks the configuration provided in the playbook against a predefined specification
+        to ensure it adheres to the expected structure and data types.
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute to be validated.
+        Returns:
+          The method returns an instance of the class with updated attributes:
+          - self.msg: A message describing the validation result.
+          - self.status: The status of the validation (either 'success' or 'failed').
+          - self.validated_config: If successful, a validated version of 'config' parameter.
+        Example:
+            To use this method, create an instance of the class and call 'validate_input' on it.
+          If the validation succeeds, 'self.status' will be 'success' and 'self.validated_config'
+          will contain the validated configuration. If it fails, 'self.status' will be 'failed',
+          'self.msg' will describe the validation issues.
+        """
 
         if not self.config:
             self.msg = "config not available in playbook for validattion"
@@ -730,7 +746,19 @@ class DnacTemplate(DnacBase):
         return self
 
     def get_project_params(self, params):
-        """Store project parameters from the playbook for template processing in DNAC"""
+        """
+        Store project parameters from the playbook for template processing in Cisco DNA Center.
+
+        Parameters:
+          - params (dict): A dictionary containing project parameters from the playbook.
+        Returns:
+          - dict: A dictionary containing project parameters.
+        Description:
+            This method extracts project parameters, such as 'name' and
+          'description', from the playbook and structures them into a
+          dictionary. These parameters are intended for further processing
+          in Cisco DNA Center, particularly in template-related operations.
+        """
 
         project_params = {"name": params.get("projectName"),
                           "description": params.get("projectDescription")
@@ -738,7 +766,19 @@ class DnacTemplate(DnacBase):
         return project_params
 
     def get_template_params(self, params):
-        """Store template parameters from the playbook for template processing in DNAC"""
+        """
+        Store template parameters from the playbook for template processing in Cisco DNA Center.
+
+        Parameters:
+          - params (dict): A dictionary containing template parameters from the playbook.
+        Returns:
+          - dict: A dictionary containing template parameters.
+        Description:
+            This method extracts template parameters from the playbook and
+          structures them into a dictionary. These parameters are intended
+          for further processing in Cisco DNA Center, particularly in
+          template-related operations.
+        """
 
         temp_params = {
             "tags": params.get("template_tag"),
@@ -772,7 +812,20 @@ class DnacTemplate(DnacBase):
         return temp_params
 
     def get_template(self, config):
-        """Get the template needed for updation or creation"""
+        """
+        Get the template needed for updating or creation from Cisco DNA Center.
+
+        Parameters:
+          - config (dict): A dictionary containing configuration information.
+        Returns:
+          - dict or None: A dictionary containing template details if
+                          found, None otherwise.
+        Description:
+            This method retrieves the template needed for updating or
+          creation from Cisco DNA Center based on the provided configuration
+          information. It calls the 'get_template_details' function from the
+          'configuration_templates' family of the Cisco DNA Center API.
+        """
 
         result = None
         items = self.dnac_apply['exec'](
@@ -788,7 +841,22 @@ class DnacTemplate(DnacBase):
         return result
 
     def get_have_project(self, config):
-        """Get the current project related information from DNAC"""
+        """
+        Get current project-related information from Cisco DNA Center.
+
+        Parameters:
+          - config (dict): A dictionary containing configuration information.
+        Returns:
+          - list or None: A list of template details if the project is found, None otherwise.
+
+        Description:
+            This method retrieves current project-related information from
+          Cisco DNA Center based on the provided configuration information.
+          It calls the 'get_project_details' method to check if the specified
+          project exists in Cisco DNA Center. If the project is found, the
+          method updates the 'have_project' attribute with relevant details,
+          including the project ID and deletability status.
+        """
 
         have_project = {}
         given_project_name = config.get("projectName")
@@ -816,7 +884,28 @@ class DnacTemplate(DnacBase):
         return template_available
 
     def get_have_template(self, config, template_available):
-        """Get the current template related information from DNAC"""
+        """
+        Get current template-related information from Cisco DNA Center.
+
+        Parameters:
+          - config (dict): A dictionary containing configuration information.
+          - template_available (list): A list of available templates in the project.
+
+        Returns:
+          Returns an instance of the class with updated attributes and status
+          indicating the success or failure of the template retrieval process.
+          - object: An instance of the class with updated attributes.
+
+        Description:
+            This method retrieves current template-related information from
+          Cisco DNA Center based on the provided configuration information. It
+          checks if the specified template in the playbook is available in the
+          project by calling the 'gets_the_templates_available' method. If the
+          template is available, it further checks if the specified template
+          is committed by calling the 'get_template' method. The method
+          updates the 'have_template' attribute with relevant details,
+          including the template ID, commit status, and template information.
+        """
 
         project_name = config.get("projectName")
         template_name = config.get("templateName")
@@ -870,7 +959,24 @@ class DnacTemplate(DnacBase):
         return self
 
     def get_have(self, config):
-        """Get the current project and template details from DNAC"""
+        """
+        Get current project and template details from Cisco DNA Center.
+
+        Parameters:
+          - config (dict): A dictionary containing configuration information.
+        Returns:
+          The method returns an instance of the class with updated attributes:
+          - self.msg: A message describing collecting the information.
+          - self.status: status of the retrieval (either 'success' or 'failed').
+
+        Description:
+            This method retrieves current project and template details from
+          Cisco DNA Center based on the provided configuration information. It
+          first calls the 'get_have_project' method to obtain information about
+          the current project. If the project is found, it then calls the
+          'get_have_template' method to obtain information about the current
+          template in the project.
+        """
 
         template_available = self.get_have_project(config)
         if template_available:
@@ -882,7 +988,21 @@ class DnacTemplate(DnacBase):
         return self
 
     def get_project_details(self, project_name):
-        """Get the details of specific project name provided"""
+        """
+        Get details of a specific project from Cisco DNA Center.
+
+        Parameters:
+          - project_name (str): Name of the project for which details
+                                are requested.
+        Returns:
+          - list or None: A list of project details if the project is
+                          found, None otherwise.
+        Description:
+            This method retrieves details of a specific project from
+          Cisco DNA Center based on the provided project name.  It
+          calls the 'get_projects' method from 'configuration_templates'
+          family of the Cisco DNA Center API.
+        """
 
         items = self.dnac_apply['exec'](
             family="configuration_templates",
@@ -893,8 +1013,23 @@ class DnacTemplate(DnacBase):
         return items
 
     def get_want(self, config):
-        """Get all the template and project related information from playbook
-        that is needed to be created in DNAC"""
+        """
+        Get all template and project-related information from the playbook
+        that is needed to be created in Cisco DNA Center.
+
+        Parameters:
+          - config (dict): A dictionary containing configuration information.
+        Returns:
+          The method returns an instance of the class with updated attributes:
+          - self.msg: A message describing collecting the information.
+          - self.status: status of the retrieval (either 'success' or 'failed').
+
+        Description:
+            This method retrieves all template and project-related information
+          from the playbook based on the provided configuration information.
+          It calls the 'get_template_params' and 'get_project_params' methods
+          to obtain details about the template and project, respectively.
+        """
 
         want = {}
         template_params = self.get_template_params(config)
@@ -915,7 +1050,23 @@ class DnacTemplate(DnacBase):
         return self
 
     def create_project_or_template(self, is_create_project=False):
-        """Call DNAC API to create project or template based on the input provided"""
+        """
+        Call Cisco DNA Center API to create a project or template
+
+        Parameters:
+          - is_create_project (bool, optional): Flag indicating whether
+                to create a project (True) or a template (False).
+                Defaults to False.
+        Returns:
+          - tuple: A tuple containing the creation ID and a boolean indicating
+                if the creation was successful. The creation ID is the unique
+                identifier assigned to the created project or template.
+        Description:
+            This method calls the Cisco DNA Center API to create a project or
+          template based on the input parameters. It uses the 'create_project'
+          or 'create_template' function from the 'configuration_templates'
+          family of the Cisco DNA Center API.
+        """
 
         creation_id = None
         created = False
@@ -980,7 +1131,24 @@ class DnacTemplate(DnacBase):
         return creation_id, created
 
     def requires_update(self):
-        """Check if the template config given requires update."""
+        """
+        Check if the template configuration provided requires an update.
+
+        Returns:
+          - bool: True if the template configuration requires an update,
+                  False otherwise.
+        Description:
+            This method compares the template parameters of the current
+          template ('have_template') and the requested template parameters
+          ('want') stored in the 'want' attribute.  It checks for differences
+          in specified parameters, such as tags, author, composite,
+          containingTemplates, createTime, customParamsOrder, description,
+          deviceTypes, failurePolicy, id, language, lastUpdateTime,
+          latestVersionTime, name, parentTemplateId, projectId, projectName,
+          rollbackTemplateContent, rollbackTemplateParams, softwareType,
+          softwareVariant, softwareVersion, templateContent, templateParams,
+          validationErrors, and version.
+        """
 
         if self.have_template.get("isCommitPending"):
             self.log("Template is in saved state and needs to be updated and committed")
@@ -1022,7 +1190,20 @@ class DnacTemplate(DnacBase):
                    for (dnac_param, ansible_param, default) in obj_params)
 
     def update_mandatory_parameters(self, template_params):
-        """Update parameters which are mandatory for creating a template"""
+        """
+        Update parameters that are mandatory for creating a template.
+
+        Parameters:
+          - template_params (dict): A dictionary containing template parameters.
+        Returns:
+          - None
+        Description:
+            This method updates the specified template parameters with
+          mandatory values required for creating a new template. It ensures
+          that the 'projectId', 'project_id', 'language', 'deviceTypes', and
+          'softwareType' fields are properly set in the 'template_params'
+          dictionary.
+        """
 
         # Mandate fields required for creating a new template.
         # Store it with other template parameters.
@@ -1040,11 +1221,34 @@ class DnacTemplate(DnacBase):
                 .get('softwareType')
 
     def validate_input_merge(self, template_exists):
-        """Validate input after getting all the parameters from DNAC.
-        "If mandate like deviceTypes, softwareType and language "
-        "already present in DNAC for a template."
-        "It is not required to be provided in playbook, "
-        "but if it is new creation error will be thrown to provide these fields."""
+        """
+        Validate input after obtaining all the parameters from Cisco DNA Center.
+
+        Parameters:
+          - template_exists (bool): Indicates whether the template already exists
+                                    in Cisco DNA Center.
+        Returns:
+          - object: An instance of the class with updated attributes based on
+                    validation:
+                    - self.msg: A message describing the validation result.
+                    - self.status: Status of the validation
+                                   ('success' or 'failed').
+        Description:
+            This method validates the input parameters after retrieving them
+          from Cisco DNA Center. If the template already exists
+          ('template_exists' is True), it checks if mandatory parameters like
+          'deviceTypes', 'softwareType', and 'language' are present in the
+          playbook. If not, it returns a failed status and a message indicating
+          that 'deviceTypes' and 'softwareType' are required arguments to
+          create templates.
+            If the template is a new creation, it verifies that the 'language'
+          is a valid value and sets it to 'JINJA' if not provided. It also
+          checks if 'deviceTypes' and 'softwareType' are present in the
+          playbook; if not, it returns a failed status and a message
+          indicating the missing fields.
+            The 'accepted_languages' attribute is assumed to be defined with a
+          list of accepted language values.
+        """
 
         template_params = self.want.get("template_params")
         language = template_params.get("language").upper()
@@ -1070,7 +1274,29 @@ class DnacTemplate(DnacBase):
         return self
 
     def get_diff_merged(self, config):
-        """Update/Create templates and projects in DNAC with fields provided in DNAC"""
+        """
+        Update/Create templates and projects in DNAC with fields
+        provided in Cisco DNA Center.
+
+        Paramenters:
+          - config (dict): A dictionary containing configuration
+                           details from the playbook.
+        Returns:
+          - object: An instance of the class with updated attributes based
+            on execution results:
+            - self.msg: A message describing the execution result.
+            - self.status: The status of the execution.
+            - self.result: A dictionary containing execution details,
+                           including any changes made.
+        Description:
+            This method handles the process of updating or creating templates
+          and projects based on the provided configuration ('config') from the
+          playbook. It checks whether the project and template already exist
+          in Cisco DNA Center, and if not, it creates them. Then, it validates
+          the input parameters, checks if the template requires an update, and
+          performs the necessary actions such as updating the template and
+          versioning it.
+        """
 
         is_project_found = self.have_project.get("project_found")
         if not is_project_found:
@@ -1147,7 +1373,29 @@ class DnacTemplate(DnacBase):
         return self
 
     def delete_project_or_template(self, config, is_delete_project=False):
-        """Call DNAC API to delete project or template with provided inputs"""
+        """
+        Call Cisco DNA Center API to delete project or template
+        with provided inputs.
+
+        Parameters:
+          - config (dict): A dictionary containing configuration details
+                from the playbook.
+          - is_delete_project (bool, optional): Flag indicating whether
+                to delete a project (True) or a template (False).
+                Defaults to False.
+        Returns:
+          - object: An instance of the class with updated attributes
+                based on execution results:
+                - self.msg: A message describing the execution result.
+                - self.status: The status of the execution
+        Description:
+            This method calls the Cisco DNA Center API to delete a project
+          or template based on the provided configuration ('config') from
+          the playbook. It checks whether the specified project or
+          template exists in DNAC and performs the necessary deletion. The
+          'is_delete_project' flag determines whether a project or template
+          should be deleted.
+        """
 
         if is_delete_project:
             params_key = {"project_id": self.have_project.get("id")}
@@ -1183,7 +1431,24 @@ class DnacTemplate(DnacBase):
         return self
 
     def get_diff_deleted(self, config):
-        """Delete projects or templates in DNAC with fields provided in playbook."""
+        """
+        Delete projects or templates in DNAC with fields provided in playbook.
+
+        Parameters:
+          - config (dict): A dictionary containing configuration details
+                           from the playbook.
+        Returns:
+          - object: An instance of the class with updated attributes based
+            on execution results:
+            - self.msg: A message describing the execution result.
+            - self.status: The status of the execution ('success' or 'failed').
+        Description:
+            This method handles the process of deleting projects or templates
+          based on the provided configuration ('config') from the playbook. It
+          checks whether the specified project and template exist in Cisco
+          DNA Center and performs the necessary deletion. If the template name
+          is empty, it deletes the entire project and its associated templates.
+        """
 
         is_project_found = self.have_project.get("project_found")
         projectName = config.get("projectName")
@@ -1218,7 +1483,18 @@ class DnacTemplate(DnacBase):
         return self
 
     def reset_values(self):
-        """Reset all neccessary attributes to default values"""
+        """
+        Reset all necessary attributes to default values.
+
+        Returns:
+          - None
+
+        Description:
+            This method resets specific attributes of the class to their
+          default values. It clears the 'have_project', 'have_template',
+          and 'want' attributes, preparing the class for a new
+          operation or scenario.
+        """
 
         self.have_project.clear()
         self.have_template.clear()
