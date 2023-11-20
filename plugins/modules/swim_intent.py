@@ -101,6 +101,9 @@ options:
               scheduleOrigin:
                 description: ScheduleOrigin query parameter. Originator of this call (Optional).
                 type: str
+      imageName:
+        description: SWIM Image name.
+        type: str
       taggingDetails:
         description: Details for tagging or untagging an image as golden
         type: dict
@@ -221,6 +224,7 @@ EXAMPLES = r"""
           scheduleAt: string
           scheduleDesc: string
           scheduleOrigin: string
+      imageName: string
       taggingDetails:
         imageName: string
         deviceRole: string
@@ -282,7 +286,23 @@ class DnacSwims(DnacBase):
         self.supported_states = ["merged"]
 
     def validate_input(self):
-        """Validate the fields provided in the playbook"""
+        """
+        Validate the fields provided in the playbook.
+        Checks the configuration provided in the playbook against a predefined specification
+        to ensure it adheres to the expected structure and data types.
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute to be validated.
+        Returns:
+          The method returns an instance of the class with updated attributes:
+          - self.msg: A message describing the validation result.
+          - self.status: The status of the validation (either 'success' or 'failed').
+          - self.validated_config: If successful, a validated version of 'config' parameter.
+        Example:
+            To use this method, create an instance of the class and call 'validate_input' on it.
+          If the validation succeeds, 'self.status' will be 'success' and 'self.validated_config'
+          will contain the validated configuration. If it fails, 'self.status' will be 'failed',
+          'self.msg' will describe the validation issues.
+        """
 
         if not self.config:
             self.msg = "config not available in playbook for validattion"
@@ -294,6 +314,7 @@ class DnacSwims(DnacBase):
             taggingDetails=dict(type='dict'),
             imageDistributionDetails=dict(type='dict'),
             imageActivationDetails=dict(type='dict'),
+            imageName=dict(type=str),
         )
 
         # Validate swim params
@@ -301,9 +322,7 @@ class DnacSwims(DnacBase):
             self.config, temp_spec
         )
         if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(
-                "\n".join(invalid_params)
-            )
+            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
             self.status = "failed"
             return self
 
@@ -313,44 +332,18 @@ class DnacSwims(DnacBase):
         self.status = "success"
         return self
 
-    def get_task_details(self, task_id):
-        """
-          Args:
-          - self: The reference to the class instance.
-          - task_id (str): The unique ID of the task whose details are to be retrieved.
-          Returns:
-          - dict or None: A dictionary containing the details of the task if found, or None if the task is not found.
-          Description:
-              This method sends a request to the DNAC to retrieve the details of a task identified by its unique ID.
-              The 'id' parameter should be a valid task ID. If the task is found, its details are extracted from the response
-              and returned as a dictionary. If the task is not found or an error occurs during retrieval, None is returned.
-        """
-
-        result = None
-        response = self.dnac._exec(
-            family="task",
-            function='get_task_by_id',
-            params={"task_id": task_id},
-        )
-        log(str(response))
-
-        if isinstance(response, dict):
-            result = response.get("response")
-
-        return result
-
     def site_exists(self):
         """
-          Args:
-          - self: The reference to the class instance.
-          Returns:
-          - tuple: A tuple containing two values:
-              - site_exists (bool): A boolean indicating whether the site exists (True) or not (False).
-              - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
-          Description:
-              This method checks the existence of a site in the DNAC. If the site is found,it sets 'site_exists' to True,
-              retrieves the site's ID, and returns both values in a tuple. If the site does not exist, 'site_exists' is set
-              to False, and 'site_id' is None. If an exception occurs during the site lookup, an exception is raised.
+        Parameters:
+        - self: The reference to the class instance.
+        Returns:
+        - tuple: A tuple containing two values:
+            - site_exists (bool): A boolean indicating whether the site exists (True) or not (False).
+            - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
+        Description:
+            This method checks the existence of a site in the DNAC. If the site is found,it sets 'site_exists' to True,
+            retrieves the site's ID, and returns both values in a tuple. If the site does not exist, 'site_exists' is set
+            to False, and 'site_id' is None. If an exception occurs during the site lookup, an exception is raised.
         """
 
         site_exists = False
@@ -360,7 +353,7 @@ class DnacSwims(DnacBase):
             response = self.dnac._exec(
                 family="sites",
                 function='get_site',
-                params={"name": self.want.get("site_name")},
+                params={"name": self.want.get('tagging_details').get('siteName')},
             )
         except Exception as e:
             self.module.fail_json(msg="Site not found")
@@ -377,7 +370,7 @@ class DnacSwims(DnacBase):
     def get_image_id(self, name):
         """
         Retrieve the unique image ID based on the provided image name.
-        Args:
+        Parameters:
             name (str): The name of the software image to search for.
         Returns:
             str: The unique image ID (UUID) corresponding to the given image name.
@@ -402,14 +395,42 @@ class DnacSwims(DnacBase):
             image_id = image_list[0].get("imageUuid")
             log("Image Id: " + str(image_id))
         else:
+            error_message = "Image {0} not found".format(name)
             self.module.fail_json(msg="Image not found", response=image_response)
 
         return image_id
 
+    def is_image_exist(self, name):
+        """
+        Retrieve the unique image ID based on the provided image name.
+        Parameters:
+            name (str): The name of the software image to search for.
+        Returns:
+            str: The unique image ID (UUID) corresponding to the given image name.
+        Raises:
+            AnsibleFailJson: If the image is not found in the response.
+        Description:
+            This function sends a request to Cisco DNAC to retrieve details about a software image based on its name.
+            It extracts and returns the image ID if a single matching image is found. If no image or multiple
+            images are found with the same name, it raises an exception.
+        """
+        image_exist = False
+        image_response = self.dnac._exec(
+            family="software_image_management_swim",
+            function='get_software_image_details',
+            params={"image_name": name},
+        )
+        log(str(image_response))
+        image_list = image_response.get("response")
+        if (len(image_list) == 1):
+            image_exist = True
+
+        return image_exist
+
     def get_device_id(self, params):
         """
         Retrieve the unique device ID based on the provided parameters.
-        Args:
+        Parameters:
             params (dict): A dictionary containing parameters to filter devices.
         Returns:
             str: The unique device ID corresponding to the filtered device.
@@ -440,7 +461,7 @@ class DnacSwims(DnacBase):
     def get_device_family_identifier(self, family_name):
         """
         Retrieve and store the device family identifier based on the provided family name.
-        Args:
+        Parameters:
             family_name (str): The name of the device family for which to retrieve the identifier.
         Returns:
             None
@@ -531,7 +552,7 @@ class DnacSwims(DnacBase):
             device_params = dict(
                 hostname=distribution_details.get("deviceHostname"),
                 serial_number=distribution_details.get("deviceSerialNumber"),
-                management_ip_address=distribution_details.get("deviceIpAddress"),
+                management_ip_address=distribution_details.get("deviceIPAddress"),
                 mac_address=distribution_details.get("deviceMacAddress"),
             )
             device_id = self.get_device_id(device_params)
@@ -555,7 +576,7 @@ class DnacSwims(DnacBase):
             device_params = dict(
                 hostname=activation_details.get("deviceHostname"),
                 serial_number=activation_details.get("deviceSerialNumber"),
-                management_ip_address=activation_details.get("deviceIpAddress"),
+                management_ip_address=activation_details.get("deviceIPAddress"),
                 mac_address=activation_details.get("deviceMacAddress"),
             )
             device_id = self.get_device_id(device_params)
@@ -567,7 +588,7 @@ class DnacSwims(DnacBase):
     def get_want(self, config):
         """
         Retrieve and store import, tagging, distribution, and activation details from playbook configuration.
-        Args:
+        Parameters:
             config (dict): The configuration dictionary containing image import and other details.
         Returns:
             self: The current instance of the class with updated 'want' attributes.
@@ -602,7 +623,7 @@ class DnacSwims(DnacBase):
     def get_diff_import(self):
         """
         Check the image import type and fetch the image ID for the imported image for further use.
-        Args:
+        Parameters:
             None
         Returns:
             self: The current instance of the class with updated 'have' attributes.
@@ -615,10 +636,26 @@ class DnacSwims(DnacBase):
         """
 
         if not self.want.get("import_image"):
-            return
+            image_name = self.want.get("image_name")
+            image_id = self.get_image_id(image_name)
+            self.have["imported_image_id"] = image_id
+            return self
 
         if self.want.get("import_type") == "url":
             image_name = self.want.get("url_import_details").get("payload")[0].get("sourceURL")
+
+            # Code to check if image already exist in the DNAC
+            name = image_name.split('/')[-1]
+            image_exist = self.is_image_exist(name)
+            if image_exist:
+                image_id = self.get_image_id(image_name)
+                self.have["imported_image_id"] = image_id
+                log_msg = "Image {0} already exists in the Cisco DNA Center".format(name)
+                self.result['msg'] = log_msg
+                log(log_msg)
+                self.result['changed'] = False
+                return self
+
             url_import_params = dict(
                 payload=self.want.get("url_import_details").get("payload"),
                 schedule_at=self.want.get("url_import_details").get("scheduleAt"),
@@ -633,6 +670,18 @@ class DnacSwims(DnacBase):
             )
         else:
             image_name = self.want.get("local_import_details").get("filePath")
+            # Code to check if image already exist in the DNAC
+            name = image_name.split('/')[-1]
+            image_exist = self.is_image_exist(name)
+            if image_exist:
+                image_id = self.get_image_id(name)
+                self.have["imported_image_id"] = image_id
+                log_msg = "Image {0} already exists in the Cisco DNA Center".format(name)
+                self.result['msg'] = log_msg
+                log(log_msg)
+                self.result['changed'] = False
+                return self
+
             local_import_params = dict(
                 is_third_party=self.want.get("local_import_details").get("isThirdParty"),
                 third_party_vendor=self.want.get("local_import_details").get("thirdPartyVendor"),
@@ -654,24 +703,28 @@ class DnacSwims(DnacBase):
         task_id = response.get("response").get("taskId")
         while (True):
             task_details = self.get_task_details(task_id)
+            name = image_name.split('/')[-1]
             if task_details and \
                     ("completed successfully" in task_details.get("progress").lower()):
                 self.result['changed'] = True
-                self.result['msg'] = "Image imported successfully"
+                log_msg = "Swim Image {0} imported successfully".format(name)
+                self.result['msg'] = log_msg
+                log(log_msg)
                 break
 
             if task_details and task_details.get("isError"):
-                if "Image already exists" in task_details.get("failureReason"):
-                    self.result['msg'] = "Image already exists."
+                if "already exists" in task_details.get("failureReason"):
+                    log_msg = "SWIM Image {0} already exists in the Cisco DNA Center".format(name)
+                    self.result['msg'] = log_msg
+                    log(log_msg)
+                    self.result['changed'] = False
                     break
                 else:
                     self.module.fail_json(msg=task_details.get("failureReason"),
                                           response=task_details)
 
         self.result['response'] = task_details if task_details else response
-        if not (self.want.get("tagging_details") or self.want.get("distribution_details")
-                or self.want.get("activation_details")):
-            return
+
         # Fetch image_id for the imported image for further use
         image_name = image_name.split('/')[-1]
         image_id = self.get_image_id(image_name)
@@ -681,17 +734,17 @@ class DnacSwims(DnacBase):
 
     def get_diff_tagging(self):
         """
-          Tag or untag a software image as golden based on provided tagging details.
-          Args:
-              None
-          Returns:
-              None
-          Description:
-              This function tags or untags a software image as a golden image in Cisco DNAC based on the provided
-              tagging details. The tagging action is determined by the value of the 'tagging' attribute
-              in the 'tagging_details' dictionary.If 'tagging' is True, the image is tagged as golden, and if 'tagging'
-              is False, the golden tag is removed. The function sends the appropriate request to Cisco DNAC and updates the
-              task details in the 'result' dictionary. If the operation is successful, 'changed' is set to True.
+        Tag or untag a software image as golden based on provided tagging details.
+        Parameters:
+            None
+        Returns:
+            None
+        Description:
+            This function tags or untags a software image as a golden image in Cisco DNAC based on the provided
+            tagging details. The tagging action is determined by the value of the 'tagging' attribute
+            in the 'tagging_details' dictionary.If 'tagging' is True, the image is tagged as golden, and if 'tagging'
+            is False, the golden tag is removed. The function sends the appropriate request to Cisco DNAC and updates the
+            task details in the 'result' dictionary. If the operation is successful, 'changed' is set to True.
         """
 
         tagging_details = self.want.get("tagging_details")
@@ -742,7 +795,7 @@ class DnacSwims(DnacBase):
     def get_diff_distribution(self):
         """
         Get image distribution parameters from the playbook and trigger image distribution.
-        Args:
+        Parameters:
             None
         Returns:
             None
@@ -775,11 +828,12 @@ class DnacSwims(DnacBase):
                 if not task_details.get("isError") and \
                         ("completed successfully" in task_details.get("progress")):
                     self.result['changed'] = True
-                    self.result['msg'] = "Image Distributed Successfully"
+                    self.result['msg'] = "Image with Id {0} Distributed Successfully".format(self.have.get("distribution_image_id"))
                     break
 
                 if task_details.get("isError"):
-                    self.module.fail_json(msg="Image Distribution Failed",
+                    error_msg = "Image with Id {0} Distribution Failed".format(self.have.get("distribution_image_id"))
+                    self.module.fail_json(msg=error_msg,
                                           response=task_details)
 
             self.result['response'] = task_details if task_details else response
@@ -787,7 +841,7 @@ class DnacSwims(DnacBase):
     def get_diff_activation(self):
         """
         Get image activation parameters from the playbook and trigger image activation.
-        Args:
+        Parameters:
             None
         Returns:
             None
@@ -805,6 +859,7 @@ class DnacSwims(DnacBase):
             deviceUuid=self.have.get("activation_device_id"),
             imageUuidList=[self.have.get("activation_image_id")]
         )]
+
         activation_params = dict(
             schedule_validate=activation_details.get("scehduleValidate"),
             payload=payload
@@ -836,7 +891,7 @@ class DnacSwims(DnacBase):
     def get_diff_merged(self, config):
         """
         Get tagging details and then trigger distribution followed by activation if specified in the playbook.
-        Args:
+        Parameters:
             config (dict): The configuration dictionary containing tagging, distribution, and activation details.
         Returns:
             self: The current instance of the class with updated 'result' and 'have' attributes.
