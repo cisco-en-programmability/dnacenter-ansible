@@ -1082,7 +1082,10 @@ class DnacDevice(DnacBase):
                             'voiceVlanId': interface_params.get('voice_vlan_id'),
                             'vlanId': interface_params.get('vlan_id')
                         }
-                        payload_params = {key: value for key, value in temp_params.items() if value is not None}
+                        payload_params = {}
+                        for key, value in temp_params.items():
+                            if value is not None:
+                                payload_params[key] = value
 
                         update_interface_params = {
                             'payload': payload_params,
