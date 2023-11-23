@@ -73,6 +73,9 @@ options:
       netconf_port:
         description: Device's netconf port.
         type: str
+      username:
+        description: Network Device's username. Required for Adding Network Device.
+        type: str
       password:
         description: Device's password. Required for Adding Network Device.
         type: str
@@ -135,9 +138,6 @@ options:
           new_mgmt_ipaddress:
             description: Device's new Mgmt IpAddress.
             type: str
-      username:
-        description: Network Device's username. Required for Adding Network Device.
-        type: str
       force_sync:
         description: If forcesync is true then device sync would run in high priority thread if available, else the sync will fail.
         type: bool
@@ -580,7 +580,7 @@ class DnacDevice(DnacBase):
             raise Exception(error_message)
 
         if response:
-            log(str(response))
+            self.log(str(response))
             response = response.get("response")
             for ip in response:
                 device_ip = ip["managementIpAddress"]
@@ -589,25 +589,46 @@ class DnacDevice(DnacBase):
         return device_in_dnac
 
     def is_udf_exist(self, field_name):
+        """
+        Check if a Global User Defined Field exists in Cisco DNA Center based on its name.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            field_name (str): The name of the Global User Defined Field.
+        Returns:
+            bool: True if the Global User Defined Field exists, False otherwise.
+        Description:
+            The function sends a request to Cisco DNA Center to retrieve all Global User Defined Fields
+            with the specified name. If matching field is found, the function returns True, indicating that
+            the field exists else returns False.
+        """
 
-        udf_exists = False
         response = self.dnac._exec(
             family="devices",
             function='get_all_user_defined_fields',
             params={"name": field_name},
         )
-        log(str(response))
+        self.log(str(response))
         udf = response.get("response")
 
         if (len(udf) == 1):
-            udf_exists = True
-        else:
-            message = "Global User Defined Field with name - {0} doesnot exist in Cisco DNA Center".format(field_name)
-            self.log(message)
+            return True
 
-        return udf_exists
+        message = "Global User Defined Field with name - {0} doesnot exist in Cisco DNA Center".format(field_name)
+        self.log(message)
+
+        return False
 
     def create_user_defined_field(self):
+        """
+        Create a Global User Defined Field in Cisco DNA Center based on the provided configuration.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Description:
+            The function retrieves the configuration for adding a user-defined field from the configuration object,
+            sends the request to Cisco DNA Center to create the field, and logs the response.
+        """
         try:
             payload = self.config[0].get('add_user_defined_field')
             response = self.dnac._exec(
@@ -618,7 +639,8 @@ class DnacDevice(DnacBase):
             self.log(str(response))
             response = response.get("response")
             field_name = self.config[0].get('add_user_defined_field').get('name')
-            log("Global User Defined Field with name - {0} created successfully").format(field_name)
+            self.log("Global User Defined Field with name - {0} created successfully").format(field_name)
+            self.status = "success"
 
         except Exception as e:
             error_message = "Error while Creating Global User Defined Field in Cisco DNA Center - {0}".format(str(e))
@@ -627,6 +649,18 @@ class DnacDevice(DnacBase):
         return self
 
     def add_field_to_devices(self, device_ids):
+        """
+        Add a Global user-defined field with specified details to a list of devices in Cisco DNA Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            device_ids (list): A list of device IDs to which the user-defined field will be added.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Description:
+            The function retrieves the details of the user-defined field from the configuration object,
+            including the field name and default value then iterates over list of device IDs, creating a payload for
+            each device and sending the request to Cisco DNA Center to add the user-defined field.
+        """
         field_details = self.config[0].get('add_user_defined_field')
         field_name = field_details.get('name')
         field_value = field_details.get('value', '1')
@@ -644,8 +678,10 @@ class DnacDevice(DnacBase):
                     function='add_user_defined_field_to_device',
                     params=udf_param_dict,
                 )
-                log(str(response))
+                self.log(str(response))
                 response = response.get("response")
+                self.status = "success"
+                self.result['changed'] = True
 
             except Exception as e:
                 error_message = "Error while Adding Global UDF to device in Cisco DNA Center - {0}".format(str(e))
@@ -656,21 +692,33 @@ class DnacDevice(DnacBase):
         return self
 
     def get_udf_id(self, field_name):
+        """
+        Get the ID of a Global User Defined Field in Cisco DNA Center based on its name.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Cisco DNA Center.
+            field_name (str): The name of the Global User Defined Field.
+        Returns:
+            str: The ID of the Global User Defined Field.
+        Description:
+            The function sends a request to Cisco DNA Center to retrieve all Global User Defined Fields
+            with the specified name and extracts the ID of the first matching field.If successful, it returns
+            the ID else returns None.
+        """
         try:
             response = self.dnac._exec(
                 family="devices",
                 function='get_all_user_defined_fields',
                 params={"name": field_name},
             )
-            log(str(response))
+            self.log(str(response))
             udf = response.get("response")
             udf_id = udf[0].get("id")
-
-            return udf_id
 
         except Exception as e:
             error_message = "Cannot get the Id of Global UDF - from Cisco DNA Center - {0}".format(str(e))
             log(error_message)
+
+        return udf_id
 
     def mandatory_parameter(self):
         """
@@ -704,9 +752,7 @@ class DnacDevice(DnacBase):
             self.result['msg'] = "Required parameters {0} for adding devices are not present".format(mandatory_params_absent)
             self.status = "failed"
         else:
-            log_msg = "Required paramter for Adding the devices in Inventory are present."
-            self.result['msg'] = log_msg
-            self.msg = log_msg
+            self.msg = "Required parameter for Adding the devices in Inventory are present."
             self.status = "success"
 
         return self
@@ -841,6 +887,18 @@ class DnacDevice(DnacBase):
         return device_ids
 
     def get_interface_from_ip(self, device_ip):
+        """
+        Get the interface ID for a device in Cisco DNA Center based on its IP address.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            device_ip (str): The IP address of the device.
+        Returns:
+            str: The interface ID for the specified device.
+        Description:
+          The function sends a request to Cisco DNA Center to retrieve the interface information
+          for the device with the provided IP address and extracts the interface ID from the
+          response, and returns the interface ID.
+        """
 
         try:
             response = self.dnac._exec(
@@ -848,12 +906,12 @@ class DnacDevice(DnacBase):
                 function='get_interface_by_ip',
                 params={"ip_address": device_ip}
             )
+            self.log(str(response))
+            response = response.get("response")
 
-            if response:
-                self.log(str(response))
-                response = response.get("response")[0]
-                interface_id = response["id"]
-                log("Fetch Interface Id for device {0} successfully !!".format(device_ip))
+            if len(response) > 0:
+                interface_id = response[0]["id"]
+                self.log("Fetch Interface Id for device {0} successfully !!".format(device_ip))
                 return interface_id
 
         except Exception as e:
@@ -1003,7 +1061,7 @@ class DnacDevice(DnacBase):
                 self.status = "success"
                 self.result['changed'] = False
                 self.result['response'] = msg
-                log(msg)
+                self.log(msg)
                 return self
 
             if self.config[0].get('update_device_role'):
@@ -1042,7 +1100,7 @@ class DnacDevice(DnacBase):
                             op_modifies=True,
                             params=device_role_params,
                         )
-                        log(str(response))
+                        self.log(str(response))
 
                         if response and isinstance(response, dict):
                             task_id = response.get('response').get('taskId')
@@ -1098,7 +1156,7 @@ class DnacDevice(DnacBase):
                             op_modifies=True,
                             params=update_interface_params,
                         )
-                        log(str(response))
+                        self.log(str(response))
 
                         if response and isinstance(response, dict):
                             task_id = response.get('response').get('taskId')
@@ -1127,90 +1185,89 @@ class DnacDevice(DnacBase):
 
                 return self
 
-            else:
-                try:
-                    self.mandatory_parameter().check_return_status()
-                    response = self.dnac._exec(
-                        family="devices",
-                        function='sync_devices',
-                        op_modifies=True,
-                        params=self.want.get("device_params"),
-                    )
-
-                    log(str(response))
-
-                    if response and isinstance(response, dict):
-                        task_id = response.get('response').get('taskId')
-                        while True:
-                            execution_details = self.get_task_details(task_id)
-
-                            if execution_details.get("endTime"):
-                                self.status = "success"
-                                self.result['changed'] = True
-                                self.result['response'] = execution_details
-                                break
-                            elif execution_details.get("isError") and execution_details.get("failureReason"):
-                                self.msg = "Device Updation get failed because of {0}".format(execution_details.get("failureReason"))
-                                self.status = "failed"
-                                break
-
-                        log("Device Updated Successfully")
-                        log("Updated devices are :" + str(device_to_update))
-                        msg = "Device " + str(device_to_update) + " updated Successfully !!"
-                        self.result['log'].append(msg)
-
-                except Exception as e:
-                    error_message = "Error while Updating device in Cisco DNA Center - {0}".format(str(e))
-                    self.log(error_message)
-                    raise Exception(error_message)
-
-                msg = "Devices {0} present in Cisco DNA Center and updated successfully".format(config['ip_address'])
-                self.log(msg)
-                self.result['log'].append(msg)
-                self.status = "success"
-
-            return self
-
-        else:
-            # If we want to add device in inventory
-            config['ip_address'] = devices_to_add
-            self.mandatory_parameter().check_return_status()
+            # Update Device details and credentails
             try:
+                self.mandatory_parameter().check_return_status()
                 response = self.dnac._exec(
                     family="devices",
-                    function='add_device',
+                    function='sync_devices',
                     op_modifies=True,
                     params=self.want.get("device_params"),
                 )
-                log(str(response))
+
+                self.log(str(response))
 
                 if response and isinstance(response, dict):
                     task_id = response.get('response').get('taskId')
                     while True:
                         execution_details = self.get_task_details(task_id)
 
-                        if '/task/' in execution_details.get("progress"):
+                        if execution_details.get("endTime"):
                             self.status = "success"
+                            self.result['changed'] = True
                             self.result['response'] = execution_details
-                            if len(devices_to_add) > 0:
-                                self.result['changed'] = True
-                                log("Device Added Successfully")
-                                log("Added devices are :" + str(devices_to_add))
-                                msg = "Device " + str(devices_to_add) + " added Successfully !!"
-                                self.result['log'].append(msg)
-                                break
-                            msg = "Devices " + str(self.config[0].get("ip_address")) + " already present in Cisco DNA Center"
-                            self.result['log'].append(msg)
                             break
                         elif execution_details.get("isError") and execution_details.get("failureReason"):
-                            self.msg = "Device Addition get failed because of {0}".format(execution_details.get("failureReason"))
+                            self.msg = "Device Updation get failed because of {0}".format(execution_details.get("failureReason"))
                             self.status = "failed"
                             break
 
+                    log("Device Updated Successfully")
+                    log("Updated devices are :" + str(device_to_update))
+                    msg = "Device " + str(device_to_update) + " updated Successfully !!"
+                    self.result['log'].append(msg)
+
             except Exception as e:
-                error_message = "Error while Adding device in Cisco DNA Center - {0}".format(str(e))
+                error_message = "Error while Updating device in Cisco DNA Center - {0}".format(str(e))
                 self.log(error_message)
                 raise Exception(error_message)
+
+            msg = "Devices {0} present in Cisco DNA Center and updated successfully".format(config['ip_address'])
+            self.log(msg)
+            self.result['log'].append(msg)
+            self.status = "success"
+
+            return self
+
+        # If we want to add device in inventory
+        config['ip_address'] = devices_to_add
+        self.mandatory_parameter().check_return_status()
+        try:
+            response = self.dnac._exec(
+                family="devices",
+                function='add_device',
+                op_modifies=True,
+                params=self.want.get("device_params"),
+            )
+            self.log(str(response))
+
+            if response and isinstance(response, dict):
+                task_id = response.get('response').get('taskId')
+                while True:
+                    execution_details = self.get_task_details(task_id)
+
+                    if '/task/' in execution_details.get("progress"):
+                        self.status = "success"
+                        self.result['response'] = execution_details
+                        if len(devices_to_add) > 0:
+                            self.result['changed'] = True
+                            log("Device Added Successfully")
+                            log("Added devices are :" + str(devices_to_add))
+                            msg = "Device " + str(devices_to_add) + " added Successfully !!"
+                            self.result['log'].append(msg)
+                            break
+                        msg = "Devices " + str(self.config[0].get("ip_address")) + " already present in Cisco DNA Center"
+                        self.result['log'].append(msg)
+                        break
+                    elif execution_details.get("isError") and execution_details.get("failureReason"):
+                        self.msg = "Device Addition get failed because of {0}".format(execution_details.get("failureReason"))
+                        self.status = "failed"
+                        break
+
+        except Exception as e:
+            error_message = "Error while Adding device in Cisco DNA Center - {0}".format(str(e))
+            self.log(error_message)
+            raise Exception(error_message)
 
         return self
 
