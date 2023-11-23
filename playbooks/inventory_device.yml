@@ -19,7 +19,8 @@
         dnac_log: true
         state: merged
         config:
-        - enable_password: "{{item.enable_password}}"
+        - username: "{{item.username}}"
+          enable_password: "{{item.enable_password}}"
           password: "{{item.password}}"
           ip_address: "{{item.ip_address}}"
           snmp_auth_passphrase: "{{item.snmp_auth_passphrase}}"
@@ -30,7 +31,6 @@
           snmp_ro_community: "{{item.snmp_ro_community}}"
           snmp_rw_community: "{{item.snmp_rw_community}}"
           snmp_username: "{{item.snmp_username}}"
-          username: "{{item.username}}"
           device_updated: "{{item.device_updated}}"
           clean_config: "{{item.clean_config}}"
           type: "{{item.type}}"
