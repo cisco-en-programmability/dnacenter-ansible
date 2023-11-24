@@ -91,8 +91,8 @@ class User(object):
         # NOTE: Does not have a get by name method, using get all
         try:
             items = self.dnac.exec(
-                family="userand_roles",
-                function="get_users_ap_i",
+                family="user_and_roles",
+                function="get_users_api",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -148,8 +148,8 @@ class User(object):
 
     def create(self):
         result = self.dnac.exec(
-            family="userand_roles",
-            function="add_user_ap_i",
+            family="user_and_roles",
+            function="add_user_api",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -160,8 +160,8 @@ class User(object):
         name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
-            family="userand_roles",
-            function="update_user_ap_i",
+            family="user_and_roles",
+            function="update_user_api",
             params=self.update_all_params(),
             op_modifies=True,
         )

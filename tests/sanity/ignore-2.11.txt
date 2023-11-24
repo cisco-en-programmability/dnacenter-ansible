@@ -354,6 +354,7 @@ plugins/action/syslog_config_create.py compile-2.6!skip # Python 2.6 is not supp
 plugins/action/syslog_config_update.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/transit_peer_network.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/action/transit_peer_network_info.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
+plugins/modules/network_settings_intent.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/modules/pnp_intent.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/modules/template_intent.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/modules/site_intent.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
@@ -708,6 +709,7 @@ plugins/action/syslog_config_create.py compile-2.7!skip # Python 2.7 is not supp
 plugins/action/syslog_config_update.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/transit_peer_network.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/transit_peer_network_info.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/modules/network_settings_intent.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/modules/pnp_intent.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/modules/template_intent.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/modules/site_intent.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
@@ -1062,12 +1064,18 @@ plugins/action/syslog_config_create.py import-2.7 # Python 2.7 is not supported 
 plugins/action/syslog_config_update.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/transit_peer_network.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
 plugins/action/transit_peer_network_info.py import-2.7 # Python 2.7 is not supported by the DNA Center SDK
+plugins/modules/network_settings_intent.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/modules/pnp_intent.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/modules/template_intent.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/modules/site_intent.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/modules/swim_intent.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
 plugins/module_utils/dnac.py import-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
+plugins/modules/network_settings_intent.py import-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/modules/pnp_intent.py import-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/modules/site_intent.py import-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/modules/swim_intent.py import-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
 plugins/modules/template_intent.py import-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
+plugins/modules/device_credential_intent.py compile-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/modules/device_credential_intent.py compile-2.6!skip # Python 2.6 is not supported by the DNA Center SDK
+plugins/modules/device_credential_intent.py import-2.7!skip # Python 2.7 is not supported by the DNA Center SDK
+plugins/modules/device_credential_intent.py import-2.6!skip # Python 2.6 is not supported by the DNA Center SDK

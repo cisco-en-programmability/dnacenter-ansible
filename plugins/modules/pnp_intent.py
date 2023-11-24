@@ -216,25 +216,27 @@ class DnacPnp(DnacBase):
         super().__init__(module)
 
     def validate_input(self):
-
         """
-        Validate the fields provided in the playbook.
-        Checks the configuration provided in the playbook against a predefined specification
-        to ensure it adheres to the expected structure and data types.
-        Args:
-            self: The instance of the class containing the 'config' attribute to be validated.
+        Validate the fields provided in the playbook.  Checks the
+        configuration provided in the playbook against a predefined
+        specification to ensure it adheres to the expected structure
+        and data types.
+
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
         Returns:
-            The method returns an instance of the class with updated attributes:
-                - self.msg: A message describing the validation result.
-                - self.status: The status of the validation (either 'success' or 'failed').
-                - self.validated_config: If successful, a validated version of
-                the 'config' parameter.
+          The method returns an instance of the class with updated attributes:
+          - self.msg: A message describing the validation result.
+          - self.status: The status of the validation (either 'success' or 'failed').
+          - self.validated_config: If successful, a validated version of the
+                                   'config' parameter.
         Example:
-            To use this method, create an instance of the class and call
-            'validate_input' on it.If the validation succeeds, 'self.status'
-            will be 'success'and 'self.validated_config' will contain the
-            validated configuration. If it fails, 'self.status' will be
-            'failed', and 'self.msg' will describe the validation issues.
+          To use this method, create an instance of the class and call
+          'validate_input' on it.If the validation succeeds, 'self.status'
+          will be 'success'and 'self.validated_config' will contain the
+          validated configuration. If it fails, 'self.status' will be
+          'failed', and 'self.msg' will describe the validation issues.
         """
 
         if not self.config:
@@ -281,18 +283,19 @@ class DnacPnp(DnacBase):
         return self
 
     def get_site_details(self):
-
         """
         Check whether the site exists or not, along with side id
-        Args:
-            self: The instance of the class containing the 'config' attribute to be validated.
+
+        Parameters:
+          - self: The instance of the class containing the 'config'
+                  attribute to be validated.
         Returns:
-            The method returns an instance of the class with updated attributes:
-                - site_exits: A boolean value indicating the existence of the site.
-                - site_id: The Id of the site i.e. required to claim a device to site.
+          The method returns an instance of the class with updated attributes:
+          - site_exits: A boolean value indicating the existence of the site.
+          - site_id: The Id of the site i.e. required to claim device to site.
         Example:
-            Post creation of the validated input, we this method gets the site_id and checks
-            whether the site exists or not
+          Post creation of the validated input, we this method gets the
+          site_id and checks whether the site exists or not
         """
 
         site_exists = False
@@ -318,16 +321,19 @@ class DnacPnp(DnacBase):
         return (site_exists, site_id)
 
     def get_site_type(self):
-
         """
         Fetches the type of site
-        Args:
-            self: The instance of the class containing the 'config' attribute to be validated.
+
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
         Returns:
-            The method returns an instance of the class with updated attributes:
-                - site_type: A string indicating the type of the site (area/building/floor).
+          The method returns an instance of the class with updated attributes:
+          - site_type: A string indicating the type of the
+                       site (area/building/floor).
         Example:
-            Post creation of the validated input, we this method gets the type of the site
+          Post creation of the validated input, we this method gets the
+          type of the site.
         """
 
         try:
@@ -350,20 +356,21 @@ class DnacPnp(DnacBase):
         return site_type
 
     def get_pnp_params(self, params):
-
         """
-        Store pnp parameters from the playbook for pnp processing in DNAC
-        Args:
-            self: The instance of the class containing the 'config' attribute to be validated.
-            params: The validated params passed from the playbook
+        Store pnp parameters from the playbook for pnp processing in DNAC.
+
+        Parameters:
+          - self: The instance of the class containing the 'config'
+                  attribute to be validated.
+          - params: The validated params passed from the playbook.
         Returns:
-            The method returns an instance of the class with updated attributes:
-                - pnp_params: A dictionary containing all the values indicating
-                the type of the site (area/building/floor).
+          The method returns an instance of the class with updated attributes:
+          - pnp_params: A dictionary containing all the values indicating
+                        the type of the site (area/building/floor).
         Example:
-            Post creation of the validated input, it fetches the required paramters
-            and stores it for further processing and calling the parameters in
-            other APIs
+          Post creation of the validated input, it fetches the required paramters
+          and stores it for further processing and calling the parameters in
+          other APIs.
         """
         params_list = params["device_info"]
         device_info_list = []
@@ -378,20 +385,21 @@ class DnacPnp(DnacBase):
         return device_info_list
 
     def get_image_params(self, params):
-
         """
         Get image name and the confirmation whether it's tagged golden or not
-        Args:
-            self: The instance of the class containing the 'config' attribute to be validated.
-            params: The validated params passed from the playbook
+
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
+          - params: The validated params passed from the playbook.
         Returns:
-            The method returns an instance of the class with updated attributes:
-                - image_params: A dictionary containing all the values indicating
-                name of the image and its golden image status.
+          The method returns an instance of the class with updated attributes:
+          - image_params: A dictionary containing all the values indicating
+                          name of the image and its golden image status.
         Example:
-            Post creation of the validated input, it fetches the required paramters
-            and stores it for further processing and calling the parameters in
-            other APIs
+          Post creation of the validated input, it fetches the required
+          paramters and stores it for further processing and calling the
+          parameters in other APIs.
         """
 
         image_params = {
@@ -401,17 +409,18 @@ class DnacPnp(DnacBase):
         return image_params
 
     def get_claim_params(self):
-
         """
-        Get the paramters needed for claiming the device to site
-        Args:
-            self: The instance of the class containing the 'config' attribute to be validated.
+        Get the paramters needed for claiming the device to site.
+        Parameters:
+          - self: The instance of the class containing the 'config'
+                  attribute to be validated.
         Returns:
-            The method returns an instance of the class with updated attributes:
-                - claim_params: A dictionary needed for calling the POST call for claim
-                a device to a site API
+          The method returns an instance of the class with updated attributes:
+          - claim_params: A dictionary needed for calling the POST call
+                          for claim a device to a site API.
         Example:
-            The stored dictionary can be used to call the API claim a device to a site via SDK
+          The stored dictionary can be used to call the API claim a device
+          to a site via SDK
         """
 
         imageinfo = {
@@ -463,19 +472,20 @@ class DnacPnp(DnacBase):
         return claim_params
 
     def get_have(self):
-
         """
-        Get the current image, template and site details from the DNAC
-        Args:
-            self: The instance of the class containing the 'config' attribute to be validated.
+        Get the current image, template and site details from the DNAC.
+
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
         Returns:
-            The method returns an instance of the class with updated attributes:
-                - self.image_response: A list of image passed by the user
-                - self.template_list: A list of template under project
-                - self.device_response: Gets the device_id and stores it
+          The method returns an instance of the class with updated attributes:
+          - self.image_response: A list of image passed by the user
+          - self.template_list: A list of template under project
+          - self.device_response: Gets the device_id and stores it
         Example:
-            Stored paramters are used to call the APIs to get the current image,
-            template and site details to call the API for various types of devices
+          Stored paramters are used to call the APIs to get the current image,
+          template and site details to call the API for various types of devices
         """
         have = {}
 
@@ -589,22 +599,23 @@ class DnacPnp(DnacBase):
         return self
 
     def get_want(self, config):
-
         """
         Get all the image, template and site and pnp related
-        information from playbook that is needed to be created in DNAC
-        Args:
-            self: The instance of the class containing the 'config' attribute to be validated.
-            config: validated config passed from the playbook
+        information from playbook that is needed to be created in DNAC.
+
+        Parameters:
+          - self: The instance of the class containing the 'config'
+                  attribute to be validated.
+          - config: validated config passed from the playbook
         Returns:
-            The method returns an instance of the class with updated attributes:
-                - self.want: A dictionary of paramters obtained from the playbook
-                - self.msg: A message indicating all the paramters from the playbook are
-                collected
-                - self.status: Success
+          The method returns an instance of the class with updated attributes:
+          - self.want: A dictionary of paramters obtained from the playbook.
+          - self.msg: A message indicating all the paramters from the playbook
+                      are collected.
+          - self.status: Success.
         Example:
-            It stores all the paramters passed from the playbook for further processing
-            before calling the APIs
+            It stores all the paramters passed from the playbook for further
+            processing before calling the APIs
         """
 
         self.want = {
@@ -640,7 +651,6 @@ class DnacPnp(DnacBase):
         return self
 
     def get_diff_merged(self):
-
         """
         If given device doesnot exist
         then add it to pnp database and get the device id
@@ -812,7 +822,6 @@ class DnacPnp(DnacBase):
             return self
 
     def get_diff_deleted(self):
-
         """
         If the given device is added to pnp database
         and is in unclaimed or failed state delete the
@@ -826,7 +835,7 @@ class DnacPnp(DnacBase):
             get deleted
         Description:
             This function is responsible for removing devices from the Cisco DNA Center PnP GUI and
-            pass nio changes if devices are already deleted.
+            pass new changes if devices are already deleted.
         """
         devices_deleted = []
         devices_to_delete = self.want.get("pnp_params")[:]
@@ -869,7 +878,6 @@ class DnacPnp(DnacBase):
 
 
 def main():
-
     """
     main entry point for module execution
     """
