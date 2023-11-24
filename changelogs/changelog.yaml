@@ -704,3 +704,35 @@ releases:
         release_summary: Updated sanity test.
         minor_changes:
         - Updated test/sanity and remove unnecessary
+    6.7.5:
+      release_date: "2023-09-25"
+      changes:
+        release_summary: Updated different function names.
+        bugfixes:
+        - Updated from get_permissions_ap_i to get_permissions_api
+        - Updated from get_roles_ap_i to get_roles_api
+        - Updated from get_users_ap_i to get_users_api
+        - Updated from get_external_authentication_servers_ap_i to get_external_authentication_servers_api
+    6.7.6:
+      release_date: "2023-10-13"
+      changes:
+        release_summary: Several changes to modules.
+        minor_changes:
+          - A new intent module for network settings to support Global IP Pool, Reserve IP Pool, Global servers, TimeZone, Message of the Day and telemetry servers.
+          - By inheriting DNAC base class, changes done to Swim, Template, PnP intent modules.
+    6.8.0:
+      release_date: "2023-11-10"
+      changes:
+        release_summary: Several changes to modules.
+        minor_changes:
+          - A new intent module to perform inventory for Adding, Deleting, Resyncing, Updating Devices etc. for all types of devices.
+          - A new intent module to Create, Update and Delete Global Device Credentials and Assign Credentials to a sites.
+          - A new intent module to discover the devices.
+          - Minor changes to swim intent module.
+    6.8.1:
+      release_date: "2023-11-20"
+      changes:
+        release_summary: Updating documentation and fixing swim issues.
+        minor_changes:
+          - Fixed issues in Swim intent module. 
+          - Updated docstring in site intent and template intent modules.
