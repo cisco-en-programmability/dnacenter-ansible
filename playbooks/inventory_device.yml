@@ -7,7 +7,7 @@
     - "input_inventory.yml"
     - "credentials.yml"
   tasks:
-    - name: Add/Update/Resync/Delete the devices in DNAC Inventory.
+    - name: Add/Update/Resync/Delete the devices in Cisco DNA Center Inventory.
       cisco.dnac.inventory_intent:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -19,21 +19,21 @@
         dnac_log: true
         state: merged
         config:
-        - enablePassword: "{{item.enablePassword}}"
+        - username: "{{item.username}}"
+          enable_password: "{{item.enable_password}}"
           password: "{{item.password}}"
-          ipAddress: "{{item.ipAddress}}"
-          snmpAuthPassphrase: "{{item.snmpAuthPassphrase}}"
-          snmpAuthProtocol: "{{item.snmpAuthProtocol}}"
-          snmpMode: "{{item.snmpMode}}"
-          snmpPrivPassphrase: "{{item.snmpPrivPassphrase}}"
-          snmpPrivProtocol: "{{item.snmpPrivProtocol}}"
-          snmpROCommunity: "{{item.snmpROCommunity}}"
-          snmpRWCommunity: "{{item.snmpRWCommunity}}"
-          snmpRetry:  "{{item.snmpRetry}}"
-          snmpTimeout: "{{item.snmpTimeout}}"
-          snmpUserName: "{{item.snmpUserName}}"
-          userName: "{{item.userName}}"
-          device_resync: "{{item.resync}}"
+          ip_address: "{{item.ip_address}}"
+          snmp_auth_passphrase: "{{item.snmp_auth_passphrase}}"
+          snmp_auth_protocol: "{{item.snmp_auth_protocol}}"
+          snmp_mode: "{{item.snmp_mode}}"
+          snmp_priv_passphrase: "{{item.snmp_priv_passphrase}}"
+          snmp_priv_protocol: "{{item.snmp_priv_protocol}}"
+          snmp_ro_community: "{{item.snmp_ro_community}}"
+          snmp_rw_community: "{{item.snmp_rw_community}}"
+          snmp_username: "{{item.snmp_username}}"
+          device_updated: "{{item.device_updated}}"
+          clean_config: "{{item.clean_config}}"
+          type: "{{item.type}}"
 
       with_items: "{{ device_details }}"
       tags:
