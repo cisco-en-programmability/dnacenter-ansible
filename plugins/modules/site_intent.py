@@ -70,7 +70,7 @@ options:
               name:
                 description: Name of the building (eg building1).
                 type: str
-              parentName:
+              parent_name:
                 description: Parent name of building to be created.
                 type: str
           floor:
@@ -89,15 +89,15 @@ options:
               parentName:
                 description: Complete Parent name of the floor to be created(eg Global/USA/San Francisco/BGL_18).
                 type: str
-              rfModel:
+              rf_model:
                 description: Type of floor. Allowed values are 'Cubes And Walled Offices',
                   'Drywall Office Only', 'Indoor High Ceiling', 'Outdoor Open Space'.
                 type: str
               width:
                 description: Width of the floor units is ft. (eg 100).
                 type: int
-              floorNumber:
-                description: Floor number in the building/site (eg 5).
+              floor_number:
+                description: Floor number in the building/site (eg 5).once created, it can't be modified.
                 type: int
 
 requirements:
@@ -116,6 +116,24 @@ notes:
 """
 
 EXAMPLES = r"""
+- name: Create a new area site
+  cisco.dnac.site_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: "{{dnac_log}}"
+    state: merged
+    config:
+    - site:
+        area:
+          name: string
+          parentName: string
+      type: string
+
 - name: Create a new building site
   cisco.dnac.site_intent:
     dnac_host: "{{dnac_host}}"
@@ -126,12 +144,75 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log: "{{dnac_log}}"
+    state: merged
     config:
     - site:
         building:
           address: string
           latitude: 0
           longitude: 0
+          name: string
+          parentName: string
+      type: string
+
+- name: Create a Floor site under the building
+  cisco.dnac.site_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: "{{dnac_log}}"
+    state: merged
+    config:
+    - site:
+        floor:
+          name: string
+          parentName: string
+          length: int
+          width: int
+          height: int
+          rfModel: string
+          floorNumber: int
+      type: string
+
+- name: Updating the Floor details under the building
+  cisco.dnac.site_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: "{{dnac_log}}"
+    state: merged
+    config:
+    - site:
+        floor:
+          name: string
+          parentName: string
+          length: int
+          width: int
+          height: int
+      type: string
+
+- name: Deleting any site you need site name and parentName
+  cisco.dnac.site_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: "{{dnac_log}}"
+    state: deleted
+    config:
+    - site:
+        floor:
           name: string
           parentName: string
       type: string
@@ -226,11 +307,11 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 )
 
 floor_plan = {
-    '57057': 'CUBES AND WALLED OFFICES',
-    '57058': 'DRYWELL OFFICE ONLY',
-    '41541500': 'FREE SPACE',
-    '57060': 'INDOOR HIGH CEILING',
-    '57059': 'OUTDOOR OPEN SPACE'
+    '101101': 'Cubes And Walled Offices',
+    '101102': 'Drywall Office Only',
+    '101105': 'Free Space',
+    '101104': 'Indoor High Ceiling',
+    '101103': 'Outdoor Open Space'
 }
 
 
@@ -244,7 +325,6 @@ class DnacSite(DnacBase):
     def validate_input(self):
         """
         Validate the fields provided in the playbook.
-
         Checks the configuration provided in the playbook against a predefined specification
         to ensure it adheres to the expected structure and data types.
         Parameters:
@@ -260,7 +340,7 @@ class DnacSite(DnacBase):
             will contain the validated configuration. If it fails, 'self.status' will be 'failed', and
             'self.msg' will describe the validation issues.
         """
-        
+
         if not self.config:
             self.msg = "config not available in playbook for validattion"
             self.status = "success"
@@ -292,7 +372,6 @@ class DnacSite(DnacBase):
     def get_current_site(self, site):
         """
         Get the current site information.
-
         Parameters:
           - self (object): An instance of the class containing the method.
           - site (list): A list containing information about the site.
@@ -339,11 +418,11 @@ class DnacSite(DnacBase):
                 floor=dict(
                     name=site[0].get("name"),
                     parentName=site[0].get("siteNameHierarchy").split("/" + site[0].get("name"))[0],
-                    rfModel=floor_plan.get(rf_model),
+                    rf_model=floor_plan.get(rf_model),
                     width=map_geometry.get("attributes").get("width"),
                     length=map_geometry.get("attributes").get("length"),
                     height=map_geometry.get("attributes").get("height"),
-                    floorNumber=map_geometry.get("attributes").get("floorNumber", "")
+                    floorNumber=map_geometry.get("attributes").get("floor_number", "")
                 )
             )
 
@@ -417,16 +496,43 @@ class DnacSite(DnacBase):
           type. If the site type is 'floor', it ensures that the 'rfModel'
           parameter is stored in uppercase.
         """
-
-        site = params.get("site")
         typeinfo = params.get("type")
+        site_info = {}
 
-        if typeinfo == "floor":
-            site["floor"]["rfModel"] = site.get("floor").get("rfModel").upper()
+        if typeinfo == 'area':
+            area_details = params.get('site').get('area')
+            site_info['area'] = {
+                'name': area_details.get('name'),
+                'parentName': area_details.get('parent_name')
+            }
+        elif typeinfo == 'building':
+            building_details = params.get('site').get('building')
+            site_info['building'] = {
+                'name': building_details.get('name'),
+                'address': building_details.get('address', ""),
+                'parentName': building_details.get('parent_name'),
+                'latitude': building_details.get('latitude'),
+                'longitude': building_details.get('longitude'),
+                'country': building_details.get('country')
+            }
+        else:
+            floor_details = params.get('site').get('floor')
+            site_info['floor'] = {
+                'name': floor_details.get('name'),
+                'parentName': floor_details.get('parent_name'),
+                'length': floor_details.get('length'),
+                'width': floor_details.get('width'),
+                'height': floor_details.get('height'),
+                'floorNumber': floor_details.get('floor_number', '')
+            }
+            try:
+                site_info["floor"]["rfModel"] = floor_details.get("rf_model")
+            except Exception as e:
+                log("Floor doesnot have rfModel attribute")
 
         site_params = dict(
             type=typeinfo,
-            site=site,
+            site=site_info,
         )
 
         return site_params
@@ -446,10 +552,9 @@ class DnacSite(DnacBase):
         """
 
         site_type = site.get("type")
-        parent_name = site.get("site").get(site_type).get("parentName")
+        parent_name = site.get("site").get(site_type).get("parent_name")
         name = site.get("site").get(site_type).get("name")
         site_name = '/'.join([parent_name, name])
-
         log(site_name)
 
         return site_name
@@ -579,6 +684,7 @@ class DnacSite(DnacBase):
                 # Existing Site requires update
                 site_params = self.want.get("site_params")
                 site_params["site_id"] = self.have.get("site_id")
+
                 response = self.dnac._exec(
                     family="sites",
                     function='update_site',
@@ -595,6 +701,7 @@ class DnacSite(DnacBase):
 
         else:
             # Creating New Site
+            site_params = self.want.get("site_params")
             response = self.dnac._exec(
                 family="sites",
                 function='create_site',
@@ -690,7 +797,12 @@ class DnacSite(DnacBase):
                         break
 
         else:
-            self.module.fail_json(msg="Site Not Found", response=[])
+            msg = "Cannot delete Site - {0} as it's not found in Cisco DNA Center".format(self.want.get("site_name"))
+            self.status = "success"
+            self.result['changed'] = False
+            self.result['response'] = msg
+            log(msg)
+            self.result['msg'] = msg
 
         return self
 
