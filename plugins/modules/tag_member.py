@@ -79,6 +79,7 @@ EXAMPLES = r"""
     state: absent
     id: string
     memberId: string
+    memberType: string
 
 """
 
