@@ -307,11 +307,11 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 )
 
 floor_plan = {
-    '101101': 'Cubes And Walled Offices',
-    '101102': 'Drywall Office Only',
-    '101105': 'Free Space',
-    '101104': 'Indoor High Ceiling',
-    '101103': 'Outdoor Open Space'
+    '57057': 'CUBES AND WALLED OFFICES',
+    '57058': 'DRYWELL OFFICE ONLY',
+    '41541500': 'FREE SPACE',
+    '57060': 'INDOOR HIGH CEILING',
+    '57059': 'OUTDOOR OPEN SPACE'
 }
 
 
