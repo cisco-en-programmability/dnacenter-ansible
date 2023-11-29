@@ -170,12 +170,12 @@ EXAMPLES = r"""
     - site:
         floor:
           name: string
-          parentName: string
+          parent_name: string
           length: int
           width: int
           height: int
-          rfModel: string
-          floorNumber: int
+          rf_model: string
+          floor_number: int
       type: string
 
 - name: Updating the Floor details under the building
@@ -193,7 +193,7 @@ EXAMPLES = r"""
     - site:
         floor:
           name: string
-          parentName: string
+          parent_name: string
           length: int
           width: int
           height: int
@@ -214,7 +214,7 @@ EXAMPLES = r"""
     - site:
         floor:
           name: string
-          parentName: string
+          parent_name: string
       type: string
 """
 
