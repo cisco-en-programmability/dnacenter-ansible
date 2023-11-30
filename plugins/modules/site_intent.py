@@ -466,10 +466,10 @@ class DnacSite(DnacBase):
             )
 
         except Exception as e:
-            log("The input site {0} is not valid or site is not present.".format(self.want.get("site_name")))
+            self.log("The input site {0} is not valid or site is not present.".format(self.want.get("site_name")))
 
         if response:
-            log(str(response))
+            self.log(str(response))
 
             response = response.get("response")
             current_site = self.get_current_site(response)
@@ -528,7 +528,7 @@ class DnacSite(DnacBase):
             try:
                 site_info["floor"]["rfModel"] = floor_details.get("rf_model")
             except Exception as e:
-                log("Floor doesnot have rfModel attribute")
+                self.log("Floor doesnot have rfModel attribute")
 
         site_params = dict(
             type=typeinfo,
@@ -555,7 +555,7 @@ class DnacSite(DnacBase):
         parent_name = site.get("site").get(site_type).get("parent_name")
         name = site.get("site").get(site_type).get("name")
         site_name = '/'.join([parent_name, name])
-        log(site_name)
+        self.log(site_name)
 
         return site_name
 
@@ -577,8 +577,8 @@ class DnacSite(DnacBase):
         requested_site = self.want.get("site_params")
         current_site = self.have.get("current_site")
 
-        log("Current Site: " + str(current_site))
-        log("Requested Site: " + str(requested_site))
+        self.log("Current Site: " + str(current_site))
+        self.log("Requested Site: " + str(requested_site))
 
         obj_params = [
             ("type", "type"),
@@ -729,7 +729,7 @@ class DnacSite(DnacBase):
 
                 if site_updated:
                     log_msg = "Site - {0} Updated Successfully".format(self.want.get("site_name"))
-                    log(log_msg)
+                    self.log(log_msg)
                     self.result['msg'] = log_msg
                     self.result['response'].update({"siteId": self.have.get("site_id")})
 
@@ -739,8 +739,8 @@ class DnacSite(DnacBase):
 
                     if site_exists:
                         log_msg = "Site - {0} Created Successfully".format(current_site)
-                        log(log_msg)
-                        log("Current site:" + str(current_site))
+                        self.log(log_msg)
+                        self.log("Current site:" + str(current_site))
                         self.result['msg'] = log_msg
                         self.result['response'].update({"siteId": current_site.get('site_id')})
 
@@ -801,7 +801,7 @@ class DnacSite(DnacBase):
             self.status = "success"
             self.result['changed'] = False
             self.result['response'] = msg
-            log(msg)
+            self.log(msg)
             self.result['msg'] = msg
 
         return self
