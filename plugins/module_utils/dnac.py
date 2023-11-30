@@ -196,7 +196,7 @@ class DnacBase():
 
             if validation_string in task_details.get("progress").lower():
                 self.result['changed'] = True
-                if data == True:
+                if data is True:
                     self.msg = task_details.get("data")
                 self.status = "success"
                 break
