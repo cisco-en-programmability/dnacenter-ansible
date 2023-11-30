@@ -15,7 +15,7 @@ short_description: Resource module for discovery related functions
 description:
 - Manage operations discover devices using IP address/range, CDP, LLDP and delete discoveries
 - API to discover a device or multiple devices
-- API to delete a device or multiple devices
+- API to delete a discovery of a device or multiple devices
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
