@@ -19,7 +19,7 @@ description:
 - API to update global device credentials.
 - API to delete global device credentials.
 - API to assign the device credential to the site.
-version_added: '6.8.0'
+version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
 author: Muthu Rakesh (@MUTHU-RAKESH-27)
@@ -37,11 +37,11 @@ options:
     elements: dict
     required: true
     suboptions:
-      GlobalCredentialDetails:
+      global_credential_details:
         description: Manages global device credentials
         type: dict
         suboptions:
-          cliCredential:
+          cli_credential:
             description: Global Credential V2's cliCredential.
             type: list
             elements: dict
@@ -49,9 +49,9 @@ options:
               description:
                 description: Description. Required for creating the credential.
                 type: str
-              enablePassword:
+              enable_password:
                 description:
-                - cliCredential credential Enable Password.
+                - cli_credential credential Enable Password.
                 - Password cannot contain spaces or angle brackets (< >)
                 type: str
               id:
@@ -59,13 +59,13 @@ options:
                 type: str
               password:
                 description:
-                - cliCredential credential Password.
+                - cli_credential credential Password.
                 - Required for creating/updating the credential.
                 - Password cannot contain spaces or angle brackets (< >).
                 type: str
               username:
                 description:
-                - cliCredential credential Username.
+                - cli_credential credential Username.
                 - Username cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
@@ -74,7 +74,7 @@ options:
               old_username:
                 description: Old Username. Use this for updating the description/Username.
                 type: str
-          httpsRead:
+          https_read:
             description: Global Credential V2's httpsRead.
             type: list
             elements: dict
@@ -87,7 +87,7 @@ options:
                 type: str
               password:
                 description:
-                - httpsRead credential Password.
+                - https_read credential Password.
                 - Required for creating/updating the credential.
                 - Password cannot contain spaces or angle brackets (< >).
                 type: str
@@ -96,7 +96,7 @@ options:
                 type: int
               username:
                 description:
-                - httpsRead credential Username.
+                - https_read credential Username.
                 - Username cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
@@ -105,7 +105,7 @@ options:
               old_username:
                 description: Old Username. Use this for updating the description/Username.
                 type: str
-          httpsWrite:
+          https_write:
             description: Global Credential V2's httpsWrite.
             type: list
             elements: dict
@@ -118,7 +118,7 @@ options:
                 type: str
               password:
                 description:
-                - httpsWrite credential Password.
+                - https_write credential Password.
                 - Required for creating/updating the credential.
                 - Password cannot contain spaces or angle brackets (< >).
                 type: str
@@ -127,7 +127,7 @@ options:
                 type: int
               username:
                 description:
-                - httpsWrite credential Username.
+                - https_write credential Username.
                 - Username cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
@@ -136,7 +136,7 @@ options:
               old_username:
                 description: Old Username. Use this for updating the description/Username.
                 type: str
-          snmpV2cRead:
+          snmp_v2c_read:
             description: Global Credential V2's snmpV2cRead.
             type: list
             elements: dict
@@ -147,15 +147,15 @@ options:
               id:
                 description: Credential Id. Use this for updating the device credential.
                 type: str
-              readCommunity:
+              read_community:
                 description:
-                - snmpV2cRead Read Community.
+                - snmp_v2c_read Read Community.
                 - Password cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description.
                 type: str
-          snmpV2cWrite:
+          snmp_v2c_write:
             description: Global Credential V2's snmpV2cWrite.
             type: list
             elements: dict
@@ -166,108 +166,108 @@ options:
               id:
                 description: Credential Id. Use this for updating the device credential.
                 type: str
-              writeCommunity:
+              write_community:
                 description:
-                - snmpV2cWrite Write Community.
+                - snmp_v2c_write Write Community.
                 - Password cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description.
                 type: str
-          snmpV3:
+          snmp_v3:
             description: Global Credential V2's snmpV3.
             type: list
             elements: dict
             suboptions:
-              authPassword:
+              auth_password:
                 description:
-                - snmpV3 Auth Password.
+                - snmp_v3 Auth Password.
                 - Password must contain minimum 8 characters.
                 - Password cannot contain spaces or angle brackets (< >).
                 type: str
-              authType:
+              auth_type:
                 description: Auth Type. ["SHA", "MD5"].
                 type: str
               description:
                 description:
-                - snmpV3 Description.
-                - Should be unique from other snmpV3 credentials.
+                - snmp_v3 Description.
+                - Should be unique from other snmp_v3 credentials.
                 type: str
               id:
                 description: Credential Id. Use this for updating the device credential.
                 type: str
-              privacyPassword:
+              privacy_password:
                 description:
-                - snmpV3 Privacy Password.
+                - snmp_v3 Privacy Password.
                 - Password must contain minimum 8 characters.
                 - Password cannot contain spaces or angle brackets (< >).
                 type: str
-              privacyType:
+              privacy_type:
                 description: Privacy Type. ["AES128", "AES192", "AES256"].
                 type: str
-              snmpMode:
+              snmp_mode:
                 description: Snmp Mode. ["AUTHPRIV", "AUTHNOPRIV", "NOAUTHNOPRIV"].
                 type: str
               username:
                 description:
-                - snmpV3 credential Username.
+                - snmp_v3 credential Username.
                 - Username cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description.
                 type: str
-      AssignCredentialsToSite:
+      assign_credentials_to_site:
         description: Assign Device Credentials to Site.
         type: dict
         suboptions:
-          cliDescription:
+          cli_description:
             description: CLI Credential Description.
             type: str
-          cliUsername:
+          cli_username:
             description: CLI Credential Username.
             type: str
-          cliId:
+          cli_id:
             description: CLI Credential Id. Use (Description, Username) or Id.
             type: str
-          httpReadDescription:
+          http_read_description:
             description: HTTP(S) Read Credential Description.
             type: str
-          httpReadUsername:
+          http_read_username:
             description: HTTP(S) Read Credential Username.
             type: str
-          httpRead:
+          http_read:
             description: HTTP(S) Read Credential Id. Use (Description, Username) or Id.
             type: str
-          httpWriteDescription:
+          http_write_description:
             description: HTTP(S) Write Credential Description.
             type: str
-          httpWriteUsername:
+          http_write_username:
             description: HTTP(S) Write Credential Username.
             type: str
-          httpWrite:
+          http_write:
             description: HTTP(S) Write Credential Id. Use (Description, Username) or Id.
             type: str
-          siteName:
+          site_name:
             description: Site Name to assign credential.
             type: list
             elements: str
-          snmpV2ReadDescription:
+          snmp_v2_read_description:
             description: SNMPv2c Read Credential Description.
             type: str
-          snmpV2ReadId:
+          snmp_v2_read_id:
             description: SNMPv2c Read Credential Id. Use Description or Id.
             type: str
-          snmpV2WriteDescription:
+          snmp_v2_write_description:
             description: SNMPv2c Write Credential Description.
             type: str
-          snmpV2WriteId:
+          snmp_v2_write_id:
             description: SNMPv2c Write Credential Id. Use Description or Id.
             type: str
-          snmpV3Description:
-            description: SNMPv3 Credential Description.
+          snmp_v3_description:
+            description: snmp_v3 Credential Description.
             type: str
-          snmpV3Id:
-            description: SNMPv3 Credential Id. Use Description or Id.
+          snmp_v3_id:
+            description: snmp_v3 Credential Id. Use Description or Id.
             type: str
 requirements:
 - dnacentersdk >= 2.5.5
@@ -312,44 +312,44 @@ EXAMPLES = r"""
     dnac_log: True
     state: merged
     config:
-    - GlobalCredentialDetails:
-        cliCredential:
+    - global_credential_details:
+        cli_credential:
         - description: string
           username: string
           password: string
-          enablePassword: string
-        snmpV2cRead:
+          enable_password: string
+        snmp_v2c_read:
         - description: string
-          readCommunity: string
-        snmpV2cWrite:
+          read_community: string
+        snmp_v2c_write:
         - description: string
-          writeCommunity: string
-        snmpV3:
-        - authPassword: string
-          authType: SHA
-          snmpMode: AUTHPRIV
-          privacyPassword: string
-          privacyType: AES128
+          write_community: string
+        snmp_v3:
+        - auth_password: string
+          auth_type: SHA
+          snmp_mode: AUTHPRIV
+          privacy_password: string
+          privacy_type: AES128
           username: string
           description: string
-        httpsRead:
+        https_read:
         - description: string
           username: string
           password: string
           port: 443
-        httpsWrite:
+        https_write:
         - description: string
           username: string
           password: string
           port: 443
-      AssignCredentialsToSite:
-        cliId: string
-        snmpV2ReadId: string
-        snmpV2WriteId: string
-        snmpV3Id: string
-        httpRead: string
-        httpWrite: string
-        siteName:
+      assign_credentials_to_site:
+        cli_id: string
+        snmp_v2_read_id: string
+        snmp_v2_write_id: string
+        snmp_v3_id: string
+        http_read: string
+        http_write: string
+        site_name:
         - string
 
   - name: Create Multiple Credentials.
@@ -363,42 +363,42 @@ EXAMPLES = r"""
     dnac_log: True
     state: merged
     config:
-    - GlobalCredentialDetails:
-        cliCredential:
+    - global_credential_details:
+        cli_credential:
         - description: string
           username: string
           password: string
-          enablePassword: string
+          enable_password: string
         - description: string
           username: string
           password: string
-          enablePassword: string
-        snmpV2cRead:
+          enable_password: string
+        snmp_v2c_read:
         - description: string
-          readCommunity: string
+          read_community: string
         - description: string
-          readCommunity: string
-        snmpV2cWrite:
+          read_community: string
+        snmp_v2c_write:
         - description: string
-          writeCommunity: string
+          write_community: string
         - description: string
-          writeCommunity: string
-        snmpV3:
-        - authPassword: string
-          authType: SHA
-          snmpMode: AUTHPRIV
-          privacyPassword: string
-          privacyType: AES128
+          write_community: string
+        snmp_v3:
+        - auth_password: string
+          auth_type: SHA
+          snmp_mode: AUTHPRIV
+          privacy_password: string
+          privacy_type: AES128
           username: string
           description: string
-        - authPassword: string
-          authType: SHA
-          snmpMode: AUTHPRIV
-          privacyPassword: string
-          privacyType: AES128
+        - auth_password: string
+          auth_type: SHA
+          snmp_mode: AUTHPRIV
+          privacy_password: string
+          privacy_type: AES128
           username: string
           description: string
-        httpsRead:
+        https_read:
         - description: string
           username: string
           password: string
@@ -407,7 +407,7 @@ EXAMPLES = r"""
           username: string
           password: string
           port: 443
-        httpsWrite:
+        https_write:
         - description: string
           username: string
           password: string
@@ -428,37 +428,37 @@ EXAMPLES = r"""
     dnac_log: True
     state: merged
     config:
-    - GlobalCredentialDetails:
-        cliCredential:
+    - global_credential_details:
+        cli_credential:
         - description: string
           username: string
           password: string
-          enablePassword: string
+          enable_password: string
           id: string
-        snmpV2cRead:
+        snmp_v2c_read:
         - description: string
-          readCommunity: string
+          read_community: string
           id: string
-        snmpV2cWrite:
+        snmp_v2c_write:
         - description: string
-          writeCommunity: string
+          write_community: string
           id: string
-        snmpV3:
-        - authPassword: string
-          authType: SHA
-          snmpMode: AUTHPRIV
-          privacyPassword: string
-          privacyType: AES128
+        snmp_v3:
+        - auth_password: string
+          auth_type: SHA
+          snmp_mode: AUTHPRIV
+          privacy_password: string
+          privacy_type: AES128
           username: string
           description: string
           id: string
-        httpsRead:
+        https_read:
         - description: string
           username: string
           password: string
           port: 443
           id: string
-        httpsWrite:
+        https_write:
         - description: string
           username: string
           password: string
@@ -476,50 +476,50 @@ EXAMPLES = r"""
     dnac_log: True
     state: merged
     config:
-    - GlobalCredentialDetails:
-        cliCredential:
+    - global_credential_details:
+        cli_credential:
         - description: string
           username: string
           password: string
-          enablePassword: string
+          enable_password: string
           id: string
         - description: string
           username: string
           password: string
-          enablePassword: string
+          enable_password: string
           id: string
-        snmpV2cRead:
+        snmp_v2c_read:
         - description: string
-          readCommunity: string
-          id: string
-        - description: string
-          readCommunity: string
-          id: string
-        snmpV2cWrite:
-        - description: string
-          writeCommunity: string
+          read_community: string
           id: string
         - description: string
-          writeCommunity: string
+          read_community: string
           id: string
-        snmpV3:
-        - authPassword: string
-          authType: SHA
-          snmpMode: AUTHPRIV
-          privacyPassword: string
-          privacyType: AES128
+        snmp_v2c_write:
+        - description: string
+          write_community: string
+          id: string
+        - description: string
+          write_community: string
+          id: string
+        snmp_v3:
+        - auth_password: string
+          auth_type: SHA
+          snmp_mode: AUTHPRIV
+          privacy_password: string
+          privacy_type: AES128
           username: string
           description: string
           id: string
-        - authPassword: string
-          authType: SHA
-          snmpMode: AUTHPRIV
-          privacyPassword: string
-          privacyType: AES128
+        - auth_password: string
+          auth_type: SHA
+          snmp_mode: AUTHPRIV
+          privacy_password: string
+          privacy_type: AES128
           username: string
           description: string
           id: string
-        httpsRead:
+        https_read:
         - description: string
           username: string
           password: string
@@ -530,7 +530,7 @@ EXAMPLES = r"""
           password: string
           port: 443
           id: string
-        httpsWrite:
+        https_write:
         - description: string
           username: string
           password: string
@@ -553,38 +553,38 @@ EXAMPLES = r"""
     dnac_log: True
     state: merged
     config:
-    - GlobalCredentialDetails:
-        cliCredential:
+    - global_credential_details:
+        cli_credential:
         - description: string
           username: string
           password: string
-          enablePassword: string
+          enable_password: string
           old_description: string
           old_username: string
-        snmpV2cRead:
+        snmp_v2c_read:
         - description: string
-          readCommunity: string
+          read_community: string
           old_description: string
-        snmpV2cWrite:
+        snmp_v2c_write:
         - description: string
-          writeCommunity: string
+          write_community: string
           old_description: string
-        snmpV3:
-        - authPassword: string
-          authType: string
-          snmpMode: string
-          privacyPassword: string
-          privacyType: string
+        snmp_v3:
+        - auth_password: string
+          auth_type: string
+          snmp_mode: string
+          privacy_password: string
+          privacy_type: string
           username: string
           description: string
-        httpsRead:
+        https_read:
         - description: string
           username: string
           password: string
           port: string
           old_description: string
           old_username: string
-        httpsWrite:
+        https_write:
         - description: string
           username: string
           password: string
@@ -603,17 +603,17 @@ EXAMPLES = r"""
     dnac_log: True
     state: merged
     config:
-    - AssignCredentialsToSite:
-        cliDescription: string
-        cliUsername: string
-        snmpV2ReadDescription: string
-        snmpV2WriteDescription: string
-        snmpV3Description: string
-        httpReadDescription: string
-        httpReadUsername: string
-        httpWriteUsername: string
-        httpWriteDescription: string
-        siteName:
+    - assign_credentials_to_site:
+        cli_description: string
+        cli_username: string
+        snmp_v2_read_description: string
+        snmp_v2_write_description: string
+        snmp_v3_description: string
+        http_read_description: string
+        http_read_username: string
+        http_write_username: string
+        http_write_description: string
+        site_name:
         - string
         - string
 
@@ -649,6 +649,7 @@ dnac_response2:
     }
 """
 
+import copy
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -696,45 +697,45 @@ class DnacCredential(DnacBase):
 
         # temp_spec is the specification for the expected structure of configuration parameters
         temp_spec = {
-            "GlobalCredentialDetails": {
+            "global_credential_details": {
                 "type": 'dict',
-                "cliCredential": {
+                "cli_credential": {
                     "type": 'list',
                     "description": {"type": 'string'},
                     "username": {"type": 'string'},
                     "password": {"type": 'string'},
-                    "enablePassword": {"type": 'string'},
+                    "enable_password": {"type": 'string'},
                     "old_description": {"type": 'string'},
                     "old_username": {"type": 'string'},
                     "id": {"type": 'string'},
                 },
-                "snmpV2cRead": {
+                "snmp_v2c_read": {
                     "type": 'list',
                     "description": {"type": 'string'},
-                    "readCommunity": {"type": 'string'},
+                    "read_community": {"type": 'string'},
                     "old_description": {"type": 'string'},
                     "id": {"type": 'string'},
                 },
-                "snmpV2cWrite": {
+                "snmp_v2c_write": {
                     "type": 'list',
                     "description": {"type": 'string'},
-                    "writeCommunity": {"type": 'string'},
+                    "write_community": {"type": 'string'},
                     "old_description": {"type": 'string'},
                     "id": {"type": 'string'},
                 },
-                "snmpV3": {
+                "snmp_v3": {
                     "type": 'list',
                     "description": {"type": 'string'},
                     "username": {"type": 'string'},
-                    "snmpMode": {"type": 'string'},
-                    "authType": {"type": 'string'},
-                    "authPassword": {"type": 'string'},
-                    "privacyType": {"type": 'string'},
-                    "privacyPassword": {"type": 'string'},
+                    "snmp_mode": {"type": 'string'},
+                    "auth_type": {"type": 'string'},
+                    "auth_password": {"type": 'string'},
+                    "privacy_type": {"type": 'string'},
+                    "privacy_password": {"type": 'string'},
                     "old_description": {"type": 'string'},
                     "id": {"type": 'string'},
                 },
-                "httpsRead": {
+                "https_read": {
                     "type": 'list',
                     "description": {"type": 'string'},
                     "username": {"type": 'string'},
@@ -744,7 +745,7 @@ class DnacCredential(DnacBase):
                     "old_username": {"type": 'string'},
                     "id": {"type": 'string'},
                 },
-                "httpsWrite": {
+                "https_write": {
                     "type": 'list',
                     "description": {"type": 'string'},
                     "username": {"type": 'string'},
@@ -755,24 +756,24 @@ class DnacCredential(DnacBase):
                     "id": {"type": 'string'},
                 }
             },
-            "AssignCredentialsToSite": {
+            "assign_credentials_to_site": {
                 "type": 'dict',
-                "cliDescription": {"type": 'string'},
-                "cliUsername": {"type": 'string'},
-                "cliId": {"type": 'string'},
-                "snmpV2ReadDescription": {"type": 'string'},
-                "snmpV2ReadId": {"type": 'string'},
-                "snmpV2WriteDescription": {"type": 'string'},
-                "snmpV2WriteId": {"type": 'string'},
-                "snmpV3Description": {"type": 'string'},
-                "snmpV3Id": {"type": 'string'},
-                "httpReadDescription": {"type": 'string'},
-                "httpReadUsername": {"type": 'string'},
-                "httpRead": {"type": 'string'},
-                "httpWriteDescription": {"type": 'string'},
-                "httpWriteUsername": {"type": 'string'},
-                "httpWrite": {"type": 'string'},
-                "siteName": {"type": 'list'}
+                "cli_description": {"type": 'string'},
+                "cli_username": {"type": 'string'},
+                "cli_id": {"type": 'string'},
+                "snmp_v2_read_description": {"type": 'string'},
+                "snmp_v2_read_id": {"type": 'string'},
+                "snmp_v2_write_description": {"type": 'string'},
+                "snmp_v2_write_id": {"type": 'string'},
+                "snmp_v3_description": {"type": 'string'},
+                "snmp_v3_id": {"type": 'string'},
+                "http_read_description": {"type": 'string'},
+                "http_read_username": {"type": 'string'},
+                "http_read": {"type": 'string'},
+                "http_write_description": {"type": 'string'},
+                "http_write_username": {"type": 'string'},
+                "http_write": {"type": 'string'},
+                "site_name": {"type": 'list'}
             }
         }
 
@@ -997,7 +998,7 @@ class DnacCredential(DnacBase):
                 value = {
                     "username": item.get("username"),
                     "description": item.get("description"),
-                    "snmpMode": item.get("snmpMode"),
+                    "snmpMode": item.get("snmp_mode"),
                     "id": item.get("id"),
                 }
                 if value.get("snmpMode") == "AUTHNOPRIV":
@@ -1025,7 +1026,7 @@ class DnacCredential(DnacBase):
         """
 
         # playbook CLI Credential details
-        all_CLI = CredentialDetails.get("cliCredential")
+        all_CLI = CredentialDetails.get("cli_credential")
         # All CLI details from Cisco DNA Center
         cli_details = global_credentials.get("cliCredential")
         # Cisco DNA Center details for the CLI Credential given in the playbook
@@ -1088,7 +1089,7 @@ class DnacCredential(DnacBase):
         """
 
         # Playbook snmpV2cRead Credential details
-        all_snmpV2cRead = CredentialDetails.get("snmpV2cRead")
+        all_snmpV2cRead = CredentialDetails.get("snmp_v2c_read")
         # All snmpV2cRead details from the Cisco DNA Center
         snmpV2cRead_details = global_credentials.get("snmpV2cRead")
         # Cisco DNA Center details for the snmpV2cRead Credential given in the playbook
@@ -1141,7 +1142,7 @@ class DnacCredential(DnacBase):
         """
 
         # Playbook snmpV2cWrite Credential details
-        all_snmpV2cWrite = CredentialDetails.get("snmpV2cWrite")
+        all_snmpV2cWrite = CredentialDetails.get("snmp_v2c_write")
         # All snmpV2cWrite details from the Cisco DNA Center
         snmpV2cWrite_details = global_credentials.get("snmpV2cWrite")
         # Cisco DNA Center details for the snmpV2cWrite Credential given in the playbook
@@ -1194,7 +1195,7 @@ class DnacCredential(DnacBase):
         """
 
         # Playbook httpsRead Credential details
-        all_httpsRead = CredentialDetails.get("httpsRead")
+        all_httpsRead = CredentialDetails.get("https_read")
         # All httpsRead details from the Cisco DNA Center
         httpsRead_details = global_credentials.get("httpsRead")
         # Cisco DNA Center details for the httpsRead Credential given in the playbook
@@ -1257,7 +1258,7 @@ class DnacCredential(DnacBase):
         """
 
         # Playbook httpsWrite Credential details
-        all_httpsWrite = CredentialDetails.get("httpsWrite")
+        all_httpsWrite = CredentialDetails.get("https_write")
         # All httpsWrite details from the Cisco DNA Center
         httpsWrite_details = global_credentials.get("httpsWrite")
         # Cisco DNA Center details for the httpsWrite Credential given in the playbook
@@ -1316,7 +1317,7 @@ class DnacCredential(DnacBase):
         """
 
         # Playbook snmpV3 Credential details
-        all_snmpV3 = CredentialDetails.get("snmpV3")
+        all_snmpV3 = CredentialDetails.get("snmp_v3")
         # All snmpV3 details from the Cisco DNA Center
         snmpV3_details = global_credentials.get("snmpV3")
         # Cisco DNA Center details for the snmpV3 Credential given in the playbook
@@ -1408,8 +1409,8 @@ class DnacCredential(DnacBase):
             Device Credentials and Device Credentials assigned to a site.
         """
 
-        if config.get("GlobalCredentialDetails") is not None:
-            CredentialDetails = config.get("GlobalCredentialDetails")
+        if config.get("global_credential_details") is not None:
+            CredentialDetails = config.get("global_credential_details")
             self.get_have_device_credentials(CredentialDetails).check_return_status()
 
         self.log("Credentials and Credentials Assigned to Site Details in Cisco DNA Center " +
@@ -1435,8 +1436,8 @@ class DnacCredential(DnacBase):
             "want_create": {},
             "want_update": {}
         }
-        if CredentialDetails.get("cliCredential"):
-            cli = CredentialDetails.get("cliCredential")
+        if CredentialDetails.get("cli_credential"):
+            cli = CredentialDetails.get("cli_credential")
             have_cli_ptr = 0
             create_cli_ptr = 0
             update_cli_ptr = 0
@@ -1458,9 +1459,9 @@ class DnacCredential(DnacBase):
                             self.status = "failed"
                             return self
 
-                    if item.get("enablePassword"):
+                    if item.get("enable_password"):
                         create_credential[create_cli_ptr] \
-                            .update({"enablePassword": item.get("enablePassword")})
+                            .update({"enablePassword": item.get("enable_password")})
                     create_cli_ptr = create_cli_ptr + 1
                 else:
                     if want.get("want_update").get("cliCredential") is None:
@@ -1486,19 +1487,20 @@ class DnacCredential(DnacBase):
                                 .get("cliCredential")[have_cli_ptr].get(values[i])
                             })
 
-                    if item.get("enablePassword"):
+                    if item.get("enable_password"):
                         update_credential[update_cli_ptr].update({
-                            "enablePassword": item.get("enablePassword")
+                            "enablePassword": item.get("enable_password")
                         })
                     update_cli_ptr = update_cli_ptr + 1
                 have_cli_ptr = have_cli_ptr + 1
 
-        if CredentialDetails.get("snmpV2cRead"):
-            snmpV2cRead = CredentialDetails.get("snmpV2cRead")
+        if CredentialDetails.get("snmp_v2c_read"):
+            snmpV2cRead = CredentialDetails.get("snmp_v2c_read")
             have_snmpv2cread_ptr = 0
             create_snmpv2cread_ptr = 0
             update_snmpv2cread_ptr = 0
-            values = ["readCommunity", "description", "id"]
+            values = ["read_community", "description", "id"]
+            keys = ["readCommunity", "description", "id"]
             have_snmpV2cRead = self.have.get("globalCredential").get("snmpV2cRead")
             for item in snmpV2cRead:
                 if not have_snmpV2cRead or have_snmpV2cRead[have_snmpv2cread_ptr] is None:
@@ -1509,7 +1511,7 @@ class DnacCredential(DnacBase):
                     for i in range(0, 2):
                         if item.get(values[i]):
                             create_credential[create_snmpv2cread_ptr] \
-                                .update({values[i]: item.get(values[i])})
+                                .update({keys[i]: item.get(values[i])})
                         else:
                             self.msg = values[i] + " is mandatory for creating \
                                        snmpV2cRead " + str(have_snmpv2cread_ptr)
@@ -1521,11 +1523,11 @@ class DnacCredential(DnacBase):
                         want.get("want_update").update({"snmpV2cRead": []})
                     update_credential = want.get("want_update").get("snmpV2cRead")
                     update_credential.append({})
-                    if item.get("readCommunity"):
+                    if item.get("read_community"):
                         update_credential[update_snmpv2cread_ptr] \
-                            .update({"readCommunity": item.get("readCommunity")})
+                            .update({"readCommunity": item.get("read_community")})
                     else:
-                        self.msg = "readCommunity is mandatory for updating \
+                        self.msg = "read_community is mandatory for updating \
                                    snmpV2cRead " + str(have_snmpv2cread_ptr)
                         self.status = "failed"
                         return self
@@ -1541,12 +1543,13 @@ class DnacCredential(DnacBase):
                     update_snmpv2cread_ptr = update_snmpv2cread_ptr + 1
                 have_snmpv2cread_ptr = have_snmpv2cread_ptr + 1
 
-        if CredentialDetails.get("snmpV2cWrite"):
-            snmpV2cWrite = CredentialDetails.get("snmpV2cWrite")
+        if CredentialDetails.get("snmp_v2c_write"):
+            snmpV2cWrite = CredentialDetails.get("snmp_v2c_write")
             have_snmpv2cwrite_ptr = 0
             create_snmpv2cwrite_ptr = 0
             update_snmpv2cwrite_ptr = 0
-            values = ["writeCommunity", "description", "id"]
+            values = ["write_community", "description", "id"]
+            keys = ["writeCommunity", "description", "id"]
             have_snmpV2cWrite = self.have.get("globalCredential").get("snmpV2cWrite")
             for item in snmpV2cWrite:
                 if not have_snmpV2cWrite or have_snmpV2cWrite[have_snmpv2cwrite_ptr] is None:
@@ -1557,7 +1560,7 @@ class DnacCredential(DnacBase):
                     for i in range(0, 2):
                         if item.get(values[i]):
                             create_credential[create_snmpv2cwrite_ptr] \
-                                .update({values[i]: item.get(values[i])})
+                                .update({keys[i]: item.get(values[i])})
                         else:
                             self.msg = values[i] + " is mandatory for creating \
                                        snmpV2cWrite " + str(have_snmpv2cwrite_ptr)
@@ -1569,11 +1572,11 @@ class DnacCredential(DnacBase):
                         want.get("want_update").update({"snmpV2cWrite": []})
                     update_credential = want.get("want_update").get("snmpV2cWrite")
                     update_credential.append({})
-                    if item.get("writeCommunity"):
+                    if item.get("write_community"):
                         update_credential[update_snmpv2cwrite_ptr] \
-                            .update({"writeCommunity": item.get("writeCommunity")})
+                            .update({"writeCommunity": item.get("write_community")})
                     else:
-                        self.msg = "writeCommunity is mandatory for updating \
+                        self.msg = "write_community is mandatory for updating \
                                    snmpV2cWrite " + str(have_snmpv2cwrite_ptr)
                         self.status = "failed"
                         return self
@@ -1589,8 +1592,8 @@ class DnacCredential(DnacBase):
                     update_snmpv2cwrite_ptr = update_snmpv2cwrite_ptr + 1
                 have_snmpv2cwrite_ptr = have_snmpv2cwrite_ptr + 1
 
-        if CredentialDetails.get("httpsRead"):
-            httpsRead = CredentialDetails.get("httpsRead")
+        if CredentialDetails.get("https_read"):
+            httpsRead = CredentialDetails.get("https_read")
             have_httpsread_ptr = 0
             create_httpsread_ptr = 0
             update_httpsread_ptr = 0
@@ -1644,8 +1647,8 @@ class DnacCredential(DnacBase):
                     update_httpsread_ptr = update_httpsread_ptr + 1
                 have_httpsread_ptr = have_httpsread_ptr + 1
 
-        if CredentialDetails.get("httpsWrite"):
-            httpsWrite = CredentialDetails.get("httpsWrite")
+        if CredentialDetails.get("https_write"):
+            httpsWrite = CredentialDetails.get("https_write")
             have_httpswrite_ptr = 0
             create_httpswrite_ptr = 0
             update_httpswrite_ptr = 0
@@ -1698,8 +1701,8 @@ class DnacCredential(DnacBase):
                     update_httpswrite_ptr = update_httpswrite_ptr + 1
                 have_httpswrite_ptr = have_httpswrite_ptr + 1
 
-        if CredentialDetails.get("snmpV3"):
-            snmpV3 = CredentialDetails.get("snmpV3")
+        if CredentialDetails.get("snmp_v3"):
+            snmpV3 = CredentialDetails.get("snmp_v3")
             have_snmpv3_ptr = 0
             create_snmpv3_ptr = 0
             update_snmpv3_ptr = 0
@@ -1720,45 +1723,54 @@ class DnacCredential(DnacBase):
                                        snmpV3 " + str(have_snmpv3_ptr)
                             self.status = "failed"
                             return self
-                    if item.get("snmpMode"):
+                    if item.get("snmp_mode"):
                         create_credential[create_snmpv3_ptr] \
-                            .update({"snmpMode": item.get("snmpMode")})
+                            .update({"snmpMode": item.get("snmp_mode")})
                     else:
                         create_credential[create_snmpv3_ptr] \
                             .update({"snmpMode": "AUTHPRIV"})
                     if create_credential[create_snmpv3_ptr].get("snmpMode") == "AUTHNOPRIV" or \
                             create_credential[create_snmpv3_ptr].get("snmpMode") == "AUTHPRIV":
-                        auths = ["authPassword", "authType"]
+                        auths = ["auth_password", "auth_type"]
+                        keys = {
+                            "auth_password": "authPassword",
+                            "auth_type": "authType"
+                        }
                         for auth in auths:
                             if item.get(auth):
                                 create_credential[create_snmpv3_ptr] \
-                                    .update({auth: item.get(auth)})
+                                    .update({keys[auth]: item.get(auth)})
                             else:
                                 self.msg = auth + " is mandatory for creating \
                                            snmpV3 " + str(have_snmpv3_ptr)
                                 self.status = "failed"
                                 return self
-                        if len(item.get("authPassword")) < 8:
-                            self.msg = "authPassword length should be greater than 8"
+                        if len(item.get("auth_password")) < 8:
+                            self.msg = "auth_password length should be greater than 8"
                             self.status = "failed"
                             return self
-                    elif create_credential[create_snmpv3_ptr].get("snmpMode") == "AUTHPRIV":
-                        privs = ["privacyPassword", "privacyType"]
+                        self.log(str(create_credential[create_snmpv3_ptr].get("snmpMode")))
+                    if create_credential[create_snmpv3_ptr].get("snmpMode") == "AUTHPRIV":
+                        privs = ["privacy_password", "privacy_type"]
+                        key = {
+                            "privacy_password": "privacyPassword",
+                            "privacy_type": "privacyType"
+                        }
                         for priv in privs:
                             if item.get(priv):
                                 create_credential[create_snmpv3_ptr] \
-                                    .update({priv: item.get(priv)})
+                                    .update({key[priv]: item.get(priv)})
                             else:
                                 self.msg = priv + " is mandatory for creating \
                                            snmpV3 " + str(have_snmpv3_ptr)
                                 self.status = "failed"
                                 return self
-                        if len(item.get("privacyPassword")):
-                            self.msg = "privacyPassword should be greater than 8"
+                        if len(item.get("privacy_password")) < 8:
+                            self.msg = "privacy_password should be greater than 8"
                             self.status = "failed"
                             return self
                     elif create_credential[create_snmpv3_ptr].get("snmpMode") != "NOAUTHNOPRIV":
-                        self.msg = "snmpMode in snmpV3 is not \
+                        self.msg = "snmp_mode in snmpV3 is not \
                                     ['AUTHPRIV', 'AUTHNOPRIV', 'NOAUTHNOPRIV']"
                         self.status = "failed"
                         return self
@@ -1777,14 +1789,14 @@ class DnacCredential(DnacBase):
                                 value: self.have.get("globalCredential")
                                 .get("snmpV3")[have_snmpv3_ptr].get(value)
                             })
-                    if item.get("snmpMode"):
+                    if item.get("snmp_mode"):
                         update_credential[update_snmpv3_ptr] \
-                            .update({"snmpMode": item.get("snmpMode")})
+                            .update({"snmpMode": item.get("snmp_mode")})
                     if update_credential[update_snmpv3_ptr].get("snmpMode") == "AUTHNOPRIV" or \
                             update_credential[update_snmpv3_ptr].get("snmpMode") == "AUTHPRIV":
-                        if item.get("authType"):
+                        if item.get("auth_type"):
                             update_credential[update_snmpv3_ptr] \
-                                .update({"authType": item.get("authType")})
+                                .update({"authType": item.get("auth_type")})
                         elif self.have.get("globalCredential") \
                                 .get("snmpMode")[have_snmpv3_ptr].get("authType"):
                             update_credential[update_snmpv3_ptr].update({
@@ -1792,26 +1804,26 @@ class DnacCredential(DnacBase):
                                 .get("snmpMode")[have_snmpv3_ptr].get("authType")
                             })
                         else:
-                            self.msg = "authType is required for updating snmpV3 " + \
+                            self.msg = "auth_type is required for updating snmpV3 " + \
                                        str(have_snmpv3_ptr)
                             self.status = "failed"
                             return self
-                        if item.get("authPassword"):
+                        if item.get("auth_password"):
                             update_credential[update_snmpv3_ptr] \
-                                .update({"authPassword": item.get("authPassword")})
+                                .update({"authPassword": item.get("auth_password")})
                         else:
-                            self.msg = "authPassword is required for updating snmpV3 " + \
+                            self.msg = "auth_password is required for updating snmpV3 " + \
                                        str(have_snmpv3_ptr)
                             self.status = "failed"
                             return self
-                        if len(item.get("authPassword")) < 8:
-                            self.msg = "authPassword length should be greater than 8"
+                        if len(item.get("auth_password")) < 8:
+                            self.msg = "auth_password length should be greater than 8"
                             self.status = "failed"
                             return self
                     elif update_credential[update_snmpv3_ptr].get("snmpMode") == "AUTHPRIV":
-                        if item.get("privacyType"):
+                        if item.get("privacy_type"):
                             update_credential[update_snmpv3_ptr] \
-                                .update({"privacyType": item.get("privacyType")})
+                                .update({"privacyType": item.get("privacy_type")})
                         elif self.have.get("globalCredential") \
                                 .get("snmpMode")[have_snmpv3_ptr].get("privacyType"):
                             update_credential[update_snmpv3_ptr].update({
@@ -1819,20 +1831,20 @@ class DnacCredential(DnacBase):
                                 .get("snmpMode")[have_snmpv3_ptr].get("privacyType")
                             })
                         else:
-                            self.msg = "privacyType is required for updating snmpV3 " + \
+                            self.msg = "privacy_type is required for updating snmpV3 " + \
                                        str(have_snmpv3_ptr)
                             self.status = "failed"
                             return self
-                        if item.get("privacyPassword"):
+                        if item.get("privacy_password"):
                             update_credential[update_snmpv3_ptr] \
-                                .update({"privacyPassword": item.get("privacyPassword")})
+                                .update({"privacyPassword": item.get("privacy_password")})
                         else:
-                            self.msg = "privacyPassword is required for updating snmpV3 " + \
+                            self.msg = "privacy_password is required for updating snmpV3 " + \
                                        str(have_snmpv3_ptr)
                             self.status = "failed"
                             return self
-                        if len(item.get("privacyPassword")) < 8:
-                            self.msg = "privacyPassword length should be greater than 8"
+                        if len(item.get("privacy_password")) < 8:
+                            self.msg = "privacy_password length should be greater than 8"
                             self.status = "failed"
                             return self
                     update_snmpv3_ptr = update_snmpv3_ptr + 1
@@ -1858,24 +1870,24 @@ class DnacCredential(DnacBase):
         want = {
             "assign_credentials": {}
         }
-        siteName = AssignCredentials.get("siteName")
-        if not siteName:
-            self.msg = "siteName is required for AssignCredentials"
+        site_name = AssignCredentials.get("site_name")
+        if not site_name:
+            self.msg = "site_name is required for AssignCredentials"
             self.status = "failed"
             return self
         site_id = []
-        for site_name in siteName:
+        for site_name in site_name:
             siteId = self.get_site_id(site_name)
             if not site_name:
-                self.msg = "siteName is invalid in AssignCredentials"
+                self.msg = "site_name is invalid in AssignCredentials"
                 self.status = "failed"
                 return self
             site_id.append(siteId)
         want.update({"site_id": site_id})
         global_credentials = self.get_global_credentials_params()
-        cliId = AssignCredentials.get("cliId")
-        cliDescription = AssignCredentials.get("cliDescription")
-        cliUsername = AssignCredentials.get("cliUsername")
+        cliId = AssignCredentials.get("cli_id")
+        cliDescription = AssignCredentials.get("cli_description")
+        cliUsername = AssignCredentials.get("cli_username")
         if cliId or cliDescription and cliUsername:
 
             # All CLI details from the Cisco DNA Center
@@ -1902,8 +1914,8 @@ class DnacCredential(DnacBase):
                     return self
             want.get("assign_credentials").update({"cliId": cliDetail.get("id")})
 
-        snmpV2cReadId = AssignCredentials.get("snmpV2ReadId")
-        snmpV2cReadDescription = AssignCredentials.get("snmpV2ReadDescription")
+        snmpV2cReadId = AssignCredentials.get("snmp_v2_read_id")
+        snmpV2cReadDescription = AssignCredentials.get("snmp_v2_read_description")
         if snmpV2cReadId or snmpV2cReadDescription:
 
             # All snmpV2cRead details from the Cisco DNA Center
@@ -1929,8 +1941,8 @@ class DnacCredential(DnacBase):
                     return self
             want.get("assign_credentials").update({"snmpV2ReadId": snmpV2cReadDetail.get("id")})
 
-        snmpV2cWriteId = AssignCredentials.get("snmpV2WriteId")
-        snmpV2cWriteDescription = AssignCredentials.get("snmpV2WriteDescription")
+        snmpV2cWriteId = AssignCredentials.get("snmp_v2_write_id")
+        snmpV2cWriteDescription = AssignCredentials.get("snmp_v2_write_description")
         if snmpV2cWriteId or snmpV2cWriteDescription:
 
             # All snmpV2cWrite details from the Cisco DNA Center
@@ -1956,9 +1968,9 @@ class DnacCredential(DnacBase):
                     return self
             want.get("assign_credentials").update({"snmpV2WriteId": snmpV2cWriteDetail.get("id")})
 
-        httpReadId = AssignCredentials.get("httpRead")
-        httpReadDescription = AssignCredentials.get("httpReadDescription")
-        httpReadUsername = AssignCredentials.get("httpReadUsername")
+        httpReadId = AssignCredentials.get("http_read")
+        httpReadDescription = AssignCredentials.get("http_read_description")
+        httpReadUsername = AssignCredentials.get("http_read_username")
         if httpReadId or httpReadDescription and httpReadUsername:
 
             # All httpRead details from the Cisco DNA Center
@@ -1985,9 +1997,9 @@ class DnacCredential(DnacBase):
                     return self
             want.get("assign_credentials").update({"httpRead": httpReadDetail.get("id")})
 
-        httpWriteId = AssignCredentials.get("httpWrite")
-        httpWriteDescription = AssignCredentials.get("httpWriteDescription")
-        httpWriteUsername = AssignCredentials.get("httpWriteUsername")
+        httpWriteId = AssignCredentials.get("http_write")
+        httpWriteDescription = AssignCredentials.get("http_write_description")
+        httpWriteUsername = AssignCredentials.get("http_write_username")
         if httpWriteId or httpWriteDescription and httpWriteUsername:
 
             # All httpWrite details from the Cisco DNA Center
@@ -2014,8 +2026,8 @@ class DnacCredential(DnacBase):
                     return self
             want.get("assign_credentials").update({"httpWrite": httpWriteDetail.get("id")})
 
-        snmpV3Id = AssignCredentials.get("snmpV3Id")
-        snmpV3Description = AssignCredentials.get("snmpV3Description")
+        snmpV3Id = AssignCredentials.get("snmp_v3_id")
+        snmpV3Description = AssignCredentials.get("snmp_v3_description")
         if snmpV3Id or snmpV3Description:
 
             # All snmpV3 details from the Cisco DNA Center
@@ -2061,12 +2073,12 @@ class DnacCredential(DnacBase):
             Device Credentials and Device Credentials assigned to a site.
         """
 
-        if config.get("GlobalCredentialDetails"):
-            CredentialDetails = config.get("GlobalCredentialDetails")
+        if config.get("global_credential_details"):
+            CredentialDetails = config.get("global_credential_details")
             self.get_want_device_credentials(CredentialDetails).check_return_status()
 
-        if config.get("AssignCredentialsToSite"):
-            AssignCredentials = config.get("AssignCredentialsToSite")
+        if config.get("assign_credentials_to_site"):
+            AssignCredentials = config.get("assign_credentials_to_site")
             self.get_want_assign_credentials(AssignCredentials).check_return_status()
 
         self.log("User details from the playbook " + str(self.want))
@@ -2213,7 +2225,7 @@ class DnacCredential(DnacBase):
         site_ids = self.want.get("site_id")
         for site_id in site_ids:
             credential_params.update({"site_id": site_id})
-            final_response.append(credential_params)
+            final_response.append(copy.deepcopy(credential_params))
             response = self.dnac._exec(
                 family="network_settings",
                 function='assign_device_credential_to_site_v2',
@@ -2223,6 +2235,7 @@ class DnacCredential(DnacBase):
             validation_string = "desired common settings operation successful"
             self.check_task_response_status(response, validation_string).check_return_status()
         self.log("Device Credential Assigned to site is Successfully")
+        self.log(str(final_response))
         result_assign_credential.update({
             "Assign Credentials": {
                 "response": final_response,
@@ -2246,13 +2259,13 @@ class DnacCredential(DnacBase):
             self
         """
 
-        if config.get("GlobalCredentialDetails") is not None:
+        if config.get("global_credential_details") is not None:
             self.create_device_credentials().check_return_status()
 
-        if config.get("GlobalCredentialDetails") is not None:
+        if config.get("global_credential_details") is not None:
             self.update_device_credentials().check_return_status()
 
-        if config.get("AssignCredentialsToSite") is not None:
+        if config.get("assign_credentials_to_site") is not None:
             self.assign_credentials_to_site().check_return_status()
 
         return self
@@ -2279,10 +2292,10 @@ class DnacCredential(DnacBase):
             final_response.update({item: []})
             for value in have_values.get(item):
                 if value is None:
-                    self.msg = str(config.get("GlobalCredentialDetails")
-                                   .get("item")[config_itr]) + "is not found"
-                    self.status = "failed"
-                    return self
+                    final_response.get(item).append(
+                        str(config.get("global_credential_details").get(item)[config_itr]) + " is not found."
+                    )
+                    continue
                 _id = have_values.get(item)[config_itr].get("id")
                 response = self.dnac._exec(
                     family="discovery",
@@ -2319,7 +2332,7 @@ class DnacCredential(DnacBase):
             self
         """
 
-        if config.get("GlobalCredentialDetails") is not None:
+        if config.get("global_credential_details") is not None:
             self.delete_device_credential(config).check_return_status()
 
         return self
