@@ -158,7 +158,7 @@ class DnacBase():
 
         return result
 
-    def check_task_response_status(self, response, validation_string):
+    def check_task_response_status(self, response, validation_string, data=False):
         """
         Get the site id from the site name.
 
@@ -187,12 +187,17 @@ class DnacBase():
             self.log(str(task_details))
 
             if task_details.get("isError") is True:
-                self.msg = str(task_details.get("progress"))
+                if task_details.get("failureReason"):
+                    self.msg = str(task_details.get("failureReason"))
+                else:
+                    self.msg = str(task_details.get("progress"))
                 self.status = "failed"
                 break
 
             if validation_string in task_details.get("progress").lower():
                 self.result['changed'] = True
+                if data == True:
+                    self.msg = task_details.get("data")
                 self.status = "success"
                 break
 
