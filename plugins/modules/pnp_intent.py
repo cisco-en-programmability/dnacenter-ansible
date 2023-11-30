@@ -652,21 +652,19 @@ class DnacPnp(DnacBase):
 
     def get_diff_merged(self):
         """
-        If given device doesnot exist then add it to pnp database and
-        get the device id.
-
-        Parameters:
-          - self: An instance of a class used for interacting with
-                  Cisco DNA Center.
+        If given device doesnot exist
+        then add it to pnp database and get the device id
+        Args:
+            self: An instance of a class used for interacting with Cisco DNA Center.
         Returns:
             object: An instance of the class with updated results and status
             based on the processing of differences. Based on the length of devices passed
             it adds/claims or does both.
         Description:
-          The function processes the differences and, depending on the
-          changes required, it may add, update,or resynchronize devices in
-          Cisco DNA Center. The updated results and status are stored in the
-          class instance for further use.
+            The function processes the differences and, depending on the
+            changes required, it may add, update,or resynchronize devices in
+            Cisco DNA Center. The updated results and status are stored in the
+            class instance for further use.
         """
 
         if not isinstance(self.want.get("pnp_params"), list):
@@ -837,7 +835,7 @@ class DnacPnp(DnacBase):
             get deleted
         Description:
             This function is responsible for removing devices from the Cisco DNA Center PnP GUI and
-            pass nio changes if devices are already deleted.
+            pass new changes if devices are already deleted.
         """
         devices_deleted = []
         devices_to_delete = self.want.get("pnp_params")[:]
