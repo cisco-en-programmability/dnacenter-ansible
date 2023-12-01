@@ -306,7 +306,7 @@ class DnacDiscovery(DnacBase):
             'lldp_level': {'type': 'int', 'required': False,
                            'default': 16},
             'discovery_name': {'type': 'dict', 'required': False,
-                               'default': 'discovery_{}'.format(default_dicovery_name)},
+                               'default': '{0}'.format(default_dicovery_name)},
             'netconf_port': {'type': 'str', 'required': False},
             'password_list': {'type': 'list', 'required': False,
                               'elements': 'str'},
@@ -373,7 +373,7 @@ class DnacDiscovery(DnacBase):
         self.result.update(dict(devices_info=devices_list))
         return devices_list
 
-    def preprocessing_devices_info(self, devices_list: None):
+    def preprocessing_devices_info(self, devices_list=None):
         if devices_list is None:
             devices_list = []
         ip_address_list = [device['ip'] for device in devices_list]
