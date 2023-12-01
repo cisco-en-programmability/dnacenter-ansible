@@ -141,6 +141,7 @@ options:
       timeout:
         description: Time to wait for device response in seconds
         type: int
+        
 requirements:
 - dnacentersdk == 2.6.10
 - python >= 3.5
@@ -373,7 +374,7 @@ class DnacDiscovery(DnacBase):
         self.result.update(dict(devices_info=devices_list))
         return devices_list
 
-    def preprocessing_devices_info(self, devices_list: None):
+    def preprocessing_devices_info(self, devices_list=None):
         if devices_list is None:
             devices_list = []
         ip_address_list = [device['ip'] for device in devices_list]
