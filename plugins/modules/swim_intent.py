@@ -41,33 +41,33 @@ options:
     elements: dict
     required: True
     suboptions:
-      importImageDetails:
+      import_image_details:
         description: Details of image being imported
         type: dict
         suboptions:
           type:
             description: The source of import, supports url import or local import.
             type: str
-          localImageDetails:
+          local_image_details:
             description: Details of the local path of the image to be imported.
             type: dict
             suboptions:
-              filePath:
+              file_path:
                 description: File absolute path.
                 type: str
-              isThirdParty:
+              is_third_party:
                 description: IsThirdParty query parameter. Third party Image check.
                 type: bool
-              thirdPartyApplicationType:
+              third_party_application_type:
                 description: ThirdPartyApplicationType query parameter. Third Party Application Type.
                 type: str
-              thirdPartyImageFamily:
+              third_party_image_family:
                 description: ThirdPartyImageFamily query parameter. Third Party image family.
                 type: str
-              thirdPartyVendor:
+              third_party_vendor:
                 description: ThirdPartyVendor query parameter. Third Party Vendor.
                 type: str
-          urlDetails:
+          url_details:
             description: URL details for SWIM import
             type: dict
             suboptions:
@@ -76,49 +76,49 @@ options:
                 type: list
                 elements: dict
                 suboptions:
-                  applicationType:
+                  application_type:
                     description: Swim Import Via Url's applicationType.
                     type: str
-                  imageFamily:
+                  image_family:
                     description: Swim Import Via Url's imageFamily.
                     type: str
-                  sourceURL:
-                    description: Swim Import Via Url's sourceURL.
+                  source_url:
+                    description: Swim Import Image Via Url.
                     type: str
-                  thirdParty:
+                  third_party:
                     description: ThirdParty flag.
                     type: bool
                   vendor:
                     description: Swim Import Via Url's vendor.
                     type: str
-              scheduleAt:
+              schedule_at:
                 description: ScheduleAt query parameter. Epoch Time (The number of milli-seconds since
                   January 1 1970 UTC) at which the distribution should be scheduled (Optional).
                 type: str
-              scheduleDesc:
+              schedule_desc:
                 description: ScheduleDesc query parameter. Custom Description (Optional).
                 type: str
-              scheduleOrigin:
+              schedule_origin:
                 description: ScheduleOrigin query parameter. Originator of this call (Optional).
                 type: str
-      imageName:
-        description: SWIM Image name.
-        type: str
-      taggingDetails:
+      tagging_details:
         description: Details for tagging or untagging an image as golden
         type: dict
         suboptions:
-          imageName:
+          image_name:
             description: SWIM image name which will be tagged or untagged as golden.
             type: str
-          deviceRole:
+          device_role:
             description: Device Role. Permissible Values ALL, UNKNOWN, ACCESS, BORDER ROUTER,
               DISTRIBUTION and CORE.
             type: str
-          deviceFamilyName:
-            description: Device family name
+          device_family_name:
+            description: Device family name(Eg Switches and Hubs)
             type: str
-          siteName:
+          device_type:
+            description: Type of the device (Eg Cisco Catalyst 9300 Switch)
+            type: str
+          site_name:
             description: Site name for which SWIM image will be tagged/untagged as golden.
               If not provided, SWIM image will be mapped to global site.
             type: str
@@ -127,58 +127,78 @@ options:
               If True then the given image will be tagged as golden.
               If False then the given image will be un-tagged as golden.
             type: bool
-      imageDistributionDetails:
+      image_distribution_details:
         description: Details for SWIM image distribution. Device on which the image needs to distributed
           can be speciifed using any of the following parameters - deviceSerialNumber,
           deviceIPAddress, deviceHostname or deviceMacAddress.
         type: dict
         suboptions:
-          imageName:
+          device_role:
+            description: Device Role. Permissible Values ALL, UNKNOWN, ACCESS, BORDER ROUTER,
+              DISTRIBUTION and CORE.
+            type: str
+          device_family_name:
+            description: Device family name
+            type: str
+          site_name:
+            description: Used to get device details associated to this site.
+            type: str
+          image_name:
             description: SWIM image's name
             type: str
-          deviceSerialNumber:
+          device_serial_number:
             description: Device serial number where the image needs to be distributed
             type: str
-          deviceIPAddress:
+          device_ip_address:
             description: Device IP address where the image needs to be distributed
             type: str
-          deviceHostname:
+          device_hostname:
             description: Device hostname where the image needs to be distributed
             type: str
-          deviceMacAddress:
+          device_mac_address:
             description: Device MAC address where the image needs to be distributed
             type: str
-      imageActivationDetails:
+      image_activation_details:
         description: Details for SWIM image activation. Device on which the image needs to activated
           can be speciifed using any of the following parameters - deviceSerialNumber,
           deviceIPAddress, deviceHostname or deviceMacAddress.
         type: dict
         suboptions:
-          activateLowerImageVersion:
+          device_role:
+            description: Device Role. Permissible Values ALL, UNKNOWN, ACCESS, BORDER ROUTER,
+              DISTRIBUTION and CORE.
+            type: str
+          device_family_name:
+            description: Device family name
+            type: str
+          site_name:
+            description: Used to get device details associated to this site.
+            type: str
+          activate_lower_image_version:
             description: ActivateLowerImageVersion flag.
             type: bool
-          deviceUpgradeMode:
+          device_upgrade_mode:
             description: Swim Trigger Activation's deviceUpgradeMode.
             type: str
           distributeIfNeeded:
             description: DistributeIfNeeded flag.
             type: bool
-          imageName:
+          image_name:
             description: SWIM image's name
             type: str
-          deviceSerialNumber:
+          device_serial_number:
             description: Device serial number where the image needs to be activated
             type: str
-          deviceIPAddress:
+          device_ip_address:
             description: Device IP address where the image needs to be activated
             type: str
-          deviceHostname:
+          device_hostname:
             description: Device hostname where the image needs to be activated
             type: str
-          deviceMacAddress:
+          device_mac_address:
             description: Device MAC address where the image needs to be activated
             type: str
-          scheduleValidate:
+          schedule_validate:
             description: ScheduleValidate query parameter. ScheduleValidate, validates data
               before schedule (Optional).
             type: bool
@@ -212,34 +232,90 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: True
     config:
-    - importImageDetails:
+    - import_image_details:
         type: string
         urlDetails:
           payload:
-          - sourceURL: string
-            isThirdParty: bool
-            imageFamily: string
+          - source_url: string
+            is_third_party: bool
+            image_family: string
             vendor: string
-            applicationType: string
-          scheduleAt: string
-          scheduleDesc: string
-          scheduleOrigin: string
-      imageName: string
-      taggingDetails:
-        imageName: string
-        deviceRole: string
-        deviceFamilyName: string
-        siteName: string
+            application_type: string
+          schedule_at: string
+          schedule_desc: string
+          schedule_origin: string
+      tagging_details:
+        image_name: string
+        device_role: string
+        device_family_name: string
+        site_name: string
         tagging: bool
-      imageDistributionDetails:
-        imageName: string
-        deviceSerialNumber: string
-      imageActivationDetails:
-        scheduleValidate: bool
-        activateLowerImageVersion: bool
-        distributeIfNeeded: bool
-        deviceSerialNumber: string
-        imageName: string
+      image_distribution_details:
+        image_name: string
+        device_serial_number: string
+      image_activation_details:
+        schedule_validate: bool
+        activate_lower_image_version: bool
+        distribute_if_needed: bool
+        device_serial_number: string
+        image_name: string
+
+- name: Tag the given image as golden and load it on device
+  cisco.dnac.swim_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    config:
+    - tagging_details:
+        image_name: string
+        device_role: string
+        device_family_name: string
+        device_type: string
+        site_name: string
+        tagging: bool
+
+- name: Distribute the given image on devices associated to that site with specified role.
+  cisco.dnac.swim_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    config:
+    - image_distribution_details:
+        image_name: string
+        site_name: string
+        device_role: string
+        device_family_name: string
+
+- name: Activate the given image on devices associated to that site with specified role.
+  cisco.dnac.swim_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    config:
+    - image_activation_details:
+        image_name: string
+        site_name: string
+        device_role: string
+        device_family_name: string
+        scehdule_validate: bool
+        activate_lower_image_version: bool
+        distribute_if_needed: bool
+
 """
 
 RETURN = r"""
@@ -294,11 +370,10 @@ class DnacSwims(DnacBase):
             return self
 
         temp_spec = dict(
-            importImageDetails=dict(type='dict'),
-            taggingDetails=dict(type='dict'),
-            imageDistributionDetails=dict(type='dict'),
-            imageActivationDetails=dict(type='dict'),
-            imageName=dict(type=str),
+            import_image_details=dict(type='dict'),
+            tagging_details=dict(type='dict'),
+            image_distribution_details=dict(type='dict'),
+            image_activation_details=dict(type='dict'),
         )
 
         # Validate swim params
@@ -316,12 +391,12 @@ class DnacSwims(DnacBase):
         self.status = "success"
         return self
 
-    def site_exists(self):
+    def site_exists(self, site_name):
         """
         Parameters:
-        - self: The reference to the class instance.
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
         Returns:
-        - tuple: A tuple containing two values:
+            tuple: A tuple containing two values:
             - site_exists (bool): A boolean indicating whether the site exists (True) or not (False).
             - site_id (str or None): The ID of the site if it exists, or None if the site is not found.
         Description:
@@ -337,7 +412,7 @@ class DnacSwims(DnacBase):
             response = self.dnac._exec(
                 family="sites",
                 function='get_site',
-                params={"name": self.want.get('tagging_details').get('siteName')},
+                params={"name": site_name},
             )
         except Exception as e:
             self.module.fail_json(msg="Site not found")
@@ -355,6 +430,7 @@ class DnacSwims(DnacBase):
         """
         Retrieve the unique image ID based on the provided image name.
         Parameters:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
             name (str): The name of the software image to search for.
         Returns:
             str: The unique image ID (UUID) corresponding to the given image name.
@@ -388,6 +464,7 @@ class DnacSwims(DnacBase):
         """
         Retrieve the unique image ID based on the provided image name.
         Parameters:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
             name (str): The name of the software image to search for.
         Returns:
             str: The unique image ID (UUID) corresponding to the given image name.
@@ -398,6 +475,7 @@ class DnacSwims(DnacBase):
             It extracts and returns the image ID if a single matching image is found. If no image or multiple
             images are found with the same name, it raises an exception.
         """
+
         image_exist = False
         image_response = self.dnac._exec(
             family="software_image_management_swim",
@@ -415,17 +493,16 @@ class DnacSwims(DnacBase):
         """
         Retrieve the unique device ID based on the provided parameters.
         Parameters:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
             params (dict): A dictionary containing parameters to filter devices.
         Returns:
             str: The unique device ID corresponding to the filtered device.
-        Raises:
-            AnsibleFailJson: If the device is not found in the response.
         Description:
             This function sends a request to Cisco DNA Center to retrieve a list of devices based on the provided
             filtering parameters. If a single matching device is found, it extracts and returns the device ID. If
             no device or multiple devices match the criteria, it raises an exception.
         """
-
+        device_id = None
         response = self.dnac._exec(
             family="devices",
             function='get_device_list',
@@ -438,14 +515,58 @@ class DnacSwims(DnacBase):
             device_id = device_list[0].get("id")
             log("Device Id: " + str(device_id))
         else:
-            self.module.fail_json(msg="Device not found", response=response)
+            self.log("Device not found")
 
         return device_id
+
+    def get_device_uuids(self, site_name, device_family, device_role):
+        """
+        Retrieve a list of device UUIDs based on the specified criteria.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            site_name (str): The name of the site for which device UUIDs are requested.
+            device_family (str): The family/type of devices to filter on.
+            device_role (str): The role of devices to filter on. If None, all roles are considered.
+        Returns:
+            list: A list of device UUIDs that match the specified criteria.
+        Description:
+            The function checks the reachability status and role of devices in the given site.
+            Only devices with "Reachable" status are considered, and filtering is based on the specified
+            device family and role (if provided).
+        """
+
+        device_uuid_list = []
+        if site_name:
+            site_exists = False
+            (site_exists, site_id) = self.site_exists(site_name)
+            if site_exists:
+                site_params = {
+                    "site_id": site_id,
+                    "device_family": device_family
+                }
+                response = self.dnac._exec(
+                    family="sites",
+                    function='get_membership',
+                    op_modifies=True,
+                    params=site_params,
+                )
+                response = response['device'][0]['response']
+                if len(response) > 0:
+                    for item in response:
+                        if item["reachabilityStatus"] != "Reachable":
+                            continue
+                        if "role" in item and device_role is not None and item["role"] == device_role.upper():
+                            device_uuid_list.append(item["instanceUuid"])
+                        elif device_role is None or device_role.upper() == "ALL":
+                            device_uuid_list.append(item["instanceUuid"])
+
+        return device_uuid_list
 
     def get_device_family_identifier(self, family_name):
         """
         Retrieve and store the device family identifier based on the provided family name.
         Parameters:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
             family_name (str): The name of the device family for which to retrieve the identifier.
         Returns:
             None
@@ -490,8 +611,9 @@ class DnacSwims(DnacBase):
         if self.want.get("tagging_details"):
             have = {}
             tagging_details = self.want.get("tagging_details")
-            if tagging_details.get("imageName"):
-                image_id = self.get_image_id(tagging_details.get("imageName"))
+            if tagging_details.get("image_name"):
+                name = tagging_details.get("image_name").split("/")[-1]
+                image_id = self.get_image_id(name)
                 have["tagging_image_id"] = image_id
 
             elif self.have.get("imported_image_id"):
@@ -502,10 +624,10 @@ class DnacSwims(DnacBase):
 
             # check if given site exists, store siteid
             # if not then use global site
-            site_name = tagging_details.get("siteName")
+            site_name = tagging_details.get("site_name")
             if site_name:
                 site_exists = False
-                (site_exists, site_id) = self.site_exists()
+                (site_exists, site_id) = self.site_exists(site_name)
                 if site_exists:
                     have["site_id"] = site_id
                     log("Site Exists: " + str(site_exists) + "\n Site_id:" + str(site_id))
@@ -516,15 +638,16 @@ class DnacSwims(DnacBase):
 
             self.have.update(have)
             # check if given device family name exists, store indentifier value
-            family_name = tagging_details.get("deviceFamilyName")
+            family_name = tagging_details.get("device_type")
             self.get_device_family_identifier(family_name)
 
         if self.want.get("distribution_details"):
             have = {}
             distribution_details = self.want.get("distribution_details")
             # check if image for distributon is available
-            if distribution_details.get("imageName"):
-                image_id = self.get_image_id(distribution_details.get("imageName"))
+            if distribution_details.get("image_name"):
+                name = distribution_details.get("image_name").split("/")[-1]
+                image_id = self.get_image_id(name)
                 have["distribution_image_id"] = image_id
 
             elif self.have.get("imported_image_id"):
@@ -534,21 +657,23 @@ class DnacSwims(DnacBase):
                 self.module.fail_json(msg="Image details for distribution not provided", response=[])
 
             device_params = dict(
-                hostname=distribution_details.get("deviceHostname"),
-                serial_number=distribution_details.get("deviceSerialNumber"),
-                management_ip_address=distribution_details.get("deviceIPAddress"),
-                mac_address=distribution_details.get("deviceMacAddress"),
+                hostname=distribution_details.get("device_hostname"),
+                serial_number=distribution_details.get("device_serial_number"),
+                management_ip_address=distribution_details.get("device_ip_address"),
+                mac_address=distribution_details.get("device_mac_address"),
             )
             device_id = self.get_device_id(device_params)
-            have["distribution_device_id"] = device_id
+            if device_id is not None:
+                have["distribution_device_id"] = device_id
             self.have.update(have)
 
         if self.want.get("activation_details"):
             have = {}
             activation_details = self.want.get("activation_details")
             # check if image for activation is available
-            if activation_details.get("imageName"):
-                image_id = self.get_image_id(activation_details.get("imageName"))
+            if activation_details.get("image_name"):
+                name = activation_details.get("image_name").split("/")[-1]
+                image_id = self.get_image_id(name)
                 have["activation_image_id"] = image_id
 
             elif self.have.get("imported_image_id"):
@@ -557,14 +682,23 @@ class DnacSwims(DnacBase):
             else:
                 self.module.fail_json(msg="Image details for activation not provided", response=[])
 
+            site_name = activation_details.get("site_name")
+            if site_name:
+                site_exists = False
+                (site_exists, site_id) = self.site_exists(site_name)
+                if site_exists:
+                    have["site_id"] = site_id
+                    log("Site Exists: " + str(site_exists) + "\n Site_id:" + str(site_id))
+
             device_params = dict(
-                hostname=activation_details.get("deviceHostname"),
-                serial_number=activation_details.get("deviceSerialNumber"),
-                management_ip_address=activation_details.get("deviceIPAddress"),
-                mac_address=activation_details.get("deviceMacAddress"),
+                hostname=activation_details.get("device_hostname"),
+                serial_number=activation_details.get("device_serial_number"),
+                management_ip_address=activation_details.get("device_ip_address"),
+                mac_address=activation_details.get("device_mac_address"),
             )
             device_id = self.get_device_id(device_params)
-            have["activation_device_id"] = device_id
+            if device_id is not None:
+                have["activation_device_id"] = device_id
             self.have.update(have)
 
         return self
@@ -573,6 +707,7 @@ class DnacSwims(DnacBase):
         """
         Retrieve and store import, tagging, distribution, and activation details from playbook configuration.
         Parameters:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
             config (dict): The configuration dictionary containing image import and other details.
         Returns:
             self: The current instance of the class with updated 'want' attributes.
@@ -585,19 +720,19 @@ class DnacSwims(DnacBase):
         """
 
         want = {}
-        if config.get("importImageDetails"):
+        if config.get("import_image_details"):
             want["import_image"] = True
-            want["import_type"] = config.get("importImageDetails").get("type").lower()
+            want["import_type"] = config.get("import_image_details").get("type").lower()
             if want["import_type"] == "url":
-                want["url_import_details"] = config.get("importImageDetails").get("urlDetails")
+                want["url_import_details"] = config.get("import_image_details").get("url_details")
             elif want["import_type"] == "local":
-                want["local_import_details"] = config.get("importImageDetails").get("localImageDetails")
+                want["local_import_details"] = config.get("import_image_details").get("local_image_details")
             else:
                 self.module.fail_json(msg="Incorrect import type. Supported Values: local or url")
 
-        want["tagging_details"] = config.get("taggingDetails")
-        want["distribution_details"] = config.get("imageDistributionDetails")
-        want["activation_details"] = config.get("imageActivationDetails")
+        want["tagging_details"] = config.get("tagging_details")
+        want["distribution_details"] = config.get("image_distribution_details")
+        want["activation_details"] = config.get("image_activation_details")
 
         self.want = want
         log(str(self.want))
@@ -608,9 +743,9 @@ class DnacSwims(DnacBase):
         """
         Check the image import type and fetch the image ID for the imported image for further use.
         Parameters:
-            None
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
         Returns:
-            self: The current instance of the class with updated 'have' attributes.
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
         Description:
             This function checks the type of image import (URL or local) and proceeds with the import operation accordingly.
             It then monitors the import task's progress and updates the 'result' dictionary. If the operation is successful,
@@ -619,100 +754,109 @@ class DnacSwims(DnacBase):
             imported image and stores it in the 'have' dictionary for later use.
         """
 
-        if not self.want.get("import_image"):
-            image_name = self.want.get("image_name")
-            image_id = self.get_image_id(image_name)
-            self.have["imported_image_id"] = image_id
-            return self
+        try:
+            if self.want.get("import_type") == "url":
+                image_name = self.want.get("url_import_details").get("payload")[0].get("source_url")
 
-        if self.want.get("import_type") == "url":
-            image_name = self.want.get("url_import_details").get("payload")[0].get("sourceURL")
-
-            # Code to check if image already exist in the DNAC
-            name = image_name.split('/')[-1]
-            image_exist = self.is_image_exist(name)
-            if image_exist:
-                image_id = self.get_image_id(image_name)
-                self.have["imported_image_id"] = image_id
-                log_msg = "Image {0} already exists in the Cisco DNA Center".format(name)
-                self.result['msg'] = log_msg
-                log(log_msg)
-                self.result['changed'] = False
-                return self
-
-            url_import_params = dict(
-                payload=self.want.get("url_import_details").get("payload"),
-                schedule_at=self.want.get("url_import_details").get("scheduleAt"),
-                schedule_desc=self.want.get("url_import_details").get("scheduleDesc"),
-                schedule_origin=self.want.get("url_import_details").get("scheduleOrigin"),
-            )
-            response = self.dnac._exec(
-                family="software_image_management_swim",
-                function='import_software_image_via_url',
-                op_modifies=True,
-                params=url_import_params,
-            )
-        else:
-            image_name = self.want.get("local_import_details").get("filePath")
-            # Code to check if image already exist in the DNAC
-            name = image_name.split('/')[-1]
-            image_exist = self.is_image_exist(name)
-            if image_exist:
-                image_id = self.get_image_id(name)
-                self.have["imported_image_id"] = image_id
-                log_msg = "Image {0} already exists in the Cisco DNA Center".format(name)
-                self.result['msg'] = log_msg
-                log(log_msg)
-                self.result['changed'] = False
-                return self
-
-            local_import_params = dict(
-                is_third_party=self.want.get("local_import_details").get("isThirdParty"),
-                third_party_vendor=self.want.get("local_import_details").get("thirdPartyVendor"),
-                third_party_image_family=self.want.get("local_import_details").get("thirdPartyImageFamily"),
-                third_party_application_type=self.want.get("local_import_details").get("thirdPartyApplicationType"),
-                file_path=self.want.get("local_import_details").get("filePath"),
-            )
-            response = self.dnac._exec(
-                family="software_image_management_swim",
-                function='import_local_software_image',
-                op_modifies=True,
-                params=local_import_params,
-                file_paths=[('file_path', 'file')],
-            )
-
-        log(str(response))
-
-        task_details = {}
-        task_id = response.get("response").get("taskId")
-        while (True):
-            task_details = self.get_task_details(task_id)
-            name = image_name.split('/')[-1]
-            if task_details and \
-                    ("completed successfully" in task_details.get("progress").lower()):
-                self.result['changed'] = True
-                log_msg = "Swim Image {0} imported successfully".format(name)
-                self.result['msg'] = log_msg
-                log(log_msg)
-                break
-
-            if task_details and task_details.get("isError"):
-                if "already exists" in task_details.get("failureReason"):
-                    log_msg = "SWIM Image {0} already exists in the Cisco DNA Center".format(name)
+                # Code to check if image already exist in the DNAC
+                name = image_name.split('/')[-1]
+                image_exist = self.is_image_exist(name)
+                if image_exist:
+                    image_id = self.get_image_id(name)
+                    self.have["imported_image_id"] = image_id
+                    log_msg = "Image {0} already exists in the Cisco DNA Center".format(name)
                     self.result['msg'] = log_msg
                     log(log_msg)
+                    self.status = "success"
                     self.result['changed'] = False
+                    return self
+
+                url_import_params = dict(
+                    payload=self.want.get("url_import_details").get("payload"),
+                    schedule_at=self.want.get("url_import_details").get("schedule_at"),
+                    schedule_desc=self.want.get("url_import_details").get("schedule_desc"),
+                    schedule_origin=self.want.get("url_import_details").get("schedule_origin"),
+                )
+                response = self.dnac._exec(
+                    family="software_image_management_swim",
+                    function='import_software_image_via_url',
+                    op_modifies=True,
+                    params=url_import_params,
+                )
+            else:
+                image_name = self.want.get("local_import_details").get("filePath")
+                # Code to check if image already exist in the DNAC
+                name = image_name.split('/')[-1]
+                image_exist = self.is_image_exist(name)
+                if image_exist:
+                    image_id = self.get_image_id(name)
+                    self.have["imported_image_id"] = image_id
+                    log_msg = "Image {0} already exists in the Cisco DNA Center".format(name)
+                    self.result['msg'] = log_msg
+                    log(log_msg)
+                    self.status = "success"
+                    self.result['changed'] = False
+                    return self
+
+                local_import_params = dict(
+                    is_third_party=self.want.get("local_import_details").get("is_third_party"),
+                    third_party_vendor=self.want.get("local_import_details").get("third_party_vendor"),
+                    third_party_image_family=self.want.get("local_import_details").get("third_party_image_family"),
+                    third_party_application_type=self.want.get("local_import_details").get("third_party_application_type"),
+                    file_path=self.want.get("local_import_details").get("file_path"),
+                )
+                response = self.dnac._exec(
+                    family="software_image_management_swim",
+                    function='import_local_software_image',
+                    op_modifies=True,
+                    params=local_import_params,
+                    file_paths=[('file_path', 'file')],
+                )
+
+            log(str(response))
+
+            task_details = {}
+            task_id = response.get("response").get("taskId")
+            while (True):
+                task_details = self.get_task_details(task_id)
+                name = image_name.split('/')[-1]
+                if task_details and \
+                        ("completed successfully" in task_details.get("progress").lower()):
+                    self.result['changed'] = True
+                    self.status = "success"
+                    log_msg = "Swim Image {0} imported successfully".format(name)
+                    self.result['msg'] = log_msg
+                    log(log_msg)
                     break
-                else:
-                    self.module.fail_json(msg=task_details.get("failureReason"),
-                                          response=task_details)
 
-        self.result['response'] = task_details if task_details else response
+                if task_details and task_details.get("isError"):
+                    if "already exists" in task_details.get("failureReason"):
+                        log_msg = "SWIM Image {0} already exists in the Cisco DNA Center".format(name)
+                        self.result['msg'] = log_msg
+                        log(log_msg)
+                        self.status = "success"
+                        self.result['changed'] = False
+                        break
+                    else:
+                        self.status = "failed"
+                        self.msg = task_details.get("failureReason")
+                        self.result[response] = task_details
+                        return self
 
-        # Fetch image_id for the imported image for further use
-        image_name = image_name.split('/')[-1]
-        image_id = self.get_image_id(image_name)
-        self.have["imported_image_id"] = image_id
+            self.result['response'] = task_details if task_details else response
+
+            # Fetch image_id for the imported image for further use
+            image_name = image_name.split('/')[-1]
+            image_id = self.get_image_id(image_name)
+            self.have["imported_image_id"] = image_id
+
+            return self
+
+        except Exception as e:
+            self.log("Import Image details are not given in the playbook")
+            log("Import Image details are not given in the playbook without self")
+            self.status = "success"
+            self.result['changed'] = False
 
         return self
 
@@ -720,9 +864,9 @@ class DnacSwims(DnacBase):
         """
         Tag or untag a software image as golden based on provided tagging details.
         Parameters:
-            None
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
         Returns:
-            None
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
         Description:
             This function tags or untags a software image as a golden image in Cisco DNAC based on the provided
             tagging details. The tagging action is determined by the value of the 'tagging' attribute
@@ -739,7 +883,7 @@ class DnacSwims(DnacBase):
                 imageId=self.have.get("tagging_image_id"),
                 siteId=self.have.get("site_id"),
                 deviceFamilyIdentifier=self.have.get("device_family_identifier"),
-                deviceRole=tagging_details.get("deviceRole")
+                deviceRole=tagging_details.get("device_role")
             )
             log("Image params for tagging image as golden:" + str(image_params))
 
@@ -749,6 +893,7 @@ class DnacSwims(DnacBase):
                 op_modifies=True,
                 params=image_params
             )
+            log(str(response))
 
         else:
             image_params = dict(
@@ -765,6 +910,7 @@ class DnacSwims(DnacBase):
                 op_modifies=True,
                 params=image_params
             )
+            log(str(response))
 
         if response:
             task_details = {}
@@ -773,16 +919,19 @@ class DnacSwims(DnacBase):
             if not task_details.get("isError"):
                 self.result['changed'] = True
                 self.result['msg'] = task_details.get("progress")
+                self.status = "success"
 
             self.result['response'] = task_details if task_details else response
+
+        return self
 
     def get_diff_distribution(self):
         """
         Get image distribution parameters from the playbook and trigger image distribution.
         Parameters:
-            None
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
         Returns:
-            None
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
         Description:
             This function retrieves image distribution parameters from the playbook's 'distribution_details' and triggers
             the distribution of the specified software image to the specified device. It monitors the distribution task's
@@ -790,45 +939,106 @@ class DnacSwims(DnacBase):
         """
 
         distribution_details = self.want.get("distribution_details")
-        distribution_params = dict(
-            payload=[dict(
-                deviceUuid=self.have.get("distribution_device_id"),
-                imageUuid=self.have.get("distribution_image_id")
-            )]
-        )
-        log("Distribution Params: " + str(distribution_params))
+        site_name = distribution_details.get("site_name")
+        device_family = distribution_details.get("device_family_name")
+        device_role = distribution_details.get("device_role")
+        device_uuid_list = self.get_device_uuids(site_name, device_family, device_role)
+        image_id = self.have.get("distribution_image_id")
 
-        response = self.dnac._exec(
-            family="software_image_management_swim",
-            function='trigger_software_image_distribution',
-            op_modifies=True,
-            params=distribution_params,
-        )
-        if response:
-            task_details = {}
-            task_id = response.get("response").get("taskId")
-            while (True):
-                task_details = self.get_task_details(task_id)
-                if not task_details.get("isError") and \
-                        ("completed successfully" in task_details.get("progress")):
-                    self.result['changed'] = True
-                    self.result['msg'] = "Image with Id {0} Distributed Successfully".format(self.have.get("distribution_image_id"))
-                    break
+        if len(device_uuid_list) > 0:
+            self.log("List of device UUID's " + str(device_uuid_list))
+            device_distribution_count = 0
+            for device_uuid in device_uuid_list:
+                distribution_params = dict(
+                    payload=[dict(
+                        deviceUuid=device_uuid,
+                        imageUuid=image_id
+                    )]
+                )
+                log("Distribution Params: " + str(distribution_params))
+                response = self.dnac._exec(
+                    family="software_image_management_swim",
+                    function='trigger_software_image_distribution',
+                    op_modifies=True,
+                    params=distribution_params,
+                )
+                if response:
+                    task_details = {}
+                    task_id = response.get("response").get("taskId")
+                    while (True):
+                        task_details = self.get_task_details(task_id)
+                        if not task_details.get("isError") and \
+                                ("completed successfully" in task_details.get("progress")):
+                            self.result['changed'] = True
+                            self.status = "success"
+                            self.result['msg'] = "Image with Id {0} Distributed Successfully".format(image_id)
+                            device_distribution_count += 1
+                            break
 
-                if task_details.get("isError"):
-                    error_msg = "Image with Id {0} Distribution Failed".format(self.have.get("distribution_image_id"))
-                    self.module.fail_json(msg=error_msg,
-                                          response=task_details)
+                        if task_details.get("isError"):
+                            error_msg = "Image with Id {0} Distribution Failed".format(image_id)
+                            self.result['response'] = task_details
+                            break
 
-            self.result['response'] = task_details if task_details else response
+            if device_distribution_count == 0:
+                self.status = "failed"
+                error_msg = "Image with Id {0} Distribution Failed for all devices".format(image_id)
+            elif device_distribution_count == len(device_uuid_list):
+                self.result['changed'] = True
+                self.status = "success"
+                self.result['msg'] = "Image with Id {0} Distributed Successfully for all devices".format(image_id)
+            else:
+                self.result['changed'] = True
+                self.status = "success"
+                self.result['msg'] = "Image with Id {0} Distributed and partially Successfull".format(image_id)
+
+            return self
+
+        if self.have.get("distribution_device_id"):
+            distribution_params = dict(
+                payload=[dict(
+                    deviceUuid=self.have.get("distribution_device_id"),
+                    imageUuid=image_id
+                )]
+            )
+            log("Distribution Params: " + str(distribution_params))
+
+            response = self.dnac._exec(
+                family="software_image_management_swim",
+                function='trigger_software_image_distribution',
+                op_modifies=True,
+                params=distribution_params,
+            )
+            if response:
+                task_details = {}
+                task_id = response.get("response").get("taskId")
+                while (True):
+                    task_details = self.get_task_details(task_id)
+                    if not task_details.get("isError") and \
+                            ("completed successfully" in task_details.get("progress")):
+                        self.result['changed'] = True
+                        self.status = "success"
+                        self.result['msg'] = "Image with Id {0} Distributed Successfully".format(image_id)
+                        break
+
+                    if task_details.get("isError"):
+                        error_msg = "Image with Id {0} Distribution Failed".format(image_id)
+                        self.status = "failed"
+                        self.result['response'] = task_details
+                        self.msg = error_msg
+                        return self
+
+                self.result['response'] = task_details if task_details else response
+
+        return self
 
     def get_diff_activation(self):
         """
         Get image activation parameters from the playbook and trigger image activation.
         Parameters:
-            None
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
         Returns:
-            None
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
         Description:
             This function retrieves image activation parameters from the playbook's 'activation_details' and triggers the
             activation of the specified software image on the specified device. It monitors the activation task's progress and
@@ -836,16 +1046,80 @@ class DnacSwims(DnacBase):
         """
 
         activation_details = self.want.get("activation_details")
+        site_name = activation_details.get("site_name")
+        device_family = activation_details.get("device_family_name")
+        device_role = activation_details.get("device_role")
+        device_uuid_list = self.get_device_uuids(site_name, device_family, device_role)
+        image_id = self.have.get("activation_image_id")
+
+        if len(device_uuid_list) > 0:
+            self.log("List of device UUID's " + str(device_uuid_list))
+            device_activation_count = 0
+            for device_uuid in device_uuid_list:
+                payload = [dict(
+                    activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
+                    deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
+                    distributeIfNeeded=activation_details.get("distribute_if_needed"),
+                    deviceUuid=device_uuid,
+                    imageUuidList=[image_id]
+                )]
+
+                activation_params = dict(
+                    schedule_validate=activation_details.get("scehdule_validate"),
+                    payload=payload
+                )
+                log("Activation Params: " + str(activation_params))
+
+                response = self.dnac._exec(
+                    family="software_image_management_swim",
+                    function='trigger_software_image_activation',
+                    op_modifies=True,
+                    params=activation_params,
+                )
+                if response:
+                    task_details = {}
+                    task_id = response.get("response").get("taskId")
+                    while (True):
+                        task_details = self.get_task_details(task_id)
+                        if not task_details.get("isError") and \
+                                ("completed successfully" in task_details.get("progress")):
+                            self.result['changed'] = True
+                            self.status = "success"
+                            self.result['msg'] = "Image with Id {0} Activated Successfully".format(image_id)
+                            device_activation_count += 1
+                            break
+
+                        if task_details.get("isError"):
+                            error_msg = "Image with Id {0} Activation Failed".format(image_id)
+                            self.result['response'] = task_details
+                            break
+
+            if device_activation_count == 0:
+                self.status = "failed"
+                msg = "Image with Id {0} Activation Failed for all devices".format(image_id)
+            elif device_activation_count == len(device_uuid_list):
+                self.result['changed'] = True
+                self.status = "success"
+                msg = "Image with Id {0} Activated Successfully for all devices".format(image_id)
+            else:
+                self.result['changed'] = True
+                self.status = "success"
+                msg = "Image with Id {0} Activated and partially Successfull".format(image_id)
+            self.result['msg'] = msg
+            self.log(msg)
+
+            return self
+
         payload = [dict(
-            activateLowerImageVersion=activation_details.get("activateLowerImageVersion"),
-            deviceUpgradeMode=activation_details.get("deviceUpgradeMode"),
-            distributeIfNeeded=activation_details.get("distributeIfNeeded"),
+            activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
+            deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
+            distributeIfNeeded=activation_details.get("distribute_if_needed"),
             deviceUuid=self.have.get("activation_device_id"),
-            imageUuidList=[self.have.get("activation_image_id")]
+            imageUuidList=[image_id]
         )]
 
         activation_params = dict(
-            schedule_validate=activation_details.get("scehduleValidate"),
+            schedule_validate=activation_details.get("scehdule_validate"),
             payload=payload
         )
         log("Activation Params: " + str(activation_params))
@@ -858,24 +1132,32 @@ class DnacSwims(DnacBase):
         )
         task_details = {}
         task_id = response.get("response").get("taskId")
+
         while (True):
             task_details = self.get_task_details(task_id)
             if not task_details.get("isError") and \
                     ("completed successfully" in task_details.get("progress")):
                 self.result['changed'] = True
-                self.result['msg'] = "Image activated successfully"
+                self.result['msg'] = "Image Activated successfully"
+                self.status = "success"
                 break
 
             if task_details.get("isError"):
-                self.module.fail_json(msg="Image Activation Failed",
-                                          response=task_details)
+                error_msg = "Activation for Image with Id - {0} gets Failed".format(image_id)
+                self.status = "failed"
+                self.result['response'] = task_details
+                self.msg = error_msg
+                return self
 
         self.result['response'] = task_details if task_details else response
+
+        return self
 
     def get_diff_merged(self, config):
         """
         Get tagging details and then trigger distribution followed by activation if specified in the playbook.
         Parameters:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
             config (dict): The configuration dictionary containing tagging, distribution, and activation details.
         Returns:
             self: The current instance of the class with updated 'result' and 'have' attributes.
@@ -886,14 +1168,14 @@ class DnacSwims(DnacBase):
             operations are successful, 'changed' is set to True.
         """
 
-        if config.get("taggingDetails"):
-            self.get_diff_tagging()
+        if config.get("tagging_details"):
+            self.get_diff_tagging().check_return_status()
 
-        if config.get("imageDistributionDetails"):
-            self.get_diff_distribution()
+        if config.get("image_distribution_details"):
+            self.get_diff_distribution().check_return_status()
 
-        if config.get("imageActivationDetails"):
-            self.get_diff_activation()
+        if config.get("image_activation_details"):
+            self.get_diff_activation().check_return_status()
 
         return self
 
