@@ -41,10 +41,4 @@
             start_index: 1
             records_to_return: 25
             snmp_version: v2
-
-      register: discovery_task
-
-    - name: Debug get discovery task
-      ansible.builtin.debug:
-        msg: "{{discovery_task}}"
-
+            
