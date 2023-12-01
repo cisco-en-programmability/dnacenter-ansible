@@ -141,7 +141,6 @@ options:
       timeout:
         description: Time to wait for device response in seconds
         type: int
-        
 requirements:
 - dnacentersdk == 2.6.10
 - python >= 3.5
