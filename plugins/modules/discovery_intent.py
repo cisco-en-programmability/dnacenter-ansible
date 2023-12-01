@@ -373,23 +373,27 @@ class DnacDiscovery(DnacBase):
         self.result.update(dict(devices_info=devices_list))
         return devices_list
 
-    def preprocessing_devices_info(self, devices_list: list):
+    def preprocessing_devices_info(self, devices_list: None):
+        if devices_list is None:
+            devices_list = []
         ip_address_list = [device['ip'] for device in devices_list]
         if self.validated_config[0].get('discovery_type') == "SINGLE":
             ip_address_list = ip_address_list[0]
         else:
             ip_address_list = list(
                 map(
-                    lambda x: f'{x}-{x}',
+                    lambda x: '{0}-{value}'.format(x, value=x),
                     ip_address_list
                 )
             )
             ip_address_list = ','.join(ip_address_list)
         return ip_address_list
 
-    def create_params(self, credential_ids: None, ip_address_list: str = ''):
+    def create_params(self, credential_ids=None, ip_address_list=None):
         if credential_ids is None:
             credential_ids = []
+        if ip_address_list is None:
+            ip_address_list = ''
         new_object_params = {}
         new_object_params['cdpLevel'] = self.validated_config[0].get('cdp_level')
         new_object_params['discoveryType'] = self.validated_config[0].get('discovery_type')
@@ -434,7 +438,11 @@ class DnacDiscovery(DnacBase):
         new_object_params['userNameList'] = self.validated_config[0].get('user_name_list')
         return new_object_params
 
-    def create_discovery(self, credential_ids: list, ip_address_list: str):
+    def create_discovery(self, credential_ids=None, ip_address_list=None):
+        if credential_ids is None:
+            credential_ids = []
+        if ip_address_list is None:
+            ip_address_list = ''
         result = self.dnac_apply['exec'](
             family="discovery",
             function="start_discovery",
@@ -446,7 +454,9 @@ class DnacDiscovery(DnacBase):
         self.result.update(dict(discovery_result=result))
         return result.response.get('taskId')
 
-    def get_task_status(self, task_id: str = None):
+    def get_task_status(self, task_id=None):
+        if task_id is None:
+            task_id = ''
         result = False
         params = dict(task_id=task_id)
         while True:
@@ -514,7 +524,11 @@ class DnacDiscovery(DnacBase):
         self.result.update(dict(discovery_range=discovery))
         return discovery
 
-    def get_discovery_device_info(self, discovery_id: str = None, task_id: str = None):
+    def get_discovery_device_info(self, discovery_id=None, task_id=None):
+        if discovery_id is None:
+            discovery_id = ''
+        if task_id is None:
+            task_id = ''
         params = dict(
             id=discovery_id,
             task_id=task_id,
@@ -542,7 +556,7 @@ class DnacDiscovery(DnacBase):
             time.sleep(3)
 
         if not result:
-            msg = f'Discovery network device with id {discovery_id} has not completed'
+            msg = 'Discovery network device with id {0} has not completed'.format(discovery_id)
             self.module.fail_json(msg=msg)
 
         self.result.update(dict(discovery_device_info=devices))
@@ -571,7 +585,8 @@ class DnacDiscovery(DnacBase):
         self.get_dnac_global_credentials_v2_info()
         devices_list_info = self.get_devices_list_info()
         ip_address_list = self.preprocessing_devices_info(devices_list_info)
-        if exist_discovery := self.get_exist_discovery():
+        exist_discovery = self.get_exist_discovery()
+        if exist_discovery:
             params = dict(id=exist_discovery.get('id'))
             discovery_task_id = self.delete_exist_discovery(params=params)
             complete_discovery = self.get_task_status(task_id=discovery_task_id)
@@ -588,7 +603,8 @@ class DnacDiscovery(DnacBase):
         return self
 
     def get_diff_deleted(self):
-        if exist_discovery := self.get_exist_discovery():
+        exist_discovery = self.get_exist_discovery()
+        if exist_discovery:
             params = dict(id=exist_discovery.get('id'))
             discovery_task_id = self.delete_exist_discovery(params=params)
             complete_discovery = self.get_task_status(task_id=discovery_task_id)
