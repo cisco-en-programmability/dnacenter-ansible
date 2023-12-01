@@ -392,8 +392,6 @@ class DnacDiscovery(DnacBase):
     def create_params(self, credential_ids=None, ip_address_list=None):
         if credential_ids is None:
             credential_ids = []
-        if ip_address_list is None:
-            ip_address_list = ''
         new_object_params = {}
         new_object_params['cdpLevel'] = self.validated_config[0].get('cdp_level')
         new_object_params['discoveryType'] = self.validated_config[0].get('discovery_type')
@@ -441,8 +439,6 @@ class DnacDiscovery(DnacBase):
     def create_discovery(self, credential_ids=None, ip_address_list=None):
         if credential_ids is None:
             credential_ids = []
-        if ip_address_list is None:
-            ip_address_list = ''
         result = self.dnac_apply['exec'](
             family="discovery",
             function="start_discovery",
@@ -455,8 +451,6 @@ class DnacDiscovery(DnacBase):
         return result.response.get('taskId')
 
     def get_task_status(self, task_id=None):
-        if task_id is None:
-            task_id = ''
         result = False
         params = dict(task_id=task_id)
         while True:
@@ -525,10 +519,6 @@ class DnacDiscovery(DnacBase):
         return discovery
 
     def get_discovery_device_info(self, discovery_id=None, task_id=None):
-        if discovery_id is None:
-            discovery_id = ''
-        if task_id is None:
-            task_id = ''
         params = dict(
             id=discovery_id,
             task_id=task_id,
