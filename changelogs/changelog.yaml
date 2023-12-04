@@ -742,3 +742,4 @@ releases:
         release_summary: Changing galaxy.
         bugfixes:
           - Adding support to ansible.utils >=3.0
+          - pnp_device_claim_to_site.py change configInfo from `list` to `dict` #135 
