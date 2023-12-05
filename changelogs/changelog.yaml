@@ -742,4 +742,10 @@ releases:
         release_summary: Changing galaxy.
         bugfixes:
           - Adding support to ansible.utils >=3.0
-          - pnp_device_claim_to_site.py change configInfo from `list` to `dict` #135 
+          - pnp_device_claim_to_site.py change configInfo from `list` to `dict` #135
+    6.9.0:
+      release_date: "2023-12-05"
+      changes:
+        release_summary: Changing galaxy.
+        bugfixes:
+          - Adding support to ansible.utils ">=2.0.0, <4.00".
