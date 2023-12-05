@@ -747,5 +747,5 @@ releases:
       release_date: "2023-12-05"
       changes:
         release_summary: Changing galaxy.
-        bugfixes:
+        minor_changes:
           - Adding support to ansible.utils ">=2.0.0, <4.00".
