@@ -736,3 +736,16 @@ releases:
         minor_changes:
           - Fixed issues in Swim intent module. 
           - Updated docstring in site intent and template intent modules.
+    6.8.2:
+      release_date: "2023-12-04"
+      changes:
+        release_summary: Changing galaxy.
+        bugfixes:
+          - Adding support to ansible.utils >=3.0
+          - pnp_device_claim_to_site.py change configInfo from `list` to `dict` #135
+    6.9.0:
+      release_date: "2023-12-05"
+      changes:
+        release_summary: Changing galaxy.
+        minor_changes:
+          - Adding support to ansible.utils ">=2.0.0, <4.00".
