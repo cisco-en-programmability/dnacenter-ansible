@@ -181,7 +181,13 @@ class DnacBase():
             self.status = "exited"
             return self
 
-        task_id = response.get("response").get("taskId")
+        response = response.get("response")
+        if response.get("errorcode") is not None:
+            self.msg = response.get("response").get("detail")
+            self.status = "failed"
+            return self
+
+        task_id = response.get("taskId")
         while True:
             task_details = self.get_task_details(task_id)
             self.log(str(task_details))
@@ -196,7 +202,7 @@ class DnacBase():
 
             if validation_string in task_details.get("progress").lower():
                 self.result['changed'] = True
-                if data is True:
+                if data == True:
                     self.msg = task_details.get("data")
                 self.status = "success"
                 break
