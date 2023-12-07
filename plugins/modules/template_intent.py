@@ -65,13 +65,13 @@ options:
                 type: list
                 elements: dict
                 suboptions:
-                  productFamily:
+                  product_family:
                     description: Device family.
                     type: str
-                  productSeries:
+                  product_series:
                     description: Device series.
                     type: str
-                  productType:
+                  product_type:
                     description: Device type.
                     type: str
               id:
@@ -89,10 +89,10 @@ options:
               project_name:
                 description: Name of the project under which templates are managed.
                 type: str
-              projectDescription:
+              project_description:
                 description: Description of the project created.
                 type: str
-              rollbackTemplateParams:
+              rollback_template_params:
                 description: Params required for template rollback.
                 type: list
                 elements: dict
@@ -100,19 +100,19 @@ options:
                   binding:
                     description: Bind to source.
                     type: str
-                  customOrder:
+                  custom_order:
                     description: CustomOrder of template param.
                     type: int
-                  dataType:
+                  data_type:
                     description: Datatype of template param.
                     type: str
-                  defaultValue:
+                  default_value:
                     description: Default value of template param.
                     type: str
                   description:
                     description: Description of template param.
                     type: str
-                  displayName:
+                  display_name:
                     description: Display name of param.
                     type: str
                   group:
@@ -121,22 +121,22 @@ options:
                   id:
                     description: UUID of template param.
                     type: str
-                  instructionText:
+                  instruction_text:
                     description: Instruction text for param.
                     type: str
                   key:
                     description: Key.
                     type: str
-                  notParam:
+                  not_param:
                     description: Is it not a variable.
                     type: bool
                   order:
                     description: Order of template param.
                     type: int
-                  paramArray:
+                  param_array:
                     description: Is it an array.
                     type: bool
-                  parameterName:
+                  parameter_name:
                     description: Name of template param.
                     type: str
                   provider:
@@ -150,10 +150,10 @@ options:
                       id:
                         description: UUID of range.
                         type: str
-                      maxValue:
+                      max_value:
                         description: Max value of range.
                         type: int
-                      minValue:
+                      min_value:
                         description: Min value of range.
                         type: int
                   required:
@@ -162,17 +162,17 @@ options:
                   selection:
                     description: Configuration Template Create's selection.
                     suboptions:
-                      defaultSelectedValues:
+                      default_selected_values:
                         description: Default selection values.
                         elements: str
                         type: list
                       id:
                         description: UUID of selection.
                         type: str
-                      selectionType:
+                      selection_type:
                         description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
                         type: str
-                      selectionValues:
+                      selection_values:
                         description: Selection values.
                         type: dict
                     type: dict
@@ -190,26 +190,26 @@ options:
               template_content:
                 description: Template content.
                 type: str
-              templateParams:
+              template_params:
                 description: Configuration Template Create's templateParams.
                 elements: dict
                 suboptions:
                   binding:
                     description: Bind to source.
                     type: str
-                  customOrder:
+                  custom_order:
                     description: CustomOrder of template param.
                     type: int
-                  dataType:
+                  data_type:
                     description: Datatype of template param.
                     type: str
-                  defaultValue:
+                  default_value:
                     description: Default value of template param.
                     type: str
                   description:
                     description: Description of template param.
                     type: str
-                  displayName:
+                  display_name:
                     description: Display name of param.
                     type: str
                   group:
@@ -218,22 +218,22 @@ options:
                   id:
                     description: UUID of template param.
                     type: str
-                  instructionText:
+                  instruction_text:
                     description: Instruction text for param.
                     type: str
                   key:
                     description: Key.
                     type: str
-                  notParam:
+                  not_param:
                     description: Is it not a variable.
                     type: bool
                   order:
                     description: Order of template param.
                     type: int
-                  paramArray:
+                  param_array:
                     description: Is it an array.
                     type: bool
-                  parameterName:
+                  parameter_name:
                     description: Name of template param.
                     type: str
                   provider:
@@ -245,10 +245,10 @@ options:
                       id:
                         description: UUID of range.
                         type: str
-                      maxValue:
+                      max_value:
                         description: Max value of range.
                         type: int
-                      minValue:
+                      min_value:
                         description: Min value of range.
                         type: int
                     type: list
@@ -259,17 +259,17 @@ options:
                   selection:
                     description: Configuration Template Create's selection.
                     suboptions:
-                      defaultSelectedValues:
+                      default_selected_values:
                         description: Default selection values.
                         elements: str
                         type: list
                       id:
                         description: UUID of selection.
                         type: str
-                      selectionType:
+                      selection_type:
                         description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
                         type: str
-                      selectionValues:
+                      selection_values:
                         description: Selection values.
                         type: dict
                     type: dict
@@ -291,19 +291,22 @@ options:
           device_types:
             description: Configuration Template Create's deviceTypes. This field is mandatory to create a new template.
             suboptions:
-              productFamily:
+              product_family:
                 description: Device family.
                 type: str
-              productSeries:
+              product_series:
                 description: Device series.
                 type: str
-              productType:
+              product_type:
                 description: Device type.
                 type: str
             type: list
             elements: dict
           failure_policy:
             description: Define failure policy if template provisioning fails.
+            type: str
+          id:
+            description: UUID of template.
             type: str
           language:
             description: Template language
@@ -329,7 +332,7 @@ options:
           project_name:
             description: Project name.
             type: str
-          projectDescription:
+          project_description:
             description: Project Description.
             type: str
           rollback_template_content:
@@ -341,19 +344,19 @@ options:
               binding:
                 description: Bind to source.
                 type: str
-              customOrder:
+              custom_order:
                 description: CustomOrder of template param.
                 type: int
-              dataType:
+              data_type:
                 description: Datatype of template param.
                 type: str
-              defaultValue:
+              default_value:
                 description: Default value of template param.
                 type: str
               description:
                 description: Description of template param.
                 type: str
-              displayName:
+              display_name:
                 description: Display name of param.
                 type: str
               group:
@@ -362,22 +365,22 @@ options:
               id:
                 description: UUID of template param.
                 type: str
-              instructionText:
+              instruction_text:
                 description: Instruction text for param.
                 type: str
               key:
                 description: Key.
                 type: str
-              notParam:
+              not_param:
                 description: Is it not a variable.
                 type: bool
               order:
                 description: Order of template param.
                 type: int
-              paramArray:
+              param_array:
                 description: Is it an array.
                 type: bool
-              parameterName:
+              parameter_name:
                 description: Name of template param.
                 type: str
               provider:
@@ -389,10 +392,10 @@ options:
                   id:
                     description: UUID of range.
                     type: str
-                  maxValue:
+                  max_value:
                     description: Max value of range.
                     type: int
-                  minValue:
+                  min_value:
                     description: Min value of range.
                     type: int
                 type: list
@@ -403,17 +406,17 @@ options:
               selection:
                 description: Configuration Template Create's selection.
                 suboptions:
-                  defaultSelectedValues:
+                  default_selected_values:
                     description: Default selection values.
                     elements: str
                     type: list
                   id:
                     description: UUID of selection.
                     type: str
-                  selectionType:
+                  selection_type:
                     description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
                     type: str
-                  selectionValues:
+                  selection_values:
                     description: Selection values.
                     type: dict
                 type: dict
@@ -448,19 +451,19 @@ options:
               binding:
                 description: Bind to source.
                 type: str
-              customOrder:
+              custom_order:
                 description: CustomOrder of template param.
                 type: int
-              dataType:
+              data_type:
                 description: Datatype of template param.
                 type: str
-              defaultValue:
+              default_value:
                 description: Default value of template param.
                 type: str
               description:
                 description: Description of template param.
                 type: str
-              displayName:
+              display_name:
                 description: Display name of param.
                 type: str
               group:
@@ -469,22 +472,22 @@ options:
               id:
                 description: UUID of template param.
                 type: str
-              instructionText:
+              instruction_text:
                 description: Instruction text for param.
                 type: str
               key:
                 description: Key.
                 type: str
-              notParam:
+              not_param:
                 description: Is it not a variable.
                 type: bool
               order:
                 description: Order of template param.
                 type: int
-              paramArray:
+              param_array:
                 description: Is it an array.
                 type: bool
-              parameterName:
+              parameter_name:
                 description: Name of template param.
                 type: str
               provider:
@@ -496,10 +499,10 @@ options:
                   id:
                     description: UUID of range.
                     type: str
-                  maxValue:
+                  max_value:
                     description: Max value of range.
                     type: int
-                  minValue:
+                  min_value:
                     description: Min value of range.
                     type: int
                 type: list
@@ -510,17 +513,17 @@ options:
               selection:
                 description: Configuration Template Create's selection.
                 suboptions:
-                  defaultSelectedValues:
+                  default_selected_values:
                     description: Default selection values.
                     elements: str
                     type: list
                   id:
                     description: UUID of selection.
                     type: str
-                  selectionType:
+                  selection_type:
                     description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
                     type: str
-                  selectionValues:
+                  selection_values:
                     description: Selection values.
                     type: dict
                 type: dict
@@ -529,18 +532,18 @@ options:
           validation_errors:
             description: Configuration Template Create's validationErrors.
             suboptions:
-              rollbackTemplateErrors:
+              rollback_template_errors:
                 description: Validation or design conflicts errors of rollback template.
                 elements: dict
                 type: list
-              templateErrors:
+              template_errors:
                 description: Validation or design conflicts errors.
                 elements: dict
                 type: list
-              templateId:
+              template_id:
                 description: UUID of template.
                 type: str
-              templateVersion:
+              template_version:
                 description: Current version of template.
                 type: str
             type: dict
@@ -1285,6 +1288,7 @@ response_5:
 
 """
 
+import copy
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -1415,7 +1419,7 @@ class DnacTemplate(DnacBase):
                         'parentTemplateId': {'type': 'str'},
                         'projectId': {'type': 'str'},
                         'project_name': {'type': 'str'},
-                        'projectDescription': {'type': 'str'},
+                        'project_description': {'type': 'str'},
                         'rollbackTemplateContent': {'type': 'str'},
                         'rollbackTemplateParams': {'type': 'list'},
                         'software_type': {'type': 'str'},
@@ -1463,6 +1467,367 @@ class DnacTemplate(DnacBase):
                           }
         return project_params
 
+    def get_tags(self, _tags):
+        """
+        Store tags from the playbook for template processing in DNAC.
+        Check using check_return_status()
+
+        Parameters:
+            tags (dict) - Tags details containing Template information.
+
+        Returns:
+            tags (dict) - Organized tags parameters.
+        """
+
+        if _tags is None:
+            return None
+
+        tags = []
+        i = 0
+        for item in _tags:
+            tags.append({})
+            id = item.get("id")
+            if id is not None:
+                tags[i].update({"id": id})
+
+            name = item.get("name")
+            if name is not None:
+                tags[i].update({"name": name})
+            else:
+                self.msg = "name is mandatory in tags in location " + str(i)
+                self.status = "failed"
+                return self.check_return_status()
+
+        return tags
+
+    def get_device_types(self, device_types):
+        """
+        Store device types parameters from the playbook for template processing in DNAC.
+        Check using check_return_status()
+
+        Parameters:
+            device_types (dict) - Device types details containing Template information.
+
+        Returns:
+            deviceTypes (dict) - Organized device types parameters.
+        """
+
+        if device_types is None:
+            return None
+
+        deviceTypes = []
+        i = 0
+        for item in device_types:
+            deviceTypes.append({})
+            product_family = item.get("product_family")
+            if product_family is not None:
+                deviceTypes[i].update({"productFamily": product_family})
+            else:
+                self.msg = "product_family is mandatory for deviceTypes"
+                self.status = "failed"
+                return self.check_return_status()
+
+            product_series = item.get("product_series")
+            if product_series is not None:
+                deviceTypes[i].update({"productSeries": product_series})
+            product_type = item.get("product_type")
+            if product_type is not None:
+                deviceTypes[i].update({"productType": product_type})
+            i = i + 1
+
+        return deviceTypes
+
+    def get_validation_errors(self, validation_errors):
+        """
+        Store template parameters from the playbook for template processing in DNAC.
+
+        Parameters:
+            validation_errors (dict) - Playbook details containing validation errors information.
+
+        Returns:
+            validationErrors (dict) - Organized validation errors parameters.
+        """
+
+        if validation_errors is None:
+            return None
+
+        validationErrors = {}
+        rollback_template_errors = validation_errors.get("rollback_template_errors")
+        if rollback_template_errors is not None:
+            validationErrors.update({
+                "rollbackTemplateErrors": rollback_template_errors
+            })
+
+        template_errors = validation_errors.get("template_errors")
+        if template_errors is not None:
+            validationErrors.update({
+                "templateErrors": template_errors
+            })
+
+        template_id = validation_errors.get("template_id")
+        if template_id is not None:
+            validationErrors.update({
+                "templateId": template_id
+            })
+
+        template_version = validation_errors.get("template_version")
+        if template_version is not None:
+            validationErrors.update({
+                "templateVersion": template_version
+            })
+
+        return validationErrors
+
+    def get_template_info(self, template_params):
+        """
+        Store template params from the playbook for template processing in DNAC.
+        Check using check_return_status()
+
+        Parameters:
+            template_params (dict) - Playbook details containing template params information.
+
+        Returns:
+            templateParams (dict) - Organized template params parameters.
+        """
+
+        if template_params is None:
+            return None
+
+        templateParams = []
+        i = 0
+        for item in template_params:
+            templateParams.append({})
+            binding = item.get("binding")
+            if binding is not None:
+                templateParams[i].update({"binding": binding})
+
+            custom_order = item.get("custom_order")
+            if custom_order is not None:
+                templateParams[i].update({"customOrder": custom_order})
+
+            default_value = item.get("default_value")
+            if default_value is not None:
+                templateParams[i].update({"defaultValue": default_value})
+
+            description = item.get("description")
+            if description is not None:
+                templateParams[i].update({"description": description})
+
+            display_name = item.get("display_name")
+            if display_name is not None:
+                templateParams[i].update({"displayName": display_name})
+
+            group = item.get("group")
+            if group is not None:
+                templateParams[i].update({"group": group})
+
+            id = item.get("id")
+            if id is not None:
+                templateParams[i].update({"id": id})
+
+            instruction_text = item.get("instruction_text")
+            if instruction_text is not None:
+                templateParams[i].update({"instructionText": instruction_text})
+
+            key = item.get("key")
+            if key is not None:
+                templateParams[i].update({"key": key})
+
+            not_param = item.get("not_param")
+            if not_param is not None:
+                templateParams[i].update({"notParam": not_param})
+
+            order = item.get("order")
+            if order is not None:
+                templateParams[i].update({"order": order})
+
+            param_array = item.get("param_array")
+            if param_array is not None:
+                templateParams[i].update({"paramArray": param_array})
+
+            provider = item.get("provider")
+            if provider is not None:
+                templateParams[i].update({"provider": provider})
+
+            parameter_name = item.get("parameter_name")
+            if parameter_name is not None:
+                templateParams[i].update({"parameterName": parameter_name})
+            else:
+                self.msg = "parameter_name is mandatory for the template_params."
+                self.status = "failed"
+                return self.check_return_status()
+
+            data_type = item.get("data_type")
+            datatypes = ["STRING", "INTEGER", "IPADDRESS", "MACADDRESS", "SECTIONDIVIDER"]
+            if data_type is not None:
+                templateParams[i].update({"dataType": data_type})
+            else:
+                self.msg = "dataType is mandatory for the template_params."
+                self.status = "failed"
+                return self.check_return_status()
+            if data_type not in datatypes:
+                self.msg = "data_type under template_params should be in " + str(datatypes)
+                self.status = "failed"
+                return self.check_return_status()
+
+            required = item.get("required")
+            if required is not None:
+                templateParams[i].update({"required": required})
+
+            range = item.get("range")
+            self.log(str(range))
+            if range is not None:
+                templateParams[i].update({"range": []})
+                _range = templateParams[i].get("range")
+                self.log(str(_range))
+                j = 0
+                for value in range:
+                    _range.append({})
+                    id = range[j].get("id")
+                    if id is not None:
+                        _range.update({"id": id})
+                    max_value = range[j].get("max_value")
+                    if max_value is not None:
+                        _range.update({"maxValue": max_value})
+                    else:
+                        self.msg = "max_value is mandatory for range under template_params"
+                        self.status = "failed"
+                        return self.check_return_status()
+                    min_value = range[j].get("min_value")
+                    if min_value is not None:
+                        _range.update({"maxValue": min_value})
+                    else:
+                        self.msg = "min_value is mandatory for range under template_params"
+                        self.status = "failed"
+                        return self.check_return_status()
+                    j = j + 1
+
+            selection = item.get("selection")
+            if selection is not None:
+                templateParams[i].update({"selection": {}})
+                _selection = templateParams[i].get("selection")
+                id = selection.get("id")
+                if id is not None:
+                    _selection.update({"id": id})
+                default_selected_values = selection.get("default_selected_values")
+                if default_selected_values is not None:
+                    _selection.update({"defaultSelectedValues": default_selected_values})
+                selection_type = selection.get("selection_type")
+                selectiontypes = ["SINGLE_SELECT", "MULTI_SELECT"]
+                if selection_type is not None:
+                    _selection.update({"selectionType": selection_type})
+                else:
+                    self.msg = "selection_type is mandatory in selection."
+                    self.status = "failed"
+                    return self.check_return_status()
+                if selection_type not in selectiontypes:
+                    self.msg = "selection_type under selection must be in " + str(selectiontypes)
+                    self.status = "failed"
+                    return self.check_return_status()
+                selection_values = selection.get("selection_values")
+                if selection_values is not None:
+                    _selection.update({"selectionValues": selection_values})
+                else:
+                    self.msg = "selection_values is mandatory in selection"
+                    self.status = "failed"
+                    return self.check_return_status()
+            i = i + 1
+
+        return templateParams
+
+    def get_containing_templates(self, containing_templates):
+        """
+        Store tags from the playbook for template processing in DNAC.
+        Check using check_return_status()
+
+        Parameters:
+            containing_templates (dict) - Containing tempaltes details
+            containing Template information.
+
+        Returns:
+            containingTemplates (dict) - Organized containing templates parameters.
+        """
+
+        if containing_templates is None:
+            return None
+
+        containingTemplates = []
+        i = 0
+        for item in containing_templates:
+            containingTemplates.append({})
+            _tags = item.get("tags")
+            if _tags is not None:
+                containingTemplates[i].update({"tags": self.get_tags(_tags)})
+
+            composite = item.get("composite")
+            if composite is not None:
+                containingTemplates[i].update({"composite": composite})
+
+            description = item.get("description")
+            if description is not None:
+                containingTemplates[i].update({"description": description})
+
+            device_types = item.get("device_types")
+            if device_types is not None:
+                containingTemplates[i].update({
+                    "deviceTypes": self.get_device_types(device_types)
+                })
+
+            id = item.get("id")
+            if id is not None:
+                containingTemplates[i].update({"id": id})
+
+            language = item.get("language")
+            if language is not None:
+                containingTemplates[i].update({"language": language})
+            else:
+                self.msg = "language is mandatory under containing templates"
+                self.status = "failed"
+                return self.check_return_status()
+
+            name = item.get("name")
+            name_list = ["JINJA", "VELOCITY"]
+            if name is not None:
+                containingTemplates[i].update({"name": name})
+            else:
+                self.msg = "name is mandatory under containing templates"
+                self.status = "failed"
+                return self.check_return_status()
+            if name not in name_list:
+                self.msg = "name under containing templates should be in " + str(name_list)
+                self.status = "failed"
+                return self.check_return_status()
+
+            project_name = item.get("project_name")
+            if project_name is not None:
+                containingTemplates[i].update({"projectName": project_name})
+            else:
+                self.msg = "project_name is mandatory under containing templates"
+                self.status = "failed"
+                return self.check_return_status()
+
+            rollback_template_params = item.get("rollback_template_params")
+            if rollback_template_params is not None:
+                containingTemplates[i].update({
+                    "rollbackTemplateParams": self.get_template_info(rollback_template_params)
+                })
+
+            template_content = item.get("template_content")
+            if template_content is not None:
+                containingTemplates[i].update({"templateContent": template_content})
+
+            template_params = item.get("template_params")
+            if template_params is not None:
+                containingTemplates[i].update({
+                    "templateParams": self.get_template_info(template_params)
+                })
+
+            version = item.get("version")
+            if version is not None:
+                containingTemplates[i].update({"version": version})
+
+        return containingTemplates
+
     def get_template_params(self, params):
         """
         Store template parameters from the playbook for template processing in DNAC.
@@ -1476,16 +1841,21 @@ class DnacTemplate(DnacBase):
 
         configuration_templates = params.get("configuration_templates")
         temp_params = {
-            "tags": configuration_templates.get("template_tag"),
+            "tags": self.get_tags(configuration_templates
+                                  .get("template_tag")),
             "author": configuration_templates.get("author"),
             "composite": configuration_templates.get("composite"),
-            "containingTemplates": configuration_templates.get("containing_templates"),
+            "containingTemplates":
+                self.get_containing_templates(
+                    configuration_templates.get("containing_templates")
+            ),
             "createTime": configuration_templates.get("create_time"),
             "customParamsOrder": configuration_templates.get("custom_params_order"),
             "description": configuration_templates.get("template_description"),
-            "deviceTypes": configuration_templates.get("device_types"),
+            "deviceTypes":
+                self.get_device_types(configuration_templates.get("device_types")),
             "failurePolicy": configuration_templates.get("failure_policy"),
-            "id": configuration_templates.get("templateId"),
+            "id": configuration_templates.get("id"),
             "language": configuration_templates.get("language").upper(),
             "lastUpdateTime": configuration_templates.get("last_update_time"),
             "latestVersionTime": configuration_templates.get("latest_version_time"),
@@ -1494,16 +1864,27 @@ class DnacTemplate(DnacBase):
             "projectId": configuration_templates.get("project_id"),
             "projectName": configuration_templates.get("project_name"),
             "rollbackTemplateContent": configuration_templates.get("rollback_template_content"),
-            "rollbackTemplateParams": configuration_templates.get("rollback_template_params"),
+            "rollbackTemplateParams":
+                self.get_template_info(configuration_templates.get("rollback_template_params")),
             "softwareType": configuration_templates.get("software_type"),
             "softwareVariant": configuration_templates.get("software_variant"),
             "softwareVersion": configuration_templates.get("software_version"),
             "templateContent": configuration_templates.get("template_content"),
-            "templateParams": configuration_templates.get("template_params"),
-            "validationErrors": configuration_templates.get("validation_errors"),
+            "templateParams":
+                self.get_template_info(
+                    configuration_templates.get("template_params")
+            ),
+            "validationErrors":
+                self.get_validation_errors(configuration_templates.get("validation_errors")),
             "version": configuration_templates.get("version"),
-            "project_id": configuration_templates.get("project_id"),
+            "project_id": configuration_templates.get("project_id")
         }
+        self.log(str(temp_params))
+        copy_temp_params = copy.deepcopy(temp_params)
+        for item in copy_temp_params:
+            if temp_params[item] is None:
+                del temp_params[item]
+        self.log(str(temp_params))
         return temp_params
 
     def get_template(self, config):
@@ -1802,6 +2183,8 @@ class DnacTemplate(DnacBase):
 
         current_obj = self.have_template.get("template")
         requested_obj = self.want.get("template_params")
+        self.log(str(current_obj))
+        self.log(str(requested_obj))
         obj_params = [
             ("tags", "tags", ""),
             ("author", "author", ""),
@@ -1917,6 +2300,8 @@ class DnacTemplate(DnacBase):
         for values in export_values:
             self.log(str(values.get("projectName")))
             template_details = template_details.get("response")
+            self.log(str(template_details))
+            self.log(str(values.get("projectName")))
             all_template_details = get_dict_result(template_details,
                                                    "name",
                                                    values.get("projectName"))
@@ -1937,7 +2322,7 @@ class DnacTemplate(DnacBase):
         self.status = "success"
         return self
 
-    def export_project_or_tempalte(self, export):
+    def export_project_or_template(self, export):
         """
         Export templates and projects in DNAC with fields provided in DNAC.
 
@@ -2059,11 +2444,17 @@ class DnacTemplate(DnacBase):
 
             is_template_found = self.have_template.get("template_found")
             template_params = self.want.get("template_params")
+            self.log(str(template_params))
+            self.log(str(self.have_template))
             template_id = None
             template_updated = False
             self.validate_input_merge(is_template_found).check_return_status()
             if is_template_found:
                 if self.requires_update():
+                    template_id = self.have_template.get("id")
+                    template_params.update({"id": template_id})
+                    self.log(str(self.have_template))
+                    self.log(str(self.want))
                     response = self.dnac_apply['exec'](
                         family="configuration_templates",
                         function="update_template",
@@ -2071,7 +2462,6 @@ class DnacTemplate(DnacBase):
                         op_modifies=True,
                     )
                     template_updated = True
-                    template_id = self.have_template.get("id")
                     self.log("Updating Existing Template")
                 else:
                     # Template does not need update
@@ -2119,7 +2509,7 @@ class DnacTemplate(DnacBase):
 
         export = config.get("export")
         if export:
-            self.export_project_or_tempalte(export)
+            self.export_project_or_template(export)
 
         _import = config.get("import")
         if _import:

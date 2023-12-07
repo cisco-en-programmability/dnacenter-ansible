@@ -816,7 +816,9 @@ class DnacNetwork(DnacBase):
                     "bannerMessage": messageoftheday_details.get("value")[0].get("bannerMessage"),
                 }
             })
-            if messageoftheday_details.get("value")[0].get("retainExistingBanner") is True:
+            retain_existing_banner = messageoftheday_details.get("value")[0] \
+                .get("retainExistingBanner")
+            if retain_existing_banner is True:
                 network_settings.get("messageOfTheday").update({
                     "retainExistingBanner": "true"
                 })
@@ -826,11 +828,13 @@ class DnacNetwork(DnacBase):
                 })
 
         if network_aaa and network_aaa_pan:
-            if network_aaa_pan.get("value")[0] == "None":
+            aaa_pan_value = network_aaa_pan.get("value")[0]
+            aaa_value = network_aaa.get("value")[0]
+            if aaa_pan_value == "None":
                 network_settings.update({
                     "network_aaa": {
-                        "network": network_aaa.get("value")[0].get("ipAddress"),
-                        "protocol": network_aaa.get("value")[0].get("protocol"),
+                        "network": aaa_value.get("ipAddress"),
+                        "protocol": aaa_value.get("protocol"),
                         "ipAddress": network_aaa2.get("value")[0].get("ipAddress"),
                         "servers": "AAA"
                     }
@@ -838,19 +842,21 @@ class DnacNetwork(DnacBase):
             else:
                 network_settings.update({
                     "network_aaa": {
-                        "network": network_aaa.get("value")[0].get("ipAddress"),
-                        "protocol": network_aaa.get("value")[0].get("protocol"),
-                        "ipAddress": network_aaa_pan.get("value")[0],
+                        "network": aaa_value.get("ipAddress"),
+                        "protocol": aaa_value.get("protocol"),
+                        "ipAddress": aaa_pan_value,
                         "servers": "ISE"
                     }
                 })
 
         if clientAndEndpoint_aaa and clientAndEndpoint_aaa_pan:
-            if clientAndEndpoint_aaa_pan.get("value")[0] == "None":
+            aaa_pan_value = clientAndEndpoint_aaa_pan.get("value")[0]
+            aaa_value = clientAndEndpoint_aaa.get("value")[0]
+            if aaa_pan_value == "None":
                 network_settings.update({
                     "clientAndEndpoint_aaa": {
-                        "network": clientAndEndpoint_aaa.get("value")[0].get("ipAddress"),
-                        "protocol": clientAndEndpoint_aaa.get("value")[0].get("protocol"),
+                        "network": aaa_value.get("ipAddress"),
+                        "protocol": aaa_value.get("protocol"),
                         "ipAddress": clientAndEndpoint_aaa2.get("value")[0].get("ipAddress"),
                         "servers": "AAA"
                     }
@@ -858,9 +864,9 @@ class DnacNetwork(DnacBase):
             else:
                 network_settings.update({
                     "clientAndEndpoint_aaa": {
-                        "network": clientAndEndpoint_aaa.get("value")[0].get("ipAddress"),
-                        "protocol": clientAndEndpoint_aaa.get("value")[0].get("protocol"),
-                        "ipAddress": clientAndEndpoint_aaa_pan.get("value")[0],
+                        "network": aaa_value.get("ipAddress"),
+                        "protocol": aaa_value.get("protocol"),
+                        "ipAddress": aaa_pan_value,
                         "servers": "ISE"
                     }
                 })

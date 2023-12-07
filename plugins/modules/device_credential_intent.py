@@ -2287,13 +2287,25 @@ class DnacCredential(DnacBase):
         have_values = self.have.get("globalCredential")
         final_response = {}
         self.log(str(have_values))
+        credential_mapping = {
+            "cliCredential": "cli_credential",
+            "snmpV2cRead": "snmp_v2c_read",
+            "snmpV2cWrite": "snmp_v2c_write",
+            "snmpV3": "snmp_v3",
+            "httpsRead": "https_read",
+            "httpsWrite": "https_write"
+        }
         for item in have_values:
             config_itr = 0
             final_response.update({item: []})
             for value in have_values.get(item):
                 if value is None:
+                    self.log(str(item))
+                    self.log(str(config.get("global_credential_details")
+                                 .get(credential_mapping.get(item))))
                     final_response.get(item).append(
-                        str(config.get("global_credential_details").get(item)[config_itr]) + " is not found."
+                        str(config.get("global_credential_details")
+                            .get(credential_mapping.get(item))[config_itr]) + " is not found."
                     )
                     continue
                 _id = have_values.get(item)[config_itr].get("id")
