@@ -373,7 +373,7 @@ class DnacSite(DnacBase):
         """
         Get the current site information.
         Parameters:
-          - self (object): An instance of the class containing the method.
+          self (object): An instance of a class used for interacting with Cisco DNA Center.
           - site (list): A list containing information about the site.
         Returns:
           - dict: A dictionary containing the extracted site information.
@@ -484,6 +484,7 @@ class DnacSite(DnacBase):
         Store the site-related parameters.
 
         Parameters:
+          self (object): An instance of a class used for interacting with Cisco DNA Center.
           - params (dict): Dictionary containing site-related parameters.
         Returns:
           - dict: Dictionary containing the stored site-related parameters.
@@ -542,6 +543,7 @@ class DnacSite(DnacBase):
         Get and Return the site name.
 
         Parameters:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
           - site (dict): A dictionary containing information about the site.
         Returns:
           - str: The constructed site name.
@@ -564,14 +566,14 @@ class DnacSite(DnacBase):
         Check if the site requires updates.
 
         Parameters:
-          - site (dict): A dictionary containing information about the site.
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
         Returns:
-          - bool: True if the site requires updates, False otherwise.
+            bool: True if the site requires updates, False otherwise.
         Description:
             This method compares the site parameters of the current site
-          ('current_site') and the requested site parameters ('requested_site')
-          stored in the 'want' attribute. It checks for differences in
-          specified parameters, such as the site type and site details.
+            ('current_site') and the requested site parameters ('requested_site')
+            stored in the 'want' attribute. It checks for differences in
+            specified parameters, such as the site type and site details.
         """
 
         requested_site = self.want.get("site_params")
@@ -581,8 +583,8 @@ class DnacSite(DnacBase):
         self.log("Requested Site: " + str(requested_site))
 
         if requested_site.get('type') == "building":
-            requested_address = requested_site.get('site').get('building').get('address')
-            current_address = current_site.get('site').get('building').get('address')
+            requested_address = requested_site['site']['building']['address']
+            current_address = current_site['site']['building']['address']
 
             if requested_address is None or requested_address == current_address:
                 return False
@@ -637,14 +639,15 @@ class DnacSite(DnacBase):
         creation in Cisco DNA Center.
 
         Parameters:
-          - config (dict): A dictionary containing configuration information.
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            config (dict): A dictionary containing configuration information.
         Returns:
-          - object: The instance of the class.
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
         Description:
             Retrieves all site-related information from playbook that is
-          required for creating a site in Cisco DNA Center. It includes
-          parameters such as 'site_params' and 'site_name.' The gathered
-          information is stored in the 'want' attribute for later reference.
+            required for creating a site in Cisco DNA Center. It includes
+            parameters such as 'site_params' and 'site_name.' The gathered
+            information is stored in the 'want' attribute for later reference.
         """
 
         want = {}
@@ -663,25 +666,17 @@ class DnacSite(DnacBase):
         provided in the playbook.
 
         Parameters:
-          - config (dict): A dictionary containing configuration information.
+          self (object): An instance of a class used for interacting with Cisco DNA Center.
+          config (dict): A dictionary containing configuration information.
 
         Returns:
-          - object: The instance of the class. The result dictionary includes
-                    the following keys:
-                    - 'changed' (bool): Indicates whether changes were made
-                                during the update or creation process.
-                    - 'response' (dict): Contains details about the execution
-                                and the updated or created site ID.
-                    - 'msg' (str): A message indicating the status of the
-                                update or creation operation.
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
         Description:
-            This method determines whether to update or create a site in
-          Cisco DNA Center based on the provided configuration information. If
-          the specified site exists, the method checks if it requires an update
-          by calling the 'site_requires_update' method. If an update is
-          required, it calls the 'update_site' function from the 'sites' family
-          of the Cisco DNA Center API. If the site does not require an update,
-          the method exits, indicating that the site is up to date.
+            This method determines whether to update or create a site in Cisco DNA Center based on the provided
+            configuration information. If the specified site exists, the method checks if it requires an update
+            by calling the 'site_requires_update' method. If an update is required, it calls the 'update_site'
+            function from the 'sites' family of the Cisco DNA Center API. If the site does not require an update,
+            the method exits, indicating that the site is up to date.
         """
 
         site_updated = False
@@ -755,6 +750,52 @@ class DnacSite(DnacBase):
 
         return self
 
+    def delete_single_site(self, site_id, site_name):
+        """"
+        Delete a single site in the Cisco DNA Center.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            site_id (str): The ID of the site to be deleted.
+            site_name (str): The name of the site to be deleted.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Description:
+            This function initiates the deletion of a site in the Cisco DNA Center by calling the delete API.
+            If the deletion is successful, the result is marked as changed, and the status is set to "success."
+            If an error occurs during the deletion process, the status is set to "failed," and the log contains
+            details about the error.
+        """
+
+        try:
+            response = self.dnac._exec(
+                family="sites",
+                function="delete_site",
+                params={"site_id": site_id},
+            )
+
+            if response and isinstance(response, dict):
+                executionid = response.get("executionId")
+                while True:
+                    execution_details = self.get_execution_details(executionid)
+                    if execution_details.get("status") == "SUCCESS":
+                        msg = "Site - {0} deleted successfully".format(site_name)
+                        self.result['changed'] = True
+                        self.result['response'] = msg
+                        self.status = "success"
+                        self.log(msg)
+                        break
+                    elif execution_details.get("bapiError"):
+                        self.module.fail_json(msg=execution_details.get("bapiError"), response=execution_details)
+                        break
+
+        except Exception as e:
+            msg = "Cannot Delete device from Inventory because of {0}".format(str(e))
+            self.log(msg)
+            self.status = "failed"
+            self.msg = msg
+
+        return self
+
     def get_diff_deleted(self, config):
         """
         Call Cisco DNA Center API to delete sites with provided inputs.
@@ -781,74 +822,35 @@ class DnacSite(DnacBase):
         """
 
         site_exists = self.have.get("site_exists")
-
-        if site_exists:
-            # Check here if the site have the childs then fetch it using get membership API and then sort it
-            # in reverse order and start deleting from bottom to top
-            site_id = self.have.get("site_id")
-            mem_response = self.dnac._exec(
-                family="sites",
-                function="get_membership",
-                params={"site_id": site_id},
-            )
-            site_response = mem_response.get("site").get("response")
-
-            if len(site_response) > 0:
-                # Sorting the response in reverse order based on hierarchy levels
-                sorted_site_resp = sorted(site_response, key=lambda x: x.get("groupHierarchy"), reverse=True)
-                # Deleting each level in reverse order till topmost parent site
-                for item in sorted_site_resp:
-                    response = self.dnac._exec(
-                        family="sites",
-                        function="delete_site",
-                        params={"site_id": item['id']},
-                    )
-
-                    if response and isinstance(response, dict):
-                        executionid = response.get("executionId")
-                        while True:
-                            execution_details = self.get_execution_details(executionid)
-                            if execution_details.get("status") == "SUCCESS":
-                                self.result['changed'] = True
-                                self.log("Site - {0} deleted successfully".format(item['name']))
-                                break
-
-                            elif execution_details.get("bapiError"):
-                                self.module.fail_json(msg=execution_details.get("bapiError"),
-                                                      response=execution_details)
-                                break
-                    # print(f"Deleting {item['name']} ({item['groupTypeList'][0]}) with ID {item['id']}")
-
-            # Delete the given site in the playbook
-            response = self.dnac._exec(
-                family="sites",
-                function="delete_site",
-                params={"site_id": site_id},
-            )
-
-            if response and isinstance(response, dict):
-                executionid = response.get("executionId")
-                while True:
-                    execution_details = self.get_execution_details(executionid)
-                    if execution_details.get("status") == "SUCCESS":
-                        self.result['changed'] = True
-                        self.result['response'] = execution_details
-                        self.result['response'].update({"siteId": site_id})
-                        self.result['msg'] = "Site - {0} and it's child deleted successfully".format(self.want.get("site_name"))
-                        break
-
-                    elif execution_details.get("bapiError"):
-                        self.module.fail_json(msg=execution_details.get("bapiError"),
-                                              response=execution_details)
-                        break
-
-        else:
-            msg = "Cannot delete Site - {0} as it's not found in Cisco DNA Center".format(self.want.get("site_name"))
-            self.status = "success"
-            self.result['changed'] = False
-            self.result['response'] = msg
+        if not site_exists:
+            msg = msg = "Cannot delete Site - {0} as it's not found in Cisco DNA Center".format(self.want.get("site_name"))
+            self.result.update({'changed': False,
+                                'response': msg,
+                                'msg': msg})
             self.log(msg)
-            self.result['msg'] = msg
+            self.status = "success"
+            return self
+
+        # Check here if the site have the childs then fetch it using get membership API and then sort it
+        # in reverse order and start deleting from bottom to top
+        site_id = self.have.get("site_id")
+        mem_response = self.dnac._exec(
+            family="sites",
+            function="get_membership",
+            params={"site_id": site_id},
+        )
+        site_response = mem_response.get("site").get("response")
+
+        if len(site_response) == 0:
+            self.delete_single_site(site_id, self.want.get("site_name"))
+            return self
+
+        # Sorting the response in reverse order based on hierarchy levels
+        sorted_site_resp = sorted(site_response, key=lambda x: x.get("groupHierarchy"), reverse=True)
+
+        # Deleting each level in reverse order till topmost parent site
+        for item in sorted_site_resp:
+            self.delete_single_site(item['id'], item['name'])
 
         return self
 
