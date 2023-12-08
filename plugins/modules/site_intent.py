@@ -852,6 +852,12 @@ class DnacSite(DnacBase):
         for item in sorted_site_resp:
             self.delete_single_site(item['id'], item['name'])
 
+        # Delete the final parent site
+        self.delete_single_site(site_id, self.want.get("site_name"))
+        msg = "Site - {0} and it's child sites deleted successfully".format(self.want.get("site_name"))
+        self.result['response'] = msg
+        self.log(msg)
+
         return self
 
 
