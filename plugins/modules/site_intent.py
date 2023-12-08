@@ -307,11 +307,11 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 )
 
 floor_plan = {
-    '57057': 'CUBES AND WALLED OFFICES',
-    '57058': 'DRYWELL OFFICE ONLY',
-    '41541500': 'FREE SPACE',
-    '57060': 'INDOOR HIGH CEILING',
-    '57059': 'OUTDOOR OPEN SPACE'
+    '101101': 'Cubes And Walled Offices',
+    '101102': 'Drywall Office Only',
+    '101105': 'Free Space',
+    '101104': 'Indoor High Ceiling',
+    '101103': 'Outdoor Open Space'
 }
 
 
@@ -403,7 +403,7 @@ class DnacSite(DnacBase):
                 building=dict(
                     name=site[0].get("name"),
                     parentName=site[0].get("siteNameHierarchy").split("/" + site[0].get("name"))[0],
-                    address=location.get("attributes").get("address", ""),
+                    address=location.get("attributes").get("address"),
                     latitude=location.get("attributes").get("latitude"),
                     longitude=location.get("attributes").get("longitude"),
                 )
@@ -509,7 +509,7 @@ class DnacSite(DnacBase):
             building_details = params.get('site').get('building')
             site_info['building'] = {
                 'name': building_details.get('name'),
-                'address': building_details.get('address', ""),
+                'address': building_details.get('address'),
                 'parentName': building_details.get('parent_name'),
                 'latitude': building_details.get('latitude'),
                 'longitude': building_details.get('longitude'),
@@ -579,6 +579,15 @@ class DnacSite(DnacBase):
 
         self.log("Current Site: " + str(current_site))
         self.log("Requested Site: " + str(requested_site))
+
+        if requested_site.get('type') == "building":
+            requested_address = requested_site.get('site').get('building').get('address')
+            current_address = current_site.get('site').get('building').get('address')
+
+            if requested_address is None or requested_address == current_address:
+                return False
+
+            return True
 
         obj_params = [
             ("type", "type"),
@@ -774,10 +783,47 @@ class DnacSite(DnacBase):
         site_exists = self.have.get("site_exists")
 
         if site_exists:
+            # Check here if the site have the childs then fetch it using get membership API and then sort it
+            # in reverse order and start deleting from bottom to top
+            site_id = self.have.get("site_id")
+            mem_response = self.dnac._exec(
+                family="sites",
+                function="get_membership",
+                params={"site_id": site_id},
+            )
+            site_response = mem_response.get("site").get("response")
+
+            if len(site_response) > 0:
+                # Sorting the response in reverse order based on hierarchy levels
+                sorted_site_resp = sorted(site_response, key=lambda x: x.get("groupHierarchy"), reverse=True)
+                # Deleting each level in reverse order till topmost parent site
+                for item in sorted_site_resp:
+                    response = self.dnac._exec(
+                        family="sites",
+                        function="delete_site",
+                        params={"site_id": item['id']},
+                    )
+
+                    if response and isinstance(response, dict):
+                        executionid = response.get("executionId")
+                        while True:
+                            execution_details = self.get_execution_details(executionid)
+                            if execution_details.get("status") == "SUCCESS":
+                                self.result['changed'] = True
+                                self.log("Site - {0} deleted successfully".format(item['name']))
+                                break
+
+                            elif execution_details.get("bapiError"):
+                                self.module.fail_json(msg=execution_details.get("bapiError"),
+                                                      response=execution_details)
+                                break
+                    # print(f"Deleting {item['name']} ({item['groupTypeList'][0]}) with ID {item['id']}")
+
+            # Delete the given site in the playbook
             response = self.dnac._exec(
                 family="sites",
                 function="delete_site",
-                params={"site_id": self.have.get("site_id")},
+                params={"site_id": site_id},
             )
 
             if response and isinstance(response, dict):
@@ -787,8 +833,8 @@ class DnacSite(DnacBase):
                     if execution_details.get("status") == "SUCCESS":
                         self.result['changed'] = True
                         self.result['response'] = execution_details
-                        self.result['response'].update({"siteId": self.have.get("site_id")})
-                        self.result['msg'] = "Site - {0} deleted successfully".format(self.want.get("site_name"))
+                        self.result['response'].update({"siteId": site_id})
+                        self.result['msg'] = "Site - {0} and it's child deleted successfully".format(self.want.get("site_name"))
                         break
 
                     elif execution_details.get("bapiError"):
