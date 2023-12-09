@@ -2427,7 +2427,9 @@ class DnacTemplate(DnacBase):
                     params={"payload": export_project},
                 )
                 validation_string = "successfully exported project"
-                self.check_task_response_status(response, validation_string, True).check_return_status()
+                self.check_task_response_status(response,
+                                                validation_string,
+                                                True).check_return_status()
                 self.result['response'][0].update({"exportProject": self.msg})
 
             export_values = export.get("template")
@@ -2440,7 +2442,9 @@ class DnacTemplate(DnacBase):
                     params={"payload": self.export_template},
                 )
                 validation_string = "successfully exported template"
-                self.check_task_response_status(response, validation_string, True).check_return_status()
+                self.check_task_response_status(response,
+                                                validation_string,
+                                                True).check_return_status()
                 self.result['response'][0].update({"exportTemplate": self.msg})
 
         return self
