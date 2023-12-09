@@ -1141,9 +1141,9 @@ EXAMPLES = r"""
         custom_params_order: true
         description: string
         device_types:
-        - productFamily: string
-          productSeries: string
-          productType: string
+        - product_family: string
+          product_series: string
+          product_type: string
         failure_policy: string
         id: string
         language: string
@@ -1163,12 +1163,12 @@ EXAMPLES = r"""
           name: string
         template_content: string
         validation_errors:
-            rollbackTemplateErrors:
+            rollback_template_errors:
             - {}
-            templateErrors:
+            template_errors:
             - {}
-            templateId: string
-            templateVersion: string
+            template_id: string
+            template_version: string
         version: string
       export:
         project:
@@ -1178,38 +1178,38 @@ EXAMPLES = r"""
             template_name: string
       import:
         project:
-          doVersion: true
+          do_version: true
         export:
-          doVersion: true
+          do_version: true
           payload:
           - author: string
             composite: true
-            containingTemplates:
+            containing_templates:
             - composite: true
               description: string
               device_types:
-              - productFamily: string
-                productSeries: string
-                productType: string
+              - product_family: string
+                product_series: string
+                product_type: string
               id: string
               language: string
               name: string
               project_name: string
-              rollbackTemplateParams:
+              rollback_template_params:
               - binding: string
-                customOrder: 0
-                dataType: string
-                defaultValue: string
+                custom_order: 0
+                data_type: string
+                default_value: string
                 description: string
-                displayName: string
+                display_name: string
                 group: string
                 id: string
-                instructionText: string
+                instruction_text: string
                 key: string
-                notParam: true
+                not_param: true
                 order: 0
-                paramArray: true
-                parameterName: string
+                param_array: true
+                parameter_name: string
                 provider: string
                 range:
                 - id: string
@@ -2526,17 +2526,17 @@ class DnacTemplate(DnacBase):
             self
         """
 
-        self.update_configuration_templates(config) 
+        self.update_configuration_templates(config)
         if self.status == "failed":
-            return self # we can collect the return status in caller and do needed things.
+            return self
 
         self.handle_export(config)
         if self.status == "failed":
-            return self # we can collect the return status in caller and do needed things.
+            return self
 
         self.handle_import(config)
         if self.status == "failed":
-            return self # we can collect the return status in caller and do needed things.
+            return self
 
         self.msg = "Successfully completed merged state execution"
         self.status = "success"

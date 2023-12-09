@@ -5,7 +5,6 @@
 
 """Ansible module to perform operations on device credentials in Cisco DNA Center."""
 from __future__ import absolute_import, division, print_function
-import string
 
 __metaclass__ = type
 __author__ = ['Muthu Rakesh, Madhan Sankaranarayanan']
@@ -687,6 +686,7 @@ dnac_response2:
 """
 
 import copy
+import string
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
