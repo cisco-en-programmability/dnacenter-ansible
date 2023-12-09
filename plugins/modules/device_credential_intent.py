@@ -5,6 +5,7 @@
 
 """Ansible module to perform operations on device credentials in Cisco DNA Center."""
 from __future__ import absolute_import, division, print_function
+import string
 
 __metaclass__ = type
 __author__ = ['Muthu Rakesh, Madhan Sankaranarayanan']
@@ -220,55 +221,79 @@ options:
         description: Assign Device Credentials to Site.
         type: dict
         suboptions:
-          cli_description:
-            description: CLI Credential Description.
-            type: str
-          cli_username:
-            description: CLI Credential Username.
-            type: str
-          cli_id:
-            description: CLI Credential Id. Use (Description, Username) or Id.
-            type: str
-          http_read_description:
-            description: HTTP(S) Read Credential Description.
-            type: str
-          http_read_username:
-            description: HTTP(S) Read Credential Username.
-            type: str
-          http_read:
-            description: HTTP(S) Read Credential Id. Use (Description, Username) or Id.
-            type: str
-          http_write_description:
-            description: HTTP(S) Write Credential Description.
-            type: str
-          http_write_username:
-            description: HTTP(S) Write Credential Username.
-            type: str
-          http_write:
-            description: HTTP(S) Write Credential Id. Use (Description, Username) or Id.
-            type: str
+          cli_credential:
+            description: CLI Credential.
+            type: dict
+            suboptions:
+              description:
+                description: CLI Credential Description.
+                type: str
+              username:
+                description: CLI Credential Username.
+                type: str
+              id:
+                description: CLI Credential Id. Use (Description, Username) or Id.
+                type: str
+          https_read:
+            description: HTTP(S) Read Credential
+            type: dict
+            suboptions:
+              description:
+                description: HTTP(S) Read Credential Description.
+                type: str
+              username:
+                description: HTTP(S) Read Credential Username.
+                type: str
+              id:
+                description: HTTP(S) Read Credential Id. Use (Description, Username) or Id.
+                type: str
+          https_write:
+            description: HTTP(S) Write Credential
+            type: dict
+            suboptions:
+              description:
+                description: HTTP(S) Write Credential Description.
+                type: str
+              username:
+                description: HTTP(S) Write Credential Username.
+                type: str
+              id:
+                description: HTTP(S) Write Credential Id. Use (Description, Username) or Id.
+                type: str
           site_name:
             description: Site Name to assign credential.
             type: list
             elements: str
-          snmp_v2_read_description:
-            description: SNMPv2c Read Credential Description.
-            type: str
-          snmp_v2_read_id:
-            description: SNMPv2c Read Credential Id. Use Description or Id.
-            type: str
-          snmp_v2_write_description:
-            description: SNMPv2c Write Credential Description.
-            type: str
-          snmp_v2_write_id:
-            description: SNMPv2c Write Credential Id. Use Description or Id.
-            type: str
-          snmp_v3_description:
-            description: snmp_v3 Credential Description.
-            type: str
-          snmp_v3_id:
-            description: snmp_v3 Credential Id. Use Description or Id.
-            type: str
+          snmp_v2c_read:
+            description: SNMPv2c Read Credential
+            type: dict
+            suboptions:
+              description:
+                description: SNMPv2c Read Credential Description.
+                type: str
+              id:
+                description: SNMPv2c Read Credential Id. Use Description or Id.
+                type: str
+          snmp_v2c_write:
+            description: SNMPv2c Write Credential
+            type: dict
+            suboptions:
+              description:
+                description: SNMPv2c Write Credential Description.
+                type: str
+              id:
+                description: SNMPv2c Write Credential Id. Use Description or Id.
+                type: str
+          snmp_v3:
+            description: snmp_v3 Credential
+            type: dict
+            suboptions:
+              description:
+                description: snmp_v3 Credential Description.
+                type: str
+              id:
+                description: snmp_v3 Credential Id. Use Description or Id.
+                type: str
 requirements:
 - dnacentersdk >= 2.5.5
 - python >= 3.5
@@ -343,12 +368,18 @@ EXAMPLES = r"""
           password: string
           port: 443
       assign_credentials_to_site:
-        cli_id: string
-        snmp_v2_read_id: string
-        snmp_v2_write_id: string
-        snmp_v3_id: string
-        http_read: string
-        http_write: string
+        cli_credential:
+          id: string
+        snmp_v2c_read:
+          id: string
+        snmp_v2c_write:
+          id: string
+        snmp_v3:
+          id: string
+        https_read:
+          id: string
+        https_write:
+           id: string
         site_name:
         - string
 
@@ -604,15 +635,21 @@ EXAMPLES = r"""
     state: merged
     config:
     - assign_credentials_to_site:
-        cli_description: string
-        cli_username: string
-        snmp_v2_read_description: string
-        snmp_v2_write_description: string
-        snmp_v3_description: string
-        http_read_description: string
-        http_read_username: string
-        http_write_username: string
-        http_write_description: string
+        cli_credential:
+          description: string
+          username: string
+        snmp_v2c_read:
+          description: string
+        snmp_v2c_write:
+          description: string
+        snmp_v3:
+          description: string
+        https_read:
+          description: string
+          username: string
+        https_write:
+          description: string
+          username: string
         site_name:
         - string
         - string
@@ -758,22 +795,44 @@ class DnacCredential(DnacBase):
             },
             "assign_credentials_to_site": {
                 "type": 'dict',
-                "cli_description": {"type": 'string'},
-                "cli_username": {"type": 'string'},
-                "cli_id": {"type": 'string'},
-                "snmp_v2_read_description": {"type": 'string'},
-                "snmp_v2_read_id": {"type": 'string'},
-                "snmp_v2_write_description": {"type": 'string'},
-                "snmp_v2_write_id": {"type": 'string'},
-                "snmp_v3_description": {"type": 'string'},
-                "snmp_v3_id": {"type": 'string'},
-                "http_read_description": {"type": 'string'},
-                "http_read_username": {"type": 'string'},
-                "http_read": {"type": 'string'},
-                "http_write_description": {"type": 'string'},
-                "http_write_username": {"type": 'string'},
-                "http_write": {"type": 'string'},
-                "site_name": {"type": 'list'}
+                "cli_credential": {
+                    "type": 'dict',
+                    "description": {"type: 'string'"},
+                    "username": {"type": 'string'},
+                    "id": {"type": 'string'},
+                },
+                "snmp_v2c_read": {
+                    "type": 'dict',
+                    "description": {"type: 'string'"},
+                    "username": {"type": 'string'},
+                    "id": {"type": 'string'},
+                },
+                "snmp_v2c_write": {
+                    "type": 'dict',
+                    "description": {"type: 'string'"},
+                    "id": {"type": 'string'},
+                },
+                "snmp_v3": {
+                    "type": 'dict',
+                    "description": {"type: 'string'"},
+                    "id": {"type": 'string'},
+                },
+                "https_read": {
+                    "type": 'dict',
+                    "description": {"type: 'string'"},
+                    "username": {"type": 'string'},
+                    "id": {"type": 'string'},
+                },
+                "https_write": {
+                    "type": 'dict',
+                    "description": {"type: 'string'"},
+                    "username": {"type": 'string'},
+                    "id": {"type": 'string'},
+                },
+                "site_name": {
+                    "type": 'list',
+                    "elements": 'string'
+                }
             }
         }
 
@@ -1885,9 +1944,9 @@ class DnacCredential(DnacBase):
             site_id.append(siteId)
         want.update({"site_id": site_id})
         global_credentials = self.get_global_credentials_params()
-        cliId = AssignCredentials.get("cli_id")
-        cliDescription = AssignCredentials.get("cli_description")
-        cliUsername = AssignCredentials.get("cli_username")
+        cliId = AssignCredentials.get("cli_credential").get("id")
+        cliDescription = AssignCredentials.get("cli_credential").get("description")
+        cliUsername = AssignCredentials.get("cli_credential").get("username")
         if cliId or cliDescription and cliUsername:
 
             # All CLI details from the Cisco DNA Center
@@ -1914,8 +1973,8 @@ class DnacCredential(DnacBase):
                     return self
             want.get("assign_credentials").update({"cliId": cliDetail.get("id")})
 
-        snmpV2cReadId = AssignCredentials.get("snmp_v2_read_id")
-        snmpV2cReadDescription = AssignCredentials.get("snmp_v2_read_description")
+        snmpV2cReadId = AssignCredentials.get("snmp_v2c_read").get("id")
+        snmpV2cReadDescription = AssignCredentials.get("snmp_v2c_read").get("description")
         if snmpV2cReadId or snmpV2cReadDescription:
 
             # All snmpV2cRead details from the Cisco DNA Center
@@ -1941,8 +2000,8 @@ class DnacCredential(DnacBase):
                     return self
             want.get("assign_credentials").update({"snmpV2ReadId": snmpV2cReadDetail.get("id")})
 
-        snmpV2cWriteId = AssignCredentials.get("snmp_v2_write_id")
-        snmpV2cWriteDescription = AssignCredentials.get("snmp_v2_write_description")
+        snmpV2cWriteId = AssignCredentials.get("snmp_v2c_write").get("id")
+        snmpV2cWriteDescription = AssignCredentials.get("snmp_v2c_write").get("description")
         if snmpV2cWriteId or snmpV2cWriteDescription:
 
             # All snmpV2cWrite details from the Cisco DNA Center
@@ -1968,9 +2027,9 @@ class DnacCredential(DnacBase):
                     return self
             want.get("assign_credentials").update({"snmpV2WriteId": snmpV2cWriteDetail.get("id")})
 
-        httpReadId = AssignCredentials.get("http_read")
-        httpReadDescription = AssignCredentials.get("http_read_description")
-        httpReadUsername = AssignCredentials.get("http_read_username")
+        httpReadId = AssignCredentials.get("https_read").get("id")
+        httpReadDescription = AssignCredentials.get("https_read").get("description")
+        httpReadUsername = AssignCredentials.get("https_read").get("username")
         if httpReadId or httpReadDescription and httpReadUsername:
 
             # All httpRead details from the Cisco DNA Center
@@ -1997,9 +2056,9 @@ class DnacCredential(DnacBase):
                     return self
             want.get("assign_credentials").update({"httpRead": httpReadDetail.get("id")})
 
-        httpWriteId = AssignCredentials.get("http_write")
-        httpWriteDescription = AssignCredentials.get("http_write_description")
-        httpWriteUsername = AssignCredentials.get("http_write_username")
+        httpWriteId = AssignCredentials.get("https_write").get("id")
+        httpWriteDescription = AssignCredentials.get("https_write").get("description")
+        httpWriteUsername = AssignCredentials.get("https_write").get("username")
         if httpWriteId or httpWriteDescription and httpWriteUsername:
 
             # All httpWrite details from the Cisco DNA Center
@@ -2026,8 +2085,8 @@ class DnacCredential(DnacBase):
                     return self
             want.get("assign_credentials").update({"httpWrite": httpWriteDetail.get("id")})
 
-        snmpV3Id = AssignCredentials.get("snmp_v3_id")
-        snmpV3Description = AssignCredentials.get("snmp_v3_description")
+        snmpV3Id = AssignCredentials.get("snmp_v3").get("id")
+        snmpV3Description = AssignCredentials.get("snmp_v3").get("description")
         if snmpV3Id or snmpV3Description:
 
             # All snmpV3 details from the Cisco DNA Center
