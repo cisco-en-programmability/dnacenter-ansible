@@ -686,7 +686,6 @@ dnac_response2:
 """
 
 import copy
-import string
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
