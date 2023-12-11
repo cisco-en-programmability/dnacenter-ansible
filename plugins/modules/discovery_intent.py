@@ -263,7 +263,7 @@ class DnacDiscovery(DnacBase):
 
         Parameters:
           - module: The module associated with the class instance.
-    
+
         Returns:
           The method does not return a value. Instead, it initializes the
           following instance attributes:
@@ -373,7 +373,7 @@ class DnacDiscovery(DnacBase):
 
     def get_dnac_global_credentials_v2_info(self):
         """
-        Retrieve the global credentials information (version 2). 
+        Retrieve the global credentials information (version 2).
         It applies the 'get_all_global_credentials_v2' function and extracts
         the IDs of the credentials. If no credentials are found, the
         function fails with a message.
@@ -680,7 +680,7 @@ class DnacDiscovery(DnacBase):
             if all(res.get('reachabilityStatus') == 'Success' for res in devices):
                 result = True
                 break
-            
+
             count += 1
             if count == 3:
                 break
