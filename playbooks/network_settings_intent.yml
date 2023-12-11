@@ -21,11 +21,11 @@
         config:
         - global_pool_details:
             settings:
-              ippool:
-              - ip_pool_name: Global_Pool2
+              ip_pool:
+              - name: Global_Pool2
                 gateway: "" #use this for updating
                 ip_address_space: IPv6 #required when we are creating
-                ip_pool_cidr: 2001:db8::/64  #required when we are creating
+                cidr: 2001:db8::/64  #required when we are creating
                 type: Generic
                 dhcp_server_ips: [] #use this for updating
                 dns_server_ips: [] #use this for updating
@@ -98,10 +98,8 @@
         config:
         - global_pool_details:
             settings:
-              ippool:
-              - ip_pool_name: Global_Pool2
+              ip_pool:
+              - name: Global_Pool2
           reserve_pool_details:
             name: IP_Pool_3
             site_name: Global/Chennai/Trill
-
-        
