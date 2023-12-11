@@ -45,7 +45,7 @@ options:
             description: Global Pool's settings.
             type: dict
             suboptions:
-              ippool:
+              ip_pool:
                 description: Global Pool's ippool.
                 elements: dict
                 type: list
@@ -64,13 +64,13 @@ options:
                   ip_address_space:
                     description: Ip address space.
                     type: str
-                  ip_pool_cidr:
+                  cidr:
                     description: Ip pool cidr.
                     type: str
                   prev_name:
                     description: previous name.
                     type: str
-                  ip_pool_name:
+                  name:
                     description: Ip Pool Name.
                     type: str
       reserve_pool_details:
@@ -308,11 +308,11 @@ EXAMPLES = r"""
     config:
     - global_pool_details:
         settings:
-          ippool:
-          - ip_pool_name: string
+          ip_pool:
+          - name: string
             gateway: string
             ip_address_space: string
-            ip_pool_cidr: string
+            cidr: string
             type: Generic
             dhcp_server_ips: list
             dns_server_ips: list
@@ -445,14 +445,14 @@ class DnacNetwork(DnacBase):
                 "type": 'dict',
                 "settings": {
                     "type": 'dict',
-                    "ippool": {
+                    "ip_pool": {
                         "type": 'list',
                         "ip_address_space": {"type": 'string'},
                         "dhcp_server_ips": {"type": 'list'},
                         "dns_server_ips": {"type": 'list'},
                         "gateway": {"type": 'string'},
-                        "ip_pool_cidr": {"type": 'string'},
-                        "ip_pool_name": {"type": 'string'},
+                        "cidr": {"type": 'string'},
+                        "name": {"type": 'string'},
                         "prevName": {"type": 'string'},
                     }
                 }
@@ -768,7 +768,9 @@ class DnacNetwork(DnacBase):
         network_aaa2 = get_dict_result(all_network_details, "key", "aaa.network.server.2")
         network_aaa_pan = get_dict_result(all_network_details, "key", "aaa.server.pan.network")
         clientAndEndpoint_aaa = get_dict_result(all_network_details, "key", "aaa.endpoint.server.1")
-        clientAndEndpoint_aaa2 = get_dict_result(all_network_details, "key", "aaa.endpoint.server.2")
+        clientAndEndpoint_aaa2 = get_dict_result(all_network_details,
+                                                 "key",
+                                                 "aaa.endpoint.server.2")
         clientAndEndpoint_aaa_pan = \
             get_dict_result(all_network_details, "key", "aaa.server.pan.endpoint")
 
@@ -994,15 +996,15 @@ class DnacNetwork(DnacBase):
             self.status = "failed"
             return self
 
-        global_pool_ippool = global_pool_settings.get("ippool")
+        global_pool_ippool = global_pool_settings.get("ip_pool")
         if global_pool_ippool is None:
-            self.msg = "ippool in global_pool_details is missing in the playbook"
+            self.msg = "ip_pool in global_pool_details is missing in the playbook"
             self.status = "failed"
             return self
 
-        name = global_pool_ippool[0].get("ip_pool_name")
+        name = global_pool_ippool[0].get("name")
         if name is None:
-            self.msg = "Mandatory Parameter ip_pool_name required"
+            self.msg = "Mandatory Parameter name required"
             self.status = "failed"
             return self
 
@@ -1177,8 +1179,8 @@ class DnacNetwork(DnacBase):
                     "IpAddressSpace": global_ippool.get("ip_address_space"),
                     "dhcpServerIps": global_ippool.get("dhcp_server_ips"),
                     "dnsServerIps": global_ippool.get("dns_server_ips"),
-                    "ipPoolName": global_ippool.get("ip_pool_name"),
-                    "ipPoolCidr": global_ippool.get("ip_pool_cidr"),
+                    "ipPoolName": global_ippool.get("name"),
+                    "ipPoolCidr": global_ippool.get("cidr"),
                     "gateway": global_ippool.get("gateway"),
                     "type": global_ippool.get("type"),
                 }]
@@ -1583,7 +1585,7 @@ class DnacNetwork(DnacBase):
         """
 
         if config.get("global_pool_details"):
-            global_ippool = config.get("global_pool_details").get("settings").get("ippool")[0]
+            global_ippool = config.get("global_pool_details").get("settings").get("ip_pool")[0]
             self.get_want_global_pool(global_ippool).check_return_status()
 
         if config.get("reserve_pool_details"):
@@ -1612,7 +1614,7 @@ class DnacNetwork(DnacBase):
         """
 
         name = config.get("global_pool_details") \
-            .get("settings").get("ippool")[0].get("ip_pool_name")
+            .get("settings").get("ip_pool")[0].get("name")
         result_global_pool = self.result.get("response")[0].get("globalPool")
         result_global_pool.get("response").update({name: {}})
 
@@ -1942,7 +1944,7 @@ class DnacNetwork(DnacBase):
 
         if config.get("global_pool_details") is not None:
             name = config.get("global_pool_details") \
-                .get("settings").get("ippool")[0].get("ip_pool_name")
+                .get("settings").get("ip_pool")[0].get("name")
             self.delete_global_pool(name).check_return_status()
 
         return self
