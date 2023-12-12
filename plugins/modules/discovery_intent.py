@@ -257,6 +257,20 @@ import re
 
 class DnacDiscovery(DnacBase):
     def __init__(self, module):
+        """
+        Initialize an instance of the class. It also initializes an empty
+        list for 'creds_ids_list' attribute.
+
+        Parameters:
+          - module: The module associated with the class instance.
+
+        Returns:
+          The method does not return a value. Instead, it initializes the
+          following instance attributes:
+          - self.creds_ids_list: An empty list that will be used to store
+                                 credentials IDs.
+        """
+
         super().__init__(module)
         self.creds_ids_list = []
 
@@ -267,9 +281,6 @@ class DnacDiscovery(DnacBase):
         specification to ensure it adheres to the expected structure
         and data types.
 
-        Parameters:
-          - self: The instance of the class containing the 'config' attribute
-                  to be validated.
         Returns:
           The method returns an instance of the class with updated attributes:
           - self.msg: A message describing the validation result.
@@ -288,6 +299,7 @@ class DnacDiscovery(DnacBase):
             self.msg = "config not available in playbook for validation"
             self.status = "success"
             return self
+
         default_dicovery_name = 'discovery_' + str(time.time())
         discovery_spec = {
             'cdp_level': {'type': 'int', 'required': False,
@@ -348,9 +360,31 @@ class DnacDiscovery(DnacBase):
         return self
 
     def get_creds_ids_list(self):
+        """
+        Retrieve the list of credentials IDs associated with class instance.
+
+        Returns:
+          The method returns the list of credentials IDs:
+          - self.creds_ids_list: The list of credentials IDs associated with
+                                 the class instance.
+        """
+
         return self.creds_ids_list
 
     def get_dnac_global_credentials_v2_info(self):
+        """
+        Retrieve the global credentials information (version 2).
+        It applies the 'get_all_global_credentials_v2' function and extracts
+        the IDs of the credentials. If no credentials are found, the
+        function fails with a message.
+
+        Returns:
+          This method does not return a value. However, updates the attributes:
+          - self.creds_ids_list: The list of credentials IDs is extended with
+                                 the IDs extracted from the response.
+          - self.result: A dictionary that is updated with the credentials IDs.
+        """
+
         response = self.dnac_apply['exec'](
             family="discovery",
             function='get_all_global_credentials_v2',
@@ -369,14 +403,39 @@ class DnacDiscovery(DnacBase):
         self.result.update(dict(credential_ids=self.creds_ids_list))
 
     def get_devices_list_info(self):
+        """
+        Retrieve the list of devices from the validated configuration.
+        It then updates the result attribute with this list.
+
+        Returns:
+          - devices_list: The list of devices extracted from the
+                          'validated_config' attribute.
+        """
         devices_list = self.validated_config[0].get('devices_list')
         self.result.update(dict(devices_info=devices_list))
         return devices_list
 
     def preprocessing_devices_info(self, devices_list=None):
+        """
+        Preprocess the devices' information. Extract the IP addresses from
+        the list of devices and perform additional processing based on the
+        'discovery_type' in the validated configuration.
+
+        Parameters:
+          - devices_list: The list of devices to preprocess. If not
+                          provided, an empty list is used.
+
+        Returns:
+          - ip_address_list: If 'discovery_type' is "SINGLE", it returns the
+                             first IP address. Otherwise, it returns a string
+                             of IP ranges separated by commas.
+        """
+
         if devices_list is None:
             devices_list = []
+
         ip_address_list = [device['ip'] for device in devices_list]
+
         if self.validated_config[0].get('discovery_type') == "SINGLE":
             ip_address_list = ip_address_list[0]
         else:
@@ -387,11 +446,28 @@ class DnacDiscovery(DnacBase):
                 )
             )
             ip_address_list = ','.join(ip_address_list)
+
         return ip_address_list
 
     def create_params(self, credential_ids=None, ip_address_list=None):
+        """
+        Create a new parameter object based on the validated configuration,
+        credential IDs, and IP address list.
+
+        Parameters:
+          - credential_ids: The list of credential IDs to include in the
+                            parameters. If not provided, an empty list is used.
+          - ip_address_list: The list of IP addresses to include in the
+                             parameters. If not provided, None is used.
+
+        Returns:
+          - new_object_params: A dictionary containing the newly created
+                               parameters.
+        """
+
         if credential_ids is None:
             credential_ids = []
+
         new_object_params = {}
         new_object_params['cdpLevel'] = self.validated_config[0].get('cdp_level')
         new_object_params['discoveryType'] = self.validated_config[0].get('discovery_type')
@@ -434,11 +510,29 @@ class DnacDiscovery(DnacBase):
         new_object_params['snmpVersion'] = self.validated_config[0].get('snmp_version')
         new_object_params['timeout'] = self.validated_config[0].get('timeout')
         new_object_params['userNameList'] = self.validated_config[0].get('user_name_list')
+
         return new_object_params
 
     def create_discovery(self, credential_ids=None, ip_address_list=None):
+        """
+        Start a new discovery process in the DNA Center. It creates the
+        parameters required for the discovery and then calls the
+        'start_discovery' function. The result of the discovery process
+        is added to the 'result' attribute.
+
+        Parameters:
+          - credential_ids: The list of credential IDs to include in the
+                            discovery. If not provided, an empty list is used.
+          - ip_address_list: The list of IP addresses to include in the
+                             discovery. If not provided, None is used.
+
+        Returns:
+          - task_id: The ID of the task created for the discovery process.
+        """
+
         if credential_ids is None:
             credential_ids = []
+
         result = self.dnac_apply['exec'](
             family="discovery",
             function="start_discovery",
@@ -451,6 +545,19 @@ class DnacDiscovery(DnacBase):
         return result.response.get('taskId')
 
     def get_task_status(self, task_id=None):
+        """
+        Monitor the status of a task in the DNA Center. It checks the task
+        status periodically until the task is no longer 'In Progress'.
+        If the task encounters an error or fails, it immediately fails the
+        module and returns False.
+
+        Parameters:
+          - task_id: The ID of the task to monitor.
+
+        Returns:
+          - result: True if the task completed successfully, False otherwise.
+        """
+
         result = False
         params = dict(task_id=task_id)
         while True:
@@ -477,6 +584,15 @@ class DnacDiscovery(DnacBase):
         return result
 
     def lookup_discovery_by_range_via_name(self):
+        """
+        Retrieve a specific discovery by name from a range of
+        discoveries in the DNA Center.
+
+        Returns:
+          - discovery: The discovery with the specified name from the range
+                       of discoveries. If no matching discovery is found, it
+                       returns None.
+        """
         params = dict(
             start_index=self.validated_config[0].get("start_index"),
             records_to_return=self.validated_config[0].get("records_to_return"),
@@ -488,6 +604,7 @@ class DnacDiscovery(DnacBase):
             function='get_discoveries_by_range',
             params=params
         )
+
         return next(
             filter(
                 lambda x: x['name'] == self.validated_config[0].get('discovery_name'),
@@ -496,8 +613,20 @@ class DnacDiscovery(DnacBase):
         )
 
     def get_discoveries_by_range_until_success(self):
+        """
+        Continuously retrieve a specific discovery by name from a range of
+        discoveries in the DNA Center until the discovery is complete.
+
+        Returns:
+          - discovery: The completed discovery with the specified name from
+                       the range of discoveries. If the discovery is not
+                       found or not completed, the function fails the module
+                       and returns None.
+        """
+
         result = False
         discovery = self.lookup_discovery_by_range_via_name()
+
         if not discovery:
             msg = 'Cannot find any discovery task with name {0} -- Discovery result: {1}'.format(
                 self.validated_config[0].get("discovery_name"), discovery)
@@ -508,6 +637,7 @@ class DnacDiscovery(DnacBase):
             if discovery.get('discoveryCondition') == 'Complete':
                 result = True
                 break
+
             time.sleep(3)
 
         if not result:
@@ -519,13 +649,26 @@ class DnacDiscovery(DnacBase):
         return discovery
 
     def get_discovery_device_info(self, discovery_id=None, task_id=None):
+        """
+        Retrieve the information of devices discovered by a specific discovery
+        process in the DNA Center. It checks the reachability status of the
+        devices periodically until all devices are reachable or until a
+        maximum of 3 attempts.
+
+        Parameters:
+          - discovery_id: ID of the discovery process to retrieve devices from.
+          - task_id: ID of the task associated with the discovery process.
+
+        Returns:
+          - result: True if all devices are reachable, False otherwise.
+        """
+
         params = dict(
             id=discovery_id,
             task_id=task_id,
             headers=self.validated_config[0].get("headers"),
         )
         result = False
-        response = []
         count = 0
         while True:
             response = self.dnac_apply['exec'](
@@ -537,9 +680,8 @@ class DnacDiscovery(DnacBase):
             if all(res.get('reachabilityStatus') == 'Success' for res in devices):
                 result = True
                 break
-            else:
-                count += 1
 
+            count += 1
             if count == 3:
                 break
 
@@ -553,16 +695,38 @@ class DnacDiscovery(DnacBase):
         return result
 
     def get_exist_discovery(self):
+        """
+        Retrieve an existing discovery by its name from a range of discoveries.
+
+        Returns:
+          - discovery: The discovery with the specified name from the range of
+                       discoveries. If no matching discovery is found, it
+                       returns None and updates the 'exist_discovery' entry in
+                       the result dictionary to None.
+        """
+
         discovery = self.lookup_discovery_by_range_via_name()
         if not discovery:
             self.result.update(dict(exist_discovery=discovery))
             return None
+
         have = dict(exist_discovery=discovery)
         self.have = have
         self.result.update(dict(exist_discovery=discovery))
         return discovery
 
     def delete_exist_discovery(self, params):
+        """
+        Delete an existing discovery in the DNA Center by its ID.
+
+        Parameters:
+          - params: A dictionary containing the parameters for the delete
+                    operation, including the ID of the discovery to delete.
+
+        Returns:
+          - task_id: The ID of the task created for the delete operation.
+        """
+
         response = self.dnac_apply['exec'](
             family="discovery",
             function="delete_discovery_by_id",
@@ -572,6 +736,16 @@ class DnacDiscovery(DnacBase):
         return response.response.get('taskId')
 
     def get_diff_merged(self):
+        """
+        Retrieve the information of devices discovered by a specific discovery
+        process in the DNA Center, delete existing discoveries if they exist,
+        and create a new discovery. The function also updates various
+        attributes of the class instance.
+
+        Returns:
+          - self: The instance of the class with updated attributes.
+        """
+
         self.get_dnac_global_credentials_v2_info()
         devices_list_info = self.get_devices_list_info()
         ip_address_list = self.preprocessing_devices_info(devices_list_info)
@@ -580,8 +754,10 @@ class DnacDiscovery(DnacBase):
             params = dict(id=exist_discovery.get('id'))
             discovery_task_id = self.delete_exist_discovery(params=params)
             complete_discovery = self.get_task_status(task_id=discovery_task_id)
+
         discovery_task_id = self.create_discovery(
-            credential_ids=self.get_creds_ids_list(), ip_address_list=ip_address_list)
+            credential_ids=self.get_creds_ids_list(),
+            ip_address_list=ip_address_list)
         complete_discovery = self.get_task_status(task_id=discovery_task_id)
         discovery_task_info = self.get_discoveries_by_range_until_success()
         result = self.get_discovery_device_info(discovery_id=discovery_task_info.get('id'))
@@ -593,18 +769,30 @@ class DnacDiscovery(DnacBase):
         return self
 
     def get_diff_deleted(self):
+        """
+        Delete an existing discovery in the DNA Center by its name, and
+        updates various attributes of the class instance. If no
+        discovery with the specified name is found, the function
+        updates the 'msg' attribute with an appropriate message.
+
+        Returns:
+          - self: The instance of the class with updated attributes.
+        """
+
         exist_discovery = self.get_exist_discovery()
-        if exist_discovery:
-            params = dict(id=exist_discovery.get('id'))
-            discovery_task_id = self.delete_exist_discovery(params=params)
-            complete_discovery = self.get_task_status(task_id=discovery_task_id)
-            self.result["changed"] = True
-            self.result['msg'] = "Discovery Deleted Successfully"
-            self.result['diff'] = self.validated_config
-            self.result['response'] = discovery_task_id
-        else:
+        if not exist_discovery:
             self.result['msg'] = "Discovery {0} Not Found".format(
                 self.validated_config[0].get("discovery_name"))
+            return self
+
+        params = dict(id=exist_discovery.get('id'))
+        discovery_task_id = self.delete_exist_discovery(params=params)
+        complete_discovery = self.get_task_status(task_id=discovery_task_id)
+        self.result["changed"] = True
+        self.result['msg'] = "Discovery Deleted Successfully"
+        self.result['diff'] = self.validated_config
+        self.result['response'] = discovery_task_id
+
         return self
 
 
