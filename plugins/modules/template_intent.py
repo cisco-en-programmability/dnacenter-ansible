@@ -1289,7 +1289,6 @@ response_5:
 
 """
 
-from math import exp
 import copy
 import json
 from ansible.module_utils.basic import AnsibleModule
