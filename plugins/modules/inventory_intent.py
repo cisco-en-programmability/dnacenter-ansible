@@ -78,6 +78,7 @@ options:
         type: str
       password:
         description: Device's password. Required for Adding Network Device.
+            Also needed for file encryption while exporting device in a csv file.
         type: str
       serial_number:
         description: Device's serial number.
@@ -176,6 +177,15 @@ options:
         description: Preview/Deploy [Preview means the configuration is not pushed to the device. Deploy makes the configuration pushed to the device]
         type: str
         default: "Deploy"
+      site_name:
+        description: Required for Provisioning of Wired and Wireless Devices.
+        type: str
+      operation_enum:
+        description: enum(CREDENTIALDETAILS, DEVICEDETAILS) 0 to export Device Credential Details Or 1 to export Device Details.
+        type: str
+      parameters:
+        description: List of device parameters that needs to be exported to file.
+        type: str
 
 
 requirements:
@@ -338,6 +348,22 @@ EXAMPLES = r"""
         device_resync: false
         type: "THIRD_PARTY_DEVICE"
 
+- name: Associate Wired Devices to site and Provisioned it in Inventory
+  cisco.dnac.inventory_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: False
+    state: merged
+    config:
+      - ip_address: string
+        provision_wired_device:
+          site_name: "{{item.site_name}}"
+
 - name: Update Device Role with IP Address
   cisco.dnac.inventory_intent:
     dnac_host: "{{dnac_host}}"
@@ -371,13 +397,28 @@ EXAMPLES = r"""
       - ip_address: string
         device_updated: true
         update_interface_details:
-          - ip_address: "{{item.ip_address}}"
-            device_updated: "{{item.device_updated}}"
-            update_interface_details:
-              description: str
-              admin_status: str
-              vlan_id: int
-              voice_vlan_id: int
+          description: str
+          admin_status: str
+          vlan_id: int
+          voice_vlan_id: int
+
+- name: Export Device Details in a CSV file Interface details with IP Address
+  cisco.dnac.inventory_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: False
+    state: merged
+    config:
+      - ip_address: string
+        export_device_list:
+          password: str
+          operation_enum: str
+          parameters: str
 
 - name: Create Global User Defined with IP Address
   cisco.dnac.inventory_intent:
@@ -413,6 +454,21 @@ EXAMPLES = r"""
         device_resync: True
         force_sync: False
 
+- name: Reboot AP Devices with IP Addresses
+  cisco.dnac.inventory_intent:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: False
+    state: merged
+    config:
+      - ip_address: string
+        reboot_device: True
+
 - name: Delete Device by id
   cisco.dnac.inventory_intent:
     dnac_host: "{{dnac_host}}"
@@ -425,7 +481,8 @@ EXAMPLES = r"""
     dnac_log: False
     state: deleted
     config:
-      - clean_config: false
+      - ip_address: string
+        clean_config: false
         id: string
 
 - name: Delete Global User Defined Field with name
@@ -462,7 +519,9 @@ dnac_response:
     }
 """
 
-
+import csv
+from datetime import datetime
+from io import StringIO
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -483,7 +542,7 @@ class DnacDevice(DnacBase):
         Validate the fields provided in the playbook.
         Checks the configuration provided in the playbook against a predefined specification
         to ensure it adheres to the expected structure and data types.
-        Args:
+        Paramters:
             self: The instance of the class containing the 'config' attribute to be validated.
         Returns:
             The method returns an instance of the class with updated attributes:
@@ -529,7 +588,8 @@ class DnacDevice(DnacBase):
                      'clean_config': {'type': 'bool'},
                      'add_user_defined_field': {'type': 'dict'},
                      'upate_interface_details': {'type': 'dict'},
-                     'deployment_mode': {'default': 'Deploy', 'type': 'str'}
+                     'deployment_mode': {'default': 'Deploy', 'type': 'str'},
+                     'provision_wired_device': {'type': 'dict'}
                      }
 
         # Validate device params
@@ -554,7 +614,7 @@ class DnacDevice(DnacBase):
     def device_exists_in_dnac(self):
         """
         Check which devices already exists in Cisco DNA Center and return both device_exist and device_not_exist in dnac.
-        Args:
+        Paramters:
             self (object): An instance of a class used for interacting with Cisco Cisco DNA Center.
         Returns:
             list: A list of devices that exist in Cisco DNA Center.
@@ -591,7 +651,7 @@ class DnacDevice(DnacBase):
     def is_udf_exist(self, field_name):
         """
         Check if a Global User Defined Field exists in Cisco DNA Center based on its name.
-        Args:
+        Paramters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
             field_name (str): The name of the Global User Defined Field.
         Returns:
@@ -621,7 +681,7 @@ class DnacDevice(DnacBase):
     def create_user_defined_field(self):
         """
         Create a Global User Defined Field in Cisco DNA Center based on the provided configuration.
-        Args:
+        Paramters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
         Returns:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
@@ -651,7 +711,7 @@ class DnacDevice(DnacBase):
     def add_field_to_devices(self, device_ids):
         """
         Add a Global user-defined field with specified details to a list of devices in Cisco DNA Center.
-        Args:
+        Paramters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
             device_ids (list): A list of device IDs to which the user-defined field will be added.
         Returns:
@@ -691,10 +751,78 @@ class DnacDevice(DnacBase):
 
         return self
 
+    def provisioned_wired_device(self):
+        """
+        Provision wired devices in Cisco DNA Center.
+        Paramters:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Returns:
+            self (object): An instance of the class with updated result, status, and log.
+        Description:
+            This function provisions wired devices in Cisco DNA Center based on the configuration provided.
+            It retrieves the site name and IP addresses of the devices from the configuration,
+            attempts to provision each device, and monitors the provisioning process.
+        """
+
+        site_name = self.config[0].get('provision_wired_device').get("site_name")
+        device_ips = self.config[0].get("ip_address")
+        provision_count = 0
+
+        for device_ip in device_ips:
+            try:
+                provision_wired_params = {
+                    'deviceManagementIpAddress': device_ip,
+                    'siteNameHierarchy': site_name,
+                }
+                response = self.dnac._exec(
+                    family="sda",
+                    function='provision_wired_device',
+                    op_modifies=True,
+                    params=provision_wired_params,
+                )
+
+                if response.get("status") == "failed":
+                    description = response.get("description")
+                    error_msg = "Cannot do Provisioning for device {0} beacuse of {1}".format(device_ip, description)
+                    self.log(error_msg)
+                    continue
+                task_id = response.get("taskId")
+
+                while True:
+                    execution_details = self.get_task_details(task_id)
+                    self.log(execution_details.get("progress"))
+
+                    if 'TASK_PROVISION' in execution_details.get("progress"):
+                        self.result['changed'] = True
+                        self.result['response'] = execution_details
+                        provision_count += 1
+                        break
+                    elif execution_details.get("isError") and execution_details.get("failureReason"):
+                        self.msg = "Device Provisioning get failed because of {0}".format(execution_details.get("failureReason"))
+                        self.status = "failed"
+                        break
+
+            except Exception as e:
+                error_message = "Error while Provisioning the device {0} in Cisco DNA Center - {1}".format(device_ip, str(e))
+                self.log(error_message)
+
+        if provision_count == len(device_ips):
+            self.status = "success"
+            msg = "Wired Device get provisioned Successfully !!"
+        elif provision_count == 0:
+            self.status = "failed"
+            msg = "Wired Device Provisioning get failed"
+        else:
+            self.status = "success"
+            msg = "Wired Device get provisioned Successfully Partially for {0} devices!!".format(provision_count)
+        self.log(msg)
+
+        return self
+
     def get_udf_id(self, field_name):
         """
         Get the ID of a Global User Defined Field in Cisco DNA Center based on its name.
-        Args:
+        Paramters:
             self (object): An instance of a class used for interacting with Cisco Cisco DNA Center.
             field_name (str): The name of the Global User Defined Field.
         Returns:
@@ -723,7 +851,7 @@ class DnacDevice(DnacBase):
     def mandatory_parameter(self):
         """
         Check for and validate mandatory parameters for adding network devices in Cisco DNA Center.
-        Args:
+        Paramters:
             self (object): An instance of a class used for interacting with Cisco Cisco DNA Center.
         Returns:
             dict: The input `config` dictionary if all mandatory parameters are present.
@@ -760,7 +888,7 @@ class DnacDevice(DnacBase):
     def get_have(self, config):
         """
         Retrieve and check device information with Cisco DNA Center to determine if devices already exist.
-        Args:
+        Paramters:
             self (object): An instance of a class used for interacting with Cisco Cisco DNA Center.
             config (dict): A dictionary containing the configuration details of devices to be checked.
         Returns:
@@ -796,7 +924,7 @@ class DnacDevice(DnacBase):
     def get_device_params(self, params):
         """
         Extract and store device parameters from the playbook for device processing in Cisco DNA Center.
-        Args:
+        Paramters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
             params (dict): A dictionary containing device parameters retrieved from the playbook.
         Returns:
@@ -852,7 +980,7 @@ class DnacDevice(DnacBase):
     def get_device_ids(self, device_ips):
         """
         Get the list of unique device IDs for list of specified management IP addresses of devices in Cisco DNA Center.
-        Args:
+        Paramters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
             device_ips (list): The management IP addresses of devices for which you want to retrieve the device IDs.
         Returns:
@@ -889,7 +1017,7 @@ class DnacDevice(DnacBase):
     def get_interface_from_ip(self, device_ip):
         """
         Get the interface ID for a device in Cisco DNA Center based on its IP address.
-        Args:
+        Paramters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
             device_ip (str): The IP address of the device.
         Returns:
@@ -923,7 +1051,7 @@ class DnacDevice(DnacBase):
         """
         Get all the device related information from playbook that is needed to be
         add/update/delete/resync device in Cisco DNA Center.
-        Args:
+        Paramters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
             config (dict): A dictionary containing device-related information from the playbook.
         Returns:
@@ -946,7 +1074,7 @@ class DnacDevice(DnacBase):
     def get_diff_merged(self, config):
         """
         Merge and process differences between existing devices and desired device configuration in Cisco DNA Center.
-        Args:
+        Paramters:
             self (object): An instance of a class used for interacting with Cisco DNA Center.
             config (dict): A dictionary containing the desired device configuration and relevant information from the playbook.
         Returns:
@@ -961,10 +1089,162 @@ class DnacDevice(DnacBase):
         device_type = self.config[0].get("type", "NETWORK_DEVICE")
         device_resynced = self.config[0].get("device_resync", False)
         device_updated = self.config[0].get("device_updated", False)
+        device_reboot = self.config[0].get("reboot_device", False)
         self.result['log'] = []
+
+        if device_reboot:
+            device_ips = self.config[0].get("ip_address")
+            ap_mac_address_list = []
+            # get and store the apEthernetMacAddress of given devices
+            for device_ip in device_ips:
+                response = self.dnac._exec(
+                    family="devices",
+                    function='get_device_list',
+                    params={"managementIpAddress": device_ip}
+                )
+                response = response.get('response')[0]
+                if response['apEthernetMacAddress'] is not None:
+                    ap_mac_address_list.append(response['apEthernetMacAddress'])
+
+            if len(ap_mac_address_list) == 0:
+                self.status = "failed"
+                self.result['changed'] = False
+                msg = "Cannot find the AP devices for Rebooting"
+                self.log(msg)
+                self.msg = msg
+                return self
+
+            # Now call the Reboot Access Point API
+            reboot_params = {
+                "apMacAddresses": ap_mac_address_list
+            }
+            response = self.dnac._exec(
+                family="wireless",
+                function='reboot_access_points',
+                op_modifies=True,
+                params=reboot_params,
+            )
+            self.log(str(response))
+
+            if response and isinstance(response, dict):
+                task_id = response.get('response').get('taskId')
+                while True:
+                    execution_details = self.get_task_details(task_id)
+                    if 'url' in execution_details.get("progress"):
+                        self.status = "success"
+                        self.result['changed'] = True
+                        self.result['response'] = execution_details
+                        break
+                    elif execution_details.get("isError") and execution_details.get("failureReason"):
+                        self.msg = "AP Device Reboot get failed because of {0}".format(execution_details.get("failureReason"))
+                        self.status = "failed"
+                        break
+                self.log("AP Devices Rebooted Successfully and Rebooted devices are :" + str(device_ips))
+                msg = "Device " + str(device_ips) + " Rebooted Successfully !!"
+                self.result['log'].append(msg)
+
+            return self
+
+        if self.config[0].get('export_device_list'):
+
+            device_ips = self.config[0].get("ip_address")
+            device_uuids = []
+            try:
+                for device_ip in device_ips:
+                    response = self.dnac._exec(
+                        family="devices",
+                        function='get_device_list',
+                        params={"managementIpAddress": device_ip}
+                    )
+                    response = response.get('response')
+                    if len(response) > 0:
+                        device_uuids.append(response[0]["id"])
+
+                # Now all device UUID get collected so call the export device list API
+
+                export_device_details = self.config[0].get('export_device_list')
+                payload_params = {
+                    "deviceUuids": device_uuids,
+                    "password": export_device_details.get("password"),
+                    "operationEnum": export_device_details.get("operation_enum", "1"),
+                    "paramters": export_device_details.get("paramters")
+                }
+                response = self.dnac._exec(
+                    family="devices",
+                    function='export_device_list',
+                    op_modifies=True,
+                    params=payload_params,
+                )
+                self.log(str(response))
+                response = response.get("response")
+                task_id = response.get("taskId")
+                # With this task ID call the Get Task Details API
+                task_resp = self.dnac._exec(
+                    family="task",
+                    function='get_task_by_id',
+                    op_modifies=True,
+                    params={"task_id": task_id},
+                )
+
+                while True:
+                    execution_details = self.get_task_details(task_id)
+
+                    if execution_details.get("additionalStatusURL"):
+                        file_id = execution_details.get("additionalStatusURL").split("/")[-1]
+                        break
+                    elif execution_details.get("isError") and execution_details.get("failureReason"):
+                        failed_reason = execution_details.get("failureReason")
+                        msg = "Could not get the File ID because of {0} so can't export device details in csv file".format(failed_reason)
+                        self.msg = msg
+                        self.log(msg)
+                        self.status = "failed"
+                        return self
+
+                # With this File ID call the Download File by FileID API
+                response = self.dnac._exec(
+                    family="file",
+                    function='download_a_file_by_fileid',
+                    op_modifies=True,
+                    params={"file_id": file_id},
+                )
+
+                device_data = []
+                encoded_resp = response.data.decode(encoding='utf-8')
+                self.log(str(encoded_resp))
+
+                # Parse the CSV-like string into a list of dictionaries
+                csv_reader = csv.DictReader(StringIO(encoded_resp))
+                for row in csv_reader:
+                    device_data.append(row)
+
+                current_date = datetime.now()
+                formatted_date = current_date.strftime("%m-%d-%Y")
+                file_name = "devices-" + str(formatted_date) + ".csv"
+
+                # Write the data to a CSV file
+                with open(file_name, 'w', newline='') as csv_file:
+                    fieldnames = device_data[0].keys()
+                    csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+                    csv_writer.writeheader()
+                    csv_writer.writerows(device_data)
+
+                msg = "Device Details Exported Successfully to the CSV file - {0}".format(file_name)
+                self.log(msg)
+                self.status = "success"
+                self.result['changed'] = True
+                self.result['log'].append(msg)
+
+            except Exception as e:
+                msg = "Cannot Export the Device Details into CSV file for {0}".format(str(device_ips))
+                self.log(msg)
+                self.status = "failed"
+                self.msg = msg
+
+            return self
 
         if self.config[0].get('add_user_defined_field'):
             field_name = self.config[0].get('add_user_defined_field').get('name')
+
             if field_name is None:
                 self.msg = "Mandatory paramter for User Define Field - name is missing"
                 self.status = "failed"
@@ -977,8 +1257,9 @@ class DnacDevice(DnacBase):
                 self.create_user_defined_field().check_return_status()
 
             # Get device Id with its IP Address
-            device_ips = config.get("ip_address")
+            device_ips = self.config[0].get("ip_address")
             device_ids = self.get_device_ids(device_ips)
+
             if len(device_ids) == 0:
                 self.msg = "Can't Assign Global User Defined Field to device as device's are not present in Cisco DNA Center"
                 self.status = "failed"
@@ -999,6 +1280,7 @@ class DnacDevice(DnacBase):
             # Code for triggers the resync operation using the retrieved device IDs and force sync parameter.
             device_ips = config.get("ip_address")
             device_ids = self.get_device_ids(device_ips)
+
             if len(device_ids) == 0:
                 self.msg = "Cannot perform the Resync operation as device's are not present in Cisco DNA Center"
                 self.status = "failed"
@@ -1021,8 +1303,10 @@ class DnacDevice(DnacBase):
 
                 if response and isinstance(response, dict):
                     task_id = response.get('response').get('taskId')
+
                     while True:
                         execution_details = self.get_task_details(task_id)
+
                         if 'Synced' in execution_details.get("progress"):
                             self.status = "success"
                             self.result['changed'] = True
@@ -1068,6 +1352,7 @@ class DnacDevice(DnacBase):
                 for device_ip in device_to_update:
                     device_id = self.get_device_ids([device_ip])
                     device_role_args = self.config[0].get('update_device_role')
+
                     if 'role' not in device_role_args or 'role_source' not in device_role_args:
                         self.msg = "Mandatory paramter(role/sourceRole) to update Device Role are missing"
                         self.status = "failed"
@@ -1080,6 +1365,7 @@ class DnacDevice(DnacBase):
                         params={"managementIpAddress": device_ip}
                     )
                     response = response.get('response')[0]
+
                     if response.get('role') == device_role_args.get('role'):
                         self.status = "success"
                         self.result['changed'] = False
@@ -1104,6 +1390,7 @@ class DnacDevice(DnacBase):
 
                         if response and isinstance(response, dict):
                             task_id = response.get('response').get('taskId')
+
                             while True:
                                 execution_details = self.get_task_details(task_id)
 
@@ -1160,6 +1447,7 @@ class DnacDevice(DnacBase):
 
                         if response and isinstance(response, dict):
                             task_id = response.get('response').get('taskId')
+
                             while True:
                                 execution_details = self.get_task_details(task_id)
 
@@ -1199,6 +1487,7 @@ class DnacDevice(DnacBase):
 
                 if response and isinstance(response, dict):
                     task_id = response.get('response').get('taskId')
+
                     while True:
                         execution_details = self.get_task_details(task_id)
 
@@ -1243,12 +1532,14 @@ class DnacDevice(DnacBase):
 
             if response and isinstance(response, dict):
                 task_id = response.get('response').get('taskId')
+
                 while True:
                     execution_details = self.get_task_details(task_id)
 
                     if '/task/' in execution_details.get("progress"):
                         self.status = "success"
                         self.result['response'] = execution_details
+
                         if len(devices_to_add) > 0:
                             self.result['changed'] = True
                             log("Device Added Successfully")
@@ -1269,22 +1560,28 @@ class DnacDevice(DnacBase):
             self.log(error_message)
             raise Exception(error_message)
 
+        # Once device get added we will assign device to site and Provisioned it
+        if self.config[0].get('provision_wired_device'):
+            self.provisioned_wired_device()
+
         return self
 
     def get_diff_deleted(self, config):
         """
         Delete devices in Cisco DNA Center based on device IP Address.
-        Args:
+        Paramters:
             self (object): An instance of a class used for interacting with Cisco DNA Center
             config (dict): A dictionary containing the list of device IP addresses to be deleted.
         Returns:
             object: An instance of the class with updated results and status based on the deletion operation.
         Description:
             This function is responsible for removing devices from the Cisco DNA Center inventory and
-            raise Exception if any error occured.
+            also unprovsioned and removed wired provsion devices from the Inventory page and also delete
+            the Global User Defined Field that are associated to the devices.
         """
 
         device_to_delete = config.get("ip_address")
+        provision_device = self.config[0].get('delete_provision_device', 'False')
         self.result['msg'] = []
 
         if self.config[0].get('add_user_defined_field'):
@@ -1294,7 +1591,6 @@ class DnacDevice(DnacBase):
             if udf_id is None:
                 msg = "Global UDF - {0} is not present in Cisco DNA Center".format(field_name)
                 self.msg = msg
-                self.result['msg']
                 self.status = "success"
                 self.result['changed'] = False
                 self.result['msg'].append(msg)
@@ -1308,8 +1604,10 @@ class DnacDevice(DnacBase):
                 )
                 if response and isinstance(response, dict):
                     task_id = response.get('response').get('taskId')
+
                     while True:
                         execution_details = self.get_task_details(task_id)
+
                         if 'success' in execution_details.get("progress"):
                             self.msg = "Global UDF - {0} Deleted Successfully from Cisco DNA Center".format(field_name)
                             self.status = "success"
@@ -1333,16 +1631,42 @@ class DnacDevice(DnacBase):
                 msg = "The device {0} is not present in Cisco DNA Center so can't perform delete operation".format(device_ip)
                 self.msg = msg
                 self.status = "success"
+                self.result['changed'] = False
                 self.result['msg'].append(msg)
                 continue
 
-            device_id = self.get_device_ids([device_ip])
-            delete_params = {
-                "id": device_id[0],
-                "clean_config": self.config[0].get("clean_config", False)
-            }
-
             try:
+                provision_params = {
+                    "device_management_ip_address": device_ip
+                }
+                prov_respone = self.dnac._exec(
+                    family="sda",
+                    function='get_provisioned_wired_device',
+                    params=provision_params,
+                )
+
+                if prov_respone.get("status") == "success":
+                    response = self.dnac._exec(
+                        family="sda",
+                        function='delete_provisioned_wired_device',
+                        params=provision_params,
+                    )
+                    if response.get("status") == "success":
+                        msg = "Wired device {0} unprovisioned successfully.".format(device_ip)
+                        self.log(msg)
+                        self.result['changed'] = True
+                        self.status = "success"
+                    else:
+                        msg = response.get("description")
+                        self.log(msg)
+                        self.status = "failed"
+
+            except Exception as e:
+                device_id = self.get_device_ids([device_ip])
+                delete_params = {
+                    "id": device_id[0],
+                    "clean_config": self.config[0].get("clean_config", False)
+                }
                 response = self.dnac._exec(
                     family="devices",
                     function='delete_device_by_id',
@@ -1351,6 +1675,7 @@ class DnacDevice(DnacBase):
 
                 if response and isinstance(response, dict):
                     task_id = response.get('response').get('taskId')
+
                     while True:
                         execution_details = self.get_task_details(task_id)
 
@@ -1364,11 +1689,6 @@ class DnacDevice(DnacBase):
                             self.msg = "Device Deletion get failed because of {0}".format(execution_details.get("failureReason"))
                             self.status = "failed"
                             break
-
-            except Exception as e:
-                error_message = "Error while Deleting device from Cisco DNA Center - {0}".format(str(e))
-                self.log(error_message)
-                raise Exception(error_message)
 
         return self
 
