@@ -1290,7 +1290,6 @@ response_5:
 """
 
 import copy
-import json
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -2077,23 +2076,6 @@ class DnacTemplate(DnacBase):
                    "for comparison"
         self.status = "success"
         return self
-
-    def check_string_dictionary(self, task_details_data):
-        """
-        Check whether the input is string dictionary or string.
-
-        Parameters:
-            task_details_data (string) - Input either string dictionary or string.
-
-        Returns:
-            value (dict) - If the input is string dictionary, else returns None.
-        """
-
-        try:
-            value = json.loads(task_details_data)
-            return value
-        except json.JSONDecodeError:
-            return None
 
     def create_project_or_template(self, is_create_project=False):
         """
