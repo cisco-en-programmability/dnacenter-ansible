@@ -23,6 +23,7 @@ else:
     LOGGING_IN_STANDARD = True
 import os.path
 import copy
+import json
 import datetime
 import inspect
 
@@ -275,6 +276,25 @@ class DnacBase():
                 break
 
         return self
+
+    def check_string_dictionary(self, task_details_data):
+        """
+        Check whether the input is string dictionary or string.
+
+        Parameters:
+            task_details_data (string) - Input either string dictionary or string.
+
+        Returns:
+            value (dict) - If the input is string dictionary, else returns None.
+        """
+
+        try:
+            value = json.loads(task_details_data)
+            if isinstance(value, dict):
+                return value
+        except json.JSONDecodeError:
+            pass
+        return None
 
 
 def log(msg, frameIncrement=0):
