@@ -760,7 +760,7 @@ class DnacDevice(DnacBase):
 
         device_ips = self.config[0].get("ip_address", [])
 
-        if not(device_ips):
+        if not device_ips:
             msg = "No Devices are given in the playbook so can't export device details"
             self.status = "failed"
             self.msg = msg
@@ -878,7 +878,7 @@ class DnacDevice(DnacBase):
 
         device_ips = self.config[0].get("ip_address", [])
 
-        if not(device_ips):
+        if not device_ips:
             msg = "No AP Devices IP given in the playbook so can't perform reboot operation"
             self.status = "failed"
             self.msg = msg
