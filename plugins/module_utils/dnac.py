@@ -290,9 +290,11 @@ class DnacBase():
 
         try:
             value = json.loads(task_details_data)
-            return value
+            if isinstance(value, dict):
+                return value
         except json.JSONDecodeError:
-            return None
+            pass
+        return None
 
 
 def log(msg, frameIncrement=0):
