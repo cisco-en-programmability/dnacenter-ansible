@@ -3,6 +3,7 @@
 # Copyright (c) 2022, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on project and templates in DNAC."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -1435,6 +1436,8 @@ class DnacTemplate(DnacBase):
             }
         }
         # Validate template params
+        self.log(str(self.config))
+        self.log(str(temp_spec))
         valid_temp, invalid_params = validate_list_of_dicts(
             self.config, temp_spec
         )
@@ -1594,7 +1597,9 @@ class DnacTemplate(DnacBase):
 
         templateParams = []
         i = 0
+        self.log(str(template_params))
         for item in template_params:
+            self.log(str(item))
             templateParams.append({})
             binding = item.get("binding")
             if binding is not None:
@@ -1682,26 +1687,28 @@ class DnacTemplate(DnacBase):
                 j = 0
                 for value in range:
                     _range.append({})
-                    id = range[j].get("id")
+                    id = value.get("id")
                     if id is not None:
-                        _range.update({"id": id})
-                    max_value = range[j].get("max_value")
+                        _range[j].update({"id": id})
+                    max_value = value.get("max_value")
                     if max_value is not None:
-                        _range.update({"maxValue": max_value})
+                        _range[j].update({"maxValue": max_value})
                     else:
                         self.msg = "max_value is mandatory for range under template_params"
                         self.status = "failed"
                         return self.check_return_status()
-                    min_value = range[j].get("min_value")
+                    min_value = value.get("min_value")
                     if min_value is not None:
-                        _range.update({"maxValue": min_value})
+                        _range[j].update({"maxValue": min_value})
                     else:
                         self.msg = "min_value is mandatory for range under template_params"
                         self.status = "failed"
                         return self.check_return_status()
                     j = j + 1
 
+            self.log(str(templateParams))
             selection = item.get("selection")
+            self.log(str(selection))
             if selection is not None:
                 templateParams[i].update({"selection": {}})
                 _selection = templateParams[i].get("selection")
@@ -1711,25 +1718,12 @@ class DnacTemplate(DnacBase):
                 default_selected_values = selection.get("default_selected_values")
                 if default_selected_values is not None:
                     _selection.update({"defaultSelectedValues": default_selected_values})
-                selection_type = selection.get("selection_type")
-                selectiontypes = ["SINGLE_SELECT", "MULTI_SELECT"]
-                if selection_type is not None:
-                    _selection.update({"selectionType": selection_type})
-                else:
-                    self.msg = "selection_type is mandatory in selection."
-                    self.status = "failed"
-                    return self.check_return_status()
-                if selection_type not in selectiontypes:
-                    self.msg = "selection_type under selection must be in " + str(selectiontypes)
-                    self.status = "failed"
-                    return self.check_return_status()
                 selection_values = selection.get("selection_values")
                 if selection_values is not None:
                     _selection.update({"selectionValues": selection_values})
-                else:
-                    self.msg = "selection_values is mandatory in selection"
-                    self.status = "failed"
-                    return self.check_return_status()
+                selection_type = selection.get("selection_type")
+                if selection_type is not None:
+                    _selection.update({"selectionType": selection_type})
             i = i + 1
 
         return templateParams
@@ -1838,6 +1832,7 @@ class DnacTemplate(DnacBase):
             temp_params (dict) - Organized template parameters.
         """
 
+        self.log(str(params))
         temp_params = {
             "tags": self.get_tags(params.get("template_tag")),
             "author": params.get("author"),
@@ -2063,6 +2058,7 @@ class DnacTemplate(DnacBase):
 
         want = {}
         configuration_templates = config.get("configuration_templates")
+        self.log(str(config))
         if configuration_templates:
             template_params = self.get_template_params(configuration_templates)
             project_params = self.get_project_params(configuration_templates)
@@ -2142,7 +2138,12 @@ class DnacTemplate(DnacBase):
                          "for taskid: {1}".format(task_details.get('progress'), task_id))
                 continue
 
-            creation_id = task_details.get("data")
+            task_details_data = task_details.get("data")
+            value = self.check_string_dictionary(task_details_data)
+            if value is None:
+                creation_id = task_details.get("data")
+            else:
+                creation_id = value.get("data").get("templateId")
             if not creation_id:
                 self.log("data is not found for taskid: {0}".format(task_id))
                 continue
