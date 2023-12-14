@@ -255,6 +255,7 @@ EXAMPLES = r"""
         snmp_username: string
         snmp_version: string
         type: string
+        device_added: true
         update_mgmt_ipaddresslist:
         - exist_mgmt_ipaddress: string
           new_mgmt_ipaddress: string
@@ -285,6 +286,7 @@ EXAMPLES = r"""
         snmp_timeout: 5
         snmp_username: string
         username: string
+        device_added: true
         type: "COMPUTE_DEVICE"
 
 - name: Add new Meraki device in Inventory with full credentials.Inputs needed for Meraki Device.
@@ -300,6 +302,7 @@ EXAMPLES = r"""
     state: merged
     config:
       - http_password: string
+        device_added: true
         type: "MERAKI_DASHBOARD"
 
 - name: Add new Firepower Management device in Inventory with full credentials.Input needed to add Device.
@@ -318,6 +321,7 @@ EXAMPLES = r"""
         http_username: string
         http_password: string
         http_port: string
+        device_added: true
         type: "FIREPOWER_MANAGEMENT_SYSTEM"
 
 - name: Add new Third Party device in Inventory with full credentials.Input needed to add Device.
@@ -341,6 +345,7 @@ EXAMPLES = r"""
         snmp_retry:  3
         snmp_timeout: 5
         snmp_username: string
+        device_added: true
         type: "THIRD_PARTY_DEVICE"
 
 - name: Associate Wired Devices to site and Provisioned it in Inventory
@@ -446,8 +451,8 @@ EXAMPLES = r"""
     state: merged
     config:
       - ip_address: string
-        device_resync: True
-        force_sync: False
+        device_resync: true
+        force_sync: false
 
 - name: Reboot AP Devices with IP Addresses
   cisco.dnac.inventory_intent:
@@ -462,7 +467,7 @@ EXAMPLES = r"""
     state: merged
     config:
       - ip_address: string
-        reboot_device: True
+        reboot_device: true
 
 - name: Delete Provision/Unprovisioned Devices by IP Address
   cisco.dnac.inventory_intent:
@@ -577,6 +582,7 @@ class DnacDevice(DnacBase):
                      'update_mgmt_ipaddresslist': {'type': 'list', 'elements': 'dict'},
                      'username': {'type': 'str'},
                      'update_device_role': {'type': 'dict'},
+                     'device_added': {'type': 'bool'},
                      'device_resync': {'type': 'bool'},
                      'force_sync': {'type': 'bool'},
                      'clean_config': {'type': 'bool'},
@@ -854,12 +860,81 @@ class DnacDevice(DnacBase):
             self.log(msg)
             self.status = "success"
             self.result['changed'] = True
-            self.result['log'].append(msg)
 
         except Exception as e:
             self.msg = "Cannot Export the Device Details into CSV file for {0}".format(str(device_ips))
             self.log(self.msg)
             self.status = "failed"
+
+        return self
+
+    def resync_devices(self):
+        """
+        Resync devices in Cisco DNA Center.
+        This function performs the Resync operation for the devices specified in the playbook.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco DNA Center.
+        Description:
+            The function expects the following parameters in the configuration:
+            - "ip_address": List of device IP addresses to be resynced.
+            - "force_sync": (Optional) Whether to force sync the devices. Defaults to "False".
+        """
+
+        # Code for triggers the resync operation using the retrieved device IDs and force sync parameter.
+        device_ips = self.config[0].get("ip_address", [])
+
+        if not device_ips:
+            msg = "Cannot perform the Resync operation as device's are not present in Cisco DNA Center"
+            self.status = "failed"
+            self.msg = msg
+            self.log(msg)
+            return self
+
+        device_ids = self.get_device_ids(device_ips)
+
+        try:
+            force_sync = self.config[0].get("force_sync", "False")
+            resync_param_dict = {
+                'payload': device_ids,
+                'force_sync': force_sync
+            }
+            response = self.dnac._exec(
+                family="devices",
+                function='sync_devices_using_forcesync',
+                op_modifies=True,
+                params=resync_param_dict,
+            )
+            self.log(str(response))
+
+            if response and isinstance(response, dict):
+                task_id = response.get('response').get('taskId')
+
+                while True:
+                    execution_details = self.get_task_details(task_id)
+
+                    if 'Synced' in execution_details.get("progress"):
+                        self.status = "success"
+                        self.result['changed'] = True
+                        self.result['response'] = execution_details
+                        break
+                    elif execution_details.get("isError"):
+                        self.status = "failed"
+                        failure_reason = execution_details.get("failureReason")
+                        if failure_reason:
+                            self.msg = "Device Resynced get failed because of {0}".format(failure_reason)
+                        else:
+                            self.msg = "Device Resynced get failed."
+                        self.log(self.msg)
+                        break
+                self.log("Device Resynced Successfully and Resynced devices are :" + str(device_ips))
+                msg = "Device " + str(device_ips) + " Resynced Successfully !!"
+
+        except Exception as e:
+            error_message = "Error while Resyncing device in Cisco DNA Center - {0}".format(str(e))
+            self.log(error_message)
+            raise Exception(error_message)
 
         return self
 
@@ -940,9 +1015,8 @@ class DnacDevice(DnacBase):
 
             self.log("AP Devices Rebooted Successfully and Rebooted devices are :" + str(device_ips))
             msg = "Device " + str(device_ips) + " Rebooted Successfully !!"
-            self.result['log'].append(msg)
 
-            return self
+        return self
 
     def provisioned_wired_device(self):
         """
@@ -1305,17 +1379,9 @@ class DnacDevice(DnacBase):
         devices_to_add = self.have["device_not_in_dnac"]
         device_type = self.config[0].get("type", "NETWORK_DEVICE")
         device_resynced = self.config[0].get("device_resync", False)
+        device_added = self.config[0].get("device_added", False)
         device_updated = self.config[0].get("device_updated", False)
         device_reboot = self.config[0].get("reboot_device", False)
-        self.result['log'] = []
-
-        if device_reboot:
-            self.reboot_access_points()
-            return self
-
-        if self.config[0].get('export_device_list'):
-            self.export_device_details()
-            return self
 
         if self.config[0].get('add_user_defined_field'):
             field_name = self.config[0].get('add_user_defined_field').get('name')
@@ -1327,6 +1393,7 @@ class DnacDevice(DnacBase):
 
             # Check if the Global User defined field exist if not then create it with given field name
             udf_exist = self.is_udf_exist(field_name)
+
             if not udf_exist:
                 # Create the Global UDF
                 self.create_user_defined_field().check_return_status()
@@ -1345,67 +1412,8 @@ class DnacDevice(DnacBase):
             self.add_field_to_devices(device_ids).check_return_status()
 
             self.result['changed'] = True
-            log_msg = "Global User Defined Added with name {0} added to device Successfully !".format(field_name)
-            log(log_msg)
-            self.result['log'].append(log_msg)
-
-            return self
-
-        if device_resynced:
-            # Code for triggers the resync operation using the retrieved device IDs and force sync parameter.
-            device_ips = config.get("ip_address")
-            device_ids = self.get_device_ids(device_ips)
-
-            if len(device_ids) == 0:
-                self.msg = "Cannot perform the Resync operation as device's are not present in Cisco DNA Center"
-                self.status = "failed"
-                self.result['changed'] = False
-                return self
-
-            try:
-                force_sync = self.config[0].get("force_sync", "False")
-                resync_param_dict = {
-                    'payload': device_ids,
-                    'force_sync': force_sync
-                }
-                response = self.dnac._exec(
-                    family="devices",
-                    function='sync_devices_using_forcesync',
-                    op_modifies=True,
-                    params=resync_param_dict,
-                )
-                self.log(str(response))
-
-                if response and isinstance(response, dict):
-                    task_id = response.get('response').get('taskId')
-
-                    while True:
-                        execution_details = self.get_task_details(task_id)
-
-                        if 'Synced' in execution_details.get("progress"):
-                            self.status = "success"
-                            self.result['changed'] = True
-                            self.result['response'] = execution_details
-                            break
-                        elif execution_details.get("isError"):
-                            self.status = "failed"
-                            failure_reason = execution_details.get("failureReason")
-                            if failure_reason:
-                                self.msg = "Device Resynced get failed because of {0}".format(failure_reason)
-                            else:
-                                self.msg = "Device Resynced get failed."
-                            self.log(self.msg)
-                            break
-                    self.log("Device Resynced Successfully and Resynced devices are :" + str(device_ips))
-                    msg = "Device " + str(device_ips) + " Resynced Successfully !!"
-                    self.result['log'].append(msg)
-
-                    return self
-
-            except Exception as e:
-                error_message = "Error while Resyncing device in Cisco DNA Center - {0}".format(str(e))
-                self.log(error_message)
-                raise Exception(error_message)
+            self.msg = "Global User Defined Added with name {0} added to device Successfully !".format(field_name)
+            self.log(self.msg)
 
         config['type'] = device_type
         if device_type == "FIREPOWER_MANAGEMENT_SYSTEM":
@@ -1450,7 +1458,6 @@ class DnacDevice(DnacBase):
                         self.status = "success"
                         self.result['changed'] = False
                         log_msg = "Device Role - {0} same in Cisco DNA Center as well, no updation needed".format(device_role_args.get('role'))
-                        self.result['log'] = log_msg
                         continue
 
                     device_role_params = {
@@ -1480,7 +1487,6 @@ class DnacDevice(DnacBase):
                                     self.result['response'] = execution_details
                                     log("Device Role Updated Successfully")
                                     msg = "Device " + str(device_to_update) + " Role updated Successfully !!"
-                                    self.result['log'].append(msg)
                                     break
                                 elif execution_details.get("isError"):
                                     self.status = "failed"
@@ -1496,8 +1502,6 @@ class DnacDevice(DnacBase):
                         error_message = "Error while Updating device role in Cisco DNA Center - {0}".format(str(e))
                         self.log(error_message)
                         raise Exception(error_message)
-
-                return self
 
             if self.config[0].get('update_interface_details'):
                 # Call the Get interface details by device IP API and fetch the interface Id
@@ -1540,9 +1544,8 @@ class DnacDevice(DnacBase):
                                     self.status = "success"
                                     self.result['changed'] = True
                                     self.result['response'] = execution_details
-                                    log_msg = "Update Interface Details for device {0} Added Successfully".format(device_ip)
-                                    log(log_msg)
-                                    self.result['log'].append(log_msg)
+                                    self.msg = "Update Interface Details for device {0} Added Successfully".format(device_ip)
+                                    self.log(self.msg)
                                     break
                                 elif execution_details.get("isError"):
                                     self.status = "failed"
@@ -1558,10 +1561,8 @@ class DnacDevice(DnacBase):
                         error_message = "Error while Updating Interface Details in Cisco DNA Center - {0}".format(str(e))
                         self.status = "success"
                         self.result['changed'] = False
-                        log_msg = "Port actions are only supported on user facing/access ports as it's not allowed or No Updation required"
-                        self.result['log'] = log_msg
-
-                return self
+                        self.msg = "Port actions are only supported on user facing/access ports as it's not allowed or No Updation required"
+                        self.log(msg)
 
             # Update Device details and credentails
             try:
@@ -1596,73 +1597,78 @@ class DnacDevice(DnacBase):
                             self.log(self.msg)
                             break
 
-                    log("Device Updated Successfully")
-                    log("Updated devices are :" + str(device_to_update))
-                    msg = "Device " + str(device_to_update) + " updated Successfully !!"
-                    self.result['log'].append(msg)
+                    self.log("Device Updated Successfully")
+                    self.log("Updated devices are :" + str(device_to_update))
+                    self.msg = "Device " + str(device_to_update) + " updated Successfully !!"
+                    self.log(self.msg)
 
             except Exception as e:
                 error_message = "Error while Updating device in Cisco DNA Center - {0}".format(str(e))
                 self.log(error_message)
                 raise Exception(error_message)
 
-            msg = "Devices {0} present in Cisco DNA Center and updated successfully".format(config['ip_address'])
-            self.log(msg)
-            self.result['log'].append(msg)
+            self.msg = "Devices {0} present in Cisco DNA Center and updated successfully".format(config['ip_address'])
+            self.log(self.msg)
             self.status = "success"
 
-            return self
-
         # If we want to add device in inventory
-        config['ip_address'] = devices_to_add
-        self.mandatory_parameter().check_return_status()
-        try:
-            response = self.dnac._exec(
-                family="devices",
-                function='add_device',
-                op_modifies=True,
-                params=self.want.get("device_params"),
-            )
-            self.log(str(response))
+        if device_added:
+            config['ip_address'] = devices_to_add
+            self.mandatory_parameter().check_return_status()
+            try:
+                response = self.dnac._exec(
+                    family="devices",
+                    function='add_device',
+                    op_modifies=True,
+                    params=self.want.get("device_params"),
+                )
+                self.log(str(response))
 
-            if response and isinstance(response, dict):
-                task_id = response.get('response').get('taskId')
+                if response and isinstance(response, dict):
+                    task_id = response.get('response').get('taskId')
 
-                while True:
-                    execution_details = self.get_task_details(task_id)
+                    while True:
+                        execution_details = self.get_task_details(task_id)
 
-                    if '/task/' in execution_details.get("progress"):
-                        self.status = "success"
-                        self.result['response'] = execution_details
+                        if '/task/' in execution_details.get("progress"):
+                            self.status = "success"
+                            self.result['response'] = execution_details
 
-                        if len(devices_to_add) > 0:
-                            self.result['changed'] = True
-                            log("Device Added Successfully")
-                            log("Added devices are :" + str(devices_to_add))
-                            msg = "Device " + str(devices_to_add) + " added Successfully !!"
-                            self.result['log'].append(msg)
+                            if len(devices_to_add) > 0:
+                                self.result['changed'] = True
+                                log("Device Added Successfully")
+                                log("Added devices are :" + str(devices_to_add))
+                                msg = "Device " + str(devices_to_add) + " added Successfully !!"
+                                break
+                            msg = "Devices " + str(self.config[0].get("ip_address")) + " already present in Cisco DNA Center"
                             break
-                        msg = "Devices " + str(self.config[0].get("ip_address")) + " already present in Cisco DNA Center"
-                        self.result['log'].append(msg)
-                        break
-                    elif execution_details.get("isError"):
-                        self.status = "failed"
-                        failure_reason = execution_details.get("failureReason")
-                        if failure_reason:
-                            self.msg = "Device Addition get failed because of {0}".format(failure_reason)
-                        else:
-                            self.msg = "Device Addition get failed"
-                        self.log(self.msg)
-                        break
+                        elif execution_details.get("isError"):
+                            self.status = "failed"
+                            failure_reason = execution_details.get("failureReason")
+                            if failure_reason:
+                                self.msg = "Device Addition get failed because of {0}".format(failure_reason)
+                            else:
+                                self.msg = "Device Addition get failed"
+                            self.log(self.msg)
+                            break
 
-        except Exception as e:
-            error_message = "Error while Adding device in Cisco DNA Center - {0}".format(str(e))
-            self.log(error_message)
-            raise Exception(error_message)
+            except Exception as e:
+                error_message = "Error while Adding device in Cisco DNA Center - {0}".format(str(e))
+                self.log(error_message)
+                raise Exception(error_message)
 
         # Once device get added we will assign device to site and Provisioned it
         if self.config[0].get('provision_wired_device'):
-            self.provisioned_wired_device()
+            self.provisioned_wired_device().check_return_status()
+
+        if device_resynced:
+            self.resync_devices().check_return_status()
+
+        if device_reboot:
+            self.reboot_access_points().check_return_status()
+
+        if self.config[0].get('export_device_list'):
+            self.export_device_details().check_return_status()
 
         return self
 
@@ -1692,7 +1698,7 @@ class DnacDevice(DnacBase):
                 self.msg = msg
                 self.status = "success"
                 self.result['changed'] = False
-                self.result['msg'].append(msg)
+                self.result['msg'] = msg
                 return self
 
             try:
@@ -1733,11 +1739,10 @@ class DnacDevice(DnacBase):
         for device_ip in device_to_delete:
             if device_ip not in self.have.get("device_in_dnac"):
                 self.result['changed'] = False
-                msg = "The device {0} is not present in Cisco DNA Center so can't perform delete operation".format(device_ip)
-                self.msg = msg
+                self.msg = "The device {0} is not present in Cisco DNA Center so can't perform delete operation".format(device_ip)
                 self.status = "success"
                 self.result['changed'] = False
-                self.result['msg'].append(msg)
+                self.result['msg'] = self.msg
                 continue
 
             try:
