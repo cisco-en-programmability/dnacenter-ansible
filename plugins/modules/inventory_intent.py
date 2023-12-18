@@ -517,10 +517,17 @@ dnac_response:
       "version": "string"
     }
 """
+# common approach when a module relies on optional dependencies that are not available during the validation process.
+try:
+    import pyzipper
+    HAS_PYZIPPER = True
+except ImportError:
+    HAS_PYZIPPER = False
+    pyzipper = None
 
 import csv
 from datetime import datetime
-from io import StringIO
+from io import BytesIO, StringIO
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -589,7 +596,8 @@ class DnacDevice(DnacBase):
                      'add_user_defined_field': {'type': 'dict'},
                      'upate_interface_details': {'type': 'dict'},
                      'deployment_mode': {'default': 'Deploy', 'type': 'str'},
-                     'provision_wired_device': {'type': 'dict'}
+                     'provision_wired_device': {'type': 'dict'},
+                     'export_device_list': {'type': 'dict'}
                      }
 
         # Validate device params
@@ -760,7 +768,8 @@ class DnacDevice(DnacBase):
             self (object): An instance of the class with updated result, status, and log.
         Description:
             This function exports device details from Cisco DNA Center based on the provided IP addresses in the configuration.
-            It retrieves the device UUIDs, calls the export device list API, and downloads the exported data in CSV format.
+            It retrieves the device UUIDs, calls the export device list API, and downloads the exported data of both device details and
+            and device credentials with an encrtypted zip file with password into CSV format.
             The CSV data is then parsed and written to a file.
         """
 
@@ -773,17 +782,8 @@ class DnacDevice(DnacBase):
             self.log(msg)
             return self
 
-        device_uuids = []
         try:
-            for device_ip in device_ips:
-                response = self.dnac._exec(
-                    family="devices",
-                    function='get_device_list',
-                    params={"managementIpAddress": device_ip}
-                )
-                response = response.get('response')
-                if response:
-                    device_uuids.append(response[0]["id"])
+            device_uuids = self.get_device_ids(device_ips)
 
             if not device_uuids:
                 self.status = "failed"
@@ -794,10 +794,22 @@ class DnacDevice(DnacBase):
 
             # Now all device UUID get collected so call the export device list API
             export_device_list = self.config[0].get('export_device_list')
+            password = export_device_list.get("password")
+
+            if not self.is_valid_password(password):
+                self.status = "failed"
+                self.result['changed'] = False
+                detailed_msg = """Invalid password. Min password length is 8 and it should contain atleast one lower case letter,
+                            one uppercase letter, one digit and one special characters from -=\\;,./~!@#$%^&*()_+{}[]|:?"""
+                formatted_msg = ' '.join(line.strip() for line in detailed_msg.splitlines())
+                self.msg = formatted_msg
+                self.log(formatted_msg)
+                return self
+
             payload_params = {
                 "deviceUuids": device_uuids,
-                "password": export_device_list.get("password"),
-                "operationEnum": export_device_list.get("operation_enum", "1"),
+                "password": password,
+                "operationEnum": export_device_list.get("operation_enum", "0"),
                 "paramters": export_device_list.get("paramters")
             }
 
@@ -828,7 +840,7 @@ class DnacDevice(DnacBase):
 
                     return self
 
-            # With this File ID call the Download File by FileID API
+            # With this File ID call the Download File by FileID API and process the response
             response = self.dnac._exec(
                 family="file",
                 function='download_a_file_by_fileid',
@@ -836,28 +848,59 @@ class DnacDevice(DnacBase):
                 params={"file_id": file_id},
             )
 
-            device_data = []
-            encoded_resp = response.data.decode(encoding='utf-8')
-            self.log(str(encoded_resp))
+            if payload_params["operationEnum"] == "0":
+                zip_data = BytesIO(response.data)
 
-            # Parse the CSV-like string into a list of dictionaries
-            csv_reader = csv.DictReader(StringIO(encoded_resp))
+                if not HAS_PYZIPPER:
+                    self.msg = "pyzipper is required for this module. Install pyzipper to use this functionality."
+                    self.log(self.msg)
+                    self.status = "failed"
+
+                    return self
+
+                # Create a PyZipper object with the password
+                with pyzipper.AESZipFile(zip_data, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) as zip_ref:
+                    # Assuming there is a single file in the zip archive
+                    file_name = zip_ref.namelist()[0]
+
+                    # Extract the content of the file with the provided password
+                    file_content_binary = zip_ref.read(file_name, pwd=password.encode('utf-8'))
+
+                # Now 'file_content_binary' contains the binary content of the decrypted file
+                # Since the content is text, so we can decode it
+                file_content_text = file_content_binary.decode('utf-8')
+
+                # Now 'file_content_text' contains the text content of the decrypted file
+                self.log(file_content_text)
+
+                # Parse the CSV-like string into a list of dictionaries
+                csv_reader = csv.DictReader(StringIO(file_content_text))
+                temp_file_name = response.filename
+                output_file_name = temp_file_name.split(".")[0] + ".csv"
+
+            else:
+                encoded_resp = response.data.decode(encoding='utf-8')
+                self.log(str(encoded_resp))
+
+                # Parse the CSV-like string into a list of dictionaries
+                csv_reader = csv.DictReader(StringIO(encoded_resp))
+                current_date = datetime.now()
+                formatted_date = current_date.strftime("%m-%d-%Y")
+                output_file_name = "devices-" + str(formatted_date) + ".csv"
+
+            device_data = []
             for row in csv_reader:
                 device_data.append(row)
 
-            current_date = datetime.now()
-            formatted_date = current_date.strftime("%m-%d-%Y")
-            file_name = "devices-" + str(formatted_date) + ".csv"
-
             # Write the data to a CSV file
-            with open(file_name, 'w', newline='') as csv_file:
+            with open(output_file_name, 'w', newline='') as csv_file:
                 fieldnames = device_data[0].keys()
                 csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
                 csv_writer.writeheader()
                 csv_writer.writerows(device_data)
 
-            msg = "Device Details Exported Successfully to the CSV file - {0}".format(file_name)
-            self.log(msg)
+            self.msg = "Device Details Exported Successfully to the CSV file - {0}".format(output_file_name)
+            self.log(self.msg)
             self.status = "success"
             self.result['changed'] = True
 
@@ -954,10 +997,10 @@ class DnacDevice(DnacBase):
         device_ips = self.config[0].get("ip_address", [])
 
         if not device_ips:
-            msg = "No AP Devices IP given in the playbook so can't perform reboot operation"
-            self.status = "failed"
-            self.msg = msg
-            self.log(msg)
+            self.msg = "No AP Devices IP given in the playbook so can't perform reboot operation"
+            self.status = "success"
+            self.result['changed'] = False
+            self.log(self.msg)
             return self
 
         ap_mac_address_list = []
