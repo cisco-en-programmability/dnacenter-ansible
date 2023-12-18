@@ -34,6 +34,20 @@
           device_updated: "{{item.device_updated}}"
           clean_config: "{{item.clean_config}}"
           type: "{{item.type}}"
+          device_updated: "{{item.device_updated}}"
+          update_device_role:
+            role: "{{item.role}}"
+            role_source: "{{item.role_source}}"
+          add_user_defined_field:
+            name: "{{item.name}}"
+            description: "{{item.description}}"
+            value: "{{item.value}}"
+          provision_wired_device: 
+            site_name: "{{item.site_name}}"        
+          export_device_list: 
+            password: "{{item.export_device_list.password}}"
+            operation_enum: "{{item.export_device_list.operation_enum}}"
+          reboot_device: "{{item.reboot_device}}"
 
       with_items: "{{ device_details }}"
       tags:

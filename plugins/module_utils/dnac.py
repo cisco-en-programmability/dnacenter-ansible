@@ -25,6 +25,7 @@ import os.path
 import copy
 import datetime
 import inspect
+import re
 
 
 class DnacBase():
@@ -117,6 +118,27 @@ class DnacBase():
             self.module.exit_json(**self.result)
         elif "invalid" in self.status:
             self.module.fail_json(msg=self.msg, response=[])
+
+    def is_valid_password(self, password):
+        """
+        Check if a password is valid.
+        Args:
+            self (object): An instance of a class that provides access to Cisco DNA Center.
+            password (str): The password to be validated.
+        Returns:
+            bool: True if the password is valid, False otherwise.
+        Description:
+            The function checks the validity of a password based on the following criteria:
+            - Minimum 8 characters.
+            - At least one lowercase letter.
+            - At least one uppercase letter.
+            - At least one digit.
+            - At least one special character
+        """
+
+        pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-=\\;,./~!@#$%^&*()_+{}[\]|:?]).{8,}$"
+
+        return re.match(pattern, password) is not None
 
     def get_dnac_params(self, params):
         """Store the DNAC parameters from the playbook"""
