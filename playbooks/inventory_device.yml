@@ -34,7 +34,6 @@
           device_updated: "{{item.device_updated}}"
           clean_config: "{{item.clean_config}}"
           type: "{{item.type}}"
-          device_updated: "{{item.device_updated}}"
           update_device_role:
             role: "{{item.role}}"
             role_source: "{{item.role_source}}"
