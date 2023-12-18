@@ -851,33 +851,32 @@ class DnacDevice(DnacBase):
             if payload_params["operationEnum"] == "0":
                 zip_data = BytesIO(response.data)
 
-                if HAS_PYZIPPER:
-                    # Create a PyZipper object with the password
-                    with pyzipper.AESZipFile(zip_data, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) as zip_ref:
-                        # Assuming there is a single file in the zip archive
-                        file_name = zip_ref.namelist()[0]
-
-                        # Extract the content of the file with the provided password
-                        file_content_binary = zip_ref.read(file_name, pwd=password.encode('utf-8'))
-
-                    # Now 'file_content_binary' contains the binary content of the decrypted file
-                    # Since the content is text, so we can decode it
-                    file_content_text = file_content_binary.decode('utf-8')
-
-                    # Now 'file_content_text' contains the text content of the decrypted file
-                    self.log(file_content_text)
-
-                    # Parse the CSV-like string into a list of dictionaries
-                    csv_reader = csv.DictReader(StringIO(file_content_text))
-                    temp_file_name = response.filename
-                    output_file_name = temp_file_name.split(".")[0] + ".csv"
-
-                else:
+                if not HAS_PYZIPPER:
                     self.msg = "pyzipper is required for this module. Install pyzipper to use this functionality."
                     self.log(self.msg)
                     self.status = "failed"
 
                     return self
+
+                # Create a PyZipper object with the password
+                with pyzipper.AESZipFile(zip_data, 'r', compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES) as zip_ref:
+                    # Assuming there is a single file in the zip archive
+                    file_name = zip_ref.namelist()[0]
+
+                    # Extract the content of the file with the provided password
+                    file_content_binary = zip_ref.read(file_name, pwd=password.encode('utf-8'))
+
+                # Now 'file_content_binary' contains the binary content of the decrypted file
+                # Since the content is text, so we can decode it
+                file_content_text = file_content_binary.decode('utf-8')
+
+                # Now 'file_content_text' contains the text content of the decrypted file
+                self.log(file_content_text)
+
+                # Parse the CSV-like string into a list of dictionaries
+                csv_reader = csv.DictReader(StringIO(file_content_text))
+                temp_file_name = response.filename
+                output_file_name = temp_file_name.split(".")[0] + ".csv"
 
             else:
                 encoded_resp = response.data.decode(encoding='utf-8')
