@@ -247,10 +247,13 @@ class Dnacprovision(DnacBase):
 
         dev_dict = dev_response.get("response")
         device_family = dev_dict["family"]
+
         if device_family == "Wireless Controller":
             device_type = "wireless"
         elif device_family in ["Switches and Hubs", "Routers"]:
             device_type = "wired"
+        else:
+            device_type = None
         return device_type
 
     def get_task_status(self, task_id=None):
@@ -288,8 +291,8 @@ class Dnacprovision(DnacBase):
             if response.get('progress') != 'In Progress':
                 result = True
                 break
-            time.sleep(3)
 
+            time.sleep(3)
         self.result.update(dict(discovery_task=response))
         return result
 
@@ -330,6 +333,22 @@ class Dnacprovision(DnacBase):
 
     def get_wired_params(self):
 
+        """
+        Prepares the payload for provisioning of the wired devices
+
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
+        Returns:
+          The method returns an instance of the class with updated attributes:
+          - wired_params: A dictionary containing all the values indicating
+                          management IP address of the device and the hierarchy
+                          of the site.
+        Example:
+          Post creation of the validated input, it fetches the required
+          paramters and stores it for further processing and calling the
+          parameters in other APIs.
+        """
         wired_params = {
             "deviceManagementIpAddress": self.validated_config[0]["management_ip_address"],
             "siteNameHierarchy": self.validated_config[0].get("site_name")
@@ -338,6 +357,24 @@ class Dnacprovision(DnacBase):
         return wired_params
 
     def get_wireless_params(self):
+
+        """
+        Prepares the payload for provisioning of the wireless devices
+
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
+        Returns:
+          The method returns an instance of the class with updated attributes:
+          - wireless_params: A list of dictionary containing all the values indicating
+                          management IP address of the device, hierarchy
+                          of the site, AP Location of the wireless controller and details
+                          of the interface
+        Example:
+          Post creation of the validated input, it fetches the required
+          paramters and stores it for further processing and calling the
+          parameters in other APIs.
+        """
         wireless_params = [
             {
                 "site": self.validated_config[0].get("site_name"),
@@ -385,13 +422,15 @@ class Dnacprovision(DnacBase):
             It stores all the paramters passed from the playbook for further processing
             before calling the APIs
         """
-
         self.want = {}
         self.want["device_type"] = self.get_dev_type()
         if self.want["device_type"] == "wired":
             self.want["prov_params"] = self.get_wired_params()
         elif self.want["device_type"] == "wireless":
             self.want["prov_params"] = self.get_wireless_params()
+        else:
+            self.log("Passed devices are neither wired or wireless devices")
+
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
         self.status = "success"
@@ -412,7 +451,8 @@ class Dnacprovision(DnacBase):
             Cisco DNA Center. The updated results and status are stored in the
             class instance for further use.
         """
-        if self.want.get("device_type") == "wired":
+        device_type = self.want.get("device_type")
+        if device_type == "wired":
             try:
                 status_response = self.dnac_apply['exec'](
                     family="sda",
@@ -444,13 +484,17 @@ class Dnacprovision(DnacBase):
                     params=self.want["prov_params"],
                 )
 
-        elif self.want.get("device_type") == "wireless":
+        elif device_type == "wireless":
             response = self.dnac_apply['exec'](
                 family="wireless",
                 function="provision",
                 op_modifies=True,
                 params=self.want["prov_params"],
             )
+
+        else:
+            self.result['msg'] = "Passed device is neither wired nor wireless"
+            self.result['response'] = self.want["prov_params"]
 
         task_id = response.get("taskId")
         provision_info = self.get_task_status(task_id=task_id)
