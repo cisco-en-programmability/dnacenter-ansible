@@ -20,15 +20,16 @@
         state: "merged"
         #ignore_errors: true        #Enable this to continue execution even the task fails
         config:
-        - project_name: "{{ item.proj_name }}"
-          template_content: "{{ item.device_config }}"
-          language: "{{ item.language }}"
-          deviceTypes:
-            - product_family: "{{ item.family }}"
-              software_type: "{{ item.type }}"
-              software_variant: "{{ item.variant }}"
-              template_name: "{{ item.temp_name }}"
-              version_description: "{{ item.description }}"
+        - configuration_templates:
+            project_name: "{{ item.proj_name }}"
+            template_content: "{{ item.device_config }}"
+            language: "{{ item.language }}"
+            device_types:
+              - product_family: "{{ item.family }}"
+                software_type: "{{ item.type }}"
+                software_variant: "{{ item.variant }}"
+                template_name: "{{ item.temp_name }}"
+                version_description: "{{ item.description }}"
       register: template_result
       with_items: '{{ template_details }}'
       tags:
