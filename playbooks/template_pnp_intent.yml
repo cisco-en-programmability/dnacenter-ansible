@@ -8,7 +8,7 @@
 #
 # Project Info  Section
 #
-    - name: Test project template      
+    - name: Test project template
       cisco.dnac.template_intent:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -20,15 +20,15 @@
         state: "merged"
         #ignore_errors: true        #Enable this to continue execution even the task fails
         config:
-        - projectName: "{{ item.proj_name }}"
-          templateContent: "{{ item.device_config }}"
+        - project_name: "{{ item.proj_name }}"
+          template_content: "{{ item.device_config }}"
           language: "{{ item.language }}"
           deviceTypes:
-          - productFamily: "{{ item.family }}"
-          softwareType: "{{ item.type }}"
-          softwareVariant: "{{ item.variant }}"
-          templateName: "{{ item.temp_name }}"
-          versionDescription: "{{ item.description }}"
+            - product_family: "{{ item.family }}"
+              software_type: "{{ item.type }}"
+              software_variant: "{{ item.variant }}"
+              template_name: "{{ item.temp_name }}"
+              version_description: "{{ item.description }}"
       register: template_result
       with_items: '{{ template_details }}'
       tags:
@@ -50,11 +50,11 @@
           template_name: "{{ item.temp_name }}"
           image_name: "{{ item.image_name }}"
           device_version: "{{ item.device_version }}"
-          deviceInfo:
-            serialNumber: "{{ item.device_number }}"
-            hostname: "{{ item.device_name}}"
-            state: "{{ item.device_state }}"
-            pid: "{{ item.device_id }}"
+          device_info:
+            - serialNumber: "{{ item.device_number }}"
+              hostname: "{{ item.device_name}}"
+              state: "{{ item.device_state }}"
+              pid: "{{ item.device_id }}"
       register: pnp_result
       with_items: '{{ device_details }}'
       tags:
