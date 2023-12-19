@@ -19,68 +19,87 @@
         dnac_log: True
         state: merged
         config:
-        - GlobalPoolDetails:
+        - global_pool_details:
             settings:
-              ippool:
-              - ipPoolName: Global_Pool2
+              ip_pool:
+              - name: Global_Pool2
                 gateway: "" #use this for updating
-                IpAddressSpace: IPv6 #required when we are creating
-                ipPoolCidr: 2001:db8::/64  #required when we are creating
+                ip_address_space: IPv6 #required when we are creating
+                cidr: 2001:db8::/64  #required when we are creating
                 type: Generic
-                dhcpServerIps: [] #use this for updating
-                dnsServerIps: [] #use this for updating
+                dhcp_server_ips: [] #use this for updating
+                dns_server_ips: [] #use this for updating
                 # prev_name: Global_Pool2
-          ReservePoolDetails:
-            ipv6AddressSpace: True
-            ipv4GlobalPool: 100.0.0.0/8
-            ipv4Prefix: True
-            ipv4PrefixLength: 9
-            ipv4Subnet: 100.128.0.0
-            # ipv4DnsServers: [100.128.0.1]
+          reserve_pool_details:
+            ipv6_address_space: True
+            ipv4_global_pool: 100.0.0.0/8
+            ipv4_prefix: True
+            ipv4_prefix_length: 9
+            ipv4_subnet: 100.128.0.0
+            # ipv4_dns_servers: [100.128.0.1]
             name: IP_Pool_3
-            ipv6Prefix: True
-            ipv6PrefixLength: 64
-            ipv6GlobalPool: 2001:db8::/64
-            ipv6Subnet: "2001:db8::"
-            siteName: Global/Chennai/Trill
-            slaacSupport: True
+            ipv6_prefix: True
+            ipv6_prefix_length: 64
+            ipv6_global_pool: 2001:db8::/64
+            ipv6_subnet: "2001:db8::"
+            site_name: Global/Chennai/Trill
+            slaac_support: True
             # prev_name: IP_Pool_4
             type: LAN
-          NetworkManagementDetails:
+          network_management_details:
             settings:
-              dhcpServer:
+              dhcp_server:
               - 10.0.0.1
-              dnsServer:
-                domainName: cisco.com
-                primaryIpAddress: 10.0.0.2
-                secondaryIpAddress: 10.0.0.3
-              clientAndEndpoint_aaa: #works only if we system settigns is set
-                # ipAddress: 10.197.156.42 #Mandatory for ISE, sec ip for AAA
+              dns_server:
+                domain_name: cisco.com
+                primary_ip_address: 10.0.0.2
+                secondary_ip_address: 10.0.0.3
+              client_and_endpoint_aaa: #works only if we system settigns is set
+                ip_address: 10.197.156.42 #Mandatory for ISE, sec ip for AAA
                 network: 10.0.0.20
                 protocol: RADIUS                                     
                 servers: AAA
-                # sharedSecret: string #ISE
-              messageOfTheday:
-                bannerMessage: hello
-                retainExistingBanner: "true"
-              netflowcollector:
-                ipAddress: 10.0.0.4
+                # shared_secret: string #ISE
+              message_of_the_day:
+                banner_message: hello
+                retain_existing_banner: "true"
+              netflow_collector:
+                ip_address: 10.0.0.4
                 port: 443
               network_aaa: #works only if we system settigns is set
-                # ipAddress: string #Mandatory for ISE, sec ip for AAA
+                ip_address: 10.0.0.21 #Mandatory for ISE, sec ip for AAA
                 network: 10.0.0.20
                 protocol: TACACS
                 servers: AAA
-                # sharedSecret: string #ISE
-              ntpServer:
+                # shared_secret: string #ISE
+              ntp_server:
               - 10.0.0.5
-              snmpServer:
-                configureDnacIP: True
-                ipAddresses:
-                - 10.0.0.6
+              snmp_server:
+                configure_dnac_ip: false
+                # ip_addresses:
+                # - 10.0.0.6
               syslogServer:
-                configureDnacIP: True
-                ipAddresses:
-                - 10.0.0.7
+                configure_dnac_ip: false
+                # ip_addresses:
+                # - 10.0.0.7
               timezone: GMT
-            siteName: Global/Chennai
+            site_name: Global/Chennai
+
+    - name: Delete Global Pool and Release Pool Reservation
+      cisco.dnac.network_settings_intent:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: True
+        state: deleted
+        config:
+        - global_pool_details:
+            settings:
+              ip_pool:
+              - name: Global_Pool2
+          reserve_pool_details:
+            name: IP_Pool_3
+            site_name: Global/Chennai/Trill
