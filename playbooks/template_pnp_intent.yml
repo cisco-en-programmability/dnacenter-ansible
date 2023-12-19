@@ -1,6 +1,6 @@
 - hosts: dnac_servers
   vars_files:
-    - credentials.yml
+    - credentials_245.yml
     - device_details.yml
   gather_facts: false
   connection: local

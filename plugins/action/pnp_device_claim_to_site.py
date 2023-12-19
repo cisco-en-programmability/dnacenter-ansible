@@ -29,7 +29,7 @@ argument_spec.update(dict(
     siteId=dict(type="str"),
     type=dict(type="str"),
     imageInfo=dict(type="dict"),
-    configInfo=dict(type="list"),
+    configInfo=dict(type="dict"),
     rfProfile=dict(type="str"),
     staticIP=dict(type="str"),
     subnetMask=dict(type="str"),
