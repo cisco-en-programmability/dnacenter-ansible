@@ -5,9 +5,7 @@
   gather_facts: no
   vars_files:
     - "input_swim.yml" #Contains image and device details
-    - "credentials.yml"  
-  gather_facts: false
-  connection: local
+    - "credentials.yml"
   tasks:
     - name: Import an image, tag it as golden and load it on device      
       cisco.dnac.swim_intent:
