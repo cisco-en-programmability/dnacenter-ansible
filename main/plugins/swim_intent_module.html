@@ -135,6 +135,7 @@
 <li class="toctree-l4"><a class="reference internal" href="discovery_device_info_module.html">cisco.dnac.discovery_device_info module – Information module for Discovery Device</a></li>
 <li class="toctree-l4"><a class="reference internal" href="discovery_device_range_info_module.html">cisco.dnac.discovery_device_range_info module – Information module for Discovery Device Range</a></li>
 <li class="toctree-l4"><a class="reference internal" href="discovery_info_module.html">cisco.dnac.discovery_info module – Information module for Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discovery_intent_module.html">cisco.dnac.discovery_intent module – Resource module for discovery related functions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="discovery_job_info_module.html">cisco.dnac.discovery_job_info module – Information module for Discovery Job</a></li>
 <li class="toctree-l4"><a class="reference internal" href="discovery_range_delete_module.html">cisco.dnac.discovery_range_delete module – Resource module for Discovery Range Delete</a></li>
 <li class="toctree-l4"><a class="reference internal" href="discovery_range_info_module.html">cisco.dnac.discovery_range_info module – Information module for Discovery Range</a></li>
@@ -305,6 +306,7 @@
 <li class="toctree-l4"><a class="reference internal" href="profiling_rules_count_info_module.html">cisco.dnac.profiling_rules_count_info module – Information module for Profiling Rules Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="profiling_rules_in_bulk_create_module.html">cisco.dnac.profiling_rules_in_bulk_create module – Resource module for Profiling Rules In Bulk Create</a></li>
 <li class="toctree-l4"><a class="reference internal" href="projects_details_info_module.html">cisco.dnac.projects_details_info module – Information module for Projects Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="provision_intent_module.html">cisco.dnac.provision_intent module – Resource module for provision functions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="qos_device_interface_module.html">cisco.dnac.qos_device_interface module – Resource module for Qos Device Interface</a></li>
 <li class="toctree-l4"><a class="reference internal" href="qos_device_interface_info_module.html">cisco.dnac.qos_device_interface_info module – Information module for Qos Device Interface</a></li>
 <li class="toctree-l4"><a class="reference internal" href="qos_device_interface_info_count_info_module.html">cisco.dnac.qos_device_interface_info_count_info module – Information module for Qos Device Interface Info Count</a></li>
@@ -407,7 +409,7 @@
 <li class="toctree-l4"><a class="reference internal" href="task_info_module.html">cisco.dnac.task_info module – Information module for Task</a></li>
 <li class="toctree-l4"><a class="reference internal" href="task_operation_info_module.html">cisco.dnac.task_operation_info module – Information module for Task Operation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="task_tree_info_module.html">cisco.dnac.task_tree_info module – Information module for Task Tree</a></li>
-<li class="toctree-l4"><a class="reference internal" href="template_intent_module.html">cisco.dnac.template_intent module – Resource module for Template functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_intent_module.html">cisco.dnac.template_intent module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="template_preview_module.html">cisco.dnac.template_preview module – Resource module for Template Preview</a></li>
 <li class="toctree-l4"><a class="reference internal" href="templates_details_info_module.html">cisco.dnac.templates_details_info module – Information module for Templates Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="threat_detail_module.html">cisco.dnac.threat_detail module – Resource module for Threat Detail</a></li>
@@ -479,7 +481,7 @@
 <h1>cisco.dnac.swim_intent module – Intent module for SWIM related functions<a class="headerlink" href="#cisco-dnac-swim-intent-module-intent-module-for-swim-related-functions" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.9.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.10.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-intent-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -532,15 +534,15 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-imageactivationdetails"><strong>imageActivationDetails</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/image_activation_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-activation-details"><strong>image_activation_details</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_activation_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Details for SWIM image activation. Device on which the image needs to activated can be speciifed using any of the following parameters - deviceSerialNumber, deviceIPAddress, deviceHostname or deviceMacAddress.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/activateLowerImageVersion"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-imageactivationdetails-activatelowerimageversion"><strong>activateLowerImageVersion</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/activateLowerImageVersion" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/activate_lower_image_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-activation-details-activate-lower-image-version"><strong>activate_lower_image_version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_activation_details/activate_lower_image_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>ActivateLowerImageVersion flag.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -551,43 +553,57 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/deviceHostname"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-imageactivationdetails-devicehostname"><strong>deviceHostname</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/deviceHostname" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_family_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-activation-details-device-family-name"><strong>device_family_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_family_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device family name</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_hostname"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-activation-details-device-hostname"><strong>device_hostname</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_hostname" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device hostname where the image needs to be activated</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/deviceIPAddress"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-imageactivationdetails-deviceipaddress"><strong>deviceIPAddress</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/deviceIPAddress" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_ip_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-activation-details-device-ip-address"><strong>device_ip_address</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_ip_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device IP address where the image needs to be activated</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/deviceMacAddress"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-imageactivationdetails-devicemacaddress"><strong>deviceMacAddress</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/deviceMacAddress" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_mac_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-activation-details-device-mac-address"><strong>device_mac_address</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_mac_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device MAC address where the image needs to be activated</p>
 </div></td>
 </tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_role"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-activation-details-device-role"><strong>device_role</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_role" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device Role. Permissible Values ALL, UNKNOWN, ACCESS, BORDER ROUTER, DISTRIBUTION and CORE.</p>
+</div></td>
+</tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/deviceSerialNumber"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-imageactivationdetails-deviceserialnumber"><strong>deviceSerialNumber</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/deviceSerialNumber" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_serial_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-activation-details-device-serial-number"><strong>device_serial_number</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_serial_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device serial number where the image needs to be activated</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/deviceUpgradeMode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-imageactivationdetails-deviceupgrademode"><strong>deviceUpgradeMode</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/deviceUpgradeMode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_upgrade_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-activation-details-device-upgrade-mode"><strong>device_upgrade_mode</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_upgrade_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Swim Trigger Activation’s deviceUpgradeMode.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/distributeIfNeeded"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-imageactivationdetails-distributeifneeded"><strong>distributeIfNeeded</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/distributeIfNeeded" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/distributeIfNeeded"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-activation-details-distributeifneeded"><strong>distributeIfNeeded</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_activation_details/distributeIfNeeded" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>DistributeIfNeeded flag.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -598,15 +614,15 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/imageName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-imageactivationdetails-imagename"><strong>imageName</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/imageName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/image_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-activation-details-image-name"><strong>image_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_activation_details/image_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>SWIM image’s name</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/scheduleValidate"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-imageactivationdetails-schedulevalidate"><strong>scheduleValidate</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/scheduleValidate" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/schedule_validate"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-activation-details-schedule-validate"><strong>schedule_validate</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_activation_details/schedule_validate" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>ScheduleValidate query parameter. ScheduleValidate, validates data before schedule (Optional).</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -616,79 +632,100 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/imageDistributionDetails"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-imagedistributiondetails"><strong>imageDistributionDetails</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/imageDistributionDetails" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/site_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-activation-details-site-name"><strong>site_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_activation_details/site_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Used to get device details associated to this site.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-distribution-details"><strong>image_distribution_details</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_distribution_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Details for SWIM image distribution. Device on which the image needs to distributed can be speciifed using any of the following parameters - deviceSerialNumber, deviceIPAddress, deviceHostname or deviceMacAddress.</p>
 </div></td>
 </tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_family_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-distribution-details-device-family-name"><strong>device_family_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_family_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device family name</p>
+</div></td>
+</tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/imageDistributionDetails/deviceHostname"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-imagedistributiondetails-devicehostname"><strong>deviceHostname</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/imageDistributionDetails/deviceHostname" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_hostname"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-distribution-details-device-hostname"><strong>device_hostname</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_hostname" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device hostname where the image needs to be distributed</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/imageDistributionDetails/deviceIPAddress"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-imagedistributiondetails-deviceipaddress"><strong>deviceIPAddress</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/imageDistributionDetails/deviceIPAddress" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_ip_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-distribution-details-device-ip-address"><strong>device_ip_address</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_ip_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device IP address where the image needs to be distributed</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/imageDistributionDetails/deviceMacAddress"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-imagedistributiondetails-devicemacaddress"><strong>deviceMacAddress</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/imageDistributionDetails/deviceMacAddress" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_mac_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-distribution-details-device-mac-address"><strong>device_mac_address</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_mac_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device MAC address where the image needs to be distributed</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/imageDistributionDetails/deviceSerialNumber"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-imagedistributiondetails-deviceserialnumber"><strong>deviceSerialNumber</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/imageDistributionDetails/deviceSerialNumber" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_role"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-distribution-details-device-role"><strong>device_role</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_role" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device Role. Permissible Values ALL, UNKNOWN, ACCESS, BORDER ROUTER, DISTRIBUTION and CORE.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_serial_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-distribution-details-device-serial-number"><strong>device_serial_number</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_serial_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device serial number where the image needs to be distributed</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/imageDistributionDetails/imageName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-imagedistributiondetails-imagename"><strong>imageName</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/imageDistributionDetails/imageName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/image_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-distribution-details-image-name"><strong>image_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/image_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>SWIM image’s name</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/imageName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-imagename"><strong>imageName</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/imageName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/site_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-image-distribution-details-site-name"><strong>site_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/site_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>SWIM Image name.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Used to get device details associated to this site.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails"><strong>importImageDetails</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details"><strong>import_image_details</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Details of image being imported</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails-localimagedetails"><strong>localImageDetails</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-local-image-details"><strong>local_image_details</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Details of the local path of the image to be imported.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails/filePath"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails-localimagedetails-filepath"><strong>filePath</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails/filePath" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details/file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-local-image-details-file-path"><strong>file_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details/file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>File absolute path.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails/isThirdParty"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails-localimagedetails-isthirdparty"><strong>isThirdParty</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails/isThirdParty" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details/is_third_party"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-local-image-details-is-third-party"><strong>is_third_party</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details/is_third_party" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IsThirdParty query parameter. Third party Image check.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -698,72 +735,72 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails/thirdPartyApplicationType"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails-localimagedetails-thirdpartyapplicationtype"><strong>thirdPartyApplicationType</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails/thirdPartyApplicationType" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details/third_party_application_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-local-image-details-third-party-application-type"><strong>third_party_application_type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details/third_party_application_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>ThirdPartyApplicationType query parameter. Third Party Application Type.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails/thirdPartyImageFamily"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails-localimagedetails-thirdpartyimagefamily"><strong>thirdPartyImageFamily</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails/thirdPartyImageFamily" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details/third_party_image_family"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-local-image-details-third-party-image-family"><strong>third_party_image_family</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details/third_party_image_family" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>ThirdPartyImageFamily query parameter. Third Party image family.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails/thirdPartyVendor"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails-localimagedetails-thirdpartyvendor"><strong>thirdPartyVendor</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails/thirdPartyVendor" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details/third_party_vendor"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-local-image-details-third-party-vendor"><strong>third_party_vendor</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details/third_party_vendor" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>ThirdPartyVendor query parameter. Third Party Vendor.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails-type"><strong>type</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails/type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-type"><strong>type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The source of import, supports url import or local import.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails-urldetails"><strong>urlDetails</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details"><strong>url_details</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>URL details for SWIM import</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/payload"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails-urldetails-payload"><strong>payload</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/payload" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-payload"><strong>payload</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Swim Import Via Url’s payload.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/payload/applicationType"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails-urldetails-payload-applicationtype"><strong>applicationType</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/payload/applicationType" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload/application_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-payload-application-type"><strong>application_type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/application_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Swim Import Via Url’s applicationType.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/payload/imageFamily"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails-urldetails-payload-imagefamily"><strong>imageFamily</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/payload/imageFamily" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload/image_family"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-payload-image-family"><strong>image_family</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/image_family" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Swim Import Via Url’s imageFamily.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/payload/sourceURL"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails-urldetails-payload-sourceurl"><strong>sourceURL</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/payload/sourceURL" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload/source_url"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-payload-source-url"><strong>source_url</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/source_url" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Swim Import Via Url’s sourceURL.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Swim Import Image Via Url.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/payload/thirdParty"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails-urldetails-payload-thirdparty"><strong>thirdParty</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/payload/thirdParty" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload/third_party"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-payload-third-party"><strong>third_party</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/third_party" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>ThirdParty flag.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -773,72 +810,79 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/payload/vendor"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails-urldetails-payload-vendor"><strong>vendor</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/payload/vendor" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload/vendor"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-payload-vendor"><strong>vendor</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/vendor" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Swim Import Via Url’s vendor.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/scheduleAt"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails-urldetails-scheduleat"><strong>scheduleAt</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/scheduleAt" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/schedule_at"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-schedule-at"><strong>schedule_at</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/schedule_at" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>ScheduleAt query parameter. Epoch Time (The number of milli-seconds since January 1 1970 UTC) at which the distribution should be scheduled (Optional).</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/scheduleDesc"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails-urldetails-scheduledesc"><strong>scheduleDesc</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/scheduleDesc" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/schedule_desc"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-schedule-desc"><strong>schedule_desc</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/schedule_desc" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>ScheduleDesc query parameter. Custom Description (Optional).</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/scheduleOrigin"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-importimagedetails-urldetails-scheduleorigin"><strong>scheduleOrigin</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/scheduleOrigin" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/schedule_origin"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-import-image-details-url-details-schedule-origin"><strong>schedule_origin</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/schedule_origin" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>ScheduleOrigin query parameter. Originator of this call (Optional).</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/taggingDetails"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-taggingdetails"><strong>taggingDetails</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/taggingDetails" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tagging_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-tagging-details"><strong>tagging_details</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tagging_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Details for tagging or untagging an image as golden</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/taggingDetails/deviceFamilyName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-taggingdetails-devicefamilyname"><strong>deviceFamilyName</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/taggingDetails/deviceFamilyName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tagging_details/device_family_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-tagging-details-device-family-name"><strong>device_family_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tagging_details/device_family_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device family name</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device family name(Eg Switches and Hubs)</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/taggingDetails/deviceRole"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-taggingdetails-devicerole"><strong>deviceRole</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/taggingDetails/deviceRole" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tagging_details/device_role"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-tagging-details-device-role"><strong>device_role</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tagging_details/device_role" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device Role. Permissible Values ALL, UNKNOWN, ACCESS, BORDER ROUTER, DISTRIBUTION and CORE.</p>
 </div></td>
 </tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tagging_details/device_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-tagging-details-device-type"><strong>device_type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tagging_details/device_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Type of the device (Eg Cisco Catalyst 9300 Switch)</p>
+</div></td>
+</tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/taggingDetails/imageName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-taggingdetails-imagename"><strong>imageName</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/taggingDetails/imageName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/tagging_details/image_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-tagging-details-image-name"><strong>image_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tagging_details/image_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>SWIM image name which will be tagged or untagged as golden.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/taggingDetails/siteName"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-taggingdetails-sitename"><strong>siteName</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/taggingDetails/siteName" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/tagging_details/site_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-tagging-details-site-name"><strong>site_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tagging_details/site_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Site name for which SWIM image will be tagged/untagged as golden. If not provided, SWIM image will be mapped to global site.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/taggingDetails/tagging"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-taggingdetails-tagging"><strong>tagging</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/taggingDetails/tagging" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/tagging_details/tagging"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-swim-intent-module-parameter-config-tagging-details-tagging"><strong>tagging</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tagging_details/tagging" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Booelan value to tag/untag SWIM image as golden If True then the given image will be tagged as golden. If False then the given image will be un-tagged as golden.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -976,34 +1020,89 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-swim-int
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">importImageDetails</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">import_image_details</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">        </span><span class="nt">urlDetails</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">payload</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">sourceURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">            </span><span class="nt">isThirdParty</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bool</span>
-<span class="w">            </span><span class="nt">imageFamily</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">source_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">            </span><span class="nt">is_third_party</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bool</span>
+<span class="w">            </span><span class="nt">image_family</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">            </span><span class="nt">vendor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">            </span><span class="nt">applicationType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">          </span><span class="nt">scheduleAt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">          </span><span class="nt">scheduleDesc</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">          </span><span class="nt">scheduleOrigin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">      </span><span class="nt">imageName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">      </span><span class="nt">taggingDetails</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">imageName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">        </span><span class="nt">deviceRole</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">        </span><span class="nt">deviceFamilyName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">        </span><span class="nt">siteName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">            </span><span class="nt">application_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">          </span><span class="nt">schedule_at</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">          </span><span class="nt">schedule_desc</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">          </span><span class="nt">schedule_origin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">      </span><span class="nt">tagging_details</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">image_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">device_role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">device_family_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">        </span><span class="nt">tagging</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bool</span>
-<span class="w">      </span><span class="nt">imageDistributionDetails</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">imageName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">        </span><span class="nt">deviceSerialNumber</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">      </span><span class="nt">imageActivationDetails</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">scheduleValidate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bool</span>
-<span class="w">        </span><span class="nt">activateLowerImageVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bool</span>
-<span class="w">        </span><span class="nt">distributeIfNeeded</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bool</span>
-<span class="w">        </span><span class="nt">deviceSerialNumber</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">        </span><span class="nt">imageName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">      </span><span class="nt">image_distribution_details</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">image_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">device_serial_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">      </span><span class="nt">image_activation_details</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">schedule_validate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bool</span>
+<span class="w">        </span><span class="nt">activate_lower_image_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bool</span>
+<span class="w">        </span><span class="nt">distribute_if_needed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bool</span>
+<span class="w">        </span><span class="nt">device_serial_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">image_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tag the given image as golden and load it on device</span>
+<span class="w">  </span><span class="nt">cisco.dnac.swim_intent</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tagging_details</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">image_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">device_role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">device_family_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">device_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">tagging</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bool</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Distribute the given image on devices associated to that site with specified role.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.swim_intent</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">image_distribution_details</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">image_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">device_role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">device_family_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Activate the given image on devices associated to that site with specified role.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.swim_intent</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">image_activation_details</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">image_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">device_role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">device_family_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="nt">scehdule_validate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bool</span>
+<span class="w">        </span><span class="nt">activate_lower_image_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bool</span>
+<span class="w">        </span><span class="nt">distribute_if_needed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bool</span>
 </pre></div>
 </div>
 </section>

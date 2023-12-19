@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.9.0
+Collection version 6.10.0
 
 .. contents::
    :local:
@@ -24,8 +24,12 @@ Ansible Modules for Cisco DNA Center
 * Jose Bogarin <jbogarin@altus.cr>
 * Bryan Vargas <bvargas@altus.cr>
 * Francisco Muñoz <fmunoz@altus.cr>
-* Madhan Sankaranarayanan (@madhansansel)
+* Madhan Sankaranarayanan <madsanka@cisco.com>
 * Rishita Chowdhary (@rishitachowdhary)
+* Muthu Rakesh Babu <mutbabu@cisco.com>
+* Akash Bhaskaran <akabhask@cisco.com>
+* Abinash Mishra <abimishr@cisco.com>
+* Abhishek Maheshwari <abmahesh@cisco.com>
 
 **Supported ansible-core versions:**
 
@@ -136,6 +140,7 @@ Modules
 * :ref:`discovery_device_info module <ansible_collections.cisco.dnac.discovery_device_info_module>` -- Information module for Discovery Device
 * :ref:`discovery_device_range_info module <ansible_collections.cisco.dnac.discovery_device_range_info_module>` -- Information module for Discovery Device Range
 * :ref:`discovery_info module <ansible_collections.cisco.dnac.discovery_info_module>` -- Information module for Discovery
+* :ref:`discovery_intent module <ansible_collections.cisco.dnac.discovery_intent_module>` -- Resource module for discovery related functions
 * :ref:`discovery_job_info module <ansible_collections.cisco.dnac.discovery_job_info_module>` -- Information module for Discovery Job
 * :ref:`discovery_range_delete module <ansible_collections.cisco.dnac.discovery_range_delete_module>` -- Resource module for Discovery Range Delete
 * :ref:`discovery_range_info module <ansible_collections.cisco.dnac.discovery_range_info_module>` -- Information module for Discovery Range
@@ -306,6 +311,7 @@ Modules
 * :ref:`profiling_rules_count_info module <ansible_collections.cisco.dnac.profiling_rules_count_info_module>` -- Information module for Profiling Rules Count
 * :ref:`profiling_rules_in_bulk_create module <ansible_collections.cisco.dnac.profiling_rules_in_bulk_create_module>` -- Resource module for Profiling Rules In Bulk Create
 * :ref:`projects_details_info module <ansible_collections.cisco.dnac.projects_details_info_module>` -- Information module for Projects Details
+* :ref:`provision_intent module <ansible_collections.cisco.dnac.provision_intent_module>` -- Resource module for provision functions
 * :ref:`qos_device_interface module <ansible_collections.cisco.dnac.qos_device_interface_module>` -- Resource module for Qos Device Interface
 * :ref:`qos_device_interface_info module <ansible_collections.cisco.dnac.qos_device_interface_info_module>` -- Information module for Qos Device Interface
 * :ref:`qos_device_interface_info_count_info module <ansible_collections.cisco.dnac.qos_device_interface_info_count_info_module>` -- Information module for Qos Device Interface Info Count
@@ -408,7 +414,7 @@ Modules
 * :ref:`task_info module <ansible_collections.cisco.dnac.task_info_module>` -- Information module for Task
 * :ref:`task_operation_info module <ansible_collections.cisco.dnac.task_operation_info_module>` -- Information module for Task Operation
 * :ref:`task_tree_info module <ansible_collections.cisco.dnac.task_tree_info_module>` -- Information module for Task Tree
-* :ref:`template_intent module <ansible_collections.cisco.dnac.template_intent_module>` -- Resource module for Template functions
+* :ref:`template_intent module <ansible_collections.cisco.dnac.template_intent_module>` -- 
 * :ref:`template_preview module <ansible_collections.cisco.dnac.template_preview_module>` -- Resource module for Template Preview
 * :ref:`templates_details_info module <ansible_collections.cisco.dnac.templates_details_info_module>` -- Information module for Templates Details
 * :ref:`threat_detail module <ansible_collections.cisco.dnac.threat_detail_module>` -- Resource module for Threat Detail
@@ -531,6 +537,7 @@ Modules
     discovery_device_info_module
     discovery_device_range_info_module
     discovery_info_module
+    discovery_intent_module
     discovery_job_info_module
     discovery_range_delete_module
     discovery_range_info_module
@@ -701,6 +708,7 @@ Modules
     profiling_rules_count_info_module
     profiling_rules_in_bulk_create_module
     projects_details_info_module
+    provision_intent_module
     qos_device_interface_module
     qos_device_interface_info_module
     qos_device_interface_info_count_info_module

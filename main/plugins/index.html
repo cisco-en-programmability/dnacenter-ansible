@@ -137,6 +137,7 @@
 <li class="toctree-l4"><a class="reference internal" href="discovery_device_info_module.html">cisco.dnac.discovery_device_info module – Information module for Discovery Device</a></li>
 <li class="toctree-l4"><a class="reference internal" href="discovery_device_range_info_module.html">cisco.dnac.discovery_device_range_info module – Information module for Discovery Device Range</a></li>
 <li class="toctree-l4"><a class="reference internal" href="discovery_info_module.html">cisco.dnac.discovery_info module – Information module for Discovery</a></li>
+<li class="toctree-l4"><a class="reference internal" href="discovery_intent_module.html">cisco.dnac.discovery_intent module – Resource module for discovery related functions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="discovery_job_info_module.html">cisco.dnac.discovery_job_info module – Information module for Discovery Job</a></li>
 <li class="toctree-l4"><a class="reference internal" href="discovery_range_delete_module.html">cisco.dnac.discovery_range_delete module – Resource module for Discovery Range Delete</a></li>
 <li class="toctree-l4"><a class="reference internal" href="discovery_range_info_module.html">cisco.dnac.discovery_range_info module – Information module for Discovery Range</a></li>
@@ -307,6 +308,7 @@
 <li class="toctree-l4"><a class="reference internal" href="profiling_rules_count_info_module.html">cisco.dnac.profiling_rules_count_info module – Information module for Profiling Rules Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="profiling_rules_in_bulk_create_module.html">cisco.dnac.profiling_rules_in_bulk_create module – Resource module for Profiling Rules In Bulk Create</a></li>
 <li class="toctree-l4"><a class="reference internal" href="projects_details_info_module.html">cisco.dnac.projects_details_info module – Information module for Projects Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="provision_intent_module.html">cisco.dnac.provision_intent module – Resource module for provision functions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="qos_device_interface_module.html">cisco.dnac.qos_device_interface module – Resource module for Qos Device Interface</a></li>
 <li class="toctree-l4"><a class="reference internal" href="qos_device_interface_info_module.html">cisco.dnac.qos_device_interface_info module – Information module for Qos Device Interface</a></li>
 <li class="toctree-l4"><a class="reference internal" href="qos_device_interface_info_count_info_module.html">cisco.dnac.qos_device_interface_info_count_info module – Information module for Qos Device Interface Info Count</a></li>
@@ -409,7 +411,7 @@
 <li class="toctree-l4"><a class="reference internal" href="task_info_module.html">cisco.dnac.task_info module – Information module for Task</a></li>
 <li class="toctree-l4"><a class="reference internal" href="task_operation_info_module.html">cisco.dnac.task_operation_info module – Information module for Task Operation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="task_tree_info_module.html">cisco.dnac.task_tree_info module – Information module for Task Tree</a></li>
-<li class="toctree-l4"><a class="reference internal" href="template_intent_module.html">cisco.dnac.template_intent module – Resource module for Template functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="template_intent_module.html">cisco.dnac.template_intent module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="template_preview_module.html">cisco.dnac.template_preview module – Resource module for Template Preview</a></li>
 <li class="toctree-l4"><a class="reference internal" href="templates_details_info_module.html">cisco.dnac.templates_details_info module – Information module for Templates Details</a></li>
 <li class="toctree-l4"><a class="reference internal" href="threat_detail_module.html">cisco.dnac.threat_detail module – Resource module for Threat Detail</a></li>
@@ -478,7 +480,7 @@
              
   <section id="cisco-dnac">
 <span id="plugins-in-cisco-dnac"></span><h1>Cisco.Dnac<a class="headerlink" href="#cisco-dnac" title="Permalink to this heading"></a></h1>
-<p>Collection version 6.9.0</p>
+<p>Collection version 6.10.0</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
 <li><p><a class="reference internal" href="#description" id="id1">Description</a></p></li>
@@ -495,8 +497,12 @@
 <li><p>Jose Bogarin &lt;<a class="reference external" href="mailto:jbogarin&#37;&#52;&#48;altus&#46;cr">jbogarin<span>&#64;</span>altus<span>&#46;</span>cr</a>&gt;</p></li>
 <li><p>Bryan Vargas &lt;<a class="reference external" href="mailto:bvargas&#37;&#52;&#48;altus&#46;cr">bvargas<span>&#64;</span>altus<span>&#46;</span>cr</a>&gt;</p></li>
 <li><p>Francisco Muñoz &lt;<a class="reference external" href="mailto:fmunoz&#37;&#52;&#48;altus&#46;cr">fmunoz<span>&#64;</span>altus<span>&#46;</span>cr</a>&gt;</p></li>
-<li><p>Madhan Sankaranarayanan (&#64;madhansansel)</p></li>
+<li><p>Madhan Sankaranarayanan &lt;<a class="reference external" href="mailto:madsanka&#37;&#52;&#48;cisco&#46;com">madsanka<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
 <li><p>Rishita Chowdhary (&#64;rishitachowdhary)</p></li>
+<li><p>Muthu Rakesh Babu &lt;<a class="reference external" href="mailto:mutbabu&#37;&#52;&#48;cisco&#46;com">mutbabu<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
+<li><p>Akash Bhaskaran &lt;<a class="reference external" href="mailto:akabhask&#37;&#52;&#48;cisco&#46;com">akabhask<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
+<li><p>Abinash Mishra &lt;<a class="reference external" href="mailto:abimishr&#37;&#52;&#48;cisco&#46;com">abimishr<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
+<li><p>Abhishek Maheshwari &lt;<a class="reference external" href="mailto:abmahesh&#37;&#52;&#48;cisco&#46;com">abmahesh<span>&#64;</span>cisco<span>&#46;</span>com</a>&gt;</p></li>
 </ul>
 <p><strong>Supported ansible-core versions:</strong></p>
 <ul class="simple">
@@ -597,6 +603,7 @@
 <li><p><a class="reference internal" href="discovery_device_info_module.html#ansible-collections-cisco-dnac-discovery-device-info-module"><span class="std std-ref">discovery_device_info module</span></a> – Information module for Discovery Device</p></li>
 <li><p><a class="reference internal" href="discovery_device_range_info_module.html#ansible-collections-cisco-dnac-discovery-device-range-info-module"><span class="std std-ref">discovery_device_range_info module</span></a> – Information module for Discovery Device Range</p></li>
 <li><p><a class="reference internal" href="discovery_info_module.html#ansible-collections-cisco-dnac-discovery-info-module"><span class="std std-ref">discovery_info module</span></a> – Information module for Discovery</p></li>
+<li><p><a class="reference internal" href="discovery_intent_module.html#ansible-collections-cisco-dnac-discovery-intent-module"><span class="std std-ref">discovery_intent module</span></a> – Resource module for discovery related functions</p></li>
 <li><p><a class="reference internal" href="discovery_job_info_module.html#ansible-collections-cisco-dnac-discovery-job-info-module"><span class="std std-ref">discovery_job_info module</span></a> – Information module for Discovery Job</p></li>
 <li><p><a class="reference internal" href="discovery_range_delete_module.html#ansible-collections-cisco-dnac-discovery-range-delete-module"><span class="std std-ref">discovery_range_delete module</span></a> – Resource module for Discovery Range Delete</p></li>
 <li><p><a class="reference internal" href="discovery_range_info_module.html#ansible-collections-cisco-dnac-discovery-range-info-module"><span class="std std-ref">discovery_range_info module</span></a> – Information module for Discovery Range</p></li>
@@ -767,6 +774,7 @@
 <li><p><a class="reference internal" href="profiling_rules_count_info_module.html#ansible-collections-cisco-dnac-profiling-rules-count-info-module"><span class="std std-ref">profiling_rules_count_info module</span></a> – Information module for Profiling Rules Count</p></li>
 <li><p><a class="reference internal" href="profiling_rules_in_bulk_create_module.html#ansible-collections-cisco-dnac-profiling-rules-in-bulk-create-module"><span class="std std-ref">profiling_rules_in_bulk_create module</span></a> – Resource module for Profiling Rules In Bulk Create</p></li>
 <li><p><a class="reference internal" href="projects_details_info_module.html#ansible-collections-cisco-dnac-projects-details-info-module"><span class="std std-ref">projects_details_info module</span></a> – Information module for Projects Details</p></li>
+<li><p><a class="reference internal" href="provision_intent_module.html#ansible-collections-cisco-dnac-provision-intent-module"><span class="std std-ref">provision_intent module</span></a> – Resource module for provision functions</p></li>
 <li><p><a class="reference internal" href="qos_device_interface_module.html#ansible-collections-cisco-dnac-qos-device-interface-module"><span class="std std-ref">qos_device_interface module</span></a> – Resource module for Qos Device Interface</p></li>
 <li><p><a class="reference internal" href="qos_device_interface_info_module.html#ansible-collections-cisco-dnac-qos-device-interface-info-module"><span class="std std-ref">qos_device_interface_info module</span></a> – Information module for Qos Device Interface</p></li>
 <li><p><a class="reference internal" href="qos_device_interface_info_count_info_module.html#ansible-collections-cisco-dnac-qos-device-interface-info-count-info-module"><span class="std std-ref">qos_device_interface_info_count_info module</span></a> – Information module for Qos Device Interface Info Count</p></li>
@@ -869,7 +877,7 @@
 <li><p><a class="reference internal" href="task_info_module.html#ansible-collections-cisco-dnac-task-info-module"><span class="std std-ref">task_info module</span></a> – Information module for Task</p></li>
 <li><p><a class="reference internal" href="task_operation_info_module.html#ansible-collections-cisco-dnac-task-operation-info-module"><span class="std std-ref">task_operation_info module</span></a> – Information module for Task Operation</p></li>
 <li><p><a class="reference internal" href="task_tree_info_module.html#ansible-collections-cisco-dnac-task-tree-info-module"><span class="std std-ref">task_tree_info module</span></a> – Information module for Task Tree</p></li>
-<li><p><a class="reference internal" href="template_intent_module.html#ansible-collections-cisco-dnac-template-intent-module"><span class="std std-ref">template_intent module</span></a> – Resource module for Template functions</p></li>
+<li><p><a class="reference internal" href="template_intent_module.html#ansible-collections-cisco-dnac-template-intent-module"><span class="std std-ref">template_intent module</span></a> –</p></li>
 <li><p><a class="reference internal" href="template_preview_module.html#ansible-collections-cisco-dnac-template-preview-module"><span class="std std-ref">template_preview module</span></a> – Resource module for Template Preview</p></li>
 <li><p><a class="reference internal" href="templates_details_info_module.html#ansible-collections-cisco-dnac-templates-details-info-module"><span class="std std-ref">templates_details_info module</span></a> – Information module for Templates Details</p></li>
 <li><p><a class="reference internal" href="threat_detail_module.html#ansible-collections-cisco-dnac-threat-detail-module"><span class="std std-ref">threat_detail module</span></a> – Resource module for Threat Detail</p></li>

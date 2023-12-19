@@ -42,7 +42,7 @@ cisco.dnac.site_intent module -- Resource module for Site operations
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.9.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.10.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -452,17 +452,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/site/building/parentName"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/site/building/parent_name"></div>
 
-      .. _ansible_collections.cisco.dnac.site_intent_module__parameter-config/site/building/parentname:
+      .. _ansible_collections.cisco.dnac.site_intent_module__parameter-config/site/building/parent_name:
 
       .. rst-class:: ansible-option-title
 
-      **parentName**
+      **parent_name**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/site/building/parentName" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/site/building/parent_name" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -521,17 +521,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/site/floor/floorNumber"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/site/floor/floor_number"></div>
 
-      .. _ansible_collections.cisco.dnac.site_intent_module__parameter-config/site/floor/floornumber:
+      .. _ansible_collections.cisco.dnac.site_intent_module__parameter-config/site/floor/floor_number:
 
       .. rst-class:: ansible-option-title
 
-      **floorNumber**
+      **floor_number**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/site/floor/floorNumber" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/site/floor/floor_number" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -545,7 +545,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Floor number in the building/site (eg 5).
+      Floor number in the building/site (eg 5).once created, it can't be modified.
 
 
       .. raw:: html
@@ -691,17 +691,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/site/floor/rfModel"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/site/floor/rf_model"></div>
 
-      .. _ansible_collections.cisco.dnac.site_intent_module__parameter-config/site/floor/rfmodel:
+      .. _ansible_collections.cisco.dnac.site_intent_module__parameter-config/site/floor/rf_model:
 
       .. rst-class:: ansible-option-title
 
-      **rfModel**
+      **rf_model**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/site/floor/rfModel" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/site/floor/rf_model" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1218,6 +1218,24 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    - name: Create a new area site
+      cisco.dnac.site_intent:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: "{{dnac_log}}"
+        state: merged
+        config:
+        - site:
+            area:
+              name: string
+              parentName: string
+          type: string
+
     - name: Create a new building site
       cisco.dnac.site_intent:
         dnac_host: "{{dnac_host}}"
@@ -1228,6 +1246,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log: "{{dnac_log}}"
+        state: merged
         config:
         - site:
             building:
@@ -1236,6 +1255,68 @@ Examples
               longitude: 0
               name: string
               parentName: string
+          type: string
+
+    - name: Create a Floor site under the building
+      cisco.dnac.site_intent:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: "{{dnac_log}}"
+        state: merged
+        config:
+        - site:
+            floor:
+              name: string
+              parent_name: string
+              length: int
+              width: int
+              height: int
+              rf_model: string
+              floor_number: int
+          type: string
+
+    - name: Updating the Floor details under the building
+      cisco.dnac.site_intent:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: "{{dnac_log}}"
+        state: merged
+        config:
+        - site:
+            floor:
+              name: string
+              parent_name: string
+              length: int
+              width: int
+              height: int
+          type: string
+
+    - name: Deleting any site you need site name and parentName
+      cisco.dnac.site_intent:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: "{{dnac_log}}"
+        state: deleted
+        config:
+        - site:
+            floor:
+              name: string
+              parent_name: string
           type: string
 
 
