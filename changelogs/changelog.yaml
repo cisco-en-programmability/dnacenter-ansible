@@ -749,3 +749,17 @@ releases:
         release_summary: Changing galaxy.
         minor_changes:
           - Adding support to ansible.utils ">=2.0.0, <4.00".
+    6.10.0:
+      release_date: "2023-12-18"
+      changes:
+        release_summary: Changes in intent module to support discovery, provisioning and more operations in swim, site, template and pnp intent modules.
+        minor_changes:
+          - Changes in inventory_intent module to support Update Device role, update interface details.
+          - Changes in inventory_intent module to create and assign Global User defined field to devices, Delete Global UDF, Delete Provisioned/Unprovisioned devices.
+          - Changes in pnp_intent module to support bulk addition and bulk deletion along with variable names.
+          - Handling idempotent in delete operation in site_intent module.
+          - Adding discovery intent module to support discovering the devices.
+          - Changes in swim intent module to support Distribute and activate image by fetching device based on site and device family details
+          - Changes in site intent module to support one-shot site deletion
+          - To Support provisioning wired device, reboot AP's, export device list, delete provisioned devices.
+          - Change the variable names into snake case in all the intent modules for better readability.

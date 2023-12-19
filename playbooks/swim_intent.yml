@@ -18,21 +18,26 @@
         dnac_debug: "{{dnac_debug}}"
         dnac_log: true
         config:
-        - importImageDetails:
+        - import_image_details:
             type: "{{ item.type }}"       
-            urlDetails:
-              payload: "{{ item.urlDetails.payload }}"
-          taggingDetails:       
-            deviceRole: "{{ item.device_role }}"
-            deviceFamilyName: "{{ item.device_family_name }}"
+            url_details:
+              payload: "{{ item.url_details.payload }}"
+          tagging_details:       
+            device_role: "{{ item.device_role }}"
+            device_family_name: "{{ item.device_family_name }}"
+            device_type: "{{item.device_type}}"
             tagging: true
-          imageDistributionDetails:
-            deviceSerialNumber: "{{ item.device_serial_number }}"
-          imageActivationDetails:
-            scehduleValidate: false
-            activateLowerImageVersion: true
-            deviceSerialNumber: "{{ item.device_serial_number }}"
-            distributeIfNeeded: true
+          image_distribution_details:
+            site_name: "{{item.site_name}}"
+            device_role: "{{ item.device_role }}"
+            device_family_name: "{{ item.device_family_name }}"
+          image_activation_details:
+            site_name: "{{item.site_name}}"
+            device_role: "{{ item.device_role }}"
+            device_family_name: "{{ item.device_family_name }}"
+            scehdule_validate: false
+            distribute_if_needed: true
+
       with_items: "{{ image_details }}"
       tags:
         - swim  

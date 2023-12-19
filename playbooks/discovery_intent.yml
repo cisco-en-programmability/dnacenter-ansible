@@ -1,0 +1,44 @@
+---
+- name: Discover devices
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars_files:
+    - "{{ CLUSTERFILE }}"
+
+  vars:
+    dnac_login: &dnac_login
+      dnac_host: "{{ dnac_host }}"
+      dnac_username: "{{ dnac_username }}"
+      dnac_password: "{{ dnac_password }}"
+      dnac_verify: "{{ dnac_verify }}"
+      dnac_port: "{{ dnac_port }}"
+      dnac_version: "{{ dnac_version }}"
+      dnac_debug: "{{ dnac_debug }}"
+
+  tasks:
+    - name: Execute discovery devices using MULTI RANGE
+      cisco.dnac.discovery_intent:
+        <<: *dnac_login
+        state: merged
+        config:
+          - devices_list:
+              - name: SJ-BN-9300
+                site: Global/USA/SAN JOSE/BLD23
+                role: MAPSERVER,BORDERNODE,INTERNAL,EXTERNAL,SDATRANSIT
+                l2interface: TenGigabitEthernet1/1/8
+                ip: 204.1.2.1
+              - name: NY-BN-9300
+                site: Global/USA/New York/BLDNYC
+                role: MAPSERVER,BORDERNODE,INTERNAL,EXTERNAL,SDATRANSIT,NOIPTRANSIT,ECA
+                managed_ap_site: Global/USA/New York/BLDNYC/FLOOR1
+                rolling_ap_count: 25
+                l2interface: TenGigabitEthernet1/1/6
+                ip: 204.1.2.3
+            discovery_type: "MULTI RANGE"
+            protocol_order: ssh
+            start_index: 1
+            records_to_return: 25
+            snmp_version: v2
+            
