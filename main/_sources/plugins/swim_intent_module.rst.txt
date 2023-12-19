@@ -42,7 +42,7 @@ cisco.dnac.swim_intent module -- Intent module for SWIM related functions
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.9.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.10.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -147,17 +147,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imageactivationdetails:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_activation_details:
 
       .. rst-class:: ansible-option-title
 
-      **imageActivationDetails**
+      **image_activation_details**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -181,17 +181,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/activateLowerImageVersion"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/activate_lower_image_version"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imageactivationdetails/activatelowerimageversion:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_activation_details/activate_lower_image_version:
 
       .. rst-class:: ansible-option-title
 
-      **activateLowerImageVersion**
+      **activate_lower_image_version**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/activateLowerImageVersion" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/activate_lower_image_version" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -223,17 +223,51 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/deviceHostname"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_family_name"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imageactivationdetails/devicehostname:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_activation_details/device_family_name:
 
       .. rst-class:: ansible-option-title
 
-      **deviceHostname**
+      **device_family_name**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/deviceHostname" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_family_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device family name
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_hostname"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_activation_details/device_hostname:
+
+      .. rst-class:: ansible-option-title
+
+      **device_hostname**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_hostname" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -257,17 +291,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/deviceIPAddress"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_ip_address"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imageactivationdetails/deviceipaddress:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_activation_details/device_ip_address:
 
       .. rst-class:: ansible-option-title
 
-      **deviceIPAddress**
+      **device_ip_address**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/deviceIPAddress" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_ip_address" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -291,17 +325,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/deviceMacAddress"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_mac_address"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imageactivationdetails/devicemacaddress:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_activation_details/device_mac_address:
 
       .. rst-class:: ansible-option-title
 
-      **deviceMacAddress**
+      **device_mac_address**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/deviceMacAddress" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_mac_address" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -325,17 +359,51 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/deviceSerialNumber"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_role"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imageactivationdetails/deviceserialnumber:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_activation_details/device_role:
 
       .. rst-class:: ansible-option-title
 
-      **deviceSerialNumber**
+      **device_role**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/deviceSerialNumber" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_role" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device Role. Permissible Values ALL, UNKNOWN, ACCESS, BORDER ROUTER, DISTRIBUTION and CORE.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_serial_number"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_activation_details/device_serial_number:
+
+      .. rst-class:: ansible-option-title
+
+      **device_serial_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_serial_number" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -359,17 +427,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/deviceUpgradeMode"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_upgrade_mode"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imageactivationdetails/deviceupgrademode:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_activation_details/device_upgrade_mode:
 
       .. rst-class:: ansible-option-title
 
-      **deviceUpgradeMode**
+      **device_upgrade_mode**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/deviceUpgradeMode" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_upgrade_mode" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -393,9 +461,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/distributeIfNeeded"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/distributeIfNeeded"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imageactivationdetails/distributeifneeded:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_activation_details/distributeifneeded:
 
       .. rst-class:: ansible-option-title
 
@@ -403,7 +471,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/distributeIfNeeded" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/distributeIfNeeded" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -435,17 +503,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/imageName"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/image_name"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imageactivationdetails/imagename:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_activation_details/image_name:
 
       .. rst-class:: ansible-option-title
 
-      **imageName**
+      **image_name**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/imageName" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/image_name" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -469,17 +537,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/imageActivationDetails/scheduleValidate"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/schedule_validate"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imageactivationdetails/schedulevalidate:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_activation_details/schedule_validate:
 
       .. rst-class:: ansible-option-title
 
-      **scheduleValidate**
+      **schedule_validate**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/imageActivationDetails/scheduleValidate" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/schedule_validate" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -508,21 +576,55 @@ Parameters
 
         </div>
 
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/site_name"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_activation_details/site_name:
+
+      .. rst-class:: ansible-option-title
+
+      **site_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/site_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Used to get device details associated to this site.
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/imageDistributionDetails"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imagedistributiondetails:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_distribution_details:
 
       .. rst-class:: ansible-option-title
 
-      **imageDistributionDetails**
+      **image_distribution_details**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/imageDistributionDetails" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -546,17 +648,51 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/imageDistributionDetails/deviceHostname"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_family_name"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imagedistributiondetails/devicehostname:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_distribution_details/device_family_name:
 
       .. rst-class:: ansible-option-title
 
-      **deviceHostname**
+      **device_family_name**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/imageDistributionDetails/deviceHostname" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_family_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device family name
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_hostname"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_distribution_details/device_hostname:
+
+      .. rst-class:: ansible-option-title
+
+      **device_hostname**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_hostname" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -580,17 +716,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/imageDistributionDetails/deviceIPAddress"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_ip_address"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imagedistributiondetails/deviceipaddress:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_distribution_details/device_ip_address:
 
       .. rst-class:: ansible-option-title
 
-      **deviceIPAddress**
+      **device_ip_address**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/imageDistributionDetails/deviceIPAddress" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_ip_address" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -614,17 +750,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/imageDistributionDetails/deviceMacAddress"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_mac_address"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imagedistributiondetails/devicemacaddress:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_distribution_details/device_mac_address:
 
       .. rst-class:: ansible-option-title
 
-      **deviceMacAddress**
+      **device_mac_address**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/imageDistributionDetails/deviceMacAddress" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_mac_address" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -648,17 +784,51 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/imageDistributionDetails/deviceSerialNumber"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_role"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imagedistributiondetails/deviceserialnumber:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_distribution_details/device_role:
 
       .. rst-class:: ansible-option-title
 
-      **deviceSerialNumber**
+      **device_role**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/imageDistributionDetails/deviceSerialNumber" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_role" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device Role. Permissible Values ALL, UNKNOWN, ACCESS, BORDER ROUTER, DISTRIBUTION and CORE.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_serial_number"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_distribution_details/device_serial_number:
+
+      .. rst-class:: ansible-option-title
+
+      **device_serial_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_serial_number" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -682,17 +852,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/imageDistributionDetails/imageName"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/image_name"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imagedistributiondetails/imagename:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_distribution_details/image_name:
 
       .. rst-class:: ansible-option-title
 
-      **imageName**
+      **image_name**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/imageDistributionDetails/imageName" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/image_name" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -713,21 +883,20 @@ Parameters
 
         </div>
 
-
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/imageName"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/site_name"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/imagename:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/image_distribution_details/site_name:
 
       .. rst-class:: ansible-option-title
 
-      **imageName**
+      **site_name**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/imageName" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/site_name" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -739,29 +908,30 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      SWIM Image name.
+      Used to get device details associated to this site.
 
 
       .. raw:: html
 
         </div>
 
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details:
 
       .. rst-class:: ansible-option-title
 
-      **importImageDetails**
+      **import_image_details**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -785,17 +955,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/localimagedetails:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details/local_image_details:
 
       .. rst-class:: ansible-option-title
 
-      **localImageDetails**
+      **local_image_details**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -819,17 +989,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails/filePath"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details/file_path"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/localimagedetails/filepath:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details/local_image_details/file_path:
 
       .. rst-class:: ansible-option-title
 
-      **filePath**
+      **file_path**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails/filePath" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details/file_path" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -853,17 +1023,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails/isThirdParty"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details/is_third_party"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/localimagedetails/isthirdparty:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details/local_image_details/is_third_party:
 
       .. rst-class:: ansible-option-title
 
-      **isThirdParty**
+      **is_third_party**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails/isThirdParty" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details/is_third_party" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -895,17 +1065,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails/thirdPartyApplicationType"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details/third_party_application_type"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/localimagedetails/thirdpartyapplicationtype:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details/local_image_details/third_party_application_type:
 
       .. rst-class:: ansible-option-title
 
-      **thirdPartyApplicationType**
+      **third_party_application_type**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails/thirdPartyApplicationType" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details/third_party_application_type" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -929,17 +1099,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails/thirdPartyImageFamily"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details/third_party_image_family"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/localimagedetails/thirdpartyimagefamily:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details/local_image_details/third_party_image_family:
 
       .. rst-class:: ansible-option-title
 
-      **thirdPartyImageFamily**
+      **third_party_image_family**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails/thirdPartyImageFamily" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details/third_party_image_family" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -963,17 +1133,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/localImageDetails/thirdPartyVendor"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/local_image_details/third_party_vendor"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/localimagedetails/thirdpartyvendor:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details/local_image_details/third_party_vendor:
 
       .. rst-class:: ansible-option-title
 
-      **thirdPartyVendor**
+      **third_party_vendor**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/localImageDetails/thirdPartyVendor" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/local_image_details/third_party_vendor" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -998,9 +1168,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/type"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/type"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/type:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details/type:
 
       .. rst-class:: ansible-option-title
 
@@ -1008,7 +1178,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/type" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/type" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1032,17 +1202,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/urldetails:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details/url_details:
 
       .. rst-class:: ansible-option-title
 
-      **urlDetails**
+      **url_details**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1066,9 +1236,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/payload"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/urldetails/payload:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details/url_details/payload:
 
       .. rst-class:: ansible-option-title
 
@@ -1076,7 +1246,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/payload" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1100,17 +1270,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/payload/applicationType"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload/application_type"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/urldetails/payload/applicationtype:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details/url_details/payload/application_type:
 
       .. rst-class:: ansible-option-title
 
-      **applicationType**
+      **application_type**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/payload/applicationType" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/application_type" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1134,17 +1304,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/payload/imageFamily"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload/image_family"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/urldetails/payload/imagefamily:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details/url_details/payload/image_family:
 
       .. rst-class:: ansible-option-title
 
-      **imageFamily**
+      **image_family**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/payload/imageFamily" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/image_family" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1168,17 +1338,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/payload/sourceURL"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload/source_url"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/urldetails/payload/sourceurl:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details/url_details/payload/source_url:
 
       .. rst-class:: ansible-option-title
 
-      **sourceURL**
+      **source_url**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/payload/sourceURL" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/source_url" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1192,7 +1362,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Swim Import Via Url's sourceURL.
+      Swim Import Image Via Url.
 
 
       .. raw:: html
@@ -1202,17 +1372,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/payload/thirdParty"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload/third_party"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/urldetails/payload/thirdparty:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details/url_details/payload/third_party:
 
       .. rst-class:: ansible-option-title
 
-      **thirdParty**
+      **third_party**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/payload/thirdParty" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/third_party" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1244,9 +1414,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/payload/vendor"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/payload/vendor"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/urldetails/payload/vendor:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details/url_details/payload/vendor:
 
       .. rst-class:: ansible-option-title
 
@@ -1254,7 +1424,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/payload/vendor" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/payload/vendor" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1279,17 +1449,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/scheduleAt"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/schedule_at"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/urldetails/scheduleat:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details/url_details/schedule_at:
 
       .. rst-class:: ansible-option-title
 
-      **scheduleAt**
+      **schedule_at**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/scheduleAt" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/schedule_at" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1313,17 +1483,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/scheduleDesc"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/schedule_desc"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/urldetails/scheduledesc:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details/url_details/schedule_desc:
 
       .. rst-class:: ansible-option-title
 
-      **scheduleDesc**
+      **schedule_desc**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/scheduleDesc" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/schedule_desc" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1347,17 +1517,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/importImageDetails/urlDetails/scheduleOrigin"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import_image_details/url_details/schedule_origin"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/importimagedetails/urldetails/scheduleorigin:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/import_image_details/url_details/schedule_origin:
 
       .. rst-class:: ansible-option-title
 
-      **scheduleOrigin**
+      **schedule_origin**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/importImageDetails/urlDetails/scheduleOrigin" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import_image_details/url_details/schedule_origin" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1383,17 +1553,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/taggingDetails"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/tagging_details"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/taggingdetails:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/tagging_details:
 
       .. rst-class:: ansible-option-title
 
-      **taggingDetails**
+      **tagging_details**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/taggingDetails" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/tagging_details" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1417,17 +1587,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/taggingDetails/deviceFamilyName"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/tagging_details/device_family_name"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/taggingdetails/devicefamilyname:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/tagging_details/device_family_name:
 
       .. rst-class:: ansible-option-title
 
-      **deviceFamilyName**
+      **device_family_name**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/taggingDetails/deviceFamilyName" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/tagging_details/device_family_name" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1441,7 +1611,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device family name
+      Device family name(Eg Switches and Hubs)
 
 
       .. raw:: html
@@ -1451,17 +1621,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/taggingDetails/deviceRole"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/tagging_details/device_role"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/taggingdetails/devicerole:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/tagging_details/device_role:
 
       .. rst-class:: ansible-option-title
 
-      **deviceRole**
+      **device_role**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/taggingDetails/deviceRole" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/tagging_details/device_role" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1485,17 +1655,51 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/taggingDetails/imageName"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/tagging_details/device_type"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/taggingdetails/imagename:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/tagging_details/device_type:
 
       .. rst-class:: ansible-option-title
 
-      **imageName**
+      **device_type**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/taggingDetails/imageName" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/tagging_details/device_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of the device (Eg Cisco Catalyst 9300 Switch)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tagging_details/image_name"></div>
+
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/tagging_details/image_name:
+
+      .. rst-class:: ansible-option-title
+
+      **image_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tagging_details/image_name" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1519,17 +1723,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/taggingDetails/siteName"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/tagging_details/site_name"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/taggingdetails/sitename:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/tagging_details/site_name:
 
       .. rst-class:: ansible-option-title
 
-      **siteName**
+      **site_name**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/taggingDetails/siteName" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/tagging_details/site_name" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1553,9 +1757,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/taggingDetails/tagging"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/tagging_details/tagging"></div>
 
-      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/taggingdetails/tagging:
+      .. _ansible_collections.cisco.dnac.swim_intent_module__parameter-config/tagging_details/tagging:
 
       .. rst-class:: ansible-option-title
 
@@ -1563,7 +1767,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/taggingDetails/tagging" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/tagging_details/tagging" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2029,34 +2233,90 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         dnac_log: True
         config:
-        - importImageDetails:
+        - import_image_details:
             type: string
             urlDetails:
               payload:
-              - sourceURL: string
-                isThirdParty: bool
-                imageFamily: string
+              - source_url: string
+                is_third_party: bool
+                image_family: string
                 vendor: string
-                applicationType: string
-              scheduleAt: string
-              scheduleDesc: string
-              scheduleOrigin: string
-          imageName: string
-          taggingDetails:
-            imageName: string
-            deviceRole: string
-            deviceFamilyName: string
-            siteName: string
+                application_type: string
+              schedule_at: string
+              schedule_desc: string
+              schedule_origin: string
+          tagging_details:
+            image_name: string
+            device_role: string
+            device_family_name: string
+            site_name: string
             tagging: bool
-          imageDistributionDetails:
-            imageName: string
-            deviceSerialNumber: string
-          imageActivationDetails:
-            scheduleValidate: bool
-            activateLowerImageVersion: bool
-            distributeIfNeeded: bool
-            deviceSerialNumber: string
-            imageName: string
+          image_distribution_details:
+            image_name: string
+            device_serial_number: string
+          image_activation_details:
+            schedule_validate: bool
+            activate_lower_image_version: bool
+            distribute_if_needed: bool
+            device_serial_number: string
+            image_name: string
+
+    - name: Tag the given image as golden and load it on device
+      cisco.dnac.swim_intent:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        config:
+        - tagging_details:
+            image_name: string
+            device_role: string
+            device_family_name: string
+            device_type: string
+            site_name: string
+            tagging: bool
+
+    - name: Distribute the given image on devices associated to that site with specified role.
+      cisco.dnac.swim_intent:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        config:
+        - image_distribution_details:
+            image_name: string
+            site_name: string
+            device_role: string
+            device_family_name: string
+
+    - name: Activate the given image on devices associated to that site with specified role.
+      cisco.dnac.swim_intent:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        config:
+        - image_activation_details:
+            image_name: string
+            site_name: string
+            device_role: string
+            device_family_name: string
+            scehdule_validate: bool
+            activate_lower_image_version: bool
+            distribute_if_needed: bool
+
 
 
 
