@@ -26,7 +26,7 @@ author: Muthu Rakesh (@MUTHU-RAKESH-27)
         Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the config in the Cisco DNA Center.
+    description: Set to True to verify the Cisco DNA Center after applying the playbook config.
     type: bool
     default: False
   state:
