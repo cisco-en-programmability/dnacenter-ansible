@@ -1,6 +1,6 @@
-- hosts: dnac_servers
+- hosts: localhost
   vars_files:
-    - credentials_245.yml
+    - "{{ CLUSTERFILE }}"
     - device_details.yml
   gather_facts: false
   connection: local
@@ -25,11 +25,11 @@
             template_content: "{{ item.device_config }}"
             language: "{{ item.language }}"
             device_types:
-              - product_family: "{{ item.family }}"
-                software_type: "{{ item.type }}"
-                software_variant: "{{ item.variant }}"
-                template_name: "{{ item.temp_name }}"
-                version_description: "{{ item.description }}"
+            - product_family: "{{ item.family }}"
+            software_type: "{{ item.type }}"
+            software_variant: "{{ item.variant }}"
+            template_name: "{{ item.temp_name }}"
+            version_description: "{{ item.description }}"
       register: template_result
       with_items: '{{ template_details }}'
       tags:
@@ -52,7 +52,7 @@
           image_name: "{{ item.image_name }}"
           device_version: "{{ item.device_version }}"
           device_info:
-            - serialNumber: "{{ item.device_number }}"
+            - serial_number: "{{ item.device_number }}"
               hostname: "{{ item.device_name}}"
               state: "{{ item.device_state }}"
               pid: "{{ item.device_id }}"
