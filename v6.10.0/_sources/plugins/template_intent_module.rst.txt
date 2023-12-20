@@ -1,0 +1,29 @@
+
+.. Document meta section
+
+:orphan:
+
+.. Document body
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.template_intent_module:
+
+.. Title
+
+cisco.dnac.template_intent module
++++++++++++++++++++++++++++++++++
+
+
+The documentation for the module plugin, cisco.dnac.template_intent,  was malformed.
+
+The errors were:
+
+* ::
+
+        1 validation error for ModuleDocSchema
+        doc -> options -> config -> suboptions -> import -> type
+          none is not an allowed value (type=type_error.none.not_allowed)
+
+
+File a bug with the `cisco.dnac collection <https://github.com/cisco-en-programmability/dnacenter-ansible/issues>`_ in order to have it corrected.
