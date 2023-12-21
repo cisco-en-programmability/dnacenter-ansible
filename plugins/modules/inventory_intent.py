@@ -1126,6 +1126,129 @@ class DnacDevice(DnacBase):
 
         return self
 
+    def handle_successful_provisioning(self, device_ip, execution_details, device_type):
+        """
+        Handle successful provisioning of Wired/Wireless device.
+        Parameters:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - device_ip (str): The IP address of the provisioned device.
+            - execution_details (str): Details of the provisioning execution.
+            - device_type (str): The type or category of the provisioned device(Wired/Wireless).
+        Return:
+            None
+        Description:
+            This method updates the status, result, and logs the successful provisioning of a device.
+        """
+
+        self.status = "success"
+        self.result['changed'] = True
+        self.result['response'] = execution_details
+        self.log("{0} Device {1} provisioned successfully!!".format(device_type, device_ip))
+
+    def handle_failed_provisioning(self, device_ip, execution_details, device_type):
+        """
+        Handle failed provisioning of Wired/Wireless device.
+        Parameters:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - device_ip (str): The IP address of the device that failed provisioning.
+            - execution_details (dict): Details of the failed provisioning execution in key "failureReason" indicating reason for failure.
+            - device_type (str): The type or category of the provisioned device(Wired/Wireless).
+        Return:
+            None
+        Description:
+            This method updates the status, result, and logs the failure of provisioning for a device.
+        """
+
+        self.status = "failed"
+        failure_reason = execution_details.get("failureReason", "Unknown failure reason")
+        self.msg = f"{0} Device Provisioning failed for {1} because of {2}".format(device_type, device_ip, failure_reason)
+        self.log(self.msg)
+
+    def handle_provisioning_exception(self, device_ip, exception, device_type):
+        """
+        Handle an exception during the provisioning process of Wired/Wireless device..
+        Parameters:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - device_ip (str): The IP address of the device involved in provisioning.
+            - exception (Exception): The exception raised during provisioning.
+            - device_type (str): The type or category of the provisioned device(Wired/Wireless).
+        Return:
+            None
+        Description:
+            This method logs an error message indicating an exception occurred during the provisioning process for a device.
+        """
+
+        error_message = "Error while Provisioning the {0} device {1} in Cisco DNA Center - {2}".format(device_type, device_ip, str(exception))
+        self.log(error_message)
+
+    def handle_all_already_provisioned(self, device_ips, device_type):
+        """
+        Handle successful provisioning for all devices(Wired/Wireless).
+        Parameters:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - device_type (str): The type or category of the provisioned device(Wired/Wireless).
+        Return:
+            None
+        Description:
+            This method updates the status, result, and logs the successful provisioning for all devices(Wired/Wireless).
+        """
+
+        self.status = "success"
+        self.msg = "All the {0} Devices - {1} given in the playbook are already Provisioned".format(device_type, str(device_ips))
+        self.log(self.msg)
+        self.result['response'] = self.msg
+        self.result['changed'] = False
+
+    def handle_all_provisioned(self, device_type):
+        """
+        Handle successful provisioning for all devices(Wired/Wireless).
+        Parameters:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - device_type (str): The type or category of the provisioned devices(Wired/Wireless).
+        Return:
+            None
+        Description:
+            This method updates the status, result, and logs the successful provisioning for all devices(Wired/Wireless).
+        """
+
+        self.status = "success"
+        self.result['changed'] = True
+        self.log("All {0} Devices provisioned successfully!!".format(device_type))
+
+    def handle_all_failed_provision(self, device_type):
+        """
+        Handle failure of provisioning for all devices(Wired/Wireless).
+        Parameters:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - device_type (str): The type or category of the devices(Wired/Wireless).
+        Return:
+            None
+        Description:
+            This method updates the status and logs a failure message indicating that
+            provisioning failed for all devices of a specific type.
+        """
+
+        self.status = "failed"
+        self.log("{0} Device Provisioning failed for all devices".format(device_type))
+
+    def handle_partially_provisioned(self, provision_count, device_type):
+        """
+        Handle partial success in provisioning for devices(Wired/Wireless).
+        Parameters:
+            - self (object): An instance of a class used for interacting with Cisco DNA Center.
+            - provision_count (int): The count of devices that were successfully provisioned.
+            - device_type (str): The type or category of the provisioned devices(Wired/Wireless).
+        Return:
+            None
+        Description:
+            This method updates the status, result, and logs a partial success message indicating that provisioning was successful
+            for a certain number of devices(Wired/Wireless).
+        """
+
+        self.status = "success"
+        self.result['changed'] = True
+        self.log("{0} Devices provisioned successfully partially for {1} devices".format(device_type, provision_count))
+
     def provisioned_wired_device(self):
         """
         Provision wired devices in Cisco DNA Center.
@@ -1141,7 +1264,15 @@ class DnacDevice(DnacBase):
 
         site_name = self.config[0]['provision_wired_device']['site_name']
         device_ips = self.config[0]['ip_address']
+        device_type = "Wired"
         provision_count, already_provision_count = 0, 0
+
+        if not site_name and not device_ips:
+            self.status = "failed"
+            self.msg = "Site/Devices are required for Provisioning of Wired Devices."
+            self.log(self.msg)
+            return self
+
         provision_wired_params = {
             'siteNameHierarchy': site_name
         }
@@ -1171,48 +1302,30 @@ class DnacDevice(DnacBase):
                     self.log(progress)
 
                     if 'TASK_PROVISION' in progress:
-                        self.result['changed'] = True
-                        self.result['response'] = execution_details
+                        self.handle_successful_provisioning(device_ip, execution_details, device_type)
                         provision_count += 1
                         break
                     elif execution_details.get("isError"):
-                        self.status = "failed"
-                        failure_reason = execution_details.get("failureReason")
-                        if failure_reason:
-                            self.msg = "Device Provisioning get failed because of {0}".format(failure_reason)
-                        else:
-                            self.msg = "Device Provisioning get failed"
+                        self.handle_failed_provisioning(device_ip, execution_details, device_type)
                         break
 
             except Exception as e:
                 # Not returning from here as there might be possiblity that for some devices it comes into exception
                 # but for others it gets provision successfully or If some devices are already provsioned
-                error_message = "Error while Provisioning the device {0} in Cisco DNA Center - {1}".format(device_ip, str(e))
-                self.log(error_message)
-
+                self.handle_provisioning_exception(device_ip, e, device_type)
                 if "already provisioned" in str(e):
                     self.log(str(e))
                     already_provision_count += 1
 
         # Check If all the devices are already provsioned, return from here only
         if already_provision_count == len(device_ips):
-            self.status = "success"
-            self.msg = "All the Wired Devices given in the playbook are already Provisioned"
-            self.log(self.msg)
-            self.result['response'] = self.msg
-            self.result['changed'] = False
-            return self
-
-        if provision_count == len(device_ips):
-            self.status = "success"
-            msg = "Wired Device get provisioned Successfully !!"
+            self.handle_all_already_provisioned(device_ips, device_type)
+        elif provision_count == len(device_ips):
+            self.handle_all_provisioned(device_type)
         elif provision_count == 0:
-            self.status = "failed"
-            msg = "Wired Device Provisioning get failed"
+            self.handle_all_failed_provision(device_type)
         else:
-            self.status = "success"
-            msg = "Wired Device get provisioned Successfully Partially for {0} devices!!".format(provision_count)
-        self.log(msg)
+            self.handle_partially_provisioned(provision_count, device_type)
 
         return self
 
@@ -1233,25 +1346,24 @@ class DnacDevice(DnacBase):
             locations, dynamic interfaces, and device name.
         """
 
-        temp_dict = self.config[0]['provision_wireless_device'][0]
+        wireless_config = self.config[0]['provision_wireless_device'][0]
         wireless_param = [
             {
-                'site': temp_dict['site_name'],
-                'managedAPLocations': temp_dict['managed_ap_locations'],
+                'site': wireless_config['site_name'],
+                'managedAPLocations': wireless_config['managed_ap_locations'],
             }
         ]
 
         for ap_loc in wireless_param[0]["managedAPLocations"]:
-
             if self.get_site_type(site_name=ap_loc) != "floor":
                 self.status = "failed"
                 self.msg = "Managed AP Location must be a floor"
                 self.log(self.msg)
-                self.module.fail_json(msg=self.msg, response=[self.msg])
+                return self
 
         wireless_param[0]["dynamicInterfaces"] = []
 
-        for interface in temp_dict.get("dynamic_interfaces"):
+        for interface in wireless_config.get("dynamic_interfaces"):
             interface_dict = {
                 "interfaceIPAddress": interface.get("interface_ip_address"),
                 "interfaceNetmaskInCIDR": interface.get("interface_netmask_in_cidr"),
@@ -1271,14 +1383,17 @@ class DnacDevice(DnacBase):
             self.status = "failed"
             self.msg = "Device Host name is not present in the Cisco DNA Center"
             self.log(self.msg)
-            self.module.fail_json(msg=self.msg, response=[self.msg])
+            return self
 
         response = response.get("response")
         wireless_param[0]["deviceName"] = response.get("hostname")
+        self.wireless_param = wireless_param
+        self.status = "success"
+        self.log("Successfully collected all parameters required for Wireless Provisioing")
 
-        return wireless_param
+        return self
 
-    def get_site_type(self, site_name=None):
+    def get_site_type(self, site_name):
         """
         Get the type of a site in Cisco DNA Center.
         Parameters:
@@ -1334,11 +1449,13 @@ class DnacDevice(DnacBase):
         """
 
         provision_count, already_provision_count = 0, 0
+        device_type = "Wireless"
 
         for device_ip in device_ips:
             try:
                 # Collect the device parameters from the playbook to perform wireless provisioing
-                provisioning_params = self.get_wireless_param(device_ip)
+                self.get_wireless_param(device_ip).check_return_status()
+                provisioning_params = self.wireless_param
 
                 # Now we have provisioning_param so we can do wireless provisioning
                 response = self.dnac_apply['exec'](
@@ -1360,52 +1477,31 @@ class DnacDevice(DnacBase):
                     execution_details = self.get_task_details(task_id)
                     progress = execution_details.get("progress")
                     self.log(progress)
-
                     if 'TASK_PROVISION' in progress:
-                        self.status = "success"
-                        self.result['changed'] = True
-                        self.result['response'] = execution_details
+                        self.handle_successful_provisioning(device_ip, execution_details, device_type)
                         provision_count += 1
                         break
                     elif execution_details.get("isError"):
-                        self.status = "failed"
-                        failure_reason = execution_details.get("failureReason")
-                        if failure_reason:
-                            self.msg = "Wireless Device Provisioning get failed because of {0}".format(failure_reason)
-                        else:
-                            self.msg = "Wireless Device Provisioning get failed"
+                        self.handle_failed_provisioning(device_ip, execution_details, device_type)
                         break
+
             except Exception as e:
                 # Not returning from here as there might be possiblity that for some devices it comes into exception
                 # but for others it gets provision successfully or If some devices are already provsioned
-                error_message = "Error while Provisioning the device {0} in Cisco DNA Center - {1}".format(device_ip, str(e))
-                self.log(error_message)
-
+                self.handle_provisioning_exception(device_ip, e, device_type)
                 if "already provisioned" in str(e):
                     self.log(str(e))
                     already_provision_count += 1
 
         # Check If all the devices are already provsioned, return from here only
         if already_provision_count == len(device_ips):
-            self.status = "success"
-            self.msg = "All the Wired Devices given in the playbook are already Provisioned"
-            self.log(self.msg)
-            self.result['response'] = self.msg
-            self.result['changed'] = False
-            return self
-
-        if provision_count == len(device_ips):
-            self.status = "success"
-            self.result['changed'] = True
-            msg = "Wireless Device get provisioned Successfully !!"
+            self.handle_all_already_provisioned(device_ips, device_type)
+        elif provision_count == len(device_ips):
+            self.handle_all_provisioned(device_type)
         elif provision_count == 0:
-            self.status = "failed"
-            msg = "Wireless Device Provisioning get failed"
+            self.handle_all_failed_provision(device_type)
         else:
-            self.status = "success"
-            self.result['changed'] = True
-            msg = "Wireless Device get provisioned Successfully Partially for {0} devices!!".format(provision_count)
-        self.log(msg)
+            self.handle_partially_provisioned(provision_count, device_type)
 
         return self
 
@@ -1557,13 +1653,13 @@ class DnacDevice(DnacBase):
         }
 
         if device_param.get("updateMgmtIPaddressList"):
-            temp_dict = device_param.get("updateMgmtIPaddressList")[0]
+            device_mngmt_dict = device_param.get("updateMgmtIPaddressList")[0]
             device_param["updateMgmtIPaddressList"][0] = {}
 
             device_param["updateMgmtIPaddressList"][0].update(
                 {
-                    "existMgmtIpAddress": temp_dict.get("exist_mgmt_ipaddress"),
-                    "newMgmtIpAddress": temp_dict.get("new_mgmt_ipaddress")
+                    "existMgmtIpAddress": device_mngmt_dict.get("exist_mgmt_ipaddress"),
+                    "newMgmtIpAddress": device_mngmt_dict.get("new_mgmt_ipaddress")
                 })
 
         return device_param
