@@ -1161,7 +1161,7 @@ class DnacDevice(DnacBase):
 
         self.status = "failed"
         failure_reason = execution_details.get("failureReason", "Unknown failure reason")
-        self.msg = f"{0} Device Provisioning failed for {1} because of {2}".format(device_type, device_ip, failure_reason)
+        self.msg = "{0} Device Provisioning failed for {1} because of {2}".format(device_type, device_ip, failure_reason)
         self.log(self.msg)
 
     def handle_provisioning_exception(self, device_ip, exception, device_type):
