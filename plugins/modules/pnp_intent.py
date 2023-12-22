@@ -16,6 +16,7 @@ description:
 - Manage operations add device, claim device and unclaim device of Onboarding Configuration(PnP) resource
 - API to add device to pnp inventory and claim it to a site.
 - API to delete device from the pnp inventory.
+- API to reset the device from errored state.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
@@ -89,7 +90,8 @@ options:
         elements: dict
         suboptions:
           hostname:
-            description: Pnp Device's hostname.
+            description: Pnp Device's hostname that we want to keep post claiming. Hostname can only
+            be changed during claiming not bulk adding/ single adding
             type: str
           state:
             description: Pnp Device's onbording state (Unclaimed/Claimed/Provisioned).
@@ -115,6 +117,7 @@ notes:
     device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp,
     device_onboarding_pnp.DeviceOnboardingPnp.get_device_count,
     device_onboarding_pnp.DeviceOnboardingPnp.get_device_by_id,
+    device_onboarding_pnp.DeviceOnboardingPnp.update_device,
     sites.Sites.get_site,
     software_image_management_swim.SoftwareImageManagementSwim.get_software_image_details,
     configuration_templates.ConfigurationTemplates.gets_the_templates_available
@@ -125,6 +128,7 @@ notes:
     post /dna/intent/api/v1/onboarding/pnp-device/{id}
     get /dna/intent/api/v1/onboarding/pnp-device/count
     get /dna/intent/api/v1/onboarding/pnp-device
+    put /onboarding/pnp-device/${id}
     get /dna/intent/api/v1/site
     get /dna/intent/api/v1/image/importation
     get /dna/intent/api/v1/template-programmer/template
@@ -372,6 +376,7 @@ class DnacPnp(DnacBase):
           and stores it for further processing and calling the parameters in
           other APIs.
         """
+
         params_list = params["device_info"]
         device_info_list = []
         for param in params_list:
@@ -471,6 +476,32 @@ class DnacPnp(DnacBase):
 
         return claim_params
 
+    def get_reset_params(self):
+
+        reset_params = {
+            "deviceResetList": [
+                {
+                    "configList": [
+                        {
+                            "configId": self.have.get('template_id'),
+                            "configParameters": [
+                                {
+                                    "key": "",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "deviceId": self.have.get('device_id'),
+                    "licenseLevel": "",
+                    "licenseType": "",
+                    "topOfStackSerialNumber": ""
+                }
+            ]
+        }
+
+        return reset_params
+
     def get_have(self):
         """
         Get the current image, template and site details from the DNAC.
@@ -539,7 +570,7 @@ class DnacPnp(DnacBase):
                 # check if given site exits, if exists store current site info
                 site_exists = False
                 if not isinstance(self.want.get("site_name"), str) and \
-                        not self.want.get('pnp_params').get('deviceInfo'):
+                        not self.want.get('pnp_params')[0].get('deviceInfo'):
                     self.msg = "Name of the site must be a string"
                     self.status = "failed"
                     return self
@@ -586,7 +617,7 @@ class DnacPnp(DnacBase):
                             return self
 
                 else:
-                    if not self.want.get('pnp_params').get('deviceInfo'):
+                    if not self.want.get('pnp_params')[0].get('deviceInfo'):
                         self.msg = "Either Site Name or Device details must be added"
                         self.status = "failed"
                         return self
@@ -595,7 +626,6 @@ class DnacPnp(DnacBase):
                     parameters from dnac for comparison"
         self.status = "success"
         self.have = have
-
         return self
 
     def get_want(self, config):
@@ -648,6 +678,7 @@ class DnacPnp(DnacBase):
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
         self.status = "success"
+        #
         return self
 
     def get_diff_merged(self):
@@ -672,7 +703,7 @@ class DnacPnp(DnacBase):
             self.status = "failed"
             return self
 
-        if len(self.want.get("pnp_params")) >= 2:
+        if len(self.want.get("pnp_params")) > 1:
             devices_added = []
             for device in self.want.get("pnp_params"):
                 multi_device_response = self.dnac_apply['exec'](
@@ -683,6 +714,7 @@ class DnacPnp(DnacBase):
 
                 if (multi_device_response and (len(multi_device_response) == 1)):
                     devices_added.append(device)
+
             if (len(self.want.get("pnp_params")) - len(devices_added)) == 0:
                 self.result['response'] = []
                 self.result['msg'] = "Devices are already added"
@@ -793,16 +825,50 @@ class DnacPnp(DnacBase):
                 params=planned_count_params,
             )
 
+            dev_details_response = self.dnac_apply['exec'](
+                family="device_onboarding_pnp",
+                function="get_device_by_id",
+                params={"id": self.have["device_id"]}
+            )
+
+            pnp_state = dev_details_response.get("deviceInfo").get("state")
+
             if not self.want["site_name"]:
                 self.result['response'] = self.have.get("device_found")
                 self.result['msg'] = "Device is already added"
             else:
+                update_payload = {"deviceInfo": self.want.get('pnp_params')[0].get("deviceInfo")}
+                update_response = self.dnac_apply['exec'](
+                    family="device_onboarding_pnp",
+                    function="update_device",
+                    params={"id": self.have["device_id"],
+                            "payload": update_payload},
+                    op_modifies=True,
+                )
+                self.log(str(update_response))
+
+                if pnp_state == "Error":
+                    reset_paramters = self.get_reset_params()
+                    reset_response = self.dnac_apply['exec'](
+                        family="device_onboarding_pnp",
+                        function="update_device",
+                        params={"payload": reset_paramters},
+                        op_modifies=True,
+                    )
+                    self.log(str(reset_response))
+                    self.result['msg'] = "Device reset done Successfully"
+                    self.result['response'] = reset_response
+                    self.result['diff'] = self.validated_config
+                    self.result['changed'] = True
+
                 if (
                     prov_dev_response.get("response") == 0 and
-                    plan_dev_response.get("response") == 0
+                    plan_dev_response.get("response") == 0 and
+                    pnp_state == "Unclaimed"
                 ):
                     claim_params = self.get_claim_params()
                     self.log(str(claim_params))
+
                     claim_response = self.dnac_apply['exec'](
                         family="device_onboarding_pnp",
                         function='claim_a_device_to_a_site',
@@ -818,6 +884,8 @@ class DnacPnp(DnacBase):
                 else:
                     self.result['response'] = self.have.get("device_found")
                     self.result['msg'] = "Device is already claimed"
+                    if update_response.get("deviceInfo"):
+                        self.result['changed'] = True
 
             return self
 
